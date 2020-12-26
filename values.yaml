@@ -1,5 +1,5 @@
 # when in local tunnel mode, ingressDomain is the proxy address.
-ingressDomain: https://neat-newt-12.loca.lt
+ingressDomain: "https://neat-newt-12.loca.lt"
 
 # base ocis image
 image: owncloud/ocis:1.0.0-rc8-linux-amd64

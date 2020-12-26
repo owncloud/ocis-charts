@@ -10,7 +10,7 @@ data:
     		"Namespace": "com.owncloud"
     	},
     	"oidc": {
-    		"issuer": {{ .Values.ingressDomain }},
+    		"issuer": "{{ .Values.ingressDomain }}",
     		"insecure": true
     	},
     	"policy_selector": {
