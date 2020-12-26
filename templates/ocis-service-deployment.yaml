@@ -47,11 +47,18 @@ spec:
           {{- end  }}
           {{ end }}
 
-          {{- if .Ports }}
+          {{- if .ports }}
           ports:
-          {{- if .Ports.containerPort }}
-          - containerPort: {{ .Ports.containerPort }}
+          {{- if .ports.containerPort }}
+          - containerPort: {{ .ports.containerPort }}
           {{ end }}
+            {{- if .ports.values }}
+              {{- range .ports.values }}
+          - name: {{ .name }}
+            containerPort: {{ .containerPort }}
+            protocol: {{ .protocol }}
+              {{- end }}
+            {{ end }}
           {{ end }}
 
           {{- if .volumeMounts }}

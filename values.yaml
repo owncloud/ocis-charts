@@ -14,7 +14,7 @@ Services:
     matchLabels:
       app: "ocis-proxy"
     args: ["proxy"]
-    Ports:
+    ports:
       containerPort: 9200
     Env:
     - name: "OCIS_LOG_LEVEL"
@@ -124,3 +124,23 @@ Services:
     matchLabels:
       app: "store"
     args: ["store"]
+  Web:
+    metadata:
+      name: "web"
+    labels:
+      app: "web"
+    matchLabels:
+      app: "web"
+    args: ["web"]
+    Env:
+    - name: "WEB_UI_CONFIG_SERVER"
+      value: "https://neat-newt-12.loca.lt"
+    - name: "WEB_OIDC_METADATA_URL"
+      value: "https://neat-newt-12.loca.lt"
+    - name: "WEB_OIDC_AUTHORITY"
+      value: "https://neat-newt-12.loca.lt"
+    ports:
+      values:
+      - name: "http"
+        containerPort: 9100
+        protocol: "TCP"
