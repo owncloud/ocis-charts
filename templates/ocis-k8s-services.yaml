@@ -1,0 +1,19 @@
+{{- range .Values.KubeServices }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .name }}
+spec:
+  selector:
+    {{- range $k, $v := .selector }}
+      {{ $k }}: {{ $v }}
+    {{- end }}
+  ports:
+    {{- range .ports }}
+      - protocol: {{ .protocol }}
+        port: {{ .port }}
+        targetPort: {{ .targetPort }}
+    {{- end}}
+  type: {{ .type }}
+---
+{{- end }}

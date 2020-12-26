@@ -152,3 +152,15 @@ Services:
     matchLabels:
       app: "webdav"
     args: ["webdav"]
+
+# k8s service objects
+KubeServices:
+  Proxy:
+    name: "proxy-service"
+    selector:
+      app: "ocis-proxy"
+    ports:
+      - protocol: TCP
+        port: 9200
+        targetPort: 9200
+    type: LoadBalancer
