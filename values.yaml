@@ -13,14 +13,15 @@ Services:
     matchLabels:
       app: "ocis-proxy"
     args: ["proxy"]
-    containerPort: 9200
+    Ports:
+      containerPort: 9200
     Env:
-      - name: "OCIS_LOG_LEVEL"
-        value: "debug"
-      - name: "PROXY_ENABLE_BASIC_AUTH"
-        value: "true"
-      - name: "PROXY_REVA_GATEWAY_ADDR"
-        value: "storages-service:9142"
+    - name: "OCIS_LOG_LEVEL"
+      value: debug
+    - name: "PROXY_REVA_GATEWAY_ADDR"
+      value: "storages-service:9142"
+    - name: "PROXY_ENABLE_BASIC_AUTH"
+      value: "'true'"
     volumeMounts:
       - name: configs
         value: /etc/ocis
@@ -36,3 +37,37 @@ Services:
     matchLabels:
       app: "ocs"
     args: ["ocs"]
+  Storages:
+    metadata:
+      name: "storages"
+    matchLabels:
+      app: "storages"
+    labels:
+      app: "storages"
+    containers:
+      - name: accounts
+        args: ["accounts"]
+      - name: storage-frontend
+        args: ["storage-frontend"]
+      - name: storage-gateway
+        args: ["storage-gateway"]
+      - name: storage-userprovider
+        args: ["storage-userprovider"]
+      - name: storage-auth-basic
+        args: ["storage-auth-basic"]
+      - name: storage-auth-bearer
+        args: ["storage-auth-bearer"]
+        env:
+          - name: STORAGE_OIDC_ISSUER
+            value: "https://neat-newt-12.loca.lt" # TODO(refs) when in reverse tunnel needs to be read from a cli arg.
+      - name: storage-home
+        args: ["storage-home"]
+        env:
+          - name: "STORAGE_GATEWAY_ENDPOINT"
+            value: "storages-service:9142"
+      - name: storage-users
+        args: ["storage-users"]
+      - name: storage-metadata
+        args: ["storage-metadata"]
+      - name: storage-public-link
+        args: ["storage-public-link"]

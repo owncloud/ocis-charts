@@ -8,7 +8,7 @@ spec:
     matchLabels:
       {{- range $key, $val := .matchLabels}}
         {{ $key }}: {{ $val }}
-        {{- end}}
+      {{- end}}
   replicas: 1
   template:
     metadata:
@@ -17,21 +17,41 @@ spec:
           {{ $key }}: {{ $val }}
           {{- end}}
     spec:
+    {{- if .containers }}
       containers:
-        - name: proxy
+      {{- range .containers }}
+        - name: {{ .name }}
+          image: {{ $.Values.image }}
+          command: ["ocis"]
+          args: {{ .args }}
+        {{- if .env }}
+          env:
+        {{- range .env }}
+          - name: {{ .name }}
+            value: {{ .value }}
+        {{- end}}
+        {{ end }}
+      {{- end}}
+    {{ else }}
+      containers:
+        - name: {{ .metadata.name }}
           image: {{ $.Values.image }}
           command: ["ocis"]
           args: {{ .args }}
 
+          {{- if .Env }}
           env:
           {{- range .Env }}
             - name: {{ .name }}
               value: {{ .value }}
           {{- end  }}
-          ports:
+          {{ end }}
 
-          {{- if .containerPort }}
-          - containerPort: {{ .containerPort }}
+          {{- if .Ports }}
+          ports:
+          {{- if .Ports.containerPort }}
+          - containerPort: {{ .Ports.containerPort }}
+          {{ end }}
           {{ end }}
 
           {{- if .volumeMounts }}
@@ -46,5 +66,6 @@ spec:
           configMap:
             name: proxy-config
       {{ end }}
-
+      {{ end }}
+---
 {{- end }}
