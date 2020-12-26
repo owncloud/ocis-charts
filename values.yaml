@@ -1,5 +1,6 @@
 # when in local tunnel mode, ingressDomain is the proxy address.
-ingressDomain: "https://neat-newt-12.loca.lt"
+# sadly when in combination with --set, anchors are lost.
+ingressDomain: &ingressDomain "https://neat-newt-12.loca.lt"
 
 # base ocis image
 image: owncloud/ocis:1.0.0-rc8-linux-amd64
@@ -60,7 +61,7 @@ Services:
         args: ["storage-auth-bearer"]
         env:
           - name: STORAGE_OIDC_ISSUER
-            value: "https://neat-newt-12.loca.lt" # TODO(refs) when in reverse tunnel needs to be read from a cli arg.
+            value: *ingressDomain # TODO(refs) when in reverse tunnel needs to be read from a cli arg.
       - name: storage-home
         args: ["storage-home"]
         env:
@@ -90,7 +91,7 @@ Services:
     args: ["konnectd"]
     Env:
     - name: KONNECTD_ISS
-      value: "https://neat-newt-12.loca.lt"
+      value: *ingressDomain
     - name: LDAP_URI
       value: "ldap://ldap-service:9125"
     - name: KONNECTD_IDENTIFIER_REGISTRATION_CONF
@@ -134,11 +135,11 @@ Services:
     args: ["web"]
     Env:
     - name: "WEB_UI_CONFIG_SERVER"
-      value: "https://neat-newt-12.loca.lt"
+      value: *ingressDomain
     - name: "WEB_OIDC_METADATA_URL"
-      value: "https://neat-newt-12.loca.lt"
+      value: *ingressDomain
     - name: "WEB_OIDC_AUTHORITY"
-      value: "https://neat-newt-12.loca.lt"
+      value: *ingressDomain
     ports:
       values:
       - name: "http"
