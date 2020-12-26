@@ -108,3 +108,11 @@ Services:
       - name: identifier-registration
         configMap:
           name: identifier-registration
+  Settings:
+    metadata:
+      name: "settings"
+    labels:
+      app: "settings"
+    matchLabels:
+      app: "settings"
+    args: ["settings"]
