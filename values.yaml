@@ -144,3 +144,11 @@ Services:
       - name: "http"
         containerPort: 9100
         protocol: "TCP"
+  Webdav:
+    metadata:
+      name: "webdav"
+    labels:
+      app: "webdav"
+    matchLabels:
+      app: "webdav"
+    args: ["webdav"]
