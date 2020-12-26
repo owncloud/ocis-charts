@@ -4,6 +4,7 @@ ingressDomain: "https://neat-newt-12.loca.lt"
 # base ocis image
 image: owncloud/ocis:1.0.0-rc8-linux-amd64
 
+#  required keys: metadata, labels, matchLabels, args
 Services:
   Proxy:
     metadata:
@@ -17,11 +18,11 @@ Services:
       containerPort: 9200
     Env:
     - name: "OCIS_LOG_LEVEL"
-      value: debug
+      value: "debug"
     - name: "PROXY_REVA_GATEWAY_ADDR"
       value: "storages-service:9142"
     - name: "PROXY_ENABLE_BASIC_AUTH"
-      value: "'true'"
+      value: "'true'" # see https://stackoverflow.com/a/44692213/2295410
     volumeMounts:
       - name: configs
         value: /etc/ocis
@@ -71,3 +72,11 @@ Services:
         args: ["storage-metadata"]
       - name: storage-public-link
         args: ["storage-public-link"]
+  Glauth:
+    metadata:
+      name: "glauth"
+    matchLabels:
+      app: "glauth"
+    labels:
+      app: "glauth"
+    args: ["glauth"]
