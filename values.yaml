@@ -182,4 +182,12 @@ KubeServices:
         port: 9130
         targetPort: 9130
     type: ClusterIP
-    
+  Ocs:
+    name: "ocs-service"
+    selector:
+      app: "ocs"
+    ports:
+      - protocol: TCP
+        port: 9110
+        targetPort: 9110
+    type: ClusterIP
