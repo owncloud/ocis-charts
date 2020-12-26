@@ -10,7 +10,8 @@ spec:
     {{- end }}
   ports:
     {{- range .ports }}
-      - protocol: {{ .protocol }}
+      - name: {{ .name }}
+        protocol: {{ .protocol }}
         port: {{ .port }}
         targetPort: {{ .targetPort }}
     {{- end}}

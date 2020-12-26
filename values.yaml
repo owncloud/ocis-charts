@@ -191,3 +191,34 @@ KubeServices:
         port: 9110
         targetPort: 9110
     type: ClusterIP
+  Settings:
+    name: "settings-service"
+    selector:
+      app: "settings"
+    ports:
+      - protocol: TCP
+        port: 9190
+        targetPort: 9190
+    type: ClusterIP
+  Storages:
+    name: "storages-service"
+    selector:
+      app: "storages"
+    ports:
+    - name: "reva-auth-bearer"
+      protocol: TCP
+      port: 9140
+      targetPort: 9140
+    - name: "reva-gateway"
+      protocol: TCP
+      port: 9142
+      targetPort: 9142
+    - name: "storage-home"
+      protocol: TCP
+      port: 9154
+      targetPort: 9154
+    - name: "accounts"
+      protocol: TCP
+      port: 9181
+      targetPort: 9181
+    type: ClusterIP
