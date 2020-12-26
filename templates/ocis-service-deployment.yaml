@@ -56,15 +56,21 @@ spec:
 
           {{- if .volumeMounts }}
           volumeMounts:
-            - name: configs
-              mountPath: /etc/ocis/
+          {{- range .volumeMounts}}
+          - name: {{ .name }}
+            mountPath: {{ .mountPath }}
+          {{- end}}
           {{ end }}
 
       {{- if .volumes }}
       volumes:
-        - name: configs
+      {{- range .volumes}}
+        - name: {{ .name }}
+        {{- if .configMap }}
           configMap:
-            name: proxy-config
+            name: {{ .configMap.name }}
+        {{ end }}
+      {{- end}}
       {{ end }}
       {{ end }}
 ---

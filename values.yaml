@@ -25,7 +25,7 @@ Services:
       value: "'true'" # see https://stackoverflow.com/a/44692213/2295410
     volumeMounts:
       - name: configs
-        value: /etc/ocis
+        mountPath: /etc/ocis
     volumes:
       - name: configs
         configMap:
@@ -80,3 +80,31 @@ Services:
     labels:
       app: "glauth"
     args: ["glauth"]
+  Konnectd:
+    metadata:
+      name: "konnectd"
+    matchLabels:
+      app: "konnectd"
+    labels:
+      app: "konnectd"
+    args: ["konnectd"]
+    Env:
+    - name: KONNECTD_ISS
+      value: "https://neat-newt-12.loca.lt"
+    - name: LDAP_URI
+      value: "ldap://ldap-service:9125"
+    - name: KONNECTD_IDENTIFIER_REGISTRATION_CONF
+      value: "/etc/ocis/identifier-registration.yaml"
+    - name: KONNECTD_INSECURE
+      value: "'true'"
+    - name: KONNECTD_TLS
+      value: "'false'"
+    - name: OCIS_LOG_LEVEL
+      value: "debug"
+    volumeMounts:
+      - name: identifier-registration
+        mountPath: /etc/ocis/
+    volumes:
+      - name: identifier-registration
+        configMap:
+          name: identifier-registration
