@@ -1,0 +1,86 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: proxy-config
+  namespace: default
+data:
+  proxy.json: |
+    {
+    	"HTTP": {
+    		"Namespace": "com.owncloud"
+    	},
+    	"oidc": {
+    		"issuer": {{ .Values.ingressDomain }},
+    		"insecure": true
+    	},
+    	"policy_selector": {
+    		"static": {
+    			"policy": "reva"
+    		}
+    	},
+    	"policies": [{
+    		"name": "reva",
+    		"routes": [{
+    				"endpoint": "/",
+    				"backend": "http://web-service:9100"
+    			},
+    			{
+    				"endpoint": "/.well-known/",
+    				"backend": "http://konnectd-service:9130"
+    			},
+    			{
+    				"endpoint": "/konnect/",
+    				"backend": "http://konnectd-service:9130"
+    			},
+    			{
+    				"endpoint": "/signin/",
+    				"backend": "http://konnectd-service:9130"
+    			},
+    			{
+    				"endpoint": "/ocs/",
+    				"backend": "http://storages-service:9140"
+    			},
+                {
+    				"endpoint": "/remote.php/",
+    				"backend": "http://storages-service:9140"
+                },
+                {
+    				"endpoint": "/dav/",
+    				"backend": "http://storages-service:9140"
+                },
+                {
+    				"endpoint": "/webdav/",
+    				"backend": "http://storages-service:9140"
+                },
+                {
+    				"endpoint": "/status.php/",
+    				"backend": "http://storages-service:9140"
+                },
+                {
+    				"endpoint": "/index.php/",
+    				"backend": "http://storages-service:9140"
+                },
+                {
+    				"type": "regex",
+    				"endpoint": "/ocs/v[12].php/cloud/(users?|groups)",
+    				"backend": "http://ocs-service:9110"
+    			},
+    			{
+    				"endpoint": "/api/v0/accounts",
+    				"backend": "http://storages-service:9181"
+    			},
+    			{
+    				"endpoint": "/accounts.js",
+    				"backend": "http://storages-service:9181"
+    			},
+    			{
+    				"endpoint": "/api/v0/settings",
+    				"backend": "http://settings-service:9190"
+    			},
+    			{
+    				"endpoint": "/settings.js",
+    				"backend": "http://settings-service:9190"
+    			}
+    		]
+    	}]
+    }

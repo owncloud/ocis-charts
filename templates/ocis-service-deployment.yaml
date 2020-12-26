@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.Services.Proxy.metadata.name }}
+spec:
+  selector:
+    matchLabels:
+      {{- range $key, $val := .Values.Services.Proxy.matchLabels}}
+      {{ $key }}: {{ $val }}
+      {{- end}}
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        {{- range $key, $val := .Values.Services.Proxy.labels}}
+        {{ $key }}: {{ $val }}
+        {{- end}}
+    spec:
+      containers:
+        - name: proxy
+          image: {{ .Values.image }}
+          command: ["ocis"]
+          args: {{ .Values.Services.Proxy.args }}
+          env:
+            {{- range .Values.Services.Proxy.Env }}
+            - name: {{ .name }}
+              value: {{ .value }}
+            {{- end  }}
+          ports:
+            - containerPort: {{ .Values.Services.Proxy.containerPort }}
+          {{- if .Values.Services.Proxy.volumeMounts }}
+          volumeMounts:
+            - name: configs
+              mountPath: /etc/ocis/
+          {{ end }}
+      {{- if .Values.Services.Proxy.volumes }}
+      volumes:
+        - name: configs
+          configMap:
+            name: proxy-config
+      {{ end }}
