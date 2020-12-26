@@ -164,3 +164,12 @@ KubeServices:
         port: 9200
         targetPort: 9200
     type: LoadBalancer
+  Glauth:
+    name: "ldap-service"
+    selector:
+      app: "glauth"
+    ports:
+      - protocol: TCP
+        port: 9125
+        targetPort: 9125
+    type: ClusterIP
