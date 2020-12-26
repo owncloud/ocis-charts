@@ -222,3 +222,12 @@ KubeServices:
       port: 9181
       targetPort: 9181
     type: ClusterIP
+  Web:
+    name: "web-service"
+    selector:
+      app: "web"
+    ports:
+      - protocol: TCP
+        port: 9100
+        targetPort: 9100
+    type: ClusterIP
