@@ -28,3 +28,11 @@ Services:
       - name: configs
         configMap:
           name: proxy-config
+  Ocs:
+    metadata:
+      name: "ocs"
+    labels:
+      app: "ocs"
+    matchLabels:
+      app: "ocs"
+    args: ["ocs"]

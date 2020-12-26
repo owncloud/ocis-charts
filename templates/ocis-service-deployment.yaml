@@ -1,41 +1,50 @@
+{{- range .Values.Services }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ .Values.Services.Proxy.metadata.name }}
+  name: {{ .metadata.name }}
 spec:
   selector:
     matchLabels:
-      {{- range $key, $val := .Values.Services.Proxy.matchLabels}}
-      {{ $key }}: {{ $val }}
-      {{- end}}
+      {{- range $key, $val := .matchLabels}}
+        {{ $key }}: {{ $val }}
+        {{- end}}
   replicas: 1
   template:
     metadata:
       labels:
-        {{- range $key, $val := .Values.Services.Proxy.labels}}
-        {{ $key }}: {{ $val }}
-        {{- end}}
+        {{- range $key, $val := .labels}}
+          {{ $key }}: {{ $val }}
+          {{- end}}
     spec:
       containers:
         - name: proxy
-          image: {{ .Values.image }}
+          image: {{ $.Values.image }}
           command: ["ocis"]
-          args: {{ .Values.Services.Proxy.args }}
+          args: {{ .args }}
+
           env:
-            {{- range .Values.Services.Proxy.Env }}
+          {{- range .Env }}
             - name: {{ .name }}
               value: {{ .value }}
-            {{- end  }}
+          {{- end  }}
           ports:
-            - containerPort: {{ .Values.Services.Proxy.containerPort }}
-          {{- if .Values.Services.Proxy.volumeMounts }}
+
+          {{- if .containerPort }}
+          - containerPort: {{ .containerPort }}
+          {{ end }}
+
+          {{- if .volumeMounts }}
           volumeMounts:
             - name: configs
               mountPath: /etc/ocis/
           {{ end }}
-      {{- if .Values.Services.Proxy.volumes }}
+
+      {{- if .volumes }}
       volumes:
         - name: configs
           configMap:
             name: proxy-config
       {{ end }}
+
+{{- end }}
