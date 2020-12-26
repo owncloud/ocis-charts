@@ -116,3 +116,11 @@ Services:
     matchLabels:
       app: "settings"
     args: ["settings"]
+  Store:
+    metadata:
+      name: "store"
+    labels:
+      app: "store"
+    matchLabels:
+      app: "store"
+    args: ["store"]
