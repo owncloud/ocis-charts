@@ -173,3 +173,13 @@ KubeServices:
         port: 9125
         targetPort: 9125
     type: ClusterIP
+  Konnectd:
+    name: "konnectd-service"
+    selector:
+      app: "konnectd"
+    ports:
+      - protocol: TCP
+        port: 9130
+        targetPort: 9130
+    type: ClusterIP
+    
