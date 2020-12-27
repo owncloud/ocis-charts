@@ -1,4 +1,4 @@
-{{- range .Values.Services }}
+{{- range .Values.services }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -39,9 +39,9 @@ spec:
           command: ["ocis"]
           args: {{ .args }}
 
-          {{- if .Env }}
+          {{- if .env }}
           env:
-          {{- range .Env }}
+          {{- range .env }}
             - name: {{ .name }}
               value: {{ .value }}
           {{- end  }}

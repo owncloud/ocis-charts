@@ -5,9 +5,9 @@ ingressDomain: &ingressDomain "https://neat-newt-12.loca.lt"
 # base ocis image
 image: owncloud/ocis:1.0.0-rc8-linux-amd64
 
-#  required keys: metadata, labels, matchLabels, args
-Services:
-  Proxy:
+# set of services to create deployments
+services:
+  proxy:
     metadata:
       name: "ocis-proxy"
     labels:
@@ -17,7 +17,7 @@ Services:
     args: ["proxy"]
     ports:
       containerPort: 9200
-    Env:
+    env:
     - name: "OCIS_LOG_LEVEL"
       value: "debug"
     - name: "PROXY_REVA_GATEWAY_ADDR"
@@ -31,7 +31,7 @@ Services:
       - name: configs
         configMap:
           name: proxy-config
-  Ocs:
+  ocs:
     metadata:
       name: "ocs"
     labels:
@@ -39,7 +39,7 @@ Services:
     matchLabels:
       app: "ocs"
     args: ["ocs"]
-  Storages:
+  storages:
     metadata:
       name: "storages"
     matchLabels:
@@ -73,7 +73,7 @@ Services:
         args: ["storage-metadata"]
       - name: storage-public-link
         args: ["storage-public-link"]
-  Glauth:
+  glauth:
     metadata:
       name: "glauth"
     matchLabels:
@@ -81,7 +81,7 @@ Services:
     labels:
       app: "glauth"
     args: ["glauth"]
-  Konnectd:
+  konnectd:
     metadata:
       name: "konnectd"
     matchLabels:
@@ -89,7 +89,7 @@ Services:
     labels:
       app: "konnectd"
     args: ["konnectd"]
-    Env:
+    env:
     - name: KONNECTD_ISS
       value: *ingressDomain
     - name: LDAP_URI
@@ -109,7 +109,7 @@ Services:
       - name: identifier-registration
         configMap:
           name: identifier-registration
-  Settings:
+  settings:
     metadata:
       name: "settings"
     labels:
@@ -117,7 +117,7 @@ Services:
     matchLabels:
       app: "settings"
     args: ["settings"]
-  Store:
+  store:
     metadata:
       name: "store"
     labels:
@@ -125,7 +125,7 @@ Services:
     matchLabels:
       app: "store"
     args: ["store"]
-  Web:
+  web:
     metadata:
       name: "web"
     labels:
@@ -133,7 +133,7 @@ Services:
     matchLabels:
       app: "web"
     args: ["web"]
-    Env:
+    env:
     - name: "WEB_UI_CONFIG_SERVER"
       value: *ingressDomain
     - name: "WEB_OIDC_METADATA_URL"
@@ -145,7 +145,7 @@ Services:
       - name: "http"
         containerPort: 9100
         protocol: "TCP"
-  Webdav:
+  webdav:
     metadata:
       name: "webdav"
     labels:
@@ -155,8 +155,8 @@ Services:
     args: ["webdav"]
 
 # k8s service objects
-KubeServices:
-  Proxy:
+kubeServices:
+  proxy:
     name: "proxy-service"
     selector:
       app: "ocis-proxy"
@@ -165,7 +165,7 @@ KubeServices:
         port: 9200
         targetPort: 9200
     type: LoadBalancer
-  Glauth:
+  glauth:
     name: "ldap-service"
     selector:
       app: "glauth"
@@ -174,7 +174,7 @@ KubeServices:
         port: 9125
         targetPort: 9125
     type: ClusterIP
-  Konnectd:
+  konnectd:
     name: "konnectd-service"
     selector:
       app: "konnectd"
@@ -183,7 +183,7 @@ KubeServices:
         port: 9130
         targetPort: 9130
     type: ClusterIP
-  Ocs:
+  ocs:
     name: "ocs-service"
     selector:
       app: "ocs"
@@ -192,7 +192,7 @@ KubeServices:
         port: 9110
         targetPort: 9110
     type: ClusterIP
-  Settings:
+  settings:
     name: "settings-service"
     selector:
       app: "settings"
@@ -201,7 +201,7 @@ KubeServices:
         port: 9190
         targetPort: 9190
     type: ClusterIP
-  Storages:
+  storages:
     name: "storages-service"
     selector:
       app: "storages"
@@ -223,7 +223,7 @@ KubeServices:
       port: 9181
       targetPort: 9181
     type: ClusterIP
-  Web:
+  web:
     name: "web-service"
     selector:
       app: "web"
