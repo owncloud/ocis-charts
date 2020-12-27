@@ -5,7 +5,7 @@ ingressDomain: &ingressDomain "https://neat-newt-12.loca.lt"
 # base ocis image
 image: owncloud/ocis:1.0.0-rc8-linux-amd64
 
-# set of services to create deployments
+# set of ocis services to create deployments objects.
 services:
   proxy:
     metadata:
@@ -154,7 +154,7 @@ services:
       app: "webdav"
     args: ["webdav"]
 
-# k8s service objects
+# set of ocis services to create kubernetes service objects.
 kubeServices:
   proxy:
     name: "proxy-service"
