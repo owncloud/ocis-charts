@@ -30,7 +30,7 @@ spec:
           - name: {{ .name }}
             value: {{ .value }}
         {{- end}}
-        {{ end }}
+        {{- end }}
       {{- end}}
     {{ else }}
       containers:
@@ -45,21 +45,21 @@ spec:
             - name: {{ .name }}
               value: {{ .value }}
           {{- end  }}
-          {{ end }}
+          {{- end }}
 
           {{- if .ports }}
           ports:
           {{- if .ports.containerPort }}
           - containerPort: {{ .ports.containerPort }}
-          {{ end }}
+          {{- end }}
             {{- if .ports.values }}
               {{- range .ports.values }}
           - name: {{ .name }}
             containerPort: {{ .containerPort }}
             protocol: {{ .protocol }}
               {{- end }}
-            {{ end }}
-          {{ end }}
+            {{- end }}
+          {{- end }}
 
           {{- if .volumeMounts }}
           volumeMounts:
@@ -67,7 +67,7 @@ spec:
           - name: {{ .name }}
             mountPath: {{ .mountPath }}
           {{- end}}
-          {{ end }}
+          {{- end }}
 
       {{- if .volumes }}
       volumes:
@@ -76,9 +76,16 @@ spec:
         {{- if .configMap }}
           configMap:
             name: {{ .configMap.name }}
-        {{ end }}
+        {{- end }}
       {{- end}}
-      {{ end }}
-      {{ end }}
+      {{- end }}
+      {{- end }}
+{{- /*
+  because we're iterating over a bunch of objects and generating yaml, this needs to be valid. As long
+  as we keep concatenating "---" at the end of each file, we're good. The convention is to use one tem-
+  plate per deployment, but for our case that would bloat quite a bit. For the sake of readibility,
+  we should look into take that approach. Check https://github.com/helm/charts/tree/master/stable/prometheus
+  for reference.
+*/}}
 ---
 {{- end }}
