@@ -1,6 +1,6 @@
 # when in local tunnel mode, ingressDomain is the proxy address.
 # sadly when in combination with --set, anchors are lost.
-ingressDomain: &ingressDomain "https://neat-newt-12.loca.lt"
+ingressDomain: &ingressDomain "https://stale-wasp-86.loca.lt"
 
 # base ocis image
 image: owncloud/ocis:1.0.0-rc8-linux-amd64
