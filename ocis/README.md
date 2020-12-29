@@ -14,7 +14,7 @@ For the reverse tunnel we're using [localtunnel](https://localtunnel.me). To sta
 2. Get the public IP of the proxy with `minikube services list`
 3. Run `lt --local-https --allow-invalid-cert -p 30682 -l 192.168.64.5`
 4. Update the `Values.ingressDomain`  entry on `values.yaml`  and read the comment as per why this can't be done with the `--set` flag.
-5. Test that the tunnel is working by testing the webdav API through the proxy:
+5. Test the tunnel is working by testing the webdav API through the proxy:
 
 ```console
 curl -v -k -u einstein:relativity -H "depth: 0" -X PROPFIND https://stale-wasp-86.loca.lt/remote.php/dav/files/ | xmllint --format -
