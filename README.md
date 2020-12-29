@@ -10,7 +10,7 @@ Make sure to read the gotchas on the charts before attempting to run any, this p
 2. Install dependencies 
     - [Helm](https://helm.sh/docs/intro/install/)
     - [Minikube](https://minikube.sigs.k8s.io/docs/start/)
-3. run `helm install ocis-refs ocis`
+3. Run `helm install ocis-refs ocis`
 
 Verifying everything is running smooth can be done with `kubectl get services` and `kubectl get pods`; be sure to check on the pod status for errors, especially after committing an upgrade. If you want to update anything, modify the chart's `values.yaml` and run `helm upgrade ocis .` For listing installed charts run:
 
