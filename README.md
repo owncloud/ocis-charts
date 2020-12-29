@@ -4,6 +4,8 @@ This chart is still in an experimental phase, and it has not yet been published.
 
 ## Development
 
+Make sure to read the gotchas on the charts before attempting to run any, this project is still under heavy development.
+
 1. Clone this repo
 2. Install dependencies 
     2.1 [Helm](https://helm.sh/docs/intro/install/)

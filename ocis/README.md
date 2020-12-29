@@ -2,7 +2,7 @@
 
 These charts are for demonstration purposes and not to be run in any production system as they are. This is still in heavy development.
 
-## Hacks and WIP 🐱‍💻
+## Gotchas 🐱‍💻
 
 Configuring the entire OCIS suite with an identity provided has proven tricky with a few catch-22 along the way. For this reason we need a reverse tunnel in order for phoenix to work as well.
 
