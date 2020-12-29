@@ -22,3 +22,7 @@ ocis-refs       default         1               2020-12-29 12:15:07.455781 +0100
 
 ### Dry runs
 There are time when before upgrading you'd like to see the output of the yaml files that will be sent to Kubernetes, for that there is a little helper script `dry-run.sh`.
+
+```console
+$ ./dry-run.sh ocis-refs ocis
+```
