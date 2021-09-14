@@ -11,7 +11,7 @@ Configuring the entire OCIS suite with an identity provided has proven tricky wi
 For the reverse tunnel we're using [localtunnel](https://localtunnel.me). To start a reverse tunnel with this charts:
 
 1. Install the Chart
-2. Get the public IP of the proxy with `minikube services list`
+2. Get the public IP of the proxy with `minikube service list`
 3. Run `lt --local-https --allow-invalid-cert -p 30682 -l 192.168.64.5`
 4. Update the `Values.ingressDomain`  entry on `values.yaml`  and read the comment as per why this can't be done with the `--set` flag.
 5. Test the tunnel is working by testing the webdav API through the proxy:
