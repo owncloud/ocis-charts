@@ -1,9 +1,9 @@
 # when in local tunnel mode, ingressDomain is the proxy address.
 # sadly when in combination with --set, anchors are lost.
-ingressDomain: &ingressDomain "https://stale-wasp-86.loca.lt"
+ingressDomain: &ingressDomain "https://keycloak.ocis-keycloak.released.owncloud.works"
 
 # base ocis image
-image: owncloud/ocis:1.0.0-rc8-linux-amd64
+image: owncloud/ocis:1.11.0-linux-amd64
 
 # set of ocis services to create deployments objects.
 services:
@@ -22,6 +22,8 @@ services:
       value: "debug"
     - name: "PROXY_REVA_GATEWAY_ADDR"
       value: "storages-service:9142"
+    - name: "PROXY_OIDC_ISSUER"
+      value: "https://keycloak.ocis-keycloak.released.owncloud.works/auth/realms/oCIS"
     - name: "PROXY_ENABLE_BASIC_AUTH"
       value: "'true'" # see https://stackoverflow.com/a/44692213/2295410
     volumeMounts:
@@ -67,6 +69,8 @@ services:
         env:
           - name: "STORAGE_GATEWAY_ENDPOINT"
             value: "storages-service:9142"
+          - name: "OCIS_LOG_LEVEL"
+            value: "debug"
       - name: storage-users
         args: ["storage-users"]
       - name: storage-metadata
@@ -81,34 +85,6 @@ services:
     labels:
       app: "glauth"
     args: ["glauth"]
-  konnectd:
-    metadata:
-      name: "konnectd"
-    matchLabels:
-      app: "konnectd"
-    labels:
-      app: "konnectd"
-    args: ["konnectd"]
-    env:
-    - name: KONNECTD_ISS
-      value: *ingressDomain
-    - name: LDAP_URI
-      value: "ldap://ldap-service:9125"
-    - name: KONNECTD_IDENTIFIER_REGISTRATION_CONF
-      value: "/etc/ocis/identifier-registration.yaml"
-    - name: KONNECTD_INSECURE
-      value: "'true'"
-    - name: KONNECTD_TLS
-      value: "'false'"
-    - name: OCIS_LOG_LEVEL
-      value: "debug"
-    volumeMounts:
-      - name: identifier-registration
-        mountPath: /etc/ocis/
-    volumes:
-      - name: identifier-registration
-        configMap:
-          name: identifier-registration
   settings:
     metadata:
       name: "settings"
@@ -135,11 +111,11 @@ services:
     args: ["web"]
     env:
     - name: "WEB_UI_CONFIG_SERVER"
-      value: *ingressDomain
+      value: "https://127.0.0.1:51559/"
     - name: "WEB_OIDC_METADATA_URL"
-      value: *ingressDomain
+      value: "https://keycloak.ocis-keycloak.released.owncloud.works/auth/realms/oCIS/.well-known/openid-configuration"
     - name: "WEB_OIDC_AUTHORITY"
-      value: *ingressDomain
+      value: "https://keycloak.ocis-keycloak.released.owncloud.works/auth/realms/oCIS/.well-known/openid-configuration"
     ports:
       values:
       - name: "http"
