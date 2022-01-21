@@ -5,7 +5,7 @@ repository:
   name: ocis-charts
   description: ":chart_with_upwards_trend: Helm Charts for ownCloud's OCIS"
   homepage: https://owncloud.dev/ocis/deployment/kubernetes/
-  topics: helm, kubernetes, ocis
+  topics: helm, kubernetes, ocis, cloud-native, containers, devops
 
   private: false
   has_issues: true
