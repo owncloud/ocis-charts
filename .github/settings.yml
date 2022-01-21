@@ -1,0 +1,51 @@
+---
+_extends: gh-labels
+
+repository:
+  name: ocis-charts
+  description: ":chart_with_upwards_trend: Helm Charts for ownCloud's OCIS"
+  homepage: https://owncloud.dev/ocis/deployment/kubernetes/
+  topics: helm, kubernetes, ocis
+
+  private: false
+  has_issues: true
+  has_projects: false
+  has_wiki: false
+  has_downloads: false
+
+  default_branch: master
+
+  allow_squash_merge: true
+  allow_merge_commit: true
+  allow_rebase_merge: true
+
+labels:
+  - name: OCIS-Fastlane
+    color: "#deadbf"
+    description: Planned outside of the sprint
+  
+teams:
+  - name: ci
+    permission: admin
+  - name: employees
+    permission: push
+
+branches:
+  - name: master
+    protection:
+      required_pull_request_reviews:
+        required_approving_review_count: 1
+        dismiss_stale_reviews: false
+        require_code_owner_reviews: false
+      required_status_checks:
+        strict: false
+      enforce_admins: null
+      restrictions:
+        apps: []
+        users:
+          - dependabot
+        teams:
+          - ci
+          - employees
+
+...
