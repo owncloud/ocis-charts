@@ -1,0 +1,45 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: graph
+spec:
+  selector:
+    matchLabels:
+        app: graph
+  replicas: 1
+  template:
+    metadata:
+      labels:
+          app: graph
+    spec:
+      containers:
+        - name: graph
+          image: "{{ $.Values.images.oCIS }}"
+          command: ["ocis"]
+          args: ["graph", "server"]
+          env:
+            - name: GRAPH_LOG_COLOR
+              value: "{{ $.Values.logging.color }}"
+            - name: GRAPH_LOG_LEVEL
+              value: "{{ $.Values.logging.level }}"
+            - name: GRAPH_LOG_PRETTY
+              value: "{{ $.Values.logging.pretty }}"
+
+            - name: GRAPH_HTTP_ADDR
+              value: 0.0.0.0:9120
+            
+            - name: GRAPH_SPACES_WEBDAV_BASE
+              value: "https://{{ $.Values.external_domain }}"
+            
+            - name: REVA_GATEWAY
+              value: "storage-gateway:9142"
+
+            - name: GRAPH_JWT_SECRET
+              value: "{{ $.Values.secrets.jwt }}"
+            
+            - name: GRAPH_LDAP_URI
+              value: ldap://glauth:9125
+          ports:
+          - containerPort: 9120 # HTTP
+---
