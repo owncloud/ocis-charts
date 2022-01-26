@@ -1,0 +1,104 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: storage-metadata
+  labels:
+    app: storage-metadata
+spec:
+  ports:
+  - name: grpc
+    port: 9215
+    protocol: TCP
+  - name: http
+    port: 9216
+    protocol: TCP
+  selector:
+    app: storage-metadata
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: storage-metadata
+spec:
+  selector:
+    matchLabels:
+        app: storage-metadata
+  replicas: 1
+  template:
+    metadata:
+      labels:
+          app: storage-metadata
+    spec:
+      containers:
+        - name: store
+          image: "{{ $.Values.images.oCIS }}"
+          command: ["ocis"]
+          args: ["storage-metadata", "server"]
+          env:
+            - name: OCIS_LOG_COLOR
+              value: "{{ $.Values.logging.color }}"
+            - name: OCIS_LOG_LEVEL
+              value: "{{ $.Values.logging.level }}"
+            - name: OCIS_LOG_PRETTY
+              value: "{{ $.Values.logging.pretty }}"
+
+            - name: STORAGE_HOME_DATAPROVIDER_INSECURE
+              value: "true"
+            - name: STORAGE_METADATA_GRPC_PROVIDER_ADDR
+              value: 0.0.0.0:9215
+            - name: STORAGE_METADATA_HTTP_ADDR
+              value: 0.0.0.0:9216
+            - name: STORAGE_METADATA_DATA_SERVER_URL
+              value: "http://storage-metadata:9216/data"
+
+            - name: OCIS_JWT_SECRET
+              value: "{{ $.Values.secrets.jwt }}"
+            - name: STORAGE_TRANSFER_SECRET
+              value: "{{ $.Values.secrets.transfer }}"
+
+            - name: STORAGE_METADATA_DRIVER
+              value: "ocis"
+
+            - name: REVA_GATEWAY
+              value: "storage-gateway:9142"
+          ports:
+          - containerPort: 9215 # GRPC
+          - containerPort: 9216 # HTTP
+#          volumeMounts:
+#          - name: storage-metadata-data
+#            mountPath: /var/lib/ocis
+#      volumes:
+#        - name: storage-metadata-data
+#          persistentVolumeClaim:
+#            claimName: storage-metadata-data
+#---
+#apiVersion: v1
+#kind: PersistentVolume
+#metadata:
+#  name: storage-metadata-data
+#  labels:
+#    name: storage-metadata-data
+#spec:
+#  accessModes:
+#  - ReadOnlyMany
+#  capacity:
+#    storage: 5Gi
+#  storageClassName: "{{ $.Values.persistence.storageClassName }}"
+#---
+#apiVersion: v1
+#kind: PersistentVolumeClaim
+#metadata:
+#  name: storage-metadata-data
+#spec:
+#  accessModes:
+#  - ReadOnlyMany
+#  resources:
+#    requests:
+#      storage: 5Gi
+#  storageClassName: "{{ $.Values.persistence.storageClassName }}"
+#  selector:
+#    matchLabels:
+#      name: storage-metadata-data
+#---

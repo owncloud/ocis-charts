@@ -1,0 +1,194 @@
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: proxy
+spec:
+  selector:
+      app: proxy
+  type: LoadBalancer
+  ports:
+    - name: http
+      protocol: TCP
+      port: 9200
+      targetPort: 9200
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: proxy
+spec:
+  selector:
+    matchLabels:
+        app: proxy
+  replicas: 1
+  template:
+    metadata:
+      labels:
+          app: proxy
+    spec:
+      hostAliases:
+        - ip: "127.0.0.1"
+          hostnames:
+            - "{{ $.Values.external_domain }}"
+      containers:
+        - name: idp-hack-sidecar
+          image: alpine/socat
+          args: ["tcp-l:443,fork,reuseaddr", "tcp:127.0.0.1:9200"]
+        - name: proxy
+          image: "{{ $.Values.images.oCIS }}"
+          command: ["ocis"]
+          args: ["proxy", "server"]
+          env:
+            - name: PROXY_LOG_COLOR
+              value: "{{ $.Values.logging.color }}"
+            - name: PROXY_LOG_LEVEL
+              value: "{{ $.Values.logging.level }}"
+            - name: PROXY_LOG_PRETTY
+              value: "{{ $.Values.logging.pretty }}"
+
+            - name: PROXY_HTTP_ADDR
+              value: 0.0.0.0:9200
+            - name: PROXY_AUTOPROVISION_ACCOUNTS
+              value: "true"
+            - name: PROXY_ENABLE_BASIC_AUTH
+              value: "true"
+            - name: PROXY_OIDC_ISSUER
+              value: "https://{{ $.Values.external_domain }}"
+            - name: PROXY_TLS
+              value: "true"
+
+            - name: PROXY_JWT_SECRET
+              value: "{{ $.Values.secrets.jwt }}"
+            - name: PROXY_MACHINE_AUTH_API_KEY
+              value: "{{ $.Values.secrets.machineAuth }}"
+
+            - name: PROXY_OIDC_INSECURE
+              value: "true"
+            - name: PROXY_INSECURE_BACKENDS
+              value: "false"
+
+            - name: REVA_GATEWAY
+              value: storage-gateway:9142
+          ports:
+          - containerPort: 9200
+          volumeMounts:
+          - name: configs
+            mountPath: /etc/ocis
+      volumes:
+        - name: configs
+          configMap:
+            name: proxy-config
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: proxy-config
+data:
+  proxy.json: |
+    {
+      "HTTP": {
+        "Namespace": "com.owncloud"
+      },
+      "policy_selector": {
+        "static": {
+          "policy": "ocis"
+        }
+      },
+      "policies": [
+        {
+          "name": "ocis",
+          "routes": [
+            {
+              "endpoint": "/",
+              "backend": "http://web:9100"
+            },
+            {
+              "endpoint": "/.well-known/",
+              "backend": "http://idp:9130"
+            },
+            {
+              "endpoint": "/konnect/",
+              "backend": "http://idp:9130"
+            },
+            {
+              "endpoint": "/signin/",
+              "backend": "http://idp:9130"
+            },
+            {
+              "type": "regex",
+              "endpoint": "/ocs/v[12].php/cloud/(users?|groups)",
+              "backend": "http://ocs:9110"
+            },
+            {
+              "endpoint": "/ocs/",
+              "backend": "http://storage-frontend:9140"
+            },
+            {
+              "type": "query",
+              "endpoint": "/remote.php/?preview=1",
+              "backend": "http://webdav:9115"
+            },
+            {
+              "endpoint": "/remote.php/",
+              "backend": "http://storage-frontend:9140"
+            },
+            {
+              "endpoint": "/dav/",
+              "backend": "http://storage-frontend:9140"
+            },
+            {
+              "endpoint": "/webdav/",
+              "backend": "http://storage-frontend:9140"
+            },
+            {
+              "endpoint": "/status.php",
+              "backend": "http://storage-frontend:9140"
+            },
+            {
+              "endpoint": "/index.php/",
+              "backend": "http://storage-frontend:9140"
+            },
+            {
+              "endpoint": "/data",
+              "backend": "http://storage-frontend:9140"
+            },
+            {
+              "endpoint": "/app/",
+              "backend": "http://storage-frontend:9140"
+            },
+            {
+              "endpoint": "/archiver",
+              "backend": "http://storage-frontend:9140"
+            },
+            {
+              "endpoint": "/graph/",
+              "backend": "http://graph:9120"
+            },
+            {
+              "endpoint": "/graph-explorer/",
+              "backend": "http://graph-explorer:9135"
+            },
+            {
+              "endpoint": "/api/v0/accounts",
+              "backend": "http://accounts:9181"
+            },
+            {
+              "endpoint": "/accounts.js",
+              "backend": "http://accounts:9181"
+            },
+            {
+              "endpoint": "/api/v0/settings",
+              "backend": "http://settings:9190"
+            },
+            {
+              "endpoint": "/settings.js",
+              "backend": "http://settings:9190"
+            }
+          ]
+        }
+      ]
+    }
+---

@@ -1,0 +1,68 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: storage-userprovider
+  labels:
+    app: storage-userprovider
+spec:
+  ports:
+  - name: grpc
+    port: 9144
+    protocol: TCP
+  selector:
+    app: storage-userprovider
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: storage-userprovider
+spec:
+  selector:
+    matchLabels:
+        app: storage-userprovider
+  replicas: 1
+  template:
+    metadata:
+      labels:
+          app: storage-userprovider
+    spec:
+      containers:
+        - name: storage-userprovider
+          image: "{{ $.Values.images.oCIS }}"
+          command: ["ocis"]
+          args: ["storage-userprovider", "server"]
+          env:
+            - name: OCIS_LOG_COLOR
+              value: "{{ $.Values.logging.color }}"
+            - name: OCIS_LOG_LEVEL
+              value: "{{ $.Values.logging.level }}"
+            - name: OCIS_LOG_PRETTY
+              value: "{{ $.Values.logging.pretty }}"
+
+            - name: STORAGE_USERPROVIDER_ADDR
+              value: 0.0.0.0:9144
+            - name: STORAGE_USERPROVIDER_ENDPOINT
+              value: "storage-userprovider:9144"
+
+            - name: STORAGE_USERPROVIDER_DRIVER
+              value: "ldap"
+            - name: STORAGE_LDAP_HOSTNAME
+              value: "glauth"
+            - name: STORAGE_LDAP_PORT
+              value: "9126"
+            - name: STORAGE_LDAP_INSECURE
+              value: "true"
+
+            - name: STORAGE_LDAP_IDP
+              value: "https://{{ $.Values.external_domain }}"
+
+            - name: STORAGE_JWT_SECRET
+              value: "{{ $.Values.secrets.jwt }}"
+
+            - name: REVA_GATEWAY
+              value: storage-gateway:9142
+          ports:
+          - containerPort: 9144 # GRPC
+---

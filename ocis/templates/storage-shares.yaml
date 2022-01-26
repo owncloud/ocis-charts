@@ -1,0 +1,61 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: storage-shares
+  labels:
+    app: storage-shares
+spec:
+  ports:
+  - name: grpc
+    port: 9154
+    protocol: TCP
+  selector:
+    app: storage-shares
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: storage-shares
+spec:
+  selector:
+    matchLabels:
+        app: storage-shares
+  replicas: 1
+  template:
+    metadata:
+      labels:
+          app: storage-shares
+    spec:
+      containers:
+        - name: storage-shares
+          image: "{{ $.Values.images.oCIS }}"
+          command: ["ocis"]
+          args: ["storage-auth-bearer", "server"]
+          env:
+            - name: OCIS_LOG_COLOR
+              value: "{{ $.Values.logging.color }}"
+            - name: OCIS_LOG_LEVEL
+              value: "{{ $.Values.logging.level }}"
+            - name: OCIS_LOG_PRETTY
+              value: "{{ $.Values.logging.pretty }}"
+
+            - name: STORAGE_SHARES_GRPC_ADDR
+              value: 0.0.0.0:9154
+            - name: STORAGE_SHARES_ENDPOINT
+              value: "storage-shares:9154"
+
+            - name: STORAGE_SHARING_ENDPOINT
+              value: "storage-sharing:9150"
+
+            - name: STORAGE_JWT_SECRET
+              value: "{{ $.Values.secrets.jwt }}"
+            - name: STORAGE_TRANSFER_SECRET
+              value: "{{ $.Values.secrets.transfer }}"
+
+            - name: REVA_GATEWAY
+              value: storage-gateway:9142
+          ports:
+          - containerPort: 9154 # GRPC
+---

@@ -1,0 +1,64 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: accounts
+  labels:
+    app: accounts
+spec:
+  ports:
+  - name: grpc
+    port: 9180
+    protocol: TCP
+  - name: http
+    port: 9181
+    protocol: TCP
+  selector:
+    app: accounts
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: accounts
+spec:
+  selector:
+    matchLabels:
+        app: accounts
+  replicas: 1
+  template:
+    metadata:
+      labels:
+          app: accounts
+    spec:
+      containers:
+        - name: accounts
+          image: "{{ $.Values.images.oCIS }}"
+          command: ["ocis"]
+          args: ["accounts", "server"]
+          env:
+            - name: ACCOUNTS_LOG_COLOR
+              value: "{{ $.Values.logging.color }}"
+            - name: ACCOUNTS_LOG_LEVEL
+              value: "{{ $.Values.logging.level }}"
+            - name: ACCOUNTS_LOG_PRETTY
+              value: "{{ $.Values.logging.pretty }}"
+
+            - name: ACCOUNTS_GRPC_ADDR
+              value: 0.0.0.0:9180
+            - name: ACCOUNTS_HTTP_ADDR
+              value: 0.0.0.0:9181
+            
+            - name: ACCOUNTS_STORAGE_BACKEND
+              value: cs3
+            - name: ACCOUNTS_STORAGE_CS3_PROVIDER_ADDR
+              value: storage-metadata:9215
+            
+            - name: ACCOUNTS_JWT_SECRET
+              value: "{{ $.Values.secrets.jwt }}"
+            - name: ACCOUNTS_STORAGE_CS3_JWT_SECRET
+              value: "{{ $.Values.secrets.jwt }}"
+          ports:
+          - containerPort: 9180 # GRPC
+          - containerPort: 9181 # HTTP
+---

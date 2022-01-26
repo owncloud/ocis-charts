@@ -1,0 +1,83 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: store
+  labels:
+    app: store
+spec:
+  ports:
+  - name: grpc
+    port: 9460
+    protocol: TCP
+  selector:
+    app: store
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: store
+spec:
+  selector:
+    matchLabels:
+        app: store
+  replicas: 1
+  template:
+    metadata:
+      labels:
+          app: store
+    spec:
+      containers:
+        - name: store
+          image: "{{ $.Values.images.oCIS }}"
+          command: ["ocis"]
+          args: ["store", "server"]
+          env:
+            - name: STORE_LOG_COLOR
+              value: "{{ $.Values.logging.color }}"
+            - name: STORE_LOG_LEVEL
+              value: "{{ $.Values.logging.level }}"
+            - name: STORE_LOG_PRETTY
+              value: "{{ $.Values.logging.pretty }}"
+
+            - name: STORE_GRPC_ADDR
+              value: 0.0.0.0:9460
+          ports:
+          - containerPort: 9460 # GRPC
+#           volumeMounts:
+#           - name: store-data
+#             mountPath: /var/lib/ocis
+#       volumes:
+#         - name: store-data
+#           persistentVolumeClaim:
+#             claimName: store-data
+# ---
+# apiVersion: v1
+# kind: PersistentVolume
+# metadata:
+#   name: store-data
+#   labels:
+#     name: store-data
+# spec:
+#   accessModes:
+#   - ReadOnlyMany
+#   capacity:
+#     storage: 5Gi
+#   storageClassName: "{{ $.Values.persistence.storageClassName }}"
+# ---
+# apiVersion: v1
+# kind: PersistentVolumeClaim
+# metadata:
+#   name: store-data
+# spec:
+#   accessModes:
+#   - ReadOnlyMany
+#   resources:
+#     requests:
+#       storage: 5Gi
+#   storageClassName: "{{ $.Values.persistence.storageClassName }}"
+#   selector:
+#     matchLabels:
+#       name: store-data
+# ---
