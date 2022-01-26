@@ -1,4 +1,19 @@
 ---
+apiVersion: v1
+kind: Service
+metadata:
+  name: storage-sharing
+  labels:
+    app: storage-sharing
+spec:
+  ports:
+  - name: grpc
+    port: 9150
+    protocol: TCP
+  selector:
+    app: storage-sharing
+
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -35,7 +50,7 @@ spec:
               value: 0.0.0.0:9158
             - name: STORAGE_USERS_DATA_SERVER_URL
               value: "http://storage-users:9158/data"
-            
+
             - name: STORAGE_SHARING_USER_DRIVER
               value: "json"
             - name: STORAGE_SHARING_PUBLIC_DRIVER
@@ -47,37 +62,39 @@ spec:
               value: "storage-gateway:9142"
           ports:
           - containerPort: 9150 # GRPC
-          volumeMounts:
-          - name: storage-sharing-data
-            mountPath: /var/lib/ocis
-      volumes:
-        - name: storage-sharing-data
-          persistentVolumeClaim:
-            claimName: storage-sharing-data       
----
-apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: storage-sharing-data
-  labels:
-    name: storage-sharing-data
-spec:
-  accessModes:
-  - ReadOnlyMany
-  capacity:
-    storage: 5Gi
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: storage-sharing-data
-spec:
-  accessModes:
-  - ReadOnlyMany
-  resources:
-    requests:
-      storage: 5Gi
-  selector:
-    matchLabels:
-      name: storage-sharing-data
----
+#          volumeMounts:
+#          - name: storage-sharing-data
+#            mountPath: /var/lib/ocis
+#      volumes:
+#        - name: storage-sharing-data
+#          persistentVolumeClaim:
+#            claimName: storage-sharing-data
+#---
+#apiVersion: v1
+#kind: PersistentVolume
+#metadata:
+#  name: storage-sharing-data
+#  labels:
+#    name: storage-sharing-data
+#spec:
+#  accessModes:
+#  - ReadOnlyMany
+#  capacity:
+#    storage: 5Gi
+#  storageClassName: "{{ $.Values.persistence.storageClassName }}"
+#---
+#apiVersion: v1
+#kind: PersistentVolumeClaim
+#metadata:
+#  name: storage-sharing-data
+#spec:
+#  accessModes:
+#  - ReadOnlyMany
+#  resources:
+#    requests:
+#      storage: 5Gi
+#  storageClassName: "{{ $.Values.persistence.storageClassName }}"
+#  selector:
+#    matchLabels:
+#      name: storage-sharing-data
+#---

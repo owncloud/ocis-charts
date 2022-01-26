@@ -1,4 +1,19 @@
 ---
+apiVersion: v1
+kind: Service
+metadata:
+  name: storage-publiclink
+  labels:
+    app: storage-publiclink
+spec:
+  ports:
+  - name: grpc
+    port: 9178
+    protocol: TCP
+  selector:
+    app: storage-publiclink
+
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:

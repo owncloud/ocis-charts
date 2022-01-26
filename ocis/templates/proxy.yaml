@@ -7,14 +7,12 @@ metadata:
 spec:
   selector:
       app: proxy
-  ports:
-      - name: 
-        protocol: TCP
-        port: 9200
-        targetPort: 9200
   type: LoadBalancer
-
-
+  ports:
+    - name: http
+      protocol: TCP
+      port: 9200
+      targetPort: 9200
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -30,7 +28,14 @@ spec:
       labels:
           app: proxy
     spec:
+      hostAliases:
+        - ip: "127.0.0.1"
+          hostnames:
+            - "{{ $.Values.external_domain }}"
       containers:
+        - name: idp-hack-sidecar
+          image: alpine/socat
+          args: ["tcp-l:443,fork,reuseaddr", "tcp:127.0.0.1:9200"]
         - name: proxy
           image: "{{ $.Values.images.oCIS }}"
           command: ["ocis"]
@@ -48,22 +53,22 @@ spec:
             - name: PROXY_AUTOPROVISION_ACCOUNTS
               value: "true"
             - name: PROXY_ENABLE_BASIC_AUTH
-              value: "false"
+              value: "true"
             - name: PROXY_OIDC_ISSUER
-              value: https://ocis.owncloud.test
+              value: "https://{{ $.Values.external_domain }}"
             - name: PROXY_TLS
-              value: "false"
+              value: "true"
 
             - name: PROXY_JWT_SECRET
               value: "{{ $.Values.secrets.jwt }}"
             - name: PROXY_MACHINE_AUTH_API_KEY
-              value: "{{ $.Values.secrets.machine_auth }}"
+              value: "{{ $.Values.secrets.machineAuth }}"
 
             - name: PROXY_OIDC_INSECURE
-              value: "false"
+              value: "true"
             - name: PROXY_INSECURE_BACKENDS
               value: "false"
-            
+
             - name: REVA_GATEWAY
               value: storage-gateway:9142
           ports:

@@ -1,4 +1,19 @@
 ---
+apiVersion: v1
+kind: Service
+metadata:
+  name: graph
+  labels:
+    app: graph
+spec:
+  ports:
+  - name: http
+    port: 9120
+    protocol: TCP
+  selector:
+    app: graph
+
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:

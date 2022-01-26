@@ -1,17 +1,19 @@
 images:
-  oCIS: owncloud/ocis:latest
+  oCIS: owncloud/ocis:latest@sha256:72ce56d16bb5d5be4298277b2c9ac70a949f3664e4fbe7db4d14de314c3fe23f
 
 logging:
-  level: "error"
+  level: "debug"
   pretty: "true"
   color: "true"
 
-external_domain: ocis.owncloud.test
+external_domain: ocis.minikube.test
 
 #TODO: define secrets in secrets...
 secrets:
   jwt: foobar
-  machine_auth: blabla
-  transfer_secret: lorem123
-  metadata_jwt: 123abc
+  machineAuth: blabla
+  transfer: lorem123
 
+persistence:
+  enabled: false
+  storageClassName: standard

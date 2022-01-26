@@ -1,4 +1,22 @@
 ---
+apiVersion: v1
+kind: Service
+metadata:
+  name: storage-users
+  labels:
+    app: storage-users
+spec:
+  ports:
+  - name: grpc
+    port: 9157
+    protocol: TCP
+  - name: http
+    port: 9158
+    protocol: TCP
+  selector:
+    app: storage-users
+
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -27,7 +45,7 @@ spec:
               value: "{{ $.Values.logging.pretty }}"
 
             - name: STORAGE_USERS_DATAPROVIDER_INSECURE
-              value: "'true'"
+              value: "true"
             
             - name: STORAGE_USERS_DRIVER
               value: "ocis"
@@ -43,9 +61,9 @@ spec:
               value: "http://storage-users:9158/data"
             
             - name: STORAGE_JWT_SECRET
-              value: "{{ $.Values.secrets.metadata_jwt }}"
+              value: "{{ $.Values.secrets.jwt }}"
             - name: STORAGE_TRANSFER_SECRET
-              value: "{{ $.Values.secrets.metadata_jwt }}"
+              value: "{{ $.Values.secrets.transfer }}"
 
             - name: STORAGE_METADATA_DRIVER
               value: "ocis"
@@ -55,37 +73,39 @@ spec:
           ports:
           - containerPort: 9157 # GRPC
           - containerPort: 9158 # HTTP
-          volumeMounts:
-          - name: storage-metadata-data
-            mountPath: /var/lib/ocis
-      volumes:
-        - name: storage-metadata-data
-          persistentVolumeClaim:
-            claimName: storage-metadata-data       
----
-apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: storage-users-data
-  labels:
-    name: storage-users-data
-spec:
-  accessModes:
-  - ReadOnlyMany
-  capacity:
-    storage: 50Gi
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: storage-users-data
-spec:
-  accessModes:
-  - ReadOnlyMany
-  resources:
-    requests:
-      storage: 50Gi
-  selector:
-    matchLabels:
-      name: storage-users-data
----
+#          volumeMounts:
+#          - name: storage-metadata-data
+#            mountPath: /var/lib/ocis
+#      volumes:
+#        - name: storage-metadata-data
+#          persistentVolumeClaim:
+#            claimName: storage-metadata-data       
+#---
+#apiVersion: v1
+#kind: PersistentVolume
+#metadata:
+#  name: storage-users-data
+#  labels:
+#    name: storage-users-data
+#spec:
+#  accessModes:
+#  - ReadOnlyMany
+#  capacity:
+#    storage: 50Gi
+#  storageClassName: "{{ $.Values.persistence.storageClassName }}"
+#---
+#apiVersion: v1
+#kind: PersistentVolumeClaim
+#metadata:
+#  name: storage-users-data
+#spec:
+#  accessModes:
+#  - ReadOnlyMany
+#  resources:
+#    requests:
+#      storage: 50Gi
+#  storageClassName: "{{ $.Values.persistence.storageClassName }}"
+#  selector:
+#    matchLabels:
+#      name: storage-users-data
+#---

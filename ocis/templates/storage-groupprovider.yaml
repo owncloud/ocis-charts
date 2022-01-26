@@ -1,4 +1,19 @@
 ---
+apiVersion: v1
+kind: Service
+metadata:
+  name: storage-groupprovider
+  labels:
+    app: storage-groupprovider
+spec:
+  ports:
+  - name: grpc
+    port: 9160
+    protocol: TCP
+  selector:
+    app: storage-groupprovider
+
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -38,7 +53,7 @@ spec:
             - name: STORAGE_LDAP_PORT
               value: "9126"
             - name: STORAGE_LDAP_INSECURE
-              value: "'true'"
+              value: "true"
 
             - name: STORAGE_LDAP_IDP
               value: "https://{{ $.Values.external_domain }}"

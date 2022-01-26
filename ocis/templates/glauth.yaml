@@ -1,4 +1,21 @@
 ---
+apiVersion: v1
+kind: Service
+metadata:
+  name: glauth
+  labels:
+    app: glauth
+spec:
+  ports:
+  - name: ldap
+    port: 9125
+    protocol: TCP
+  - name: ldaps
+    port: 9126
+    protocol: TCP
+  selector:
+    app: glauth
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -32,7 +49,7 @@ spec:
               value: 0.0.0.0:9126
             
             - name: GLAUTH_BACKEND_INSECURE
-              value: "'true'"
+              value: "true"
           ports:
           - containerPort: 9125 # LDAP
           - containerPort: 9126 # LDAPS

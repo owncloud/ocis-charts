@@ -1,4 +1,19 @@
 ---
+apiVersion: v1
+kind: Service
+metadata:
+  name: storage-frontend
+  labels:
+    app: storage-frontend
+spec:
+  ports:
+  - name: http
+    port: 9140
+    protocol: TCP
+  selector:
+    app: storage-frontend
+
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -32,11 +47,11 @@ spec:
               value: "https://{{ $.Values.external_domain }}"
 
             - name: STORAGE_FRONTEND_APPPROVIDER_INSECURE
-              value: "'true'"
+              value: "true"
             - name: STORAGE_FRONTEND_ARCHIVER_INSECURE
-              value: "'true'"
+              value: "true"
             - name: STORAGE_FRONTEND_OCDAV_INSECURE
-              value: "'true'"
+              value: "true"
 
             - name: STORAGE_SHARING_ENDPOINT
               value: "storage-sharing:9150"

@@ -1,4 +1,22 @@
 ---
+apiVersion: v1
+kind: Service
+metadata:
+  name: settings
+  labels:
+    app: settings
+spec:
+  ports:
+  - name: grpc
+    port: 9191
+    protocol: TCP
+  - name: http
+    port: 9190
+    protocol: TCP
+  selector:
+    app: settings
+
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -36,37 +54,39 @@ spec:
           ports:
           - containerPort: 9190 # HTTP
           - containerPort: 9191 # GRPC
-          volumeMounts:
-          - name: settings-data
-            mountPath: /var/lib/ocis
-      volumes:
-        - name: settings-data
-          persistentVolumeClaim:
-            claimName: settings-data       
----
-apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: settings-data
-  labels:
-    name: settings-data
-spec:
-  accessModes:
-  - ReadOnlyMany
-  capacity:
-    storage: 5Gi
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: settings-data
-spec:
-  accessModes:
-  - ReadOnlyMany
-  resources:
-    requests:
-      storage: 5Gi
-  selector:
-    matchLabels:
-      name: settings-data
----
+#          volumeMounts:
+#          - name: settings-data
+#            mountPath: /var/lib/ocis
+#      volumes:
+#        - name: settings-data
+#          persistentVolumeClaim:
+#            claimName: settings-data
+#---
+#apiVersion: v1
+#kind: PersistentVolume
+#metadata:
+#  name: settings-data
+#  labels:
+#    name: settings-data
+#spec:
+#  accessModes:
+#  - ReadOnlyMany
+#  capacity:
+#    storage: 5Gi
+#  storageClassName: "{{ $.Values.persistence.storageClassName }}"
+#---
+#apiVersion: v1
+#kind: PersistentVolumeClaim
+#metadata:
+#  name: settings-data
+#spec:
+#  accessModes:
+#  - ReadOnlyMany
+#  resources:
+#    requests:
+#      storage: 5Gi
+#  storageClassName: "{{ $.Values.persistence.storageClassName }}"
+#  selector:
+#    matchLabels:
+#      name: settings-data
+#---

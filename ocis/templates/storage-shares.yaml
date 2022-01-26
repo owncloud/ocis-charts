@@ -1,4 +1,19 @@
 ---
+apiVersion: v1
+kind: Service
+metadata:
+  name: storage-shares
+  labels:
+    app: storage-shares
+spec:
+  ports:
+  - name: grpc
+    port: 9154
+    protocol: TCP
+  selector:
+    app: storage-shares
+
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -37,7 +52,7 @@ spec:
             - name: STORAGE_JWT_SECRET
               value: "{{ $.Values.secrets.jwt }}"
             - name: STORAGE_TRANSFER_SECRET
-              value: "{{ $.Values.secrets.transfer_secret }}"
+              value: "{{ $.Values.secrets.transfer }}"
 
             - name: REVA_GATEWAY
               value: storage-gateway:9142

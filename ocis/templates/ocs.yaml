@@ -1,4 +1,19 @@
 ---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ocs
+  labels:
+    app: ocs
+spec:
+  ports:
+  - name: http
+    port: 9110
+    protocol: TCP
+  selector:
+    app: ocs
+
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -37,7 +52,7 @@ spec:
             - name: OCS_JWT_SECRET
               value: "{{ $.Values.secrets.jwt }}"
             - name: PROXY_MACHINE_AUTH_API_KEY
-              value: "{{ $.Values.secrets.machine_auth }}"
+              value: "{{ $.Values.secrets.machineAuth }}"
             
             - name: REVA_GATEWAY
               value: storage-gateway:9142
