@@ -20,7 +20,7 @@ spec:
           env:
             - name: MICRO_REGISTRY
               value: kubernetes
-            
+
             - name: OCIS_LOG_COLOR
               value: "{{ $.Values.logging.color }}"
             - name: OCIS_LOG_LEVEL
@@ -30,7 +30,7 @@ spec:
 
             - name: STORAGE_USERS_DATAPROVIDER_INSECURE
               value: "true"
-            
+
             - name: STORAGE_USERS_DRIVER
               value: "ocis"
 
@@ -43,7 +43,7 @@ spec:
               value: 0.0.0.0:9158
             - name: STORAGE_USERS_DATA_SERVER_URL
               value: "http://storage-users:9158/data"
-            
+
             - name: STORAGE_JWT_SECRET
               value: "{{ $.Values.secrets.jwt }}"
             - name: STORAGE_TRANSFER_SECRET
@@ -51,7 +51,7 @@ spec:
 
             - name: STORAGE_USERS_DRIVER
               value: "ocis" #TODO: use S3!?
-            
+
             - name: REVA_GATEWAY
               value: "storage-gateway:9142"
           ports:
@@ -63,4 +63,4 @@ spec:
 #      volumes:
 #        - name: storage-users-data
 #          persistentVolumeClaim:
-#            claimName: storage-users-data       
+#            claimName: storage-users-data

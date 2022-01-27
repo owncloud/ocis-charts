@@ -20,7 +20,7 @@ spec:
           env:
             - name: MICRO_REGISTRY
               value: kubernetes
-            
+
             - name: OCS_LOG_COLOR
               value: "{{ $.Values.logging.color }}"
             - name: OCS_LOG_LEVEL
@@ -40,7 +40,7 @@ spec:
               value: "{{ $.Values.secrets.jwt }}"
             - name: PROXY_MACHINE_AUTH_API_KEY
               value: "{{ $.Values.secrets.machineAuth }}"
-            
+
             - name: REVA_GATEWAY
               value: storage-gateway:9142
           ports:

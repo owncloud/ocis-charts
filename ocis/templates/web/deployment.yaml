@@ -20,7 +20,7 @@ spec:
           env:
             - name: MICRO_REGISTRY
               value: kubernetes
-            
+
             - name: WEB_LOG_COLOR
               value: "{{ $.Values.logging.color }}"
             - name: WEB_LOG_LEVEL
@@ -30,7 +30,7 @@ spec:
 
             - name: WEB_HTTP_ADDR
               value: 0.0.0.0:9100
-            
+
             - name: WEB_OIDC_AUTHORITY
               value: "https://{{ $.Values.externalDomain }}"
             - name: WEB_UI_THEME_SERVER

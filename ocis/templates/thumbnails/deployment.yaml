@@ -20,7 +20,7 @@ spec:
           env:
             - name: MICRO_REGISTRY
               value: kubernetes
-            
+
             - name: THUMBNAILS_LOG_COLOR
               value: "{{ $.Values.logging.color }}"
             - name: THUMBNAILS_LOG_LEVEL
@@ -33,9 +33,9 @@ spec:
 
             - name: THUMBNAILS_CS3SOURCE_INSECURE
               value: "true"
-            
+
             - name: REVA_GATEWAY
               value: storage-gateway:9142
           ports:
           - containerPort: 9185 # GRPC
-        
+

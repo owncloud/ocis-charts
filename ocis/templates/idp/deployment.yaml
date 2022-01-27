@@ -20,7 +20,7 @@ spec:
           env:
             - name: MICRO_REGISTRY
               value: kubernetes
-            
+
             - name: IDP_LOG_COLOR
               value: "{{ $.Values.logging.color }}"
             - name: IDP_LOG_LEVEL
@@ -30,7 +30,7 @@ spec:
 
             - name: IDP_HTTP_ADDR
               value: 0.0.0.0:9130
-            
+
             - name: IDP_ISS
               value: "https://{{ $.Values.externalDomain }}"
 

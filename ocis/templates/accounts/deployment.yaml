@@ -20,7 +20,7 @@ spec:
           env:
             - name: MICRO_REGISTRY
               value: kubernetes
-            
+
             - name: ACCOUNTS_LOG_COLOR
               value: "{{ $.Values.logging.color }}"
             - name: ACCOUNTS_LOG_LEVEL
@@ -32,12 +32,12 @@ spec:
               value: 0.0.0.0:9180
             - name: ACCOUNTS_HTTP_ADDR
               value: 0.0.0.0:9181
-            
+
             - name: ACCOUNTS_STORAGE_BACKEND
               value: cs3
             - name: ACCOUNTS_STORAGE_CS3_PROVIDER_ADDR
               value: storage-metadata:9215
-            
+
             - name: ACCOUNTS_JWT_SECRET
               value: "{{ $.Values.secrets.jwt }}"
             - name: ACCOUNTS_STORAGE_CS3_JWT_SECRET

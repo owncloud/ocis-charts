@@ -1,7 +1,3 @@
----
-
-
----
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -24,7 +20,7 @@ spec:
           env:
             - name: MICRO_REGISTRY
               value: kubernetes
-            
+
             - name: WEBDAV_LOG_COLOR
               value: "{{ $.Values.logging.color }}"
             - name: WEBDAV_LOG_LEVEL
@@ -34,11 +30,10 @@ spec:
 
             - name: WEBDAV_HTTP_ADDR
               value: 0.0.0.0:9115
-            
+
             - name: OCIS_PUBLIC_URL
               value: "https://{{ $.Values.externalDomain }}"
             - name: REVA_GATEWAY
               value: "storage-gateway:9142"
           ports:
           - containerPort: 9115 # HTTP
----

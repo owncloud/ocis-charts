@@ -27,7 +27,7 @@ spec:
           env:
             - name: MICRO_REGISTRY
               value: kubernetes
-            
+
             - name: PROXY_LOG_COLOR
               value: "{{ $.Values.logging.color }}"
             - name: PROXY_LOG_LEVEL

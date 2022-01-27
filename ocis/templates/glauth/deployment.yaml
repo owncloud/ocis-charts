@@ -20,7 +20,7 @@ spec:
           env:
             - name: MICRO_REGISTRY
               value: kubernetes
-            
+
             - name: GLAUTH_LOG_COLOR
               value: "{{ $.Values.logging.color }}"
             - name: GLAUTH_LOG_LEVEL
@@ -32,7 +32,7 @@ spec:
               value: 0.0.0.0:9125
             - name: GLAUTH_LDAPS_ADDR
               value: 0.0.0.0:9126
-            
+
             - name: GLAUTH_BACKEND_INSECURE
               value: "true"
           ports:

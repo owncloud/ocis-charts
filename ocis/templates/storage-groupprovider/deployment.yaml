@@ -20,7 +20,7 @@ spec:
           env:
             - name: MICRO_REGISTRY
               value: kubernetes
-            
+
             - name: OCIS_LOG_COLOR
               value: "{{ $.Values.logging.color }}"
             - name: OCIS_LOG_LEVEL

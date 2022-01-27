@@ -20,7 +20,7 @@ spec:
           env:
             - name: MICRO_REGISTRY
               value: kubernetes
-            
+
             - name: OCIS_LOG_COLOR
               value: "{{ $.Values.logging.color }}"
             - name: OCIS_LOG_LEVEL
@@ -38,10 +38,10 @@ spec:
 
             - name: STORAGE_USERS_ENDPOINT
               value: "storage-users:9157"
-            
+
             - name: STORAGE_PUBLIC_LINK_ENDPOINT
               value: "storage-publiclink:9178"
-            
+
             - name: STORAGE_AUTH_BASIC_ENDPOINT
               value: "storage-authbasic:9146"
             - name: STORAGE_AUTH_BEARER_ENDPOINT
@@ -53,7 +53,7 @@ spec:
               value: "storage-shares:9154"
             - name: STORAGE_SHARING_ENDPOINT
               value: "storage-sharing:9150"
-            
+
             - name: STORAGE_GROUPPROVIDER_ENDPOINT
               value: "storage-groupprovider:9160"
             - name: STORAGE_USERPROVIDER_ENDPOINT

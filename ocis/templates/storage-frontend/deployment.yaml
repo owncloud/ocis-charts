@@ -20,7 +20,7 @@ spec:
           env:
             - name: MICRO_REGISTRY
               value: kubernetes
-            
+
             - name: STORAGE_FRONTEND_LOG_COLOR
               value: "{{ $.Values.logging.color }}"
             - name: STORAGE_FRONTEND_LOG_LEVEL
