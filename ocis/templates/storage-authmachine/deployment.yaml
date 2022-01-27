@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: storage-authmachine
+spec:
+  selector:
+    matchLabels:
+        app: storage-authmachine
+  replicas: 1
+  template:
+    metadata:
+      labels:
+          app: storage-authmachine
+    spec:
+      containers:
+        - name: storage-authmachine
+          image: "{{ $.Values.images.oCIS }}"
+          command: ["ocis"]
+          args: ["storage-auth-machine", "server"]
+          env:
+            - name: MICRO_REGISTRY
+              value: kubernetes
+            
+            - name: OCIS_LOG_COLOR
+              value: "{{ $.Values.logging.color }}"
+            - name: OCIS_LOG_LEVEL
+              value: "{{ $.Values.logging.level }}"
+            - name: OCIS_LOG_PRETTY
+              value: "{{ $.Values.logging.pretty }}"
+
+            - name: STORAGE_AUTH_MACHINE_GRPC_ADDR
+              value: 0.0.0.0:9148
+            - name: STORAGE_AUTH_MACHINE_ENDPOINT
+              value: "storage-authmachine:9148"
+
+            - name: STORAGE_JWT_SECRET
+              value: "{{ $.Values.secrets.jwt }}"
+            
+            - name: REVA_GATEWAY
+              value: storage-gateway:9142
+          ports:
+          - containerPort: 9148 # GRPC

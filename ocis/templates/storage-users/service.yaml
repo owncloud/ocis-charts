@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: storage-users
+  labels:
+    app: storage-users
+spec:
+  ports:
+  - name: grpc
+    port: 9157
+    protocol: TCP
+  - name: http
+    port: 9158
+    protocol: TCP
+  selector:
+    app: storage-users

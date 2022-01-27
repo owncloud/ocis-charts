@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: storage-metadata
+  labels:
+    app: storage-metadata
+spec:
+  ports:
+  - name: grpc
+    port: 9215
+    protocol: TCP
+  - name: http
+    port: 9216
+    protocol: TCP
+  selector:
+    app: storage-metadata

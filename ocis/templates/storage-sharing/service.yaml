@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: storage-sharing
+  labels:
+    app: storage-sharing
+spec:
+  ports:
+  - name: grpc
+    port: 9150
+    protocol: TCP
+  selector:
+    app: storage-sharing

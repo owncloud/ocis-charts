@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: thumbnails
+  labels:
+    app: thumbnails
+spec:
+  ports:
+  - name: grpc
+    port: 9185
+    protocol: TCP
+  selector:
+    app: thumbnails

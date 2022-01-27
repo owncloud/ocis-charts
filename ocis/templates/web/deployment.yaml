@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web
+spec:
+  selector:
+    matchLabels:
+        app: web
+  replicas: 1
+  template:
+    metadata:
+      labels:
+          app: web
+    spec:
+      containers:
+        - name: web
+          image: "{{ $.Values.images.oCIS }}"
+          command: ["ocis"]
+          args: ["web", "server"]
+          env:
+            - name: MICRO_REGISTRY
+              value: kubernetes
+            
+            - name: WEB_LOG_COLOR
+              value: "{{ $.Values.logging.color }}"
+            - name: WEB_LOG_LEVEL
+              value: "{{ $.Values.logging.level }}"
+            - name: WEB_LOG_PRETTY
+              value: "{{ $.Values.logging.pretty }}"
+
+            - name: WEB_HTTP_ADDR
+              value: 0.0.0.0:9100
+            
+            - name: WEB_OIDC_AUTHORITY
+              value: "https://{{ $.Values.externalDomain }}"
+            - name: WEB_UI_THEME_SERVER
+              value: "https://{{ $.Values.externalDomain }}"
+            - name: WEB_UI_CONFIG_SERVER
+              value: "https://{{ $.Values.externalDomain }}"
+          ports:
+          - containerPort: 9100 # HTTP

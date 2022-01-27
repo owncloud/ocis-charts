@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: idp
+  labels:
+    app: idp
+spec:
+  ports:
+  - name: http
+    port: 9130
+    protocol: TCP
+  selector:
+    app: idp

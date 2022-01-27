@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: storage-userprovider
+  labels:
+    app: storage-userprovider
+spec:
+  ports:
+  - name: grpc
+    port: 9144
+    protocol: TCP
+  selector:
+    app: storage-userprovider

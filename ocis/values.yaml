@@ -1,12 +1,14 @@
 images:
-  oCIS: owncloud/ocis:latest@sha256:72ce56d16bb5d5be4298277b2c9ac70a949f3664e4fbe7db4d14de314c3fe23f
+  oCIS: owncloud/ocis:latest@sha256:da5b43943329c60940f53cd56c66a7b8cb3aa6d5b43be531d960108b064a6928
 
 logging:
   level: "debug"
   pretty: "true"
   color: "true"
 
-external_domain: ocis.minikube.test
+externalDomain: ocis.kube.w-kl.xyz
+tls:
+  enabled: false
 
 #TODO: define secrets in secrets...
 secrets:
@@ -15,5 +17,5 @@ secrets:
   transfer: lorem123
 
 persistence:
-  enabled: false
-  storageClassName: standard
+  enabled: true
+  storageClassName: rook-ceph-block

@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: glauth
+  labels:
+    app: glauth
+spec:
+  ports:
+  - name: ldap
+    port: 9125
+    protocol: TCP
+  - name: ldaps
+    port: 9126
+    protocol: TCP
+  selector:
+    app: glauth

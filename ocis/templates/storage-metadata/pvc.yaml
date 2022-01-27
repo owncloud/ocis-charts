@@ -1,0 +1,33 @@
+#---
+#{{- if $.Values.persistence.enabled }}
+#apiVersion: v1
+#kind: PersistentVolume
+#metadata:
+#  name: storage-metadata-data
+#  labels:
+#    name: storage-metadata-data
+#spec:
+#  accessModes:
+#  - ReadOnlyMany
+#  capacity:
+#    storage: 5Gi
+#  storageClassName: "{{ $.Values.persistence.storageClassName }}"
+#{{ end }}
+#---
+
+{{- if $.Values.persistence.enabled }}
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: storage-metadata-data
+spec:
+  accessModes:
+  - ReadOnlyMany
+  resources:
+    requests:
+      storage: 5Gi
+  storageClassName: "{{ $.Values.persistence.storageClassName }}"
+  selector:
+    matchLabels:
+      name: storage-metadata-data
+{{ end }}

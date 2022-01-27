@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: webdav
+  labels:
+    app: webdav
+spec:
+  ports:
+  - name: http
+    port: 9115
+    protocol: TCP
+  selector:
+    app: webdav
