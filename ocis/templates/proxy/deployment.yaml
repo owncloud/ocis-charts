@@ -2,6 +2,9 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: proxy
+  namespace: {{ $.Release.Namespace }}
+  labels:
+    {{- include "ocis.labels" . | nindent 4 }}
 spec:
   selector:
     matchLabels:
@@ -21,7 +24,11 @@ spec:
         #  image: alpine/socat
         #  args: ["tcp-l:443,fork,reuseaddr", "tcp:127.0.0.1:9200"]
         - name: proxy
-          image: "{{ $.Values.images.oCIS }}"
+          {{- if .Values.image.sha }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}@sha256:{{ .Values.image.sha }}"
+          {{- else }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          {{- end }}
           command: ["ocis"]
           args: ["proxy", "server"]
           env:

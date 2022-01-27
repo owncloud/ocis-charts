@@ -2,6 +2,9 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: storage-metadata
+  namespace: {{ $.Release.Namespace }}
+  labels:
+    {{- include "ocis.labels" . | nindent 4 }}
 spec:
   selector:
     matchLabels:
@@ -14,12 +17,19 @@ spec:
     spec:
       containers:
         - name: store
-          image: "{{ $.Values.images.oCIS }}"
+          {{- if .Values.image.sha }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}@sha256:{{ .Values.image.sha }}"
+          {{- else }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          {{- end }}
           command: ["ocis"]
           args: ["storage-metadata", "server"]
           env:
             - name: MICRO_REGISTRY
               value: kubernetes
+
+            - name: foo
+              value: baz
 
             - name: OCIS_LOG_COLOR
               value: "{{ $.Values.logging.color }}"
@@ -50,12 +60,12 @@ spec:
           ports:
           - containerPort: 9215 # GRPC
           - containerPort: 9216 # HTTP
-          {{- if $.Values.persistence.enabled }}
+          {{- if $.Values.storageMetadata.persistence.enabled }}
           volumeMounts:
           - name: storage-metadata-data
             mountPath: /var/lib/ocis
           {{ end }}
-      {{- if $.Values.persistence.enabled }}
+      {{- if $.Values.storageMetadata.persistence.enabled }}
       volumes:
         - name: storage-metadata-data
           persistentVolumeClaim:

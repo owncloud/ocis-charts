@@ -2,8 +2,9 @@ apiVersion: v1
 kind: Service
 metadata:
   name: glauth
+  namespace: {{ $.Release.Namespace }}
   labels:
-    app: glauth
+    {{- include "ocis.labels" . | nindent 4 }}
 spec:
   ports:
   - name: ldap

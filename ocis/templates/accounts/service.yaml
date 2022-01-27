@@ -2,8 +2,9 @@ apiVersion: v1
 kind: Service
 metadata:
   name: accounts
+  namespace: {{ $.Release.Namespace }}
   labels:
-    app: accounts
+    {{- include "ocis.labels" . | nindent 4 }}
 spec:
   ports:
   - name: grpc

@@ -2,6 +2,9 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: storage-sharing
+  namespace: {{ $.Release.Namespace }}
+  labels:
+    {{- include "ocis.labels" . | nindent 4 }}
 spec:
   selector:
     matchLabels:
@@ -14,7 +17,11 @@ spec:
     spec:
       containers:
         - name: store
-          image: "{{ $.Values.images.oCIS }}"
+          {{- if .Values.image.sha }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}@sha256:{{ .Values.image.sha }}"
+          {{- else }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          {{- end }}
           command: ["ocis"]
           args: ["storage-sharing", "server"]
           env:
@@ -49,10 +56,14 @@ spec:
               value: "storage-gateway:9142"
           ports:
           - containerPort: 9150 # GRPC
-#          volumeMounts:
-#          - name: storage-sharing-data
-#            mountPath: /var/lib/ocis
-#      volumes:
-#        - name: storage-sharing-data
-#          persistentVolumeClaim:
-#            claimName: storage-sharing-data
+          {{- if $.Values.storageMetadata.persistence.enabled }}
+          volumeMounts:
+          - name: storage-sharing-data
+            mountPath: /var/lib/ocis
+          {{ end }}
+      {{- if $.Values.storageMetadata.persistence.enabled }}
+      volumes:
+        - name: storage-sharing-data
+          persistentVolumeClaim:
+            claimName: storage-sharing-data
+      {{ end }}          

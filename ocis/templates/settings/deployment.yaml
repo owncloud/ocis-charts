@@ -2,6 +2,9 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: settings
+  namespace: {{ $.Release.Namespace }}
+  labels:
+    {{- include "ocis.labels" . | nindent 4 }}
 spec:
   selector:
     matchLabels:
@@ -14,7 +17,12 @@ spec:
     spec:
       containers:
         - name: settings
-          image: "{{ $.Values.images.oCIS }}"
+          {{- if .Values.image.sha }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}@sha256:{{ .Values.image.sha }}"
+          {{- else }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          {{- end }}
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
           command: ["ocis"]
           args: ["settings", "server"]
           env:
@@ -38,10 +46,14 @@ spec:
           ports:
           - containerPort: 9190 # HTTP
           - containerPort: 9191 # GRPC
-#          volumeMounts:
-#          - name: settings-data
-#            mountPath: /var/lib/ocis
-#      volumes:
-#        - name: settings-data
-#          persistentVolumeClaim:
-#            claimName: settings-data
+          {{- if $.Values.settings.persistence.enabled }}
+          volumeMounts:
+          - name: settings-data
+            mountPath: /var/lib/ocis
+          {{ end }}
+      {{- if $.Values.settings.persistence.enabled }}
+      volumes:
+        - name: settings-data
+          persistentVolumeClaim:
+            claimName: settings-data
+      {{ end }}          

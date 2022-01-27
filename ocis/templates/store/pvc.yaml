@@ -1,29 +1,33 @@
-# ---
-# apiVersion: v1
-# kind: PersistentVolume
-# metadata:
-#   name: store-data
-#   labels:
-#     name: store-data
-# spec:
-#   accessModes:
-#   - ReadOnlyMany
-#   capacity:
-#     storage: 5Gi
-#   storageClassName: "{{ $.Values.persistence.storageClassName }}"
-# ---
-# apiVersion: v1
-# kind: PersistentVolumeClaim
-# metadata:
-#   name: store-data
-# spec:
-#   accessModes:
-#   - ReadOnlyMany
-#   resources:
-#     requests:
-#       storage: 5Gi
-#   storageClassName: "{{ $.Values.persistence.storageClassName }}"
-#   selector:
-#     matchLabels:
-#       name: store-data
-# ---
+{{- if and .Values.store.persistence.enabled (not .Values.store.persistence.existingClaim)}}
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: store-data
+  namespace: {{ $.Release.Namespace }}
+  labels:
+    {{- include "ocis.labels" . | nindent 4 }}
+  {{- with .Values.store.persistence.annotations  }}
+  annotations:
+{{ toYaml . | indent 4 }}
+  {{- end }}
+  {{- with .Values.store.persistence.finalizers  }}
+  finalizers:
+{{ toYaml . | indent 4 }}
+  {{- end }}
+spec:
+  accessModes:
+    {{- range .Values.store.persistence.accessModes }}
+    - {{ . | quote }}
+    {{- end }}
+  resources:
+    requests:
+      storage: {{ .Values.store.persistence.size | quote }}
+  {{- if .Values.store.persistence.storageClassName }}
+  storageClassName: {{ .Values.store.persistence.storageClassName }}
+  {{- end -}}
+  {{- with .Values.store.persistence.selectorLabels }}
+  selector:
+    matchLabels:
+{{ toYaml . | indent 6 }}
+  {{- end }}
+{{- end -}}

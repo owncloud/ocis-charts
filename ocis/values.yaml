@@ -1,13 +1,19 @@
-images:
-  oCIS: owncloud/ocis:latest@sha256:da5b43943329c60940f53cd56c66a7b8cb3aa6d5b43be531d960108b064a6928
+image:
+  repository: owncloud/ocis
+  tag: latest
+  sha: ""
+  pullPolicy: IfNotPresent
 
 logging:
-  level: "debug"
-  pretty: "true"
-  color: "true"
+  level: "error"
+  pretty: "false"
+  color: "false"
 
 externalDomain: ocis.kube.w-kl.xyz
+
 tls:
+  # proxy will provide self signed certificate
+  # http is not any good and https is also hardcoded in this chart
   enabled: false
 
 #TODO: define secrets in secrets...
@@ -16,6 +22,57 @@ secrets:
   machineAuth: blabla
   transfer: lorem123
 
-persistence:
-  enabled: true
-  storageClassName: rook-ceph-block
+# Apply extra labels to common labels.
+extraLabels: {}
+
+storageMetadata:
+  persistence:
+    enabled: true
+    # storageClassName: default
+    accessModes:
+      - ReadWriteMany
+    size: 5Gi
+    annotations: {}
+    finalizers:
+      - kubernetes.io/pvc-protection
+    selectorLabels: {}
+    # existingClaim:
+
+storageSharing:
+  persistence:
+    enabled: true
+    # storageClassName: default
+    accessModes:
+      - ReadWriteMany
+    size: 5Gi
+    annotations: {}
+    finalizers:
+      - kubernetes.io/pvc-protection
+    selectorLabels: {}
+    # existingClaim:
+
+storageUsers:
+  persistence:
+    enabled: true
+    # storageClassName: default
+    accessModes:
+      - ReadWriteMany
+    size: 5Gi
+    annotations: {}
+    finalizers:
+      - kubernetes.io/pvc-protection
+    selectorLabels: {}
+    # existingClaim:
+
+store:
+  persistence:
+    enabled: true
+    # storageClassName: default
+    accessModes:
+      - ReadWriteMany
+    size: 5Gi
+    annotations: {}
+    finalizers:
+      - kubernetes.io/pvc-protection
+    selectorLabels: {}
+    # existingClaim:

@@ -1,29 +1,33 @@
-#---
-#apiVersion: v1
-#kind: PersistentVolume
-#metadata:
-#  name: storage-users-data
-#  labels:
-#    name: storage-users-data
-#spec:
-#  accessModes:
-#  - ReadOnlyMany
-#  capacity:
-#    storage: 50Gi
-#  storageClassName: "{{ $.Values.persistence.storageClassName }}"
-#---
-#apiVersion: v1
-#kind: PersistentVolumeClaim
-#metadata:
-#  name: storage-users-data
-#spec:
-#  accessModes:
-#  - ReadOnlyMany
-#  resources:
-#    requests:
-#      storage: 50Gi
-#  storageClassName: "{{ $.Values.persistence.storageClassName }}"
-#  selector:
-#    matchLabels:
-#      name: storage-users-data
-#---
+{{- if and .Values.storageUsers.persistence.enabled (not .Values.storageUsers.persistence.existingClaim)}}
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: storage-users-data
+  namespace: {{ $.Release.Namespace }}
+  labels:
+    {{- include "ocis.labels" . | nindent 4 }}
+  {{- with .Values.storageUsers.persistence.annotations  }}
+  annotations:
+{{ toYaml . | indent 4 }}
+  {{- end }}
+  {{- with .Values.storageUsers.persistence.finalizers  }}
+  finalizers:
+{{ toYaml . | indent 4 }}
+  {{- end }}
+spec:
+  accessModes:
+    {{- range .Values.storageUsers.persistence.accessModes }}
+    - {{ . | quote }}
+    {{- end }}
+  resources:
+    requests:
+      storage: {{ .Values.storageUsers.persistence.size | quote }}
+  {{- if .Values.storageUsers.persistence.storageClassName }}
+  storageClassName: {{ .Values.storageUsers.persistence.storageClassName }}
+  {{- end -}}
+  {{- with .Values.storageUsers.persistence.selectorLabels }}
+  selector:
+    matchLabels:
+{{ toYaml . | indent 6 }}
+  {{- end }}
+{{- end -}}

@@ -2,8 +2,9 @@ apiVersion: v1
 kind: Service
 metadata:
   name: webdav
+  namespace: {{ $.Release.Namespace }}
   labels:
-    app: webdav
+    {{- include "ocis.labels" . | nindent 4 }}
 spec:
   ports:
   - name: http

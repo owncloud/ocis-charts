@@ -2,6 +2,9 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: storage-users
+  namespace: {{ $.Release.Namespace }}
+  labels:
+    {{- include "ocis.labels" . | nindent 4 }}
 spec:
   selector:
     matchLabels:
@@ -14,7 +17,11 @@ spec:
     spec:
       containers:
         - name: store
-          image: "{{ $.Values.images.oCIS }}"
+          {{- if .Values.image.sha }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}@sha256:{{ .Values.image.sha }}"
+          {{- else }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          {{- end }}
           command: ["ocis"]
           args: ["storage-users", "server"]
           env:
@@ -57,10 +64,14 @@ spec:
           ports:
           - containerPort: 9157 # GRPC
           - containerPort: 9158 # HTTP
-#          volumeMounts:
-#          - name: storage-users-data
-#            mountPath: /var/lib/ocis
-#      volumes:
-#        - name: storage-users-data
-#          persistentVolumeClaim:
-#            claimName: storage-users-data
+          {{- if $.Values.storageMetadata.persistence.enabled }}
+          volumeMounts:
+          - name: storage-users-data
+            mountPath: /var/lib/ocis
+          {{ end }}
+      {{- if $.Values.storageMetadata.persistence.enabled }}
+      volumes:
+        - name: storage-users-data
+          persistentVolumeClaim:
+            claimName: storage-users-data
+      {{ end }}          
