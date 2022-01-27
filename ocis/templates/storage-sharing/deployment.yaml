@@ -66,4 +66,4 @@ spec:
         - name: storage-sharing-data
           persistentVolumeClaim:
             claimName: storage-sharing-data
-      {{ end }}          
+      {{ end }}

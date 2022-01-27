@@ -56,4 +56,4 @@ spec:
         - name: settings-data
           persistentVolumeClaim:
             claimName: settings-data
-      {{ end }}          
+      {{ end }}

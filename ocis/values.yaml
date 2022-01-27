@@ -11,6 +11,19 @@ logging:
 
 externalDomain: ocis.kube.w-kl.xyz
 
+ingress:
+  enabled: false
+  #ingressClassName: nginx
+  annotations: {}
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+  labels: {}
+
+  tls: []
+  #  - secretName: chart-example-tls
+  #    hosts:
+  #      - chart-example.local
+
 tls:
   # proxy will provide self signed certificate
   # http is not any good and https is also hardcoded in this chart
@@ -74,5 +87,17 @@ store:
     annotations: {}
     finalizers:
       - kubernetes.io/pvc-protection
+    selectorLabels: {}
+    # existingClaim:
+
+thumbnails:
+  persistence:
+    enabled: false
+    # storageClassName: default
+    accessModes:
+      - ReadWriteMany
+    size: 5Gi
+    annotations: {}
+    finalizers: []
     selectorLabels: {}
     # existingClaim:

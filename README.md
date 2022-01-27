@@ -7,7 +7,7 @@ This chart is still in an experimental phase, and it has not yet been published.
 Make sure to read the gotchas on the charts before attempting to run any, this project is still under heavy development.
 
 1. Clone this repo
-2. Install dependencies 
+2. Install dependencies
     - [Helm](https://helm.sh/docs/intro/install/)
     - [Minikube](https://minikube.sigs.k8s.io/docs/start/)
 3. Run `helm install ocis-refs ocis`
@@ -18,7 +18,7 @@ Verifying everything is running smooth can be done with `kubectl get services` a
 $ helm list
 NAME            NAMESPACE       REVISION        UPDATED                                 STATUS          CHART           APP VERSION
 ocis-refs       default         1               2020-12-29 12:15:07.455781 +0100 CET    deployed        refs-ocis-0.1.0 1.0.0-rc8
-``` 
+```
 
 ### Dry runs
 There are time when before upgrading you'd like to see the output of the yaml files that will be sent to Kubernetes, for that there is a little helper script `dry-run.sh`.

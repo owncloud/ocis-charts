@@ -53,4 +53,4 @@ spec:
         - name: store-data
           persistentVolumeClaim:
             claimName: store-data
-      {{ end }}          
+      {{ end }}

@@ -71,4 +71,3 @@ spec:
           persistentVolumeClaim:
             claimName: storage-metadata-data
       {{ end }}
-
