@@ -9,7 +9,9 @@ spec:
   selector:
     matchLabels:
         app: storage-gateway
-  replicas: 2 # TODO: minimum 2, else REVA_GATEWAY won't resolve for itself
+  {{- if and (not .Values.autoscaling.enabled) (.Values.replicas) }}
+  replicas: {{ .Values.replicas }}
+  {{- end }}
   template:
     metadata:
       labels:
@@ -70,5 +72,6 @@ spec:
               value: "{{ $.Values.secrets.jwt }}"
             - name: STORAGE_TRANSFER_SECRET
               value: "{{ $.Values.secrets.transfer }}"
+          resources: {{ toYaml .Values.resources | nindent 12 }}
           ports:
             - containerPort: 9142 # GRPC

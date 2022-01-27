@@ -9,7 +9,9 @@ spec:
   selector:
     matchLabels:
         app: web
-  replicas: 1
+  {{- if and (not .Values.autoscaling.enabled) (.Values.replicas) }}
+  replicas: {{ .Values.replicas }}
+  {{- end }}
   template:
     metadata:
       labels:
@@ -44,5 +46,6 @@ spec:
               value: "https://{{ $.Values.externalDomain }}"
             - name: WEB_UI_CONFIG_SERVER
               value: "https://{{ $.Values.externalDomain }}"
+          resources: {{ toYaml .Values.resources | nindent 12 }}
           ports:
           - containerPort: 9100 # HTTP

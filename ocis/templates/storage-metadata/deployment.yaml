@@ -9,7 +9,7 @@ spec:
   selector:
     matchLabels:
         app: storage-metadata
-  replicas: 1
+  replicas: 1 #TODO: scale out?
   template:
     metadata:
       labels:
@@ -27,9 +27,6 @@ spec:
           env:
             - name: MICRO_REGISTRY
               value: kubernetes
-
-            - name: foo
-              value: baz
 
             - name: OCIS_LOG_COLOR
               value: "{{ $.Values.logging.color }}"
@@ -57,6 +54,7 @@ spec:
 
             - name: REVA_GATEWAY
               value: "storage-gateway:9142"
+          resources: {{ toYaml .Values.resources | nindent 12 }}
           ports:
           - containerPort: 9215 # GRPC
           - containerPort: 9216 # HTTP

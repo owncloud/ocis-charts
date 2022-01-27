@@ -9,7 +9,7 @@ spec:
   selector:
     matchLabels:
         app: settings
-  replicas: 1
+  replicas: 1 #TODO: scale out?
   template:
     metadata:
       labels:
@@ -43,6 +43,7 @@ spec:
 
             - name: SETTINGS_JWT_SECRET
               value: "{{ $.Values.secrets.jwt }}"
+          resources: {{ toYaml .Values.resources | nindent 12 }}
           ports:
           - containerPort: 9190 # HTTP
           - containerPort: 9191 # GRPC
@@ -50,6 +51,7 @@ spec:
           volumeMounts:
           - name: settings-data
             mountPath: /var/lib/ocis
+            # TODO: check why we loose roles after a settings restart
           {{ end }}
       {{- if $.Values.settings.persistence.enabled }}
       volumes:

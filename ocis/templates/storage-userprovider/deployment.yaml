@@ -9,7 +9,9 @@ spec:
   selector:
     matchLabels:
         app: storage-userprovider
-  replicas: 1
+  {{- if and (not .Values.autoscaling.enabled) (.Values.replicas) }}
+  replicas: {{ .Values.replicas }}
+  {{- end }}
   template:
     metadata:
       labels:
@@ -57,5 +59,6 @@ spec:
 
             - name: REVA_GATEWAY
               value: storage-gateway:9142
+          resources: {{ toYaml .Values.resources | nindent 12 }}
           ports:
           - containerPort: 9144 # GRPC

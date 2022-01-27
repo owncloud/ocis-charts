@@ -9,7 +9,9 @@ spec:
   selector:
     matchLabels:
         app: graph
-  replicas: 1
+  {{- if and (not .Values.autoscaling.enabled) (.Values.replicas) }}
+  replicas: {{ .Values.replicas }}
+  {{- end }}
   template:
     metadata:
       labels:
@@ -49,5 +51,6 @@ spec:
 
             - name: GRAPH_LDAP_URI
               value: ldap://glauth:9125
+          resources: {{ toYaml .Values.resources | nindent 12 }}
           ports:
           - containerPort: 9120 # HTTP

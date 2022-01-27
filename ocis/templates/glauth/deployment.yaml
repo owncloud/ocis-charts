@@ -9,7 +9,9 @@ spec:
   selector:
     matchLabels:
         app: glauth
-  replicas: 1
+  {{- if and (not .Values.autoscaling.enabled) (.Values.replicas) }}
+  replicas: {{ .Values.replicas }}
+  {{- end }}
   template:
     metadata:
       labels:
@@ -42,6 +44,7 @@ spec:
 
             - name: GLAUTH_BACKEND_INSECURE
               value: "true"
+          resources: {{ toYaml .Values.resources | nindent 12 }}
           ports:
           - containerPort: 9125 # LDAP
           - containerPort: 9126 # LDAPS

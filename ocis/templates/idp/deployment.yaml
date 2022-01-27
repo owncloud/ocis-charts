@@ -9,7 +9,7 @@ spec:
   selector:
     matchLabels:
         app: idp
-  replicas: 1
+  replicas: 1 #TODO: scale out ?
   template:
     metadata:
       labels:
@@ -45,5 +45,6 @@ spec:
               value: ldap://glauth:9125
             - name : IDP_INSECURE
               value: "true"
+          resources: {{ toYaml .Values.resources | nindent 12 }}
           ports:
           - containerPort: 9130 # HTTP

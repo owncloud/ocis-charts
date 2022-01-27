@@ -9,7 +9,7 @@ spec:
   selector:
     matchLabels:
         app: storage-sharing
-  replicas: 1
+  replicas: 1 #TODO: scale out?
   template:
     metadata:
       labels:
@@ -54,6 +54,7 @@ spec:
               value: "{{ $.Values.secrets.jwt }}"
             - name: REVA_GATEWAY
               value: "storage-gateway:9142"
+          resources: {{ toYaml .Values.resources | nindent 12 }}
           ports:
           - containerPort: 9150 # GRPC
           {{- if $.Values.storageMetadata.persistence.enabled }}
