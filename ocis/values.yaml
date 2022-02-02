@@ -9,7 +9,7 @@ logging:
   pretty: "false"
   color: "false"
 
-externalDomain: ocis.kube.w-kl.xyz
+externalDomain: ocis.kube.owncloud.test
 
 ingress:
   enabled: false
@@ -27,6 +27,7 @@ ingress:
 tls:
   # proxy will provide self signed certificate
   # http is not any good and https is also hardcoded in this chart
+  # but one might might want to disable
   enabled: false
 
 #TODO: define secrets in secrets...
@@ -70,7 +71,7 @@ storageUsers:
     # storageClassName: default
     accessModes:
       - ReadWriteMany
-    size: 5Gi
+    size: 50Gi
     annotations: {}
     finalizers:
       - kubernetes.io/pvc-protection
