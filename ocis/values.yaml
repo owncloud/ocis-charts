@@ -131,3 +131,23 @@ resources: {}
 #  requests:
 #    cpu: 100m
 #    memory: 128Mi
+
+
+# Include arbitrary resources, eg. config maps or a cer-manager issuer (see example below)
+extraResources: []
+#  - |
+#    apiVersion: cert-manager.io/v1alpha2
+#    kind: Issuer
+#    metadata:
+#      name: ocis-certificate-issuer
+#      namespace: ocis
+#    spec:
+#      acme:
+#        server: https://acme-v02.api.letsencrypt.org/directory
+#        email: test@example.com
+#        privateKeySecretRef:
+#          name: ocis-certificate-issuer
+#        solvers:
+#        - http01:
+#            ingress:
+#              class: nginx
