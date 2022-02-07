@@ -67,6 +67,8 @@ spec:
               value: "storage-groupprovider:9160"
             - name: STORAGE_USERPROVIDER_ENDPOINT
               value: "storage-userprovider:9144"
+            - name: STORAGE_PERMISSIONS_ENDPOINT
+              value: "settings:9191"
 
             - name: STORAGE_JWT_SECRET
               value: "{{ $.Values.secrets.jwt }}"
