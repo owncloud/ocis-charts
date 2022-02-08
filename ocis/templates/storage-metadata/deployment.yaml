@@ -1,0 +1,71 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: storage-metadata
+  namespace: {{ $.Release.Namespace }}
+  labels:
+    {{- include "ocis.labels" . | nindent 4 }}
+spec:
+  selector:
+    matchLabels:
+        app: storage-metadata
+  replicas: 1 #TODO: scale out?
+  template:
+    metadata:
+      labels:
+          app: storage-metadata
+    spec:
+      containers:
+        - name: store
+          {{- if .Values.image.sha }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}@sha256:{{ .Values.image.sha }}"
+          {{- else }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          {{- end }}
+          command: ["ocis"]
+          args: ["storage-metadata", "server"]
+          env:
+            - name: MICRO_REGISTRY
+              value: kubernetes
+
+            - name: OCIS_LOG_COLOR
+              value: "{{ $.Values.logging.color }}"
+            - name: OCIS_LOG_LEVEL
+              value: "{{ $.Values.logging.level }}"
+            - name: OCIS_LOG_PRETTY
+              value: "{{ $.Values.logging.pretty }}"
+
+            - name: STORAGE_HOME_DATAPROVIDER_INSECURE
+              value: "true"
+            - name: STORAGE_METADATA_GRPC_PROVIDER_ADDR
+              value: 0.0.0.0:9215
+            - name: STORAGE_METADATA_HTTP_ADDR
+              value: 0.0.0.0:9216
+            - name: STORAGE_METADATA_DATA_SERVER_URL
+              value: "http://storage-metadata:9216/data"
+
+            - name: OCIS_JWT_SECRET
+              value: "{{ $.Values.secrets.jwt }}"
+            - name: STORAGE_TRANSFER_SECRET
+              value: "{{ $.Values.secrets.transfer }}"
+
+            - name: STORAGE_METADATA_DRIVER
+              value: "ocis"
+
+            - name: REVA_GATEWAY
+              value: "storage-gateway:9142"
+          resources: {{ toYaml .Values.resources | nindent 12 }}
+          ports:
+          - containerPort: 9215 # GRPC
+          - containerPort: 9216 # HTTP
+          {{- if $.Values.storageMetadata.persistence.enabled }}
+          volumeMounts:
+          - name: storage-metadata-data
+            mountPath: /var/lib/ocis
+          {{ end }}
+      {{- if $.Values.storageMetadata.persistence.enabled }}
+      volumes:
+        - name: storage-metadata-data
+          persistentVolumeClaim:
+            claimName: storage-metadata-data
+      {{ end }}

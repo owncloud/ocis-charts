@@ -1,12 +1,34 @@
-images:
-  oCIS: owncloud/ocis:latest@sha256:72ce56d16bb5d5be4298277b2c9ac70a949f3664e4fbe7db4d14de314c3fe23f
+image:
+  repository: owncloud/ocis
+  tag: latest
+  sha: ""
+  pullPolicy: IfNotPresent
 
 logging:
-  level: "debug"
-  pretty: "true"
-  color: "true"
+  level: "error"
+  pretty: "false"
+  color: "false"
 
-external_domain: ocis.minikube.test
+externalDomain: ocis.kube.owncloud.test
+
+ingress:
+  enabled: false
+  #ingressClassName: nginx
+  annotations: {}
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+  labels: {}
+
+  tls: []
+  #  - secretName: chart-example-tls
+  #    hosts:
+  #      - chart-example.local
+
+tls:
+  # proxy will provide self signed certificate
+  # http is not any good and https is also hardcoded in this chart
+  # but one might might want to disable
+  enabled: false
 
 #TODO: define secrets in secrets...
 secrets:
@@ -14,6 +36,118 @@ secrets:
   machineAuth: blabla
   transfer: lorem123
 
-persistence:
+# Apply extra labels to common labels.
+extraLabels: {}
+
+storageMetadata:
+  persistence:
+    enabled: true
+    # storageClassName: default
+    accessModes:
+      - ReadWriteMany
+    size: 5Gi
+    annotations: {}
+    finalizers:
+      - kubernetes.io/pvc-protection
+    selectorLabels: {}
+    # existingClaim:
+
+storageSharing:
+  persistence:
+    enabled: true
+    # storageClassName: default
+    accessModes:
+      - ReadWriteMany
+    size: 5Gi
+    annotations: {}
+    finalizers:
+      - kubernetes.io/pvc-protection
+    selectorLabels: {}
+    # existingClaim:
+
+storageUsers:
+  persistence:
+    enabled: true
+    # storageClassName: default
+    accessModes:
+      - ReadWriteMany
+    size: 50Gi
+    annotations: {}
+    finalizers:
+      - kubernetes.io/pvc-protection
+    selectorLabels: {}
+    # existingClaim:
+
+store:
+  persistence:
+    enabled: true
+    # storageClassName: default
+    accessModes:
+      - ReadWriteMany
+    size: 5Gi
+    annotations: {}
+    finalizers:
+      - kubernetes.io/pvc-protection
+    selectorLabels: {}
+    # existingClaim:
+
+thumbnails:
+  persistence:
+    enabled: false
+    # storageClassName: default
+    accessModes:
+      - ReadWriteMany
+    size: 5Gi
+    annotations: {}
+    finalizers: []
+    selectorLabels: {}
+    # existingClaim:
+
+
+# global options for scalable service
+replicas: 1
+
+## Create HorizontalPodAutoscaler object for deployment type
+#
+autoscaling:
   enabled: false
-  storageClassName: standard
+#   minReplicas: 1
+#   maxReplicas: 10
+#   metrics:
+#   - type: Resource
+#     resource:
+#       name: cpu
+#       targetAverageUtilization: 60
+#   - type: Resource
+#     resource:
+#       name: memory
+#       targetAverageUtilization: 60
+
+# currently resources are globally applied to all services if set
+resources: {}
+#  limits:
+#    cpu: 100m
+#    memory: 128Mi
+#  requests:
+#    cpu: 100m
+#    memory: 128Mi
+
+
+# Include arbitrary resources, eg. config maps or a cer-manager issuer (see example below)
+extraResources: []
+#  - |
+#    apiVersion: cert-manager.io/v1alpha2
+#    kind: Issuer
+#    metadata:
+#      name: ocis-certificate-issuer
+#      namespace: ocis
+#    spec:
+#      acme:
+#        server: https://acme-v02.api.letsencrypt.org/directory
+#        email: test@example.com
+#        privateKeySecretRef:
+#          name: ocis-certificate-issuer
+#        solvers:
+#        - http01:
+#            ingress:
+#              class: nginx

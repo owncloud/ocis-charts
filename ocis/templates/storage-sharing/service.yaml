@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: storage-sharing
+  namespace: {{ $.Release.Namespace }}
+  labels:
+    {{- include "ocis.labels" . | nindent 4 }}
+spec:
+  ports:
+  - name: grpc
+    port: 9150
+    protocol: TCP
+  selector:
+    app: storage-sharing

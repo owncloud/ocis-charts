@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: idp
+  namespace: {{ $.Release.Namespace }}
+  labels:
+    {{- include "ocis.labels" . | nindent 4 }}
+spec:
+  ports:
+  - name: http
+    port: 9130
+    protocol: TCP
+  selector:
+    app: idp

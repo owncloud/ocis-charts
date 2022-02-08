@@ -1,0 +1,33 @@
+{{- if and .Values.storageSharing.persistence.enabled (not .Values.storageSharing.persistence.existingClaim)}}
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: storage-sharing-data
+  namespace: {{ $.Release.Namespace }}
+  labels:
+    {{- include "ocis.labels" . | nindent 4 }}
+  {{- with .Values.storageSharing.persistence.annotations  }}
+  annotations:
+{{ toYaml . | indent 4 }}
+  {{- end }}
+  {{- with .Values.storageSharing.persistence.finalizers  }}
+  finalizers:
+{{ toYaml . | indent 4 }}
+  {{- end }}
+spec:
+  accessModes:
+    {{- range .Values.storageSharing.persistence.accessModes }}
+    - {{ . | quote }}
+    {{- end }}
+  resources:
+    requests:
+      storage: {{ .Values.storageSharing.persistence.size | quote }}
+  {{- if .Values.storageSharing.persistence.storageClassName }}
+  storageClassName: {{ .Values.storageSharing.persistence.storageClassName }}
+  {{- end -}}
+  {{- with .Values.storageSharing.persistence.selectorLabels }}
+  selector:
+    matchLabels:
+{{ toYaml . | indent 6 }}
+  {{- end }}
+{{- end -}}

@@ -1,0 +1,61 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: thumbnails
+  namespace: {{ $.Release.Namespace }}
+  labels:
+    {{- include "ocis.labels" . | nindent 4 }}
+spec:
+  selector:
+    matchLabels:
+        app: thumbnails
+  {{- if and (not .Values.autoscaling.enabled) (.Values.replicas) }}
+  replicas: {{ .Values.replicas }}
+  {{- end }}
+  template:
+    metadata:
+      labels:
+          app: thumbnails
+    spec:
+      containers:
+        - name: thumbnails
+          {{- if .Values.image.sha }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}@sha256:{{ .Values.image.sha }}"
+          {{- else }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          {{- end }}
+          command: ["ocis"]
+          args: ["thumbnails", "server"]
+          env:
+            - name: MICRO_REGISTRY
+              value: kubernetes
+
+            - name: THUMBNAILS_LOG_COLOR
+              value: "{{ $.Values.logging.color }}"
+            - name: THUMBNAILS_LOG_LEVEL
+              value: "{{ $.Values.logging.level }}"
+            - name: THUMBNAILS_LOG_PRETTY
+              value: "{{ $.Values.logging.pretty }}"
+
+            - name: THUMBNAILS_GRPC_ADDR
+              value: 0.0.0.0:9185
+
+            - name: THUMBNAILS_CS3SOURCE_INSECURE
+              value: "true"
+
+            - name: REVA_GATEWAY
+              value: storage-gateway:9142
+          resources: {{ toYaml .Values.resources | nindent 12 }}
+          ports:
+          - containerPort: 9185 # GRPC
+          {{- if $.Values.thumbnails.persistence.enabled }}
+          volumeMounts:
+          - name: thumbnails-data
+            mountPath: /var/lib/ocis
+          {{ end }}
+      {{- if $.Values.thumbnails.persistence.enabled }}
+      volumes:
+        - name: thumbnails-data
+          persistentVolumeClaim:
+            claimName: thumbnails-data
+      {{ end }}

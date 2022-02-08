@@ -1,0 +1,78 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: storage-users
+  namespace: {{ $.Release.Namespace }}
+  labels:
+    {{- include "ocis.labels" . | nindent 4 }}
+spec:
+  selector:
+    matchLabels:
+        app: storage-users
+  replicas: 1 #TODO: scale out!!!?
+  template:
+    metadata:
+      labels:
+          app: storage-users
+    spec:
+      containers:
+        - name: store
+          {{- if .Values.image.sha }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}@sha256:{{ .Values.image.sha }}"
+          {{- else }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          {{- end }}
+          command: ["ocis"]
+          args: ["storage-users", "server"]
+          env:
+            - name: MICRO_REGISTRY
+              value: kubernetes
+
+            - name: OCIS_LOG_COLOR
+              value: "{{ $.Values.logging.color }}"
+            - name: OCIS_LOG_LEVEL
+              value: "{{ $.Values.logging.level }}"
+            - name: OCIS_LOG_PRETTY
+              value: "{{ $.Values.logging.pretty }}"
+
+            - name: STORAGE_USERS_DATAPROVIDER_INSECURE
+              value: "true"
+
+            - name: STORAGE_USERS_DRIVER
+              value: "ocis"
+
+            - name: STORAGE_USERS_GRPC_ADDR
+              value: 0.0.0.0:9157
+            - name: STORAGE_USERS_ENDPOINT
+              value: 'storage-users:9157'
+
+            - name: STORAGE_USERS_HTTP_ADDR
+              value: 0.0.0.0:9158
+            - name: STORAGE_USERS_DATA_SERVER_URL
+              value: "http://storage-users:9158/data"
+
+            - name: STORAGE_JWT_SECRET
+              value: "{{ $.Values.secrets.jwt }}"
+            - name: STORAGE_TRANSFER_SECRET
+              value: "{{ $.Values.secrets.transfer }}"
+
+            - name: STORAGE_USERS_DRIVER
+              value: "ocis" #TODO: use S3!?
+
+            - name: REVA_GATEWAY
+              value: "storage-gateway:9142"
+          resources: {{ toYaml .Values.resources | nindent 12 }}
+          ports:
+          - containerPort: 9157 # GRPC
+          - containerPort: 9158 # HTTP
+          {{- if $.Values.storageMetadata.persistence.enabled }}
+          volumeMounts:
+          - name: storage-users-data
+            mountPath: /var/lib/ocis
+          {{ end }}
+      {{- if $.Values.storageMetadata.persistence.enabled }}
+      volumes:
+        - name: storage-users-data
+          persistentVolumeClaim:
+            claimName: storage-users-data
+      {{ end }}

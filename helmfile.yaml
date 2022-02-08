@@ -1,5 +1,0 @@
-releases:
-  - name: ocis
-    namespace: ocis-testing
-    chart: ./ocis
-    #values:

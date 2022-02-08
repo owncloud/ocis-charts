@@ -1,0 +1,83 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: proxy
+  namespace: {{ $.Release.Namespace }}
+  labels:
+    {{- include "ocis.labels" . | nindent 4 }}
+spec:
+  selector:
+    matchLabels:
+        app: proxy
+  {{- if and (not .Values.autoscaling.enabled) (.Values.replicas) }}
+  replicas: {{ .Values.replicas }}
+  {{- end }}
+  template:
+    metadata:
+      labels:
+          app: proxy
+    spec:
+      #hostAliases:
+      #  - ip: "127.0.0.1"
+      #    hostnames:
+      #      - "{{ $.Values.externalDomain }}"
+      containers:
+        #- name: idp-hack-sidecar
+        #  image: alpine/socat
+        #  args: ["tcp-l:443,fork,reuseaddr", "tcp:127.0.0.1:9200"]
+        - name: proxy
+          {{- if .Values.image.sha }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}@sha256:{{ .Values.image.sha }}"
+          {{- else }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          {{- end }}
+          command: ["ocis"]
+          args: ["proxy", "server"]
+          env:
+            - name: MICRO_REGISTRY
+              value: kubernetes
+
+            - name: PROXY_LOG_COLOR
+              value: "{{ $.Values.logging.color }}"
+            - name: PROXY_LOG_LEVEL
+              value: "{{ $.Values.logging.level }}"
+            - name: PROXY_LOG_PRETTY
+              value: "{{ $.Values.logging.pretty }}"
+
+            - name: PROXY_HTTP_ADDR
+              value: 0.0.0.0:9200
+            - name: PROXY_AUTOPROVISION_ACCOUNTS
+              value: "true"
+            - name: PROXY_ENABLE_BASIC_AUTH
+              value: "true"
+            - name: PROXY_OIDC_ISSUER
+              value: "https://{{ $.Values.externalDomain }}"
+            - name: PROXY_TLS
+            {{- if $.Values.tls.enabled }}
+              value: "true"
+            {{ else }}
+              value: "false"
+            {{ end }}
+
+            - name: PROXY_JWT_SECRET
+              value: "{{ $.Values.secrets.jwt }}"
+            - name: PROXY_MACHINE_AUTH_API_KEY
+              value: "{{ $.Values.secrets.machineAuth }}"
+
+            - name: PROXY_OIDC_INSECURE
+              value: "true"
+            - name: PROXY_INSECURE_BACKENDS
+              value: "false"
+
+            - name: REVA_GATEWAY
+              value: storage-gateway:9142
+          resources: {{ toYaml .Values.resources | nindent 12 }}
+          ports:
+          - containerPort: 9200
+          volumeMounts:
+          - name: configs
+            mountPath: /etc/ocis
+      volumes:
+        - name: configs
+          configMap:
+            name: proxy-config

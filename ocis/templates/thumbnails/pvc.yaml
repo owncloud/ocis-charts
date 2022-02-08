@@ -1,0 +1,33 @@
+{{- if and .Values.thumbnails.persistence.enabled (not .Values.thumbnails.persistence.existingClaim)}}
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: thumbnails-data
+  namespace: {{ $.Release.Namespace }}
+  labels:
+    {{- include "ocis.labels" . | nindent 4 }}
+  {{- with .Values.thumbnails.persistence.annotations  }}
+  annotations:
+{{ toYaml . | indent 4 }}
+  {{- end }}
+  {{- with .Values.thumbnails.persistence.finalizers  }}
+  finalizers:
+{{ toYaml . | indent 4 }}
+  {{- end }}
+spec:
+  accessModes:
+    {{- range .Values.thumbnails.persistence.accessModes }}
+    - {{ . | quote }}
+    {{- end }}
+  resources:
+    requests:
+      storage: {{ .Values.thumbnails.persistence.size | quote }}
+  {{- if .Values.thumbnails.persistence.storageClassName }}
+  storageClassName: {{ .Values.thumbnails.persistence.storageClassName }}
+  {{- end -}}
+  {{- with .Values.thumbnails.persistence.selectorLabels }}
+  selector:
+    matchLabels:
+{{ toYaml . | indent 6 }}
+  {{- end }}
+{{- end -}}

@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webdav
+  namespace: {{ $.Release.Namespace }}
+  labels:
+    {{- include "ocis.labels" . | nindent 4 }}
+spec:
+  selector:
+    matchLabels:
+        app: webdav
+  {{- if and (not .Values.autoscaling.enabled) (.Values.replicas) }}
+  replicas: {{ .Values.replicas }}
+  {{- end }}
+  template:
+    metadata:
+      labels:
+          app: webdav
+    spec:
+      containers:
+        - name: webdav
+          {{- if .Values.image.sha }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}@sha256:{{ .Values.image.sha }}"
+          {{- else }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          {{- end }}
+          command: ["ocis"]
+          args: ["webdav", "server"]
+          env:
+            - name: MICRO_REGISTRY
+              value: kubernetes
+
+            - name: WEBDAV_LOG_COLOR
+              value: "{{ $.Values.logging.color }}"
+            - name: WEBDAV_LOG_LEVEL
+              value: "{{ $.Values.logging.level }}"
+            - name: WEBDAV_LOG_PRETTY
+              value: "{{ $.Values.logging.pretty }}"
+
+            - name: WEBDAV_HTTP_ADDR
+              value: 0.0.0.0:9115
+
+            - name: OCIS_PUBLIC_URL
+              value: "https://{{ $.Values.externalDomain }}"
+            - name: REVA_GATEWAY
+              value: "storage-gateway:9142"
+          resources: {{ toYaml .Values.resources | nindent 12 }}
+          ports:
+          - containerPort: 9115 # HTTP
