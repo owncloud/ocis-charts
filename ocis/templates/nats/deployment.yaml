@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nats
+  namespace: {{ $.Release.Namespace }}
+  labels:
+    {{- include "ocis.labels" . | nindent 4 }}
+spec:
+  selector:
+    matchLabels:
+        app: nats
+  {{- if and (not .Values.autoscaling.enabled) (.Values.replicas) }}
+  replicas: {{ .Values.replicas }}
+  {{- end }}
+  template:
+    metadata:
+      labels:
+          app: nats
+    spec:
+      containers:
+        - name: nats
+          {{- if .Values.image.sha }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}@sha256:{{ .Values.image.sha }}"
+          {{- else }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          {{- end }}
+          command: ["ocis"]
+          args: ["nats-server", "server"]
+          env:
+            - name: NATS_LOG_COLOR
+              value: "{{ $.Values.logging.color }}"
+            - name: NATS_LOG_LEVEL
+              value: "{{ $.Values.logging.level }}"
+            - name: NATS_LOG_PRETTY
+              value: "{{ $.Values.logging.pretty }}"
+
+            - name: NATS_NATS_HOST
+              value: "0.0.0.0"
+            - name: NATS_NATS_PORT
+              value: "9233"
+
+          resources: {{ toYaml .Values.resources | nindent 12 }}
+          ports:
+          - containerPort: 9233 # NATS
