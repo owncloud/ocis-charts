@@ -66,6 +66,9 @@ spec:
             - name: STORAGE_SHARING_PUBLIC_DRIVER
               value: "json"
 
+            - name: STORAGE_SHARING_EVENTS_ADDRESS
+              value: nats:9233
+
             - name: STORAGE_JWT_SECRET
               value: "{{ $.Values.secrets.jwt }}"
             - name: REVA_GATEWAY
