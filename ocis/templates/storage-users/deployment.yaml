@@ -25,6 +25,7 @@ spec:
           {{- else }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           {{- end }}
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
           command: ["ocis"]
           args: ["storage-users", "server"]
           env:
