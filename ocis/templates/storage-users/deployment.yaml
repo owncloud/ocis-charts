@@ -95,12 +95,12 @@ spec:
           ports:
           - containerPort: 9157 # GRPC
           - containerPort: 9158 # HTTP
-          {{- if $.Values.storageMetadata.persistence.enabled }}
+          {{- if $.Values.storageUsers.persistence.enabled }}
           volumeMounts:
           - name: storage-users-data
             mountPath: /var/lib/ocis
           {{ end }}
-      {{- if $.Values.storageMetadata.persistence.enabled }}
+      {{- if $.Values.storageUsers.persistence.enabled }}
       volumes:
         - name: storage-users-data
           persistentVolumeClaim:

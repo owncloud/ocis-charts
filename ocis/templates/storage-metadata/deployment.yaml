@@ -31,7 +31,7 @@ spec:
             mountPath: /var/lib/ocis
       {{ end }}
       containers:
-        - name: store
+        - name: storage-metadata
           {{- if .Values.image.sha }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}@sha256:{{ .Values.image.sha }}"
           {{- else }}

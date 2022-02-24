@@ -31,7 +31,7 @@ spec:
             mountPath: /var/lib/ocis
       {{ end }}
       containers:
-        - name: store
+        - name: storage-sharing
           {{- if .Values.image.sha }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}@sha256:{{ .Values.image.sha }}"
           {{- else }}
@@ -76,12 +76,12 @@ spec:
           resources: {{ toYaml .Values.resources | nindent 12 }}
           ports:
           - containerPort: 9150 # GRPC
-          {{- if $.Values.storageMetadata.persistence.enabled }}
+          {{- if $.Values.storageSharing.persistence.enabled }}
           volumeMounts:
           - name: storage-sharing-data
             mountPath: /var/lib/ocis
           {{ end }}
-      {{- if $.Values.storageMetadata.persistence.enabled }}
+      {{- if $.Values.storageSharing.persistence.enabled }}
       volumes:
         - name: storage-sharing-data
           persistentVolumeClaim:

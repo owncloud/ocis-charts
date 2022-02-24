@@ -60,12 +60,12 @@ spec:
           resources: {{ toYaml .Values.resources | nindent 12 }}
           ports:
           - containerPort: 9460 # GRPC
-          {{- if $.Values.storageMetadata.persistence.enabled }}
+          {{- if $.Values.store.persistence.enabled }}
           volumeMounts:
           - name: store-data
             mountPath: /var/lib/ocis
           {{ end }}
-      {{- if $.Values.storageMetadata.persistence.enabled }}
+      {{- if $.Values.store.persistence.enabled }}
       volumes:
         - name: store-data
           persistentVolumeClaim:
