@@ -9,9 +9,10 @@ spec:
   selector:
     matchLabels:
         app: nats
-  {{- if and (not .Values.autoscaling.enabled) (.Values.replicas) }}
-  replicas: {{ .Values.replicas }}
-  {{- end }}
+  replicas: 1 #TODO: scale out ?
+  {{- if .Values.deploymentStrategy }}
+  strategy: {{ toYaml .Values.deploymentStrategy | nindent 4 }}
+  {{ end }}
   template:
     metadata:
       labels:

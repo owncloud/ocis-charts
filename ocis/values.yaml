@@ -9,6 +9,9 @@ logging:
   pretty: "false"
   color: "false"
 
+# deploymentStrategy:
+#   type: Recreate
+
 externalDomain: ocis.kube.owncloud.test
 
 ingress:

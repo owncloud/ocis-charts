@@ -10,6 +10,9 @@ spec:
     matchLabels:
         app: idp
   replicas: 1 #TODO: scale out ?
+  {{- if .Values.deploymentStrategy }}
+  strategy: {{ toYaml .Values.deploymentStrategy | nindent 4 }}
+  {{ end }}
   template:
     metadata:
       labels:
