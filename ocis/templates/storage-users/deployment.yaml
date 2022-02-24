@@ -31,7 +31,7 @@ spec:
             mountPath: /var/lib/ocis
       {{ end }}
       containers:
-        - name: store
+        - name: storage-users
           {{- if .Values.image.sha }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}@sha256:{{ .Values.image.sha }}"
           {{- else }}
@@ -51,12 +51,6 @@ spec:
             - name: OCIS_LOG_PRETTY
               value: "{{ $.Values.logging.pretty }}"
 
-            - name: STORAGE_USERS_DATAPROVIDER_INSECURE
-              value: "true"
-
-            - name: STORAGE_USERS_DRIVER
-              value: "ocis"
-
             - name: STORAGE_USERS_GRPC_ADDR
               value: 0.0.0.0:9157
             - name: STORAGE_USERS_ENDPOINT
@@ -67,13 +61,33 @@ spec:
             - name: STORAGE_USERS_DATA_SERVER_URL
               value: "http://storage-users:9158/data"
 
+            - name: STORAGE_USERS_DATAPROVIDER_INSECURE
+              value: "true"
+
+            {{- if  eq $.Values.storageUsers.storageBackend.driver "ocis" }}
+            - name: STORAGE_USERS_DRIVER
+              value: ocis
+            {{- end }}
+
+            {{- if  eq $.Values.storageUsers.storageBackend.driver "s3ng" }}
+            - name: STORAGE_USERS_DRIVER
+              value: s3ng
+            - name: STORAGE_USERS_DRIVER_S3NG_ENDPOINT
+              value: "{{ $.Values.storageUsers.storageBackend.driverConfig.s3ng.endpoint }}"
+            - name: STORAGE_USERS_DRIVER_S3NG_REGION
+              value: "{{ $.Values.storageUsers.storageBackend.driverConfig.s3ng.region }}"
+            - name: STORAGE_USERS_DRIVER_S3NG_ACCESS_KEY
+              value: "{{ $.Values.storageUsers.storageBackend.driverConfig.s3ng.accessKey }}"
+            - name: STORAGE_USERS_DRIVER_S3NG_SECRET_KEY
+              value: "{{ $.Values.storageUsers.storageBackend.driverConfig.s3ng.secretKey }}"
+            - name: STORAGE_USERS_DRIVER_S3NG_BUCKET
+              value: "{{ $.Values.storageUsers.storageBackend.driverConfig.s3ng.bucket }}"
+            {{- end }}
+
             - name: STORAGE_JWT_SECRET
               value: "{{ $.Values.secrets.jwt }}"
             - name: STORAGE_TRANSFER_SECRET
               value: "{{ $.Values.secrets.transfer }}"
-
-            - name: STORAGE_USERS_DRIVER
-              value: "ocis" #TODO: use S3!?
 
             - name: REVA_GATEWAY
               value: "storage-gateway:9142"
