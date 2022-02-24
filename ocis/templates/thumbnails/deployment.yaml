@@ -20,6 +20,18 @@ spec:
       labels:
           app: thumbnails
     spec:
+      {{- if $.Values.thumbnails.persistence.enabled }}
+      initContainers:
+        - name: init-chown-data
+          image: busybox
+          securityContext:
+            runAsNonRoot: false
+            runAsUser: 0
+          command: ["chown", "-R", "1000:1000", "/var/lib/ocis"]
+          volumeMounts:
+          - name: store-data
+            mountPath: /var/lib/ocis
+      {{ end }}
       containers:
         - name: thumbnails
           {{- if .Values.image.sha }}

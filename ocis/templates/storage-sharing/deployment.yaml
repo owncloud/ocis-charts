@@ -18,6 +18,18 @@ spec:
       labels:
           app: storage-sharing
     spec:
+      {{- if $.Values.storageSharing.persistence.enabled }}
+      initContainers:
+        - name: init-chown-data
+          image: busybox
+          securityContext:
+            runAsNonRoot: false
+            runAsUser: 0
+          command: ["chown", "-R", "1000:1000", "/var/lib/ocis"]
+          volumeMounts:
+          - name: storage-sharing-data
+            mountPath: /var/lib/ocis
+      {{ end }}
       containers:
         - name: store
           {{- if .Values.image.sha }}
