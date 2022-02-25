@@ -10,18 +10,34 @@ spec:
     matchLabels:
         app: storage-metadata
   replicas: 1 #TODO: scale out?
+  {{- if .Values.deploymentStrategy }}
+  strategy: {{ toYaml .Values.deploymentStrategy | nindent 4 }}
+  {{ end }}
   template:
     metadata:
       labels:
           app: storage-metadata
     spec:
+      {{- if $.Values.storageMetadata.persistence.enabled }}
+      initContainers:
+        - name: init-chown-data
+          image: busybox
+          securityContext:
+            runAsNonRoot: false
+            runAsUser: 0
+          command: ["chown", "-R", "1000:1000", "/var/lib/ocis"]
+          volumeMounts:
+          - name: storage-metadata-data
+            mountPath: /var/lib/ocis
+      {{ end }}
       containers:
-        - name: store
+        - name: storage-metadata
           {{- if .Values.image.sha }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}@sha256:{{ .Values.image.sha }}"
           {{- else }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           {{- end }}
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
           command: ["ocis"]
           args: ["storage-metadata", "server"]
           env:

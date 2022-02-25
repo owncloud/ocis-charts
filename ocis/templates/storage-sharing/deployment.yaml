@@ -10,18 +10,34 @@ spec:
     matchLabels:
         app: storage-sharing
   replicas: 1 #TODO: scale out?
+  {{- if .Values.deploymentStrategy }}
+  strategy: {{ toYaml .Values.deploymentStrategy | nindent 4 }}
+  {{ end }}
   template:
     metadata:
       labels:
           app: storage-sharing
     spec:
+      {{- if $.Values.storageSharing.persistence.enabled }}
+      initContainers:
+        - name: init-chown-data
+          image: busybox
+          securityContext:
+            runAsNonRoot: false
+            runAsUser: 0
+          command: ["chown", "-R", "1000:1000", "/var/lib/ocis"]
+          volumeMounts:
+          - name: storage-sharing-data
+            mountPath: /var/lib/ocis
+      {{ end }}
       containers:
-        - name: store
+        - name: storage-sharing
           {{- if .Values.image.sha }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}@sha256:{{ .Values.image.sha }}"
           {{- else }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           {{- end }}
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
           command: ["ocis"]
           args: ["storage-sharing", "server"]
           env:
@@ -50,6 +66,9 @@ spec:
             - name: STORAGE_SHARING_PUBLIC_DRIVER
               value: "json"
 
+            - name: STORAGE_SHARING_EVENTS_ADDRESS
+              value: nats:9233
+
             - name: STORAGE_JWT_SECRET
               value: "{{ $.Values.secrets.jwt }}"
             - name: REVA_GATEWAY
@@ -57,12 +76,12 @@ spec:
           resources: {{ toYaml .Values.resources | nindent 12 }}
           ports:
           - containerPort: 9150 # GRPC
-          {{- if $.Values.storageMetadata.persistence.enabled }}
+          {{- if $.Values.storageSharing.persistence.enabled }}
           volumeMounts:
           - name: storage-sharing-data
             mountPath: /var/lib/ocis
           {{ end }}
-      {{- if $.Values.storageMetadata.persistence.enabled }}
+      {{- if $.Values.storageSharing.persistence.enabled }}
       volumes:
         - name: storage-sharing-data
           persistentVolumeClaim:

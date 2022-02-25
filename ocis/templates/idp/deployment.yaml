@@ -10,6 +10,9 @@ spec:
     matchLabels:
         app: idp
   replicas: 1 #TODO: scale out ?
+  {{- if .Values.deploymentStrategy }}
+  strategy: {{ toYaml .Values.deploymentStrategy | nindent 4 }}
+  {{ end }}
   template:
     metadata:
       labels:
@@ -22,6 +25,7 @@ spec:
           {{- else }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           {{- end }}
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
           command: ["ocis"]
           args: ["idp", "server"]
           env:

@@ -10,11 +10,26 @@ spec:
     matchLabels:
         app: settings
   replicas: 1 #TODO: scale out?
+  {{- if .Values.deploymentStrategy }}
+  strategy: {{ toYaml .Values.deploymentStrategy | nindent 4 }}
+  {{ end }}
   template:
     metadata:
       labels:
           app: settings
     spec:
+      {{- if $.Values.settings.persistence.enabled }}
+      initContainers:
+        - name: init-chown-data
+          image: busybox
+          securityContext:
+            runAsNonRoot: false
+            runAsUser: 0
+          command: ["chown", "-R", "1000:1000", "/var/lib/ocis"]
+          volumeMounts:
+          - name: settings-data
+            mountPath: /var/lib/ocis
+      {{ end }}
       containers:
         - name: settings
           {{- if .Values.image.sha }}

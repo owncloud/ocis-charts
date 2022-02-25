@@ -14,11 +14,26 @@ spec:
     matchLabels:
         app: store
   replicas: 1 #TODO: scale out?
+  {{- if .Values.deploymentStrategy }}
+  strategy: {{ toYaml .Values.deploymentStrategy | nindent 4 }}
+  {{ end }}
   template:
     metadata:
       labels:
           app: store
     spec:
+      {{- if $.Values.store.persistence.enabled }}
+      initContainers:
+        - name: init-chown-data
+          image: busybox
+          securityContext:
+            runAsNonRoot: false
+            runAsUser: 0
+          command: ["chown", "-R", "1000:1000", "/var/lib/ocis"]
+          volumeMounts:
+          - name: store-data
+            mountPath: /var/lib/ocis
+      {{ end }}
       containers:
         - name: store
           {{- if .Values.image.sha }}
@@ -26,6 +41,7 @@ spec:
           {{- else }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           {{- end }}
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
           command: ["ocis"]
           args: ["store", "server"]
           env:
@@ -44,12 +60,12 @@ spec:
           resources: {{ toYaml .Values.resources | nindent 12 }}
           ports:
           - containerPort: 9460 # GRPC
-          {{- if $.Values.storageMetadata.persistence.enabled }}
+          {{- if $.Values.store.persistence.enabled }}
           volumeMounts:
           - name: store-data
             mountPath: /var/lib/ocis
           {{ end }}
-      {{- if $.Values.storageMetadata.persistence.enabled }}
+      {{- if $.Values.store.persistence.enabled }}
       volumes:
         - name: store-data
           persistentVolumeClaim:

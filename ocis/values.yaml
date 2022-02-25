@@ -9,6 +9,9 @@ logging:
   pretty: "false"
   color: "false"
 
+# deploymentStrategy:
+#   type: Recreate
+
 externalDomain: ocis.kube.owncloud.test
 
 ingress:
@@ -66,6 +69,16 @@ storageSharing:
     # existingClaim:
 
 storageUsers:
+  storageBackend:
+    driver: ocis # stores all data in the persistent volume if persistence is enabled
+    # driver: s3ng # stores all metadata in the persistent volume and uploads blobs to s3 if persistence is enabled
+    # driverConfig:
+    #   s3ng:
+    #     endpoint: https://localhost:1234
+    #     region: default
+    #     bucket: example-bucket
+    #     accessKey: lorem-ipsum
+    #     secretKey: lorem-ipsum
   persistence:
     enabled: true
     # storageClassName: default
