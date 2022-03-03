@@ -1,0 +1,36 @@
+You're now running
+                 ,----..      ,---,   .--.--.
+                /   /   \  ,`--.' |  /  /    '.
+       ,---.   |   :     : |   :  : |  :  /`. /
+      '   ,'\  .   |  ;. / :   |  ' ;  |  |--`
+     /   /   | .   ; /--`  |   :  | |  :  ;_
+    .   ; ,. : ;   | ;     '   '  ;  \  \    `.
+    '   | |: : |   : |     |   |  |   `----.   \
+    '   | .; : .   | '___  '   :  ;   __ \  \  |
+    |   :    | '   ; : .'| |   |  '  /  /`--'  /
+     \   \  /  '   | '/  : '   :  | '--'.     /
+      `----'   |   :    /  ;   |.'    `--'---'
+                \   \ .'   '---'
+                 `---`
+
+
+{{- if  or (not .Values.storageMetadata.persistence.enabled) (not .Values.storageSharing.persistence.enabled) (not .Values.storageUsers.persistence.enabled) (not .Values.store.persistence.enabled) }}
+#################################################################################
+######   WARNING: Persistence is disabled for some services.                #####
+######   You will lose your data when a service's pod is terminated.        #####
+######                                                                      #####
+######   Following services don't use persistence:                          #####
+{{- if not .Values.storageMetadata.persistence.enabled }}
+######     - storage-metadata                                               #####
+{{- end }}
+{{- if not .Values.storageSharing.persistence.enabled }}
+######     - storage-sharing                                                #####
+{{- end }}
+{{- if not .Values.storageUsers.persistence.enabled }}
+######     - storage-users                                                  #####
+{{- end }}
+{{- if not .Values.store.persistence.enabled }}
+######     - store                                                          #####
+{{- end }}
+#################################################################################
+{{- end }}

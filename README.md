@@ -1,28 +1,35 @@
-## Install
+# ownCloud Infinite Scale Community Kubernetes Helm Charts
 
-This chart is still in an experimental phase, and it has not yet been published.
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
-## Development
+The code is provided as-is with no warranties.
 
-Make sure to read the gotchas on the charts before attempting to run any, this project is still under heavy development.
+## Usage
 
-1. Clone this repo
-2. Install dependencies
-    - [Helm](https://helm.sh/docs/intro/install/)
-    - [Minikube](https://minikube.sigs.k8s.io/docs/start/)
-3. Run `helm install ocis-refs ocis`
+[Helm](https://helm.sh) must be installed to use the charts.
+Please refer to Helm's [documentation](https://helm.sh/docs/) to get started.
 
-Verifying everything is running smooth can be done with `kubectl get services` and `kubectl get pods`; be sure to check on the pod status for errors, especially after committing an upgrade. If you want to update anything, modify the chart's `values.yaml` and run `helm upgrade ocis .` For listing installed charts run:
 
-```console
-$ helm list
-NAME            NAMESPACE       REVISION        UPDATED                                 STATUS          CHART           APP VERSION
-ocis-refs       default         1               2020-12-29 12:15:07.455781 +0100 CET    deployed        refs-ocis-0.1.0 1.0.0-rc8
-```
+This chart repository and it's charts are still in an experimental phase, and it has not yet been published.
+For instructions on how to run it anyways the the respective chart's readme.
 
-### Dry runs
-There are time when before upgrading you'd like to see the output of the yaml files that will be sent to Kubernetes, for that there is a little helper script `dry-run.sh`.
+[//]: # (Once Helm is set up properly, add the repo as follows:)
 
-```console
-$ ./dry-run.sh ocis-refs ocis
-```
+[//]: # (```console)
+[//]: # (helm repo add ocis https://owncloud.dev/ocis/helm-charts)
+[//]: # (```)
+
+[//]: # (You can then run `helm search repo ocis` to see the charts.)
+
+<!-- Keep full URL links to repo files because this README syncs from main to gh-pages.  -->
+Chart documentation is available in [oCIS directory](https://github.com/owncloud/ocis-charts/blob/main/charts/ocis/README.md).
+
+## Contributing
+
+<!-- Keep full URL links to repo files because this README syncs from main to gh-pages.  -->
+We'd love to have you contribute! Please refer to our [contribution guidelines](https://github.com/owncloud/ocis/blob/master/CONTRIBUTING.md) for details.
+
+## License
+
+<!-- Keep full URL links to repo files because this README syncs from main to gh-pages.  -->
+[Apache 2.0 License](https://github.com/owncloud/ocis-charts/blob/main/LICENSE).

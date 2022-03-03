@@ -1,6 +1,6 @@
 image:
   repository: owncloud/ocis
-  tag: latest
+  tag: "1.17.0"
   sha: ""
   pullPolicy: IfNotPresent
 
@@ -9,10 +9,10 @@ logging:
   pretty: "false"
   color: "false"
 
-# deploymentStrategy:
-#   type: Recreate
+deploymentStrategy:
+  type: RollingUpdate
 
-externalDomain: ocis.kube.owncloud.test
+externalDomain: ocis.owncloud.test
 
 ingress:
   enabled: false
@@ -25,26 +25,21 @@ ingress:
   tls: []
   #  - secretName: chart-example-tls
   #    hosts:
-  #      - chart-example.local
-
-tls:
-  # proxy will provide self signed certificate
-  # http is not any good and https is also hardcoded in this chart
-  # but one might might want to disable
-  enabled: false
+  #      - ocis.owncloud.test
 
 #TODO: define secrets in secrets...
+#TODO: autogenerate the secrets if they don't exist
 secrets:
-  jwt: foobar
-  machineAuth: blabla
-  transfer: lorem123
+  jwt: replace-me-with-a-real-secret-123
+  machineAuth: replace-me-with-a-real-secret-456
+  transfer: replace-me-with-a-real-secret-789
 
 # Apply extra labels to common labels.
 extraLabels: {}
 
 storageMetadata:
   persistence:
-    enabled: true
+    enabled: false
     # storageClassName: default
     accessModes:
       - ReadWriteMany
@@ -55,9 +50,10 @@ storageMetadata:
     selectorLabels: {}
     # existingClaim:
 
+#TODO: remove as soon as it uses the metadata storage in oCIS
 storageSharing:
   persistence:
-    enabled: true
+    enabled: false
     # storageClassName: default
     accessModes:
       - ReadWriteMany
@@ -80,7 +76,7 @@ storageUsers:
     #     accessKey: lorem-ipsum
     #     secretKey: lorem-ipsum
   persistence:
-    enabled: true
+    enabled: false
     # storageClassName: default
     accessModes:
       - ReadWriteMany
@@ -93,7 +89,7 @@ storageUsers:
 
 store:
   persistence:
-    enabled: true
+    enabled: false
     # storageClassName: default
     accessModes:
       - ReadWriteMany
@@ -110,7 +106,7 @@ thumbnails:
     # storageClassName: default
     accessModes:
       - ReadWriteMany
-    size: 5Gi
+    size: 10Gi
     annotations: {}
     finalizers: []
     selectorLabels: {}

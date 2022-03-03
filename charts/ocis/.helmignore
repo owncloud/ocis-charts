@@ -14,12 +14,12 @@
 *.swp
 *.bak
 *.tmp
-*.orig
 *~
 # Various IDEs
+.vscode
 .project
 .idea/
 *.tmproj
-.vscode/
+OWNERS
 # markdown
 *.md
