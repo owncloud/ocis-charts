@@ -51,9 +51,9 @@ All release can be breaking during Tech Preview, see [oCIS Tech Preview](https:/
 | `deploymentStrategy`                                       | Deployment strategy                                              | `{ "type": "RollingUpdate" }`        |
 | `externalDomain`                                           | Domain where oCIS is reachable for the outside world             | `ocis.owncloud.test`                 |
 | `extraLabels`                                              | Custom labels for all manifests                                  | `{}`                                 |
+| `extraResources`                                           | Extra resources to be included                                   | `[]`                                 |
 | `image.pullPolicy`                                         | Image pull policy                                                | `IfNotPresent`                       |
 | `image.repository`                                         | Image repository                                                 | `owncloud/ocis`                      |
-| `resources`                                                | CPU/Memory resource requests/limits                              | `{}`                                 |
 | `image.sha`                                                | Image sha (optional)                                             | ``                                   |
 | `image.tag`                                                | Image tag                                                        | `1.17.0`                             |
 | `ingress.annotations`                                      | Ingress annotations (values are templated)                       | `{}`                                 |
@@ -64,9 +64,17 @@ All release can be breaking during Tech Preview, see [oCIS Tech Preview](https:/
 | `logging.level`                                            | Log level                                                        | `error`                              |
 | `logging.pretty`                                           | Log json or human friendly                                       | `false`                              |
 | `replicas`                                                 | Number of nodes                                                  | `1`                                  |
+| `resources`                                                | CPU/Memory resource requests/limits                              | `{}`                                 |
 | `secrets.jwt`                                              | JWT secret                                                       | `replace-me-with-a-real-secret-123`  |
 | `secrets.machineAuth`                                      | machine auth secret for internal service communication           | `replace-me-with-a-real-secret-456`  |
 | `secrets.transfer`                                         | JWT secret for up- and downloads                                 | `replace-me-with-a-real-secret-789`  |
+| `settings.persistence.accessModes`                         | settings service: Persistence access modes                       | `[ReadWritMany]`                     |
+| `settings.persistence.annotations`                         | settings service: PersistentVolumeClaim annotations              | `{}`                                 |
+| `settings.persistence.enabled`                             | settings service: Use persistent volume to store data            | `false`                              |
+| `settings.persistence.existingClaim`                       | settings service: Use an existing PVC to persist data            | `nil`                                |
+| `settings.persistence.finalizers`                          | settings service: PersistentVolumeClaim finalizers               | `[ "kubernetes.io/pvc-protection" ]` |
+| `settings.persistence.size`                                | settings service: Size of persistent volume claim                | `5Gi`                                |
+| `settings.persistence.storageClassName`                    | settings service: Type of persistent volume claim                | `nil`                                |
 | `storageMetadata.persistence.accessModes`                  | metadata storage service: Persistence access modes               | `[ReadWritMany]`                     |
 | `storageMetadata.persistence.annotations`                  | metadata storage service: PersistentVolumeClaim annotations      | `{}`                                 |
 | `storageMetadata.persistence.enabled`                      | metadata storage service: Use persistent volume to store data    | `false`                              |
@@ -108,7 +116,6 @@ All release can be breaking during Tech Preview, see [oCIS Tech Preview](https:/
 | `thumbnails.persistence.finalizers`                        | thumbnails service: PersistentVolumeClaim finalizers             | `[ "kubernetes.io/pvc-protection" ]` |
 | `thumbnails.persistence.size`                              | thumbnails service: Size of persistent volume claim              | `10Gi`                               |
 | `thumbnails.persistence.storageClassName`                  | thumbnails service: Type of persistent volume claim              | `nil`                                |
-| `extraResources`                                           | Extra resources to be included                                   | `[]`                                 |
 | -----------------------------------                        | ---------------------------------------------------------------- | ------------------------------------ |
 
 

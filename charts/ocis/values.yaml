@@ -27,9 +27,9 @@ ingress:
   #    hosts:
   #      - ocis.owncloud.test
 
-#TODO: define secrets in secrets...
-#TODO: autogenerate the secrets if they don't exist
+
 secrets:
+  #TODO: https://github.com/owncloud/ocis-charts/issues/9
   jwt: replace-me-with-a-real-secret-123
   machineAuth: replace-me-with-a-real-secret-456
   transfer: replace-me-with-a-real-secret-789
@@ -50,8 +50,8 @@ storageMetadata:
     selectorLabels: {}
     # existingClaim:
 
-#TODO: remove as soon as it uses the metadata storage in oCIS
 storageSharing:
+  #TODO: https://github.com/owncloud/ocis-charts/issues/10
   persistence:
     enabled: false
     # storageClassName: default
@@ -100,6 +100,20 @@ store:
     selectorLabels: {}
     # existingClaim:
 
+settings:
+  # TODO: https://github.com/owncloud/ocis-charts/issues/13
+  persistence:
+    enabled: false
+    # storageClassName: default
+    accessModes:
+      - ReadWriteMany
+    size: 5Gi
+    annotations: {}
+    finalizers:
+      - kubernetes.io/pvc-protection
+    selectorLabels: {}
+    # existingClaim:
+
 thumbnails:
   persistence:
     enabled: false
@@ -132,7 +146,8 @@ autoscaling:
 #       name: memory
 #       targetAverageUtilization: 60
 
-# currently resources are globally applied to all services if set
+# currently resources are globally applied to all services if
+
 resources: {}
 #  limits:
 #    cpu: 100m

@@ -9,7 +9,7 @@ spec:
   selector:
     matchLabels:
         app: nats
-  replicas: 1 #TODO: scale out ?
+  replicas: 1 #TODO: scale out? https://github.com/owncloud/ocis-charts/issues/12
   {{- if .Values.deploymentStrategy }}
   strategy: {{ toYaml .Values.deploymentStrategy | nindent 4 }}
   {{ end }}
