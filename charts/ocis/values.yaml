@@ -101,7 +101,7 @@ store:
     # existingClaim:
 
 settings:
-  # TODO: https://github.com/owncloud/ocis-charts/issues/13
+  #TODO: https://github.com/owncloud/ocis-charts/issues/13
   persistence:
     enabled: false
     # storageClassName: default
