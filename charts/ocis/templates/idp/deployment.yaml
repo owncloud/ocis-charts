@@ -1,25 +1,25 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: nats
+  name: idp
   namespace: {{ $.Release.Namespace }}
   labels:
     {{- include "ocis.labels" . | nindent 4 }}
 spec:
   selector:
     matchLabels:
-        app: nats
-  replicas: 1 #TODO: scale out ?
+        app: idp
+  replicas: 1 #TODO: https://github.com/owncloud/ocis-charts/issues/12
   {{- if .Values.deploymentStrategy }}
   strategy: {{ toYaml .Values.deploymentStrategy | nindent 4 }}
   {{ end }}
   template:
     metadata:
       labels:
-          app: nats
+          app: idp
     spec:
       containers:
-        - name: nats
+        - name: idp
           {{- if .Values.image.sha }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}@sha256:{{ .Values.image.sha }}"
           {{- else }}
@@ -27,20 +27,28 @@ spec:
           {{- end }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           command: ["ocis"]
-          args: ["nats-server", "server"]
+          args: ["idp", "server"]
           env:
-            - name: NATS_LOG_COLOR
+            - name: MICRO_REGISTRY
+              value: kubernetes
+
+            - name: IDP_LOG_COLOR
               value: "{{ $.Values.logging.color }}"
-            - name: NATS_LOG_LEVEL
+            - name: IDP_LOG_LEVEL
               value: "{{ $.Values.logging.level }}"
-            - name: NATS_LOG_PRETTY
+            - name: IDP_LOG_PRETTY
               value: "{{ $.Values.logging.pretty }}"
 
-            - name: NATS_NATS_HOST
-              value: "0.0.0.0"
-            - name: NATS_NATS_PORT
-              value: "9233"
+            - name: IDP_HTTP_ADDR
+              value: 0.0.0.0:9130
 
+            - name: IDP_ISS
+              value: "https://{{ $.Values.externalDomain }}"
+
+            - name: IDP_LDAP_URI
+              value: ldap://glauth:9125
+            - name : IDP_INSECURE
+              value: "true"
           resources: {{ toYaml .Values.resources | nindent 12 }}
           ports:
-          - containerPort: 9233 # NATS
+          - containerPort: 9130 # HTTP

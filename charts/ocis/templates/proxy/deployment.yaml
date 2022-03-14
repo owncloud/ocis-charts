@@ -57,11 +57,7 @@ spec:
             - name: PROXY_OIDC_ISSUER
               value: "https://{{ $.Values.externalDomain }}"
             - name: PROXY_TLS
-            {{- if $.Values.tls.enabled }}
-              value: "true"
-            {{ else }}
               value: "false"
-            {{ end }}
 
             - name: PROXY_JWT_SECRET
               value: "{{ $.Values.secrets.jwt }}"

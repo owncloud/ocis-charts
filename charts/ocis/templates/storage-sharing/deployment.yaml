@@ -1,24 +1,24 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: settings
+  name: storage-sharing
   namespace: {{ $.Release.Namespace }}
   labels:
     {{- include "ocis.labels" . | nindent 4 }}
 spec:
   selector:
     matchLabels:
-        app: settings
-  replicas: 1 #TODO: scale out?
+        app: storage-sharing
+  replicas: 1 #TODO: https://github.com/owncloud/ocis-charts/issues/12
   {{- if .Values.deploymentStrategy }}
   strategy: {{ toYaml .Values.deploymentStrategy | nindent 4 }}
   {{ end }}
   template:
     metadata:
       labels:
-          app: settings
+          app: storage-sharing
     spec:
-      {{- if $.Values.settings.persistence.enabled }}
+      {{- if $.Values.storageSharing.persistence.enabled }}
       initContainers:
         - name: init-chown-data
           image: busybox
@@ -27,11 +27,11 @@ spec:
             runAsUser: 0
           command: ["chown", "-R", "1000:1000", "/var/lib/ocis"]
           volumeMounts:
-          - name: settings-data
+          - name: storage-sharing-data
             mountPath: /var/lib/ocis
       {{ end }}
       containers:
-        - name: settings
+        - name: storage-sharing
           {{- if .Values.image.sha }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}@sha256:{{ .Values.image.sha }}"
           {{- else }}
@@ -39,38 +39,51 @@ spec:
           {{- end }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           command: ["ocis"]
-          args: ["settings", "server"]
+          args: ["storage-sharing", "server"]
           env:
             - name: MICRO_REGISTRY
               value: kubernetes
 
-            - name: SETTINGS_LOG_COLOR
+            - name: OCIS_LOG_COLOR
               value: "{{ $.Values.logging.color }}"
-            - name: SETTINGS_LOG_LEVEL
+            - name: OCIS_LOG_LEVEL
               value: "{{ $.Values.logging.level }}"
-            - name: SETTINGS_LOG_PRETTY
+            - name: OCIS_LOG_PRETTY
               value: "{{ $.Values.logging.pretty }}"
 
-            - name: SETTINGS_HTTP_ADDR
-              value: 0.0.0.0:9190
-            - name: SETTINGS_GRPC_ADDR
-              value: 0.0.0.0:9191
+            - name: STORAGE_SHARING_GRPC_ADDR
+              value: 0.0.0.0:9150
+            - name: STORAGE_SHARING_ENDPOINT
+              value: 'storage-users:9150'
 
-            - name: SETTINGS_JWT_SECRET
+            - name: STORAGE_USERS_HTTP_ADDR
+              value: 0.0.0.0:9158
+            - name: STORAGE_USERS_DATA_SERVER_URL
+              value: "http://storage-users:9158/data"
+
+            - name: STORAGE_SHARING_USER_DRIVER
+              value: "json"
+            - name: STORAGE_SHARING_PUBLIC_DRIVER
+              value: "json"
+
+            - name: STORAGE_SHARING_EVENTS_ADDRESS
+              value: nats:9233
+
+            - name: STORAGE_JWT_SECRET
               value: "{{ $.Values.secrets.jwt }}"
+            - name: REVA_GATEWAY
+              value: "storage-gateway:9142"
           resources: {{ toYaml .Values.resources | nindent 12 }}
           ports:
-          - containerPort: 9190 # HTTP
-          - containerPort: 9191 # GRPC
-          {{- if $.Values.settings.persistence.enabled }}
+          - containerPort: 9150 # GRPC
+          {{- if $.Values.storageSharing.persistence.enabled }}
           volumeMounts:
-          - name: settings-data
+          - name: storage-sharing-data
             mountPath: /var/lib/ocis
-            # TODO: check why we loose roles after a settings restart
           {{ end }}
-      {{- if $.Values.settings.persistence.enabled }}
+      {{- if $.Values.storageSharing.persistence.enabled }}
       volumes:
-        - name: settings-data
+        - name: storage-sharing-data
           persistentVolumeClaim:
-            claimName: settings-data
+            claimName: storage-sharing-data
       {{ end }}

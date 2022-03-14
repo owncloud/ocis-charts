@@ -1,24 +1,28 @@
+---
+
+
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: storage-metadata
+  name: store
   namespace: {{ $.Release.Namespace }}
   labels:
     {{- include "ocis.labels" . | nindent 4 }}
 spec:
   selector:
     matchLabels:
-        app: storage-metadata
-  replicas: 1 #TODO: scale out?
+        app: store
+  replicas: 1 #TODO: https://github.com/owncloud/ocis-charts/issues/12
   {{- if .Values.deploymentStrategy }}
   strategy: {{ toYaml .Values.deploymentStrategy | nindent 4 }}
   {{ end }}
   template:
     metadata:
       labels:
-          app: storage-metadata
+          app: store
     spec:
-      {{- if $.Values.storageMetadata.persistence.enabled }}
+      {{- if $.Values.store.persistence.enabled }}
       initContainers:
         - name: init-chown-data
           image: busybox
@@ -27,11 +31,11 @@ spec:
             runAsUser: 0
           command: ["chown", "-R", "1000:1000", "/var/lib/ocis"]
           volumeMounts:
-          - name: storage-metadata-data
+          - name: store-data
             mountPath: /var/lib/ocis
       {{ end }}
       containers:
-        - name: storage-metadata
+        - name: store
           {{- if .Values.image.sha }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}@sha256:{{ .Values.image.sha }}"
           {{- else }}
@@ -39,49 +43,31 @@ spec:
           {{- end }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           command: ["ocis"]
-          args: ["storage-metadata", "server"]
+          args: ["store", "server"]
           env:
             - name: MICRO_REGISTRY
               value: kubernetes
 
-            - name: OCIS_LOG_COLOR
+            - name: STORE_LOG_COLOR
               value: "{{ $.Values.logging.color }}"
-            - name: OCIS_LOG_LEVEL
+            - name: STORE_LOG_LEVEL
               value: "{{ $.Values.logging.level }}"
-            - name: OCIS_LOG_PRETTY
+            - name: STORE_LOG_PRETTY
               value: "{{ $.Values.logging.pretty }}"
 
-            - name: STORAGE_HOME_DATAPROVIDER_INSECURE
-              value: "true"
-            - name: STORAGE_METADATA_GRPC_ADDR
-              value: 0.0.0.0:9215
-            - name: STORAGE_METADATA_HTTP_ADDR
-              value: 0.0.0.0:9216
-            - name: STORAGE_METADATA_DATA_SERVER_URL
-              value: "http://storage-metadata:9216/data"
-
-            - name: OCIS_JWT_SECRET
-              value: "{{ $.Values.secrets.jwt }}"
-            - name: STORAGE_TRANSFER_SECRET
-              value: "{{ $.Values.secrets.transfer }}"
-
-            - name: STORAGE_METADATA_DRIVER
-              value: "ocis"
-
-            - name: REVA_GATEWAY
-              value: "storage-gateway:9142"
+            - name: STORE_GRPC_ADDR
+              value: 0.0.0.0:9460
           resources: {{ toYaml .Values.resources | nindent 12 }}
           ports:
-          - containerPort: 9215 # GRPC
-          - containerPort: 9216 # HTTP
-          {{- if $.Values.storageMetadata.persistence.enabled }}
+          - containerPort: 9460 # GRPC
+          {{- if $.Values.store.persistence.enabled }}
           volumeMounts:
-          - name: storage-metadata-data
+          - name: store-data
             mountPath: /var/lib/ocis
           {{ end }}
-      {{- if $.Values.storageMetadata.persistence.enabled }}
+      {{- if $.Values.store.persistence.enabled }}
       volumes:
-        - name: storage-metadata-data
+        - name: store-data
           persistentVolumeClaim:
-            claimName: storage-metadata-data
+            claimName: store-data
       {{ end }}
