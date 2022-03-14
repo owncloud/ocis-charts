@@ -22,7 +22,7 @@ For instructions on how to run it anyways the the respective chart's readme.
 [//]: # (You can then run `helm search repo ocis` to see the charts.)
 
 <!-- Keep full URL links to repo files because this README syncs from main to gh-pages.  -->
-Chart documentation is available in [oCIS directory](https://github.com/owncloud/ocis-charts/blob/main/charts/ocis/README.md).
+Chart documentation is available in [oCIS directory](https://github.com/owncloud/ocis-charts/blob/master/charts/ocis/README.md).
 
 ## Contributing
 
