@@ -65,6 +65,9 @@ spec:
             - name: STORAGE_TRANSFER_SECRET
               value: "{{ $.Values.secrets.transfer }}"
 
+            - name: STORAGE_PERMISSIONS_ENDPOINT
+              value: "settings:9191"
+
             - name: STORAGE_METADATA_DRIVER
               value: "ocis"
 
