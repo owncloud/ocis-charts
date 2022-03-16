@@ -9,7 +9,9 @@ spec:
   selector:
     matchLabels:
         app: settings
-  replicas: 1 #TODO: https://github.com/owncloud/ocis-charts/issues/12
+  {{- if and (not .Values.autoscaling.enabled) (.Values.replicas) }}
+  replicas: {{ .Values.replicas }}
+  {{- end }}
   {{- if .Values.deploymentStrategy }}
   strategy: {{ toYaml .Values.deploymentStrategy | nindent 4 }}
   {{ end }}
@@ -18,18 +20,6 @@ spec:
       labels:
           app: settings
     spec:
-      {{- if $.Values.settings.persistence.enabled }}
-      initContainers:
-        - name: init-chown-data
-          image: busybox
-          securityContext:
-            runAsNonRoot: false
-            runAsUser: 0
-          command: ["chown", "-R", "1000:1000", "/var/lib/ocis"]
-          volumeMounts:
-          - name: settings-data
-            mountPath: /var/lib/ocis
-      {{ end }}
       containers:
         - name: settings
           {{- if .Values.image.sha }}
@@ -56,20 +46,19 @@ spec:
             - name: SETTINGS_GRPC_ADDR
               value: 0.0.0.0:9191
 
+            - name: SETTINGS_STORE_TYPE
+              value: metadata
+            - name: STORAGE_GATEWAY_GRPC_ADDR
+              value: storage-gateway:9142
+            - name: STORAGE_GRPC_ADDR
+              value: storage-metadata:9215
+
+            - name: OCIS_MACHINE_AUTH_API_KEY
+              value: "{{ $.Values.secrets.machineAuth }}"
+
             - name: SETTINGS_JWT_SECRET
               value: "{{ $.Values.secrets.jwt }}"
           resources: {{ toYaml .Values.resources | nindent 12 }}
           ports:
           - containerPort: 9190 # HTTP
           - containerPort: 9191 # GRPC
-          {{- if $.Values.settings.persistence.enabled }}
-          volumeMounts:
-          - name: settings-data
-            mountPath: /var/lib/ocis
-          {{ end }}
-      {{- if $.Values.settings.persistence.enabled }}
-      volumes:
-        - name: settings-data
-          persistentVolumeClaim:
-            claimName: settings-data
-      {{ end }}
