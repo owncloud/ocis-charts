@@ -84,6 +84,9 @@ spec:
               value: "{{ $.Values.storageUsers.storageBackend.driverConfig.s3ng.bucket }}"
             {{- end }}
 
+            - name: STORAGE_PERMISSIONS_ENDPOINT
+              value: "settings:9191"
+
             - name: STORAGE_JWT_SECRET
               value: "{{ $.Values.secrets.jwt }}"
             - name: STORAGE_TRANSFER_SECRET
