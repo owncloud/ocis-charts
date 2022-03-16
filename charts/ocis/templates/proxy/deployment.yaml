@@ -73,7 +73,8 @@ spec:
               value: storage-gateway:9142
           resources: {{ toYaml .Values.resources | nindent 12 }}
           ports:
-          - containerPort: 9200
+          - name: http
+            containerPort: 9200
           volumeMounts:
           - name: configs
             mountPath: /etc/ocis

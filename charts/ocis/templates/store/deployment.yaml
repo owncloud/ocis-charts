@@ -59,7 +59,8 @@ spec:
               value: 0.0.0.0:9460
           resources: {{ toYaml .Values.resources | nindent 12 }}
           ports:
-          - containerPort: 9460 # GRPC
+          - name: grpc
+            containerPort: 9460
           {{- if $.Values.store.persistence.enabled }}
           volumeMounts:
           - name: store-data

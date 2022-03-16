@@ -80,4 +80,5 @@ spec:
               value: "{{ $.Values.secrets.transfer }}"
           resources: {{ toYaml .Values.resources | nindent 12 }}
           ports:
-            - containerPort: 9142 # GRPC
+            - name: grpc
+              containerPort: 9142

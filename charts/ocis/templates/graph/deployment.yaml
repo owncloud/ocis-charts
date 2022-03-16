@@ -57,4 +57,5 @@ spec:
               value: ldap://glauth:9125
           resources: {{ toYaml .Values.resources | nindent 12 }}
           ports:
-          - containerPort: 9120 # HTTP
+          - name: http
+            containerPort: 9120

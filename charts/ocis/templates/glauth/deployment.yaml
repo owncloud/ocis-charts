@@ -50,5 +50,7 @@ spec:
               value: "true"
           resources: {{ toYaml .Values.resources | nindent 12 }}
           ports:
-          - containerPort: 9125 # LDAP
-          - containerPort: 9126 # LDAPS
+          - name: ldap
+            containerPort: 9125
+          - name: ldaps
+            containerPort: 9126

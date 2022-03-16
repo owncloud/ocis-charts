@@ -43,4 +43,5 @@ spec:
 
           resources: {{ toYaml .Values.resources | nindent 12 }}
           ports:
-          - containerPort: 9233 # NATS
+          - name: nats
+            containerPort: 9233

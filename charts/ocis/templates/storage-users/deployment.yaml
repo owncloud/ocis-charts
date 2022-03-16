@@ -96,8 +96,10 @@ spec:
               value: "storage-gateway:9142"
           resources: {{ toYaml .Values.resources | nindent 12 }}
           ports:
-          - containerPort: 9157 # GRPC
-          - containerPort: 9158 # HTTP
+          - name: grpc
+            containerPort: 9157
+          - name: http
+            containerPort: 9158
           {{- if $.Values.storageUsers.persistence.enabled }}
           volumeMounts:
           - name: storage-users-data

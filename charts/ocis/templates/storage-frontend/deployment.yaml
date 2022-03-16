@@ -65,4 +65,5 @@ spec:
               value: storage-gateway:9142
           resources: {{ toYaml .Values.resources | nindent 12 }}
           ports:
-          - containerPort: 9140 # HTTP
+          - name: http
+            containerPort: 9140
