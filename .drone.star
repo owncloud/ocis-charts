@@ -16,10 +16,19 @@ def linting(ctx):
         "name": "lint",
         "steps": [
             {
-                "name": "lint chart",
+                "name": "helm lint",
                 "image": "alpine/helm:latest",
                 "commands": [
                     "helm lint charts/**",
+                ],
+            },
+            {
+                "name": "kube-linter",
+                "image": "archlinux:latest",
+                "commands": [
+                    "pacman -Sy",
+                    "pacman --noconfirm -S kube-linter",
+                    "kube-linter lint charts/**",
                 ],
             },
         ],
