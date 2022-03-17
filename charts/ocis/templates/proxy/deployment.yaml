@@ -64,7 +64,7 @@ spec:
               value: "false"
 
             - name: PROXY_JWT_SECRET
-              value: "{{ $.Values.secrets.jwt }}"
+              secretRef: jwtsecret
             - name: PROXY_MACHINE_AUTH_API_KEY
               value: "{{ $.Values.secrets.machineAuth }}"
 

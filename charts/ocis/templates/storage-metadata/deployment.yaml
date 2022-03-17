@@ -65,9 +65,9 @@ spec:
               value: "http://storage-metadata:9216/data"
 
             - name: OCIS_JWT_SECRET
-              value: "{{ $.Values.secrets.jwt }}"
+              secretRef: jwtsecret
             - name: STORAGE_TRANSFER_SECRET
-              value: "{{ $.Values.secrets.transfer }}"
+              secretRef: transfersecret
 
             - name: STORAGE_PERMISSIONS_ENDPOINT
               value: "settings:9191"

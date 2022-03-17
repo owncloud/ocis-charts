@@ -54,9 +54,9 @@ spec:
               value: storage-metadata:9215
 
             - name: ACCOUNTS_JWT_SECRET
-              value: "{{ $.Values.secrets.jwt }}"
+              secretRef: jwtsecret
             - name: ACCOUNTS_STORAGE_CS3_JWT_SECRET
-              value: "{{ $.Values.secrets.jwt }}"
+              secretRef: jwtsecret
           resources: {{ toYaml .Values.resources | nindent 12 }}
           ports:
           - name: grpc

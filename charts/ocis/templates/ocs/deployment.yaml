@@ -53,9 +53,9 @@ spec:
             - name: OCS_IDM_ADDRESS
               value: "https://{{ $.Values.externalDomain }}"
 
-            - name: OCS_JWT_SECRET
-              value: "{{ $.Values.secrets.jwt }}"
             - name: OCS_MACHINE_AUTH_API_KEY
+              secretRef: jwtsecret
+            - name: PROXY_MACHINE_AUTH_API_KEY
               value: "{{ $.Values.secrets.machineAuth }}"
 
             - name: REVA_GATEWAY

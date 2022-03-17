@@ -54,9 +54,9 @@ spec:
               value: "storage-sharing:9150"
 
             - name: STORAGE_JWT_SECRET
-              value: "{{ $.Values.secrets.jwt }}"
+              secretRef: jwtsecret
             - name: STORAGE_TRANSFER_SECRET
-              value: "{{ $.Values.secrets.transfer }}"
+              secretRef: transfersecret
 
             - name: REVA_GATEWAY
               value: storage-gateway:9142

@@ -51,7 +51,7 @@ spec:
               value: "storage-authbasic:9146"
 
             - name: STORAGE_JWT_SECRET
-              value: "{{ $.Values.secrets.jwt }}"
+              secretRef: jwtsecret
 
             - name: REVA_GATEWAY
               value: storage-gateway:9142

@@ -61,9 +61,9 @@ spec:
               value: "storage-sharing:9150"
 
             - name: STORAGE_JWT_SECRET
-              value: "{{ $.Values.secrets.jwt }}"
+              secretRef: jwtsecret
             - name: STORAGE_TRANSFER_SECRET
-              value: "{{ $.Values.secrets.transfer }}"
+              secretRef: transfersecret
 
             - name: STORAGE_AUTH_MACHINE_AUTH_API_KEY
               value: "{{ $.Values.secrets.machineAuth }}"

@@ -61,7 +61,7 @@ spec:
               value: "{{ $.Values.secrets.machineAuth }}"
 
             - name: SETTINGS_JWT_SECRET
-              value: "{{ $.Values.secrets.jwt }}"
+              secretRef: jwtsecret
           resources: {{ toYaml .Values.resources | nindent 12 }}
           ports:
           - name: http
