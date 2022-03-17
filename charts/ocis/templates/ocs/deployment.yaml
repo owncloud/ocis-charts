@@ -51,7 +51,7 @@ spec:
 
             - name: OCS_JWT_SECRET
               value: "{{ $.Values.secrets.jwt }}"
-            - name: PROXY_MACHINE_AUTH_API_KEY
+            - name: OCS_MACHINE_AUTH_API_KEY
               value: "{{ $.Values.secrets.machineAuth }}"
 
             - name: REVA_GATEWAY
