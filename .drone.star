@@ -24,11 +24,11 @@ def linting(ctx):
             },
             {
                 "name": "kube-linter",
-                "image": "archlinux:latest",
-                "commands": [
-                    "pacman -Sy",
-                    "pacman --noconfirm -S kube-linter",
-                    "kube-linter lint charts/**",
+                "image": "stackrox/kube-linter:latest",
+                "entrypoint": [
+                    "/kube-linter",
+                    "lint",
+                    "/drone/src/charts/",
                 ],
             },
         ],
