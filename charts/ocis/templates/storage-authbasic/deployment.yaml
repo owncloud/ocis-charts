@@ -53,4 +53,5 @@ spec:
               value: storage-gateway:9142
           resources: {{ toYaml .Values.resources | nindent 12 }}
           ports:
-          - containerPort: 9146 # GRPC
+          - name: grpc
+            containerPort: 9146

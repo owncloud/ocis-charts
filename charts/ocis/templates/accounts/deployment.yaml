@@ -55,5 +55,7 @@ spec:
               value: "{{ $.Values.secrets.jwt }}"
           resources: {{ toYaml .Values.resources | nindent 12 }}
           ports:
-          - containerPort: 9180 # GRPC
-          - containerPort: 9181 # HTTP
+          - name: grpc
+            containerPort: 9180
+          - name: http
+            containerPort: 9181
