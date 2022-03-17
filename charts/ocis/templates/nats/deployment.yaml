@@ -28,6 +28,10 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           command: ["ocis"]
           args: ["nats-server", "server"]
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 1000
+            readOnlyRootFilesystem: true
           env:
             - name: NATS_LOG_COLOR
               value: "{{ $.Values.logging.color }}"

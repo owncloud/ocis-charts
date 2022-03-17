@@ -134,14 +134,13 @@ autoscaling:
 
 # currently resources are globally applied to all services if
 
-resources: {}
-#  limits:
-#    cpu: 100m
-#    memory: 128Mi
-#  requests:
-#    cpu: 100m
-#    memory: 128Mi
-
+resources: 
+  limits:
+    cpu: 100m
+    memory: 128Mi
+  requests:
+    cpu: 100m
+    memory: 128Mi
 
 # Include arbitrary resources, eg. config maps or a cer-manager issuer (see example below)
 extraResources: []
