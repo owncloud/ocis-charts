@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: audit
+  namespace: {{ $.Release.Namespace }}
+  labels:
+    {{- include "ocis.labels" . | nindent 4 }}
+spec:
+  selector:
+    matchLabels:
+        app: audit
+  replicas: 1 #TODO: https://github.com/owncloud/ocis-charts/issues/12
+  {{- if .Values.deploymentStrategy }}
+  strategy: {{ toYaml .Values.deploymentStrategy | nindent 4 }}
+  {{ end }}
+  template:
+    metadata:
+      labels:
+          app: audit
+    spec:
+      containers:
+        - name: audit
+          {{- if .Values.image.sha }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}@sha256:{{ .Values.image.sha }}"
+          {{- else }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          {{- end }}
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          command: ["ocis"]
+          args: ["audit", "server"]
+          env:
+            - name: MICRO_REGISTRY
+              value: kubernetes
+
+            - name: AUDIT_LOG_TO_CONSOLE
+              value: "true"
+            - name: AUDIT_FORMAT
+              value: "json"
+
+            - name: AUDIT_EVENTS_ENDPOINT
+              value: nats:9233
+
+          resources: {{ toYaml .Values.resources | nindent 12 }}
