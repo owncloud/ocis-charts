@@ -46,6 +46,8 @@ spec:
             - name: STORAGE_AUTH_MACHINE_ENDPOINT
               value: "storage-authmachine:9148"
 
+            - name: STORAGE_AUTH_MACHINE_AUTH_API_KEY
+              value: "{{ $.Values.secrets.machineAuth }}"
             - name: STORAGE_JWT_SECRET
               value: "{{ $.Values.secrets.jwt }}"
 
