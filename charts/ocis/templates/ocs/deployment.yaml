@@ -53,13 +53,13 @@ spec:
             - name: OCS_IDM_ADDRESS
               value: "https://{{ $.Values.externalDomain }}"
 
-            - name: OCS_MACHINE_AUTH_API_KEY
-              secretRef: jwtsecret
-            - name: PROXY_MACHINE_AUTH_API_KEY
-              value: "{{ $.Values.secrets.machineAuth }}"
-
             - name: REVA_GATEWAY
               value: storage-gateway:9142
+          envFrom:
+            - secretRef:
+                name: jwt-secret
+            - secretRef:
+                name: machine-auth-api-key
           resources: {{ toYaml .Values.resources | nindent 12 }}
           ports:
           - name: http

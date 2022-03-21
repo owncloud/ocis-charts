@@ -7,11 +7,11 @@ metadata:
     {{- include "ocis.labels" . | nindent 4 }}
 spec:
   ports:
-  - name: grpc
-    port: 9157
-    protocol: TCP
-  - name: http
-    port: 9158
-    protocol: TCP
+    - name: grpc
+      port: 9157
+      protocol: TCP
+    - name: http
+      port: 9158
+      protocol: TCP
   selector:
     app: storage-users

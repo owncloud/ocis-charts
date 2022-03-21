@@ -56,5 +56,5 @@ spec:
               value: "https://{{ $.Values.externalDomain }}"
           resources: {{ toYaml .Values.resources | nindent 12 }}
           ports:
-          - name: http
-            containerPort: 9100
+            - name: http
+              containerPort: 9100

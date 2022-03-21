@@ -1,0 +1,12 @@
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: machine-auth-api-key
+type: Opaque
+data:
+    # TODO: create random default value when no value is set in values.yaml https://github.com/owncloud/ocis-charts/issues/9
+    OCIS_MACHINE_AUTH_API_KEY: "{{ b64enc $.Values.secrets.machineAuth }}"
+    #OCS_MACHINE_AUTH_API_KEY
+    #PROXY_MACHINE_AUTH_API_KEY
+    #STORAGE_AUTH_MACHINE_AUTH_API_KEY

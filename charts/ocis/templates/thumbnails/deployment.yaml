@@ -75,14 +75,14 @@ spec:
               value: storage-gateway:9142
           resources: {{ toYaml .Values.resources | nindent 12 }}
           ports:
-          - name: grpc
-            containerPort: 9185
-          - name: http
-            containerPort: 9186
+            - name: grpc
+              containerPort: 9185
+            - name: http
+              containerPort: 9186
           {{- if $.Values.thumbnails.persistence.enabled }}
           volumeMounts:
-          - name: thumbnails-data
-            mountPath: /var/lib/ocis
+            - name: thumbnails-data
+              mountPath: /var/lib/ocis
           {{ end }}
       {{- if $.Values.thumbnails.persistence.enabled }}
       volumes:

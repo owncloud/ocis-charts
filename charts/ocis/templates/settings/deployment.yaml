@@ -56,15 +56,14 @@ spec:
               value: storage-gateway:9142
             - name: STORAGE_GRPC_ADDR
               value: storage-metadata:9215
-
-            - name: OCIS_MACHINE_AUTH_API_KEY
-              value: "{{ $.Values.secrets.machineAuth }}"
-
-            - name: SETTINGS_JWT_SECRET
-              secretRef: jwtsecret
+          envFrom:
+            - secretRef:
+                name: jwt-secret
+            - secretRef:
+                name: machine-auth-api-key
           resources: {{ toYaml .Values.resources | nindent 12 }}
           ports:
-          - name: http
-            containerPort: 9190
-          - name: grpc
-            containerPort: 9191
+            - name: http
+              containerPort: 9190
+            - name: grpc
+              containerPort: 9191

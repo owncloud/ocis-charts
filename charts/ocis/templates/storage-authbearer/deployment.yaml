@@ -50,12 +50,12 @@ spec:
             - name: STORAGE_AUTH_BEARER_ENDPOINT
               value: "storage-authbearer:9166"
 
-            - name: STORAGE_JWT_SECRET
-              secretRef: jwtsecret
-
             - name: REVA_GATEWAY
               value: storage-gateway:9142
+          envFrom:
+            - secretRef:
+                name: jwt-secret
           resources: {{ toYaml .Values.resources | nindent 12 }}
           ports:
-          - name: grpc
-            containerPort: 9166
+            - name: grpc
+              containerPort: 9166
