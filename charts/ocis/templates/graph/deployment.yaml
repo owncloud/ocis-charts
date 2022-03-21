@@ -30,6 +30,10 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           command: ["ocis"]
           args: ["graph", "server"]
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 1000
+            readOnlyRootFilesystem: true
           env:
             - name: MICRO_REGISTRY
               value: kubernetes
@@ -51,7 +55,7 @@ spec:
               value: "storage-gateway:9142"
 
             - name: GRAPH_JWT_SECRET
-              value: "{{ $.Values.secrets.jwt }}"
+              secretRef: jwtsecret
 
             - name: GRAPH_LDAP_URI
               value: ldap://glauth:9125

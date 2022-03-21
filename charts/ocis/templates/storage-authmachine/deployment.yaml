@@ -30,6 +30,10 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           command: ["ocis"]
           args: ["storage-auth-machine", "server"]
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 1000
+            readOnlyRootFilesystem: true
           env:
             - name: MICRO_REGISTRY
               value: kubernetes
@@ -49,7 +53,7 @@ spec:
             - name: STORAGE_AUTH_MACHINE_AUTH_API_KEY
               value: "{{ $.Values.secrets.machineAuth }}"
             - name: STORAGE_JWT_SECRET
-              value: "{{ $.Values.secrets.jwt }}"
+              secretRef: jwtsecret
 
             - name: REVA_GATEWAY
               value: storage-gateway:9142
