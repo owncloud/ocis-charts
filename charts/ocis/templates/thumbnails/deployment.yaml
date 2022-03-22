@@ -29,7 +29,7 @@ spec:
             runAsUser: 0
           command: ["chown", "-R", "1000:1000", "/var/lib/ocis"]
           volumeMounts:
-          - name: store-data
+          - name: thumbnails-data
             mountPath: /var/lib/ocis
       {{ end }}
       containers:
