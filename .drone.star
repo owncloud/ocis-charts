@@ -23,6 +23,15 @@ def linting(ctx):
                 ],
             },
             {
+                "name": "kube-linter",
+                "image": "stackrox/kube-linter:latest",
+                "entrypoint": [
+                    "/kube-linter",
+                    "lint",
+                    "/drone/src/charts/ocis",
+                ],
+            },
+            {
                 "name": "helm template",
                 "image": "alpine/helm:latest",
                 "commands": [
@@ -37,15 +46,6 @@ def linting(ctx):
                     "-summary",
                     "-strict",
                     "ocis-ci-templated.yaml",
-                ],
-            },
-            {
-                "name": "kube-linter",
-                "image": "stackrox/kube-linter:latest",
-                "entrypoint": [
-                    "/kube-linter",
-                    "lint",
-                    "/drone/src/charts/ocis",
                 ],
             },
         ],
