@@ -113,14 +113,12 @@ spec:
         - name: tmp-volume
           emptyDir:
             medium: Memory
-            sizeLimit: 64Mi
+            sizeLimit: 6Mi
       {{- if $.Values.storageUsers.persistence.enabled }}
         - name: storage-users-data
           persistentVolumeClaim:
             claimName: storage-users-data
       {{ else }}
         - name: storage-users-data
-          emptyDir:
-            medium: Memory
-            sizeLimit: 64Mi
+          emptyDir: {}
       {{ end }}

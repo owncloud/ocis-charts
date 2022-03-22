@@ -89,7 +89,5 @@ spec:
             claimName: thumbnails-data
       {{ else }}
         - name: thumbnails-data
-          emptyDir:
-            medium: Memory
-            sizeLimit: 64Mi
+          emptyDir: {}
       {{ end }}

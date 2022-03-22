@@ -91,14 +91,12 @@ spec:
         - name: tmp-volume
           emptyDir:
             medium: Memory
-            sizeLimit: 64Mi
+            sizeLimit: 6Mi
       {{- if $.Values.storageSharing.persistence.enabled }}
         - name: storage-sharing-data
           persistentVolumeClaim:
             claimName: storage-sharing-data
       {{ else }}
         - name: storage-sharing-data
-          emptyDir:
-            medium: Memory
-            sizeLimit: 64Mi
+          emptyDir: {}
       {{ end }}

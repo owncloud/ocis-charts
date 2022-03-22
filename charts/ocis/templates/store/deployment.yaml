@@ -75,7 +75,5 @@ spec:
             claimName: store-data
       {{ else }}
         - name: store-data
-          emptyDir:
-            medium: Memory
-            sizeLimit: 64Mi
+          emptyDir: {}
       {{ end }}
