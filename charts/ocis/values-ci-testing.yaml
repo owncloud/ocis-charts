@@ -1,0 +1,111 @@
+ingress:
+  enabled: true
+  ingressClassName: some-ingress
+  annotations:
+    kubernetes.io/ingress.class: some-ingress
+    kubernetes.io/tls-acme: "true"
+  labels:
+    label1: lorem
+    label2: ipsum
+
+  tls:
+    - secretName: chart-example-tls
+      hosts:
+        - ocis.owncloud.test
+
+extraLabels:
+  extra1: lorem
+  extra2: ipsum
+
+storageMetadata:
+  persistence:
+    enabled: true
+    storageClassName: default-storage
+    accessModes:
+      - ReadWriteMany
+    size: 5Gi
+    annotations:
+      anno-1: test
+    finalizers:
+      - kubernetes.io/pvc-protection
+    selectorLabels:
+      selector1: foobar
+
+storageSharing:
+  #TODO: https://github.com/owncloud/ocis-charts/issues/10
+  persistence:
+    enabled: true
+    storageClassName: default-storage
+    accessModes:
+      - ReadWriteMany
+    size: 5Gi
+    annotations:
+      anno-1: test
+    finalizers:
+      - kubernetes.io/pvc-protection
+    selectorLabels:
+      selector1: foobar
+
+storageUsers:
+  storageBackend:
+    driver: ocis
+  persistence:
+    enabled: true
+    storageClassName: default-storage
+    accessModes:
+      - ReadWriteMany
+    size: 50Gi
+    annotations:
+      anno-1: test
+    finalizers:
+      - kubernetes.io/pvc-protection
+    selectorLabels: {}
+
+store:
+  persistence:
+    enabled: true
+    storageClassName: default-storage
+    accessModes:
+      - ReadWriteMany
+    size: 5Gi
+    annotations:
+      anno-1: test
+    finalizers:
+      - kubernetes.io/pvc-protection
+    selectorLabels:
+      selector1: foobar
+
+thumbnails:
+  persistence:
+    enabled: true
+    storageClassName: default-storage
+    accessModes:
+      - ReadWriteMany
+    size: 10Gi
+    annotations:
+      anno-1: test
+    finalizers: []
+    selectorLabels:
+      selector1: foobar
+
+autoscaling:
+  enabled: true
+  minReplicas: 1
+  maxReplicas: 10
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      targetAverageUtilization: 60
+  - type: Resource
+    resource:
+      name: memory
+      targetAverageUtilization: 60
+
+resources:
+  limits:
+    cpu: 100m
+    memory: 128Mi
+  requests:
+    cpu: 100m
+    memory: 128Mi

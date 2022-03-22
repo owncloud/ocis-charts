@@ -13,20 +13,20 @@ def linting(ctx):
     result = {
         "kind": "pipeline",
         "type": "docker",
-        "name": "lint",
+        "name": "lint ocis",
         "steps": [
             {
                 "name": "helm lint",
                 "image": "alpine/helm:latest",
                 "commands": [
-                    "helm lint charts/**",
+                    "helm lint charts/ocis",
                 ],
             },
             {
                 "name": "helm template",
                 "image": "alpine/helm:latest",
                 "commands": [
-                    "helm template charts/** > charts-templated.yaml",
+                    "helm template charts/ocis -f charts/ocis/values-ci-testing.yaml > ocis-ci-templated.yaml",
                 ],
             },
             {
@@ -35,7 +35,8 @@ def linting(ctx):
                 "entrypoint": [
                     "/kubeconform",
                     "-summary",
-                    "charts-templated.yaml",
+                    "-strict",
+                    "ocis-ci-templated.yaml",
                 ],
             },
             {
@@ -44,7 +45,7 @@ def linting(ctx):
                 "entrypoint": [
                     "/kube-linter",
                     "lint",
-                    "/drone/src/charts/",
+                    "/drone/src/charts/ocis",
                 ],
             },
         ],
