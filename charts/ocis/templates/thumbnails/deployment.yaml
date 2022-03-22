@@ -79,14 +79,17 @@ spec:
               containerPort: 9185
             - name: http
               containerPort: 9186
-          {{- if $.Values.thumbnails.persistence.enabled }}
           volumeMounts:
             - name: thumbnails-data
               mountPath: /var/lib/ocis
-          {{ end }}
-      {{- if $.Values.thumbnails.persistence.enabled }}
       volumes:
+      {{- if $.Values.thumbnails.persistence.enabled }}
         - name: thumbnails-data
           persistentVolumeClaim:
             claimName: thumbnails-data
+      {{ else }}
+        - name: thumbnails-data
+          emptyDir:
+            medium: Memory
+            sizeLimit: 64Mi
       {{ end }}

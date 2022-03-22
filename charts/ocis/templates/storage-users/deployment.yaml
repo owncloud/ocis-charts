@@ -107,15 +107,20 @@ spec:
           volumeMounts:
             - name: tmp-volume
               mountPath: /tmp
-          {{- if $.Values.storageUsers.persistence.enabled }}
             - name: storage-users-data
               mountPath: /var/lib/ocis
-          {{ end }}
       volumes:
         - name: tmp-volume
-          emptyDir: {}
+          emptyDir:
+            medium: Memory
+            sizeLimit: 64Mi
       {{- if $.Values.storageUsers.persistence.enabled }}
         - name: storage-users-data
           persistentVolumeClaim:
             claimName: storage-users-data
+      {{ else }}
+        - name: storage-users-data
+          emptyDir:
+            medium: Memory
+            sizeLimit: 64Mi
       {{ end }}

@@ -66,4 +66,6 @@ spec:
               mountPath: /tmp
       volumes:
         - name: tmp-volume
-          emptyDir: {}
+          emptyDir:
+            medium: Memory
+            sizeLimit: 64Mi

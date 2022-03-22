@@ -85,15 +85,20 @@ spec:
           volumeMounts:
             - name: tmp-volume
               mountPath: /tmp
-          {{- if $.Values.storageSharing.persistence.enabled }}
             - name: storage-sharing-data
               mountPath: /var/lib/ocis
-          {{ end }}
       volumes:
         - name: tmp-volume
-          emptyDir: {}
+          emptyDir:
+            medium: Memory
+            sizeLimit: 64Mi
       {{- if $.Values.storageSharing.persistence.enabled }}
         - name: storage-sharing-data
           persistentVolumeClaim:
             claimName: storage-sharing-data
+      {{ else }}
+        - name: storage-sharing-data
+          emptyDir:
+            medium: Memory
+            sizeLimit: 64Mi
       {{ end }}
