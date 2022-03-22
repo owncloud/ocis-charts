@@ -8,7 +8,7 @@ metadata:
 spec:
   selector:
     matchLabels:
-        app: accounts
+      app: accounts
   replicas: 1 #TODO: https://github.com/owncloud/ocis-charts/issues/12
   {{- if .Values.deploymentStrategy }}
   strategy: {{ toYaml .Values.deploymentStrategy | nindent 4 }}
@@ -16,7 +16,8 @@ spec:
   template:
     metadata:
       labels:
-          app: accounts
+        app: accounts
+        {{- include "ocis.labels" . | nindent 8 }}
     spec:
       containers:
         - name: accounts

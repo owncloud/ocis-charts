@@ -8,7 +8,7 @@ metadata:
 spec:
   selector:
     matchLabels:
-        app: ocs
+      app: ocs
   {{- if and (not .Values.autoscaling.enabled) (.Values.replicas) }}
   replicas: {{ .Values.replicas }}
   {{- end }}
@@ -18,7 +18,8 @@ spec:
   template:
     metadata:
       labels:
-          app: ocs
+        app: ocs
+        {{- include "ocis.labels" . | nindent 8 }}
     spec:
       containers:
         - name: ocs

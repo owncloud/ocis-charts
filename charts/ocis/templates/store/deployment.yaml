@@ -12,7 +12,7 @@ metadata:
 spec:
   selector:
     matchLabels:
-        app: store
+      app: store
   replicas: 1 #TODO: https://github.com/owncloud/ocis-charts/issues/12
   {{- if .Values.deploymentStrategy }}
   strategy: {{ toYaml .Values.deploymentStrategy | nindent 4 }}
@@ -20,7 +20,8 @@ spec:
   template:
     metadata:
       labels:
-          app: store
+        app: store
+        {{- include "ocis.labels" . | nindent 8 }}
     spec:
       {{- if $.Values.store.persistence.enabled }}
       initContainers:

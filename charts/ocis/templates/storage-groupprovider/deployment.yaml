@@ -8,7 +8,7 @@ metadata:
 spec:
   selector:
     matchLabels:
-        app: storage-groupprovider
+      app: storage-groupprovider
   {{- if and (not .Values.autoscaling.enabled) (.Values.replicas) }}
   replicas: {{ .Values.replicas }}
   {{- end }}
@@ -18,7 +18,8 @@ spec:
   template:
     metadata:
       labels:
-          app: storage-groupprovider
+        app: storage-groupprovider
+        {{- include "ocis.labels" . | nindent 8 }}
     spec:
       containers:
         - name: storage-groupprovider
