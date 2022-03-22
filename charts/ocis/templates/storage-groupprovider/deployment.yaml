@@ -56,7 +56,7 @@ spec:
               value: "glauth"
             - name: STORAGE_LDAP_PORT
               value: "9126"
-            - name: STORAGE_LDAP_INSECURE
+            - name: STORAGE_LDAP_INSECURE # TODO: https://github.com/owncloud/ocis-charts/issues/32
               value: "true"
 
             - name: STORAGE_LDAP_IDP

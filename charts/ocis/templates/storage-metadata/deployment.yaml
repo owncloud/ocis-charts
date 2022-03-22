@@ -48,6 +48,7 @@ spec:
             - name: MICRO_REGISTRY
               value: kubernetes
 
+            # logging
             - name: OCIS_LOG_COLOR
               value: "{{ $.Values.logging.color }}"
             - name: OCIS_LOG_LEVEL
@@ -55,21 +56,27 @@ spec:
             - name: OCIS_LOG_PRETTY
               value: "{{ $.Values.logging.pretty }}"
 
-            - name: STORAGE_HOME_DATAPROVIDER_INSECURE
-              value: "true"
+            # external availability grpc
             - name: STORAGE_METADATA_GRPC_ADDR
               value: 0.0.0.0:9215
+
+            # external availability data gateway
             - name: STORAGE_METADATA_HTTP_ADDR
               value: 0.0.0.0:9216
             - name: STORAGE_METADATA_DATA_SERVER_URL
               value: "http://storage-metadata:9216/data"
 
-            - name: STORAGE_PERMISSIONS_ENDPOINT
-              value: "settings:9191"
+            # data gateway
+            - name: STORAGE_METADATA_DATAPROVIDER_INSECURE # TODO: https://github.com/owncloud/ocis-charts/issues/32
+              value: "true"
 
+            # oCIS storage driver (decomposed filesystem)
             - name: STORAGE_METADATA_DRIVER
               value: "ocis"
 
+            # permissions middleware
+            - name: STORAGE_PERMISSIONS_ENDPOINT
+              value: "settings:9191"
             - name: REVA_GATEWAY
               value: "storage-gateway:9142"
           envFrom:
