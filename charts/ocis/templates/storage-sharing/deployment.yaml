@@ -82,13 +82,17 @@ spec:
           ports:
             - name: grpc
               containerPort: 9150
-          {{- if $.Values.storageSharing.persistence.enabled }}
           volumeMounts:
+            - name: tmp-volume
+              mountPath: /tmp
+          {{- if $.Values.storageSharing.persistence.enabled }}
             - name: storage-sharing-data
               mountPath: /var/lib/ocis
           {{ end }}
-      {{- if $.Values.storageSharing.persistence.enabled }}
       volumes:
+        - name: tmp-volume
+          emptyDir: {}
+      {{- if $.Values.storageSharing.persistence.enabled }}
         - name: storage-sharing-data
           persistentVolumeClaim:
             claimName: storage-sharing-data

@@ -73,3 +73,9 @@ spec:
           ports:
           - name: http
             containerPort: 9140
+          volumeMounts:
+            - name: tmp-volume
+              mountPath: /tmp
+      volumes:
+        - name: tmp-volume
+          emptyDir: {}

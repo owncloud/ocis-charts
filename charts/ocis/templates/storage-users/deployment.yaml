@@ -104,13 +104,17 @@ spec:
               containerPort: 9157
             - name: http
               containerPort: 9158
-          {{- if $.Values.storageUsers.persistence.enabled }}
           volumeMounts:
+            - name: tmp-volume
+              mountPath: /tmp
+          {{- if $.Values.storageUsers.persistence.enabled }}
             - name: storage-users-data
               mountPath: /var/lib/ocis
           {{ end }}
-      {{- if $.Values.storageUsers.persistence.enabled }}
       volumes:
+        - name: tmp-volume
+          emptyDir: {}
+      {{- if $.Values.storageUsers.persistence.enabled }}
         - name: storage-users-data
           persistentVolumeClaim:
             claimName: storage-users-data

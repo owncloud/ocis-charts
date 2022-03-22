@@ -64,3 +64,9 @@ spec:
           ports:
             - name: grpc
               containerPort: 9154
+          volumeMounts:
+            - name: tmp-volume
+              mountPath: /tmp
+      volumes:
+        - name: tmp-volume
+          emptyDir: {}
