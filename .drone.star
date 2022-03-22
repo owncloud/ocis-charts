@@ -23,11 +23,18 @@ def linting(ctx):
                 ],
             },
             {
-                "name": "kube-apply-dry-run",
+                "name": "helm template",
                 "image": "alpine/helm:latest",
                 "commands": [
-                    "helm template charts/** | kubectl apply --dry-run=client -f -"
-                ]
+                    "helm template charts/** > charts-templated.yaml",
+                ],
+            },
+            {
+                "name": "kube-apply-dry-run",
+                "image": "alpine/k8s:1.21.5",
+                "commands": [
+                    "kubectl apply --dry-run=client -f charts-templated.yaml",
+                ],
             },
             {
                 "name": "kube-linter",
