@@ -30,10 +30,12 @@ def linting(ctx):
                 ],
             },
             {
-                "name": "kube-apply-dry-run",
-                "image": "alpine/k8s:1.21.5",
-                "commands": [
-                    "kubectl apply --dry-run=client -f charts-templated.yaml",
+                "name": "kubeconform",
+                "image": "ghcr.io/yannh/kubeconform:latest",
+                "entrypoint": [
+                    "/kubeconform",
+                    "-summary",
+                    "charts-templated.yaml",
                 ],
             },
             {
