@@ -29,7 +29,7 @@ spec:
             runAsUser: 0
           command: ["chown", "-R", "1000:1000", "/var/lib/ocis"]
           volumeMounts:
-          - name: store-data
+          - name: thumbnails-data
             mountPath: /var/lib/ocis
       {{ end }}
       containers:
@@ -75,18 +75,19 @@ spec:
               value: storage-gateway:9142
           resources: {{ toYaml .Values.resources | nindent 12 }}
           ports:
-          - name: grpc
-            containerPort: 9185
-          - name: http
-            containerPort: 9186
-          {{- if $.Values.thumbnails.persistence.enabled }}
+            - name: grpc
+              containerPort: 9185
+            - name: http
+              containerPort: 9186
           volumeMounts:
-          - name: thumbnails-data
-            mountPath: /var/lib/ocis
-          {{ end }}
-      {{- if $.Values.thumbnails.persistence.enabled }}
+            - name: thumbnails-data
+              mountPath: /var/lib/ocis
       volumes:
+      {{- if $.Values.thumbnails.persistence.enabled }}
         - name: thumbnails-data
           persistentVolumeClaim:
             claimName: thumbnails-data
+      {{ else }}
+        - name: thumbnails-data
+          emptyDir: {}
       {{ end }}

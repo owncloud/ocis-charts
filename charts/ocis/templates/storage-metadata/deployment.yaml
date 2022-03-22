@@ -64,11 +64,6 @@ spec:
             - name: STORAGE_METADATA_DATA_SERVER_URL
               value: "http://storage-metadata:9216/data"
 
-            - name: OCIS_JWT_SECRET
-              secretRef: jwtsecret
-            - name: STORAGE_TRANSFER_SECRET
-              secretRef: transfersecret
-
             - name: STORAGE_PERMISSIONS_ENDPOINT
               value: "settings:9191"
 
@@ -77,20 +72,32 @@ spec:
 
             - name: REVA_GATEWAY
               value: "storage-gateway:9142"
+          envFrom:
+            - secretRef:
+                name: jwt-secret
+            - secretRef:
+                name: transfer-secret
           resources: {{ toYaml .Values.resources | nindent 12 }}
           ports:
-          - name: grpc
-            containerPort: 9215
-          - name: http
-            containerPort: 9216
-          {{- if $.Values.storageMetadata.persistence.enabled }}
+            - name: grpc
+              containerPort: 9215
+            - name: http
+              containerPort: 9216
           volumeMounts:
-          - name: storage-metadata-data
-            mountPath: /var/lib/ocis
-          {{ end }}
-      {{- if $.Values.storageMetadata.persistence.enabled }}
+            - name: tmp-volume
+              mountPath: /tmp
+            - name: storage-metadata-data
+              mountPath: /var/lib/ocis
       volumes:
+        - name: tmp-volume
+          emptyDir:
+              medium: Memory
+              sizeLimit: 6Mi
+      {{- if $.Values.storageMetadata.persistence.enabled }}
         - name: storage-metadata-data
           persistentVolumeClaim:
             claimName: storage-metadata-data
+      {{ else }}
+        - name: storage-metadata-data
+          emptyDir: {}
       {{ end }}

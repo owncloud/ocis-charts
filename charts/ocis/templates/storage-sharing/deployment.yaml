@@ -73,22 +73,30 @@ spec:
             - name: STORAGE_SHARING_EVENTS_ADDRESS
               value: nats:9233
 
-            - name: STORAGE_JWT_SECRET
-              secretRef: jwtsecret
             - name: REVA_GATEWAY
               value: "storage-gateway:9142"
+          envFrom:
+            - secretRef:
+                name: jwt-secret
           resources: {{ toYaml .Values.resources | nindent 12 }}
           ports:
-          - name: grpc
-            containerPort: 9150
-          {{- if $.Values.storageSharing.persistence.enabled }}
+            - name: grpc
+              containerPort: 9150
           volumeMounts:
-          - name: storage-sharing-data
-            mountPath: /var/lib/ocis
-          {{ end }}
-      {{- if $.Values.storageSharing.persistence.enabled }}
+            - name: tmp-volume
+              mountPath: /tmp
+            - name: storage-sharing-data
+              mountPath: /var/lib/ocis
       volumes:
+        - name: tmp-volume
+          emptyDir:
+            medium: Memory
+            sizeLimit: 6Mi
+      {{- if $.Values.storageSharing.persistence.enabled }}
         - name: storage-sharing-data
           persistentVolumeClaim:
             claimName: storage-sharing-data
+      {{ else }}
+        - name: storage-sharing-data
+          emptyDir: {}
       {{ end }}

@@ -7,11 +7,11 @@ metadata:
     {{- include "ocis.labels" . | nindent 4 }}
 spec:
   ports:
-  - name: grpc
-    port: 9191
-    protocol: TCP
-  - name: http
-    port: 9190
-    protocol: TCP
+    - name: grpc
+      port: 9191
+      protocol: TCP
+    - name: http
+      port: 9190
+      protocol: TCP
   selector:
     app: settings

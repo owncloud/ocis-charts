@@ -63,16 +63,17 @@ spec:
               value: 0.0.0.0:9460
           resources: {{ toYaml .Values.resources | nindent 12 }}
           ports:
-          - name: grpc
-            containerPort: 9460
-          {{- if $.Values.store.persistence.enabled }}
+            - name: grpc
+              containerPort: 9460
           volumeMounts:
-          - name: store-data
-            mountPath: /var/lib/ocis
-          {{ end }}
-      {{- if $.Values.store.persistence.enabled }}
+            - name: store-data
+              mountPath: /var/lib/ocis
       volumes:
+      {{- if $.Values.store.persistence.enabled }}
         - name: store-data
           persistentVolumeClaim:
             claimName: store-data
+      {{ else }}
+        - name: store-data
+          emptyDir: {}
       {{ end }}

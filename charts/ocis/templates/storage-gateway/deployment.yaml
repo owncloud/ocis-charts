@@ -77,13 +77,20 @@ spec:
               value: "storage-userprovider:9144"
             - name: STORAGE_PERMISSIONS_ENDPOINT
               value: "settings:9191"
-
-            - name: STORAGE_JWT_SECRET
-              secretRef: jwtsecret
-            - name: STORAGE_TRANSFER_SECRET
-              secretRef: transfersecret
-
+          envFrom:
+            - secretRef:
+                name: jwt-secret
+            - secretRef:
+                name: transfer-secret
           resources: {{ toYaml .Values.resources | nindent 12 }}
           ports:
             - name: grpc
               containerPort: 9142
+          volumeMounts:
+            - name: tmp-volume
+              mountPath: /tmp
+      volumes:
+        - name: tmp-volume
+          emptyDir:
+            medium: Memory
+            sizeLimit: 6Mi

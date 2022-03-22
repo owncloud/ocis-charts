@@ -60,17 +60,24 @@ spec:
             - name: STORAGE_SHARING_ENDPOINT
               value: "storage-sharing:9150"
 
-            - name: STORAGE_JWT_SECRET
-              secretRef: jwtsecret
-            - name: STORAGE_TRANSFER_SECRET
-              secretRef: transfersecret
-
-            - name: STORAGE_AUTH_MACHINE_AUTH_API_KEY
-              value: "{{ $.Values.secrets.machineAuth }}"
-
             - name: REVA_GATEWAY
               value: storage-gateway:9142
+          envFrom:
+            - secretRef:
+                name: jwt-secret
+            - secretRef:
+                name: machine-auth-api-key
+            - secretRef:
+                name: transfer-secret
           resources: {{ toYaml .Values.resources | nindent 12 }}
           ports:
           - name: http
             containerPort: 9140
+          volumeMounts:
+            - name: tmp-volume
+              mountPath: /tmp
+      volumes:
+        - name: tmp-volume
+          emptyDir:
+            medium: Memory
+            sizeLimit: 6Mi

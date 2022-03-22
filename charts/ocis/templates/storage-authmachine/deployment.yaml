@@ -50,14 +50,22 @@ spec:
             - name: STORAGE_AUTH_MACHINE_ENDPOINT
               value: "storage-authmachine:9148"
 
-            - name: STORAGE_AUTH_MACHINE_AUTH_API_KEY
-              value: "{{ $.Values.secrets.machineAuth }}"
-            - name: STORAGE_JWT_SECRET
-              secretRef: jwtsecret
-
             - name: REVA_GATEWAY
               value: storage-gateway:9142
+          envFrom:
+            - secretRef:
+                name: jwt-secret
+            - secretRef:
+                name: machine-auth-api-key
           resources: {{ toYaml .Values.resources | nindent 12 }}
           ports:
-          - name: grpc
-            containerPort: 9148
+            - name: grpc
+              containerPort: 9148
+          volumeMounts:
+            - name: tmp-volume
+              mountPath: /tmp
+      volumes:
+        - name: tmp-volume
+          emptyDir:
+            medium: Memory
+            sizeLimit: 6Mi

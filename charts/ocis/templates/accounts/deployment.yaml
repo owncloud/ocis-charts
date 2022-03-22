@@ -52,14 +52,12 @@ spec:
               value: cs3
             - name: ACCOUNTS_STORAGE_CS3_PROVIDER_ADDR
               value: storage-metadata:9215
-
-            - name: ACCOUNTS_JWT_SECRET
-              secretRef: jwtsecret
-            - name: ACCOUNTS_STORAGE_CS3_JWT_SECRET
-              secretRef: jwtsecret
+          envFrom:
+            - secretRef:
+                name: jwt-secret
           resources: {{ toYaml .Values.resources | nindent 12 }}
           ports:
-          - name: grpc
-            containerPort: 9180
-          - name: http
-            containerPort: 9181
+            - name: grpc
+              containerPort: 9180
+            - name: http
+              containerPort: 9181

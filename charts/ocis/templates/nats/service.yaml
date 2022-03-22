@@ -7,8 +7,8 @@ metadata:
     {{- include "ocis.labels" . | nindent 4 }}
 spec:
   ports:
-  - name: nats
-    port: 9233
-    protocol: TCP
+    - name: nats
+      port: 9233
+      protocol: TCP
   selector:
     app: nats

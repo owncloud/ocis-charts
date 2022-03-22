@@ -91,27 +91,34 @@ spec:
             - name: STORAGE_PERMISSIONS_ENDPOINT
               value: "settings:9191"
 
-            - name: STORAGE_JWT_SECRET
-              secretRef: jwtsecret
-            - name: STORAGE_TRANSFER_SECRET
-              secretRef: transfersecret
-
             - name: REVA_GATEWAY
               value: "storage-gateway:9142"
+          envFrom:
+            - secretRef:
+                name: jwt-secret
+            - secretRef:
+                name: transfer-secret
           resources: {{ toYaml .Values.resources | nindent 12 }}
           ports:
-          - name: grpc
-            containerPort: 9157
-          - name: http
-            containerPort: 9158
-          {{- if $.Values.storageUsers.persistence.enabled }}
+            - name: grpc
+              containerPort: 9157
+            - name: http
+              containerPort: 9158
           volumeMounts:
-          - name: storage-users-data
-            mountPath: /var/lib/ocis
-          {{ end }}
-      {{- if $.Values.storageUsers.persistence.enabled }}
+            - name: tmp-volume
+              mountPath: /tmp
+            - name: storage-users-data
+              mountPath: /var/lib/ocis
       volumes:
+        - name: tmp-volume
+          emptyDir:
+            medium: Memory
+            sizeLimit: 6Mi
+      {{- if $.Values.storageUsers.persistence.enabled }}
         - name: storage-users-data
           persistentVolumeClaim:
             claimName: storage-users-data
+      {{ else }}
+        - name: storage-users-data
+          emptyDir: {}
       {{ end }}

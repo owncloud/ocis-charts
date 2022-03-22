@@ -63,11 +63,6 @@ spec:
             - name: PROXY_TLS
               value: "false"
 
-            - name: PROXY_JWT_SECRET
-              secretRef: jwtsecret
-            - name: PROXY_MACHINE_AUTH_API_KEY
-              value: "{{ $.Values.secrets.machineAuth }}"
-
             - name: PROXY_OIDC_INSECURE
               value: "true"
             - name: PROXY_INSECURE_BACKENDS
@@ -75,13 +70,18 @@ spec:
 
             - name: REVA_GATEWAY
               value: storage-gateway:9142
+          envFrom:
+            - secretRef:
+                name: jwt-secret
+            - secretRef:
+                name: machine-auth-api-key
           resources: {{ toYaml .Values.resources | nindent 12 }}
           ports:
-          - name: http
-            containerPort: 9200
+            - name: http
+              containerPort: 9200
           volumeMounts:
-          - name: configs
-            mountPath: /etc/ocis
+            - name: configs
+              mountPath: /etc/ocis
       volumes:
         - name: configs
           configMap:
