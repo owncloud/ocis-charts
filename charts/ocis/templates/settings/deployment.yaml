@@ -56,7 +56,7 @@ spec:
               value: storage-gateway:9142
             - name: STORAGE_GRPC_ADDR
               value: storage-metadata:9215
-            - name: METADATA_SERVICE_USER_IDP
+            - name: METADATA_SERVICE_USER_IDP # TODO: https://github.com/owncloud/ocis-charts/issues/35
               value: "https://{{ $.Values.externalDomain }}"
           envFrom:
             - secretRef:
