@@ -56,7 +56,13 @@ spec:
           envFrom:
             - secretRef:
                 name: jwt-secret
-          resources: {{ toYaml .Values.resources | nindent 12 }}
+          resources: #{{ toYaml .Values.resources | nindent 12 }}
+            limits:
+              cpu: 4000m
+              memory: 1000Mi
+            requests:
+              cpu: 3000m
+              memory: 500Mi
           ports:
             - name: grpc
               containerPort: 9180

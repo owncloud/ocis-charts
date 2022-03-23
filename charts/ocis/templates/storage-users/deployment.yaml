@@ -107,7 +107,13 @@ spec:
                 name: jwt-secret
             - secretRef:
                 name: transfer-secret
-          resources: {{ toYaml .Values.resources | nindent 12 }}
+          resources: #{{ toYaml .Values.resources | nindent 12 }}
+            limits:
+              cpu: 4000m
+              memory: 3000Mi
+            requests:
+              cpu: 3000m
+              memory: 2000Mi
           ports:
             - name: grpc
               containerPort: 9157
