@@ -2,13 +2,13 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: storage-users
-  namespace: {{ template "ocis.namespace" $ }}
+  namespace: {{ $.Release.Namespace }}
   labels:
     {{- include "ocis.labels" . | nindent 4 }}
 spec:
   selector:
     matchLabels:
-      app: storage-users
+        app: storage-users
   replicas: 1 #TODO: https://github.com/owncloud/ocis-charts/issues/12
   {{- if .Values.deploymentStrategy }}
   strategy: {{ toYaml .Values.deploymentStrategy | nindent 4 }}
@@ -16,8 +16,7 @@ spec:
   template:
     metadata:
       labels:
-        app: storage-users
-        {{- include "ocis.labels" . | nindent 8 }}
+          app: storage-users
     spec:
       {{- if $.Values.storageUsers.persistence.enabled }}
       initContainers:

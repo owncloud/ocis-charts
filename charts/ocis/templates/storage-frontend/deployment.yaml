@@ -2,13 +2,13 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: storage-frontend
-  namespace: {{ template "ocis.namespace" $ }}
+  namespace: {{ $.Release.Namespace }}
   labels:
     {{- include "ocis.labels" . | nindent 4 }}
 spec:
   selector:
     matchLabels:
-      app: storage-frontend
+        app: storage-frontend
   {{- if and (not .Values.autoscaling.enabled) (.Values.replicas) }}
   replicas: {{ .Values.replicas }}
   {{- end }}
@@ -18,8 +18,7 @@ spec:
   template:
     metadata:
       labels:
-        app: storage-frontend
-        {{- include "ocis.labels" . | nindent 8 }}
+          app: storage-frontend
     spec:
       containers:
         - name: storage-frontend

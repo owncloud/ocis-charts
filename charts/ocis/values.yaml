@@ -37,10 +37,6 @@ secrets:
 # Apply extra labels to common labels.
 extraLabels: {}
 
-## Override the deployment namespace
-##
-namespaceOverride: ""
-
 storageMetadata:
   persistence:
     enabled: false
@@ -138,7 +134,7 @@ autoscaling:
 
 # currently resources are globally applied to all services if
 
-resources:
+resources: 
   limits:
     cpu: 100m
     memory: 128Mi
