@@ -23,7 +23,7 @@ labels:
   - name: OCIS-Fastlane
     color: "#deadbf"
     description: Planned outside of the sprint
-  
+
 teams:
   - name: ci
     permission: admin
@@ -39,6 +39,8 @@ branches:
         require_code_owner_reviews: false
       required_status_checks:
         strict: false
+        contexts:
+          - continuous-integration/drone/pr
       enforce_admins: null
       restrictions:
         apps: []
