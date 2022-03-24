@@ -4,7 +4,7 @@ apiVersion: autoscaling/v2beta1
 kind: HorizontalPodAutoscaler
 metadata:
   name: thumbnails
-  namespace: {{ template "ocis.namespace" $ }}
+  namespace: {{ $.Release.Namespace }}
   labels:
     {{- include "ocis.labels" . | nindent 4 }}
 {{- if $.Values.ingress.labels }}

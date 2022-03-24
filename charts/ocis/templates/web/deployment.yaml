@@ -2,13 +2,13 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: web
-  namespace: {{ template "ocis.namespace" $ }}
+  namespace: {{ $.Release.Namespace }}
   labels:
     {{- include "ocis.labels" . | nindent 4 }}
 spec:
   selector:
     matchLabels:
-      app: web
+        app: web
   {{- if and (not .Values.autoscaling.enabled) (.Values.replicas) }}
   replicas: {{ .Values.replicas }}
   {{- end }}
@@ -18,8 +18,7 @@ spec:
   template:
     metadata:
       labels:
-        app: web
-        {{- include "ocis.labels" . | nindent 8 }}
+          app: web
     spec:
       containers:
         - name: web

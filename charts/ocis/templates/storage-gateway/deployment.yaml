@@ -2,13 +2,13 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: storage-gateway
-  namespace: {{ template "ocis.namespace" $ }}
+  namespace: {{ $.Release.Namespace }}
   labels:
     {{- include "ocis.labels" . | nindent 4 }}
 spec:
   selector:
     matchLabels:
-      app: storage-gateway
+        app: storage-gateway
   {{- if and (not .Values.autoscaling.enabled) (.Values.replicas) }}
   replicas: {{ .Values.replicas }}
   {{- end }}
@@ -18,8 +18,7 @@ spec:
   template:
     metadata:
       labels:
-        app: storage-gateway
-        {{- include "ocis.labels" . | nindent 8 }}
+          app: storage-gateway
     spec:
       containers:
         - name: storage-gateway

@@ -11,15 +11,3 @@ Usage:
         {{- tpl (.value | toYaml) .context }}
     {{- end }}
 {{- end -}}
-
-{{/*
-Allow the release namespace to be overridden for multi-namespace deployments in combined charts
-See also https://github.com/helm/helm/issues/5465
-*/}}
-{{- define "ocis.namespace" -}}
-  {{- if .Values.namespaceOverride -}}
-    {{- .Values.namespaceOverride -}}
-  {{- else -}}
-    {{- .Release.Namespace -}}
-  {{- end -}}
-{{- end -}}

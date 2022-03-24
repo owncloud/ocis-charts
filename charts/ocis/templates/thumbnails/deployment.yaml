@@ -2,13 +2,13 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: thumbnails
-  namespace: {{ template "ocis.namespace" $ }}
+  namespace: {{ $.Release.Namespace }}
   labels:
     {{- include "ocis.labels" . | nindent 4 }}
 spec:
   selector:
     matchLabels:
-      app: thumbnails
+        app: thumbnails
   {{- if and (not .Values.autoscaling.enabled) (.Values.replicas) }}
   replicas: {{ .Values.replicas }}
   {{- end }}
@@ -18,8 +18,7 @@ spec:
   template:
     metadata:
       labels:
-        app: thumbnails
-        {{- include "ocis.labels" . | nindent 8 }}
+          app: thumbnails
     spec:
       {{- if $.Values.thumbnails.persistence.enabled }}
       initContainers:
