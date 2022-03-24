@@ -2,13 +2,13 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: proxy
-  namespace: {{ $.Release.Namespace }}
+  namespace: {{ template "ocis.namespace" $ }}
   labels:
     {{- include "ocis.labels" . | nindent 4 }}
 spec:
   selector:
     matchLabels:
-        app: proxy
+      app: proxy
   {{- if and (not .Values.autoscaling.enabled) (.Values.replicas) }}
   replicas: {{ .Values.replicas }}
   {{- end }}
@@ -18,7 +18,8 @@ spec:
   template:
     metadata:
       labels:
-          app: proxy
+        app: proxy
+        {{- include "ocis.labels" . | nindent 8 }}
     spec:
       #hostAliases:
       #  - ip: "127.0.0.1"

@@ -2,13 +2,13 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: storage-publiclink
-  namespace: {{ $.Release.Namespace }}
+  namespace: {{ template "ocis.namespace" $ }}
   labels:
     {{- include "ocis.labels" . | nindent 4 }}
 spec:
   selector:
     matchLabels:
-        app: storage-publiclink
+      app: storage-publiclink
   {{- if and (not .Values.autoscaling.enabled) (.Values.replicas) }}
   replicas: {{ .Values.replicas }}
   {{- end }}
@@ -18,7 +18,8 @@ spec:
   template:
     metadata:
       labels:
-          app: storage-publiclink
+        app: storage-publiclink
+        {{- include "ocis.labels" . | nindent 8 }}
     spec:
       containers:
         - name: storage-publiclink
