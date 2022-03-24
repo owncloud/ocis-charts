@@ -57,12 +57,12 @@ spec:
             - secretRef:
                 name: jwt-secret
           resources: #{{ toYaml .Values.resources | nindent 12 }}
-              limits:
-                cpu: 500m
-                memory: 300Mi
-              requests:
-                cpu: 100m
-                memory: 200Mi
+            limits:
+              cpu: 500m
+              memory: 300Mi
+            requests:
+              cpu: 100m
+              memory: 200Mi
           ports:
             - name: grpc
               containerPort: 9166
