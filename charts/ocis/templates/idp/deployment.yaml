@@ -51,7 +51,7 @@ spec:
 
             - name: IDP_LDAP_URI
               value: ldap://glauth:9125
-            - name : IDP_INSECURE
+            - name : IDP_INSECURE #TODO: https://github.com/owncloud/ocis-charts/issues/32
               value: "true"
           resources: {{ toYaml .Values.resources | nindent 12 }}
           ports:

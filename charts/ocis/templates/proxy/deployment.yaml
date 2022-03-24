@@ -63,7 +63,7 @@ spec:
             - name: PROXY_TLS
               value: "false"
 
-            - name: PROXY_OIDC_INSECURE
+            - name: PROXY_OIDC_INSECURE # TODO: https://github.com/owncloud/ocis-charts/issues/32
               value: "true"
             - name: PROXY_INSECURE_BACKENDS
               value: "false"

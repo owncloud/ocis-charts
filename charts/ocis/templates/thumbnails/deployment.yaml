@@ -65,14 +65,14 @@ spec:
             - name: THUMBNAILS_DATA_ENDPOINT
               value: http://thumbnails:9186/thumbnails/data
 
-            - name: THUMBNAILS_CS3SOURCE_INSECURE
+            - name: THUMBNAILS_CS3SOURCE_INSECURE # TODO: https://github.com/owncloud/ocis-charts/issues/32
               value: "true"
-
-            - name: THUMBNAILS_TRANSFER_TOKEN
-              value: "{{ $.Values.secrets.transfer }}"
 
             - name: REVA_GATEWAY
               value: storage-gateway:9142
+          envFrom:
+            - secretRef:
+                name: thumbnails-transfer-secret
           resources: {{ toYaml .Values.resources | nindent 12 }}
           ports:
             - name: grpc

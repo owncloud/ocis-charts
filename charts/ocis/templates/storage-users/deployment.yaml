@@ -48,6 +48,7 @@ spec:
             - name: MICRO_REGISTRY
               value: kubernetes
 
+            # logging
             - name: OCIS_LOG_COLOR
               value: "{{ $.Values.logging.color }}"
             - name: OCIS_LOG_LEVEL
@@ -55,24 +56,27 @@ spec:
             - name: OCIS_LOG_PRETTY
               value: "{{ $.Values.logging.pretty }}"
 
+            # external availability grpc
             - name: STORAGE_USERS_GRPC_ADDR
               value: 0.0.0.0:9157
-            - name: STORAGE_USERS_ENDPOINT
-              value: 'storage-users:9157'
 
+            # external availability data gateway
             - name: STORAGE_USERS_HTTP_ADDR
               value: 0.0.0.0:9158
             - name: STORAGE_USERS_DATA_SERVER_URL
               value: "http://storage-users:9158/data"
 
-            - name: STORAGE_USERS_DATAPROVIDER_INSECURE
+            # data gateway
+            - name: STORAGE_USERS_DATAPROVIDER_INSECURE # TODO: https://github.com/owncloud/ocis-charts/issues/32
               value: "true"
 
+            # oCIS storage driver (decomposed filesystem)
             {{- if  eq $.Values.storageUsers.storageBackend.driver "ocis" }}
             - name: STORAGE_USERS_DRIVER
               value: ocis
             {{- end }}
 
+            # S3ng storage driver (decomposed filesystem)
             {{- if  eq $.Values.storageUsers.storageBackend.driver "s3ng" }}
             - name: STORAGE_USERS_DRIVER
               value: s3ng
@@ -88,9 +92,9 @@ spec:
               value: "{{ $.Values.storageUsers.storageBackend.driverConfig.s3ng.bucket }}"
             {{- end }}
 
+            # permissions middleware
             - name: STORAGE_PERMISSIONS_ENDPOINT
               value: "settings:9191"
-
             - name: REVA_GATEWAY
               value: "storage-gateway:9142"
           envFrom:

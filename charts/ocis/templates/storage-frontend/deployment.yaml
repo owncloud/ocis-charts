@@ -50,11 +50,11 @@ spec:
             - name: STORAGE_FRONTEND_PUBLIC_URL
               value: "https://{{ $.Values.externalDomain }}"
 
-            - name: STORAGE_FRONTEND_APPPROVIDER_INSECURE
+            - name: STORAGE_FRONTEND_APPPROVIDER_INSECURE # TODO: https://github.com/owncloud/ocis-charts/issues/32
               value: "true"
-            - name: STORAGE_FRONTEND_ARCHIVER_INSECURE
+            - name: STORAGE_FRONTEND_ARCHIVER_INSECURE # TODO: https://github.com/owncloud/ocis-charts/issues/32
               value: "true"
-            - name: STORAGE_FRONTEND_OCDAV_INSECURE
+            - name: STORAGE_FRONTEND_OCDAV_INSECURE # TODO: https://github.com/owncloud/ocis-charts/issues/32
               value: "true"
 
             - name: STORAGE_SHARING_ENDPOINT
