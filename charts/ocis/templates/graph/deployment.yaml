@@ -2,13 +2,13 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: graph
-  namespace: {{ $.Release.Namespace }}
+  namespace: {{ template "ocis.namespace" $ }}
   labels:
     {{- include "ocis.labels" . | nindent 4 }}
 spec:
   selector:
     matchLabels:
-        app: graph
+      app: graph
   {{- if and (not .Values.autoscaling.enabled) (.Values.replicas) }}
   replicas: {{ .Values.replicas }}
   {{- end }}
@@ -18,7 +18,8 @@ spec:
   template:
     metadata:
       labels:
-          app: graph
+        app: graph
+        {{- include "ocis.labels" . | nindent 8 }}
     spec:
       containers:
         - name: graph
