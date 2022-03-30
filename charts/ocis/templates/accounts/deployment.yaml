@@ -50,7 +50,7 @@ spec:
               value: 0.0.0.0:9181
 
             - name: ACCOUNTS_STORAGE_BACKEND
-              value: cs3
+              value: disk
             - name: ACCOUNTS_STORAGE_CS3_PROVIDER_ADDR
               value: storage-metadata:9215
           envFrom:
