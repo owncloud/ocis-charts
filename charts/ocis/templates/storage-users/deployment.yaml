@@ -93,6 +93,10 @@ spec:
               value: "{{ $.Values.storageUsers.storageBackend.driverConfig.s3ng.bucket }}"
             {{- end }}
 
+            # events
+            - name: STORAGE_SHARING_EVENTS_ADDRESS
+              value: nats:9233
+
             # permissions middleware
             - name: STORAGE_PERMISSIONS_ENDPOINT
               value: "settings:9191"

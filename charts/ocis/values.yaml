@@ -1,7 +1,7 @@
 image:
   repository: owncloud/ocis
-  tag: "latest"
-  sha: "a49a106802ebe44e1cfdc04ca71661be104d87224f0e6fd8e2477bc3bb078b92"
+  tag: "1.19.1"
+  sha: "3fdde158afabac6ec540756f651a59892baf2c9a2b2b03e82fddeb34fa83374b"
   pullPolicy: IfNotPresent
 
 logging:
