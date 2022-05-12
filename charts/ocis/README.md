@@ -68,13 +68,13 @@ All release can be breaking during Tech Preview, see [oCIS Tech Preview](https:/
 | `secrets.jwt`                                              | JWT secret                                                       | `replace-me-with-a-real-secret-123`                                |
 | `secrets.machineAuth`                                      | machine auth secret for internal service communication           | `replace-me-with-a-real-secret-456`                                |
 | `secrets.transfer`                                         | JWT secret for up- and downloads                                 | `replace-me-with-a-real-secret-789`                                |
-| `storageMetadata.persistence.accessModes`                  | metadata storage service: Persistence access modes               | `[ReadWritMany]`                                                   |
-| `storageMetadata.persistence.annotations`                  | metadata storage service: PersistentVolumeClaim annotations      | `{}`                                                               |
-| `storageMetadata.persistence.enabled`                      | metadata storage service: Use persistent volume to store data    | `false`                                                            |
-| `storageMetadata.persistence.existingClaim`                | metadata storage service: Use an existing PVC to persist data    | `nil`                                                              |
-| `storageMetadata.persistence.finalizers`                   | metadata storage service: PersistentVolumeClaim finalizers       | `[ "kubernetes.io/pvc-protection" ]`                               |
-| `storageMetadata.persistence.size`                         | metadata storage service: Size of persistent volume claim        | `5Gi`                                                              |
-| `storageMetadata.persistence.storageClassName`             | metadata storage service: Type of persistent volume claim        | `nil`                                                              |
+| `storageSystem.persistence.accessModes`                  | metadata storage service: Persistence access modes               | `[ReadWritMany]`                                                   |
+| `storageSystem.persistence.annotations`                  | metadata storage service: PersistentVolumeClaim annotations      | `{}`                                                               |
+| `storageSystem.persistence.enabled`                      | metadata storage service: Use persistent volume to store data    | `false`                                                            |
+| `storageSystem.persistence.existingClaim`                | metadata storage service: Use an existing PVC to persist data    | `nil`                                                              |
+| `storageSystem.persistence.finalizers`                   | metadata storage service: PersistentVolumeClaim finalizers       | `[ "kubernetes.io/pvc-protection" ]`                               |
+| `storageSystem.persistence.size`                         | metadata storage service: Size of persistent volume claim        | `5Gi`                                                              |
+| `storageSystem.persistence.storageClassName`             | metadata storage service: Type of persistent volume claim        | `nil`                                                              |
 | `storageSharing.persistence.accessModes`                   | sharing service: Persistence access modes                        | `[ReadWritMany]`                                                   |
 | `storageSharing.persistence.annotations`                   | sharing service: PersistentVolumeClaim annotations               | `{}`                                                               |
 | `storageSharing.persistence.enabled`                       | sharing service: Use persistent volume to store data             | `false`                                                            |

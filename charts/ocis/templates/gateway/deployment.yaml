@@ -1,0 +1,100 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gateway
+  namespace: {{ template "ocis.namespace" $ }}
+  labels:
+    {{- include "ocis.labels" . | nindent 4 }}
+spec:
+  selector:
+    matchLabels:
+      app: gateway
+  {{- if and (not .Values.autoscaling.enabled) (.Values.replicas) }}
+  replicas: {{ .Values.replicas }}
+  {{- end }}
+  {{- if .Values.deploymentStrategy }}
+  strategy: {{ toYaml .Values.deploymentStrategy | nindent 4 }}
+  {{ end }}
+  template:
+    metadata:
+      labels:
+        app: gateway
+        {{- include "ocis.labels" . | nindent 8 }}
+    spec:
+      containers:
+        - name: gateway
+          {{- if .Values.image.sha }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}@sha256:{{ .Values.image.sha }}"
+          {{- else }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          {{- end }}
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          command: ["ocis"]
+          args: ["gateway", "server"]
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 1000
+            readOnlyRootFilesystem: true
+          env:
+            - name: MICRO_REGISTRY
+              value: kubernetes
+
+            - name: GATEWAY_LOG_COLOR
+              value: "{{ .Values.logging.color }}"
+            - name: GATEWAY_LOG_LEVEL
+              value: "{{ .Values.logging.level }}"
+            - name: GATEWAY_LOG_PRETTY
+              value: "{{ .Values.logging.pretty }}"
+
+            - name: GATEWAY_GRPC_ADDR
+              value: 0.0.0.0:9142
+
+            - name: REVA_GATEWAY
+              value: gateway:9142
+
+            - name: GATEWAY_FRONTEND_PUBLIC_URL
+              value: "https://{{ .Values.externalDomain }}"
+
+            - name: GATEWAY_USERS_ENDPOINT
+              value: users:9144
+            - name: GATEWAY_GROUPS_ENDPOINT
+              value: groups:9160
+
+            - name: GATEWAY_AUTH_BASIC_ENDPOINT
+              value: auth-basic:9146
+            - name: GATEWAY_AUTH_BEARER_ENDPOINT
+              value: auth-bearer:9148
+            - name: GATEWAY_AUTH_MACHINE_ENDPOINT
+              value: auth-machine:9166
+
+            - name: GATEWAY_PERMISSIONS_ENDPOINT
+              value: settings:9191
+
+            - name: GATEWAY_SHARING_ENDPOINT
+              value: sharing:9150
+            - name: GATEWAY_STORAGE_PUBLIC_LINK_ENDPOINT
+              value: storage-publiclink:9178
+            - name: GATEWAY_STORAGE_USERS_ENDPOINT
+              value: storage-users:9157
+            - name: GATEWAY_STORAGE_SHARES_ENDPOINT
+              value: storage-shares:9154
+
+            - name: GATEWAY_APP_REGISTRY_ENDPOINT
+              value: app-registry:9242
+          envFrom:
+            - secretRef:
+                name: jwt-secret
+            - secretRef:
+                name: transfer-secret
+          resources: {{ toYaml .Values.resources | nindent 12 }}
+          ports:
+            - name: grpc
+              containerPort: 9142
+          volumeMounts:
+            - name: tmp-volume
+              mountPath: /tmp
+      volumes:
+        - name: tmp-volume
+          emptyDir:
+            medium: Memory
+            sizeLimit: 6Mi

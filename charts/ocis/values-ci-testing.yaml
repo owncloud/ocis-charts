@@ -17,7 +17,7 @@ extraLabels:
   extra1: lorem
   extra2: ipsum
 
-storageMetadata:
+storageSystem:
   persistence:
     enabled: true
     storageClassName: default-storage

@@ -1,0 +1,105 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: storage-system
+  namespace: {{ template "ocis.namespace" $ }}
+  labels:
+    {{- include "ocis.labels" . | nindent 4 }}
+spec:
+  selector:
+    matchLabels:
+      app: storage-system
+  replicas: 1 #TODO: https://github.com/owncloud/ocis-charts/issues/12
+  {{- if .Values.deploymentStrategy }}
+  strategy: {{ toYaml .Values.deploymentStrategy | nindent 4 }}
+  {{ end }}
+  template:
+    metadata:
+      labels:
+        app: storage-system
+        {{- include "ocis.labels" . | nindent 8 }}
+    spec:
+      {{- if .Values.storageSystem.persistence.enabled }}
+      initContainers:
+        - name: init-chown-data
+          image: busybox
+          securityContext:
+            runAsNonRoot: false
+            runAsUser: 0
+          command: ["chown", "-R", "1000:1000", "/var/lib/ocis"]
+          volumeMounts:
+          - name: storage-system-data
+            mountPath: /var/lib/ocis
+      {{ end }}
+      containers:
+        - name: storage-system
+          {{- if .Values.image.sha }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}@sha256:{{ .Values.image.sha }}"
+          {{- else }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          {{- end }}
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          command: ["ocis"]
+          args: ["storage-system", "server"]
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 1000
+            readOnlyRootFilesystem: true
+          env:
+            - name: MICRO_REGISTRY
+              value: kubernetes
+
+            # logging
+            - name: STORAGE_SYSTEM_LOG_COLOR
+              value: "{{ .Values.logging.color }}"
+            - name: STORAGE_SYSTEM_LOG_LEVEL
+              value: "{{ .Values.logging.level }}"
+            - name: STORAGE_SYSTEM_LOG_PRETTY
+              value: "{{ .Values.logging.pretty }}"
+
+            # external availability grpc
+            - name: STORAGE_SYSTEM_GRPC_ADDR
+              value: 0.0.0.0:9215
+
+            # external availability data gateway
+            - name: STORAGE_SYSTEM_HTTP_ADDR
+              value: 0.0.0.0:9216
+            - name: STORAGE_SYSTEM_DATA_SERVER_URL
+              value: http://storage-system:9216/data
+
+            # data gateway
+            - name: STORAGE_SYSTEM_DATAPROVIDER_INSECURE # TODO: https://github.com/owncloud/ocis-charts/issues/32
+              value: "true"
+
+            - name: REVA_GATEWAY
+              value: "gateway:9142"
+          envFrom:
+            - secretRef:
+                name: jwt-secret
+            - secretRef:
+                name: storage-system
+            # TODO: how can this work without a transfer secret?
+          resources: {{ toYaml .Values.resources | nindent 12 }}
+          ports:
+            - name: grpc
+              containerPort: 9215
+            - name: http
+              containerPort: 9216
+          volumeMounts:
+            - name: tmp-volume
+              mountPath: /tmp
+            - name: storage-system-data
+              mountPath: /var/lib/ocis
+      volumes:
+        - name: tmp-volume
+          emptyDir:
+              medium: Memory
+              sizeLimit: 6Mi
+      {{- if .Values.storageSystem.persistence.enabled }}
+        - name: storage-system-data
+          persistentVolumeClaim:
+            claimName: storage-system-data
+      {{ else }}
+        - name: storage-system-data
+          emptyDir: {}
+      {{ end }}

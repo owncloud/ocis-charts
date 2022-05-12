@@ -40,23 +40,29 @@ spec:
               value: kubernetes
 
             - name: GRAPH_LOG_COLOR
-              value: "{{ $.Values.logging.color }}"
+              value: "{{ .Values.logging.color }}"
             - name: GRAPH_LOG_LEVEL
-              value: "{{ $.Values.logging.level }}"
+              value: "{{ .Values.logging.level }}"
             - name: GRAPH_LOG_PRETTY
-              value: "{{ $.Values.logging.pretty }}"
+              value: "{{ .Values.logging.pretty }}"
 
             - name: GRAPH_HTTP_ADDR
               value: 0.0.0.0:9120
 
             - name: GRAPH_SPACES_WEBDAV_BASE
-              value: "https://{{ $.Values.externalDomain }}"
-
-            - name: REVA_GATEWAY
-              value: "storage-gateway:9142"
+              value: "https://{{ .Values.externalDomain }}"
 
             - name: GRAPH_LDAP_URI
-              value: ldap://glauth:9125
+              value: ldaps://idm:9235
+
+            - name: GRAPH_LDAP_BIND_PASSWORD # TODO: move into secret
+              value: {{ .Values.secrets.GraphLdapBindPassword }}
+
+            - name: REVA_GATEWAY
+              value: gateway:9142
+            - name: GRAPH_EVENTS_ENDPOINT
+              value: nats:9233
+
           envFrom:
             - secretRef:
                 name: jwt-secret

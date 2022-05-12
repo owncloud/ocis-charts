@@ -1,0 +1,95 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sharing
+  namespace: {{ template "ocis.namespace" $ }}
+  labels:
+    {{- include "ocis.labels" . | nindent 4 }}
+spec:
+  selector:
+    matchLabels:
+      app: sharing
+  replicas: 1 #TODO: https://github.com/owncloud/ocis-charts/issues/12
+  {{- if .Values.deploymentStrategy }}
+  strategy: {{ toYaml .Values.deploymentStrategy | nindent 4 }}
+  {{ end }}
+  template:
+    metadata:
+      labels:
+        app: sharing
+        {{- include "ocis.labels" . | nindent 8 }}
+    spec:
+      {{- if .Values.storageSharing.persistence.enabled }}
+      initContainers:
+        - name: init-chown-data
+          image: busybox
+          securityContext:
+            runAsNonRoot: false
+            runAsUser: 0
+          command: ["chown", "-R", "1000:1000", "/var/lib/ocis"]
+          volumeMounts:
+          - name: sharing-data
+            mountPath: /var/lib/ocis
+      {{ end }}
+      containers:
+        - name: sharing
+          {{- if .Values.image.sha }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}@sha256:{{ .Values.image.sha }}"
+          {{- else }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          {{- end }}
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          command: ["ocis"]
+          args: ["sharing", "server"]
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 1000
+            readOnlyRootFilesystem: true
+          env:
+            - name: MICRO_REGISTRY
+              value: kubernetes
+
+            - name: SHARING_LOG_COLOR
+              value: "{{ .Values.logging.color }}"
+            - name: SHARING_LOG_LEVEL
+              value: "{{ .Values.logging.level }}"
+            - name: SHARING_LOG_PRETTY
+              value: "{{ .Values.logging.pretty }}"
+
+            - name: SHARING_GRPC_ADDR
+              value: 0.0.0.0:9150
+
+            - name: SHARING_USER_DRIVER
+              value: "json" #TODO: switch to CS3 and remove persistency
+            - name: SHARING_PUBLIC_DRIVER
+              value: "json" #TODO: switch to CS3 and remove persistency
+
+            - name: REVA_GATEWAY
+              value: gateway:9142
+            - name: SHARING_EVENTS_ENDPOINT
+              value: nats:9233
+          envFrom:
+            - secretRef:
+                name: jwt-secret
+          resources: {{ toYaml .Values.resources | nindent 12 }}
+          ports:
+            - name: grpc
+              containerPort: 9150
+          volumeMounts:
+            - name: tmp-volume
+              mountPath: /tmp
+            - name: sharing-data
+              mountPath: /var/lib/ocis
+      volumes:
+        - name: tmp-volume
+          emptyDir:
+            medium: Memory
+            sizeLimit: 6Mi
+      {{- if .Values.storageSharing.persistence.enabled }}
+        - name: sharing-data
+          persistentVolumeClaim:
+            claimName: sharing-data
+      {{ else }}
+        - name: sharing-data
+          emptyDir: {}
+      {{ end }}

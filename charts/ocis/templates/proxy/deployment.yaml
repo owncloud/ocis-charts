@@ -24,7 +24,7 @@ spec:
       #hostAliases:
       #  - ip: "127.0.0.1"
       #    hostnames:
-      #      - "{{ $.Values.externalDomain }}"
+      #      - "{{ .Values.externalDomain }}"
       containers:
         #- name: idp-hack-sidecar
         #  image: alpine/socat
@@ -47,20 +47,19 @@ spec:
               value: kubernetes
 
             - name: PROXY_LOG_COLOR
-              value: "{{ $.Values.logging.color }}"
+              value: "{{ .Values.logging.color }}"
             - name: PROXY_LOG_LEVEL
-              value: "{{ $.Values.logging.level }}"
+              value: "{{ .Values.logging.level }}"
             - name: PROXY_LOG_PRETTY
-              value: "{{ $.Values.logging.pretty }}"
+              value: "{{ .Values.logging.pretty }}"
 
             - name: PROXY_HTTP_ADDR
               value: 0.0.0.0:9200
-            - name: PROXY_AUTOPROVISION_ACCOUNTS
-              value: "true"
+
             - name: PROXY_ENABLE_BASIC_AUTH
-              value: "true"
+              value: "true" #TODO: configurable
             - name: PROXY_OIDC_ISSUER
-              value: "https://{{ $.Values.externalDomain }}"
+              value: "https://{{ .Values.externalDomain }}"
             - name: PROXY_TLS
               value: "false"
 
@@ -70,7 +69,7 @@ spec:
               value: "false"
 
             - name: REVA_GATEWAY
-              value: storage-gateway:9142
+              value: gateway:9142
           envFrom:
             - secretRef:
                 name: jwt-secret

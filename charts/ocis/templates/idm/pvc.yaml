@@ -1,0 +1,33 @@
+{{- if and .Values.storageUsers.persistence.enabled (not .Values.storageUsers.persistence.existingClaim)}}
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: idm-data
+  namespace: {{ template "ocis.namespace" $ }}
+  labels:
+    {{- include "ocis.labels" . | nindent 4 }}
+  {{- with .Values.storageUsers.persistence.annotations  }}
+  annotations:
+{{ toYaml . | indent 4 }}
+  {{- end }}
+  {{- with .Values.storageUsers.persistence.finalizers  }}
+  finalizers:
+{{ toYaml . | indent 4 }}
+  {{- end }}
+spec:
+  accessModes:
+    {{- range .Values.storageUsers.persistence.accessModes }}
+    - {{ . | quote }}
+    {{- end }}
+  resources:
+    requests:
+      storage: {{ .Values.storageUsers.persistence.size | quote }}
+  {{- if .Values.storageUsers.persistence.storageClassName }}
+  storageClassName: {{ .Values.idm.persistence.storageClassName }}
+  {{- end -}}
+  {{- with .Values.storageUsers.persistence.selectorLabels }}
+  selector:
+    matchLabels:
+{{ toYaml . | indent 6 }}
+  {{- end }}
+{{- end -}}

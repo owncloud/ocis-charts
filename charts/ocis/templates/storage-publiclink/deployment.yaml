@@ -30,7 +30,7 @@ spec:
           {{- end }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           command: ["ocis"]
-          args: ["storage-public-link", "server"]
+          args: ["storage-publiclink", "server"]
           securityContext:
             runAsNonRoot: true
             runAsUser: 1000
@@ -39,20 +39,18 @@ spec:
             - name: MICRO_REGISTRY
               value: kubernetes
 
-            - name: OCIS_LOG_COLOR
-              value: "{{ $.Values.logging.color }}"
-            - name: OCIS_LOG_LEVEL
-              value: "{{ $.Values.logging.level }}"
-            - name: OCIS_LOG_PRETTY
-              value: "{{ $.Values.logging.pretty }}"
+            - name: STORAGE_PUBLICLINK_LOG_COLOR
+              value: "{{ .Values.logging.color }}"
+            - name: STORAGE_PUBLICLINK_LOG_LEVEL
+              value: "{{ .Values.logging.level }}"
+            - name: STORAGE_PUBLICLINK_LOG_PRETTY
+              value: "{{ .Values.logging.pretty }}"
 
-            - name: STORAGE_PUBLIC_LINK_GRPC_ADDR
+            - name: STORAGE_PUBLICLINK_GRPC_ADDR
               value: 0.0.0.0:9178
-            - name: STORAGE_PUBLIC_LINK_ENDPOINT
-              value: "storage-shares:9178"
 
             - name: REVA_GATEWAY
-              value: storage-gateway:9142
+              value: gateway:9142
           envFrom:
             - secretRef:
                 name: jwt-secret

@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: audit
+  namespace: {{ template "ocis.namespace" $ }}
+  labels:
+    {{- include "ocis.labels" . | nindent 4 }}
+spec:
+  selector:
+    matchLabels:
+      app: audit
+  {{- if and (not .Values.autoscaling.enabled) (.Values.replicas) }}
+  replicas: {{ .Values.replicas }} #TODO: how to scale audit?
+  {{- end }}
+  {{- if .Values.deploymentStrategy }}
+  strategy: {{ toYaml .Values.deploymentStrategy | nindent 4 }}
+  {{ end }}
+  template:
+    metadata:
+      labels:
+        app: audit
+        {{- include "ocis.labels" . | nindent 8 }}
+    spec:
+      containers:
+        - name: audit
+          {{- if .Values.image.sha }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}@sha256:{{ .Values.image.sha }}"
+          {{- else }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          {{- end }}
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          command: ["ocis"]
+          args: ["audit", "server"]
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 1000
+            readOnlyRootFilesystem: true
+          env:
+            - name: MICRO_REGISTRY
+              value: kubernetes
+
+            - name: AUDIT_LOG_COLOR
+              value: "{{ .Values.logging.color }}"
+            - name: AUDIT_LOG_LEVEL
+              value: "{{ .Values.logging.level }}"
+            - name: AUDIT_LOG_PRETTY
+              value: "{{ .Values.logging.pretty }}"
+
+            - name: AUDIT_EVENTS_ENDPOINT
+              value: nats:9233
+
+            # TODO: log to file or stdout?
+            #- name: AUDIT_FILEPATH
+            #  value:
+
+          resources: {{ toYaml .Values.resources | nindent 12 }}

@@ -1,0 +1,33 @@
+{{- if and .Values.storageSystem.persistence.enabled (not .Values.storageSystem.persistence.existingClaim)}}
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: storage-system-data
+  namespace: {{ template "ocis.namespace" $ }}
+  labels:
+    {{- include "ocis.labels" . | nindent 4 }}
+  {{- with .Values.storageSystem.persistence.annotations  }}
+  annotations:
+{{ toYaml . | indent 4 }}
+  {{- end }}
+  {{- with .Values.storageSystem.persistence.finalizers  }}
+  finalizers:
+{{ toYaml . | indent 4 }}
+  {{- end }}
+spec:
+  accessModes:
+    {{- range .Values.storageSystem.persistence.accessModes }}
+    - {{ . | quote }}
+    {{- end }}
+  resources:
+    requests:
+      storage: {{ .Values.storageSystem.persistence.size | quote }}
+  {{- if .Values.storageSystem.persistence.storageClassName }}
+  storageClassName: {{ .Values.storageSystem.persistence.storageClassName }}
+  {{- end -}}
+  {{- with .Values.storageSystem.persistence.selectorLabels }}
+  selector:
+    matchLabels:
+{{ toYaml . | indent 6 }}
+  {{- end }}
+{{- end -}}

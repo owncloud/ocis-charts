@@ -19,6 +19,8 @@ spec:
         app: idp
         {{- include "ocis.labels" . | nindent 8 }}
     spec:
+      #TODO: init secret / private key and then add hpa
+
       containers:
         - name: idp
           {{- if .Values.image.sha }}
@@ -38,22 +40,28 @@ spec:
               value: kubernetes
 
             - name: IDP_LOG_COLOR
-              value: "{{ $.Values.logging.color }}"
+              value: "{{ .Values.logging.color }}"
             - name: IDP_LOG_LEVEL
-              value: "{{ $.Values.logging.level }}"
+              value: "{{ .Values.logging.level }}"
             - name: IDP_LOG_PRETTY
-              value: "{{ $.Values.logging.pretty }}"
+              value: "{{ .Values.logging.pretty }}"
 
             - name: IDP_HTTP_ADDR
               value: 0.0.0.0:9130
 
             - name: IDP_ISS
-              value: "https://{{ $.Values.externalDomain }}"
+              value: "https://{{ .Values.externalDomain }}"
 
             - name: IDP_LDAP_URI
-              value: ldap://glauth:9125
+              value: ldaps://idm:9235
             - name : IDP_INSECURE #TODO: https://github.com/owncloud/ocis-charts/issues/32
               value: "true"
+            - name: IDP_LDAP_TLS_CACERT
+              value: ""
+
+            - name: IDP_LDAP_BIND_PASSWORD
+              value: {{ .Values.secrets.IdpLdapBindPassword }}
+
           resources: {{ toYaml .Values.resources | nindent 12 }}
           ports:
             - name: http

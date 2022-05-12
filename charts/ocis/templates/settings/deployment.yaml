@@ -40,30 +40,37 @@ spec:
               value: kubernetes
 
             - name: SETTINGS_LOG_COLOR
-              value: "{{ $.Values.logging.color }}"
+              value: "{{ .Values.logging.color }}"
             - name: SETTINGS_LOG_LEVEL
-              value: "{{ $.Values.logging.level }}"
+              value: "{{ .Values.logging.level }}"
             - name: SETTINGS_LOG_PRETTY
-              value: "{{ $.Values.logging.pretty }}"
+              value: "{{ .Values.logging.pretty }}"
 
             - name: SETTINGS_HTTP_ADDR
               value: 0.0.0.0:9190
             - name: SETTINGS_GRPC_ADDR
               value: 0.0.0.0:9191
 
-            - name: SETTINGS_STORE_TYPE
-              value: metadata
             - name: STORAGE_GATEWAY_GRPC_ADDR
-              value: storage-gateway:9142
+              value: storage-system:9215
             - name: STORAGE_GRPC_ADDR
-              value: storage-metadata:9215
-            - name: METADATA_SERVICE_USER_IDP # TODO: https://github.com/owncloud/ocis-charts/issues/35
-              value: "https://{{ $.Values.externalDomain }}"
+              value: storage-system:9215
+
+            - name: STORAGE_TRANSFER_SECRET
+              value: "delete-me" #TODO: delete me
+            - name: OCIS_MACHINE_AUTH_API_KEY
+              value: "delete-me" #TODO: delete me
+            - name: OCIS_SYSTEM_USER_API_KEY
+              value: "delete-me" #TODO: delete me
+            - name: OCIS_SYSTEM_USER_ID
+              value: "delete-me" #TODO: delete me
+            - name: OCIS_ADMIN_USER_ID
+              value: "delete-me" #TODO: delete me
           envFrom:
             - secretRef:
                 name: jwt-secret
             - secretRef:
-                name: machine-auth-api-key
+                name: storage-system
           resources: {{ toYaml .Values.resources | nindent 12 }}
           ports:
             - name: http

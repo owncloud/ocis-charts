@@ -1,7 +1,7 @@
 image:
   repository: owncloud/ocis
-  tag: "1.19.1"
-  sha: "3fdde158afabac6ec540756f651a59892baf2c9a2b2b03e82fddeb34fa83374b"
+  tag: "latest"
+  sha: "ba93922ceb52afdf66ea86397f6fe6f3b7510261db0b5e85c01bc6440a047f47"
   pullPolicy: IfNotPresent
 
 logging:
@@ -33,6 +33,12 @@ secrets:
   jwt: replace-me-with-a-real-secret-123
   machineAuth: replace-me-with-a-real-secret-456
   transfer: replace-me-with-a-real-secret-789
+  RevaLdapBindPassword: foobar
+  GraphLdapBindPassword: lorem
+  IdpLdapBindPassword: ipsum
+  systemUserID: asdsdf
+  systemUserApiKey: asdfasdfasdf
+  thumbnailsTransfer: fooipsum
 
 # Apply extra labels to common labels.
 extraLabels: {}
@@ -41,7 +47,7 @@ extraLabels: {}
 ##
 namespaceOverride: ""
 
-storageMetadata:
+storageSystem:
   persistence:
     enabled: false
     # storageClassName: default
@@ -113,6 +119,19 @@ thumbnails:
     size: 10Gi
     annotations: {}
     finalizers: []
+    selectorLabels: {}
+    # existingClaim:
+
+idm:
+  persistence:
+    enabled: false
+    # storageClassName: default
+    accessModes:
+      - ReadWriteMany
+    size: 5Gi
+    annotations: {}
+    finalizers:
+      - kubernetes.io/pvc-protection
     selectorLabels: {}
     # existingClaim:
 

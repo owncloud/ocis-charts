@@ -21,7 +21,7 @@ spec:
         app: thumbnails
         {{- include "ocis.labels" . | nindent 8 }}
     spec:
-      {{- if $.Values.thumbnails.persistence.enabled }}
+      {{- if .Values.thumbnails.persistence.enabled }}
       initContainers:
         - name: init-chown-data
           image: busybox
@@ -52,11 +52,11 @@ spec:
               value: kubernetes
 
             - name: THUMBNAILS_LOG_COLOR
-              value: "{{ $.Values.logging.color }}"
+              value: "{{ .Values.logging.color }}"
             - name: THUMBNAILS_LOG_LEVEL
-              value: "{{ $.Values.logging.level }}"
+              value: "{{ .Values.logging.level }}"
             - name: THUMBNAILS_LOG_PRETTY
-              value: "{{ $.Values.logging.pretty }}"
+              value: "{{ .Values.logging.pretty }}"
 
             - name: THUMBNAILS_GRPC_ADDR
               value: 0.0.0.0:9185
@@ -70,7 +70,7 @@ spec:
               value: "true"
 
             - name: REVA_GATEWAY
-              value: storage-gateway:9142
+              value: gateway:9142
           envFrom:
             - secretRef:
                 name: thumbnails-transfer-secret
@@ -84,7 +84,7 @@ spec:
             - name: thumbnails-data
               mountPath: /var/lib/ocis
       volumes:
-      {{- if $.Values.thumbnails.persistence.enabled }}
+      {{- if .Values.thumbnails.persistence.enabled }}
         - name: thumbnails-data
           persistentVolumeClaim:
             claimName: thumbnails-data

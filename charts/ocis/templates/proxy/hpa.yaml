@@ -7,12 +7,12 @@ metadata:
   namespace: {{ template "ocis.namespace" $ }}
   labels:
     {{- include "ocis.labels" . | nindent 4 }}
-{{- if $.Values.ingress.labels }}
-{{ toYaml $.Values.ingress.labels | indent 4 }}
+{{- if .Values.ingress.labels }}
+{{ toYaml .Values.ingress.labels | indent 4 }}
 {{- end }}
-  {{- if $.Values.ingress.annotations }}
+  {{- if .Values.ingress.annotations }}
   annotations:
-    {{- range $key, $value := $.Values.ingress.annotations }}
+    {{- range $key, $value := .Values.ingress.annotations }}
     {{ $key }}: {{ tpl $value $ | quote }}
     {{- end }}
   {{- end }}

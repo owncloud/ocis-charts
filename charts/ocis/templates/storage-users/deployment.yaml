@@ -19,7 +19,7 @@ spec:
         app: storage-users
         {{- include "ocis.labels" . | nindent 8 }}
     spec:
-      {{- if $.Values.storageUsers.persistence.enabled }}
+      {{- if .Values.storageUsers.persistence.enabled }}
       initContainers:
         - name: init-chown-data
           image: busybox
@@ -50,20 +50,20 @@ spec:
               value: kubernetes
 
             # logging
-            - name: OCIS_LOG_COLOR
-              value: "{{ $.Values.logging.color }}"
-            - name: OCIS_LOG_LEVEL
-              value: "{{ $.Values.logging.level }}"
-            - name: OCIS_LOG_PRETTY
-              value: "{{ $.Values.logging.pretty }}"
+            - name: STORAGE_USERS_LOG_COLOR
+              value: "{{ .Values.logging.color }}"
+            - name: STORAGE_USERS_LOG_LEVEL
+              value: "{{ .Values.logging.level }}"
+            - name: STORAGE_USERS_LOG_PRETTY
+              value: "{{ .Values.logging.pretty }}"
 
             # external availability grpc
             - name: STORAGE_USERS_GRPC_ADDR
-              value: 0.0.0.0:9157
+              value: 0.0.0.0:9158
 
             # external availability data gateway
-            - name: STORAGE_USERS_HTTP_ADDR
-              value: 0.0.0.0:9158
+            - name: STORAGE_USERS_GRPC_ADDR
+              value: 0.0.0.0:9159 #TODO: 9158
             - name: STORAGE_USERS_DATA_SERVER_URL
               value: "http://storage-users:9158/data"
 
@@ -72,41 +72,53 @@ spec:
               value: "true"
 
             # oCIS storage driver (decomposed filesystem)
-            {{- if  eq $.Values.storageUsers.storageBackend.driver "ocis" }}
+            {{- if  eq .Values.storageUsers.storageBackend.driver "ocis" }}
             - name: STORAGE_USERS_DRIVER
               value: ocis
+            - name: STORAGE_USERS_OCIS_PERMISSIONS_ENDPOINT
+              value: settings:9191
             {{- end }}
 
             # S3ng storage driver (decomposed filesystem)
-            {{- if  eq $.Values.storageUsers.storageBackend.driver "s3ng" }}
+            {{- if  eq .Values.storageUsers.storageBackend.driver "s3ng" }}
             - name: STORAGE_USERS_DRIVER
               value: s3ng
-            - name: STORAGE_USERS_DRIVER_S3NG_ENDPOINT
-              value: "{{ $.Values.storageUsers.storageBackend.driverConfig.s3ng.endpoint }}"
-            - name: STORAGE_USERS_DRIVER_S3NG_REGION
-              value: "{{ $.Values.storageUsers.storageBackend.driverConfig.s3ng.region }}"
-            - name: STORAGE_USERS_DRIVER_S3NG_ACCESS_KEY
-              value: "{{ $.Values.storageUsers.storageBackend.driverConfig.s3ng.accessKey }}"
-            - name: STORAGE_USERS_DRIVER_S3NG_SECRET_KEY
-              value: "{{ $.Values.storageUsers.storageBackend.driverConfig.s3ng.secretKey }}"
-            - name: STORAGE_USERS_DRIVER_S3NG_BUCKET
-              value: "{{ $.Values.storageUsers.storageBackend.driverConfig.s3ng.bucket }}"
+            - name: STORAGE_USERS_S3NG_ENDPOINT
+              value: "{{ .Values.storageUsers.storageBackend.driverConfig.s3ng.endpoint }}"
+            - name: STORAGE_USERS_S3NG_REGION
+              value: "{{ .Values.storageUsers.storageBackend.driverConfig.s3ng.region }}"
+            - name: STORAGE_USERS_S3NG_ACCESS_KEY
+              value: "{{ .Values.storageUsers.storageBackend.driverConfig.s3ng.accessKey }}"
+            - name: STORAGE_USERS_S3NG_SECRET_KEY
+              value: "{{ .Values.storageUsers.storageBackend.driverConfig.s3ng.secretKey }}"
+            - name: STORAGE_USERS_S3NG_BUCKET
+              value: "{{ .Values.storageUsers.storageBackend.driverConfig.s3ng.bucket }}"
+            - name: STORAGE_USERS_S3NG_USERS_PROVIDER_ENDPOINT # TODO: remove me when below exists
+              value: settings:9191
+            - name: STORAGE_USERS_S3NG_PERMISSIONS_ENDPOINT # TODO: remove me when below exists
+              value: settings:9191
             {{- end }}
 
             # events
-            - name: STORAGE_SHARING_EVENTS_ADDRESS
+            - name: STORAGE_USERS_EVENTS_ENDPOINT
               value: nats:9233
 
-            # permissions middleware
-            - name: STORAGE_PERMISSIONS_ENDPOINT
-              value: "settings:9191"
             - name: REVA_GATEWAY
-              value: "storage-gateway:9142"
+              value: gateway:9142
+
+            - name: STORAGE_TRANSFER_SECRET
+              value: "delete-me" #TODO: delete me
+            - name: OCIS_MACHINE_AUTH_API_KEY
+              value: "delete-me" #TODO: delete me
+            - name: OCIS_SYSTEM_USER_API_KEY
+              value: "delete-me" #TODO: delete me
+            - name: OCIS_SYSTEM_USER_ID
+              value: "delete-me" #TODO: delete me
+            - name: OCIS_ADMIN_USER_ID
+              value: "delete-me" #TODO: delete me
           envFrom:
             - secretRef:
                 name: jwt-secret
-            - secretRef:
-                name: transfer-secret
           resources: {{ toYaml .Values.resources | nindent 12 }}
           ports:
             - name: grpc
@@ -123,7 +135,7 @@ spec:
           emptyDir:
             medium: Memory
             sizeLimit: 6Mi
-      {{- if $.Values.storageUsers.persistence.enabled }}
+      {{- if .Values.storageUsers.persistence.enabled }}
         - name: storage-users-data
           persistentVolumeClaim:
             claimName: storage-users-data
