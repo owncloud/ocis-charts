@@ -9,5 +9,5 @@ metadata:
 type: Opaque
 data:
     # TODO: create random default value when no value is set in values.yaml https://github.com/owncloud/ocis-charts/issues/9
-    OCIS_SYSTEM_USER_API_KEY: "{{ b64enc .Values.secrets.systemUserApiKey }}"
-    OCIS_SYSTEM_USER_ID: "{{ b64enc .Values.secrets.systemUserID }}"
+    OCIS_SYSTEM_USER_API_KEY: {{ b64enc .Values.secrets.systemUserApiKey }}
+    OCIS_SYSTEM_USER_ID: {{ b64enc .Values.secrets.systemUserID }}

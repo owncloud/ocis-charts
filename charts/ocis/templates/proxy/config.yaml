@@ -29,6 +29,7 @@ data:
         backend: http://ocs:9110
       - endpoint: /ocs/
         backend: http://frontend:9140
+
       - type: query
         endpoint: /remote.php/?preview=1
         backend: http://webdav:9115
@@ -41,18 +42,20 @@ data:
       - type: query
         endpoint: /webdav/?preview=1
         backend: http://webdav:9115
+
       - endpoint: /remote.php/
-        service: com.owncloud.web.ocdav
+        backend: http://ocdav:8080 # TODO: investigate why service discovery did not work here, 502 bad gateway
       - endpoint: /dav/
-        service: com.owncloud.web.ocdav
+        backend: http://ocdav:8080
       - endpoint: /webdav/
-        service: com.owncloud.web.ocdav
+        backend: http://ocdav:8080
       - endpoint: /status.php
-        service: com.owncloud.web.ocdav
+        backend: http://ocdav:8080
       - endpoint: /index.php/
-        service: com.owncloud.web.ocdav
+        backend: http://ocdav:8080
       - endpoint: /apps/
-        service: com.owncloud.web.ocdav
+        backend: http://ocdav:8080
+
       - endpoint: /data
         backend: http://frontend:9140
       - endpoint: /app/

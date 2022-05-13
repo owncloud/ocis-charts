@@ -66,10 +66,11 @@ spec:
             - name: PROXY_OIDC_INSECURE # TODO: https://github.com/owncloud/ocis-charts/issues/32
               value: "true"
             - name: PROXY_INSECURE_BACKENDS
-              value: "false"
+              value: "true"
 
             - name: REVA_GATEWAY
               value: gateway:9142
+
           envFrom:
             - secretRef:
                 name: jwt-secret

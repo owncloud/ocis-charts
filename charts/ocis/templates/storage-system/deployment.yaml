@@ -78,7 +78,6 @@ spec:
                 name: jwt-secret
             - secretRef:
                 name: storage-system
-            # TODO: how can this work without a transfer secret?
           resources: {{ toYaml .Values.resources | nindent 12 }}
           ports:
             - name: grpc

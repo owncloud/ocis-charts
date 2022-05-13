@@ -71,6 +71,8 @@ spec:
           envFrom:
             - secretRef:
                 name: jwt-secret
+            - secretRef:
+                name: storage-system
           resources: {{ toYaml .Values.resources | nindent 12 }}
           ports:
             - name: grpc

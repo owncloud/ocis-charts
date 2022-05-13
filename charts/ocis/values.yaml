@@ -39,6 +39,7 @@ secrets:
   systemUserID: asdsdf
   systemUserApiKey: asdfasdfasdf
   thumbnailsTransfer: fooipsum
+  adminUserUUID: 3ee04290-9435-4b61-8024-8d2e1f7bd611
 
 # Apply extra labels to common labels.
 extraLabels: {}

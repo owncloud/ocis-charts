@@ -56,16 +56,9 @@ spec:
             - name: STORAGE_GRPC_ADDR
               value: storage-system:9215
 
-            - name: STORAGE_TRANSFER_SECRET
-              value: "delete-me" #TODO: delete me
-            - name: OCIS_MACHINE_AUTH_API_KEY
-              value: "delete-me" #TODO: delete me
-            - name: OCIS_SYSTEM_USER_API_KEY
-              value: "delete-me" #TODO: delete me
-            - name: OCIS_SYSTEM_USER_ID
-              value: "delete-me" #TODO: delete me
-            - name: OCIS_ADMIN_USER_ID
-              value: "delete-me" #TODO: delete me
+            - name: SETTINGS_ADMIN_USER_ID
+              value: {{ .Values.secrets.adminUserUUID }}
+
           envFrom:
             - secretRef:
                 name: jwt-secret

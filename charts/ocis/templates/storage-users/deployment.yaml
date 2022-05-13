@@ -59,17 +59,20 @@ spec:
 
             # external availability grpc
             - name: STORAGE_USERS_GRPC_ADDR
-              value: 0.0.0.0:9158
+              value: 0.0.0.0:9157
 
             # external availability data gateway
-            - name: STORAGE_USERS_GRPC_ADDR
-              value: 0.0.0.0:9159 #TODO: 9158
+            - name: STORAGE_USERS_HTTP_ADDR
+              value: 0.0.0.0:9158
             - name: STORAGE_USERS_DATA_SERVER_URL
               value: "http://storage-users:9158/data"
 
             # data gateway
             - name: STORAGE_USERS_DATAPROVIDER_INSECURE # TODO: https://github.com/owncloud/ocis-charts/issues/32
               value: "true"
+
+            - name: STORAGE_USERS_PERMISSION_ENDPOINT
+              value: settings:9191 #remove duplicate
 
             # oCIS storage driver (decomposed filesystem)
             {{- if  eq .Values.storageUsers.storageBackend.driver "ocis" }}
@@ -106,19 +109,11 @@ spec:
             - name: REVA_GATEWAY
               value: gateway:9142
 
-            - name: STORAGE_TRANSFER_SECRET
-              value: "delete-me" #TODO: delete me
-            - name: OCIS_MACHINE_AUTH_API_KEY
-              value: "delete-me" #TODO: delete me
-            - name: OCIS_SYSTEM_USER_API_KEY
-              value: "delete-me" #TODO: delete me
-            - name: OCIS_SYSTEM_USER_ID
-              value: "delete-me" #TODO: delete me
-            - name: OCIS_ADMIN_USER_ID
-              value: "delete-me" #TODO: delete me
           envFrom:
             - secretRef:
                 name: jwt-secret
+            - secretRef:
+                name: transfer-secret
           resources: {{ toYaml .Values.resources | nindent 12 }}
           ports:
             - name: grpc

@@ -54,6 +54,7 @@ spec:
 
             - name: AUTH_BEARER_OIDC_ISSUER
               value: https://{{ .Values.externalDomain }}
+
           envFrom:
             - secretRef:
                 name: jwt-secret
