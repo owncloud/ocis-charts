@@ -1,4 +1,4 @@
----
+{{- if empty .Values.secretRefs.storageSystemSecretRef }}
 apiVersion: v1
 kind: Secret
 metadata:
@@ -6,8 +6,14 @@ metadata:
   namespace: {{ template "ocis.namespace" $ }}
   labels:
     {{- include "ocis.labels" . | nindent 4 }}
+  annotations:
+    "helm.sh/resource-policy": "keep"
 type: Opaque
 data:
-    # TODO: create random default value when no value is set in values.yaml https://github.com/owncloud/ocis-charts/issues/9
-    OCIS_SYSTEM_USER_API_KEY: {{ b64enc .Values.secrets.systemUserApiKey }}
-    OCIS_SYSTEM_USER_ID: {{ b64enc .Values.secrets.systemUserID }}
+    {{- $secret := (lookup "v1" "Secret" .Release.Namespace "storage-system") | default dict }} # TODO: use namespace template
+    {{- $secretData := (get $secret "data") | default dict }}
+    {{- $apiKey := (get $secretData "api-key") | default (b64enc (randAlphaNum 32)) }}
+    {{- $userID := (get $secretData "user-id") | default (b64enc (uuidv4)) }}
+    api-key: {{ $apiKey }}
+    user-id: {{ $userID }}
+{{- end }}

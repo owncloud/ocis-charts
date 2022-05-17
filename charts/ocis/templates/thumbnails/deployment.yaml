@@ -71,9 +71,13 @@ spec:
 
             - name: REVA_GATEWAY
               value: gateway:9142
-          envFrom:
-            - secretRef:
-                name: thumbnails-transfer-secret
+
+            - name: THUMBNAILS_TRANSFER_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: thumbnails-transfer-secret
+                  key: thumbnails-transfer-secret
+
           resources: {{ toYaml .Values.resources | nindent 12 }}
           ports:
             - name: grpc

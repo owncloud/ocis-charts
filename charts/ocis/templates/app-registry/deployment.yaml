@@ -52,9 +52,16 @@ spec:
             - name: REVA_GATEWAY
               value: gateway:9142
 
-          envFrom:
-            - secretRef:
-                name: jwt-secret
+            - name: APP_REGISTRY_JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  {{- if empty .Values.secretRefs.jwtSecretRef }}
+                  name: jwt-secret
+                  {{- else }}
+                  name: {{ .Values.secretRefs.jwtSecretRef}}
+                  {{- end }}
+                  key: jwt-secret
+
           resources: {{ toYaml .Values.resources | nindent 12 }}
           ports:
             - name: http

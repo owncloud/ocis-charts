@@ -1,0 +1,21 @@
+{{- if empty .Values.secretRefs.ldapSecretRef }}
+apiVersion: v1
+kind: Secret
+metadata:
+  name: ldap-bind-secrets
+  namespace: {{ template "ocis.namespace" $ }}
+  labels:
+    {{- include "ocis.labels" . | nindent 4 }}
+  annotations:
+    "helm.sh/resource-policy": "keep"
+type: Opaque
+data:
+    {{- $secret := (lookup "v1" "Secret" .Release.Namespace "ldap-bind-secrets") | default dict }} # TODO: use namespace template
+    {{- $secretData := (get $secret "data") | default dict }}
+    {{- $revaLdapBindPassword := (get $secretData "reva-ldap-bind-password") | default (b64enc (randAlphaNum 32)) }}
+    {{- $idpLdapBindPassword := (get $secretData "idp-ldap-bind-password") | default (b64enc (randAlphaNum 32)) }}
+    {{- $graphLdapBindPassword := (get $secretData "graph-ldap-bind-password") | default (b64enc (randAlphaNum 32)) }}
+    reva-ldap-bind-password: {{ $revaLdapBindPassword }}
+    idp-ldap-bind-password: {{ $idpLdapBindPassword }}
+    graph-ldap-bind-password: {{ $graphLdapBindPassword }}
+{{- end }}

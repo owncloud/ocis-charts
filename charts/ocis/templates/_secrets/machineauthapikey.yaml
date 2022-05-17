@@ -1,4 +1,4 @@
----
+{{- if empty .Values.secretRefs.machineAuthApiKeySecretRef }}
 apiVersion: v1
 kind: Secret
 metadata:
@@ -6,7 +6,12 @@ metadata:
   namespace: {{ template "ocis.namespace" $ }}
   labels:
     {{- include "ocis.labels" . | nindent 4 }}
+  annotations:
+    "helm.sh/resource-policy": "keep"
 type: Opaque
 data:
-    # TODO: create random default value when no value is set in values.yaml https://github.com/owncloud/ocis-charts/issues/9
-    OCIS_MACHINE_AUTH_API_KEY: {{ b64enc .Values.secrets.machineAuth }}
+    {{- $secret := (lookup "v1" "Secret" .Release.Namespace "machine-auth-api-key") | default dict }} # TODO: use namespace template
+    {{- $secretData := (get $secret "data") | default dict }}
+    {{- $machineAuthApiKey := (get $secretData "machine-auth-api-key") | default (b64enc (randAlphaNum 32)) }}
+    machine-auth-api-key: {{ $machineAuthApiKey }}
+{{- end }}

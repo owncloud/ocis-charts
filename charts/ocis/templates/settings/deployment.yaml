@@ -57,13 +57,29 @@ spec:
               value: storage-system:9215
 
             - name: SETTINGS_ADMIN_USER_ID
-              value: {{ .Values.secrets.adminUserUUID }}
+              value: {{ .Values.adminUserUUID }}
 
-          envFrom:
-            - secretRef:
-                name: jwt-secret
-            - secretRef:
-                name: storage-system
+            - name: SETTINGS_JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  {{- if empty .Values.secretRefs.jwtSecretRef }}
+                  name: jwt-secret
+                  {{- else }}
+                  name: {{ .Values.secretRefs.jwtSecretRef}}
+                  {{- end }}
+                  key: jwt-secret
+
+            - name: OCIS_SYSTEM_USER_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: storage-system
+                  key: api-key
+            - name: OCIS_SYSTEM_USER_ID
+              valueFrom:
+                secretKeyRef:
+                  name: storage-system
+                  key: user-id
+
           resources: {{ toYaml .Values.resources | nindent 12 }}
           ports:
             - name: http

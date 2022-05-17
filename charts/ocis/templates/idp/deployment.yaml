@@ -62,7 +62,10 @@ spec:
               value: ""
 
             - name: IDP_LDAP_BIND_PASSWORD
-              value: "{{ .Values.secrets.IdpLdapBindPassword }}"
+              valueFrom:
+                secretKeyRef:
+                  name: ldap-bind-secrets
+                  key: idp-ldap-bind-password
 
             - name: IDP_SIGNING_PRIVATE_KEY_FILES
               value: /etc/ocis/idp-private-key.pem

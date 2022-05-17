@@ -73,11 +73,25 @@ spec:
 
             - name: REVA_GATEWAY
               value: "gateway:9142"
-          envFrom:
-            - secretRef:
-                name: jwt-secret
-            - secretRef:
-                name: storage-system
+
+            # TODO: set this to a different token
+            - name: STORAGE_SYSTEM_JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: storage-system-jwt-secret
+                  key: storage-system-jwt-secret
+
+            - name: OCIS_SYSTEM_USER_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: storage-system
+                  key: api-key
+            - name: OCIS_SYSTEM_USER_ID
+              valueFrom:
+                secretKeyRef:
+                  name: storage-system
+                  key: user-id
+
           resources: {{ toYaml .Values.resources | nindent 12 }}
           ports:
             - name: grpc

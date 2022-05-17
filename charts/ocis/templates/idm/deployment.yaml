@@ -68,14 +68,23 @@ spec:
               value: "admin" #TODO: change me
 
             - name: IDM_SVC_PASSWORD
-              value: "{{ .Values.secrets.GraphLdapBindPassword }}"
+              valueFrom:
+                secretKeyRef:
+                  name: ldap-bind-secrets
+                  key: graph-ldap-bind-password
             - name: IDM_REVASVC_PASSWORD
-              value: "{{ .Values.secrets.RevaLdapBindPassword }}"
+              valueFrom:
+                secretKeyRef:
+                  name: ldap-bind-secrets
+                  key: reva-ldap-bind-password
             - name: IDM_IDPSVC_PASSWORD
-              value: "{{ .Values.secrets.IdpLdapBindPassword }}"
+              valueFrom:
+                secretKeyRef:
+                  name: ldap-bind-secrets
+                  key: idp-ldap-bind-password
 
             - name: IDM_ADMIN_USER_ID
-              value: {{ .Values.secrets.adminUserUUID }}
+              value: {{ .Values.adminUserUUID }}
 
           resources: {{ toYaml .Values.resources | nindent 12 }}
           ports:

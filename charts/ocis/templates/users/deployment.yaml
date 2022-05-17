@@ -56,15 +56,26 @@ spec:
             - name: USERS_LDAP_INSECURE # TODO: https://github.com/owncloud/ocis-charts/issues/32
               value: "true"
             - name: USERS_LDAP_BIND_PASSWORD
-              value: {{ .Values.secrets.RevaLdapBindPassword }}
+              valueFrom:
+                secretKeyRef:
+                  name: ldap-bind-secrets
+                  key: reva-ldap-bind-password
             - name: USERS_IDP_URL
               value: "https://{{ .Values.externalDomain }}"
 
             - name: REVA_GATEWAY
               value: gateway:9142
-          envFrom:
-            - secretRef:
-                name: jwt-secret
+
+            - name: USERS_JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  {{- if empty .Values.secretRefs.jwtSecretRef }}
+                  name: jwt-secret
+                  {{- else }}
+                  name: {{ .Values.secretRefs.jwtSecretRef}}
+                  {{- end }}
+                  key: jwt-secret
+
           resources: {{ toYaml .Values.resources | nindent 12 }}
           ports:
             - name: grpc

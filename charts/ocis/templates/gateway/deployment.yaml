@@ -81,11 +81,23 @@ spec:
 
             - name: GATEWAY_APP_REGISTRY_ENDPOINT
               value: app-registry:9242
-          envFrom:
-            - secretRef:
-                name: jwt-secret
-            - secretRef:
-                name: transfer-secret
+
+            - name: GATEWAY_JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  {{- if empty .Values.secretRefs.jwtSecretRef }}
+                  name: jwt-secret
+                  {{- else }}
+                  name: {{ .Values.secretRefs.jwtSecretRef}}
+                  {{- end }}
+                  key: jwt-secret
+
+            - name: STORAGE_TRANSFER_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: transfer-secret
+                  key: transfer-secret
+
           resources: {{ toYaml .Values.resources | nindent 12 }}
           ports:
             - name: grpc

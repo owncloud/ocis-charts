@@ -58,14 +58,26 @@ spec:
               value: ""
             - name: AUTH_BASIC_LDAP_INSECURE
               value: "true"
+
             - name: AUTH_BASIC_LDAP_BIND_PASSWORD
-              value: {{ .Values.secrets.RevaLdapBindPassword }}
+              valueFrom:
+                secretKeyRef:
+                  name: ldap-bind-secrets
+                  key: reva-ldap-bind-password
+
             - name: AUTH_BASIC_IDP_URL
               value: https://{{ .Values.externalDomain }}
 
-          envFrom:
-            - secretRef:
-                name: jwt-secret
+            - name: AUTH_BASIC_JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  {{- if empty .Values.secretRefs.jwtSecretRef }}
+                  name: jwt-secret
+                  {{- else }}
+                  name: {{ .Values.secretRefs.jwtSecretRef}}
+                  {{- end }}
+                  key: jwt-secret
+
           resources: {{ toYaml .Values.resources | nindent 12 }}
           ports:
           - name: grpc

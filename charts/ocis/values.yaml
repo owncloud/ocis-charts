@@ -28,18 +28,19 @@ ingress:
   #      - ocis.owncloud.test
 
 
-secrets:
-  #TODO: https://github.com/owncloud/ocis-charts/issues/9
-  jwt: replace-me-with-a-real-secret-123
-  machineAuth: replace-me-with-a-real-secret-456
-  transfer: replace-me-with-a-real-secret-789
-  RevaLdapBindPassword: foobar
-  GraphLdapBindPassword: lorem
-  IdpLdapBindPassword: ipsum
-  systemUserID: asdsdf
-  systemUserApiKey: asdfasdfasdf
-  thumbnailsTransfer: fooipsum
-  adminUserUUID: 3ee04290-9435-4b61-8024-8d2e1f7bd611
+# TODO: should only be configurable for external LDAPs?
+adminUserUUID: 3ee04290-9435-4b61-8024-8d2e1f7bd611
+
+secretRefs:
+  jwtSecretRef: ""
+  ldapSecretRef: ""
+  machineAuthApiKeySecretRef: ""
+  storageSystemSecretRef: ""
+  storageSystemJwtSecretRef: ""
+  transferSecretSecretRef: ""
+  idpSecretRef: ""
+  thumbnailsSecretRef: ""
+
 
 # Apply extra labels to common labels.
 extraLabels: {}

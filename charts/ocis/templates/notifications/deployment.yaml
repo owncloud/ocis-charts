@@ -48,8 +48,14 @@ spec:
             - name: NOTIFICATIONS_EVENTS_ENDPOINT
               value: nats:9233
 
-          envFrom:
-            - secretRef:
-                name: machine-auth-api-key
+            - name: NOTIFICATIONS_MACHINE_AUTH_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  {{- if empty .Values.secretRefs.machineAuthApiKeySecretRef }}
+                  name: machine-auth-api-key
+                  {{- else }}
+                  name: {{ .Values.secretRefs.machineAuthApiKeySecretRef}}
+                  {{- end }}
+                  key: machine-auth-api-key
 
           resources: {{ toYaml .Values.resources | nindent 12 }}
