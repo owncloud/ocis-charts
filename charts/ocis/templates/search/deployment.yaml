@@ -48,8 +48,6 @@ spec:
 
             - name: SEARCH_GRPC_ADDR
               value: 0.0.0.0:9220
-            - name: ACCOUNTS_GRPC_ADDR #TODO: delete me when above variable is available
-              value: 0.0.0.0:9220
 
             - name: REVA_GATEWAY
               value: gateway:9142
