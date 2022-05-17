@@ -20,6 +20,8 @@ spec:
       labels:
         app: proxy
         {{- include "ocis.labels" . | nindent 8 }}
+      annotations:
+        checksum/config: {{ include (print $.Template.BasePath "/proxy/config.yaml") . | sha256sum }}
     spec:
       #hostAliases:
       #  - ip: "127.0.0.1"
