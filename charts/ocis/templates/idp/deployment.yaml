@@ -9,7 +9,9 @@ spec:
   selector:
     matchLabels:
       app: idp
-  replicas: 1 #TODO: https://github.com/owncloud/ocis-charts/issues/12
+  {{- if and (not .Values.autoscaling.enabled) (.Values.replicas) }}
+  replicas: {{ .Values.replicas }}
+  {{- end }}
   {{- if .Values.deploymentStrategy }}
   strategy: {{ toYaml .Values.deploymentStrategy | nindent 4 }}
   {{ end }}
@@ -18,9 +20,9 @@ spec:
       labels:
         app: idp
         {{- include "ocis.labels" . | nindent 8 }}
+      annotations:
+        checksum/secrets: {{ include (print $.Template.BasePath "/idp/secrets.yaml") . | sha256sum }}
     spec:
-      #TODO: init secret / private key and then add hpa
-
       containers:
         - name: idp
           {{- if .Values.image.sha }}
@@ -60,9 +62,23 @@ spec:
               value: ""
 
             - name: IDP_LDAP_BIND_PASSWORD
-              value: {{ .Values.secrets.IdpLdapBindPassword }}
+              value: "{{ .Values.secrets.IdpLdapBindPassword }}"
+
+            - name: IDP_SIGNING_PRIVATE_KEY_FILES
+              value: /etc/ocis/idp-private-key.pem
+
+            - name: IDP_ENCRYPTION_SECRET_FILE
+              value: /etc/ocis/idp-encryption.key
 
           resources: {{ toYaml .Values.resources | nindent 12 }}
           ports:
             - name: http
               containerPort: 9130
+          volumeMounts:
+            - name: idp-secrets
+              mountPath: /etc/ocis
+              readOnly: true
+      volumes:
+        - name: idp-secrets
+          secret:
+            secretName: idp-secrets
