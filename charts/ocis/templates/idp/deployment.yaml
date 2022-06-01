@@ -68,10 +68,10 @@ spec:
                   key: idp-ldap-bind-password
 
             - name: IDP_SIGNING_PRIVATE_KEY_FILES
-              value: /etc/ocis/idp-private-key.pem
+              value: /etc/ocis/idp/private-key.pem
 
             - name: IDP_ENCRYPTION_SECRET_FILE
-              value: /etc/ocis/idp-encryption.key
+              value: /etc/ocis/idp/encryption.key
 
           resources: {{ toYaml .Values.resources | nindent 12 }}
           ports:
@@ -79,7 +79,7 @@ spec:
               containerPort: 9130
           volumeMounts:
             - name: idp-secrets
-              mountPath: /etc/ocis
+              mountPath: /etc/ocis/idp
               readOnly: true
       volumes:
         - name: idp-secrets

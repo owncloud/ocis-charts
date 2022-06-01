@@ -54,6 +54,10 @@ spec:
 
             - name: GRAPH_LDAP_URI
               value: ldaps://idm:9235
+            - name: GRAPH_LDAP_CACERT
+              value: ""
+            - name: GRAPH_LDAP_INSECURE
+              value: "true"
 
             - name: GRAPH_LDAP_BIND_PASSWORD # TODO: move into secret
               valueFrom:
