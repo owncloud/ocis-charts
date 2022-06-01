@@ -19,7 +19,6 @@ spec:
         app: sharing
         {{- include "ocis.labels" . | nindent 8 }}
     spec:
-      {{- if .Values.storageSharing.persistence.enabled }}
       initContainers:
         - name: init-chown-data
           image: busybox
@@ -30,7 +29,6 @@ spec:
           volumeMounts:
           - name: sharing-data
             mountPath: /var/lib/ocis
-      {{ end }}
       containers:
         - name: sharing
           {{- if .Values.image.sha }}

@@ -56,10 +56,9 @@ spec:
 
             - name: IDP_LDAP_URI
               value: ldaps://idm:9235
-            - name : IDP_INSECURE #TODO: https://github.com/owncloud/ocis-charts/issues/32
-              value: "true"
+
             - name: IDP_LDAP_TLS_CACERT
-              value: ""
+              value: /etc/ocis/ldap-ca/ldap-ca-cert
 
             - name: IDP_LDAP_BIND_PASSWORD
               valueFrom:
@@ -81,7 +80,13 @@ spec:
             - name: idp-secrets
               mountPath: /etc/ocis/idp
               readOnly: true
+            - name: ldap-ca
+              mountPath: /etc/ocis/ldap-ca
+              readOnly: true
       volumes:
         - name: idp-secrets
           secret:
             secretName: idp-secrets
+        - name: ldap-ca
+          secret:
+            secretName: ldap-ca

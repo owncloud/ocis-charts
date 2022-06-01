@@ -52,9 +52,7 @@ spec:
             - name: USERS_LDAP_URI
               value: ldaps://idm:9235
             - name: USERS_LDAP_CACERT
-              value: ""
-            - name: USERS_LDAP_INSECURE # TODO: https://github.com/owncloud/ocis-charts/issues/32
-              value: "true"
+              value: /etc/ocis/ldap-ca/ldap-ca-cert
             - name: USERS_LDAP_BIND_PASSWORD
               valueFrom:
                 secretKeyRef:
@@ -81,9 +79,15 @@ spec:
             - name: grpc
               containerPort: 9144
           volumeMounts:
+            - name: ldap-ca
+              mountPath: /etc/ocis/ldap-ca
+              readOnly: true
             - name: tmp-volume
               mountPath: /tmp
       volumes:
+        - name: ldap-ca
+          secret:
+            secretName: ldap-ca
         - name: tmp-volume
           emptyDir:
             medium: Memory

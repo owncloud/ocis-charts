@@ -40,6 +40,7 @@ secretRefs:
   transferSecretSecretRef: ""
   idpSecretRef: ""
   thumbnailsSecretRef: ""
+  ldapCaRef: ""
 
 
 # Apply extra labels to common labels.

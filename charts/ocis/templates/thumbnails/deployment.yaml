@@ -21,7 +21,6 @@ spec:
         app: thumbnails
         {{- include "ocis.labels" . | nindent 8 }}
     spec:
-      {{- if .Values.thumbnails.persistence.enabled }}
       initContainers:
         - name: init-chown-data
           image: busybox
@@ -32,7 +31,6 @@ spec:
           volumeMounts:
           - name: thumbnails-data
             mountPath: /var/lib/ocis
-      {{ end }}
       containers:
         - name: thumbnails
           {{- if .Values.image.sha }}
@@ -65,9 +63,6 @@ spec:
 
             - name: THUMBNAILS_DATA_ENDPOINT
               value: http://thumbnails:9186/thumbnails/data
-
-            - name: THUMBNAILS_CS3SOURCE_INSECURE # TODO: https://github.com/owncloud/ocis-charts/issues/32
-              value: "true"
 
             - name: REVA_GATEWAY
               value: gateway:9142

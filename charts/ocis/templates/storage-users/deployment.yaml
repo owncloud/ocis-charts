@@ -19,7 +19,6 @@ spec:
         app: storage-users
         {{- include "ocis.labels" . | nindent 8 }}
     spec:
-      {{- if .Values.storageUsers.persistence.enabled }}
       initContainers:
         - name: init-chown-data
           image: busybox
@@ -30,7 +29,6 @@ spec:
           volumeMounts:
           - name: storage-users-data
             mountPath: /var/lib/ocis
-      {{ end }}
       containers:
         - name: storage-users
           {{- if .Values.image.sha }}

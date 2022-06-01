@@ -21,8 +21,16 @@ spec:
         app: idm
         {{- include "ocis.labels" . | nindent 8 }}
     spec:
-      {{- if .Values.idm.persistence.enabled }}
       initContainers:
+        - name: init-dir
+          image: busybox
+          securityContext:
+            runAsNonRoot: false
+            runAsUser: 0
+          command: ["mkdir", "-p", "/var/lib/ocis/idm"]
+          volumeMounts:
+          - name: idm-data
+            mountPath: /var/lib/ocis
         - name: init-chown-data
           image: busybox
           securityContext:
@@ -32,7 +40,6 @@ spec:
           volumeMounts:
           - name: idm-data
             mountPath: /var/lib/ocis
-      {{ end }}
       containers:
         - name: idm
           {{- if .Values.image.sha }}
@@ -86,15 +93,28 @@ spec:
             - name: IDM_ADMIN_USER_ID
               value: {{ .Values.adminUserUUID }}
 
+            - name: IDM_LDAPS_CERT
+              value: /etc/ocis/ldap-ca/ldap-cert-cert
+
+            - name: IDM_LDAPS_KEY
+              value: /etc/ocis/ldap-ca/ldap-cert-key
+
           resources: {{ toYaml .Values.resources | nindent 12 }}
           ports:
             - name: ldaps
               containerPort: 9235
           volumeMounts:
+            - name: ldap-ca
+              mountPath: /etc/ocis/ldap-ca
+              readOnly: true
+
             - name: idm-data
               mountPath: /var/lib/ocis
       volumes:
-      {{- if .Values.idm.persistence.enabled }}
+        - name: ldap-ca
+          secret:
+            secretName: ldap-ca
+      {{ if .Values.idm.persistence.enabled }}
         - name: idm-data
           persistentVolumeClaim:
             claimName: idm-data

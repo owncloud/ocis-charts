@@ -55,9 +55,7 @@ spec:
             - name: AUTH_BASIC_LDAP_URI
               value: ldaps://idm:9235
             - name: AUTH_BASIC_LDAP_CACERT
-              value: ""
-            - name: AUTH_BASIC_LDAP_INSECURE
-              value: "true"
+              value: /etc/ocis/ldap-ca/ldap-ca-cert
 
             - name: AUTH_BASIC_LDAP_BIND_PASSWORD
               valueFrom:
@@ -83,9 +81,15 @@ spec:
           - name: grpc
             containerPort: 9146
           volumeMounts:
+            - name: ldap-ca
+              mountPath: /etc/ocis/ldap-ca
+              readOnly: true
             - name: tmp-volume
               mountPath: /tmp
       volumes:
+        - name: ldap-ca
+          secret:
+            secretName: ldap-ca
         - name: tmp-volume
           emptyDir:
             medium: Memory

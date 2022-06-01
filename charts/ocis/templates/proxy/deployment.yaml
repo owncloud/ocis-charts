@@ -23,14 +23,7 @@ spec:
       annotations:
         checksum/config: {{ include (print $.Template.BasePath "/proxy/config.yaml") . | sha256sum }}
     spec:
-      #hostAliases:
-      #  - ip: "127.0.0.1"
-      #    hostnames:
-      #      - "{{ .Values.externalDomain }}"
       containers:
-        #- name: idp-hack-sidecar
-        #  image: alpine/socat
-        #  args: ["tcp-l:443,fork,reuseaddr", "tcp:127.0.0.1:9200"]
         - name: proxy
           {{- if .Values.image.sha }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}@sha256:{{ .Values.image.sha }}"
@@ -67,7 +60,7 @@ spec:
 
             - name: PROXY_OIDC_INSECURE # TODO: https://github.com/owncloud/ocis-charts/issues/32
               value: "true"
-            - name: PROXY_INSECURE_BACKENDS
+            - name: PROXY_INSECURE_BACKENDS # TODO: https://github.com/owncloud/ocis-charts/issues/32
               value: "true"
 
             - name: REVA_GATEWAY
