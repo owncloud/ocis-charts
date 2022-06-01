@@ -3,14 +3,14 @@ apiVersion: v1
 kind: Secret
 metadata:
   name: ldap-ca
-  namespace: {{ template "ocis.namespace" $ }}
+  namespace: {{ template "ocis.namespace" . }}
   labels:
     {{- include "ocis.labels" . | nindent 4 }}
   annotations:
     "helm.sh/resource-policy": "keep"
 type: Opaque
 data:
-    {{- $secret := (lookup "v1" "Secret" .Release.Namespace "ldap-ca") | default dict }} # TODO: use namespace template
+    {{- $secret := (lookup "v1" "Secret" (include "ocis.namespace" .) "ldap-ca") | default dict }}
     {{- $secretData := (get $secret "data") | default dict }}
     {{- $ldapCA := genCA "ldap-ca" 365 }} # TODO: CA lifetime? how to rotate?
     {{- $ldapCaCert := (get $secretData "ldap-ca-cert") | default (b64enc $ldapCA.Cert) }}

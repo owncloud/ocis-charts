@@ -3,7 +3,7 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: sharing-data
-  namespace: {{ template "ocis.namespace" $ }}
+  namespace: {{ template "ocis.namespace" . }}
   labels:
     {{- include "ocis.labels" . | nindent 4 }}
   {{- with .Values.storageSharing.persistence.annotations  }}
