@@ -21,6 +21,16 @@ spec:
         app: search
         {{- include "ocis.labels" . | nindent 8 }}
     spec:
+      initContainers:
+        - name: init-chown-data
+          image: busybox
+          securityContext:
+            runAsNonRoot: false
+            runAsUser: 0
+          command: ["chown", "-R", "1000:1000", "/var/lib/ocis"]
+          volumeMounts:
+          - name: search-data
+            mountPath: /var/lib/ocis
       containers:
         - name: search
           {{- if .Values.image.sha }}
@@ -68,5 +78,15 @@ spec:
           ports:
           - name: grpc
             containerPort: 9220
-
-  # TODO: add persistence
+          volumeMounts:
+            - name: search-data
+              mountPath: /var/lib/ocis
+      volumes:
+      {{- if .Values.search.persistence.enabled }}
+        - name: search-data
+          persistentVolumeClaim:
+            claimName: search-data
+      {{ else }}
+        - name: search-data
+          emptyDir: {}
+      {{ end }}

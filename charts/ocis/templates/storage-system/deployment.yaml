@@ -65,10 +65,6 @@ spec:
             - name: STORAGE_SYSTEM_DATA_SERVER_URL
               value: http://storage-system:9216/data
 
-            # data gateway
-            - name: STORAGE_SYSTEM_DATAPROVIDER_INSECURE # TODO: https://github.com/owncloud/ocis-charts/issues/32
-              value: "true"
-
             - name: REVA_GATEWAY
               value: "gateway:9142"
 

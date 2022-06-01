@@ -70,14 +70,12 @@ spec:
               value: "true"
 
             - name: STORAGE_USERS_PERMISSION_ENDPOINT
-              value: settings:9191 #remove duplicate
+              value: settings:9191
 
             # oCIS storage driver (decomposed filesystem)
             {{- if  eq .Values.storageUsers.storageBackend.driver "ocis" }}
             - name: STORAGE_USERS_DRIVER
               value: ocis
-            - name: STORAGE_USERS_OCIS_PERMISSIONS_ENDPOINT
-              value: settings:9191
             {{- end }}
 
             # S3ng storage driver (decomposed filesystem)
@@ -94,10 +92,6 @@ spec:
               value: "{{ .Values.storageUsers.storageBackend.driverConfig.s3ng.secretKey }}"
             - name: STORAGE_USERS_S3NG_BUCKET
               value: "{{ .Values.storageUsers.storageBackend.driverConfig.s3ng.bucket }}"
-            - name: STORAGE_USERS_S3NG_USERS_PROVIDER_ENDPOINT # TODO: remove me when below exists
-              value: settings:9191
-            - name: STORAGE_USERS_S3NG_PERMISSIONS_ENDPOINT # TODO: remove me when below exists
-              value: settings:9191
             {{- end }}
 
             # events

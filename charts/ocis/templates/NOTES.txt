@@ -14,7 +14,7 @@ You're now running
                  `---`
 
 
-{{- if  or (not .Values.storageSystem.persistence.enabled) (not .Values.storageSharing.persistence.enabled) (not .Values.storageUsers.persistence.enabled) (not .Values.store.persistence.enabled) }}
+{{- if  or (not .Values.storageSystem.persistence.enabled) (not .Values.storageSharing.persistence.enabled) (not .Values.storageUsers.persistence.enabled) (not .Values.store.persistence.enabled) (not .Values.idm.persistence.enabled) (not .Values.search.persistence.enabled) (not .Values.nats.persistence.enabled) }}
 #################################################################################
 ######   WARNING: Persistence is disabled for some services.                #####
 ######   You will lose your data when a service's pod is terminated.        #####
@@ -34,6 +34,12 @@ You're now running
 {{- end }}
 {{- if not .Values.store.persistence.enabled }}
 ######     - store                                                          #####
+{{- end }}
+{{- if not .Values.search.persistence.enabled }}
+######     - search                                                         #####
+{{- end }}
+{{- if not .Values.nats.persistence.enabled }}
+######     - nats                                                           #####
 {{- end }}
 #################################################################################
 {{- end }}

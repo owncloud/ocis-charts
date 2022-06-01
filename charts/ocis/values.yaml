@@ -138,6 +138,31 @@ idm:
     selectorLabels: {}
     # existingClaim:
 
+search:
+  persistence:
+    enabled: false
+    # storageClassName: default
+    accessModes:
+      - ReadWriteMany
+    size: 5Gi
+    annotations: {}
+    finalizers:
+      - kubernetes.io/pvc-protection
+    selectorLabels: {}
+    # existingClaim:
+
+nats:
+  persistence:
+    enabled: false
+    # storageClassName: default
+    accessModes:
+      - ReadWriteMany
+    size: 5Gi
+    annotations: {}
+    finalizers:
+      - kubernetes.io/pvc-protection
+    selectorLabels: {}
+    # existingClaim:
 
 # global options for scalable service
 replicas: 1
