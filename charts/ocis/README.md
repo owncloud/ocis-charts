@@ -46,70 +46,106 @@ All release can be breaking during Tech Preview, see [oCIS Tech Preview](https:/
 
 ## Configuration
 
-| Parameter                                                  | Description                                                      | Default                                                            |
-| ---------------------------------------------------------- | ---------------------------------------------------------------- | ------------------------------------------------------------------ |
-| `deploymentStrategy`                                       | Deployment strategy                                              | `{ "type": "RollingUpdate" }`                                      |
-| `externalDomain`                                           | Domain where oCIS is reachable for the outside world             | `ocis.owncloud.test`                                               |
-| `extraLabels`                                              | Custom labels for all manifests                                  | `{}`                                                               |
-| `extraResources`                                           | Extra resources to be included                                   | `[]`                                                               |
-| `image.pullPolicy`                                         | Image pull policy                                                | `IfNotPresent`                                                     |
-| `image.repository`                                         | Image repository                                                 | `owncloud/ocis`                                                    |
-| `image.sha`                                                | Image sha (optional)                                             | `a49a106802ebe44e1cfdc04ca71661be104d87224f0e6fd8e2477bc3bb078b92` |
-| `image.tag`                                                | Image tag                                                        | `latest`                                                                 |
-| `ingress.annotations`                                      | Ingress annotations (values are templated)                       | `{}`                                                               |
-| `ingress.enabled`                                          | Enables Ingress                                                  | `false`                                                            |
-| `ingress.labels`                                           | Custom labels                                                    | `{}`                                                               |
-| `ingress.tls`                                              | Ingress TLS configuration                                        | `[]`                                                               |
-| `logging.color`                                            | Log in color                                                     | `false`                                                            |
-| `logging.level`                                            | Log level                                                        | `error`                                                            |
-| `logging.pretty`                                           | Log json or human friendly                                       | `false`                                                            |
-| `replicas`                                                 | Number of nodes                                                  | `1`                                                                |
-| `resources`                                                | CPU/Memory resource requests/limits                              | `{}`                                                               |
-| `secrets.jwt`                                              | JWT secret                                                       | `replace-me-with-a-real-secret-123`                                |
-| `secrets.machineAuth`                                      | machine auth secret for internal service communication           | `replace-me-with-a-real-secret-456`                                |
-| `secrets.transfer`                                         | JWT secret for up- and downloads                                 | `replace-me-with-a-real-secret-789`                                |
-| `storageSystem.persistence.accessModes`                  | metadata storage service: Persistence access modes               | `[ReadWritMany]`                                                   |
-| `storageSystem.persistence.annotations`                  | metadata storage service: PersistentVolumeClaim annotations      | `{}`                                                               |
-| `storageSystem.persistence.enabled`                      | metadata storage service: Use persistent volume to store data    | `false`                                                            |
-| `storageSystem.persistence.existingClaim`                | metadata storage service: Use an existing PVC to persist data    | `nil`                                                              |
-| `storageSystem.persistence.finalizers`                   | metadata storage service: PersistentVolumeClaim finalizers       | `[ "kubernetes.io/pvc-protection" ]`                               |
-| `storageSystem.persistence.size`                         | metadata storage service: Size of persistent volume claim        | `5Gi`                                                              |
-| `storageSystem.persistence.storageClassName`             | metadata storage service: Type of persistent volume claim        | `nil`                                                              |
-| `storageSharing.persistence.accessModes`                   | sharing service: Persistence access modes                        | `[ReadWritMany]`                                                   |
-| `storageSharing.persistence.annotations`                   | sharing service: PersistentVolumeClaim annotations               | `{}`                                                               |
-| `storageSharing.persistence.enabled`                       | sharing service: Use persistent volume to store data             | `false`                                                            |
-| `storageSharing.persistence.existingClaim`                 | sharing service: Use an existing PVC to persist data             | `nil`                                                              |
-| `storageSharing.persistence.finalizers`                    | sharing service: PersistentVolumeClaim finalizers                | `[ "kubernetes.io/pvc-protection" ]`                               |
-| `storageSharing.persistence.size`                          | sharing service: Size of persistent volume claim                 | `5Gi`                                                              |
-| `storageSharing.persistence.storageClassName`              | sharing service: Type of persistent volume claim                 | `nil`                                                              |
-| `storageUsers.persistence.accessModes`                     | users storage service: Persistence access modes                  | `[ReadWritMany]`                                                   |
-| `storageUsers.persistence.annotations`                     | users storage service: PersistentVolumeClaim annotations         | `{}`                                                               |
-| `storageUsers.persistence.enabled`                         | users storage service: Use persistent volume to store data       | `false`                                                            |
-| `storageUsers.persistence.existingClaim`                   | users storage service: Use an existing PVC to persist data       | `nil`                                                              |
-| `storageUsers.persistence.finalizers`                      | users storage service: PersistentVolumeClaim finalizers          | `[ "kubernetes.io/pvc-protection" ]`                               |
-| `storageUsers.persistence.size`                            | users storage service: Size of persistent volume claim           | `50Gi`                                                             |
-| `storageUsers.persistence.storageClassName`                | users storage service: Type of persistent volume claim           | `nil`                                                              |
-| `storageUsers.storageBackend.driver:`                      | users storage: Storage backend driver                            | `ocis`                                                             |
-| `storageUsers.storageBackend.driverConfig.s3ng.accessKey:` | users storage: S3ng Storage backend driver S3 access key         | `lorem-ipsum`                                                      |
-| `storageUsers.storageBackend.driverConfig.s3ng.bucket:`    | users storage: S3ng Storage backend driver S3 bucket             | `example-bucket`                                                   |
-| `storageUsers.storageBackend.driverConfig.s3ng.endpoint:`  | users storage: S3ng Storage backend driver S3 endpoint           | `https://localhost:1234`                                           |
-| `storageUsers.storageBackend.driverConfig.s3ng.region:`    | users storage: S3ng Storage backend driver S3 region             | `default`                                                          | ` |
-| `storageUsers.storageBackend.driverConfig.s3ng.secretKey:` | users storage: S3ng Storage backend driver S3 secret key         | `lorem-ipsum`                                                      |
-| `store.persistence.accessModes`                            | store service: Persistence access modes                          | `[ReadWritMany]`                                                   |
-| `store.persistence.annotations`                            | store service: PersistentVolumeClaim annotations                 | `{}`                                                               |
-| `store.persistence.enabled`                                | store service: Use persistent volume to store data               | `false`                                                            |
-| `store.persistence.existingClaim`                          | store service: Use an existing PVC to persist data               | `nil`                                                              |
-| `store.persistence.finalizers`                             | store service: PersistentVolumeClaim finalizers                  | `[ "kubernetes.io/pvc-protection" ]`                               |
-| `store.persistence.size`                                   | store service: Size of persistent volume claim                   | `5Gi`                                                              |
-| `store.persistence.storageClassName`                       | store service: Type of persistent volume claim                   | `nil`                                                              |
-| `thumbnails.persistence.accessModes`                       | thumbnails service: Persistence access modes                     | `[ReadWritMany]`                                                   |
-| `thumbnails.persistence.annotations`                       | thumbnails service: PersistentVolumeClaim annotations            | `{}`                                                               |
-| `thumbnails.persistence.enabled`                           | thumbnails service: Use persistent volume to store data          | `false`                                                            |
-| `thumbnails.persistence.existingClaim`                     | thumbnails service: Use an existing PVC to persist data          | `nil`                                                              |
-| `thumbnails.persistence.finalizers`                        | thumbnails service: PersistentVolumeClaim finalizers             | `[ "kubernetes.io/pvc-protection" ]`                               |
-| `thumbnails.persistence.size`                              | thumbnails service: Size of persistent volume claim              | `10Gi`                                                             |
-| `thumbnails.persistence.storageClassName`                  | thumbnails service: Type of persistent volume claim              | `nil`                                                              |
-| -----------------------------------                        | ---------------------------------------------------------------- | ------------------------------------                               |
+| Parameter                                                  | Description                                                              | Default                                                            |
+| ---------------------------------------------------------- | ------------------------------------------------------------------------ | ------------------------------------------------------------------ |
+| `autoscaling.enabled`                                      | Enables autoscaling. Mutual exclusive with `replicas`                    | `false`                                                            |
+| `autoscaling.maxReplicas`                                  | Sets maximum replicas for autoscaling                                    | `10`                                                               |
+| `autoscaling.metrics`                                      | Metrics to use for autoscaling                                           | `[]`                                                               |
+| `autoscaling.minReplicas`                                  | Sets minimum replicas for autoscaling                                    | `1`                                                                |
+| `deploymentStrategy`                                       | Deployment strategy                                                      | `{ "type": "RollingUpdate" }`                                      |
+| `externalDomain`                                           | Domain where oCIS is reachable for the outside world                     | `ocis.owncloud.test`                                               |
+| `extraLabels`                                              | Custom labels for all manifests                                          | `{}`                                                               |
+| `extraResources`                                           | Extra resources to be included                                           | `[]`                                                               |
+| `features.basicAuthentication`                             | Enable basic authentication. Not recommended for production instances    | `false`                                                            |
+| `features.demoUsers`                                       | Create demo users on the first startup                                   | `false`                                                            |
+| `idm.persistence.accessModes`                              | idm service: Persistence access modes                                    | `[ReadWriteMany]`                                                   |
+| `idm.persistence.annotations`                              | idm service: PersistentVolumeClaim annotations                           | `{}`                                                               |
+| `idm.persistence.enabled`                                  | idm service: Use persistent volume to store data                         | `false`                                                            |
+| `idm.persistence.existingClaim`                            | idm service: Use an existing PVC to persist data                         | `nil`                                                              |
+| `idm.persistence.finalizers`                               | idm service: PersistentVolumeClaim finalizers                            | `[ "kubernetes.io/pvc-protection" ]`                               |
+| `idm.persistence.size`                                     | idm service: Size of persistent volume claim                             | `10Gi`                                                             |
+| `idm.persistence.storageClassName`                         | idm service: Type of persistent volume claim                             | `nil`                                                              |
+| `image.pullPolicy`                                         | Image pull policy                                                        | `IfNotPresent`                                                     |
+| `image.repository`                                         | Image repository                                                         | `owncloud/ocis`                                                    |
+| `image.sha`                                                | Image sha (optional)                                                     | `6cc24c065d2832c26fa628daa917e1a1543b63a24fab48daf56c0521a688ffe9` |
+| `image.tag`                                                | Image tag                                                                | `latest`                                                           |
+| `ingress.annotations`                                      | Ingress annotations (values are templated)                               | `{}`                                                               |
+| `ingress.enabled`                                          | Enables Ingress                                                          | `false`                                                            |
+| `ingress.ingressClassName`                                 | Name of the ingress class                                                | empty (default ingress)                                            |
+| `ingress.labels`                                           | Custom labels                                                            | `{}`                                                               |
+| `ingress.tls`                                              | Ingress TLS configuration                                                | `[]`                                                               |
+| `logging.color`                                            | Log in color                                                             | `false`                                                            |
+| `logging.level`                                            | Log level                                                                | `error`                                                            |
+| `logging.pretty`                                           | Log json or human friendly                                               | `false`                                                            |
+| `namespaceOverride`                                        | Override the namespace of all resources in this Helm chart               | ``                                                                 |
+| `nats.persistence.accessModes`                             | nats service: Persistence access modes                                   | `[ReadWriteMany]`                                                   |
+| `nats.persistence.annotations`                             | nats service: PersistentVolumeClaim annotations                          | `{}`                                                               |
+| `nats.persistence.enabled`                                 | nats service: Use persistent volume to store data                        | `false`                                                            |
+| `nats.persistence.existingClaim`                           | nats service: Use an existing PVC to persist data                        | `nil`                                                              |
+| `nats.persistence.finalizers`                              | nats service: PersistentVolumeClaim finalizers                           | `[ "kubernetes.io/pvc-protection" ]`                               |
+| `nats.persistence.size`                                    | nats service: Size of persistent volume claim                            | `10Gi`                                                             |
+| `nats.persistence.storageClassName`                        | nats service: Type of persistent volume claim                            | `nil`                                                              |
+| `replicas`                                                 | Number of replicas for each service. Mutual exclusive with `autoscaling` | `1`                                                                |
+| `resources`                                                | CPU/Memory resource requests/limits                                      | `{}`                                                               |
+| `search.persistence.accessModes`                           | search service: Persistence access modes                                 | `[ReadWriteMany]`                                                   |
+| `search.persistence.annotations`                           | search service: PersistentVolumeClaim annotations                        | `{}`                                                               |
+| `search.persistence.enabled`                               | search service: Use persistent volume to store data                      | `false`                                                            |
+| `search.persistence.existingClaim`                         | search service: Use an existing PVC to persist data                      | `nil`                                                              |
+| `search.persistence.finalizers`                            | search service: PersistentVolumeClaim finalizers                         | `[ "kubernetes.io/pvc-protection" ]`                               |
+| `search.persistence.size`                                  | search service: Size of persistent volume claim                          | `10Gi`                                                             |
+| `search.persistence.storageClassName`                      | search service: Type of persistent volume claim                          | `nil`                                                              |
+| `secretRefs.adminUserSecretRef`                            | Reference to an existing admin user secret                               | `""` (autogenerated)                                               |
+| `secretRefs.idpSecretRef`                                  | Reference to an existing idp secret                                      | `""` (autogenerated)                                               |
+| `secretRefs.jwtSecretRef`                                  | Reference to an existing JWT secret                                      | `""` (autogenerated)                                               |
+| `secretRefs.ldapCaRef`                                     | Reference to an existing ldap ca secret                                  | `""` (autogenerated)                                               |
+| `secretRefs.ldapSecretRef`                                 | Reference to an existing ldap secret                                     | `""` (autogenerated)                                               |
+| `secretRefs.machineAuthApiKeySecretRef`                    | Reference to an existing machine auth api key secret                     | `""` (autogenerated)                                               |
+| `secretRefs.storageSystemJwtSecretRef`                     | Reference to an existing storage system jwt secret                       | `""` (autogenerated)                                               |
+| `secretRefs.storageSystemSecretRef`                        | Reference to an existing storage system secret                           | `""` (autogenerated)                                               |
+| `secretRefs.thumbnailsSecretRef`                           | Reference to an existing thumbnails secret                               | `""` (autogenerated)                                               |
+| `secretRefs.transferSecretSecretRef`                       | Reference to an existing transfer secret                                 | `""` (autogenerated)                                               |
+| `storageSharing.persistence.accessModes`                   | sharing service: Persistence access modes                                | `[ReadWriteMany]`                                                   |
+| `storageSharing.persistence.annotations`                   | sharing service: PersistentVolumeClaim annotations                       | `{}`                                                               |
+| `storageSharing.persistence.enabled`                       | sharing service: Use persistent volume to store data                     | `false`                                                            |
+| `storageSharing.persistence.existingClaim`                 | sharing service: Use an existing PVC to persist data                     | `nil`                                                              |
+| `storageSharing.persistence.finalizers`                    | sharing service: PersistentVolumeClaim finalizers                        | `[ "kubernetes.io/pvc-protection" ]`                               |
+| `storageSharing.persistence.size`                          | sharing service: Size of persistent volume claim                         | `5Gi`                                                              |
+| `storageSharing.persistence.storageClassName`              | sharing service: Type of persistent volume claim                         | `nil`                                                              |
+| `storageSystem.persistence.accessModes`                    | system storage service: Persistence access modes                         | `[ReadWriteMany]`                                                   |
+| `storageSystem.persistence.annotations`                    | system storage service: PersistentVolumeClaim annotations                | `{}`                                                               |
+| `storageSystem.persistence.enabled`                        | system storage service: Use persistent volume to store data              | `false`                                                            |
+| `storageSystem.persistence.existingClaim`                  | system storage service: Use an existing PVC to persist data              | `nil`                                                              |
+| `storageSystem.persistence.finalizers`                     | system storage service: PersistentVolumeClaim finalizers                 | `[ "kubernetes.io/pvc-protection" ]`                               |
+| `storageSystem.persistence.size`                           | system storage service: Size of persistent volume claim                  | `5Gi`                                                              |
+| `storageSystem.persistence.storageClassName`               | system storage service: Type of persistent volume claim                  | `nil`                                                              |
+| `storageUsers.persistence.accessModes`                     | users storage service: Persistence access modes                          | `[ReadWriteMany]`                                                   |
+| `storageUsers.persistence.annotations`                     | users storage service: PersistentVolumeClaim annotations                 | `{}`                                                               |
+| `storageUsers.persistence.enabled`                         | users storage service: Use persistent volume to store data               | `false`                                                            |
+| `storageUsers.persistence.existingClaim`                   | users storage service: Use an existing PVC to persist data               | `nil`                                                              |
+| `storageUsers.persistence.finalizers`                      | users storage service: PersistentVolumeClaim finalizers                  | `[ "kubernetes.io/pvc-protection" ]`                               |
+| `storageUsers.persistence.size`                            | users storage service: Size of persistent volume claim                   | `50Gi`                                                             |
+| `storageUsers.persistence.storageClassName`                | users storage service: Type of persistent volume claim                   | `nil`                                                              |
+| `storageUsers.storageBackend.driver:`                      | users storage: Storage backend driver                                    | `ocis`                                                             |
+| `storageUsers.storageBackend.driverConfig.s3ng.accessKey:` | users storage: S3ng Storage backend driver S3 access key                 | `""`                                                               |
+| `storageUsers.storageBackend.driverConfig.s3ng.bucket:`    | users storage: S3ng Storage backend driver S3 bucket                     | `""`                                                               |
+| `storageUsers.storageBackend.driverConfig.s3ng.endpoint:`  | users storage: S3ng Storage backend driver S3 endpoint                   | `""`                                                               |
+| `storageUsers.storageBackend.driverConfig.s3ng.region:`    | users storage: S3ng Storage backend driver S3 region                     | `""`                                                               | ` |
+| `storageUsers.storageBackend.driverConfig.s3ng.secretKey:` | users storage: S3ng Storage backend driver S3 secret key                 | `""`                                                               |
+| `store.persistence.accessModes`                            | store service: Persistence access modes                                  | `[ReadWriteMany]`                                                   |
+| `store.persistence.annotations`                            | store service: PersistentVolumeClaim annotations                         | `{}`                                                               |
+| `store.persistence.enabled`                                | store service: Use persistent volume to store data                       | `false`                                                            |
+| `store.persistence.existingClaim`                          | store service: Use an existing PVC to persist data                       | `nil`                                                              |
+| `store.persistence.finalizers`                             | store service: PersistentVolumeClaim finalizers                          | `[ "kubernetes.io/pvc-protection" ]`                               |
+| `store.persistence.size`                                   | store service: Size of persistent volume claim                           | `5Gi`                                                              |
+| `store.persistence.storageClassName`                       | store service: Type of persistent volume claim                           | `nil`                                                              |
+| `thumbnails.persistence.accessModes`                       | thumbnails service: Persistence access modes                             | `[ReadWriteMany]`                                                   |
+| `thumbnails.persistence.annotations`                       | thumbnails service: PersistentVolumeClaim annotations                    | `{}`                                                               |
+| `thumbnails.persistence.enabled`                           | thumbnails service: Use persistent volume to store data                  | `false`                                                            |
+| `thumbnails.persistence.existingClaim`                     | thumbnails service: Use an existing PVC to persist data                  | `nil`                                                              |
+| `thumbnails.persistence.finalizers`                        | thumbnails service: PersistentVolumeClaim finalizers                     | `[ "kubernetes.io/pvc-protection" ]`                               |
+| `thumbnails.persistence.size`                              | thumbnails service: Size of persistent volume claim                      | `10Gi`                                                             |
+| `thumbnails.persistence.storageClassName`                  | thumbnails service: Type of persistent volume claim                      | `nil`                                                              |
+| -----------------------------------                        | ----------------------------------------------------------------         | ------------------------------------                               |
 
 
 

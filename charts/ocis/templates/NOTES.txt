@@ -14,7 +14,11 @@ You're now running
                  `---`
 
 
-{{- if  or (not .Values.storageSystem.persistence.enabled) (not .Values.storageSharing.persistence.enabled) (not .Values.storageUsers.persistence.enabled) (not .Values.store.persistence.enabled) (not .Values.idm.persistence.enabled) (not .Values.search.persistence.enabled) (not .Values.nats.persistence.enabled) }}
+You can get the initial "admin" administrator user password by running:
+
+kubectl -n <namespace> get secrets/admin-user --template='{{"{{"}}.data.password | base64decode{{"}}"}}'
+
+{{ if  or (not .Values.storageSystem.persistence.enabled) (not .Values.storageSharing.persistence.enabled) (not .Values.storageUsers.persistence.enabled) (not .Values.store.persistence.enabled) (not .Values.idm.persistence.enabled) (not .Values.search.persistence.enabled) (not .Values.nats.persistence.enabled) }}
 #################################################################################
 ######   WARNING: Persistence is disabled for some services.                #####
 ######   You will lose your data when a service's pod is terminated.        #####

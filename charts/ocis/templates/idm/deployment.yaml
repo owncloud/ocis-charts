@@ -69,21 +69,26 @@ spec:
               value: 0.0.0.0:9235
 
             - name: IDM_CREATE_DEMO_USERS
-              value: "true"
+              value: "{{ .Values.features.demoUsers }}"
 
             - name: IDM_ADMIN_PASSWORD
-              value: "admin" #TODO: change me
+              valueFrom:
+                secretKeyRef:
+                  name: admin-user
+                  key: password
 
             - name: IDM_SVC_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: ldap-bind-secrets
                   key: graph-ldap-bind-password
+
             - name: IDM_REVASVC_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: ldap-bind-secrets
                   key: reva-ldap-bind-password
+
             - name: IDM_IDPSVC_PASSWORD
               valueFrom:
                 secretKeyRef:
@@ -91,7 +96,10 @@ spec:
                   key: idp-ldap-bind-password
 
             - name: IDM_ADMIN_USER_ID
-              value: {{ .Values.adminUserUUID }}
+              valueFrom:
+                secretKeyRef:
+                  name: admin-user
+                  key: user-id
 
             - name: IDM_LDAPS_CERT
               value: /etc/ocis/ldap-ca/ldap-cert-cert

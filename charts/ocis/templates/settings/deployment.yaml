@@ -57,7 +57,10 @@ spec:
               value: storage-system:9215
 
             - name: SETTINGS_ADMIN_USER_ID
-              value: {{ .Values.adminUserUUID }}
+              valueFrom:
+                secretKeyRef:
+                  name: admin-user
+                  key: user-id
 
             - name: SETTINGS_JWT_SECRET
               valueFrom:

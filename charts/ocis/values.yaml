@@ -1,7 +1,7 @@
 image:
   repository: owncloud/ocis
   tag: "latest"
-  sha: "6cc24c065d2832c26fa628daa917e1a1543b63a24fab48daf56c0521a688ffe9"
+  sha: "6cc24c065d2832c26fa628daa917e1a1543b63a24fab48daf56c0521a688ffe9" # post 2.0.0-beta2, but pre 2.0.0-beta3
   pullPolicy: IfNotPresent
 
 logging:
@@ -17,6 +17,8 @@ externalDomain: ocis.owncloud.test
 features:
   # enables basic authentication. Not recommended for production setups
   basicAuthentication: false
+  # enables the creation of demo users on the first start
+  demoUsers: false
 
 ingress:
   enabled: false
@@ -31,10 +33,6 @@ ingress:
   #    hosts:
   #      - ocis.owncloud.test
 
-
-# TODO: should only be configurable for external LDAPs?
-adminUserUUID: 3ee04290-9435-4b61-8024-8d2e1f7bd611
-
 secretRefs:
   jwtSecretRef: ""
   ldapSecretRef: ""
@@ -45,6 +43,7 @@ secretRefs:
   idpSecretRef: ""
   thumbnailsSecretRef: ""
   ldapCaRef: ""
+  adminUserSecretRef: ""
 
 
 # Apply extra labels to common labels.
@@ -135,7 +134,7 @@ idm:
     # storageClassName: default
     accessModes:
       - ReadWriteMany
-    size: 5Gi
+    size: 10Gi
     annotations: {}
     finalizers:
       - kubernetes.io/pvc-protection
@@ -148,7 +147,7 @@ search:
     # storageClassName: default
     accessModes:
       - ReadWriteMany
-    size: 5Gi
+    size: 10Gi
     annotations: {}
     finalizers:
       - kubernetes.io/pvc-protection
@@ -161,7 +160,7 @@ nats:
     # storageClassName: default
     accessModes:
       - ReadWriteMany
-    size: 5Gi
+    size: 10Gi
     annotations: {}
     finalizers:
       - kubernetes.io/pvc-protection
@@ -175,8 +174,9 @@ replicas: 1
 #
 autoscaling:
   enabled: false
-#   minReplicas: 1
-#   maxReplicas: 10
+  minReplicas: 1
+  maxReplicas: 10
+  metrics: []
 #   metrics:
 #   - type: Resource
 #     resource:
@@ -189,13 +189,13 @@ autoscaling:
 
 # currently resources are globally applied to all services if
 
-resources:
-  limits:
-    cpu: 100m
-    memory: 128Mi
-  requests:
-    cpu: 100m
-    memory: 128Mi
+resources: {}
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
 
 # Include arbitrary resources, eg. config maps or a cer-manager issuer (see example below)
 extraResources: []
