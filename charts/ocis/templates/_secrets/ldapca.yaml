@@ -12,12 +12,12 @@ type: Opaque
 data:
     {{- $secret := (lookup "v1" "Secret" (include "ocis.namespace" .) "ldap-ca") | default dict }}
     {{- $secretData := (get $secret "data") | default dict }}
-    {{- $ldapCA := genCA "ldap-ca" 365 }} # TODO: CA lifetime? how to rotate?
+    {{- $ldapCA := genCA "ldap-ca" 3650 }} # TODO: CA lifetime? how to rotate?
     {{- $ldapCaCert := (get $secretData "ldap-ca-cert") | default (b64enc $ldapCA.Cert) }}
     {{- $ldapCaKey := (get $secretData "ldap-ca-key") | default (b64enc $ldapCA.Key) }}
     {{- $ldapCA := buildCustomCert $ldapCaCert $ldapCaKey }}
     {{- $ldapCertKey := (get $secretData "ldap-cert-key") | default (b64enc (genPrivateKey "ed25519")) }}
-    {{- $tmpLdapCert := genSignedCertWithKey "idm" nil (list "idm") 365 $ldapCA (b64dec $ldapCertKey) }} # TODO: lifetime? how to rotate?
+    {{- $tmpLdapCert := genSignedCertWithKey "idm" nil (list "idm") 3650 $ldapCA (b64dec $ldapCertKey) }} # TODO: lifetime? how to rotate?
     {{- $ldapCert := (get $secretData "ldap-cert-cert") | default (b64enc $tmpLdapCert.Cert) }}
     ldap-ca-key: {{ $ldapCaKey }}
     ldap-ca-cert: {{ $ldapCaCert }}

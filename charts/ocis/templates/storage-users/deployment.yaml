@@ -9,7 +9,9 @@ spec:
   selector:
     matchLabels:
       app: storage-users
-  replicas: 1 #TODO: https://github.com/owncloud/ocis-charts/issues/12
+  {{- if and (not .Values.autoscaling.enabled) (.Values.replicas) }}
+  replicas: {{ .Values.replicas }}
+  {{- end }}
   {{- if .Values.deploymentStrategy }}
   strategy: {{ toYaml .Values.deploymentStrategy | nindent 4 }}
   {{ end }}
