@@ -67,10 +67,6 @@ spec:
             - name: STORAGE_USERS_DATA_SERVER_URL
               value: "http://storage-users:9158/data"
 
-            # data gateway
-            - name: STORAGE_USERS_DATAPROVIDER_INSECURE # TODO: https://github.com/owncloud/ocis-charts/issues/32
-              value: "true"
-
             - name: STORAGE_USERS_PERMISSION_ENDPOINT
               value: settings:9191
 
@@ -109,7 +105,7 @@ spec:
                   {{- if empty .Values.secretRefs.jwtSecretRef }}
                   name: jwt-secret
                   {{- else }}
-                  name: {{ .Values.secretRefs.jwtSecretRef}}
+                  name: {{ .Values.secretRefs.jwtSecretRef }}
                   {{- end }}
                   key: jwt-secret
 

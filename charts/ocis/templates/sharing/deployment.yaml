@@ -58,9 +58,9 @@ spec:
               value: 0.0.0.0:9150
 
             - name: SHARING_USER_DRIVER
-              value: "json" #TODO: switch to CS3 and remove persistency
+              value: "json" #TODO: switch to CS3 and remove persistency, then scale this service
             - name: SHARING_PUBLIC_DRIVER
-              value: "json" #TODO: switch to CS3 and remove persistency
+              value: "json" #TODO: switch to CS3 and remove persistency, then scale this service
 
             - name: REVA_GATEWAY
               value: gateway:9142
@@ -73,7 +73,7 @@ spec:
                   {{- if empty .Values.secretRefs.jwtSecretRef }}
                   name: jwt-secret
                   {{- else }}
-                  name: {{ .Values.secretRefs.jwtSecretRef}}
+                  name: {{ .Values.secretRefs.jwtSecretRef }}
                   {{- end }}
                   key: jwt-secret
 

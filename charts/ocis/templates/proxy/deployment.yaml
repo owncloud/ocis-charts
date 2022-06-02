@@ -52,7 +52,7 @@ spec:
               value: 0.0.0.0:9200
 
             - name: PROXY_ENABLE_BASIC_AUTH
-              value: "true" #TODO: configurable
+              value: "{{ .Values.features.basicAuthentication }}"
             - name: PROXY_OIDC_ISSUER
               value: "https://{{ .Values.externalDomain }}"
             - name: PROXY_TLS
@@ -67,7 +67,7 @@ spec:
                   {{- if empty .Values.secretRefs.jwtSecretRef }}
                   name: jwt-secret
                   {{- else }}
-                  name: {{ .Values.secretRefs.jwtSecretRef}}
+                  name: {{ .Values.secretRefs.jwtSecretRef }}
                   {{- end }}
                   key: jwt-secret
 
@@ -77,7 +77,7 @@ spec:
                   {{- if empty .Values.secretRefs.machineAuthApiKeySecretRef }}
                   name: machine-auth-api-key
                   {{- else }}
-                  name: {{ .Values.secretRefs.machineAuthApiKeySecretRef}}
+                  name: {{ .Values.secretRefs.machineAuthApiKeySecretRef }}
                   {{- end }}
                   key: machine-auth-api-key
 

@@ -65,7 +65,7 @@ spec:
                   {{- if empty .Values.secretRefs.jwtSecretRef }}
                   name: jwt-secret
                   {{- else }}
-                  name: {{ .Values.secretRefs.jwtSecretRef}}
+                  name: {{ .Values.secretRefs.jwtSecretRef }}
                   {{- end }}
                   key: jwt-secret
 

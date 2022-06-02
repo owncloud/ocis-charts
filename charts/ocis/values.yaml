@@ -14,6 +14,10 @@ deploymentStrategy:
 
 externalDomain: ocis.owncloud.test
 
+features:
+  # enables basic authentication. Not recommended for production setups
+  basicAuthentication: false
+
 ingress:
   enabled: false
   #ingressClassName: nginx

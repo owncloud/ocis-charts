@@ -1,0 +1,19 @@
+{{- if empty .Values.secretRefs.adminUserSecretRef }}
+apiVersion: v1
+kind: Secret
+metadata:
+  name: storage-system
+  namespace: {{ template "ocis.namespace" . }}
+  labels:
+    {{- include "ocis.labels" . | nindent 4 }}
+  annotations:
+    "helm.sh/resource-policy": "keep"
+type: Opaque
+data:
+    {{- $secret := (lookup "v1" "Secret" (include "ocis.namespace" .) "storage-system") | default dict }}
+    {{- $secretData := (get $secret "data") | default dict }}
+    {{- $apiKey := (get $secretData "api-key") | default (b64enc (randAlphaNum 32)) }}
+    {{- $userID := (get $secretData "user-id") | default (b64enc (uuidv4)) }}
+    api-key: {{ $apiKey }}
+    user-id: {{ $userID }}
+{{- end }}
