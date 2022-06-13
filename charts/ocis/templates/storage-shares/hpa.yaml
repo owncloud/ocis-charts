@@ -13,7 +13,7 @@ metadata:
   {{- if .Values.ingress.annotations }}
   annotations:
     {{- range $key, $value := .Values.ingress.annotations }}
-    {{ $key }}: {{ tpl $value $ | quote }}
+    {{ $key }}: {{ tpl $value . | quote }}
     {{- end }}
   {{- end }}
 spec:
