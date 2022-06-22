@@ -20,8 +20,6 @@ spec:
       labels:
         app: idp
         {{- include "ocis.labels" . | nindent 8 }}
-      annotations:
-        checksum/secrets: {{ include (print $.Template.BasePath "/idp/secrets.yaml") . | sha256sum }}
     spec:
       containers:
         - name: idp
@@ -63,7 +61,7 @@ spec:
             - name: IDP_LDAP_BIND_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: ldap-bind-secrets
+                  name: {{ .Values.secretRefs.ldapSecretRef }}
                   key: idp-ldap-bind-password
 
             - name: IDP_SIGNING_PRIVATE_KEY_FILES
@@ -86,7 +84,7 @@ spec:
       volumes:
         - name: idp-secrets
           secret:
-            secretName: idp-secrets
+            secretName: {{ .Values.secretRefs.idpSecretRef }}
         - name: ldap-ca
           secret:
-            secretName: ldap-ca
+            secretName: {{ .Values.secretRefs.ldapCaRef }}

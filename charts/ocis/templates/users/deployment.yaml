@@ -56,7 +56,7 @@ spec:
             - name: USERS_LDAP_BIND_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: ldap-bind-secrets
+                  name: {{ .Values.secretRefs.ldapSecretRef }}
                   key: reva-ldap-bind-password
             - name: USERS_IDP_URL
               value: "https://{{ .Values.externalDomain }}"
@@ -67,11 +67,7 @@ spec:
             - name: USERS_JWT_SECRET
               valueFrom:
                 secretKeyRef:
-                  {{- if empty .Values.secretRefs.jwtSecretRef }}
-                  name: jwt-secret
-                  {{- else }}
                   name: {{ .Values.secretRefs.jwtSecretRef }}
-                  {{- end }}
                   key: jwt-secret
 
           resources: {{ toYaml .Values.resources | nindent 12 }}
@@ -87,7 +83,7 @@ spec:
       volumes:
         - name: ldap-ca
           secret:
-            secretName: ldap-ca
+            secretName: {{ .Values.secretRefs.ldapCaRef }}
         - name: tmp-volume
           emptyDir:
             medium: Memory

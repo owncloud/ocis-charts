@@ -73,19 +73,19 @@ spec:
             - name: STORAGE_SYSTEM_JWT_SECRET
               valueFrom:
                 secretKeyRef:
-                  name: storage-system-jwt-secret
+                  name: {{ .Values.secretRefs.storageSystemJwtSecretRef }}
                   key: storage-system-jwt-secret
 
             - name: OCIS_SYSTEM_USER_API_KEY
               valueFrom:
                 secretKeyRef:
-                  name: storage-system
+                  name: {{ .Values.secretRefs.storageSystemSecretRef }}
                   key: api-key
 
             - name: OCIS_SYSTEM_USER_ID
               valueFrom:
                 secretKeyRef:
-                  name: storage-system
+                  name: {{ .Values.secretRefs.storageSystemSecretRef }}
                   key: user-id
 
           resources: {{ toYaml .Values.resources | nindent 12 }}

@@ -55,21 +55,13 @@ spec:
             - name: AUTH_MACHINE_JWT_SECRET
               valueFrom:
                 secretKeyRef:
-                  {{- if empty .Values.secretRefs.jwtSecretRef }}
-                  name: jwt-secret
-                  {{- else }}
                   name: {{ .Values.secretRefs.jwtSecretRef }}
-                  {{- end }}
                   key: jwt-secret
 
             - name: AUTH_MACHINE_API_KEY
               valueFrom:
                 secretKeyRef:
-                  {{- if empty .Values.secretRefs.machineAuthApiKeySecretRef }}
-                  name: machine-auth-api-key
-                  {{- else }}
                   name: {{ .Values.secretRefs.machineAuthApiKeySecretRef }}
-                  {{- end }}
                   key: machine-auth-api-key
 
           resources: {{ toYaml .Values.resources | nindent 12 }}

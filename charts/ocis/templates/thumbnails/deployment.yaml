@@ -70,7 +70,7 @@ spec:
             - name: THUMBNAILS_TRANSFER_TOKEN
               valueFrom:
                 secretKeyRef:
-                  name: thumbnails-transfer-secret
+                  name: {{ .Values.secretRefs.thumbnailsSecretRef }}
                   key: thumbnails-transfer-secret
 
           resources: {{ toYaml .Values.resources | nindent 12 }}

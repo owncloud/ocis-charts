@@ -59,28 +59,24 @@ spec:
             - name: SETTINGS_ADMIN_USER_ID
               valueFrom:
                 secretKeyRef:
-                  name: admin-user
+                  name: {{ .Values.secretRefs.adminUserSecretRef }}
                   key: user-id
 
             - name: SETTINGS_JWT_SECRET
               valueFrom:
                 secretKeyRef:
-                  {{- if empty .Values.secretRefs.jwtSecretRef }}
-                  name: jwt-secret
-                  {{- else }}
                   name: {{ .Values.secretRefs.jwtSecretRef }}
-                  {{- end }}
                   key: jwt-secret
 
             - name: OCIS_SYSTEM_USER_API_KEY
               valueFrom:
                 secretKeyRef:
-                  name: storage-system
+                  name: {{ .Values.secretRefs.storageSystemSecretRef }}
                   key: api-key
             - name: OCIS_SYSTEM_USER_ID
               valueFrom:
                 secretKeyRef:
-                  name: storage-system
+                  name: {{ .Values.secretRefs.storageSystemSecretRef }}
                   key: user-id
 
           resources: {{ toYaml .Values.resources | nindent 12 }}

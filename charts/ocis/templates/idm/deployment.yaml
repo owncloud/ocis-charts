@@ -74,54 +74,54 @@ spec:
             - name: IDM_ADMIN_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: admin-user
+                  name: {{ .Values.secretRefs.adminUserSecretRef }}
                   key: password
 
             - name: IDM_SVC_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: ldap-bind-secrets
+                  name: {{ .Values.secretRefs.ldapSecretRef }}
                   key: graph-ldap-bind-password
 
             - name: IDM_REVASVC_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: ldap-bind-secrets
+                  name: {{ .Values.secretRefs.ldapSecretRef }}
                   key: reva-ldap-bind-password
 
             - name: IDM_IDPSVC_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: ldap-bind-secrets
+                  name: {{ .Values.secretRefs.ldapSecretRef }}
                   key: idp-ldap-bind-password
 
             - name: IDM_ADMIN_USER_ID
               valueFrom:
                 secretKeyRef:
-                  name: admin-user
+                  name: {{ .Values.secretRefs.adminUserSecretRef }}
                   key: user-id
 
             - name: IDM_LDAPS_CERT
-              value: /etc/ocis/ldap-ca/ldap-cert-cert
+              value: /etc/ocis/ldap-cert/ldap-cert-cert
 
             - name: IDM_LDAPS_KEY
-              value: /etc/ocis/ldap-ca/ldap-cert-key
+              value: /etc/ocis/ldap-cert/ldap-cert-key
 
           resources: {{ toYaml .Values.resources | nindent 12 }}
           ports:
             - name: ldaps
               containerPort: 9235
           volumeMounts:
-            - name: ldap-ca
-              mountPath: /etc/ocis/ldap-ca
+            - name: ldap-cert
+              mountPath: /etc/ocis/ldap-cert
               readOnly: true
 
             - name: idm-data
               mountPath: /var/lib/ocis
       volumes:
-        - name: ldap-ca
+        - name: ldap-cert
           secret:
-            secretName: ldap-ca
+            secretName: {{ .Values.secretRefs.ldapCertRef }}
       {{ if .Values.idm.persistence.enabled }}
         - name: idm-data
           persistentVolumeClaim:

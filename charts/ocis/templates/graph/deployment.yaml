@@ -60,7 +60,7 @@ spec:
             - name: GRAPH_LDAP_BIND_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: ldap-bind-secrets
+                  name: {{ .Values.secretRefs.ldapSecretRef }}
                   key: graph-ldap-bind-password
 
             - name: REVA_GATEWAY
@@ -71,11 +71,7 @@ spec:
             - name: GRAPH_JWT_SECRET
               valueFrom:
                 secretKeyRef:
-                  {{- if empty .Values.secretRefs.jwtSecretRef }}
-                  name: jwt-secret
-                  {{- else }}
                   name: {{ .Values.secretRefs.jwtSecretRef }}
-                  {{- end }}
                   key: jwt-secret
 
           resources: {{ toYaml .Values.resources | nindent 12 }}
@@ -89,4 +85,4 @@ spec:
       volumes:
         - name: ldap-ca
           secret:
-            secretName: ldap-ca
+            secretName: {{ .Values.secretRefs.ldapCaRef }}

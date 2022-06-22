@@ -59,11 +59,7 @@ spec:
             - name: APP_PROVIDER_JWT_SECRET
               valueFrom:
                 secretKeyRef:
-                  {{- if empty .Values.secretRefs.jwtSecretRef }}
-                  name: jwt-secret
-                  {{- else }}
                   name: {{ .Values.secretRefs.jwtSecretRef }}
-                  {{- end }}
                   key: jwt-secret
 
           resources: {{ toYaml .Values.resources | nindent 12 }}

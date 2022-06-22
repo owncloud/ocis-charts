@@ -34,16 +34,17 @@ ingress:
   #      - ocis.owncloud.test
 
 secretRefs:
-  jwtSecretRef: ""
-  ldapSecretRef: ""
-  machineAuthApiKeySecretRef: ""
-  storageSystemSecretRef: ""
-  storageSystemJwtSecretRef: ""
-  transferSecretSecretRef: ""
-  idpSecretRef: ""
-  thumbnailsSecretRef: ""
-  ldapCaRef: ""
-  adminUserSecretRef: ""
+  adminUserSecretRef: "admin-user"
+  idpSecretRef: "idp-secrets"
+  jwtSecretRef: "jwt-secret"
+  ldapCaRef: "ldap-ca"
+  ldapCertRef: "ldap-cert"
+  ldapSecretRef: "ldap-bind-secrets"
+  machineAuthApiKeySecretRef: "machine-auth-api-key"
+  storageSystemJwtSecretRef: "storage-system-jwt-secret"
+  storageSystemSecretRef: "storage-system"
+  thumbnailsSecretRef: "thumbnails-transfer-secret"
+  transferSecretSecretRef: "transfer-secret"
 
 
 # Apply extra labels to common labels.
