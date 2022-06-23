@@ -146,7 +146,6 @@ All release can be breaking during Tech Preview, see [oCIS Tech Preview](https:/
 | `thumbnails.persistence.finalizers`                        | thumbnails service: PersistentVolumeClaim finalizers                             | `[ "kubernetes.io/pvc-protection" ]`                               |
 | `thumbnails.persistence.size`                              | thumbnails service: Size of persistent volume claim                              | `10Gi`                                                             |
 | `thumbnails.persistence.storageClassName`                  | thumbnails service: Type of persistent volume claim                              | `nil`                                                              |
-| -----------------------------------                        | ----------------------------------------------------------------                 | ------------------------------------                               |
 
 
 ### Secrets
