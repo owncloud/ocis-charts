@@ -21,25 +21,6 @@ spec:
         app: idm
         {{- include "ocis.labels" . | nindent 8 }}
     spec:
-      initContainers:
-        - name: init-dir
-          image: busybox
-          securityContext:
-            runAsNonRoot: false
-            runAsUser: 0
-          command: ["mkdir", "-p", "/var/lib/ocis/idm"]
-          volumeMounts:
-          - name: idm-data
-            mountPath: /var/lib/ocis
-        - name: init-chown-data
-          image: busybox
-          securityContext:
-            runAsNonRoot: false
-            runAsUser: 0
-          command: ["chown", "-R", "1000:1000", "/var/lib/ocis"]
-          volumeMounts:
-          - name: idm-data
-            mountPath: /var/lib/ocis
       containers:
         - name: idm
           {{- if .Values.image.sha }}
@@ -53,6 +34,8 @@ spec:
           securityContext:
             runAsNonRoot: true
             runAsUser: 1000
+            runAsGroup: 1000
+            fsGroup: 1000
             readOnlyRootFilesystem: true
           env:
             - name: MICRO_REGISTRY

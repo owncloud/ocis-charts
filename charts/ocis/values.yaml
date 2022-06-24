@@ -161,7 +161,7 @@ replicas: 1
 #
 autoscaling:
   enabled: false
-  minReplicas: 1
+  minReplicas: 3
   maxReplicas: 10
   metrics: []
 #   metrics:
