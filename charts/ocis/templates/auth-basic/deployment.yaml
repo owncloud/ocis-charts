@@ -55,7 +55,7 @@ spec:
             - name: AUTH_BASIC_LDAP_URI
               value: ldaps://idm:9235
             - name: AUTH_BASIC_LDAP_CACERT
-              value: /etc/ocis/ldap-ca/ldap-ca-cert
+              value: /etc/ocis/ldap-ca/ldap-ca.crt
 
             - name: AUTH_BASIC_LDAP_BIND_PASSWORD
               valueFrom:

@@ -76,6 +76,12 @@ spec:
                 secretKeyRef:
                   name: {{ .Values.secretRefs.adminUserSecretRef }}
                   key: password
+            - name: IDM_ADMIN_USER_ID
+              #value: ea8296b3-ad35-4d25-b6b6-c1a9a858fb19
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.secretRefs.adminUserSecretRef }}
+                  key: user-id
 
             - name: IDM_SVC_PASSWORD
               valueFrom:
@@ -95,17 +101,11 @@ spec:
                   name: {{ .Values.secretRefs.ldapSecretRef }}
                   key: idp-ldap-bind-password
 
-            - name: IDM_ADMIN_USER_ID
-              valueFrom:
-                secretKeyRef:
-                  name: {{ .Values.secretRefs.adminUserSecretRef }}
-                  key: user-id
-
             - name: IDM_LDAPS_CERT
-              value: /etc/ocis/ldap-cert/ldap-cert-cert
+              value: /etc/ocis/ldap-cert/ldap.crt
 
             - name: IDM_LDAPS_KEY
-              value: /etc/ocis/ldap-cert/ldap-cert-key
+              value: /etc/ocis/ldap-cert/ldap.key
 
           resources: {{ toYaml .Values.resources | nindent 12 }}
           ports:

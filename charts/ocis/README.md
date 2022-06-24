@@ -171,9 +171,9 @@ metadata:
   name: jwt-secret
 type: Opaque
 data:
-    # how to generate: base64 encode a random string (reasonable long and mixed characters)
-    # example generation command: `tr -cd '[:alnum:],.' < /dev/urandom | fold -w 50 | head -n 1 | base64`
-    jwt-secret: XXXXXXXXXXXXX
+  # how to generate: base64 encode a random string (reasonable long and mixed characters)
+  # example generation command: `tr -cd '[:alnum:],.' < /dev/urandom | fold -w 50 | head -n 1 | base64`
+  jwt-secret: XXXXXXXXXXXXX
 
 ---
 apiVersion: v1
@@ -182,17 +182,17 @@ metadata:
   name: ldap-bind-secrets
 type: Opaque
 data:
-    # how to generate: base64 encode a random string (reasonable long and mixed characters)
-    # example generation command: `tr -cd '[:alnum:],.' < /dev/urandom | fold -w 50 | head -n 1 | base64`
-    reva-ldap-bind-password: XXXXXXXXXXXXX
+  # how to generate: base64 encode a random string (reasonable long and mixed characters)
+  # example generation command: `tr -cd '[:alnum:],.' < /dev/urandom | fold -w 50 | head -n 1 | base64`
+  reva-ldap-bind-password: XXXXXXXXXXXXX
 
-    # how to generate: base64 encode a random string (reasonable long and mixed characters)
-    # example generation command: `tr -cd '[:alnum:],.' < /dev/urandom | fold -w 50 | head -n 1 | base64`
-    idp-ldap-bind-password: XXXXXXXXXXXXX
+  # how to generate: base64 encode a random string (reasonable long and mixed characters)
+  # example generation command: `tr -cd '[:alnum:],.' < /dev/urandom | fold -w 50 | head -n 1 | base64`
+  idp-ldap-bind-password: XXXXXXXXXXXXX
 
-    # how to generate: base64 encode a random string (reasonable long and mixed characters)
-    # example generation command: `tr -cd '[:alnum:],.' < /dev/urandom | fold -w 50 | head -n 1 | base64`
-    graph-ldap-bind-password: XXXXXXXXXXXXX
+  # how to generate: base64 encode a random string (reasonable long and mixed characters)
+  # example generation command: `tr -cd '[:alnum:],.' < /dev/urandom | fold -w 50 | head -n 1 | base64`
+  graph-ldap-bind-password: XXXXXXXXXXXXX
 
 ---
 apiVersion: v1
@@ -201,12 +201,12 @@ metadata:
   name: ldap-ca
 type: Opaque
 data:
-    # how to generate: base64 encode the pem-encoded certificate of a (self-signed) x509 certificate authority
-    # example generation commands:
-    #  - `openssl genrsa -out ldap-ca-key 4096`
-    #  - `openssl req -new -x509 -key ldap-ca-key -out ldap-ca-cert`
-    #  - `cat ldap-ca-cert | base64`
-    ldap-ca-cert: XXXXXXXXXXXXX
+  # how to generate: base64 encode the pem-encoded certificate of a (self-signed) x509 certificate authority
+  # example generation commands:
+  #  - `openssl genrsa -out ldap-ca.key 4096`
+  #  - `openssl req -new -x509 -days 3650 -key ldap-ca.key -out ldap-ca.crt`
+  #  - `cat ldap-ca.crt | base64 | tr -d '\n'`
+  ldap-ca.crt: XXXXXXXXXXXXX
 
 ---
 apiVersion: v1
@@ -215,16 +215,18 @@ metadata:
   name: ldap-cert
 type: Opaque
 data:
-    # how to generate: base64 encode a private key (eg. ed25519, ensure that you use reasonable long key size)
-    # example generation commands:
-    #  - `openssl genrsa -out ldap-cert-key 409`
-    #  - `cat ldap-cert-key | base64`
-    ldap-cert-key: XXXXXXXXXXXXX
+  # how to generate: base64 encode a private key (eg. ed25519, ensure that you use reasonable long key size)
+  # example generation commands:
+  #  - `openssl genrsa -out ldap.key 4096`
+  #  - `cat ldap.key | base64 | tr -d '\n'`
+  ldap.key: XXXXXXXXXXXXX
 
-    # how to generate: base64 encode a x509 certificate signed by the above CA, using the above private key.
-    # example generation commands:
-    #  - `openssl req -new -key ldap-cert-key -out ldap-cert-cert.csr`
-    ldap-cert-cert: XXXXXXXXXXXXX
+  # how to generate: base64 encode a x509 certificate signed by the above CA, using the above private key.
+  # example generation commands:
+  #  - `openssl req -new -subj "/CN=idm" -key ldap.key -out ldap.csr`
+  #  - `openssl x509 -req -extensions SAN -extfile <(cat /etc/ssl/openssl.cnf <(printf "\n[SAN]\nsubjectAltName=DNS:idm")) -days 365 -in ldap.csr -CA ldap-ca.crt -CAkey ldap-ca.key -out ldap.crt -CAcreateserial`
+  #  - `cat ldap.crt | base64 | tr -d '\n'`
+  ldap.crt: XXXXXXXXXXXXX
 
 
 ---
@@ -234,9 +236,9 @@ metadata:
   name: machine-auth-api-key
 type: Opaque
 data:
-    # how to generate: base64 encode a random string (reasonable long and mixed characters)
-    # example generation command: `tr -cd '[:alnum:],.' < /dev/urandom | fold -w 50 | head -n 1 | base64`
-    machine-auth-api-key: XXXXXXXXXXXXX
+  # how to generate: base64 encode a random string (reasonable long and mixed characters)
+  # example generation command: `tr -cd '[:alnum:],.' < /dev/urandom | fold -w 50 | head -n 1 | base64`
+  machine-auth-api-key: XXXXXXXXXXXXX
 
 ---
 apiVersion: v1
@@ -245,13 +247,13 @@ metadata:
   name: storage-system
 type: Opaque
 data:
-    # how to generate: base64 encode a random string (reasonable long and mixed characters)
-    # example generation command: `tr -cd '[:alnum:],.' < /dev/urandom | fold -w 50 | head -n 1 | base64`
-    api-key: XXXXXXXXXXXXX
+  # how to generate: base64 encode a UUID V4
+  # example generation command: `cat /proc/sys/kernel/random/uuid | tr -d '\n' | base64`
+  user-id: XXXXXXXXXXXXX
 
-    # how to generate: base64 encode a UUID V4
-    # example generation command: `cat /proc/sys/kernel/random/uuid`
-    user-id: XXXXXXXXXXXXX
+  # how to generate: base64 encode a random string (reasonable long and mixed characters)
+  # example generation command: `tr -cd '[:alnum:],.' < /dev/urandom | fold -w 50 | head -n 1 | base64`
+  api-key: XXXXXXXXXXXXX
 
 ---
 apiVersion: v1
@@ -260,9 +262,9 @@ metadata:
   name: storage-system-jwt-secret
 type: Opaque
 data:
-    # how to generate: base64 encode a random string (reasonable long and mixed characters)
-    # example generation command: `tr -cd '[:alnum:],.' < /dev/urandom | fold -w 50 | head -n 1 | base64`
-    storage-system-jwt-secret: XXXXXXXXXXXXX
+  # how to generate: base64 encode a random string (reasonable long and mixed characters)
+  # example generation command: `tr -cd '[:alnum:],.' < /dev/urandom | fold -w 50 | head -n 1 | base64`
+  storage-system-jwt-secret: XXXXXXXXXXXXX
 
 ---
 apiVersion: v1
@@ -271,9 +273,9 @@ metadata:
   name: transfer-secret
 type: Opaque
 data:
-    # how to generate: base64 encode a random string (reasonable long and mixed characters)
-    # example generation command: `tr -cd '[:alnum:],.' < /dev/urandom | fold -w 50 | head -n 1 | base64`
-    transfer-secret: XXXXXXXXXXXXX
+  # how to generate: base64 encode a random string (reasonable long and mixed characters)
+  # example generation command: `tr -cd '[:alnum:],.' < /dev/urandom | fold -w 50 | head -n 1 | base64`
+  transfer-secret: XXXXXXXXXXXXX
 
 ---
 apiVersion: v1
@@ -282,13 +284,13 @@ metadata:
   name: admin-user
 type: Opaque
 data:
-    # how to generate: base64 encode a UUID V4
-    # example generation command: `cat /proc/sys/kernel/random/uuid`
-    user-id: XXXXXXXXXXXXX
+  # how to generate: base64 encode a UUID V4
+  # example generation command: `cat /proc/sys/kernel/random/uuid | tr -d '\n' | base64`
+  user-id: XXXXXXXXXXXXX
 
-    # how to generate: base64 encode a random string (reasonable long and mixed characters)
-    # example generation command: `tr -cd '[:alnum:],.' < /dev/urandom | fold -w 50 | head -n 1 | base64`
-    password: XXXXXXXXXXXXX
+  # how to generate: base64 encode a random string (reasonable long and mixed characters)
+  # example generation command: `tr -cd '[a-zA-Z0-9],.' < /dev/urandom | fold -w 50 | head -n 1 | tr -d '\n' | base64`
+  password: XXXXXXXXXXXXX
 
 ---
 apiVersion: v1
@@ -298,11 +300,11 @@ metadata:
 type: Opaque
 data:
   # how to generate: base64 encode a random 32 byte string (mixed characters)
-  # example generation command: `tr -cd '[:alnum:],.' < /dev/urandom | fold -w 32 | head -n 1 | base64`
+  # example generation command: `openssl rand 32 | base64`
   encryption.key: XXXXXXXXXXXXX
 
   # how to generate: base64 encode a private key (eg. RSA, ensure that you use reasonable long key size)
-  # example generation command: `openssl genpkey -algorithm RSA -pkeyopt rsa_keygen_bits:4096 2&> /dev/null | base64`
+  # example generation command: `openssl genpkey -algorithm RSA -pkeyopt rsa_keygen_bits:4096 2&> /dev/null | base64 | tr -d '\n'`
   private-key.pem: XXXXXXXXXXXXX
 
 ---
@@ -312,9 +314,9 @@ metadata:
   name: thumbnails-transfer-secret
 type: Opaque
 data:
-    # how to generate: base64 encode a random string (reasonable long and mixed characters)
-    # example generation command: `tr -cd '[:alnum:],.' < /dev/urandom | fold -w 50 | head -n 1 | base64`
-    thumbnails-transfer-secret: XXXXXXXXXXXXX
+  # how to generate: base64 encode a random string (reasonable long and mixed characters)
+  # example generation command: `tr -cd '[:alnum:],.' < /dev/urandom | fold -w 50 | head -n 1 | base64`
+  thumbnails-transfer-secret: XXXXXXXXXXXXX
 ```
 
 ### Example with NGINX ingress and certificate issued by cert-manager

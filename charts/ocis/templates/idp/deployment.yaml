@@ -56,7 +56,7 @@ spec:
               value: ldaps://idm:9235
 
             - name: IDP_LDAP_TLS_CACERT
-              value: /etc/ocis/ldap-ca/ldap-ca-cert
+              value: /etc/ocis/ldap-ca/ldap-ca.crt
 
             - name: IDP_LDAP_BIND_PASSWORD
               valueFrom:

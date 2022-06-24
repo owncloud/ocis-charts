@@ -53,7 +53,7 @@ spec:
             - name: GROUPS_LDAP_URI
               value: ldaps://idm:9235
             - name: GROUPS_LDAP_CACERT
-              value: /etc/ocis/ldap-ca/ldap-ca-cert
+              value: /etc/ocis/ldap-ca/ldap-ca.crt
 
             - name: GROUPS_LDAP_BIND_PASSWORD
               valueFrom:
