@@ -23,6 +23,19 @@ spec:
     spec:
       securityContext:
           fsGroup: 1000
+      initContainers:
+        - name: init-dir #TODO: that should not be needed, needs fix in the idm service
+          image: busybox:stable
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 1000
+            runAsGroup: 1000
+            readOnlyRootFilesystem: true
+          command: ["mkdir", "-p", "/var/lib/ocis/idm"]
+          resources: {{ toYaml .Values.resources | nindent 12 }}
+          volumeMounts:
+          - name: idm-data
+            mountPath: /var/lib/ocis
       containers:
         - name: idm
           {{- if .Values.image.sha }}
