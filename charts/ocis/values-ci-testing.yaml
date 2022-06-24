@@ -13,6 +13,8 @@ ingress:
       hosts:
         - ocis.owncloud.test
 
+externalDomain: ocis.owncloud.test
+
 extraLabels:
   extra1: lorem
   extra2: ipsum
