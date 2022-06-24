@@ -23,6 +23,8 @@ spec:
       annotations:
         checksum/config: {{ include (print $.Template.BasePath "/proxy/config.yaml") . | sha256sum }}
     spec:
+      securityContext:
+          fsGroup: 1000
       containers:
         - name: proxy
           {{- if .Values.image.sha }}
@@ -37,7 +39,6 @@ spec:
             runAsNonRoot: true
             runAsUser: 1000
             runAsGroup: 1000
-            fsGroup: 1000
             readOnlyRootFilesystem: true
           env:
             - name: MICRO_REGISTRY

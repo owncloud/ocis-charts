@@ -21,6 +21,8 @@ spec:
         app: auth-machine
         {{- include "ocis.labels" . | nindent 8 }}
     spec:
+      securityContext:
+          fsGroup: 1000
       containers:
         - name: auth-machine
           {{- if .Values.image.sha }}
@@ -35,7 +37,6 @@ spec:
             runAsNonRoot: true
             runAsUser: 1000
             runAsGroup: 1000
-            fsGroup: 1000
             readOnlyRootFilesystem: true
           env:
             - name: MICRO_REGISTRY
