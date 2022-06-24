@@ -77,7 +77,6 @@ spec:
                   name: {{ .Values.secretRefs.adminUserSecretRef }}
                   key: password
             - name: IDM_ADMIN_USER_ID
-              #value: ea8296b3-ad35-4d25-b6b6-c1a9a858fb19
               valueFrom:
                 secretKeyRef:
                   name: {{ .Values.secretRefs.adminUserSecretRef }}
