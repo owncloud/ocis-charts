@@ -163,6 +163,8 @@ Following example shows you how the secrets need to look like and how you can ge
 The example assumes, that you don't change the `secretRefs`.
 Each secret data entry holds a description on how to generate it or find the right value.
 
+You can apply the secrets manually or include them in the `extraResources`.
+
 ```yaml
 ---
 apiVersion: v1
