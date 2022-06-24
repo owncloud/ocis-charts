@@ -89,6 +89,9 @@ This chart only supports following oCIS versions:
 | secretRefs.storageSystemSecretRef | string | `"storage-system"` | Reference to an existing storage-system secret (see [Secrets](#secrets)) |
 | secretRefs.thumbnailsSecretRef | string | `"thumbnails-transfer-secret"` | Reference to an existing thumbnails transfer secret (see [Secrets](#secrets)) |
 | secretRefs.transferSecretSecretRef | string | `"transfer-secret"` | Reference to an existing transfer secret (see [Secrets](#secrets)) |
+| securityContext.fsGroup | int | `1000` | File system group for all volumes. |
+| securityContext.runAsGroup | int | `1000` | Group ID that all processes within any containers will run with. |
+| securityContext.runAsUser | int | `1000` | User ID that all processes within any containers will run with. |
 | services.idm.persistence.accessModes | list | `["ReadWriteMany"]` | Persistent volume access modes. Needs to be `["ReadWriteMany"]` when scaling this service beyond one instance. |
 | services.idm.persistence.annotations | object | `{}` | Persistent volume annotations. |
 | services.idm.persistence.enabled | bool | `false` | Enables persistence. Needs to be enabled on production installations. If not enabled, pod restarts will lead to data loss. Also scaling this service beyond one instance is not possible if the service instances don't share the same storage. |

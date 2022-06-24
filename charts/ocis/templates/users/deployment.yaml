@@ -22,7 +22,7 @@ spec:
         {{- include "ocis.labels" . | nindent 8 }}
     spec:
       securityContext:
-          fsGroup: 1000
+          fsGroup: {{ .Values.securityContext.fsGroup }}
       containers:
         - name: users
           {{- if .Values.image.sha }}
@@ -35,8 +35,8 @@ spec:
           args: ["users", "server"]
           securityContext:
             runAsNonRoot: true
-            runAsUser: 1000
-            runAsGroup: 1000
+            runAsUser: {{ .Values.securityContext.runAsUser }}
+            runAsGroup: {{ .Values.securityContext.runAsGroup }}
             readOnlyRootFilesystem: true
           env:
             - name: MICRO_REGISTRY
@@ -78,12 +78,18 @@ spec:
             - name: grpc
               containerPort: 9144
           volumeMounts:
+            - name: ocis-config-tmp
+              mountPath: /etc/ocis # we mount that volume only to apply fsGroup to that path
             - name: ldap-ca
               mountPath: /etc/ocis/ldap-ca
               readOnly: true
             - name: tmp-volume
               mountPath: /tmp
       volumes:
+        - name: ocis-config-tmp
+          emptyDir:
+            medium: Memory
+            sizeLimit: 6Mi
         - name: ldap-ca
           secret:
             secretName: {{ .Values.secretRefs.ldapCaRef }}
