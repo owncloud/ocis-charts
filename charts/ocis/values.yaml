@@ -1,7 +1,7 @@
 image:
   repository: owncloud/ocis
-  tag: "2.0.0-beta.3"
-  sha: "43b29d7031e7a4882ca116d324155cc85504c06081f4d419f562e7b349f44f58"
+  tag: "latest" # TODO: wait for "2.0.0-beta.4"
+  sha: "6df3de71a5923053507dde0376d0a4057a007604092451bfb3acc8f5824385a0" # post 2.0.0-beta.3 and pre 2.0.0-beta.4
   pullPolicy: IfNotPresent
 
 logging:
@@ -55,20 +55,6 @@ extraLabels: {}
 namespaceOverride: ""
 
 storageSystem:
-  persistence:
-    enabled: false
-    # storageClassName: default
-    accessModes:
-      - ReadWriteMany
-    size: 5Gi
-    annotations: {}
-    finalizers:
-      - kubernetes.io/pvc-protection
-    selectorLabels: {}
-    # existingClaim:
-
-storageSharing:
-  #TODO: https://github.com/owncloud/ocis-charts/issues/10
   persistence:
     enabled: false
     # storageClassName: default

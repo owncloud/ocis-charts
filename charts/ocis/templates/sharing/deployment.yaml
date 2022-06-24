@@ -9,7 +9,9 @@ spec:
   selector:
     matchLabels:
       app: sharing
-  replicas: 1 #TODO: https://github.com/owncloud/ocis-charts/issues/12
+  {{- if and (not .Values.autoscaling.enabled) (.Values.replicas) }}
+  replicas: {{ .Values.replicas }}
+  {{- end }}
   {{- if .Values.deploymentStrategy }}
   strategy: {{ toYaml .Values.deploymentStrategy | nindent 4 }}
   {{ end }}
@@ -19,16 +21,6 @@ spec:
         app: sharing
         {{- include "ocis.labels" . | nindent 8 }}
     spec:
-      initContainers:
-        - name: init-chown-data
-          image: busybox
-          securityContext:
-            runAsNonRoot: false
-            runAsUser: 0
-          command: ["chown", "-R", "1000:1000", "/var/lib/ocis"]
-          volumeMounts:
-          - name: sharing-data
-            mountPath: /var/lib/ocis
       containers:
         - name: sharing
           {{- if .Values.image.sha }}
@@ -57,11 +49,6 @@ spec:
             - name: SHARING_GRPC_ADDR
               value: 0.0.0.0:9150
 
-            - name: SHARING_USER_DRIVER
-              value: "json" #TODO: switch to CS3 and remove persistency, then scale this service
-            - name: SHARING_PUBLIC_DRIVER
-              value: "json" #TODO: switch to CS3 and remove persistency, then scale this service
-
             - name: REVA_GATEWAY
               value: gateway:9142
             - name: SHARING_EVENTS_ENDPOINT
@@ -73,12 +60,33 @@ spec:
                   name: {{ .Values.secretRefs.jwtSecretRef }}
                   key: jwt-secret
 
-            - name: OCIS_SYSTEM_USER_API_KEY
+            # user sharing
+            - name: SHARING_USER_DRIVER
+              value: cs3
+            - name: SHARING_USER_CS3_PROVIDER_ADDR
+              value: storage-system:9215
+            - name: SHARING_USER_CS3_SYSTEM_USER_API_KEY
               valueFrom:
                 secretKeyRef:
                   name: {{ .Values.secretRefs.storageSystemSecretRef }}
                   key: api-key
-            - name: OCIS_SYSTEM_USER_ID
+            - name: SHARING_USER_CS3_SYSTEM_USER_ID
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.secretRefs.storageSystemSecretRef }}
+                  key: user-id
+
+            # public sharing
+            - name: SHARING_PUBLIC_DRIVER
+              value: cs3
+            - name: SHARING_PUBLIC_CS3_PROVIDER_ADDR
+              value: storage-system:9215
+            - name: SHARING_PUBLIC_CS3_SYSTEM_USER_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.secretRefs.storageSystemSecretRef }}
+                  key: api-key
+            - name: SHARING_PUBLIC_CS3_SYSTEM_USER_ID
               valueFrom:
                 secretKeyRef:
                   name: {{ .Values.secretRefs.storageSystemSecretRef }}
@@ -91,18 +99,8 @@ spec:
           volumeMounts:
             - name: tmp-volume
               mountPath: /tmp
-            - name: sharing-data
-              mountPath: /var/lib/ocis
       volumes:
         - name: tmp-volume
           emptyDir:
             medium: Memory
             sizeLimit: 6Mi
-      {{- if .Values.storageSharing.persistence.enabled }}
-        - name: sharing-data
-          persistentVolumeClaim:
-            claimName: sharing-data
-      {{ else }}
-        - name: sharing-data
-          emptyDir: {}
-      {{ end }}

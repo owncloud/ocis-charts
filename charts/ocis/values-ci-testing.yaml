@@ -31,21 +31,6 @@ storageSystem:
     selectorLabels:
       selector1: foobar
 
-storageSharing:
-  #TODO: https://github.com/owncloud/ocis-charts/issues/10
-  persistence:
-    enabled: true
-    storageClassName: default-storage
-    accessModes:
-      - ReadWriteMany
-    size: 5Gi
-    annotations:
-      anno-1: test
-    finalizers:
-      - kubernetes.io/pvc-protection
-    selectorLabels:
-      selector1: foobar
-
 storageUsers:
   storageBackend:
     driver: ocis
