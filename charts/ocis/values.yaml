@@ -14,6 +14,12 @@ deploymentStrategy:
 
 externalDomain: ocis.owncloud.test
 
+insecure:
+  # disables ssl certificate checking for connections to the openID connect identity provider. Not recommended for production setups
+  oidcIdpInsecure: false
+  # disables ssl certificate checking for connections to the oCIS http apis. Not recommended for production setups
+  ocisHttpApiInsecure: false
+
 features:
   # enables basic authentication. Not recommended for production setups
   basicAuthentication: false

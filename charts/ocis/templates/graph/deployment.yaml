@@ -71,6 +71,9 @@ spec:
             - name: GRAPH_EVENTS_ENDPOINT
               value: nats:9233
 
+            - name: GRAPH_SPACES_INSECURE
+              value: "{{ .Values.insecure.ocisHttpApiInsecure }}"
+
             - name: GRAPH_JWT_SECRET
               valueFrom:
                 secretKeyRef:
