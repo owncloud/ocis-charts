@@ -1,7 +1,7 @@
 image:
   repository: owncloud/ocis
-  tag: "latest" # TODO: wait for "2.0.0-beta.4"
-  sha: "6df3de71a5923053507dde0376d0a4057a007604092451bfb3acc8f5824385a0" # post 2.0.0-beta.3 and pre 2.0.0-beta.4
+  tag: "2.0.0-beta.4"
+  sha: "6788038449dc3d77a9ea55c25766262b04cf8864e1d8346ae3d81c374b3a7cbf"
   pullPolicy: IfNotPresent
 
 logging:

@@ -20,8 +20,9 @@ This chart is still in an experimental phase, and it has not yet been published.
 [//]: # (```)
 
 To install the chart with the release name `my-release`:
-- clone this git repository
-- run `helm install my-release ./charts/ocis` from the root of this git repository
+
+* clone this git repository
+* run `helm install my-release ./charts/ocis` from the root of this git repository
 
 ## Uninstalling the Chart
 
@@ -38,11 +39,11 @@ The command removes all the Kubernetes components associated with the chart and 
 A major chart version change (like v1.2.3 -> v2.0.0) indicates that there is an
 incompatible breaking change needing manual actions.
 
-### 1.x.x Tech Preview Versions
+### Supported oCIS versions
 
-All release can be breaking during Tech Preview, see [oCIS Tech Preview](https://owncloud.dev/ocis/release_roadmap/)
+This chart only supports following oCIS versions:
 
-
+* 2.0.0-beta.4
 
 ## Configuration
 
@@ -67,8 +68,8 @@ All release can be breaking during Tech Preview, see [oCIS Tech Preview](https:/
 | `idm.persistence.storageClassName`                         | idm service: Type of persistent volume claim                                     | `nil`                                                              |
 | `image.pullPolicy`                                         | Image pull policy                                                                | `IfNotPresent`                                                     |
 | `image.repository`                                         | Image repository                                                                 | `owncloud/ocis`                                                    |
-| `image.sha`                                                | Image sha (optional)                                                             | `6cc24c065d2832c26fa628daa917e1a1543b63a24fab48daf56c0521a688ffe9` |
-| `image.tag`                                                | Image tag                                                                        | `latest`                                                           |
+| `image.sha`                                                | Image sha (optional)                                                             | `6788038449dc3d77a9ea55c25766262b04cf8864e1d8346ae3d81c374b3a7cbf` |
+| `image.tag`                                                | Image tag                                                                        | `2.0.0-beta.4`                                                     |
 | `ingress.annotations`                                      | Ingress annotations (values are templated)                                       | `{}`                                                               |
 | `ingress.enabled`                                          | Enables Ingress                                                                  | `false`                                                            |
 | `ingress.ingressClassName`                                 | Name of the ingress class                                                        | empty (default ingress)                                            |
@@ -123,7 +124,7 @@ All release can be breaking during Tech Preview, see [oCIS Tech Preview](https:/
 | `storageUsers.storageBackend.driverConfig.s3ng.accessKey:` | users storage: S3ng Storage backend driver S3 access key                         | `""`                                                               |
 | `storageUsers.storageBackend.driverConfig.s3ng.bucket:`    | users storage: S3ng Storage backend driver S3 bucket                             | `""`                                                               |
 | `storageUsers.storageBackend.driverConfig.s3ng.endpoint:`  | users storage: S3ng Storage backend driver S3 endpoint                           | `""`                                                               |
-| `storageUsers.storageBackend.driverConfig.s3ng.region:`    | users storage: S3ng Storage backend driver S3 region                             | `""`                                                               | ` |
+| `storageUsers.storageBackend.driverConfig.s3ng.region:`    | users storage: S3ng Storage backend driver S3 region                             | `""`                                                               |
 | `storageUsers.storageBackend.driverConfig.s3ng.secretKey:` | users storage: S3ng Storage backend driver S3 secret key                         | `""`                                                               |
 | `store.persistence.accessModes`                            | store service: Persistence access modes                                          | `[ReadWriteMany]`                                                  |
 | `store.persistence.annotations`                            | store service: PersistentVolumeClaim annotations                                 | `{}`                                                               |
