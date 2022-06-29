@@ -1,0 +1,128 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: idm
+  namespace: {{ template "ocis.namespace" . }}
+  labels:
+    {{- include "ocis.labels" . | nindent 4 }}
+spec:
+  selector:
+    matchLabels:
+      app: idm
+  {{- if and (not .Values.autoscaling.enabled) (.Values.replicas) }}
+  replicas: {{ .Values.replicas }}
+  {{- end }}
+  {{- if .Values.deploymentStrategy }}
+  strategy: {{ toYaml .Values.deploymentStrategy | nindent 4 }}
+  {{ end }}
+  template:
+    metadata:
+      labels:
+        app: idm
+        {{- include "ocis.labels" . | nindent 8 }}
+    spec:
+      securityContext:
+          fsGroup: 1000
+      initContainers:
+        - name: init-dir #TODO: that should not be needed, needs fix in the idm service
+          image: busybox:stable
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 1000
+            runAsGroup: 1000
+            readOnlyRootFilesystem: true
+          command: ["mkdir", "-p", "/var/lib/ocis/idm"]
+          resources: {{ toYaml .Values.resources | nindent 12 }}
+          volumeMounts:
+          - name: idm-data
+            mountPath: /var/lib/ocis
+      containers:
+        - name: idm
+          {{- if .Values.image.sha }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}@sha256:{{ .Values.image.sha }}"
+          {{- else }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          {{- end }}
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          command: ["ocis"]
+          args: ["idm", "server"]
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 1000
+            runAsGroup: 1000
+            readOnlyRootFilesystem: true
+          env:
+            - name: MICRO_REGISTRY
+              value: kubernetes
+
+            - name: IDM_LOG_COLOR
+              value: "{{ .Values.logging.color }}"
+            - name: IDM_LOG_LEVEL
+              value: "{{ .Values.logging.level }}"
+            - name: IDM_LOG_PRETTY
+              value: "{{ .Values.logging.pretty }}"
+
+            - name: IDM_LDAPS_ADDR
+              value: 0.0.0.0:9235
+
+            - name: IDM_CREATE_DEMO_USERS
+              value: "{{ .Values.features.demoUsers }}"
+
+            - name: IDM_ADMIN_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.secretRefs.adminUserSecretRef }}
+                  key: password
+            - name: IDM_ADMIN_USER_ID
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.secretRefs.adminUserSecretRef }}
+                  key: user-id
+
+            - name: IDM_SVC_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.secretRefs.ldapSecretRef }}
+                  key: graph-ldap-bind-password
+
+            - name: IDM_REVASVC_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.secretRefs.ldapSecretRef }}
+                  key: reva-ldap-bind-password
+
+            - name: IDM_IDPSVC_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.secretRefs.ldapSecretRef }}
+                  key: idp-ldap-bind-password
+
+            - name: IDM_LDAPS_CERT
+              value: /etc/ocis/ldap-cert/ldap.crt
+
+            - name: IDM_LDAPS_KEY
+              value: /etc/ocis/ldap-cert/ldap.key
+
+          resources: {{ toYaml .Values.resources | nindent 12 }}
+          ports:
+            - name: ldaps
+              containerPort: 9235
+          volumeMounts:
+            - name: ldap-cert
+              mountPath: /etc/ocis/ldap-cert
+              readOnly: true
+
+            - name: idm-data
+              mountPath: /var/lib/ocis
+      volumes:
+        - name: ldap-cert
+          secret:
+            secretName: {{ .Values.secretRefs.ldapCertRef }}
+      {{ if .Values.idm.persistence.enabled }}
+        - name: idm-data
+          persistentVolumeClaim:
+            claimName: idm-data
+      {{ else }}
+        - name: idm-data
+          emptyDir: {}
+      {{ end }}

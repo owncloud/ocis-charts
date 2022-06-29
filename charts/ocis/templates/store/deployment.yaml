@@ -6,7 +6,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: store
-  namespace: {{ template "ocis.namespace" $ }}
+  namespace: {{ template "ocis.namespace" . }}
   labels:
     {{- include "ocis.labels" . | nindent 4 }}
 spec:
@@ -23,18 +23,8 @@ spec:
         app: store
         {{- include "ocis.labels" . | nindent 8 }}
     spec:
-      {{- if $.Values.store.persistence.enabled }}
-      initContainers:
-        - name: init-chown-data
-          image: busybox
-          securityContext:
-            runAsNonRoot: false
-            runAsUser: 0
-          command: ["chown", "-R", "1000:1000", "/var/lib/ocis"]
-          volumeMounts:
-          - name: store-data
-            mountPath: /var/lib/ocis
-      {{ end }}
+      securityContext:
+          fsGroup: 1000
       containers:
         - name: store
           {{- if .Values.image.sha }}
@@ -48,17 +38,18 @@ spec:
           securityContext:
             runAsNonRoot: true
             runAsUser: 1000
+            runAsGroup: 1000
             readOnlyRootFilesystem: true
           env:
             - name: MICRO_REGISTRY
               value: kubernetes
 
             - name: STORE_LOG_COLOR
-              value: "{{ $.Values.logging.color }}"
+              value: "{{ .Values.logging.color }}"
             - name: STORE_LOG_LEVEL
-              value: "{{ $.Values.logging.level }}"
+              value: "{{ .Values.logging.level }}"
             - name: STORE_LOG_PRETTY
-              value: "{{ $.Values.logging.pretty }}"
+              value: "{{ .Values.logging.pretty }}"
 
             - name: STORE_GRPC_ADDR
               value: 0.0.0.0:9460
@@ -70,7 +61,7 @@ spec:
             - name: store-data
               mountPath: /var/lib/ocis
       volumes:
-      {{- if $.Values.store.persistence.enabled }}
+      {{- if .Values.store.persistence.enabled }}
         - name: store-data
           persistentVolumeClaim:
             claimName: store-data

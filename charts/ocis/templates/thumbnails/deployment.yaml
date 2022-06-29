@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: thumbnails
-  namespace: {{ template "ocis.namespace" $ }}
+  namespace: {{ template "ocis.namespace" . }}
   labels:
     {{- include "ocis.labels" . | nindent 4 }}
 spec:
@@ -21,18 +21,8 @@ spec:
         app: thumbnails
         {{- include "ocis.labels" . | nindent 8 }}
     spec:
-      {{- if $.Values.thumbnails.persistence.enabled }}
-      initContainers:
-        - name: init-chown-data
-          image: busybox
-          securityContext:
-            runAsNonRoot: false
-            runAsUser: 0
-          command: ["chown", "-R", "1000:1000", "/var/lib/ocis"]
-          volumeMounts:
-          - name: thumbnails-data
-            mountPath: /var/lib/ocis
-      {{ end }}
+      securityContext:
+          fsGroup: 1000
       containers:
         - name: thumbnails
           {{- if .Values.image.sha }}
@@ -46,17 +36,18 @@ spec:
           securityContext:
             runAsNonRoot: true
             runAsUser: 1000
+            runAsGroup: 1000
             readOnlyRootFilesystem: true
           env:
             - name: MICRO_REGISTRY
               value: kubernetes
 
             - name: THUMBNAILS_LOG_COLOR
-              value: "{{ $.Values.logging.color }}"
+              value: "{{ .Values.logging.color }}"
             - name: THUMBNAILS_LOG_LEVEL
-              value: "{{ $.Values.logging.level }}"
+              value: "{{ .Values.logging.level }}"
             - name: THUMBNAILS_LOG_PRETTY
-              value: "{{ $.Values.logging.pretty }}"
+              value: "{{ .Values.logging.pretty }}"
 
             - name: THUMBNAILS_GRPC_ADDR
               value: 0.0.0.0:9185
@@ -66,14 +57,15 @@ spec:
             - name: THUMBNAILS_DATA_ENDPOINT
               value: http://thumbnails:9186/thumbnails/data
 
-            - name: THUMBNAILS_CS3SOURCE_INSECURE # TODO: https://github.com/owncloud/ocis-charts/issues/32
-              value: "true"
-
             - name: REVA_GATEWAY
-              value: storage-gateway:9142
-          envFrom:
-            - secretRef:
-                name: thumbnails-transfer-secret
+              value: gateway:9142
+
+            - name: THUMBNAILS_TRANSFER_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.secretRefs.thumbnailsSecretRef }}
+                  key: thumbnails-transfer-secret
+
           resources: {{ toYaml .Values.resources | nindent 12 }}
           ports:
             - name: grpc
@@ -84,7 +76,7 @@ spec:
             - name: thumbnails-data
               mountPath: /var/lib/ocis
       volumes:
-      {{- if $.Values.thumbnails.persistence.enabled }}
+      {{- if .Values.thumbnails.persistence.enabled }}
         - name: thumbnails-data
           persistentVolumeClaim:
             claimName: thumbnails-data

@@ -23,15 +23,6 @@ def linting(ctx):
                 ],
             },
             {
-                "name": "kube-linter",
-                "image": "stackrox/kube-linter:latest",
-                "entrypoint": [
-                    "/kube-linter",
-                    "lint",
-                    "/drone/src/charts/ocis",
-                ],
-            },
-            {
                 "name": "helm template",
                 "image": "alpine/helm:latest",
                 "commands": [
@@ -39,10 +30,69 @@ def linting(ctx):
                 ],
             },
             {
-                "name": "kubeconform",
-                "image": "ghcr.io/yannh/kubeconform:latest",
+                "name": "kube-linter",
+                "image": "stackrox/kube-linter:latest",
+                "entrypoint": [
+                    "/kube-linter",
+                    "lint",
+                    "ocis-ci-templated.yaml",
+                ],
+            },
+            {
+                "name": "kubeconform-1.20.0",
+                "image": "ghcr.io/yannh/kubeconform:master",
                 "entrypoint": [
                     "/kubeconform",
+                    "-kubernetes-version",
+                    "1.20.0",
+                    "-summary",
+                    "-strict",
+                    "ocis-ci-templated.yaml",
+                ],
+            },
+            {
+                "name": "kubeconform-1.21.0",
+                "image": "ghcr.io/yannh/kubeconform:master",
+                "entrypoint": [
+                    "/kubeconform",
+                    "-kubernetes-version",
+                    "1.21.0",
+                    "-summary",
+                    "-strict",
+                    "ocis-ci-templated.yaml",
+                ],
+            },
+            {
+                "name": "kubeconform-1.22.0",
+                "image": "ghcr.io/yannh/kubeconform:master",
+                "entrypoint": [
+                    "/kubeconform",
+                    "-kubernetes-version",
+                    "1.22.0",
+                    "-summary",
+                    "-strict",
+                    "ocis-ci-templated.yaml",
+                ],
+            },
+            {
+                "name": "kubeconform-1.23.0",
+                "image": "ghcr.io/yannh/kubeconform:master",
+                "entrypoint": [
+                    "/kubeconform",
+                    "-kubernetes-version",
+                    "1.23.0",
+                    "-summary",
+                    "-strict",
+                    "ocis-ci-templated.yaml",
+                ],
+            },
+            {
+                "name": "kubeconform-1.24.0",
+                "image": "ghcr.io/yannh/kubeconform:master",
+                "entrypoint": [
+                    "/kubeconform",
+                    "-kubernetes-version",
+                    "1.24.0",
                     "-summary",
                     "-strict",
                     "ocis-ci-templated.yaml",

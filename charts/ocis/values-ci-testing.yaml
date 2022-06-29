@@ -13,26 +13,13 @@ ingress:
       hosts:
         - ocis.owncloud.test
 
+externalDomain: ocis.owncloud.test
+
 extraLabels:
   extra1: lorem
   extra2: ipsum
 
-storageMetadata:
-  persistence:
-    enabled: true
-    storageClassName: default-storage
-    accessModes:
-      - ReadWriteMany
-    size: 5Gi
-    annotations:
-      anno-1: test
-    finalizers:
-      - kubernetes.io/pvc-protection
-    selectorLabels:
-      selector1: foobar
-
-storageSharing:
-  #TODO: https://github.com/owncloud/ocis-charts/issues/10
+storageSystem:
   persistence:
     enabled: true
     storageClassName: default-storage
@@ -90,7 +77,7 @@ thumbnails:
 
 autoscaling:
   enabled: true
-  minReplicas: 1
+  minReplicas: 3
   maxReplicas: 10
   metrics:
   - type: Resource

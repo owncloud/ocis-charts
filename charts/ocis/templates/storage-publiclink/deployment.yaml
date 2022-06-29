@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: storage-publiclink
-  namespace: {{ template "ocis.namespace" $ }}
+  namespace: {{ template "ocis.namespace" . }}
   labels:
     {{- include "ocis.labels" . | nindent 4 }}
 spec:
@@ -21,6 +21,8 @@ spec:
         app: storage-publiclink
         {{- include "ocis.labels" . | nindent 8 }}
     spec:
+      securityContext:
+          fsGroup: 1000
       containers:
         - name: storage-publiclink
           {{- if .Values.image.sha }}
@@ -30,32 +32,35 @@ spec:
           {{- end }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           command: ["ocis"]
-          args: ["storage-public-link", "server"]
+          args: ["storage-publiclink", "server"]
           securityContext:
             runAsNonRoot: true
             runAsUser: 1000
+            runAsGroup: 1000
             readOnlyRootFilesystem: true
           env:
             - name: MICRO_REGISTRY
               value: kubernetes
 
-            - name: OCIS_LOG_COLOR
-              value: "{{ $.Values.logging.color }}"
-            - name: OCIS_LOG_LEVEL
-              value: "{{ $.Values.logging.level }}"
-            - name: OCIS_LOG_PRETTY
-              value: "{{ $.Values.logging.pretty }}"
+            - name: STORAGE_PUBLICLINK_LOG_COLOR
+              value: "{{ .Values.logging.color }}"
+            - name: STORAGE_PUBLICLINK_LOG_LEVEL
+              value: "{{ .Values.logging.level }}"
+            - name: STORAGE_PUBLICLINK_LOG_PRETTY
+              value: "{{ .Values.logging.pretty }}"
 
-            - name: STORAGE_PUBLIC_LINK_GRPC_ADDR
+            - name: STORAGE_PUBLICLINK_GRPC_ADDR
               value: 0.0.0.0:9178
-            - name: STORAGE_PUBLIC_LINK_ENDPOINT
-              value: "storage-shares:9178"
 
             - name: REVA_GATEWAY
-              value: storage-gateway:9142
-          envFrom:
-            - secretRef:
-                name: jwt-secret
+              value: gateway:9142
+
+            - name: STORAGE_PUBLICLINK_JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.secretRefs.jwtSecretRef }}
+                  key: jwt-secret
+
           resources: {{ toYaml .Values.resources | nindent 12 }}
           ports:
           - name: grpc

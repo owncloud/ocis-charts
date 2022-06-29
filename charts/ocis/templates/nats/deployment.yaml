@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: nats
-  namespace: {{ template "ocis.namespace" $ }}
+  namespace: {{ template "ocis.namespace" . }}
   labels:
     {{- include "ocis.labels" . | nindent 4 }}
 spec:
@@ -19,6 +19,8 @@ spec:
         app: nats
         {{- include "ocis.labels" . | nindent 8 }}
     spec:
+      securityContext:
+          fsGroup: 1000
       containers:
         - name: nats
           {{- if .Values.image.sha }}
@@ -28,18 +30,19 @@ spec:
           {{- end }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           command: ["ocis"]
-          args: ["nats-server", "server"]
+          args: ["nats", "server"]
           securityContext:
             runAsNonRoot: true
             runAsUser: 1000
+            runAsGroup: 1000
             readOnlyRootFilesystem: true
           env:
             - name: NATS_LOG_COLOR
-              value: "{{ $.Values.logging.color }}"
+              value: "{{ .Values.logging.color }}"
             - name: NATS_LOG_LEVEL
-              value: "{{ $.Values.logging.level }}"
+              value: "{{ .Values.logging.level }}"
             - name: NATS_LOG_PRETTY
-              value: "{{ $.Values.logging.pretty }}"
+              value: "{{ .Values.logging.pretty }}"
 
             - name: NATS_NATS_HOST
               value: "0.0.0.0"
@@ -49,3 +52,15 @@ spec:
           ports:
             - name: nats
               containerPort: 9233
+          volumeMounts:
+            - name: nats-data
+              mountPath: /var/lib/ocis
+      volumes:
+      {{- if .Values.nats.persistence.enabled }}
+        - name: nats-data
+          persistentVolumeClaim:
+            claimName: nats-data
+      {{ else }}
+        - name: nats-data
+          emptyDir: {}
+      {{ end }}

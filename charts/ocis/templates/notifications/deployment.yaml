@@ -1,0 +1,62 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: notifications
+  namespace: {{ template "ocis.namespace" . }}
+  labels:
+    {{- include "ocis.labels" . | nindent 4 }}
+spec:
+  selector:
+    matchLabels:
+      app: notifications
+  {{- if and (not .Values.autoscaling.enabled) (.Values.replicas) }}
+  replicas: {{ .Values.replicas }}
+  {{- end }}
+  {{- if .Values.deploymentStrategy }}
+  strategy: {{ toYaml .Values.deploymentStrategy | nindent 4 }}
+  {{ end }}
+  template:
+    metadata:
+      labels:
+        app: notifications
+        {{- include "ocis.labels" . | nindent 8 }}
+    spec:
+      securityContext:
+          fsGroup: 1000
+      containers:
+        - name: notifications
+          {{- if .Values.image.sha }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}@sha256:{{ .Values.image.sha }}"
+          {{- else }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          {{- end }}
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          command: ["ocis"]
+          args: ["notifications", "server"]
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 1000
+            runAsGroup: 1000
+            readOnlyRootFilesystem: true
+          env:
+            - name: NOTIFICATIONS_LOG_COLOR
+              value: "{{ .Values.logging.color }}"
+            - name: NOTIFICATIONS_LOG_LEVEL
+              value: "{{ .Values.logging.level }}"
+            - name: NOTIFICATIONS_LOG_PRETTY
+              value: "{{ .Values.logging.pretty }}"
+
+            # TODO: smtp settings + mailhog?
+
+            - name: REVA_GATEWAY
+              value: gateway:9142
+            - name: NOTIFICATIONS_EVENTS_ENDPOINT
+              value: nats:9233
+
+            - name: NOTIFICATIONS_MACHINE_AUTH_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.secretRefs.machineAuthApiKeySecretRef }}
+                  key: machine-auth-api-key
+
+          resources: {{ toYaml .Values.resources | nindent 12 }}

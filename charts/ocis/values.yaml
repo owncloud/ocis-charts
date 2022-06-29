@@ -1,7 +1,7 @@
 image:
   repository: owncloud/ocis
-  tag: "1.19.1"
-  sha: "3fdde158afabac6ec540756f651a59892baf2c9a2b2b03e82fddeb34fa83374b"
+  tag: "2.0.0-beta.4"
+  sha: "6788038449dc3d77a9ea55c25766262b04cf8864e1d8346ae3d81c374b3a7cbf"
   pullPolicy: IfNotPresent
 
 logging:
@@ -13,6 +13,12 @@ deploymentStrategy:
   type: RollingUpdate
 
 externalDomain: ocis.owncloud.test
+
+features:
+  # enables basic authentication. Not recommended for production setups
+  basicAuthentication: false
+  # enables the creation of demo users on the first start
+  demoUsers: false
 
 ingress:
   enabled: false
@@ -27,12 +33,19 @@ ingress:
   #    hosts:
   #      - ocis.owncloud.test
 
+secretRefs:
+  adminUserSecretRef: "admin-user"
+  idpSecretRef: "idp-secrets"
+  jwtSecretRef: "jwt-secret"
+  ldapCaRef: "ldap-ca"
+  ldapCertRef: "ldap-cert"
+  ldapSecretRef: "ldap-bind-secrets"
+  machineAuthApiKeySecretRef: "machine-auth-api-key"
+  storageSystemJwtSecretRef: "storage-system-jwt-secret"
+  storageSystemSecretRef: "storage-system"
+  thumbnailsSecretRef: "thumbnails-transfer-secret"
+  transferSecretSecretRef: "transfer-secret"
 
-secrets:
-  #TODO: https://github.com/owncloud/ocis-charts/issues/9
-  jwt: replace-me-with-a-real-secret-123
-  machineAuth: replace-me-with-a-real-secret-456
-  transfer: replace-me-with-a-real-secret-789
 
 # Apply extra labels to common labels.
 extraLabels: {}
@@ -41,21 +54,7 @@ extraLabels: {}
 ##
 namespaceOverride: ""
 
-storageMetadata:
-  persistence:
-    enabled: false
-    # storageClassName: default
-    accessModes:
-      - ReadWriteMany
-    size: 5Gi
-    annotations: {}
-    finalizers:
-      - kubernetes.io/pvc-protection
-    selectorLabels: {}
-    # existingClaim:
-
-storageSharing:
-  #TODO: https://github.com/owncloud/ocis-charts/issues/10
+storageSystem:
   persistence:
     enabled: false
     # storageClassName: default
@@ -116,6 +115,44 @@ thumbnails:
     selectorLabels: {}
     # existingClaim:
 
+idm:
+  persistence:
+    enabled: false
+    # storageClassName: default
+    accessModes:
+      - ReadWriteMany
+    size: 10Gi
+    annotations: {}
+    finalizers:
+      - kubernetes.io/pvc-protection
+    selectorLabels: {}
+    # existingClaim:
+
+search:
+  persistence:
+    enabled: false
+    # storageClassName: default
+    accessModes:
+      - ReadWriteMany
+    size: 10Gi
+    annotations: {}
+    finalizers:
+      - kubernetes.io/pvc-protection
+    selectorLabels: {}
+    # existingClaim:
+
+nats:
+  persistence:
+    enabled: false
+    # storageClassName: default
+    accessModes:
+      - ReadWriteMany
+    size: 10Gi
+    annotations: {}
+    finalizers:
+      - kubernetes.io/pvc-protection
+    selectorLabels: {}
+    # existingClaim:
 
 # global options for scalable service
 replicas: 1
@@ -124,8 +161,9 @@ replicas: 1
 #
 autoscaling:
   enabled: false
-#   minReplicas: 1
-#   maxReplicas: 10
+  minReplicas: 3
+  maxReplicas: 10
+  metrics: []
 #   metrics:
 #   - type: Resource
 #     resource:
@@ -138,13 +176,13 @@ autoscaling:
 
 # currently resources are globally applied to all services if
 
-resources:
-  limits:
-    cpu: 100m
-    memory: 128Mi
-  requests:
-    cpu: 100m
-    memory: 128Mi
+resources: {}
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
 
 # Include arbitrary resources, eg. config maps or a cer-manager issuer (see example below)
 extraResources: []

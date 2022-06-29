@@ -2,14 +2,18 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: idp
-  namespace: {{ template "ocis.namespace" $ }}
+  namespace: {{ template "ocis.namespace" . }}
   labels:
     {{- include "ocis.labels" . | nindent 4 }}
+  annotations:
+    ignore-check.kube-linter.io/env-var-secret : "IDP_ENCRYPTION_SECRET_FILE is no secret, it's the file path to the secret"
 spec:
   selector:
     matchLabels:
       app: idp
-  replicas: 1 #TODO: https://github.com/owncloud/ocis-charts/issues/12
+  {{- if and (not .Values.autoscaling.enabled) (.Values.replicas) }}
+  replicas: {{ .Values.replicas }}
+  {{- end }}
   {{- if .Values.deploymentStrategy }}
   strategy: {{ toYaml .Values.deploymentStrategy | nindent 4 }}
   {{ end }}
@@ -19,6 +23,8 @@ spec:
         app: idp
         {{- include "ocis.labels" . | nindent 8 }}
     spec:
+      securityContext:
+          fsGroup: 1000
       containers:
         - name: idp
           {{- if .Values.image.sha }}
@@ -32,29 +38,58 @@ spec:
           securityContext:
             runAsNonRoot: true
             runAsUser: 1000
+            runAsGroup: 1000
             readOnlyRootFilesystem: true
           env:
             - name: MICRO_REGISTRY
               value: kubernetes
 
             - name: IDP_LOG_COLOR
-              value: "{{ $.Values.logging.color }}"
+              value: "{{ .Values.logging.color }}"
             - name: IDP_LOG_LEVEL
-              value: "{{ $.Values.logging.level }}"
+              value: "{{ .Values.logging.level }}"
             - name: IDP_LOG_PRETTY
-              value: "{{ $.Values.logging.pretty }}"
+              value: "{{ .Values.logging.pretty }}"
 
             - name: IDP_HTTP_ADDR
               value: 0.0.0.0:9130
 
             - name: IDP_ISS
-              value: "https://{{ $.Values.externalDomain }}"
+              value: "https://{{ .Values.externalDomain }}"
 
             - name: IDP_LDAP_URI
-              value: ldap://glauth:9125
-            - name : IDP_INSECURE #TODO: https://github.com/owncloud/ocis-charts/issues/32
-              value: "true"
+              value: ldaps://idm:9235
+
+            - name: IDP_LDAP_TLS_CACERT
+              value: /etc/ocis/ldap-ca/ldap-ca.crt
+
+            - name: IDP_LDAP_BIND_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.secretRefs.ldapSecretRef }}
+                  key: idp-ldap-bind-password
+
+            - name: IDP_SIGNING_PRIVATE_KEY_FILES
+              value: /etc/ocis/idp/private-key.pem
+
+            - name: IDP_ENCRYPTION_SECRET_FILE
+              value: /etc/ocis/idp/encryption.key
+
           resources: {{ toYaml .Values.resources | nindent 12 }}
           ports:
             - name: http
               containerPort: 9130
+          volumeMounts:
+            - name: idp-secrets
+              mountPath: /etc/ocis/idp
+              readOnly: true
+            - name: ldap-ca
+              mountPath: /etc/ocis/ldap-ca
+              readOnly: true
+      volumes:
+        - name: idp-secrets
+          secret:
+            secretName: {{ .Values.secretRefs.idpSecretRef }}
+        - name: ldap-ca
+          secret:
+            secretName: {{ .Values.secretRefs.ldapCaRef }}

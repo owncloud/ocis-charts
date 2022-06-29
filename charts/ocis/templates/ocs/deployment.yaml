@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: ocs
-  namespace: {{ template "ocis.namespace" $ }}
+  namespace: {{ template "ocis.namespace" . }}
   labels:
     {{- include "ocis.labels" . | nindent 4 }}
 spec:
@@ -21,6 +21,8 @@ spec:
         app: ocs
         {{- include "ocis.labels" . | nindent 8 }}
     spec:
+      securityContext:
+          fsGroup: 1000
       containers:
         - name: ocs
           {{- if .Values.image.sha }}
@@ -34,33 +36,40 @@ spec:
           securityContext:
             runAsNonRoot: true
             runAsUser: 1000
+            runAsGroup: 1000
             readOnlyRootFilesystem: true
           env:
             - name: MICRO_REGISTRY
               value: kubernetes
 
             - name: OCS_LOG_COLOR
-              value: "{{ $.Values.logging.color }}"
+              value: "{{ .Values.logging.color }}"
             - name: OCS_LOG_LEVEL
-              value: "{{ $.Values.logging.level }}"
+              value: "{{ .Values.logging.level }}"
             - name: OCS_LOG_PRETTY
-              value: "{{ $.Values.logging.pretty }}"
+              value: "{{ .Values.logging.pretty }}"
 
             - name: OCS_HTTP_ADDR
               value: 0.0.0.0:9110
 
-            - name: OCS_ACCOUNT_BACKEND_TYPE
-              value: "accounts"
             - name: OCS_IDM_ADDRESS
-              value: "https://{{ $.Values.externalDomain }}"
+              value: "https://{{ .Values.externalDomain }}"
 
             - name: REVA_GATEWAY
-              value: storage-gateway:9142
-          envFrom:
-            - secretRef:
-                name: jwt-secret
-            - secretRef:
-                name: machine-auth-api-key
+              value: gateway:9142
+
+            - name: OCS_JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.secretRefs.jwtSecretRef }}
+                  key: jwt-secret
+
+            - name: OCS_MACHINE_AUTH_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.secretRefs.machineAuthApiKeySecretRef }}
+                  key: machine-auth-api-key
+
           resources: {{ toYaml .Values.resources | nindent 12 }}
           ports:
           - name: http

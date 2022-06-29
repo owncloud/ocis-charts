@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: web
-  namespace: {{ template "ocis.namespace" $ }}
+  namespace: {{ template "ocis.namespace" . }}
   labels:
     {{- include "ocis.labels" . | nindent 4 }}
 spec:
@@ -21,6 +21,8 @@ spec:
         app: web
         {{- include "ocis.labels" . | nindent 8 }}
     spec:
+      securityContext:
+          fsGroup: 1000
       containers:
         - name: web
           {{- if .Values.image.sha }}
@@ -34,27 +36,30 @@ spec:
           securityContext:
             runAsNonRoot: true
             runAsUser: 1000
+            runAsGroup: 1000
             readOnlyRootFilesystem: true
           env:
             - name: MICRO_REGISTRY
               value: kubernetes
 
             - name: WEB_LOG_COLOR
-              value: "{{ $.Values.logging.color }}"
+              value: "{{ .Values.logging.color }}"
             - name: WEB_LOG_LEVEL
-              value: "{{ $.Values.logging.level }}"
+              value: "{{ .Values.logging.level }}"
             - name: WEB_LOG_PRETTY
-              value: "{{ $.Values.logging.pretty }}"
+              value: "{{ .Values.logging.pretty }}"
 
             - name: WEB_HTTP_ADDR
               value: 0.0.0.0:9100
 
             - name: WEB_OIDC_AUTHORITY
-              value: "https://{{ $.Values.externalDomain }}"
+              value: https://{{ .Values.externalDomain }}
             - name: WEB_UI_THEME_SERVER
-              value: "https://{{ $.Values.externalDomain }}"
+              value: https://{{ .Values.externalDomain }}
             - name: WEB_UI_CONFIG_SERVER
-              value: "https://{{ $.Values.externalDomain }}"
+              value: https://{{ .Values.externalDomain }}
+            - name: WEB_OIDC_METADATA_URL
+              value: https://{{ .Values.externalDomain }}/.well-known/openid-configuration
           resources: {{ toYaml .Values.resources | nindent 12 }}
           ports:
             - name: http

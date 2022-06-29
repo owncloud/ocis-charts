@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: proxy
-  namespace: {{ template "ocis.namespace" $ }}
+  namespace: {{ template "ocis.namespace" . }}
   labels:
     {{- include "ocis.labels" . | nindent 4 }}
 spec:
@@ -20,15 +20,12 @@ spec:
       labels:
         app: proxy
         {{- include "ocis.labels" . | nindent 8 }}
+      annotations:
+        checksum/config: {{ include (print $.Template.BasePath "/proxy/config.yaml") . | sha256sum }}
     spec:
-      #hostAliases:
-      #  - ip: "127.0.0.1"
-      #    hostnames:
-      #      - "{{ $.Values.externalDomain }}"
+      securityContext:
+          fsGroup: 1000
       containers:
-        #- name: idp-hack-sidecar
-        #  image: alpine/socat
-        #  args: ["tcp-l:443,fork,reuseaddr", "tcp:127.0.0.1:9200"]
         - name: proxy
           {{- if .Values.image.sha }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}@sha256:{{ .Values.image.sha }}"
@@ -41,41 +38,44 @@ spec:
           securityContext:
             runAsNonRoot: true
             runAsUser: 1000
+            runAsGroup: 1000
             readOnlyRootFilesystem: true
           env:
             - name: MICRO_REGISTRY
               value: kubernetes
 
             - name: PROXY_LOG_COLOR
-              value: "{{ $.Values.logging.color }}"
+              value: "{{ .Values.logging.color }}"
             - name: PROXY_LOG_LEVEL
-              value: "{{ $.Values.logging.level }}"
+              value: "{{ .Values.logging.level }}"
             - name: PROXY_LOG_PRETTY
-              value: "{{ $.Values.logging.pretty }}"
+              value: "{{ .Values.logging.pretty }}"
 
             - name: PROXY_HTTP_ADDR
               value: 0.0.0.0:9200
-            - name: PROXY_AUTOPROVISION_ACCOUNTS
-              value: "true"
+
             - name: PROXY_ENABLE_BASIC_AUTH
-              value: "true"
+              value: "{{ .Values.features.basicAuthentication }}"
             - name: PROXY_OIDC_ISSUER
-              value: "https://{{ $.Values.externalDomain }}"
+              value: "https://{{ .Values.externalDomain }}"
             - name: PROXY_TLS
               value: "false"
 
-            - name: PROXY_OIDC_INSECURE # TODO: https://github.com/owncloud/ocis-charts/issues/32
-              value: "true"
-            - name: PROXY_INSECURE_BACKENDS
-              value: "false"
-
             - name: REVA_GATEWAY
-              value: storage-gateway:9142
-          envFrom:
-            - secretRef:
-                name: jwt-secret
-            - secretRef:
-                name: machine-auth-api-key
+              value: gateway:9142
+
+            - name: PROXY_JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.secretRefs.jwtSecretRef }}
+                  key: jwt-secret
+
+            - name: PROXY_MACHINE_AUTH_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.secretRefs.machineAuthApiKeySecretRef }}
+                  key: machine-auth-api-key
+
           resources: {{ toYaml .Values.resources | nindent 12 }}
           ports:
             - name: http

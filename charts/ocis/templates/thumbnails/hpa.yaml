@@ -4,18 +4,9 @@ apiVersion: autoscaling/v2beta1
 kind: HorizontalPodAutoscaler
 metadata:
   name: thumbnails
-  namespace: {{ template "ocis.namespace" $ }}
+  namespace: {{ template "ocis.namespace" . }}
   labels:
     {{- include "ocis.labels" . | nindent 4 }}
-{{- if $.Values.ingress.labels }}
-{{ toYaml $.Values.ingress.labels | indent 4 }}
-{{- end }}
-  {{- if $.Values.ingress.annotations }}
-  annotations:
-    {{- range $key, $value := $.Values.ingress.annotations }}
-    {{ $key }}: {{ tpl $value $ | quote }}
-    {{- end }}
-  {{- end }}
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
