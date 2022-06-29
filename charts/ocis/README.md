@@ -201,7 +201,7 @@ data:
   # example generation commands:
   #  - `openssl genrsa -out ldap-ca.key 4096`
   #  - `openssl req -new -x509 -days 3650 -key ldap-ca.key -out ldap-ca.crt`
-  #  - `cat ldap-ca.crt | base64 | tr -d '\n'`
+  #  - `cat ldap-ca.crt | base64 | tr -d '\n' && echo`
   ldap-ca.crt: XXXXXXXXXXXXX
 
 ---
@@ -214,14 +214,14 @@ data:
   # how to generate: base64 encode a private key (eg. ed25519, ensure that you use reasonable long key size)
   # example generation commands:
   #  - `openssl genrsa -out ldap.key 4096`
-  #  - `cat ldap.key | base64 | tr -d '\n'`
+  #  - `cat ldap.key | base64 | tr -d '\n' && echo`
   ldap.key: XXXXXXXXXXXXX
 
   # how to generate: base64 encode a x509 certificate signed by the above CA, using the above private key.
   # example generation commands:
   #  - `openssl req -new -subj "/CN=idm" -key ldap.key -out ldap.csr`
   #  - `openssl x509 -req -extensions SAN -extfile <(cat /etc/ssl/openssl.cnf <(printf "\n[SAN]\nsubjectAltName=DNS:idm")) -days 365 -in ldap.csr -CA ldap-ca.crt -CAkey ldap-ca.key -out ldap.crt -CAcreateserial`
-  #  - `cat ldap.crt | base64 | tr -d '\n'`
+  #  - `cat ldap.crt | base64 | tr -d '\n' && echo`
   ldap.crt: XXXXXXXXXXXXX
 
 
