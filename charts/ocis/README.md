@@ -300,7 +300,7 @@ data:
   encryption.key: XXXXXXXXXXXXX
 
   # how to generate: base64 encode a private key (eg. RSA, ensure that you use reasonable long key size)
-  # example generation command: `openssl genpkey -algorithm RSA -pkeyopt rsa_keygen_bits:4096 2&> /dev/null | base64 | tr -d '\n'`
+  # example generation command: `openssl genpkey -algorithm RSA -pkeyopt rsa_keygen_bits:4096 2> /dev/null | base64 | tr -d '\n'`
   private-key.pem: XXXXXXXXXXXXX
 
 ---
