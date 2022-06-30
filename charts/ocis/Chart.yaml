@@ -10,7 +10,7 @@ maintainers:
     url: owncloud.com
 type: application
 version: 0.1.0
-appVersion: 1.0.0-rc8
+appVersion: 2.0.0-beta.4
 sources:
   - https://github.com/owncloud/ocis-charts
   - https://github.com/owncloud/ocis
