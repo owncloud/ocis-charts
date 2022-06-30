@@ -69,7 +69,7 @@ spec:
             - name: REVA_GATEWAY
               value: gateway:9142
             - name: GRAPH_EVENTS_ENDPOINT
-              value: nats:9233
+              value: ocis-nats:4222
 
             - name: GRAPH_SPACES_INSECURE
               value: "{{ .Values.insecure.ocisHttpApiInsecure }}"

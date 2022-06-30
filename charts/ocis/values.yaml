@@ -346,3 +346,46 @@ services:
       selectorLabels: {}
       # -- Use an existing PersistentVolumeClaim for persistence.
       existingClaim:
+
+# TODO: configuration of the external chart... how to document it nicely?
+nats:
+  enabled: true
+
+  cluster:
+    enabled: true
+    name: "ocis-cluster"
+    replicas: 3
+  natsbox:
+    enabled: false
+  nats:
+    client:
+      port: 4222
+
+    jetstream:
+      enabled: true
+
+      memStorage:
+        enabled: true
+        size: 2Gi
+
+      fileStorage:
+        enabled: true
+        size: 10Gi
+        # storageClassName: default # The Storage Class used should be block storage. NFS is not recommended.
+
+  securityContext:
+    fsGroup: 1000
+    runAsUser: 1000
+    runAsNonRoot: true
+
+  # persistence:
+  #   enabled: false
+  #   # storageClassName: default
+  #   accessModes:
+  #     - ReadWriteMany
+  #   size: 10Gi
+  #   annotations: {}
+  #   finalizers:
+  #     - kubernetes.io/pvc-protection
+  #   selectorLabels: {}
+  #   # existingClaim:

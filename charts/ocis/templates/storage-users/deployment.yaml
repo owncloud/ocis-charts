@@ -87,7 +87,7 @@ spec:
 
             # events
             - name: STORAGE_USERS_EVENTS_ENDPOINT
-              value: nats:9233
+              value: ocis-nats:4222
 
             - name: REVA_GATEWAY
               value: gateway:9142

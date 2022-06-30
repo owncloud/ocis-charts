@@ -50,7 +50,7 @@ spec:
               value: "{{ .Values.logging.pretty }}"
 
             - name: AUDIT_EVENTS_ENDPOINT
-              value: nats:9233
+              value: ocis-nats:4222
 
             # TODO: log to file or stdout?
             #- name: AUDIT_FILEPATH

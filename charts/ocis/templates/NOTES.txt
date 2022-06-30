@@ -18,7 +18,7 @@ You can get the initial "admin" administrator user password by running:
 
 kubectl -n <namespace> get secrets/admin-user --template='{{"{{"}}.data.password | base64decode{{"}}"}}'
 
-{{ if  or (not .Values.services.storageSystem.persistence.enabled) (not .Values.services.storageUsers.persistence.enabled) (not .Values.services.store.persistence.enabled) (not .Values.services.idm.persistence.enabled) (not .Values.services.search.persistence.enabled) (not .Values.services.nats.persistence.enabled) }}
+{{ if  or (not .Values.services.storageSystem.persistence.enabled) (not .Values.services.storageUsers.persistence.enabled) (not .Values.services.store.persistence.enabled) (not .Values.services.idm.persistence.enabled) (not .Values.services.search.persistence.enabled) }}
 #################################################################################
 ######   WARNING: Persistence is disabled for some services.                #####
 ######   You will lose your data when a service's pod is terminated.        #####
@@ -38,9 +38,6 @@ kubectl -n <namespace> get secrets/admin-user --template='{{"{{"}}.data.password
 {{- end }}
 {{- if not .Values.services.search.persistence.enabled }}
 ######     - search                                                         #####
-{{- end }}
-{{- if not .Values.services.nats.persistence.enabled }}
-######     - nats                                                           #####
 {{- end }}
 #################################################################################
 {{- end }}

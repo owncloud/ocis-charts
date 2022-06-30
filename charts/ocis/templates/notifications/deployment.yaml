@@ -51,7 +51,7 @@ spec:
             - name: REVA_GATEWAY
               value: gateway:9142
             - name: NOTIFICATIONS_EVENTS_ENDPOINT
-              value: nats:9233
+              value: ocis-nats:4222
 
             - name: NOTIFICATIONS_MACHINE_AUTH_API_KEY
               valueFrom:
