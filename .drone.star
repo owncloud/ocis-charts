@@ -2,6 +2,14 @@ config = {
     "branches": [
         "master",
     ],
+    # if this changes, also the kubeVersion in the Chart.yaml needs to be changed
+    "kubernetesVersions": [
+        "1.20.0",
+        "1.21.0",
+        "1.22.0",
+        "1.23.0",
+        "1.24.0",
+    ],
 }
 
 def main(ctx):
@@ -10,10 +18,28 @@ def main(ctx):
 def linting(ctx):
     pipelines = []
 
+    kubeconform_steps = []
+
+    for version in config["kubernetesVersions"]:
+        kubeconform_steps.append(
+            {
+                "name": "kubeconform-%s" % version,
+                "image": "ghcr.io/yannh/kubeconform:master",
+                "entrypoint": [
+                    "/kubeconform",
+                    "-kubernetes-version",
+                    "%s" % version,
+                    "-summary",
+                    "-strict",
+                    "ocis-ci-templated.yaml",
+                ],
+            },
+        )
+
     result = {
         "kind": "pipeline",
         "type": "docker",
-        "name": "lint ocis",
+        "name": "lint charts/ocis",
         "steps": [
             {
                 "name": "helm lint",
@@ -38,67 +64,7 @@ def linting(ctx):
                     "ocis-ci-templated.yaml",
                 ],
             },
-            {
-                "name": "kubeconform-1.20.0",
-                "image": "ghcr.io/yannh/kubeconform:master",
-                "entrypoint": [
-                    "/kubeconform",
-                    "-kubernetes-version",
-                    "1.20.0",
-                    "-summary",
-                    "-strict",
-                    "ocis-ci-templated.yaml",
-                ],
-            },
-            {
-                "name": "kubeconform-1.21.0",
-                "image": "ghcr.io/yannh/kubeconform:master",
-                "entrypoint": [
-                    "/kubeconform",
-                    "-kubernetes-version",
-                    "1.21.0",
-                    "-summary",
-                    "-strict",
-                    "ocis-ci-templated.yaml",
-                ],
-            },
-            {
-                "name": "kubeconform-1.22.0",
-                "image": "ghcr.io/yannh/kubeconform:master",
-                "entrypoint": [
-                    "/kubeconform",
-                    "-kubernetes-version",
-                    "1.22.0",
-                    "-summary",
-                    "-strict",
-                    "ocis-ci-templated.yaml",
-                ],
-            },
-            {
-                "name": "kubeconform-1.23.0",
-                "image": "ghcr.io/yannh/kubeconform:master",
-                "entrypoint": [
-                    "/kubeconform",
-                    "-kubernetes-version",
-                    "1.23.0",
-                    "-summary",
-                    "-strict",
-                    "ocis-ci-templated.yaml",
-                ],
-            },
-            {
-                "name": "kubeconform-1.24.0",
-                "image": "ghcr.io/yannh/kubeconform:master",
-                "entrypoint": [
-                    "/kubeconform",
-                    "-kubernetes-version",
-                    "1.24.0",
-                    "-summary",
-                    "-strict",
-                    "ocis-ci-templated.yaml",
-                ],
-            },
-        ],
+        ] + kubeconform_steps,
         "depends_on": [],
         "trigger": {
             "ref": [

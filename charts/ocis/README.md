@@ -2,6 +2,17 @@
 
 * Installs [ownCloud Infinite Scale](http://owncloud.dev/ocis)
 
+## Supported Kubernetes versions
+
+Currently we're supporting following Kubernetes versions (and their patch releases).
+We are not testing the Helm chart on all versions, but ensure API compatibility by running manifest validation for the supported versions.
+
+* 1.20.0
+* 1.21.0
+* 1.22.0
+* 1.23.0
+* 1.24.0
+
 ## Get Repo Info
 
 This chart is still in an experimental phase, and it has not yet been published.
