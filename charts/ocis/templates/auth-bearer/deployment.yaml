@@ -49,6 +49,9 @@ spec:
             - name: AUTH_BEARER_LOG_PRETTY
               value: "{{ .Values.logging.pretty }}"
 
+            - name: AUTH_BEARER_OIDC_INSECURE
+              value: "{{ .Values.insecure.oidcIdpInsecure }}"
+
             - name: AUTH_BEARER_GRPC_ADDR
               value: 0.0.0.0:9148
 

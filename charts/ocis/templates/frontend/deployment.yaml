@@ -63,6 +63,12 @@ spec:
                   name: {{ .Values.secretRefs.jwtSecretRef }}
                   key: jwt-secret
 
+            - name: FRONTEND_APP_HANDLER_INSECURE
+              value: "{{ .Values.insecure.ocisHttpApiInsecure }}"
+
+            - name: FRONTEND_ARCHIVER_INSECURE
+              value: "{{ .Values.insecure.ocisHttpApiInsecure }}"
+
             - name: FRONTEND_MACHINE_AUTH_API_KEY
               valueFrom:
                 secretKeyRef:

@@ -55,6 +55,9 @@ spec:
             - name: REVA_GATEWAY
               value: gateway:9142
 
+            - name: OCDAV_INSECURE
+              value: "{{ .Values.insecure.ocisHttpApiInsecure }}"
+
             - name: OCDAV_JWT_SECRET
               valueFrom:
                 secretKeyRef:

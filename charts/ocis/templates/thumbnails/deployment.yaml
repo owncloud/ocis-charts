@@ -57,6 +57,12 @@ spec:
             - name: THUMBNAILS_DATA_ENDPOINT
               value: http://thumbnails:9186/thumbnails/data
 
+            - name: THUMBNAILS_WEBDAVSOURCE_INSECURE
+              value: "{{ .Values.insecure.ocisHttpApiInsecure }}"
+
+            - name: THUMBNAILS_CS3SOURCE_INSECURE
+              value: "{{ .Values.insecure.ocisHttpApiInsecure }}"
+
             - name: REVA_GATEWAY
               value: gateway:9142
 
