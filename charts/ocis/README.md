@@ -128,9 +128,9 @@ This chart only supports following oCIS versions:
 | ingress.tls | list | `[]` | Ingress TLS configuration. |
 | insecure.ocisHttpApiInsecure | bool | `false` | Disables SSL certificate checking for connections to the oCIS http apis. Not recommended for production installations. |
 | insecure.oidcIdpInsecure | bool | `false` | Disables SSL certificate checking for connections to the openID connect identity provider. Not recommended for production installations. |
-| logging.color | string | `"false"` | Activates colorized log output. Not recommended for production installations. |
+| logging.color | bool | `false` | Activates colorized log output. Not recommended for production installations. |
 | logging.level | string | `"error"` | Log level. Valid values: `panic`, `fatal`, `error`, `warn`, `info`, `debug`, `trace`. |
-| logging.pretty | string | `"false"` | Activates pretty log output. Not recommended for production installations. |
+| logging.pretty | bool | `false` | Activates pretty log output. Not recommended for production installations. |
 | namespaceOverride | string | `nil` | Override the deployment namespace of all resources in this Helm chart. |
 | replicas | int | `1` | Number of replicas for each scalable service. Has no effect when `autoscaling.enabled` is set to `true`. |
 | resources | object | `{}` | Resources to apply to all services. |

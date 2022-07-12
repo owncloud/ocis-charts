@@ -17,10 +17,10 @@ logging:
   level: "error"
   # -- Activates pretty log output.
   # Not recommended for production installations.
-  pretty: "false"
+  pretty: false
   # -- Activates colorized log output.
   # Not recommended for production installations.
-  color: "false"
+  color: false
 
 # -- Deployment strategy.
 deploymentStrategy:

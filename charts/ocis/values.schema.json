@@ -1,0 +1,200 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "required": [
+        "image",
+        "logging",
+        "deploymentStrategy",
+        "externalDomain",
+        "insecure",
+        "features",
+        "ingress",
+        "secretRefs",
+        "extraLabels",
+        "namespaceOverride"
+    ],
+    "properties": {
+        "image": {
+            "type": "object",
+            "required": [
+                "repository",
+                "tag",
+                "pullPolicy"
+            ],
+            "properties": {
+                "repository": {
+                    "type": "string"
+                },
+                "tag": {
+                    "type": "string"
+                },
+                "sha": {
+                    "type": "string"
+                },
+                "pullPolicy": {
+                    "type": "string",
+                    "enum": [
+                        "Always",
+                        "IfNotPresent",
+                        "Never"
+                    ]
+                }
+            }
+        },
+        "logging": {
+            "type": "object",
+            "required": [
+                "level",
+                "pretty",
+                "color"
+            ],
+            "properties": {
+                "level": {
+                    "type": "string",
+                    "enum": [
+                        "panic",
+                        "fatal",
+                        "error",
+                        "warn",
+                        "info",
+                        "debug",
+                        "trace"
+                    ]
+                },
+                "pretty": {
+                    "type": "boolean"
+                },
+                "color": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "deploymentStrategy": {
+            "type": "object",
+            "required": [
+                "type"
+            ],
+            "properties": {
+                "type": {
+                    "type": "string",
+                    "enum": [
+                        "Recreate",
+                        "RollingUpdate"
+                    ]
+                }
+            }
+        },
+        "externalDomain": {
+            "type": "string"
+        },
+        "insecure": {
+            "type": "object",
+            "required": [
+                "oidcIdpInsecure",
+                "ocisHttpApiInsecure"
+            ],
+            "properties": {
+                "oidcIdpInsecure": {
+                    "type": "boolean"
+                },
+                "ocisHttpApiInsecure": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "features": {
+            "type": "object",
+            "required": [
+                "basicAuthentication",
+                "demoUsers"
+            ],
+            "properties": {
+                "basicAuthentication": {
+                    "type": "boolean"
+                },
+                "demoUsers": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "ingress": {
+            "type": "object",
+            "required": [
+                "enabled"
+            ],
+            "properties": {
+                "enabled": {
+                    "type": "boolean"
+                },
+                "ingressClassName": {
+                    "type": "string"
+                },
+                "annotations": {
+                    "type": "object"
+                },
+                "labels": {
+                    "type": "object"
+                },
+                "tls": {
+                    "type": "array"
+                }
+            }
+        },
+        "secretRefs": {
+            "type": "object",
+            "required": [
+                "adminUserSecretRef",
+                "idpSecretRef",
+                "jwtSecretRef",
+                "ldapCaRef",
+                "ldapCertRef",
+                "ldapSecretRef",
+                "machineAuthApiKeySecretRef",
+                "storageSystemJwtSecretRef",
+                "storageSystemSecretRef",
+                "thumbnailsSecretRef",
+                "transferSecretSecretRef"
+            ],
+            "properties": {
+                "adminUserSecretRef": {
+                    "type": "string"
+                },
+                "idpSecretRef": {
+                    "type": "string"
+                },
+                "jwtSecretRef": {
+                    "type": "string"
+                },
+                "ldapCaRef": {
+                    "type": "string"
+                },
+                "ldapCertRef": {
+                    "type": "string"
+                },
+                "ldapSecretRef": {
+                    "type": "string"
+                },
+                "machineAuthApiKeySecretRef": {
+                    "type": "string"
+                },
+                "storageSystemJwtSecretRef": {
+                    "type": "string"
+                },
+                "storageSystemSecretRef": {
+                    "type": "string"
+                },
+                "thumbnailsSecretRef": {
+                    "type": "string"
+                },
+                "transferSecretSecretRef": {
+                    "type": "string"
+                }
+            }
+        },
+        "extraLabels": {
+            "type": "object"
+        },
+        "namespaceOverride": {
+            "type": "string"
+        }
+    }
+}
