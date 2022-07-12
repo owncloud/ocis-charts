@@ -116,6 +116,7 @@ This chart only supports following oCIS versions:
 | extraResources | list | `[]` | Extra resources to be included. |
 | features.basicAuthentication | bool | `false` | Enable basic authentication. Not recommended for production installations. |
 | features.demoUsers | bool | `false` | Create demo users on the first startup. Not recommended for production installations. |
+| features.emailNotifications | bool | `false` | Enables email notifications. This features needs the secret from notificationsSmtpSecretRef present. |
 | image.pullPolicy | string | `"IfNotPresent"` | Image pull policy |
 | image.repository | string | `"owncloud/ocis"` | Image repository |
 | image.sha | string | `""` | Image sha / digest (optional). |
@@ -140,6 +141,7 @@ This chart only supports following oCIS versions:
 | secretRefs.ldapCertRef | string | `"ldap-cert"` | Reference to an existing LDAP cert secret (see [Secrets](#secrets)) |
 | secretRefs.ldapSecretRef | string | `"ldap-bind-secrets"` | Reference to an existing LDAP bind secret (see [Secrets](#secrets)) |
 | secretRefs.machineAuthApiKeySecretRef | string | `"machine-auth-api-key"` | Reference to an existing machine auth api key secret (see [Secrets](#secrets)) |
+| secretRefs.notificationsSmtpSecretRef | string | `"notifications-smtp-secret"` | Reference to an existing SMTP email server settings secret (see [Secrets](#secrets)) |
 | secretRefs.storageSystemJwtSecretRef | string | `"storage-system-jwt-secret"` | Reference to an existing storage-system JWT secret (see [Secrets](#secrets)) |
 | secretRefs.storageSystemSecretRef | string | `"storage-system"` | Reference to an existing storage-system secret (see [Secrets](#secrets)) |
 | secretRefs.thumbnailsSecretRef | string | `"thumbnails-transfer-secret"` | Reference to an existing thumbnails transfer secret (see [Secrets](#secrets)) |
@@ -374,6 +376,27 @@ data:
   # how to generate: base64 encode a random string (reasonable long and mixed characters)
   # example generation command: `tr -cd '[:alnum:],.' < /dev/urandom | fold -w 50 | head -n 1 | base64`
   thumbnails-transfer-secret: XXXXXXXXXXXXX
+```
+
+If you set `features.emailNotifications` to `true` you also need to configure a SMTP email server secret:
+
+```yaml
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: notifications-smtp-secret
+type: Opaque
+data:
+  # Sender of emails that will be sent. Example: noreply@owncloud.test
+  smtp-sender: XXXXXXXXXXXXX
+  # SMTP host to connect to. Example: smtp.owncloud.test
+  smtp-host: XXXXXXXXXXXXX
+  # Port of the SMTP host to connect to. Example: 1025
+  smtp-port: 1025
+  # Password of the SMTP host to connect to.
+  smtp-password: XXXXXXXXXXXXX
+
 ```
 
 ### Example with NGINX ingress and certificate issued by cert-manager

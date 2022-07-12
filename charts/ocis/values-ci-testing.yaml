@@ -17,6 +17,9 @@ ingress:
 
 externalDomain: ocis.owncloud.test
 
+features:
+  emailNotifications: true
+
 extraLabels:
   extra1: lorem
   extra2: ipsum
