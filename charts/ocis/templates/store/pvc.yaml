@@ -1,4 +1,4 @@
-{{- if and .Values.store.persistence.enabled (not .Values.store.persistence.existingClaim)}}
+{{- if and .Values.services.store.persistence.enabled (not .Values.services.store.persistence.existingClaim)}}
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
@@ -6,26 +6,26 @@ metadata:
   namespace: {{ template "ocis.namespace" . }}
   labels:
     {{- include "ocis.labels" . | nindent 4 }}
-  {{- with .Values.store.persistence.annotations  }}
+  {{- with .Values.services.store.persistence.annotations  }}
   annotations:
 {{ toYaml . | indent 4 }}
   {{- end }}
-  {{- with .Values.store.persistence.finalizers  }}
+  {{- with .Values.services.store.persistence.finalizers  }}
   finalizers:
 {{ toYaml . | indent 4 }}
   {{- end }}
 spec:
   accessModes:
-    {{- range .Values.store.persistence.accessModes }}
+    {{- range .Values.services.store.persistence.accessModes }}
     - {{ . | quote }}
     {{- end }}
   resources:
     requests:
-      storage: {{ .Values.store.persistence.size | quote }}
-  {{- if .Values.store.persistence.storageClassName }}
-  storageClassName: {{ .Values.store.persistence.storageClassName }}
+      storage: {{ .Values.services.store.persistence.size | quote }}
+  {{- if .Values.services.store.persistence.storageClassName }}
+  storageClassName: {{ .Values.services.store.persistence.storageClassName }}
   {{- end -}}
-  {{- with .Values.store.persistence.selectorLabels }}
+  {{- with .Values.services.store.persistence.selectorLabels }}
   selector:
     matchLabels:
 {{ toYaml . | indent 6 }}

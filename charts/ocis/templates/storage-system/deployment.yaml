@@ -97,7 +97,7 @@ spec:
           emptyDir:
               medium: Memory
               sizeLimit: 6Mi
-      {{- if .Values.storageSystem.persistence.enabled }}
+      {{- if .Values.services.storageSystem.persistence.enabled }}
         - name: storage-system-data
           persistentVolumeClaim:
             claimName: storage-system-data

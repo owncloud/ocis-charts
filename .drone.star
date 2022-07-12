@@ -13,7 +13,7 @@ config = {
 }
 
 def main(ctx):
-    return linting(ctx)
+    return linting(ctx) + documentation(ctx) + checkStarlark()
 
 def linting(ctx):
     pipelines = []
@@ -69,7 +69,6 @@ def linting(ctx):
         "trigger": {
             "ref": [
                 "refs/pull/**",
-                "refs/tags/**",
             ],
         },
     }
@@ -80,3 +79,77 @@ def linting(ctx):
     pipelines.append(result)
 
     return pipelines
+
+def documentation(ctx):
+    result = {
+        "kind": "pipeline",
+        "type": "docker",
+        "name": "documentation",
+        "steps": [
+            {
+                "name": "helm-docs",
+                "image": "jnorwood/helm-docs:v1.11.0",
+                "entrypoint": [
+                    "/usr/bin/helm-docs",
+                ],
+            },
+            {
+                "name": "check-unchanged",
+                "image": "owncloudci/alpine",
+                "commands": [
+                    "git diff --exit-code",
+                ],
+            },
+        ],
+        "depends_on": [],
+        "trigger": {
+            "ref": [
+                "refs/pull/**",
+            ],
+        },
+    }
+
+    for branch in config["branches"]:
+        result["trigger"]["ref"].append("refs/heads/%s" % branch)
+
+    return [result]
+
+def checkStarlark():
+    result = {
+        "kind": "pipeline",
+        "type": "docker",
+        "name": "check-starlark",
+        "steps": [
+            {
+                "name": "format-check-starlark",
+                "image": "owncloudci/bazel-buildifier:latest",
+                "commands": [
+                    "buildifier --mode=check .drone.star",
+                ],
+            },
+            {
+                "name": "show-diff",
+                "image": "owncloudci/bazel-buildifier:latest",
+                "commands": [
+                    "buildifier --mode=fix .drone.star",
+                    "git diff",
+                ],
+                "when": {
+                    "status": [
+                        "failure",
+                    ],
+                },
+            },
+        ],
+        "depends_on": [],
+        "trigger": {
+            "ref": [
+                "refs/pull/**",
+            ],
+        },
+    }
+
+    for branch in config["branches"]:
+        result["trigger"]["ref"].append("refs/heads/%s" % branch)
+
+    return [result]

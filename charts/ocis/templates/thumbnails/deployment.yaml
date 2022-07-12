@@ -82,7 +82,7 @@ spec:
             - name: thumbnails-data
               mountPath: /var/lib/ocis
       volumes:
-      {{- if .Values.thumbnails.persistence.enabled }}
+      {{- if .Values.services.thumbnails.persistence.enabled }}
         - name: thumbnails-data
           persistentVolumeClaim:
             claimName: thumbnails-data

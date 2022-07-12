@@ -1,4 +1,4 @@
-{{- if and .Values.idm.persistence.enabled (not .Values.storageUsers.persistence.existingClaim)}}
+{{- if and .Values.services.idm.persistence.enabled (not .Values.services.storageUsers.persistence.existingClaim)}}
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
@@ -6,26 +6,26 @@ metadata:
   namespace: {{ template "ocis.namespace" . }}
   labels:
     {{- include "ocis.labels" . | nindent 4 }}
-  {{- with .Values.idm.persistence.annotations  }}
+  {{- with .Values.services.idm.persistence.annotations  }}
   annotations:
 {{ toYaml . | indent 4 }}
   {{- end }}
-  {{- with .Values.idm.persistence.finalizers  }}
+  {{- with .Values.services.idm.persistence.finalizers  }}
   finalizers:
 {{ toYaml . | indent 4 }}
   {{- end }}
 spec:
   accessModes:
-    {{- range .Values.idm.persistence.accessModes }}
+    {{- range .Values.services.idm.persistence.accessModes }}
     - {{ . | quote }}
     {{- end }}
   resources:
     requests:
-      storage: {{ .Values.idm.persistence.size | quote }}
-  {{- if .Values.idm.persistence.storageClassName }}
-  storageClassName: {{ .Values.idm.persistence.storageClassName }}
+      storage: {{ .Values.services.idm.persistence.size | quote }}
+  {{- if .Values.services.idm.persistence.storageClassName }}
+  storageClassName: {{ .Values.services.idm.persistence.storageClassName }}
   {{- end -}}
-  {{- with .Values.idm.persistence.selectorLabels }}
+  {{- with .Values.services.idm.persistence.selectorLabels }}
   selector:
     matchLabels:
 {{ toYaml . | indent 6 }}

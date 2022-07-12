@@ -61,7 +61,7 @@ spec:
             - name: store-data
               mountPath: /var/lib/ocis
       volumes:
-      {{- if .Values.store.persistence.enabled }}
+      {{- if .Values.services.store.persistence.enabled }}
         - name: store-data
           persistentVolumeClaim:
             claimName: store-data
