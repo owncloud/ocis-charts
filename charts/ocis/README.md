@@ -26,6 +26,59 @@ To install the chart with the release name `my-release`:
 * clone this git repository
 * run `helm install my-release ./charts/ocis` from the root of this git repository
 
+### minikube
+
+1. Start your minikube cluster:
+
+    ```console
+    minikube start
+    ```
+
+1. Enable the minikube ingress plugin:
+
+    ```console
+    minikube addons enable ingress
+    ```
+
+1. Create a `values.yaml` with following contents:
+
+    ```yaml
+    externalDomain: ocis.kube.owncloud.test
+    ingress:
+      enabled: true
+      tls:
+      - hosts:
+        - ocis.kube.owncloud.test
+    insecure:
+      # disables ssl certificate checking for connections to the openID connect identity provider. Not recommended for production setups, but we don't have valid certificates in minikube
+      oidcIdpInsecure: true
+      # disables ssl certificate checking for connections to the oCIS http apis. Not recommended for production setups, but we don't have valid certificates in minikube
+      ocisHttpApiInsecure: true
+    ```
+
+1. Create all secrets as described in the [Secrets](#secrets) section
+
+1. Install the with the values file applied
+
+    ```console
+    helm install ocis ./charts/ocis -n ocis-test --values values.yaml
+    ```
+
+1. Get the minikube IP address
+
+    ```console
+    minikube ip
+    ```
+
+1. add the minikube IP address to your `/etc/hosts` file or use the [Ingress DNS addon](https://minikube.sigs.k8s.io/docs/handbook/addons/ingress-dns/).
+  An example line for the `/etc/hosts` file could look like this:
+
+    ```bash
+    192.168.49.2 ocis.kube.owncloud.test
+    ```
+
+1. use oCIS in your browser on https://ocis.kube.owncloud.test.
+
 ## Uninstalling the chart
 
 To uninstall/delete the my-release deployment:
