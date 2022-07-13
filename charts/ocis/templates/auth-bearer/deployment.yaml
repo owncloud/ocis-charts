@@ -59,7 +59,11 @@ spec:
               value: gateway:9142
 
             - name: AUTH_BEARER_OIDC_ISSUER
+            {{ if not .Values.features.externalUserManagement.enabled }}
               value: https://{{ .Values.externalDomain }}
+            {{ else }}
+              value: {{ .Values.features.externalUserManagement.oidc.issuerURI }}
+            {{ end }}
 
             - name: AUTH_BEARER_JWT_SECRET
               valueFrom:

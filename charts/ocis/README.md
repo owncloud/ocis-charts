@@ -130,6 +130,11 @@ This chart only supports following oCIS versions:
 | features.basicAuthentication | bool | `false` | Enable basic authentication. Not recommended for production installations. |
 | features.demoUsers | bool | `false` | Create demo users on the first startup. Not recommended for production installations. |
 | features.emailNotifications | bool | `false` | Enables email notifications. This features needs the secret from notificationsSmtpSecretRef present. |
+| features.externalUserManagement.enabled | bool | `false` | Enables external user management (and disables internal user management). Needs an external OpenID Connect Identity Provider and an external LDAP server. |
+| features.externalUserManagement.ldap.bindDN | string | `"uid=ocis,ou=system-users,dc=owncloud,dc=test"` | DN of the user to use to bind to the LDAP server. The password for the user needs to be set in the secret referenced by `secretRefs.ldapSecretRef` as `reva-ldap-bind-password`. The user needs to have permission to list users and groups. |
+| features.externalUserManagement.ldap.certTrusted | bool | `true` | Set only to false, if the certificate of your LDAP secure service is not trusted. If set to false, you need to put the CA cert of the LDAP secure server into the secret referenced by "ldapCaRef" |
+| features.externalUserManagement.ldap.uri | string | `"ldaps://ldaps.owncloud.test"` | URI to connect to the LDAP secure server. |
+| features.externalUserManagement.oidc.issuerURI | string | `"https://idp.owncloud.test/realms/ocis"` | Issuer URI of the OpenID Connect Identity Provider. If the IDP doesn't have valid / trusted SSL certificates, certificate validation can be disabled with the `insecure.oidcIdpInsecure` option. |
 | image.pullPolicy | string | `"IfNotPresent"` | Image pull policy |
 | image.repository | string | `"owncloud/ocis"` | Image repository |
 | image.sha | string | `""` | Image sha / digest (optional). |
@@ -258,59 +263,6 @@ data:
 apiVersion: v1
 kind: Secret
 metadata:
-  name: ldap-bind-secrets
-type: Opaque
-data:
-  # how to generate: base64 encode a random string (reasonable long and mixed characters)
-  # example generation command: `tr -cd '[:alnum:],.' < /dev/urandom | fold -w 50 | head -n 1 | base64`
-  reva-ldap-bind-password: XXXXXXXXXXXXX
-
-  # how to generate: base64 encode a random string (reasonable long and mixed characters)
-  # example generation command: `tr -cd '[:alnum:],.' < /dev/urandom | fold -w 50 | head -n 1 | base64`
-  idp-ldap-bind-password: XXXXXXXXXXXXX
-
-  # how to generate: base64 encode a random string (reasonable long and mixed characters)
-  # example generation command: `tr -cd '[:alnum:],.' < /dev/urandom | fold -w 50 | head -n 1 | base64`
-  graph-ldap-bind-password: XXXXXXXXXXXXX
-
----
-apiVersion: v1
-kind: Secret
-metadata:
-  name: ldap-ca
-type: Opaque
-data:
-  # how to generate: base64 encode the pem-encoded certificate of a (self-signed) x509 certificate authority
-  # example generation commands:
-  #  - `openssl genrsa -out ldap-ca.key 4096`
-  #  - `openssl req -new -x509 -days 3650 -key ldap-ca.key -out ldap-ca.crt`
-  #  - `cat ldap-ca.crt | base64 | tr -d '\n' && echo`
-  ldap-ca.crt: XXXXXXXXXXXXX
-
----
-apiVersion: v1
-kind: Secret
-metadata:
-  name: ldap-cert
-type: Opaque
-data:
-  # how to generate: base64 encode a private key (eg. ed25519, ensure that you use reasonable long key size)
-  # example generation commands:
-  #  - `openssl genrsa -out ldap.key 4096`
-  #  - `cat ldap.key | base64 | tr -d '\n' && echo`
-  ldap.key: XXXXXXXXXXXXX
-
-  # how to generate: base64 encode a x509 certificate signed by the above CA, using the above private key.
-  # example generation commands:
-  #  - `openssl req -new -subj "/CN=idm" -key ldap.key -out ldap.csr`
-  #  - `openssl x509 -req -extensions SAN -extfile <(cat /etc/ssl/openssl.cnf <(printf "\n[SAN]\nsubjectAltName=DNS:idm")) -days 365 -in ldap.csr -CA ldap-ca.crt -CAkey ldap-ca.key -out ldap.crt -CAcreateserial`
-  #  - `cat ldap.crt | base64 | tr -d '\n' && echo`
-  ldap.crt: XXXXXXXXXXXXX
-
----
-apiVersion: v1
-kind: Secret
-metadata:
   name: machine-auth-api-key
 type: Opaque
 data:
@@ -397,6 +349,8 @@ data:
   thumbnails-transfer-secret: XXXXXXXXXXXXX
 ```
 
+#### Notifications related secrets
+
 If you set `features.emailNotifications` to `true` you also need to configure a SMTP email server secret:
 
 ```yaml
@@ -415,7 +369,95 @@ data:
   smtp-port: 1025
   # Password of the SMTP host to connect to.
   smtp-password: XXXXXXXXXXXXX
+```
 
+#### User management related secrets
+
+If you're using the builtin user management (`features.externalUserManagement.enabled` == `false`), you need to set these secrets:
+
+```yaml
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: ldap-bind-secrets
+type: Opaque
+data:
+  # how to generate: base64 encode a random string (reasonable long and mixed characters)
+  # example generation command: `tr -cd '[:alnum:],.' < /dev/urandom | fold -w 50 | head -n 1 | base64`
+  reva-ldap-bind-password: XXXXXXXXXXXXX
+
+  # how to generate: base64 encode a random string (reasonable long and mixed characters)
+  # example generation command: `tr -cd '[:alnum:],.' < /dev/urandom | fold -w 50 | head -n 1 | base64`
+  idp-ldap-bind-password: XXXXXXXXXXXXX
+
+  # how to generate: base64 encode a random string (reasonable long and mixed characters)
+  # example generation command: `tr -cd '[:alnum:],.' < /dev/urandom | fold -w 50 | head -n 1 | base64`
+  graph-ldap-bind-password: XXXXXXXXXXXXX
+
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: ldap-ca
+type: Opaque
+data:
+  # how to generate: base64 encode the pem-encoded certificate of a (self-signed) x509 certificate authority
+  # example generation commands:
+  #  - `openssl genrsa -out ldap-ca.key 4096`
+  #  - `openssl req -new -x509 -days 3650 -key ldap-ca.key -out ldap-ca.crt`
+  #  - `cat ldap-ca.crt | base64 | tr -d '\n' && echo`
+  ldap-ca.crt: XXXXXXXXXXXXX
+
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: ldap-cert
+type: Opaque
+data:
+  # how to generate: base64 encode a private key (eg. ed25519, ensure that you use reasonable long key size)
+  # example generation commands:
+  #  - `openssl genrsa -out ldap.key 4096`
+  #  - `cat ldap.key | base64 | tr -d '\n' && echo`
+  ldap.key: XXXXXXXXXXXXX
+
+  # how to generate: base64 encode a x509 certificate signed by the above CA, using the above private key.
+  # example generation commands:
+  #  - `openssl req -new -subj "/CN=idm" -key ldap.key -out ldap.csr`
+  #  - `openssl x509 -req -extensions SAN -extfile <(cat /etc/ssl/openssl.cnf <(printf "\n[SAN]\nsubjectAltName=DNS:idm")) -days 365 -in ldap.csr -CA ldap-ca.crt -CAkey ldap-ca.key -out ldap.crt -CAcreateserial`
+  #  - `cat ldap.crt | base64 | tr -d '\n' && echo`
+  ldap.crt: XXXXXXXXXXXXX
+```
+
+If you're using an external user managment (`features.externalUserManagement.enabled` == `true`),
+you need to set the LDAP bind password into a secrets:
+
+```yaml
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: ldap-bind-secrets
+type: Opaque
+data:
+  # Base64 encoded password for the LDAP bind user.
+  reva-ldap-bind-password: XXXXXXXXXXXXX
+```
+
+If you're LDAP secure server is not using a trusted certificate (`features.externalUserManagement.ldap.certTrusted` == `false`),
+you need to set your LDAP CA (Certificate Authority) certificate in following secret:
+
+```yaml
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: ldap-ca
+type: Opaque
+data:
+  # Base64 encoded certificate of the CA that issued the LDAP server certificate.
+  ldap-ca.crt: XXXXXXXXXXXXX
 ```
 
 ### Example with NGINX ingress and certificate issued by cert-manager

@@ -1,4 +1,5 @@
-{{- if and .Values.services.idm.persistence.enabled (not .Values.services.storageUsers.persistence.existingClaim)}}
+{{- if not .Values.features.externalUserManagement.enabled }}
+{{- if and .Values.services.idm.persistence.enabled (not .Values.services.idm.persistence.existingClaim)}}
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
@@ -30,4 +31,5 @@ spec:
     matchLabels:
 {{ toYaml . | indent 6 }}
   {{- end }}
-{{- end -}}
+{{- end }}
+{{- end }}

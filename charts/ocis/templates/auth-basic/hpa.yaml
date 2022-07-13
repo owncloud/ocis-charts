@@ -1,5 +1,5 @@
-
-{{- if .Values.autoscaling.enabled }}
+{{ if .Values.features.basicAuthentication }}
+{{ if .Values.autoscaling.enabled }}
 apiVersion: autoscaling/v2beta1
 kind: HorizontalPodAutoscaler
 metadata:
@@ -16,4 +16,5 @@ spec:
   maxReplicas: {{ .Values.autoscaling.maxReplicas }}
   metrics:
 {{ toYaml .Values.autoscaling.metrics | indent 4 }}
-{{- end }}
+{{ end }}
+{{ end }}

@@ -84,6 +84,29 @@ features:
           # -- Disables SSL certificate checking for connections to the office suites http api.
           # Not recommended for production installations.
           insecure: false
+  # External user management
+  externalUserManagement:
+    # -- Enables external user management (and disables internal user management).
+    # Needs an external OpenID Connect Identity Provider and an external LDAP server.
+    enabled: false
+    # OpenID Connect Identity provider related settings.
+    oidc:
+      # -- Issuer URI of the OpenID Connect Identity Provider.
+      # If the IDP doesn't have valid / trusted SSL certificates, certificate validation can be disabled with the `insecure.oidcIdpInsecure` option.
+      issuerURI: https://idp.owncloud.test/realms/ocis
+    # LDAP related settings.
+    ldap:
+      # -- URI to connect to the LDAP secure server.
+      uri: ldaps://ldaps.owncloud.test
+      # -- Set only to false, if the certificate of your LDAP secure service is not trusted.
+      # If set to false, you need to put the CA cert of the LDAP secure server into the secret referenced by "ldapCaRef"
+      certTrusted: true
+      # -- DN of the user to use to bind to the LDAP server.
+      # The password for the user needs to be set in the secret referenced by `secretRefs.ldapSecretRef` as `reva-ldap-bind-password`.
+      # The user needs to have permission to list users and groups.
+      bindDN: uid=ocis,ou=system-users,dc=owncloud,dc=test
+
+      # TODO: all other LDAP related settings
 
 # Ingress for oCIS.
 ingress:

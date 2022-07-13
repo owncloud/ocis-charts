@@ -1,3 +1,4 @@
+{{ if .Values.features.basicAuthentication }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -56,9 +57,23 @@ spec:
               value: gateway:9142
 
             - name: AUTH_BASIC_LDAP_URI
+            {{ if not .Values.features.externalUserManagement.enabled }}
               value: ldaps://idm:9235
+            {{ else }}
+              value: {{ .Values.features.externalUserManagement.ldap.uri }}
+            {{ end }}
+
             - name: AUTH_BASIC_LDAP_CACERT
+              {{ if or (not .Values.features.externalUserManagement.enabled) ( not .Values.features.externalUserManagement.ldap.certTrusted) }}
               value: /etc/ocis/ldap-ca/ldap-ca.crt
+              {{ else }}
+              value: "" # no cert needed
+              {{ end }}
+
+            {{ if .Values.features.externalUserManagement.enabled }}
+            - name: AUTH_BASIC_LDAP_BIND_DN
+              value: {{ .Values.features.externalUserManagement.ldap.bindDN }}
+            {{ end }}
 
             - name: AUTH_BASIC_LDAP_BIND_PASSWORD
               valueFrom:
@@ -67,7 +82,11 @@ spec:
                   key: reva-ldap-bind-password
 
             - name: AUTH_BASIC_IDP_URL
+            {{ if not .Values.features.externalUserManagement.enabled }}
               value: https://{{ .Values.externalDomain }}
+            {{ else }}
+              value: {{ .Values.features.externalUserManagement.oidc.issuerURI }}
+            {{ end }}
 
             - name: AUTH_BASIC_JWT_SECRET
               valueFrom:
@@ -82,9 +101,11 @@ spec:
           volumeMounts:
             - name: ocis-config-tmp
               mountPath: /etc/ocis # we mount that volume only to apply fsGroup to that path
+            {{ if or (not .Values.features.externalUserManagement.enabled) ( not .Values.features.externalUserManagement.ldap.certTrusted) }}
             - name: ldap-ca
               mountPath: /etc/ocis/ldap-ca
               readOnly: true
+            {{ end }}
             - name: tmp-volume
               mountPath: /tmp
       volumes:
@@ -92,10 +113,13 @@ spec:
           emptyDir:
             medium: Memory
             sizeLimit: 6Mi
+        {{ if or (not .Values.features.externalUserManagement.enabled) ( not .Values.features.externalUserManagement.ldap.certTrusted) }}
         - name: ldap-ca
           secret:
             secretName: {{ .Values.secretRefs.ldapCaRef }}
+        {{ end }}
         - name: tmp-volume
           emptyDir:
             medium: Memory
             sizeLimit: 6Mi
+{{ end }}

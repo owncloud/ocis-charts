@@ -1,3 +1,4 @@
+{{- if not .Values.features.externalUserManagement.enabled }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -128,3 +129,4 @@ spec:
         - name: idm-data
           emptyDir: {}
       {{ end }}
+{{- end }}

@@ -53,7 +53,11 @@ spec:
               value: 0.0.0.0:9100
 
             - name: WEB_OIDC_AUTHORITY
+            {{ if not .Values.features.externalUserManagement.enabled }}
               value: https://{{ .Values.externalDomain }}
+            {{ else }}
+              value: {{ .Values.features.externalUserManagement.oidc.issuerURI }}
+            {{ end }}
             - name: WEB_UI_THEME_SERVER
               value: https://{{ .Values.externalDomain }}
             - name: WEB_UI_CONFIG_SERVER

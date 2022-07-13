@@ -1,4 +1,4 @@
-{{- if and .Values.services.search.persistence.enabled (not .Values.services.search.persistence.existingClaim)}}
+{{- if and .Values.services.search.persistence.enabled (not .Values.services.nats.persistence.existingClaim)}}
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:

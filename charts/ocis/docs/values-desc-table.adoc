@@ -144,6 +144,36 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `false`
 | Enables email notifications. This features needs the secret from notificationsSmtpSecretRef present.
+| features.externalUserManagement.enabled
+a| [subs=-attributes]
++bool+
+a| [subs=-attributes]
+`false`
+| Enables external user management (and disables internal user management). Needs an external OpenID Connect Identity Provider and an external LDAP server.
+| features.externalUserManagement.ldap.bindDN
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"uid=ocis,ou=system-users,dc=owncloud,dc=test"`
+| DN of the user to use to bind to the LDAP server. The password for the user needs to be set in the secret referenced by `secretRefs.ldapSecretRef` as `reva-ldap-bind-password`. The user needs to have permission to list users and groups.
+| features.externalUserManagement.ldap.certTrusted
+a| [subs=-attributes]
++bool+
+a| [subs=-attributes]
+`true`
+| Set only to false, if the certificate of your LDAP secure service is not trusted. If set to false, you need to put the CA cert of the LDAP secure server into the secret referenced by "ldapCaRef"
+| features.externalUserManagement.ldap.uri
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"ldaps://ldaps.owncloud.test"`
+| URI to connect to the LDAP secure server.
+| features.externalUserManagement.oidc.issuerURI
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"https://idp.owncloud.test/realms/ocis"`
+| Issuer URI of the OpenID Connect Identity Provider. If the IDP doesn't have valid / trusted SSL certificates, certificate validation can be disabled with the `insecure.oidcIdpInsecure` option.
 | image.pullPolicy
 a| [subs=-attributes]
 +string+
