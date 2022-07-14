@@ -1,3 +1,4 @@
+{{ if .Values.features.appsIntegration.enabled }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -71,3 +72,4 @@ spec:
           emptyDir:
             medium: Memory
             sizeLimit: 6Mi
+{{ end }}
