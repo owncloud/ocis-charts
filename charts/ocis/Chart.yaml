@@ -1,15 +1,15 @@
 apiVersion: v2
 name: ocis
-description: Helm charts for ownCloud Infinite Scale (oCIS).
+description: ownCloud Infinite Scale (oCIS) Helm chart
 keywords:
   - owncloud
   - ocis
 maintainers:
   - name: ownCloud GmbH
     email: devops@owncloud.com
-    url: owncloud.com
+    url: https://owncloud.com
 type: application
-version: 0.1.0
+version: 0.0.0
 appVersion: 2.0.0-beta.4
 kubeVersion: "~1.20.0 || ~1.21.0 || ~1.22.0 || ~1.23.0 || ~1.24.0" # if this changes, also kubernetesVersions in .drone.star needs to be changed
 sources:

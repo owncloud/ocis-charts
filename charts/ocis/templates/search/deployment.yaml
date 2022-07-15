@@ -71,7 +71,7 @@ spec:
             - name: search-data
               mountPath: /var/lib/ocis
       volumes:
-      {{- if .Values.search.persistence.enabled }}
+      {{- if .Values.services.search.persistence.enabled }}
         - name: search-data
           persistentVolumeClaim:
             claimName: search-data

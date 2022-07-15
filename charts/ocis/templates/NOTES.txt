@@ -18,28 +18,28 @@ You can get the initial "admin" administrator user password by running:
 
 kubectl -n <namespace> get secrets/admin-user --template='{{"{{"}}.data.password | base64decode{{"}}"}}'
 
-{{ if  or (not .Values.storageSystem.persistence.enabled) (not .Values.storageUsers.persistence.enabled) (not .Values.store.persistence.enabled) (not .Values.idm.persistence.enabled) (not .Values.search.persistence.enabled) (not .Values.nats.persistence.enabled) }}
+{{ if  or (not .Values.services.storageSystem.persistence.enabled) (not .Values.services.storageUsers.persistence.enabled) (not .Values.services.store.persistence.enabled) (not .Values.services.idm.persistence.enabled) (not .Values.services.search.persistence.enabled) (not .Values.services.nats.persistence.enabled) }}
 #################################################################################
 ######   WARNING: Persistence is disabled for some services.                #####
 ######   You will lose your data when a service's pod is terminated.        #####
 ######                                                                      #####
 ######   Following services don't use persistence:                          #####
-{{- if not .Values.storageUsers.persistence.enabled }}
+{{- if not .Values.services.storageUsers.persistence.enabled }}
 ######     - storage-users                                                  #####
 {{- end }}
-{{- if not .Values.storageSystem.persistence.enabled }}
+{{- if not .Values.services.storageSystem.persistence.enabled }}
 ######     - storage-system                                                 #####
 {{- end }}
-{{- if not .Values.idm.persistence.enabled }}
+{{- if not .Values.services.idm.persistence.enabled }}
 ######     - idm                                                            #####
 {{- end }}
-{{- if not .Values.store.persistence.enabled }}
+{{- if not .Values.services.store.persistence.enabled }}
 ######     - store                                                          #####
 {{- end }}
-{{- if not .Values.search.persistence.enabled }}
+{{- if not .Values.services.search.persistence.enabled }}
 ######     - search                                                         #####
 {{- end }}
-{{- if not .Values.nats.persistence.enabled }}
+{{- if not .Values.services.nats.persistence.enabled }}
 ######     - nats                                                           #####
 {{- end }}
 #################################################################################

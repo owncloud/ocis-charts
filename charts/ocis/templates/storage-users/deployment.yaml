@@ -64,25 +64,25 @@ spec:
               value: settings:9191
 
             # oCIS storage driver (decomposed filesystem)
-            {{- if  eq .Values.storageUsers.storageBackend.driver "ocis" }}
+            {{- if  eq .Values.services.storageUsers.storageBackend.driver "ocis" }}
             - name: STORAGE_USERS_DRIVER
               value: ocis
             {{- end }}
 
             # S3ng storage driver (decomposed filesystem)
-            {{- if  eq .Values.storageUsers.storageBackend.driver "s3ng" }}
+            {{- if  eq .Values.services.storageUsers.storageBackend.driver "s3ng" }}
             - name: STORAGE_USERS_DRIVER
               value: s3ng
             - name: STORAGE_USERS_S3NG_ENDPOINT
-              value: "{{ .Values.storageUsers.storageBackend.driverConfig.s3ng.endpoint }}"
+              value: "{{ .Values.services.storageUsers.storageBackend.driverConfig.s3ng.endpoint }}"
             - name: STORAGE_USERS_S3NG_REGION
-              value: "{{ .Values.storageUsers.storageBackend.driverConfig.s3ng.region }}"
+              value: "{{ .Values.services.storageUsers.storageBackend.driverConfig.s3ng.region }}"
             - name: STORAGE_USERS_S3NG_ACCESS_KEY
-              value: "{{ .Values.storageUsers.storageBackend.driverConfig.s3ng.accessKey }}"
+              value: "{{ .Values.services.storageUsers.storageBackend.driverConfig.s3ng.accessKey }}"
             - name: STORAGE_USERS_S3NG_SECRET_KEY
-              value: "{{ .Values.storageUsers.storageBackend.driverConfig.s3ng.secretKey }}"
+              value: "{{ .Values.services.storageUsers.storageBackend.driverConfig.s3ng.secretKey }}"
             - name: STORAGE_USERS_S3NG_BUCKET
-              value: "{{ .Values.storageUsers.storageBackend.driverConfig.s3ng.bucket }}"
+              value: "{{ .Values.services.storageUsers.storageBackend.driverConfig.s3ng.bucket }}"
             {{- end }}
 
             # events
@@ -120,7 +120,7 @@ spec:
           emptyDir:
             medium: Memory
             sizeLimit: 6Mi
-      {{- if .Values.storageUsers.persistence.enabled }}
+      {{- if .Values.services.storageUsers.persistence.enabled }}
         - name: storage-users-data
           persistentVolumeClaim:
             claimName: storage-users-data

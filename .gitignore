@@ -7,3 +7,4 @@
 helmfile.yaml
 .drone.yml
 ocis-ci-templated.yaml
+deployments/*

@@ -1,4 +1,4 @@
-{{- if and .Values.thumbnails.persistence.enabled (not .Values.thumbnails.persistence.existingClaim)}}
+{{- if and .Values.services.thumbnails.persistence.enabled (not .Values.services.thumbnails.persistence.existingClaim)}}
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
@@ -6,26 +6,26 @@ metadata:
   namespace: {{ template "ocis.namespace" . }}
   labels:
     {{- include "ocis.labels" . | nindent 4 }}
-  {{- with .Values.thumbnails.persistence.annotations  }}
+  {{- with .Values.services.thumbnails.persistence.annotations  }}
   annotations:
 {{ toYaml . | indent 4 }}
   {{- end }}
-  {{- with .Values.thumbnails.persistence.finalizers  }}
+  {{- with .Values.services.thumbnails.persistence.finalizers  }}
   finalizers:
 {{ toYaml . | indent 4 }}
   {{- end }}
 spec:
   accessModes:
-    {{- range .Values.thumbnails.persistence.accessModes }}
+    {{- range .Values.services.thumbnails.persistence.accessModes }}
     - {{ . | quote }}
     {{- end }}
   resources:
     requests:
-      storage: {{ .Values.thumbnails.persistence.size | quote }}
-  {{- if .Values.thumbnails.persistence.storageClassName }}
-  storageClassName: {{ .Values.thumbnails.persistence.storageClassName }}
+      storage: {{ .Values.services.thumbnails.persistence.size | quote }}
+  {{- if .Values.services.thumbnails.persistence.storageClassName }}
+  storageClassName: {{ .Values.services.thumbnails.persistence.storageClassName }}
   {{- end -}}
-  {{- with .Values.thumbnails.persistence.selectorLabels }}
+  {{- with .Values.services.thumbnails.persistence.selectorLabels }}
   selector:
     matchLabels:
 {{ toYaml . | indent 6 }}

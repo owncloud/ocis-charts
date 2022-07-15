@@ -1,3 +1,5 @@
+---
+
 ingress:
   enabled: true
   ingressClassName: some-ingress
@@ -18,62 +20,6 @@ externalDomain: ocis.owncloud.test
 extraLabels:
   extra1: lorem
   extra2: ipsum
-
-storageSystem:
-  persistence:
-    enabled: true
-    storageClassName: default-storage
-    accessModes:
-      - ReadWriteMany
-    size: 5Gi
-    annotations:
-      anno-1: test
-    finalizers:
-      - kubernetes.io/pvc-protection
-    selectorLabels:
-      selector1: foobar
-
-storageUsers:
-  storageBackend:
-    driver: ocis
-  persistence:
-    enabled: true
-    storageClassName: default-storage
-    accessModes:
-      - ReadWriteMany
-    size: 50Gi
-    annotations:
-      anno-1: test
-    finalizers:
-      - kubernetes.io/pvc-protection
-    selectorLabels: {}
-
-store:
-  persistence:
-    enabled: true
-    storageClassName: default-storage
-    accessModes:
-      - ReadWriteMany
-    size: 5Gi
-    annotations:
-      anno-1: test
-    finalizers:
-      - kubernetes.io/pvc-protection
-    selectorLabels:
-      selector1: foobar
-
-thumbnails:
-  persistence:
-    enabled: true
-    storageClassName: default-storage
-    accessModes:
-      - ReadWriteMany
-    size: 10Gi
-    annotations:
-      anno-1: test
-    finalizers: []
-    selectorLabels:
-      selector1: foobar
 
 autoscaling:
   enabled: true
@@ -96,3 +42,60 @@ resources:
   requests:
     cpu: 100m
     memory: 128Mi
+
+services:
+  storageSystem:
+    persistence:
+      enabled: true
+      storageClassName: default-storage
+      accessModes:
+        - ReadWriteMany
+      size: 5Gi
+      annotations:
+        anno-1: test
+      finalizers:
+        - kubernetes.io/pvc-protection
+      selectorLabels:
+        selector1: foobar
+
+  storageUsers:
+    storageBackend:
+      driver: ocis
+    persistence:
+      enabled: true
+      storageClassName: default-storage
+      accessModes:
+        - ReadWriteMany
+      size: 50Gi
+      annotations:
+        anno-1: test
+      finalizers:
+        - kubernetes.io/pvc-protection
+      selectorLabels: {}
+
+  store:
+    persistence:
+      enabled: true
+      storageClassName: default-storage
+      accessModes:
+        - ReadWriteMany
+      size: 5Gi
+      annotations:
+        anno-1: test
+      finalizers:
+        - kubernetes.io/pvc-protection
+      selectorLabels:
+        selector1: foobar
+
+  thumbnails:
+    persistence:
+      enabled: true
+      storageClassName: default-storage
+      accessModes:
+        - ReadWriteMany
+      size: 10Gi
+      annotations:
+        anno-1: test
+      finalizers: []
+      selectorLabels:
+        selector1: foobar

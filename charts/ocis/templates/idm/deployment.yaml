@@ -118,7 +118,7 @@ spec:
         - name: ldap-cert
           secret:
             secretName: {{ .Values.secretRefs.ldapCertRef }}
-      {{ if .Values.idm.persistence.enabled }}
+      {{ if .Values.services.idm.persistence.enabled }}
         - name: idm-data
           persistentVolumeClaim:
             claimName: idm-data
