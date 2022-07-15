@@ -13,7 +13,9 @@ Installs [ownCloud Infinite Scale](http://owncloud.dev/ocis).
 Currently we're supporting following Kubernetes versions (and their patch releases).
 We are not testing the Helm chart on all versions, but ensure API compatibility by running manifest validation for the supported versions.
 
+```
 {{ template "chart.kubeVersion" . }}
+```
 
 {{/* This Helm chart is using following external Helm charts: */}}
 
