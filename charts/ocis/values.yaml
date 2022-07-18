@@ -321,71 +321,25 @@ services:
       # -- Use an existing PersistentVolumeClaim for persistence.
       existingClaim:
 
-  # NATS service.
-  nats:
-    persistence:
-      # -- Enables persistence.
-      # Needs to be enabled on production installations.
-      # If not enabled, pod restarts will lead to data loss.
-      # Also scaling this service beyond one instance is not possible if the service instances don't share the same storage.
-      enabled: false
-      # -- Storage class to use.
-      # Uses the default storage class if not set.
-      storageClassName:
-      # -- Persistent volume access modes. Needs to be `["ReadWriteMany"]` when scaling this service beyond one instance.
-      accessModes:
-        - ReadWriteMany
-      # -- Size of the persistent volume.
-      size: 10Gi
-      # -- Persistent volume annotations.
-      annotations: {}
-      # -- Persistent volume finalizers.
-      finalizers:
-        - kubernetes.io/pvc-protection
-      # -- Persistent volume selector labels.
-      selectorLabels: {}
-      # -- Use an existing PersistentVolumeClaim for persistence.
-      existingClaim:
-
-# TODO: configuration of the external chart... how to document it nicely?
+# NATS subchart https://github.com/nats-io/k8s/tree/main/helm/charts/nats
 nats:
-  enabled: true
-
   cluster:
     enabled: true
     name: "ocis-cluster"
     replicas: 3
-  natsbox:
-    enabled: false
   nats:
     client:
       port: 4222
-
     jetstream:
       enabled: true
-
       memStorage:
         enabled: true
         size: 2Gi
-
       fileStorage:
         enabled: true
         size: 10Gi
         # storageClassName: default # The Storage Class used should be block storage. NFS is not recommended.
-
   securityContext:
     fsGroup: 1000
     runAsUser: 1000
     runAsNonRoot: true
-
-  # persistence:
-  #   enabled: false
-  #   # storageClassName: default
-  #   accessModes:
-  #     - ReadWriteMany
-  #   size: 10Gi
-  #   annotations: {}
-  #   finalizers:
-  #     - kubernetes.io/pvc-protection
-  #   selectorLabels: {}
-  #   # existingClaim:

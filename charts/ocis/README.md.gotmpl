@@ -17,9 +17,9 @@ We are not testing the Helm chart on all versions, but ensure API compatibility 
 {{ template "chart.kubeVersion" . }}
 ```
 
-{{/* This Helm chart is using following external Helm charts: */}}
+This Helm chart is using following external Helm charts:
 
-{{/* template "chart.requirementsTable" . */}}
+{{ template "chart.requirementsTable" . }}
 
 ## Helm chart Repository
 

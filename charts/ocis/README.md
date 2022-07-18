@@ -15,6 +15,12 @@ We are not testing the Helm chart on all versions, but ensure API compatibility 
 ~1.20.0 || ~1.21.0 || ~1.22.0 || ~1.23.0 || ~1.24.0
 ```
 
+This Helm chart is using following external Helm charts:
+
+| Repository | Name | Version |
+|------------|------|---------|
+| https://nats-io.github.io/k8s/helm/charts | nats | 0.17.1 |
+
 ## Helm chart Repository
 
 This chart is still in an experimental phase, and it has not yet been published on a Helm chart repository.
@@ -76,6 +82,18 @@ This chart only supports following oCIS versions:
 | logging.level | string | `"error"` | Log level. Valid values: `panic`, `fatal`, `error`, `warn`, `info`, `debug`, `trace`. |
 | logging.pretty | string | `"false"` | Activates pretty log output. Not recommended for production installations. |
 | namespaceOverride | string | `nil` | Override the deployment namespace of all resources in this Helm chart. |
+| nats.cluster.enabled | bool | `true` |  |
+| nats.cluster.name | string | `"ocis-cluster"` |  |
+| nats.cluster.replicas | int | `3` |  |
+| nats.nats.client.port | int | `4222` |  |
+| nats.nats.jetstream.enabled | bool | `true` |  |
+| nats.nats.jetstream.fileStorage.enabled | bool | `true` |  |
+| nats.nats.jetstream.fileStorage.size | string | `"10Gi"` |  |
+| nats.nats.jetstream.memStorage.enabled | bool | `true` |  |
+| nats.nats.jetstream.memStorage.size | string | `"2Gi"` |  |
+| nats.securityContext.fsGroup | int | `1000` |  |
+| nats.securityContext.runAsNonRoot | bool | `true` |  |
+| nats.securityContext.runAsUser | int | `1000` |  |
 | replicas | int | `1` | Number of replicas for each scalable service. Has no effect when `autoscaling.enabled` is set to `true`. |
 | resources | object | `{}` | Resources to apply to all services. |
 | secretRefs.adminUserSecretRef | string | `"admin-user"` | Reference to an existing admin user secret (see [Secrets](#secrets)) |
@@ -97,14 +115,6 @@ This chart only supports following oCIS versions:
 | services.idm.persistence.selectorLabels | object | `{}` | Persistent volume selector labels. |
 | services.idm.persistence.size | string | `"10Gi"` | Size of the persistent volume. |
 | services.idm.persistence.storageClassName | string | `nil` | Storage class to use. Uses the default storage class if not set. |
-| services.nats.persistence.accessModes | list | `["ReadWriteMany"]` | Persistent volume access modes. Needs to be `["ReadWriteMany"]` when scaling this service beyond one instance. |
-| services.nats.persistence.annotations | object | `{}` | Persistent volume annotations. |
-| services.nats.persistence.enabled | bool | `false` | Enables persistence. Needs to be enabled on production installations. If not enabled, pod restarts will lead to data loss. Also scaling this service beyond one instance is not possible if the service instances don't share the same storage. |
-| services.nats.persistence.existingClaim | string | `nil` | Use an existing PersistentVolumeClaim for persistence. |
-| services.nats.persistence.finalizers | list | `["kubernetes.io/pvc-protection"]` | Persistent volume finalizers. |
-| services.nats.persistence.selectorLabels | object | `{}` | Persistent volume selector labels. |
-| services.nats.persistence.size | string | `"10Gi"` | Size of the persistent volume. |
-| services.nats.persistence.storageClassName | string | `nil` | Storage class to use. Uses the default storage class if not set. |
 | services.search.persistence.accessModes | list | `["ReadWriteMany"]` | Persistent volume access modes. Needs to be `["ReadWriteMany"]` when scaling this service beyond one instance. |
 | services.search.persistence.annotations | object | `{}` | Persistent volume annotations. |
 | services.search.persistence.enabled | bool | `false` | Enables persistence. Needs to be enabled on production installations. If not enabled, pod restarts will lead to data loss. Also scaling this service beyond one instance is not possible if the service instances don't share the same storage. |
