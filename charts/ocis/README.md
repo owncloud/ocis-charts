@@ -61,7 +61,7 @@ To install the chart with the release name `my-release`:
 1. Install the with the values file applied
 
     ```console
-    helm install ocis ./charts/ocis -n ocis-test --values values.yaml
+    helm install ocis ./charts/ocis --values values.yaml
     ```
 
 1. Get the minikube IP address
