@@ -123,7 +123,7 @@ autoscaling:
 #       name: memory
 #       targetAverageUtilization: 60
 
-# -- Resources to apply to all services.
+# -- Resources to apply to all services (except NATS, which is configured separately).
 resources: {}
   # limits:
   #   cpu: 100m
@@ -333,9 +333,9 @@ nats:
     # -- Number of replicats in the NATS cluster. Scale according to your needs.
     replicas: 3
   nats:
-    client:
-      # -- Port where clients can connect to the NATS cluster.
-      port: 4222
+    # client:
+    #   # -- Port where clients can connect to the NATS cluster.
+    #   port: 4222
     jetstream:
       # -- Enables JetStream. Don't change it.
       enabled: true
@@ -351,7 +351,28 @@ nats:
         size: 10Gi
         # -- Storage class to use for file storage. Should be block storage. NFS storage is not recommended. RWO is sufficient (RWX is not needed).
         storageClassName:
+      # -- Resources to apply to NATS pods.
+      resources:
+        limits:
+          cpu: 100m
+          memory: 128Mi
+        requests:
+          cpu: 100m
+          memory: 128Mi
+
   securityContext:
     fsGroup: 1000
     runAsUser: 1000
     runAsNonRoot: true
+
+  # NATS box
+  natsbox:
+    # -- Enables the NATS box, which includes utilities for NATS.
+    enabled: false
+  reloader:
+    enabled: false
+
+  topologyKeys:
+    - "kubernetes.io/hostname"
+    - "topology.kubernetes.io/zone"
+    - "topology.kubernetes.io/region"

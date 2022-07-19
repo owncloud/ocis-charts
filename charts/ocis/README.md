@@ -85,18 +85,23 @@ This chart only supports following oCIS versions:
 | nats.cluster.enabled | bool | `true` | Enables NATS clustering |
 | nats.cluster.name | string | `"ocis-cluster"` | Name of the NATS cluster. Don't change it. |
 | nats.cluster.replicas | int | `3` | Number of replicats in the NATS cluster. Scale according to your needs. |
-| nats.nats.client.port | int | `4222` | Port where clients can connect to the NATS cluster. |
 | nats.nats.jetstream.enabled | bool | `true` | Enables JetStream. Don't change it. |
 | nats.nats.jetstream.fileStorage.enabled | bool | `true` | Enables file storage |
 | nats.nats.jetstream.fileStorage.size | string | `"10Gi"` | Size of the file storage |
 | nats.nats.jetstream.fileStorage.storageClassName | string | `nil` | Storage class to use for file storage. Should be block storage. NFS storage is not recommended. RWO is sufficient (RWX is not needed). |
 | nats.nats.jetstream.memStorage.enabled | bool | `true` | Enables in-memory storage. |
 | nats.nats.jetstream.memStorage.size | string | `"2Gi"` | Maxmimum size for in-memory storage. |
+| nats.nats.jetstream.resources | object | `{"limits":{"cpu":"100m","memory":"128Mi"},"requests":{"cpu":"100m","memory":"128Mi"}}` | Resources to apply to NATS pods. |
+| nats.natsbox.enabled | bool | `false` | Enables the NATS box, which includes utilities for NATS. |
+| nats.reloader.enabled | bool | `false` |  |
 | nats.securityContext.fsGroup | int | `1000` |  |
 | nats.securityContext.runAsNonRoot | bool | `true` |  |
 | nats.securityContext.runAsUser | int | `1000` |  |
+| nats.topologyKeys[0] | string | `"kubernetes.io/hostname"` |  |
+| nats.topologyKeys[1] | string | `"topology.kubernetes.io/zone"` |  |
+| nats.topologyKeys[2] | string | `"topology.kubernetes.io/region"` |  |
 | replicas | int | `1` | Number of replicas for each scalable service. Has no effect when `autoscaling.enabled` is set to `true`. |
-| resources | object | `{}` | Resources to apply to all services. |
+| resources | object | `{}` | Resources to apply to all services (except NATS, which is configured separately). |
 | secretRefs.adminUserSecretRef | string | `"admin-user"` | Reference to an existing admin user secret (see [Secrets](#secrets)) |
 | secretRefs.idpSecretRef | string | `"idp-secrets"` | Reference to an existing IDP secret (see [Secrets](#secrets)) |
 | secretRefs.jwtSecretRef | string | `"jwt-secret"` | Reference to an existing JWT secret (see [Secrets](#secrets)) |
