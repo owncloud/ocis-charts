@@ -52,6 +52,8 @@ To install the chart with the release name `my-release`:
     externalDomain: ocis.kube.owncloud.test
     ingress:
       enabled: true
+      annotations:
+        nginx.ingress.kubernetes.io/proxy-body-size: 1024m
       tls:
       - hosts:
         - ocis.kube.owncloud.test
