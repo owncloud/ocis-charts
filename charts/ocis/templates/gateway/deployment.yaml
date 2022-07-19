@@ -53,7 +53,10 @@ spec:
               value: 0.0.0.0:9142
 
             - name: REVA_GATEWAY
-              value: gateway:9142
+              # we also could have gateway:9142 here, but some
+              # Kubernetes distributions as minikube do not support
+              # resolving a container's hostname in the container.
+              value: 127.0.0.1:9142
 
             - name: GATEWAY_FRONTEND_PUBLIC_URL
               value: "https://{{ .Values.externalDomain }}"
