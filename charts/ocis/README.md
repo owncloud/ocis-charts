@@ -82,15 +82,16 @@ This chart only supports following oCIS versions:
 | logging.level | string | `"error"` | Log level. Valid values: `panic`, `fatal`, `error`, `warn`, `info`, `debug`, `trace`. |
 | logging.pretty | string | `"false"` | Activates pretty log output. Not recommended for production installations. |
 | namespaceOverride | string | `nil` | Override the deployment namespace of all resources in this Helm chart. |
-| nats.cluster.enabled | bool | `true` |  |
-| nats.cluster.name | string | `"ocis-cluster"` |  |
-| nats.cluster.replicas | int | `3` |  |
-| nats.nats.client.port | int | `4222` |  |
-| nats.nats.jetstream.enabled | bool | `true` |  |
-| nats.nats.jetstream.fileStorage.enabled | bool | `true` |  |
-| nats.nats.jetstream.fileStorage.size | string | `"10Gi"` |  |
-| nats.nats.jetstream.memStorage.enabled | bool | `true` |  |
-| nats.nats.jetstream.memStorage.size | string | `"2Gi"` |  |
+| nats.cluster.enabled | bool | `true` | Enables NATS clustering |
+| nats.cluster.name | string | `"ocis-cluster"` | Name of the NATS cluster. Don't change it. |
+| nats.cluster.replicas | int | `3` | Number of replicats in the NATS cluster. Scale according to your needs. |
+| nats.nats.client.port | int | `4222` | Port where clients can connect to the NATS cluster. |
+| nats.nats.jetstream.enabled | bool | `true` | Enables JetStream. Don't change it. |
+| nats.nats.jetstream.fileStorage.enabled | bool | `true` | Enables file storage |
+| nats.nats.jetstream.fileStorage.size | string | `"10Gi"` | Size of the file storage |
+| nats.nats.jetstream.fileStorage.storageClassName | string | `nil` | Storage class to use for file storage. Should be block storage. NFS storage is not recommended. RWO is sufficient (RWX is not needed). |
+| nats.nats.jetstream.memStorage.enabled | bool | `true` | Enables in-memory storage. |
+| nats.nats.jetstream.memStorage.size | string | `"2Gi"` | Maxmimum size for in-memory storage. |
 | nats.securityContext.fsGroup | int | `1000` |  |
 | nats.securityContext.runAsNonRoot | bool | `true` |  |
 | nats.securityContext.runAsUser | int | `1000` |  |

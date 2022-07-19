@@ -321,24 +321,36 @@ services:
       # -- Use an existing PersistentVolumeClaim for persistence.
       existingClaim:
 
-# NATS subchart https://github.com/nats-io/k8s/tree/main/helm/charts/nats
+# NATS subchart settings
+# documentation see https://github.com/nats-io/k8s/tree/main/helm/charts/nats
 nats:
+  # Cluster settings
   cluster:
+    # -- Enables NATS clustering
     enabled: true
+    # -- Name of the NATS cluster. Don't change it.
     name: "ocis-cluster"
+    # -- Number of replicats in the NATS cluster. Scale according to your needs.
     replicas: 3
   nats:
     client:
+      # -- Port where clients can connect to the NATS cluster.
       port: 4222
     jetstream:
+      # -- Enables JetStream. Don't change it.
       enabled: true
       memStorage:
+        # -- Enables in-memory storage.
         enabled: true
+        # -- Maxmimum size for in-memory storage.
         size: 2Gi
       fileStorage:
+        # -- Enables file storage
         enabled: true
+        # -- Size of the file storage
         size: 10Gi
-        # storageClassName: default # The Storage Class used should be block storage. NFS is not recommended.
+        # -- Storage class to use for file storage. Should be block storage. NFS storage is not recommended. RWO is sufficient (RWX is not needed).
+        storageClassName:
   securityContext:
     fsGroup: 1000
     runAsUser: 1000
