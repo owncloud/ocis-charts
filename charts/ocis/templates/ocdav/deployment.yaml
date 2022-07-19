@@ -64,6 +64,12 @@ spec:
                   name: {{ .Values.secretRefs.jwtSecretRef }}
                   key: jwt-secret
 
+            - name: OCDAV_MACHINE_AUTH_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.secretRefs.machineAuthApiKeySecretRef }}
+                  key: machine-auth-api-key
+
           resources: {{ toYaml .Values.resources | nindent 12 }}
           ports:
             - name: http
