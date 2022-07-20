@@ -22,7 +22,7 @@ spec:
         {{- include "ocis.labels" . | nindent 8 }}
     spec:
       securityContext:
-          fsGroup: 1000
+          fsGroup: {{ .Values.securityContext.fsGroup }}
       containers:
         - name: gateway
           {{- if .Values.image.sha }}
@@ -35,7 +35,7 @@ spec:
           args: ["gateway", "server"]
           securityContext:
             runAsNonRoot: true
-            runAsUser: 1000
+            runAsUser: {{ .Values.securityContext.runAsUser }}
             runAsGroup: 100
             readOnlyRootFilesystem: true
           env:

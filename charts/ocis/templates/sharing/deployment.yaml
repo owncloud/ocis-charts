@@ -22,7 +22,7 @@ spec:
         {{- include "ocis.labels" . | nindent 8 }}
     spec:
       securityContext:
-          fsGroup: 1000
+          fsGroup: {{ .Values.securityContext.fsGroup }}
       containers:
         - name: sharing
           {{- if .Values.image.sha }}
@@ -35,8 +35,8 @@ spec:
           args: ["sharing", "server"]
           securityContext:
             runAsNonRoot: true
-            runAsUser: 1000
-            runAsGroup: 1000
+            runAsUser: {{ .Values.securityContext.runAsUser }}
+            runAsGroup: {{ .Values.securityContext.runAsGroup }}
             readOnlyRootFilesystem: true
           env:
             - name: MICRO_REGISTRY

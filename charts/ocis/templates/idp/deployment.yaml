@@ -24,7 +24,7 @@ spec:
         {{- include "ocis.labels" . | nindent 8 }}
     spec:
       securityContext:
-          fsGroup: 1000
+          fsGroup: {{ .Values.securityContext.fsGroup }}
       containers:
         - name: idp
           {{- if .Values.image.sha }}
@@ -37,8 +37,8 @@ spec:
           args: ["idp", "server"]
           securityContext:
             runAsNonRoot: true
-            runAsUser: 1000
-            runAsGroup: 1000
+            runAsUser: {{ .Values.securityContext.runAsUser }}
+            runAsGroup: {{ .Values.securityContext.runAsGroup }}
             readOnlyRootFilesystem: true
           env:
             - name: MICRO_REGISTRY
@@ -80,16 +80,28 @@ spec:
             - name: http
               containerPort: 9130
           volumeMounts:
-            - name: idp-secrets
-              mountPath: /etc/ocis/idp
-              readOnly: true
+            - name: ocis-config-tmp
+              mountPath: /etc/ocis # we mount that volume only to apply fsGroup to that path
             - name: ldap-ca
               mountPath: /etc/ocis/ldap-ca
               readOnly: true
+            - name: idp-secrets
+              mountPath: /etc/ocis/idp
+              readOnly: true
+            - name: ocis-data-tmp
+              mountPath: /var/lib/ocis # we mount that volume to apply fsGroup to that path, so that the idp can write the temporary idp/tmp/identifier-registration.yaml file
       volumes:
-        - name: idp-secrets
-          secret:
-            secretName: {{ .Values.secretRefs.idpSecretRef }}
+        - name: ocis-config-tmp
+          emptyDir:
+            medium: Memory
+            sizeLimit: 6Mi
         - name: ldap-ca
           secret:
             secretName: {{ .Values.secretRefs.ldapCaRef }}
+        - name: idp-secrets
+          secret:
+            secretName: {{ .Values.secretRefs.idpSecretRef }}
+        - name: ocis-data-tmp
+          emptyDir:
+            medium: Memory
+            sizeLimit: 6Mi
