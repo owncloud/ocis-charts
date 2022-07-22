@@ -188,20 +188,28 @@ services:
         - kubernetes.io/pvc-protection
       # -- Persistent volume selector labels.
       selectorLabels: {}
-      # existingClaim:
+      # -- Use an existing PersistentVolumeClaim for persistence.
+      existingClaim:
 
   # STORAGE-USERS service.
   storageUsers:
     storageBackend:
-      driver: ocis # stores all data in the persistent volume if persistence is enabled
-      # driver: s3ng # stores all metadata in the persistent volume and uploads blobs to s3 if persistence is enabled
-      # driverConfig:
-      #   s3ng:
-      #     endpoint: https://localhost:1234
-      #     region: default
-      #     bucket: example-bucket
-      #     accessKey: lorem-ipsum
-      #     secretKey: lorem-ipsum
+      # -- Configures the storage driver. Possible values are "ocis" and "s3ng".
+      # The oCIS driver stores all data in the persistent volume if persistence is enabled.
+      # The S3NG driver stores all metadata in the persistent volume and uploads blobs to s3 if persistence is enabled.
+      driver: ocis
+      driverConfig:
+        s3ng:
+          # -- S3 endpoint to use for the S3NG driver. Only used if driver is set to "s3ng".
+          endpoint: https://localhost:1234
+          # -- S3 region to use for the S3NG driver. Only used if driver is set to "s3ng".
+          region: default
+          # --- S3 bucket to use for the S3NG driver. Only used if driver is set to "s3ng".
+          bucket: example-bucket
+          # -- S3 access key to use for the S3NG driver. Only used if driver is set to "s3ng".
+          accessKey: lorem-ipsum
+          # -- S3 secret key to use for the S3NG driver. Only used if driver is set to "s3ng".
+          secretKey: lorem-ipsum
     persistence:
       # -- Enables persistence.
       # Needs to be enabled on production installations.

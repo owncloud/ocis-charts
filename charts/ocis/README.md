@@ -174,6 +174,7 @@ This chart only supports following oCIS versions:
 | services.storageSystem.persistence.accessModes | list | `["ReadWriteMany"]` | Persistent volume access modes. Needs to be `["ReadWriteMany"]` when scaling this service beyond one instance. |
 | services.storageSystem.persistence.annotations | object | `{}` | Persistent volume annotations. |
 | services.storageSystem.persistence.enabled | bool | `false` | Enables persistence. Needs to be enabled on production installations. If not enabled, pod restarts will lead to data loss. Also scaling this service beyond one instance is not possible if the service instances don't share the same storage. |
+| services.storageSystem.persistence.existingClaim | string | `nil` | Use an existing PersistentVolumeClaim for persistence. |
 | services.storageSystem.persistence.finalizers | list | `["kubernetes.io/pvc-protection"]` | Persistent volume finalizers. |
 | services.storageSystem.persistence.selectorLabels | object | `{}` | Persistent volume selector labels. |
 | services.storageSystem.persistence.size | string | `"5Gi"` | Size of the persistent volume. |
@@ -186,7 +187,12 @@ This chart only supports following oCIS versions:
 | services.storageUsers.persistence.selectorLabels | object | `{}` | Persistent volume selector labels. |
 | services.storageUsers.persistence.size | string | `"50Gi"` | Size of the persistent volume. |
 | services.storageUsers.persistence.storageClassName | string | `nil` | Storage class to use. Uses the default storage class if not set. |
-| services.storageUsers.storageBackend.driver | string | `"ocis"` |  |
+| services.storageUsers.storageBackend.driver | string | `"ocis"` | Configures the storage driver. Possible values are "ocis" and "s3ng". The oCIS driver stores all data in the persistent volume if persistence is enabled. The S3NG driver stores all metadata in the persistent volume and uploads blobs to s3 if persistence is enabled. |
+| services.storageUsers.storageBackend.driverConfig.s3ng.accessKey | string | `"lorem-ipsum"` | S3 access key to use for the S3NG driver. Only used if driver is set to "s3ng". |
+| services.storageUsers.storageBackend.driverConfig.s3ng.bucket | string | `"example-bucket"` | - S3 bucket to use for the S3NG driver. Only used if driver is set to "s3ng". |
+| services.storageUsers.storageBackend.driverConfig.s3ng.endpoint | string | `"https://localhost:1234"` | S3 endpoint to use for the S3NG driver. Only used if driver is set to "s3ng". |
+| services.storageUsers.storageBackend.driverConfig.s3ng.region | string | `"default"` | S3 region to use for the S3NG driver. Only used if driver is set to "s3ng". |
+| services.storageUsers.storageBackend.driverConfig.s3ng.secretKey | string | `"lorem-ipsum"` | S3 secret key to use for the S3NG driver. Only used if driver is set to "s3ng". |
 | services.store.persistence.accessModes | list | `["ReadWriteMany"]` | Persistent volume access modes. Needs to be `["ReadWriteMany"]` when scaling this service beyond one instance. |
 | services.store.persistence.annotations | object | `{}` | Persistent volume annotations. |
 | services.store.persistence.enabled | bool | `false` | Enables persistence. Needs to be enabled on production installations. If not enabled, pod restarts will lead to data loss. Also scaling this service beyond one instance is not possible if the service instances don't share the same storage. |
