@@ -285,6 +285,27 @@ data:
   thumbnails-transfer-secret: XXXXXXXXXXXXX
 ```
 
+If you set `features.emailNotifications` to `true` you also need to configure a SMTP email server secret:
+
+```yaml
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: notifications-smtp-secret
+type: Opaque
+data:
+  # Sender of emails that will be sent. Example: noreply@owncloud.test
+  smtp-sender: XXXXXXXXXXXXX
+  # SMTP host to connect to. Example: smtp.owncloud.test
+  smtp-host: XXXXXXXXXXXXX
+  # Port of the SMTP host to connect to. Example: 1025
+  smtp-port: 1025
+  # Password of the SMTP host to connect to.
+  smtp-password: XXXXXXXXXXXXX
+
+```
+
 ### Example with NGINX ingress and certificate issued by cert-manager
 
 To make this work you need to have NGINX ingress and cert-manager installed in your cluster.

@@ -1,3 +1,4 @@
+{{- if .Values.features.emailNotifications }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -46,7 +47,29 @@ spec:
             - name: NOTIFICATIONS_LOG_PRETTY
               value: "{{ .Values.logging.pretty }}"
 
-            # TODO: smtp settings + mailhog?
+            - name: NOTIFICATIONS_SMTP_SENDER
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.secretRefs.notificationsSmtpSecretRef }}
+                  key: smtp-sender
+
+            - name: NOTIFICATIONS_SMTP_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.secretRefs.notificationsSmtpSecretRef }}
+                  key: smtp-host
+
+            - name: NOTIFICATIONS_SMTP_PORT
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.secretRefs.notificationsSmtpSecretRef }}
+                  key: smtp-port
+
+            - name: NOTIFICATIONS_SMTP_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.secretRefs.notificationsSmtpSecretRef }}
+                  key: smtp-password
 
             - name: REVA_GATEWAY
               value: gateway:9142
@@ -60,3 +83,4 @@ spec:
                   key: machine-auth-api-key
 
           resources: {{ toYaml .Values.resources | nindent 12 }}
+{{- end }}

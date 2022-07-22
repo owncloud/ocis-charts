@@ -48,6 +48,9 @@ features:
   # -- Create demo users on the first startup.
   # Not recommended for production installations.
   demoUsers: false
+  # -- Enables email notifications.
+  # This features needs the secret from notificationsSmtpSecretRef present.
+  emailNotifications: false
 
 # Ingress for oCIS.
 ingress:
@@ -84,6 +87,8 @@ secretRefs:
   ldapSecretRef: "ldap-bind-secrets"
   # -- Reference to an existing machine auth api key secret (see [Secrets](#secrets))
   machineAuthApiKeySecretRef: "machine-auth-api-key"
+  # -- Reference to an existing SMTP email server settings secret (see [Secrets](#secrets))
+  notificationsSmtpSecretRef: "notifications-smtp-secret"
   # -- Reference to an existing storage-system JWT secret (see [Secrets](#secrets))
   storageSystemJwtSecretRef: "storage-system-jwt-secret"
   # -- Reference to an existing storage-system secret (see [Secrets](#secrets))
