@@ -94,6 +94,15 @@ def documentation(ctx):
                 ],
             },
             {
+                "name": "helm-docs-adoc",
+                "image": "jnorwood/helm-docs:v1.11.0",
+                "entrypoint": [
+                    "/usr/bin/helm-docs",
+                    "--template-files values-table.adoc.gotmpl",
+                    "--output-file values-table.adoc",
+                ],
+            },
+            {
                 "name": "check-unchanged",
                 "image": "owncloudci/alpine",
                 "commands": [

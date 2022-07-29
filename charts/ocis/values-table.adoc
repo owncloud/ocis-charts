@@ -1,0 +1,744 @@
+[caption=]
+.Values for the ocis Helm Chart
+[width="100%",cols="~,~,~,~",options="header"]
+|===
+| Key
+| Type
+| Default
+| Description
+| autoscaling.enabled
+a| [subs=-attributes]
++bool+
+a| [subs=-attributes]
+`false`
+a| [subs=-attributes]
+Enables autoscaling. When set to `true`, `replicas` is no longer applied.
+| autoscaling.maxReplicas
+a| [subs=-attributes]
++int+
+a| [subs=-attributes]
+`10`
+a| [subs=-attributes]
+Sets maximum replicas for autoscaling.
+| autoscaling.metrics
+a| [subs=-attributes]
++list+
+a| [subs=-attributes]
+`[]`
+a| [subs=-attributes]
+Metrics to use for autoscaling
+| autoscaling.minReplicas
+a| [subs=-attributes]
++int+
+a| [subs=-attributes]
+`3`
+a| [subs=-attributes]
+Sets minimum replicas for autoscaling.
+| deploymentStrategy
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{"type":"RollingUpdate"}`
+a| [subs=-attributes]
+Deployment strategy.
+| externalDomain
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"ocis.owncloud.test"`
+a| [subs=-attributes]
+Domain where oCIS is reachable for the outside world
+| extraLabels
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+a| [subs=-attributes]
+Custom labels for all manifests
+| extraResources
+a| [subs=-attributes]
++list+
+a| [subs=-attributes]
+`[]`
+a| [subs=-attributes]
+Extra resources to be included.
+| features.basicAuthentication
+a| [subs=-attributes]
++bool+
+a| [subs=-attributes]
+`false`
+a| [subs=-attributes]
+Enable basic authentication. Not recommended for production installations.
+| features.demoUsers
+a| [subs=-attributes]
++bool+
+a| [subs=-attributes]
+`false`
+a| [subs=-attributes]
+Create demo users on the first startup. Not recommended for production installations.
+| features.emailNotifications
+a| [subs=-attributes]
++bool+
+a| [subs=-attributes]
+`false`
+a| [subs=-attributes]
+Enables email notifications. This features needs the secret from notificationsSmtpSecretRef present.
+| image.pullPolicy
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"IfNotPresent"`
+a| [subs=-attributes]
+Image pull policy
+| image.repository
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"owncloud/ocis"`
+a| [subs=-attributes]
+Image repository
+| image.sha
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+a| [subs=-attributes]
+Image sha / digest (optional).
+| image.tag
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"2.0.0-beta.5"`
+a| [subs=-attributes]
+Image tag.
+| ingress.annotations
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+a| [subs=-attributes]
+Ingress annotations.
+| ingress.enabled
+a| [subs=-attributes]
++bool+
+a| [subs=-attributes]
+`false`
+a| [subs=-attributes]
+Enables the Ingress.
+| ingress.ingressClassName
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`nil`
+a| [subs=-attributes]
+Ingress class to use. Uses the default ingress class if not set.
+| ingress.labels
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+a| [subs=-attributes]
+Labels for the ingress.
+| ingress.tls
+a| [subs=-attributes]
++list+
+a| [subs=-attributes]
+`[]`
+a| [subs=-attributes]
+Ingress TLS configuration.
+| insecure.ocisHttpApiInsecure
+a| [subs=-attributes]
++bool+
+a| [subs=-attributes]
+`false`
+a| [subs=-attributes]
+Disables SSL certificate checking for connections to the oCIS http apis. Not recommended for production installations.
+| insecure.oidcIdpInsecure
+a| [subs=-attributes]
++bool+
+a| [subs=-attributes]
+`false`
+a| [subs=-attributes]
+Disables SSL certificate checking for connections to the openID connect identity provider. Not recommended for production installations.
+| logging.color
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"false"`
+a| [subs=-attributes]
+Activates colorized log output. Not recommended for production installations.
+| logging.level
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"error"`
+a| [subs=-attributes]
+Log level. Valid values: `panic`, `fatal`, `error`, `warn`, `info`, `debug`, `trace`.
+| logging.pretty
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"false"`
+a| [subs=-attributes]
+Activates pretty log output. Not recommended for production installations.
+| namespaceOverride
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`nil`
+a| [subs=-attributes]
+Override the deployment namespace of all resources in this Helm chart.
+| replicas
+a| [subs=-attributes]
++int+
+a| [subs=-attributes]
+`1`
+a| [subs=-attributes]
+Number of replicas for each scalable service. Has no effect when `autoscaling.enabled` is set to `true`.
+| resources
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+a| [subs=-attributes]
+Resources to apply to all services.
+| secretRefs.adminUserSecretRef
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"admin-user"`
+a| [subs=-attributes]
+Reference to an existing admin user secret (see [Secrets](#secrets))
+| secretRefs.idpSecretRef
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"idp-secrets"`
+a| [subs=-attributes]
+Reference to an existing IDP secret (see [Secrets](#secrets))
+| secretRefs.jwtSecretRef
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"jwt-secret"`
+a| [subs=-attributes]
+Reference to an existing JWT secret (see [Secrets](#secrets))
+| secretRefs.ldapCaRef
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"ldap-ca"`
+a| [subs=-attributes]
+Reference to an existing LDAP certificate authority secret (see [Secrets](#secrets))
+| secretRefs.ldapCertRef
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"ldap-cert"`
+a| [subs=-attributes]
+Reference to an existing LDAP cert secret (see [Secrets](#secrets))
+| secretRefs.ldapSecretRef
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"ldap-bind-secrets"`
+a| [subs=-attributes]
+Reference to an existing LDAP bind secret (see [Secrets](#secrets))
+| secretRefs.machineAuthApiKeySecretRef
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"machine-auth-api-key"`
+a| [subs=-attributes]
+Reference to an existing machine auth api key secret (see [Secrets](#secrets))
+| secretRefs.notificationsSmtpSecretRef
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"notifications-smtp-secret"`
+a| [subs=-attributes]
+Reference to an existing SMTP email server settings secret (see [Secrets](#secrets))
+| secretRefs.storageSystemJwtSecretRef
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"storage-system-jwt-secret"`
+a| [subs=-attributes]
+Reference to an existing storage-system JWT secret (see [Secrets](#secrets))
+| secretRefs.storageSystemSecretRef
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"storage-system"`
+a| [subs=-attributes]
+Reference to an existing storage-system secret (see [Secrets](#secrets))
+| secretRefs.thumbnailsSecretRef
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"thumbnails-transfer-secret"`
+a| [subs=-attributes]
+Reference to an existing thumbnails transfer secret (see [Secrets](#secrets))
+| secretRefs.transferSecretSecretRef
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"transfer-secret"`
+a| [subs=-attributes]
+Reference to an existing transfer secret (see [Secrets](#secrets))
+| securityContext.fsGroup
+a| [subs=-attributes]
++int+
+a| [subs=-attributes]
+`1000`
+a| [subs=-attributes]
+File system group for all volumes.
+| securityContext.runAsGroup
+a| [subs=-attributes]
++int+
+a| [subs=-attributes]
+`1000`
+a| [subs=-attributes]
+Group ID that all processes within any containers will run with.
+| securityContext.runAsUser
+a| [subs=-attributes]
++int+
+a| [subs=-attributes]
+`1000`
+a| [subs=-attributes]
+User ID that all processes within any containers will run with.
+| services.idm.persistence.accessModes
+a| [subs=-attributes]
++list+
+a| [subs=-attributes]
+`["ReadWriteMany"]`
+a| [subs=-attributes]
+Persistent volume access modes. Needs to be `["ReadWriteMany"]` when scaling this service beyond one instance.
+| services.idm.persistence.annotations
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+a| [subs=-attributes]
+Persistent volume annotations.
+| services.idm.persistence.enabled
+a| [subs=-attributes]
++bool+
+a| [subs=-attributes]
+`false`
+a| [subs=-attributes]
+Enables persistence. Needs to be enabled on production installations. If not enabled, pod restarts will lead to data loss. Also scaling this service beyond one instance is not possible if the service instances don't share the same storage.
+| services.idm.persistence.existingClaim
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`nil`
+a| [subs=-attributes]
+Use an existing PersistentVolumeClaim for persistence.
+| services.idm.persistence.finalizers
+a| [subs=-attributes]
++list+
+a| [subs=-attributes]
+`["kubernetes.io/pvc-protection"]`
+a| [subs=-attributes]
+Persistent volume finalizers.
+| services.idm.persistence.selectorLabels
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+a| [subs=-attributes]
+Persistent volume selector labels.
+| services.idm.persistence.size
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"10Gi"`
+a| [subs=-attributes]
+Size of the persistent volume.
+| services.idm.persistence.storageClassName
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`nil`
+a| [subs=-attributes]
+Storage class to use. Uses the default storage class if not set.
+| services.nats.persistence.accessModes
+a| [subs=-attributes]
++list+
+a| [subs=-attributes]
+`["ReadWriteMany"]`
+a| [subs=-attributes]
+Persistent volume access modes. Needs to be `["ReadWriteMany"]` when scaling this service beyond one instance.
+| services.nats.persistence.annotations
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+a| [subs=-attributes]
+Persistent volume annotations.
+| services.nats.persistence.enabled
+a| [subs=-attributes]
++bool+
+a| [subs=-attributes]
+`false`
+a| [subs=-attributes]
+Enables persistence. Needs to be enabled on production installations. If not enabled, pod restarts will lead to data loss. Also scaling this service beyond one instance is not possible if the service instances don't share the same storage.
+| services.nats.persistence.existingClaim
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`nil`
+a| [subs=-attributes]
+Use an existing PersistentVolumeClaim for persistence.
+| services.nats.persistence.finalizers
+a| [subs=-attributes]
++list+
+a| [subs=-attributes]
+`["kubernetes.io/pvc-protection"]`
+a| [subs=-attributes]
+Persistent volume finalizers.
+| services.nats.persistence.selectorLabels
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+a| [subs=-attributes]
+Persistent volume selector labels.
+| services.nats.persistence.size
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"10Gi"`
+a| [subs=-attributes]
+Size of the persistent volume.
+| services.nats.persistence.storageClassName
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`nil`
+a| [subs=-attributes]
+Storage class to use. Uses the default storage class if not set.
+| services.search.persistence.accessModes
+a| [subs=-attributes]
++list+
+a| [subs=-attributes]
+`["ReadWriteMany"]`
+a| [subs=-attributes]
+Persistent volume access modes. Needs to be `["ReadWriteMany"]` when scaling this service beyond one instance.
+| services.search.persistence.annotations
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+a| [subs=-attributes]
+Persistent volume annotations.
+| services.search.persistence.enabled
+a| [subs=-attributes]
++bool+
+a| [subs=-attributes]
+`false`
+a| [subs=-attributes]
+Enables persistence. Needs to be enabled on production installations. If not enabled, pod restarts will lead to data loss. Also scaling this service beyond one instance is not possible if the service instances don't share the same storage.
+| services.search.persistence.existingClaim
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`nil`
+a| [subs=-attributes]
+Use an existing PersistentVolumeClaim for persistence.
+| services.search.persistence.finalizers
+a| [subs=-attributes]
++list+
+a| [subs=-attributes]
+`["kubernetes.io/pvc-protection"]`
+a| [subs=-attributes]
+Persistent volume finalizers.
+| services.search.persistence.selectorLabels
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+a| [subs=-attributes]
+Persistent volume selector labels.
+| services.search.persistence.size
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"10Gi"`
+a| [subs=-attributes]
+Size of the persistent volume.
+| services.search.persistence.storageClassName
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`nil`
+a| [subs=-attributes]
+Storage class to use. Uses the default storage class if not set.
+| services.storageSystem.persistence.accessModes
+a| [subs=-attributes]
++list+
+a| [subs=-attributes]
+`["ReadWriteMany"]`
+a| [subs=-attributes]
+Persistent volume access modes. Needs to be `["ReadWriteMany"]` when scaling this service beyond one instance.
+| services.storageSystem.persistence.annotations
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+a| [subs=-attributes]
+Persistent volume annotations.
+| services.storageSystem.persistence.enabled
+a| [subs=-attributes]
++bool+
+a| [subs=-attributes]
+`false`
+a| [subs=-attributes]
+Enables persistence. Needs to be enabled on production installations. If not enabled, pod restarts will lead to data loss. Also scaling this service beyond one instance is not possible if the service instances don't share the same storage.
+| services.storageSystem.persistence.existingClaim
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`nil`
+a| [subs=-attributes]
+Use an existing PersistentVolumeClaim for persistence.
+| services.storageSystem.persistence.finalizers
+a| [subs=-attributes]
++list+
+a| [subs=-attributes]
+`["kubernetes.io/pvc-protection"]`
+a| [subs=-attributes]
+Persistent volume finalizers.
+| services.storageSystem.persistence.selectorLabels
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+a| [subs=-attributes]
+Persistent volume selector labels.
+| services.storageSystem.persistence.size
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"5Gi"`
+a| [subs=-attributes]
+Size of the persistent volume.
+| services.storageSystem.persistence.storageClassName
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`nil`
+a| [subs=-attributes]
+Storage class to use. Uses the default storage class if not set.
+| services.storageUsers.persistence.accessModes
+a| [subs=-attributes]
++list+
+a| [subs=-attributes]
+`["ReadWriteMany"]`
+a| [subs=-attributes]
+Persistent volume access modes. Needs to be `["ReadWriteMany"]` when scaling this service beyond one instance.
+| services.storageUsers.persistence.annotations
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+a| [subs=-attributes]
+Persistent volume annotations.
+| services.storageUsers.persistence.enabled
+a| [subs=-attributes]
++bool+
+a| [subs=-attributes]
+`false`
+a| [subs=-attributes]
+Enables persistence. Needs to be enabled on production installations. If not enabled, pod restarts will lead to data loss. Also scaling this service beyond one instance is not possible if the service instances don't share the same storage.
+| services.storageUsers.persistence.existingClaim
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`nil`
+a| [subs=-attributes]
+Use an existing PersistentVolumeClaim for persistence.
+| services.storageUsers.persistence.finalizers
+a| [subs=-attributes]
++list+
+a| [subs=-attributes]
+`["kubernetes.io/pvc-protection"]`
+a| [subs=-attributes]
+Persistent volume finalizers.
+| services.storageUsers.persistence.selectorLabels
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+a| [subs=-attributes]
+Persistent volume selector labels.
+| services.storageUsers.persistence.size
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"50Gi"`
+a| [subs=-attributes]
+Size of the persistent volume.
+| services.storageUsers.persistence.storageClassName
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`nil`
+a| [subs=-attributes]
+Storage class to use. Uses the default storage class if not set.
+| services.storageUsers.storageBackend.driver
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"ocis"`
+a| [subs=-attributes]
+Configures the storage driver. Possible values are "ocis" and "s3ng". The oCIS driver stores all data in the persistent volume if persistence is enabled. The S3NG driver stores all metadata in the persistent volume and uploads blobs to s3 if persistence is enabled.
+| services.storageUsers.storageBackend.driverConfig.s3ng.accessKey
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"lorem-ipsum"`
+a| [subs=-attributes]
+S3 access key to use for the S3NG driver. Only used if driver is set to "s3ng".
+| services.storageUsers.storageBackend.driverConfig.s3ng.bucket
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"example-bucket"`
+a| [subs=-attributes]
+- S3 bucket to use for the S3NG driver. Only used if driver is set to "s3ng".
+| services.storageUsers.storageBackend.driverConfig.s3ng.endpoint
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"https://localhost:1234"`
+a| [subs=-attributes]
+S3 endpoint to use for the S3NG driver. Only used if driver is set to "s3ng".
+| services.storageUsers.storageBackend.driverConfig.s3ng.region
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"default"`
+a| [subs=-attributes]
+S3 region to use for the S3NG driver. Only used if driver is set to "s3ng".
+| services.storageUsers.storageBackend.driverConfig.s3ng.secretKey
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"lorem-ipsum"`
+a| [subs=-attributes]
+S3 secret key to use for the S3NG driver. Only used if driver is set to "s3ng".
+| services.store.persistence.accessModes
+a| [subs=-attributes]
++list+
+a| [subs=-attributes]
+`["ReadWriteMany"]`
+a| [subs=-attributes]
+Persistent volume access modes. Needs to be `["ReadWriteMany"]` when scaling this service beyond one instance.
+| services.store.persistence.annotations
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+a| [subs=-attributes]
+Persistent volume annotations.
+| services.store.persistence.enabled
+a| [subs=-attributes]
++bool+
+a| [subs=-attributes]
+`false`
+a| [subs=-attributes]
+Enables persistence. Needs to be enabled on production installations. If not enabled, pod restarts will lead to data loss. Also scaling this service beyond one instance is not possible if the service instances don't share the same storage.
+| services.store.persistence.existingClaim
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`nil`
+a| [subs=-attributes]
+Use an existing PersistentVolumeClaim for persistence.
+| services.store.persistence.finalizers
+a| [subs=-attributes]
++list+
+a| [subs=-attributes]
+`["kubernetes.io/pvc-protection"]`
+a| [subs=-attributes]
+Persistent volume finalizers.
+| services.store.persistence.selectorLabels
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+a| [subs=-attributes]
+Persistent volume selector labels.
+| services.store.persistence.size
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"5Gi"`
+a| [subs=-attributes]
+Size of the persistent volume.
+| services.store.persistence.storageClassName
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`nil`
+a| [subs=-attributes]
+Storage class to use. Uses the default storage class if not set.
+| services.thumbnails.persistence.accessModes
+a| [subs=-attributes]
++list+
+a| [subs=-attributes]
+`["ReadWriteMany"]`
+a| [subs=-attributes]
+Persistent volume access modes. Needs to be `["ReadWriteMany"]` when scaling this service beyond one instance or persistence needs to be disabled.
+| services.thumbnails.persistence.annotations
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+a| [subs=-attributes]
+Persistent volume annotations.
+| services.thumbnails.persistence.enabled
+a| [subs=-attributes]
++bool+
+a| [subs=-attributes]
+`false`
+a| [subs=-attributes]
+Enables persistence. Is recommended to be enabled on production installations. If enabled, generated thumbnails are cached on this volume and available across pod restarts and service instances. If not enabled, thumbnail generation might lead to higher CPU usage.
+| services.thumbnails.persistence.existingClaim
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`nil`
+a| [subs=-attributes]
+Use an existing PersistentVolumeClaim for persistence.
+| services.thumbnails.persistence.finalizers
+a| [subs=-attributes]
++list+
+a| [subs=-attributes]
+`[]`
+a| [subs=-attributes]
+Persistent volume finalizers.
+| services.thumbnails.persistence.selectorLabels
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+a| [subs=-attributes]
+Persistent volume selector labels.
+| services.thumbnails.persistence.size
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"10Gi"`
+a| [subs=-attributes]
+Size of the persistent volume.
+| services.thumbnails.persistence.storageClassName
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`nil`
+a| [subs=-attributes]
+Storage class to use. Uses the default storage class if not set.
+|===
