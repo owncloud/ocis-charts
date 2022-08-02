@@ -115,6 +115,18 @@ This chart only supports following oCIS versions:
 | externalDomain | string | `"ocis.owncloud.test"` | Domain where oCIS is reachable for the outside world |
 | extraLabels | object | `{}` | Custom labels for all manifests |
 | extraResources | list | `[]` | Extra resources to be included. |
+| features.appsIntegration.enabled | bool | `false` | Enables the apps integration. |
+| features.appsIntegration.wopiIntegration.officeSuites[0].enabled | bool | `false` | Enables the office suite. |
+| features.appsIntegration.wopiIntegration.officeSuites[0].iconURI | string | `"https://collabora.owncloud.test/favicon.ico"` | URI for the icon of the office suite. Will be displayed to the users. |
+| features.appsIntegration.wopiIntegration.officeSuites[0].insecure | bool | `false` | Disables SSL certificate checking for connections to the office suites http api. Not recommended for production installations. |
+| features.appsIntegration.wopiIntegration.officeSuites[0].name | string | `"Collabora"` | Name of the office suite. Will be displayed to the users. |
+| features.appsIntegration.wopiIntegration.officeSuites[0].uri | string | `"https://collabora.owncloud.test"` | URI of the office suite. |
+| features.appsIntegration.wopiIntegration.officeSuites[1].enabled | bool | `false` | Enables the office suite. |
+| features.appsIntegration.wopiIntegration.officeSuites[1].iconURI | string | `"https://onlyoffice.owncloud.test/web-apps/apps/documenteditor/main/resources/img/favicon.ico"` | URI for the icon of the office suite. Will be displayed to the users. |
+| features.appsIntegration.wopiIntegration.officeSuites[1].insecure | bool | `false` | Disables SSL certificate checking for connections to the office suites http api. Not recommended for production installations. |
+| features.appsIntegration.wopiIntegration.officeSuites[1].name | string | `"OnlyOffice"` | Name of the office suite. Will be displayed to the users. |
+| features.appsIntegration.wopiIntegration.officeSuites[1].uri | string | `"https://onlyoffice.owncloud.test"` | URI of the office suite. |
+| features.appsIntegration.wopiIntegration.wopiServerURI | string | `"https://wopiserver.owncloud.test"` | URL of the [cs3org/wopiserver](https://github.com/cs3org/wopiserver). Can be deployed [with this Chart](https://artifacthub.io/packages/helm/cs3org/wopiserver). |
 | features.basicAuthentication | bool | `false` | Enable basic authentication. Not recommended for production installations. |
 | features.demoUsers | bool | `false` | Create demo users on the first startup. Not recommended for production installations. |
 | features.emailNotifications | bool | `false` | Enables email notifications. This features needs the secret from notificationsSmtpSecretRef present. |

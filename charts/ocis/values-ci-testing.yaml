@@ -19,6 +19,21 @@ externalDomain: ocis.owncloud.test
 
 features:
   emailNotifications: true
+  appsIntegration:
+    enabled: true
+    wopiIntegration:
+      wopiServerURI: https://wopiserver.owncloud.test
+      officeSuites:
+        - name: Collabora
+          enabled: true
+          uri: https://collabora.owncloud.test
+          iconURI: https://collabora.owncloud.test/favicon.ico
+          insecure: false
+        - name: OnlyOffice
+          enabled: true
+          uri: https://onlyoffice.owncloud.test
+          iconURI: https://onlyoffice.owncloud.test/web-apps/apps/documenteditor/main/resources/img/favicon.ico
+          insecure: false
 
 extraLabels:
   extra1: lorem

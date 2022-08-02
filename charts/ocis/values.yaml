@@ -51,6 +51,38 @@ features:
   # -- Enables email notifications.
   # This features needs the secret from notificationsSmtpSecretRef present.
   emailNotifications: false
+  # Apps integration
+  appsIntegration:
+    # -- Enables the apps integration.
+    enabled: false
+    # WOPI (office suite integration) needs an [cs3org/wopiserver](https://github.com/cs3org/wopiserver) and at least one office suite.
+    wopiIntegration:
+      # -- URL of the [cs3org/wopiserver](https://github.com/cs3org/wopiserver). Can be deployed [with this Chart](https://artifacthub.io/packages/helm/cs3org/wopiserver).
+      wopiServerURI: https://wopiserver.owncloud.test
+      # List of WOPI compliant office suites.
+      officeSuites:
+        - # -- Name of the office suite. Will be displayed to the users.
+          name: Collabora
+          # -- Enables the office suite.
+          enabled: false
+          # -- URI of the office suite.
+          uri: https://collabora.owncloud.test
+          # -- URI for the icon of the office suite. Will be displayed to the users.
+          iconURI: https://collabora.owncloud.test/favicon.ico
+          # -- Disables SSL certificate checking for connections to the office suites http api.
+          # Not recommended for production installations.
+          insecure: false
+        - # -- Name of the office suite. Will be displayed to the users.
+          name: OnlyOffice
+          # -- Enables the office suite.
+          enabled: false
+          # -- URI of the office suite.
+          uri: https://onlyoffice.owncloud.test
+          # -- URI for the icon of the office suite. Will be displayed to the users.
+          iconURI: https://onlyoffice.owncloud.test/web-apps/apps/documenteditor/main/resources/img/favicon.ico
+          # -- Disables SSL certificate checking for connections to the office suites http api.
+          # Not recommended for production installations.
+          insecure: false
 
 # Ingress for oCIS.
 ingress:

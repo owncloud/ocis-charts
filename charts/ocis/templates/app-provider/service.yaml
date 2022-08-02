@@ -1,14 +1,21 @@
+{{ if .Values.features.appsIntegration.enabled }}
+{{- range $officeSuite := .Values.features.appsIntegration.wopiIntegration.officeSuites }}
+{{ if $officeSuite.enabled }}
+---
 apiVersion: v1
 kind: Service
 metadata:
-  name: app-provider
-  namespace: {{ template "ocis.namespace" . }}
+  name:  app-provider-{{ regexReplaceAll "\\W+" (lower $officeSuite.name) "_" }}
+  namespace: {{ template "ocis.namespace" $ }}
   labels:
-    {{- include "ocis.labels" . | nindent 4 }}
+    {{- include "ocis.labels" $ | nindent 4 }}
 spec:
   ports:
     - name: grpc
       port: 9164
       protocol: TCP
   selector:
-    app: app-provider
+    app:  app-provider-{{ regexReplaceAll "\\W+" (lower $officeSuite.name) "_" }}
+{{ end }}
+{{ end }}
+{{ end }}
