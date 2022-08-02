@@ -105,29 +105,29 @@ ingress:
 # The secrets need to be manually created.
 # See https://github.com/owncloud/ocis-charts/blob/master/charts/ocis/README.md#secrets for how to generate them.
 secretRefs:
-  # -- Reference to an existing admin user secret (see [Secrets](#secrets))
+  # -- Reference to an existing admin user secret (see ref:Secrets#secrets)
   adminUserSecretRef: "admin-user"
-  # -- Reference to an existing IDP secret (see [Secrets](#secrets))
+  # -- Reference to an existing IDP secret (see ref:Secrets#secrets)
   idpSecretRef: "idp-secrets"
-  # -- Reference to an existing JWT secret (see [Secrets](#secrets))
+  # -- Reference to an existing JWT secret (see ref:Secrets#secrets)
   jwtSecretRef: "jwt-secret"
-  # -- Reference to an existing LDAP certificate authority secret (see [Secrets](#secrets))
+  # -- Reference to an existing LDAP certificate authority secret (see ref:Secrets#secrets)
   ldapCaRef: "ldap-ca"
-  # -- Reference to an existing LDAP cert secret (see [Secrets](#secrets))
+  # -- Reference to an existing LDAP cert secret (see ref:Secrets#secrets)
   ldapCertRef: "ldap-cert"
-  # -- Reference to an existing LDAP bind secret (see [Secrets](#secrets))
+  # -- Reference to an existing LDAP bind secret (see ref:Secrets#secrets)
   ldapSecretRef: "ldap-bind-secrets"
-  # -- Reference to an existing machine auth api key secret (see [Secrets](#secrets))
+  # -- Reference to an existing machine auth api key secret (see ref:Secrets#secrets)
   machineAuthApiKeySecretRef: "machine-auth-api-key"
-  # -- Reference to an existing SMTP email server settings secret (see [Secrets](#secrets))
+  # -- Reference to an existing SMTP email server settings secret (see ref:Secrets#secrets)
   notificationsSmtpSecretRef: "notifications-smtp-secret"
-  # -- Reference to an existing storage-system JWT secret (see [Secrets](#secrets))
+  # -- Reference to an existing storage-system JWT secret (see ref:Secrets#secrets)
   storageSystemJwtSecretRef: "storage-system-jwt-secret"
-  # -- Reference to an existing storage-system secret (see [Secrets](#secrets))
+  # -- Reference to an existing storage-system secret (see ref:Secrets#secrets)
   storageSystemSecretRef: "storage-system"
-  # -- Reference to an existing thumbnails transfer secret (see [Secrets](#secrets))
+  # -- Reference to an existing thumbnails transfer secret (see ref:Secrets#secrets)
   thumbnailsSecretRef: "thumbnails-transfer-secret"
-  # -- Reference to an existing transfer secret (see [Secrets](#secrets))
+  # -- Reference to an existing transfer secret (see ref:Secrets#secrets)
   transferSecretSecretRef: "transfer-secret"
 
 # Security context options.

@@ -64,7 +64,7 @@ To install the chart with the release name `my-release`:
       ocisHttpApiInsecure: true
     ```
 
-1. Create all secrets as described in the [Secrets](#secrets) section
+1. Create all secrets as described in the ref:Secrets#secrets section
 
 1. Install the with the values file applied
 
@@ -111,7 +111,11 @@ This chart only supports following oCIS versions:
 
 ## Configuration
 
-{{ template "chart.valuesTable" . }}
+| Key | Type | Default | Description |
+|-----|------|---------|-------------|
+{{- range $value := .Values }}
+| {{ $value.Key }} | {{ $value.Type }} | {{default $value.Default $value.AutoDefault}} | {{ regexReplaceAll "ref:([a-zA-Z0-9 ]*)#([a-zA-Z0-9-]*)" (default $value.Description $value.AutoDescription) "[${1}](#${2})" }} |
+{{- end }}
 
 ### Secrets
 

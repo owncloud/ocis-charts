@@ -208,84 +208,84 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `"admin-user"`
 a| [subs=-attributes]
-Reference to an existing admin user secret (see [Secrets](#secrets))
+Reference to an existing admin user secret (see xref:secrets[Secrets])
 | secretRefs.idpSecretRef
 a| [subs=-attributes]
 +string+
 a| [subs=-attributes]
 `"idp-secrets"`
 a| [subs=-attributes]
-Reference to an existing IDP secret (see [Secrets](#secrets))
+Reference to an existing IDP secret (see xref:secrets[Secrets])
 | secretRefs.jwtSecretRef
 a| [subs=-attributes]
 +string+
 a| [subs=-attributes]
 `"jwt-secret"`
 a| [subs=-attributes]
-Reference to an existing JWT secret (see [Secrets](#secrets))
+Reference to an existing JWT secret (see xref:secrets[Secrets])
 | secretRefs.ldapCaRef
 a| [subs=-attributes]
 +string+
 a| [subs=-attributes]
 `"ldap-ca"`
 a| [subs=-attributes]
-Reference to an existing LDAP certificate authority secret (see [Secrets](#secrets))
+Reference to an existing LDAP certificate authority secret (see xref:secrets[Secrets])
 | secretRefs.ldapCertRef
 a| [subs=-attributes]
 +string+
 a| [subs=-attributes]
 `"ldap-cert"`
 a| [subs=-attributes]
-Reference to an existing LDAP cert secret (see [Secrets](#secrets))
+Reference to an existing LDAP cert secret (see xref:secrets[Secrets])
 | secretRefs.ldapSecretRef
 a| [subs=-attributes]
 +string+
 a| [subs=-attributes]
 `"ldap-bind-secrets"`
 a| [subs=-attributes]
-Reference to an existing LDAP bind secret (see [Secrets](#secrets))
+Reference to an existing LDAP bind secret (see xref:secrets[Secrets])
 | secretRefs.machineAuthApiKeySecretRef
 a| [subs=-attributes]
 +string+
 a| [subs=-attributes]
 `"machine-auth-api-key"`
 a| [subs=-attributes]
-Reference to an existing machine auth api key secret (see [Secrets](#secrets))
+Reference to an existing machine auth api key secret (see xref:secrets[Secrets])
 | secretRefs.notificationsSmtpSecretRef
 a| [subs=-attributes]
 +string+
 a| [subs=-attributes]
 `"notifications-smtp-secret"`
 a| [subs=-attributes]
-Reference to an existing SMTP email server settings secret (see [Secrets](#secrets))
+Reference to an existing SMTP email server settings secret (see xref:secrets[Secrets])
 | secretRefs.storageSystemJwtSecretRef
 a| [subs=-attributes]
 +string+
 a| [subs=-attributes]
 `"storage-system-jwt-secret"`
 a| [subs=-attributes]
-Reference to an existing storage-system JWT secret (see [Secrets](#secrets))
+Reference to an existing storage-system JWT secret (see xref:secrets[Secrets])
 | secretRefs.storageSystemSecretRef
 a| [subs=-attributes]
 +string+
 a| [subs=-attributes]
 `"storage-system"`
 a| [subs=-attributes]
-Reference to an existing storage-system secret (see [Secrets](#secrets))
+Reference to an existing storage-system secret (see xref:secrets[Secrets])
 | secretRefs.thumbnailsSecretRef
 a| [subs=-attributes]
 +string+
 a| [subs=-attributes]
 `"thumbnails-transfer-secret"`
 a| [subs=-attributes]
-Reference to an existing thumbnails transfer secret (see [Secrets](#secrets))
+Reference to an existing thumbnails transfer secret (see xref:secrets[Secrets])
 | secretRefs.transferSecretSecretRef
 a| [subs=-attributes]
 +string+
 a| [subs=-attributes]
 `"transfer-secret"`
 a| [subs=-attributes]
-Reference to an existing transfer secret (see [Secrets](#secrets))
+Reference to an existing transfer secret (see xref:secrets[Secrets])
 | securityContext.fsGroup
 a| [subs=-attributes]
 +int+
