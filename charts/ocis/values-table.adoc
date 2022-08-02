@@ -62,6 +62,90 @@ a| [subs=-attributes]
 `[]`
 a| [subs=-attributes]
 Extra resources to be included.
+| features.appsIntegration.enabled
+a| [subs=-attributes]
++bool+
+a| [subs=-attributes]
+`false`
+a| [subs=-attributes]
+Enables the apps integration.
+| features.appsIntegration.wopiIntegration.officeSuites[0].enabled
+a| [subs=-attributes]
++bool+
+a| [subs=-attributes]
+`false`
+a| [subs=-attributes]
+Enables the office suite.
+| features.appsIntegration.wopiIntegration.officeSuites[0].iconURI
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"https://collabora.owncloud.test/favicon.ico"`
+a| [subs=-attributes]
+URI for the icon of the office suite. Will be displayed to the users.
+| features.appsIntegration.wopiIntegration.officeSuites[0].insecure
+a| [subs=-attributes]
++bool+
+a| [subs=-attributes]
+`false`
+a| [subs=-attributes]
+Disables SSL certificate checking for connections to the office suites http api. Not recommended for production installations.
+| features.appsIntegration.wopiIntegration.officeSuites[0].name
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"Collabora"`
+a| [subs=-attributes]
+Name of the office suite. Will be displayed to the users.
+| features.appsIntegration.wopiIntegration.officeSuites[0].uri
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"https://collabora.owncloud.test"`
+a| [subs=-attributes]
+URI of the office suite.
+| features.appsIntegration.wopiIntegration.officeSuites[1].enabled
+a| [subs=-attributes]
++bool+
+a| [subs=-attributes]
+`false`
+a| [subs=-attributes]
+Enables the office suite.
+| features.appsIntegration.wopiIntegration.officeSuites[1].iconURI
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"https://onlyoffice.owncloud.test/web-apps/apps/documenteditor/main/resources/img/favicon.ico"`
+a| [subs=-attributes]
+URI for the icon of the office suite. Will be displayed to the users.
+| features.appsIntegration.wopiIntegration.officeSuites[1].insecure
+a| [subs=-attributes]
++bool+
+a| [subs=-attributes]
+`false`
+a| [subs=-attributes]
+Disables SSL certificate checking for connections to the office suites http api. Not recommended for production installations.
+| features.appsIntegration.wopiIntegration.officeSuites[1].name
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"OnlyOffice"`
+a| [subs=-attributes]
+Name of the office suite. Will be displayed to the users.
+| features.appsIntegration.wopiIntegration.officeSuites[1].uri
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"https://onlyoffice.owncloud.test"`
+a| [subs=-attributes]
+URI of the office suite.
+| features.appsIntegration.wopiIntegration.wopiServerURI
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"https://wopiserver.owncloud.test"`
+a| [subs=-attributes]
+URL of the [cs3org/wopiserver](https://github.com/cs3org/wopiserver). Can be deployed [with this Chart](https://artifacthub.io/packages/helm/cs3org/wopiserver).
 | features.basicAuthentication
 a| [subs=-attributes]
 +bool+
