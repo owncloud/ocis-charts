@@ -10,9 +10,8 @@ spec:
     matchLabels:
       app: nats
   replicas: 1 #TODO: https://github.com/owncloud/ocis-charts/issues/12
-  {{- if .Values.deploymentStrategy }}
-  strategy: {{ toYaml .Values.deploymentStrategy | nindent 4 }}
-  {{ end }}
+  strategy:
+    type: Recreate
   template:
     metadata:
       labels:
