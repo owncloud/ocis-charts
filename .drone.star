@@ -98,8 +98,8 @@ def documentation(ctx):
                 "image": "jnorwood/helm-docs:v1.11.0",
                 "entrypoint": [
                     "/usr/bin/helm-docs",
-                    "--template-files=values-table.adoc.gotmpl",
-                    "--output-file=values-table.adoc",
+                    "--template-files=values-desc-table.adoc.gotmpl",
+                    "--output-file=values-desc-table.adoc",
                 ],
             },
             {

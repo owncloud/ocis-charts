@@ -5,7 +5,7 @@ all: docs lint api clean
 .PHONY: docs
 docs: $(HELM_DOCS)
 	$(HELM_DOCS)
-	$(HELM_DOCS) --template-files=values-table.adoc.gotmpl --output-file=values-table.adoc
+	$(HELM_DOCS) --template-files=values-desc-table.adoc.gotmpl --output-file=values-desc-table.adoc
 
 .PHONY: ci-template
 ci-template:
