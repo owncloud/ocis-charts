@@ -1,0 +1,10 @@
+[caption=]
+Supported Kubernetes versions
+[width="100%",cols="~",options="header"]
+|===
+| Version
+{{- range (regexSplit (regexQuoteMeta " || ") .KubeVersion -1) }}
+a| [subs=-attributes]
++{{ . }}+
+{{- end }}
+|===

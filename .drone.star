@@ -96,12 +96,21 @@ def documentation(ctx):
                 ],
             },
             {
-                "name": "helm-values-table-adoc",
+                "name": "helm-docs-values-table-adoc",
                 "image": "jnorwood/helm-docs:v1.11.0",
                 "entrypoint": [
                     "/usr/bin/helm-docs",
                     "--template-files=charts/ocis/docs/templates/values-desc-table.adoc.gotmpl",
                     "--output-file=docs/values-desc-table.adoc",
+                ],
+            },
+            {
+                "name": "helm-docs-kube-versions-adoc",
+                "image": "jnorwood/helm-docs:v1.11.0",
+                "entrypoint": [
+                    "/usr/bin/helm-docs",
+                    "--template-files=charts/ocis/docs/templates/kube-versions.adoc.gotmpl",
+                    "--output-file=kube-versions.adoc",
                 ],
             },
             {
