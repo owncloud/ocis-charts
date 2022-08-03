@@ -1,0 +1,403 @@
+
+---
+
+# Image for oCIS services
+image:
+  # -- Image repository
+  repository: owncloud/ocis
+  # -- Image tag.
+  tag: "2.0.0-beta.5"
+  # -- Image sha / digest (optional).
+  sha: ""
+  # -- Image pull policy
+  pullPolicy: IfNotPresent
+
+# Logging settings for oCIS services
+logging:
+  # -- Log level. Valid values: `panic`, `fatal`, `error`, `warn`, `info`, `debug`, `trace`.
+  level: "error"
+  # -- Activates pretty log output.
+  # Not recommended for production installations.
+  pretty: "false"
+  # -- Activates colorized log output.
+  # Not recommended for production installations.
+  color: "false"
+
+# -- Deployment strategy.
+deploymentStrategy:
+  type: RollingUpdate
+
+# -- Domain where oCIS is reachable for the outside world
+externalDomain: ocis.owncloud.test
+
+# Insecure options.
+# These are useful for some limited environments like CI or on a test cluster.
+insecure:
+  # -- Disables SSL certificate checking for connections to the openID connect identity provider.
+  # Not recommended for production installations.
+  oidcIdpInsecure: false
+  # -- Disables SSL certificate checking for connections to the oCIS http apis.
+  # Not recommended for production installations.
+  ocisHttpApiInsecure: false
+
+# Feature options.
+# Enable or disable features of oCIS.
+features:
+  # -- Enable basic authentication.
+  # Not recommended for production installations.
+  basicAuthentication: false
+  # -- Create demo users on the first startup.
+  # Not recommended for production installations.
+  demoUsers: false
+  # -- Enables email notifications.
+  # This features needs the secret from notificationsSmtpSecretRef present.
+  emailNotifications: false
+  # Apps integration
+  appsIntegration:
+    # -- Enables the apps integration.
+    enabled: false
+    # WOPI (office suite integration) needs an [cs3org/wopiserver](https://github.com/cs3org/wopiserver) and at least one office suite.
+    wopiIntegration:
+      # -- URL of the [cs3org/wopiserver](https://github.com/cs3org/wopiserver). Can be deployed [with this Chart](https://artifacthub.io/packages/helm/cs3org/wopiserver).
+      wopiServerURI: https://wopiserver.owncloud.test
+      # List of WOPI compliant office suites.
+      officeSuites:
+        - # -- Name of the office suite. Will be displayed to the users.
+          name: Collabora
+          # -- Enables the office suite.
+          enabled: false
+          # -- URI of the office suite.
+          uri: https://collabora.owncloud.test
+          # -- URI for the icon of the office suite. Will be displayed to the users.
+          iconURI: https://collabora.owncloud.test/favicon.ico
+          # -- Disables SSL certificate checking for connections to the office suites http api.
+          # Not recommended for production installations.
+          insecure: false
+        - # -- Name of the office suite. Will be displayed to the users.
+          name: OnlyOffice
+          # -- Enables the office suite.
+          enabled: false
+          # -- URI of the office suite.
+          uri: https://onlyoffice.owncloud.test
+          # -- URI for the icon of the office suite. Will be displayed to the users.
+          iconURI: https://onlyoffice.owncloud.test/web-apps/apps/documenteditor/main/resources/img/favicon.ico
+          # -- Disables SSL certificate checking for connections to the office suites http api.
+          # Not recommended for production installations.
+          insecure: false
+
+# Ingress for oCIS.
+ingress:
+  # -- Enables the Ingress.
+  enabled: false
+  # -- Ingress class to use.
+  # Uses the default ingress class if not set.
+  ingressClassName:
+  # -- Ingress annotations.
+  annotations: {}
+  # -- Labels for the ingress.
+  labels: {}
+  # -- Ingress TLS configuration.
+  tls: []
+  #  - secretName: chart-example-tls
+  #    hosts:
+  #      - ocis.owncloud.test
+
+# References to secrets.
+# The secrets need to be manually created.
+# See https://github.com/owncloud/ocis-charts/blob/master/charts/ocis/README.md#secrets for how to generate them.
+secretRefs:
+  # -- Reference to an existing admin user secret (see xref:secrets[Secrets])
+  adminUserSecretRef: "admin-user"
+  # -- Reference to an existing IDP secret (see xref:secrets[Secrets])
+  idpSecretRef: "idp-secrets"
+  # -- Reference to an existing JWT secret (see xref:secrets[Secrets])
+  jwtSecretRef: "jwt-secret"
+  # -- Reference to an existing LDAP certificate authority secret (see xref:secrets[Secrets])
+  ldapCaRef: "ldap-ca"
+  # -- Reference to an existing LDAP cert secret (see xref:secrets[Secrets])
+  ldapCertRef: "ldap-cert"
+  # -- Reference to an existing LDAP bind secret (see xref:secrets[Secrets])
+  ldapSecretRef: "ldap-bind-secrets"
+  # -- Reference to an existing machine auth api key secret (see xref:secrets[Secrets])
+  machineAuthApiKeySecretRef: "machine-auth-api-key"
+  # -- Reference to an existing SMTP email server settings secret (see xref:secrets[Secrets])
+  notificationsSmtpSecretRef: "notifications-smtp-secret"
+  # -- Reference to an existing storage-system JWT secret (see xref:secrets[Secrets])
+  storageSystemJwtSecretRef: "storage-system-jwt-secret"
+  # -- Reference to an existing storage-system secret (see xref:secrets[Secrets])
+  storageSystemSecretRef: "storage-system"
+  # -- Reference to an existing thumbnails transfer secret (see xref:secrets[Secrets])
+  thumbnailsSecretRef: "thumbnails-transfer-secret"
+  # -- Reference to an existing transfer secret (see xref:secrets[Secrets])
+  transferSecretSecretRef: "transfer-secret"
+
+# Security context options.
+securityContext:
+  # -- File system group for all volumes.
+  fsGroup: 1000
+  # -- User ID that all processes within any containers will run with.
+  runAsUser: 1000
+  # -- Group ID that all processes within any containers will run with.
+  runAsGroup: 1000
+
+# -- Custom labels for all manifests
+extraLabels: {}
+
+# -- Override the deployment namespace of all resources in this Helm chart.
+namespaceOverride:
+
+# -- Number of replicas for each scalable service. Has no effect when `autoscaling.enabled` is set to `true`.
+replicas: 1
+
+# Autoscaling settings.
+autoscaling:
+  # -- Enables autoscaling. When set to `true`, `replicas` is no longer applied.
+  enabled: false
+  # -- Sets minimum replicas for autoscaling.
+  minReplicas: 3
+  # -- Sets maximum replicas for autoscaling.
+  maxReplicas: 10
+  # -- Metrics to use for autoscaling
+  metrics: []
+#   metrics:
+#   - type: Resource
+#     resource:
+#       name: cpu
+#       targetAverageUtilization: 60
+#   - type: Resource
+#     resource:
+#       name: memory
+#       targetAverageUtilization: 60
+
+# -- Resources to apply to all services.
+resources: {}
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+
+# Include arbitrary resources, eg. config maps or a cert-manager issuer (see example below)
+# -- Extra resources to be included.
+extraResources: []
+#  - |
+#    apiVersion: cert-manager.io/v1alpha2
+#    kind: Issuer
+#    metadata:
+#      name: ocis-certificate-issuer
+#      namespace: ocis
+#    spec:
+#      acme:
+#        server: https://acme-v02.api.letsencrypt.org/directory
+#        email: test@example.com
+#        privateKeySecretRef:
+#          name: ocis-certificate-issuer
+#        solvers:
+#        - http01:
+#            ingress:
+#              class: nginx
+
+
+# per-service configuration.
+services:
+
+  # STORAGE-SYSTEM service.
+  storageSystem:
+    persistence:
+      # -- Enables persistence.
+      # Needs to be enabled on production installations.
+      # If not enabled, pod restarts will lead to data loss.
+      # Also scaling this service beyond one instance is not possible if the service instances don't share the same storage.
+      enabled: false
+      # -- Storage class to use.
+      # Uses the default storage class if not set.
+      storageClassName:
+      # -- Persistent volume access modes. Needs to be `["ReadWriteMany"]` when scaling this service beyond one instance.
+      accessModes:
+        - ReadWriteMany
+      # -- Size of the persistent volume.
+      size: 5Gi
+      # -- Persistent volume annotations.
+      annotations: {}
+      # -- Persistent volume finalizers.
+      finalizers:
+        - kubernetes.io/pvc-protection
+      # -- Persistent volume selector labels.
+      selectorLabels: {}
+      # -- Use an existing PersistentVolumeClaim for persistence.
+      existingClaim:
+
+  # STORAGE-USERS service.
+  storageUsers:
+    storageBackend:
+      # -- Configures the storage driver. Possible values are "ocis" and "s3ng".
+      # The oCIS driver stores all data in the persistent volume if persistence is enabled.
+      # The S3NG driver stores all metadata in the persistent volume and uploads blobs to s3 if persistence is enabled.
+      driver: ocis
+      driverConfig:
+        s3ng:
+          # -- S3 endpoint to use for the S3NG driver. Only used if driver is set to "s3ng".
+          endpoint: https://localhost:1234
+          # -- S3 region to use for the S3NG driver. Only used if driver is set to "s3ng".
+          region: default
+          # --- S3 bucket to use for the S3NG driver. Only used if driver is set to "s3ng".
+          bucket: example-bucket
+          # -- S3 access key to use for the S3NG driver. Only used if driver is set to "s3ng".
+          accessKey: lorem-ipsum
+          # -- S3 secret key to use for the S3NG driver. Only used if driver is set to "s3ng".
+          secretKey: lorem-ipsum
+    persistence:
+      # -- Enables persistence.
+      # Needs to be enabled on production installations.
+      # If not enabled, pod restarts will lead to data loss.
+      # Also scaling this service beyond one instance is not possible if the service instances don't share the same storage.
+      enabled: false
+      # -- Storage class to use.
+      # Uses the default storage class if not set.
+      storageClassName:
+      # -- Persistent volume access modes. Needs to be `["ReadWriteMany"]` when scaling this service beyond one instance.
+      accessModes:
+        - ReadWriteMany
+      # -- Size of the persistent volume.
+      size: 50Gi
+      # -- Persistent volume annotations.
+      annotations: {}
+      # -- Persistent volume finalizers.
+      finalizers:
+        - kubernetes.io/pvc-protection
+      # -- Persistent volume selector labels.
+      selectorLabels: {}
+      # -- Use an existing PersistentVolumeClaim for persistence.
+      existingClaim:
+
+  # store service.
+  store:
+    persistence:
+      # -- Enables persistence.
+      # Needs to be enabled on production installations.
+      # If not enabled, pod restarts will lead to data loss.
+      # Also scaling this service beyond one instance is not possible if the service instances don't share the same storage.
+      enabled: false
+      # -- Storage class to use.
+      # Uses the default storage class if not set.
+      storageClassName:
+      # -- Persistent volume access modes. Needs to be `["ReadWriteMany"]` when scaling this service beyond one instance.
+      accessModes:
+        - ReadWriteMany
+      # -- Size of the persistent volume.
+      size: 5Gi
+      # -- Persistent volume annotations.
+      annotations: {}
+      # -- Persistent volume finalizers.
+      finalizers:
+        - kubernetes.io/pvc-protection
+      # -- Persistent volume selector labels.
+      selectorLabels: {}
+      # -- Use an existing PersistentVolumeClaim for persistence.
+      existingClaim:
+
+  # THUMBNAILS service.
+  thumbnails:
+    persistence:
+      # -- Enables persistence.
+      # Is recommended to be enabled on production installations.
+      # If enabled, generated thumbnails are cached on this volume and available across pod restarts and service instances.
+      # If not enabled, thumbnail generation might lead to higher CPU usage.
+      enabled: false
+      # -- Storage class to use.
+      # Uses the default storage class if not set.
+      storageClassName:
+      # -- Persistent volume access modes. Needs to be `["ReadWriteMany"]` when scaling this service beyond one instance or persistence needs to be disabled.
+      accessModes:
+        - ReadWriteMany
+      # -- Size of the persistent volume.
+      size: 10Gi
+      # -- Persistent volume annotations.
+      annotations: {}
+      # -- Persistent volume finalizers.
+      finalizers: []
+      # -- Persistent volume selector labels.
+      selectorLabels: {}
+      # -- Use an existing PersistentVolumeClaim for persistence.
+      existingClaim:
+
+  # IDM service.
+  idm:
+    persistence:
+      # -- Enables persistence.
+      # Needs to be enabled on production installations.
+      # If not enabled, pod restarts will lead to data loss.
+      # Also scaling this service beyond one instance is not possible if the service instances don't share the same storage.
+      enabled: false
+      # -- Storage class to use.
+      # Uses the default storage class if not set.
+      storageClassName:
+      # -- Persistent volume access modes. Needs to be `["ReadWriteMany"]` when scaling this service beyond one instance.
+      accessModes:
+        - ReadWriteMany
+      # -- Size of the persistent volume.
+      size: 10Gi
+      # -- Persistent volume annotations.
+      annotations: {}
+      # -- Persistent volume finalizers.
+      finalizers:
+        - kubernetes.io/pvc-protection
+      # -- Persistent volume selector labels.
+      selectorLabels: {}
+      # -- Use an existing PersistentVolumeClaim for persistence.
+      existingClaim:
+
+  # SEARCH service.
+  search:
+    persistence:
+      # -- Enables persistence.
+      # Needs to be enabled on production installations.
+      # If not enabled, pod restarts will lead to data loss.
+      # Also scaling this service beyond one instance is not possible if the service instances don't share the same storage.
+      enabled: false
+      # -- Storage class to use.
+      # Uses the default storage class if not set.
+      storageClassName:
+      # -- Persistent volume access modes. Needs to be `["ReadWriteMany"]` when scaling this service beyond one instance.
+      accessModes:
+        - ReadWriteMany
+      # -- Size of the persistent volume.
+      size: 10Gi
+      # -- Persistent volume annotations.
+      annotations: {}
+      # -- Persistent volume finalizers.
+      finalizers:
+        - kubernetes.io/pvc-protection
+      # -- Persistent volume selector labels.
+      selectorLabels: {}
+      # -- Use an existing PersistentVolumeClaim for persistence.
+      existingClaim:
+
+  # NATS service.
+  nats:
+    persistence:
+      # -- Enables persistence.
+      # Needs to be enabled on production installations.
+      # If not enabled, pod restarts will lead to data loss.
+      # Also scaling this service beyond one instance is not possible if the service instances don't share the same storage.
+      enabled: false
+      # -- Storage class to use.
+      # Uses the default storage class if not set.
+      storageClassName:
+      # -- Persistent volume access modes. Needs to be `["ReadWriteMany"]` when scaling this service beyond one instance.
+      accessModes:
+        - ReadWriteMany
+      # -- Size of the persistent volume.
+      size: 10Gi
+      # -- Persistent volume annotations.
+      annotations: {}
+      # -- Persistent volume finalizers.
+      finalizers:
+        - kubernetes.io/pvc-protection
+      # -- Persistent volume selector labels.
+      selectorLabels: {}
+      # -- Use an existing PersistentVolumeClaim for persistence.
+      existingClaim:
+

@@ -17,11 +17,17 @@ GO     ?= $(shell which go)
 #	@echo "Running bingo"
 #	@$(BINGO) <flags/args..>
 #
-BINGO := $(GOBIN)/bingo-v0.6.1-0.20220627154605-95496d7331eb
+BINGO := $(GOBIN)/bingo-v0.6.1-0.20220802115931-bc8384942721
 $(BINGO): $(BINGO_DIR)/bingo.mod
 	@# Install binary/ries using Go 1.14+ build command. This is using bwplotka/bingo-controlled, separate go module with pinned dependencies.
-	@echo "(re)installing $(GOBIN)/bingo-v0.6.1-0.20220627154605-95496d7331eb"
-	@cd $(BINGO_DIR) && $(GO) build -mod=mod -modfile=bingo.mod -o=$(GOBIN)/bingo-v0.6.1-0.20220627154605-95496d7331eb "github.com/bwplotka/bingo"
+	@echo "(re)installing $(GOBIN)/bingo-v0.6.1-0.20220802115931-bc8384942721"
+	@cd $(BINGO_DIR) && $(GO) build -mod=mod -modfile=bingo.mod -o=$(GOBIN)/bingo-v0.6.1-0.20220802115931-bc8384942721 "github.com/bwplotka/bingo"
+
+GOMPLATE := $(GOBIN)/gomplate-v3.10.0
+$(GOMPLATE): $(BINGO_DIR)/gomplate.mod
+	@# Install binary/ries using Go 1.14+ build command. This is using bwplotka/bingo-controlled, separate go module with pinned dependencies.
+	@echo "(re)installing $(GOBIN)/gomplate-v3.10.0"
+	@cd $(BINGO_DIR) && $(GO) build -mod=mod -modfile=gomplate.mod -o=$(GOBIN)/gomplate-v3.10.0 "github.com/hairyhenderson/gomplate/v3/cmd/gomplate"
 
 HELM_DOCS := $(GOBIN)/helm-docs-v1.11.0
 $(HELM_DOCS): $(BINGO_DIR)/helm-docs.mod

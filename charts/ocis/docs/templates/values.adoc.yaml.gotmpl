@@ -1,0 +1,3 @@
+{{- range (file.Read "charts/ocis/values.yaml" | strings.Split "\n") }}
+{{ regexp.Replace "ref:([a-zA-Z0-9 ]*)#([a-zA-Z0-9-]*)" "xref:${2}[${1}]" . }}
+{{- end }}
