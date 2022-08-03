@@ -1,0 +1,20 @@
+[caption=]
+.Values for the {{ template "chart.name" . }} Helm Chart
+[width="100%",cols="~,~,~,~",options="header"]
+|===
+| Key
+| Type
+| Default
+| Description
+
+{{- range $value := .Values }}
+| {{ $value.Key }}
+a| [subs=-attributes]
++{{ $value.Type }}+
+a| [subs=-attributes]
+{{default $value.Default $value.AutoDefault}}
+a| [subs=-attributes]
+{{ regexReplaceAll "ref:([a-zA-Z0-9 ]*)#([a-zA-Z0-9-]*)" (default $value.Description $value.AutoDescription) "xref:${2}[${1}]" }}
+
+{{- end }}
+|===

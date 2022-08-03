@@ -87,10 +87,42 @@ def documentation(ctx):
         "name": "documentation",
         "steps": [
             {
-                "name": "helm-docs",
+                "name": "helm-docs-readme",
                 "image": "jnorwood/helm-docs:v1.11.0",
                 "entrypoint": [
                     "/usr/bin/helm-docs",
+                    "--template-files=README.md.gotmpl",
+                    "--output-file=README.md",
+                ],
+            },
+            {
+                "name": "helm-docs-values-table-adoc",
+                "image": "jnorwood/helm-docs:v1.11.0",
+                "entrypoint": [
+                    "/usr/bin/helm-docs",
+                    "--template-files=charts/ocis/docs/templates/values-desc-table.adoc.gotmpl",
+                    "--output-file=docs/values-desc-table.adoc",
+                ],
+            },
+            {
+                "name": "helm-docs-kube-versions-adoc",
+                "image": "jnorwood/helm-docs:v1.11.0",
+                "entrypoint": [
+                    "/usr/bin/helm-docs",
+                    "--template-files=charts/ocis/docs/templates/kube-versions.adoc.gotmpl",
+                    "--output-file=kube-versions.adoc",
+                ],
+            },
+            {
+                "name": "gomplate-values-adoc",
+                "image": "hairyhenderson/gomplate:v3.10.0-alpine",
+                "enviornment": {
+                    "ASSUME_NO_MOVING_GC_UNSAFE_RISK_IT_WITH": "go1.18",
+                },
+                "entrypoint": [
+                    "/bin/gomplate",
+                    "--file=charts/ocis/docs/templates/values.adoc.yaml.gotmpl",
+                    "--out=charts/ocis/docs/values.adoc.yaml",
                 ],
             },
             {
