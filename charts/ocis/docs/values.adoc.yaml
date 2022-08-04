@@ -106,29 +106,29 @@ ingress:
 # The secrets need to be manually created.
 # See https://github.com/owncloud/ocis-charts/blob/master/charts/ocis/README.md#secrets for how to generate them.
 secretRefs:
-  # -- Reference to an existing admin user secret (see xref:secrets[Secrets])
+  # -- Reference to an existing admin user secret (see xref:{secrets}[Secrets])
   adminUserSecretRef: "admin-user"
-  # -- Reference to an existing IDP secret (see xref:secrets[Secrets])
+  # -- Reference to an existing IDP secret (see xref:{secrets}[Secrets])
   idpSecretRef: "idp-secrets"
-  # -- Reference to an existing JWT secret (see xref:secrets[Secrets])
+  # -- Reference to an existing JWT secret (see xref:{secrets}[Secrets])
   jwtSecretRef: "jwt-secret"
-  # -- Reference to an existing LDAP certificate authority secret (see xref:secrets[Secrets])
+  # -- Reference to an existing LDAP certificate authority secret (see xref:{secrets}[Secrets])
   ldapCaRef: "ldap-ca"
-  # -- Reference to an existing LDAP cert secret (see xref:secrets[Secrets])
+  # -- Reference to an existing LDAP cert secret (see xref:{secrets}[Secrets])
   ldapCertRef: "ldap-cert"
-  # -- Reference to an existing LDAP bind secret (see xref:secrets[Secrets])
+  # -- Reference to an existing LDAP bind secret (see xref:{secrets}[Secrets])
   ldapSecretRef: "ldap-bind-secrets"
-  # -- Reference to an existing machine auth api key secret (see xref:secrets[Secrets])
+  # -- Reference to an existing machine auth api key secret (see xref:{secrets}[Secrets])
   machineAuthApiKeySecretRef: "machine-auth-api-key"
-  # -- Reference to an existing SMTP email server settings secret (see xref:secrets[Secrets])
+  # -- Reference to an existing SMTP email server settings secret (see xref:{secrets}[Secrets])
   notificationsSmtpSecretRef: "notifications-smtp-secret"
-  # -- Reference to an existing storage-system JWT secret (see xref:secrets[Secrets])
+  # -- Reference to an existing storage-system JWT secret (see xref:{secrets}[Secrets])
   storageSystemJwtSecretRef: "storage-system-jwt-secret"
-  # -- Reference to an existing storage-system secret (see xref:secrets[Secrets])
+  # -- Reference to an existing storage-system secret (see xref:{secrets}[Secrets])
   storageSystemSecretRef: "storage-system"
-  # -- Reference to an existing thumbnails transfer secret (see xref:secrets[Secrets])
+  # -- Reference to an existing thumbnails transfer secret (see xref:{secrets}[Secrets])
   thumbnailsSecretRef: "thumbnails-transfer-secret"
-  # -- Reference to an existing transfer secret (see xref:secrets[Secrets])
+  # -- Reference to an existing transfer secret (see xref:{secrets}[Secrets])
   transferSecretSecretRef: "transfer-secret"
 
 # Security context options.
