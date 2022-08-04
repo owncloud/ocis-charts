@@ -4,8 +4,8 @@
 image:
   # -- Image repository
   repository: owncloud/ocis
-  # -- Image tag.
-  tag: "2.0.0-beta.6"
+  # -- Image tag. Defaults to the chart's appVersion.
+  tag: ""
   # -- Image sha / digest (optional).
   sha: ""
   # -- Image pull policy
