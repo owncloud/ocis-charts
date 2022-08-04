@@ -13,8 +13,7 @@ a| [subs=-attributes]
 +{{ $value.Type }}+
 a| [subs=-attributes]
 {{default $value.Default $value.AutoDefault}}
-a| [subs=-attributes]
-{{ regexReplaceAll "ref:([a-zA-Z0-9 ]*)#([a-zA-Z0-9-]*)" (default $value.Description $value.AutoDescription) "xref:${2}[${1}]" }}
+| {{ regexReplaceAll "ref:([a-zA-Z0-9 ]*)#([a-zA-Z0-9-]*)" (default $value.Description $value.AutoDescription) "xref:{${2}}[${1}]" }}
 
 {{- end }}
 |===
