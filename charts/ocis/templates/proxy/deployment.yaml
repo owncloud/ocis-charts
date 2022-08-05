@@ -58,11 +58,16 @@ spec:
               value: "{{ .Values.features.basicAuthentication }}"
 
             - name: PROXY_OIDC_ISSUER
-            {{ if not .Values.features.externalUserManagement.enabled }}
+            {{- if not .Values.features.externalUserManagement.enabled }}
               value: https://{{ .Values.externalDomain }}
-            {{ else }}
+            {{- else }}
               value: {{ .Values.features.externalUserManagement.oidc.issuerURI }}
-            {{ end }}
+            {{- end }}
+
+            {{- if .Values.features.externalUserManagement.enabled }}
+            - name: PROXY_OIDC_REWRITE_WELLKNOWN
+              value: "true"
+            {{- end }}
 
             - name: PROXY_TLS
               value: "false"
