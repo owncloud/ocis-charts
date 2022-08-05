@@ -93,6 +93,15 @@ features:
       # -- Issuer URI of the OpenID Connect Identity Provider.
       # If the IDP doesn't have valid / trusted SSL certificates, certificate validation can be disabled with the `insecure.oidcIdpInsecure` option.
       issuerURI: https://idp.owncloud.test/realms/ocis
+
+      # -- Claim to take an unique user identifier from. It will be used to look up the user on the LDAP server.
+      userIDClaim: ocis.user.uuid
+      # -- Attribute mapping of for the userIDClaim.
+      # Set to 'userid' if the userIDClaim holds the value of the ldap.user.schema.id user attribute.
+      # Set to 'mail' if the userIDClaim holds the value of the ldap.user.schema.mail user attribute.
+      # Set to 'username' if the userIDClaim holds the value of the ldap.user.schema.id user attribute.
+      userIDClaimAttributeMapping: userid
+
     # LDAP related settings.
     ldap:
       # -- URI to connect to the LDAP secure server.

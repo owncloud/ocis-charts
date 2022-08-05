@@ -67,6 +67,11 @@ spec:
             {{- if .Values.features.externalUserManagement.enabled }}
             - name: PROXY_OIDC_REWRITE_WELLKNOWN
               value: "true"
+
+            - name: PROXY_USER_OIDC_CLAIM
+              value: {{ .Values.features.externalUserManagement.oidc.userIDClaim }}
+            - name: PROXY_USER_CS3_CLAIM
+              value: {{ .Values.features.externalUserManagement.oidc.userIDClaimAttributeMapping }}
             {{- end }}
 
             - name: PROXY_TLS
