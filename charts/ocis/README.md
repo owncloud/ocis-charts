@@ -133,29 +133,31 @@ This chart only supports following oCIS versions:
 | features.externalUserManagement.enabled | bool | `false` | Enables external user management (and disables internal user management). Needs an external OpenID Connect Identity Provider and an external LDAP server. |
 | features.externalUserManagement.ldap.bindDN | string | `"uid=ocis,ou=system-users,dc=owncloud,dc=test"` | DN of the user to use to bind to the LDAP server. The password for the user needs to be set in the secret referenced by `secretRefs.ldapSecretRef` as `reva-ldap-bind-password`. The user needs to have permission to list users and groups. |
 | features.externalUserManagement.ldap.certTrusted | bool | `true` | Set only to false, if the certificate of your LDAP secure service is not trusted. If set to false, you need to put the CA cert of the LDAP secure server into the secret referenced by "ldapCaRef" |
-| features.externalUserManagement.ldap.group.baseDN | string | `"ou=groups,dc=owncloud,dc=com"` |  |
-| features.externalUserManagement.ldap.group.filter | string | `nil` |  |
-| features.externalUserManagement.ldap.group.objectClass | string | `"groupOfNames"` |  |
-| features.externalUserManagement.ldap.group.schema.displayName | string | `"cn"` |  |
-| features.externalUserManagement.ldap.group.schema.groupName | string | `"cn"` |  |
-| features.externalUserManagement.ldap.group.schema.id | string | `"ownclouduuid"` |  |
-| features.externalUserManagement.ldap.group.schema.idIsOctetString | bool | `false` |  |
-| features.externalUserManagement.ldap.group.schema.mail | string | `"mail"` |  |
-| features.externalUserManagement.ldap.group.schema.member | string | `"member"` |  |
-| features.externalUserManagement.ldap.group.scope | string | `"sub"` |  |
+| features.externalUserManagement.ldap.group.baseDN | string | `"ou=groups,dc=owncloud,dc=com"` | Search base DN for looking up LDAP groups. |
+| features.externalUserManagement.ldap.group.filter | string | `nil` | LDAP filter to add to the default filters for group searches. |
+| features.externalUserManagement.ldap.group.objectClass | string | `"groupOfNames"` | The object class to use for groups in the default group search filter like `groupOfNames`. |
+| features.externalUserManagement.ldap.group.schema.displayName | string | `"cn"` | LDAP Attribute to use for the displayname of groups (often the same as groupname attribute). |
+| features.externalUserManagement.ldap.group.schema.groupName | string | `"cn"` | LDAP Attribute to use for the name of groups. |
+| features.externalUserManagement.ldap.group.schema.id | string | `"ownclouduuid"` | LDAP Attribute to use as the unique ID for groups. This should be a stable globally unique ID like a UUID. |
+| features.externalUserManagement.ldap.group.schema.idIsOctetString | bool | `false` | Set this to true if the defined `id` attribute for groups is of the `OCTETSTRING` syntax. This is e.g. required when using the `objectGUID` attribute of Active Directory for the group ID`s. |
+| features.externalUserManagement.ldap.group.schema.mail | string | `"mail"` | LDAP Attribute to use for the email address of groups (can be empty). |
+| features.externalUserManagement.ldap.group.schema.member | string | `"member"` | LDAP Attribute that is used for group members. |
+| features.externalUserManagement.ldap.group.scope | string | `"sub"` | LDAP search scope to use when looking up groups. Supported values are `base`, `one` and `sub`. |
 | features.externalUserManagement.ldap.insecure | bool | `false` | For self signed certificates, consider to put the CA cert of the LDAP secure server into the secret referenced by "ldapCaRef" Not recommended for production installations. |
 | features.externalUserManagement.ldap.uri | string | `"ldaps://ldaps.owncloud.test"` | URI to connect to the LDAP secure server. |
-| features.externalUserManagement.ldap.user.baseDN | string | `"ou=users,dc=owncloud,dc=com"` |  |
-| features.externalUserManagement.ldap.user.filter | string | `nil` |  |
-| features.externalUserManagement.ldap.user.objectClass | string | `"inetOrgPerson"` |  |
-| features.externalUserManagement.ldap.user.schema.displayName | string | `"displayname"` |  |
-| features.externalUserManagement.ldap.user.schema.id | string | `"ownclouduuid"` |  |
-| features.externalUserManagement.ldap.user.schema.idIsOctetString | bool | `false` |  |
-| features.externalUserManagement.ldap.user.schema.mail | string | `"mail"` |  |
-| features.externalUserManagement.ldap.user.schema.userName | string | `"uid"` |  |
-| features.externalUserManagement.ldap.user.scope | string | `"sub"` |  |
-| features.externalUserManagement.ldap.user.substringFilterType | string | `"any"` |  |
+| features.externalUserManagement.ldap.user.baseDN | string | `"ou=users,dc=owncloud,dc=com"` | Search base DN for looking up LDAP users. |
+| features.externalUserManagement.ldap.user.filter | string | `nil` | LDAP filter to add to the default filters for user search like `(objectclass=ownCloud)`. |
+| features.externalUserManagement.ldap.user.objectClass | string | `"inetOrgPerson"` | The object class to use for users in the default user search filter like `inetOrgPerson`. |
+| features.externalUserManagement.ldap.user.schema.displayName | string | `"displayname"` | LDAP Attribute to use for the displayname of users. |
+| features.externalUserManagement.ldap.user.schema.id | string | `"ownclouduuid"` | LDAP Attribute to use as the unique id for users. This should be a stable globally unique id like a UUID. |
+| features.externalUserManagement.ldap.user.schema.idIsOctetString | bool | `false` | Set this to true if the defined `id` attribute for users is of the `OCTETSTRING` syntax. This is e.g. required when using the `objectGUID` attribute of Active Directory for the user ID`s. |
+| features.externalUserManagement.ldap.user.schema.mail | string | `"mail"` | LDAP Attribute to use for the email address of users. |
+| features.externalUserManagement.ldap.user.schema.userName | string | `"uid"` | LDAP Attribute to use for username of users. |
+| features.externalUserManagement.ldap.user.scope | string | `"sub"` | LDAP search scope to use when looking up users. Supported values are `base`, `one` and `sub`. |
+| features.externalUserManagement.ldap.user.substringFilterType | string | `"any"` | Type of substring search filter to use for substring searches for users. Possible values: `initial` for doing prefix only searches, `final` for doing suffix only searches or `any` for doing full substring searches |
 | features.externalUserManagement.oidc.issuerURI | string | `"https://idp.owncloud.test/realms/ocis"` | Issuer URI of the OpenID Connect Identity Provider. If the IDP doesn't have valid / trusted SSL certificates, certificate validation can be disabled with the `insecure.oidcIdpInsecure` option. |
+| features.externalUserManagement.oidc.userIDClaim | string | `"ocis.user.uuid"` | Claim to take an unique user identifier from. It will be used to look up the user on the LDAP server. |
+| features.externalUserManagement.oidc.userIDClaimAttributeMapping | string | `"userid"` | Attribute mapping of for the userIDClaim. Set to `userid` if the claim specified in `...oidc.userIDClaim` holds the value of the ldap user attribute specified in `...ldap.user.schema.id`. Set to `mail` if the claim specified in `...oidc.userIDClaim` holds the value of the ldap user attribute specified in  `...ldap.user.schema.mail`. Set to `username` if the claim specified in `...oidc.userIDClaim` holds the value of the ldap user attribute specified in `...ldap.user.schema.id`. |
 | image.pullPolicy | string | `"IfNotPresent"` | Image pull policy |
 | image.repository | string | `"owncloud/ocis"` | Image repository |
 | image.sha | string | `""` | Image sha / digest (optional). |
@@ -230,7 +232,7 @@ This chart only supports following oCIS versions:
 | services.storageUsers.persistence.storageClassName | string | `nil` | Storage class to use. Uses the default storage class if not set. |
 | services.storageUsers.storageBackend.driver | string | `"ocis"` | Configures the storage driver. Possible values are "ocis" and "s3ng". The oCIS driver stores all data in the persistent volume if persistence is enabled. The S3NG driver stores all metadata in the persistent volume and uploads blobs to s3 if persistence is enabled. |
 | services.storageUsers.storageBackend.driverConfig.s3ng.accessKey | string | `"lorem-ipsum"` | S3 access key to use for the S3NG driver. Only used if driver is set to "s3ng". |
-| services.storageUsers.storageBackend.driverConfig.s3ng.bucket | string | `"example-bucket"` | - S3 bucket to use for the S3NG driver. Only used if driver is set to "s3ng". |
+| services.storageUsers.storageBackend.driverConfig.s3ng.bucket | string | `"example-bucket"` | S3 bucket to use for the S3NG driver. Only used if driver is set to "s3ng". |
 | services.storageUsers.storageBackend.driverConfig.s3ng.endpoint | string | `"https://localhost:1234"` | S3 endpoint to use for the S3NG driver. Only used if driver is set to "s3ng". |
 | services.storageUsers.storageBackend.driverConfig.s3ng.region | string | `"default"` | S3 region to use for the S3NG driver. Only used if driver is set to "s3ng". |
 | services.storageUsers.storageBackend.driverConfig.s3ng.secretKey | string | `"lorem-ipsum"` | S3 secret key to use for the S3NG driver. Only used if driver is set to "s3ng". |
