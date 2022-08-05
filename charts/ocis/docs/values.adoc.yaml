@@ -101,12 +101,38 @@ features:
       # -- Set only to false, if the certificate of your LDAP secure service is not trusted.
       # If set to false, you need to put the CA cert of the LDAP secure server into the secret referenced by "ldapCaRef"
       certTrusted: true
+      # -- Disables SSL certificate checking for connections to the LDAP server.
+      # -- For self signed certificates, consider to put the CA cert of the LDAP secure server into the secret referenced by "ldapCaRef"
+      # Not recommended for production installations.
+      insecure: false
       # -- DN of the user to use to bind to the LDAP server.
       # The password for the user needs to be set in the secret referenced by `secretRefs.ldapSecretRef` as `reva-ldap-bind-password`.
       # The user needs to have permission to list users and groups.
       bindDN: uid=ocis,ou=system-users,dc=owncloud,dc=test
-
-      # TODO: all other LDAP related settings
+      user:
+        schema:
+          id: ownclouduuid
+          idIsOctetString: false
+          mail: mail
+          displayName: displayname
+          userName: uid
+        baseDN: ou=users,dc=owncloud,dc=com
+        scope: sub
+        substringFilterType: any
+        filter:
+        objectClass: inetOrgPerson
+      group:
+        schema:
+          id: ownclouduuid
+          idIsOctetString: false
+          mail: mail
+          displayName: cn
+          groupName: cn
+          member: member
+        baseDN: ou=groups,dc=owncloud,dc=com
+        scope: sub
+        filter:
+        objectClass: groupOfNames
 
 # Ingress for oCIS.
 ingress:

@@ -133,7 +133,28 @@ This chart only supports following oCIS versions:
 | features.externalUserManagement.enabled | bool | `false` | Enables external user management (and disables internal user management). Needs an external OpenID Connect Identity Provider and an external LDAP server. |
 | features.externalUserManagement.ldap.bindDN | string | `"uid=ocis,ou=system-users,dc=owncloud,dc=test"` | DN of the user to use to bind to the LDAP server. The password for the user needs to be set in the secret referenced by `secretRefs.ldapSecretRef` as `reva-ldap-bind-password`. The user needs to have permission to list users and groups. |
 | features.externalUserManagement.ldap.certTrusted | bool | `true` | Set only to false, if the certificate of your LDAP secure service is not trusted. If set to false, you need to put the CA cert of the LDAP secure server into the secret referenced by "ldapCaRef" |
+| features.externalUserManagement.ldap.group.baseDN | string | `"ou=groups,dc=owncloud,dc=com"` |  |
+| features.externalUserManagement.ldap.group.filter | string | `nil` |  |
+| features.externalUserManagement.ldap.group.objectClass | string | `"groupOfNames"` |  |
+| features.externalUserManagement.ldap.group.schema.displayName | string | `"cn"` |  |
+| features.externalUserManagement.ldap.group.schema.groupName | string | `"cn"` |  |
+| features.externalUserManagement.ldap.group.schema.id | string | `"ownclouduuid"` |  |
+| features.externalUserManagement.ldap.group.schema.idIsOctetString | bool | `false` |  |
+| features.externalUserManagement.ldap.group.schema.mail | string | `"mail"` |  |
+| features.externalUserManagement.ldap.group.schema.member | string | `"member"` |  |
+| features.externalUserManagement.ldap.group.scope | string | `"sub"` |  |
+| features.externalUserManagement.ldap.insecure | bool | `false` | For self signed certificates, consider to put the CA cert of the LDAP secure server into the secret referenced by "ldapCaRef" Not recommended for production installations. |
 | features.externalUserManagement.ldap.uri | string | `"ldaps://ldaps.owncloud.test"` | URI to connect to the LDAP secure server. |
+| features.externalUserManagement.ldap.user.baseDN | string | `"ou=users,dc=owncloud,dc=com"` |  |
+| features.externalUserManagement.ldap.user.filter | string | `nil` |  |
+| features.externalUserManagement.ldap.user.objectClass | string | `"inetOrgPerson"` |  |
+| features.externalUserManagement.ldap.user.schema.displayName | string | `"displayname"` |  |
+| features.externalUserManagement.ldap.user.schema.id | string | `"ownclouduuid"` |  |
+| features.externalUserManagement.ldap.user.schema.idIsOctetString | bool | `false` |  |
+| features.externalUserManagement.ldap.user.schema.mail | string | `"mail"` |  |
+| features.externalUserManagement.ldap.user.schema.userName | string | `"uid"` |  |
+| features.externalUserManagement.ldap.user.scope | string | `"sub"` |  |
+| features.externalUserManagement.ldap.user.substringFilterType | string | `"any"` |  |
 | features.externalUserManagement.oidc.issuerURI | string | `"https://idp.owncloud.test/realms/ocis"` | Issuer URI of the OpenID Connect Identity Provider. If the IDP doesn't have valid / trusted SSL certificates, certificate validation can be disabled with the `insecure.oidcIdpInsecure` option. |
 | image.pullPolicy | string | `"IfNotPresent"` | Image pull policy |
 | image.repository | string | `"owncloud/ocis"` | Image repository |

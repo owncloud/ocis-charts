@@ -162,12 +162,138 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `true`
 | Set only to false, if the certificate of your LDAP secure service is not trusted. If set to false, you need to put the CA cert of the LDAP secure server into the secret referenced by "ldapCaRef"
+| features.externalUserManagement.ldap.group.baseDN
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"ou=groups,dc=owncloud,dc=com"`
+|
+| features.externalUserManagement.ldap.group.filter
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`nil`
+|
+| features.externalUserManagement.ldap.group.objectClass
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"groupOfNames"`
+|
+| features.externalUserManagement.ldap.group.schema.displayName
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"cn"`
+|
+| features.externalUserManagement.ldap.group.schema.groupName
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"cn"`
+|
+| features.externalUserManagement.ldap.group.schema.id
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"ownclouduuid"`
+|
+| features.externalUserManagement.ldap.group.schema.idIsOctetString
+a| [subs=-attributes]
++bool+
+a| [subs=-attributes]
+`false`
+|
+| features.externalUserManagement.ldap.group.schema.mail
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"mail"`
+|
+| features.externalUserManagement.ldap.group.schema.member
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"member"`
+|
+| features.externalUserManagement.ldap.group.scope
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"sub"`
+|
+| features.externalUserManagement.ldap.insecure
+a| [subs=-attributes]
++bool+
+a| [subs=-attributes]
+`false`
+| For self signed certificates, consider to put the CA cert of the LDAP secure server into the secret referenced by "ldapCaRef" Not recommended for production installations.
 | features.externalUserManagement.ldap.uri
 a| [subs=-attributes]
 +string+
 a| [subs=-attributes]
 `"ldaps://ldaps.owncloud.test"`
 | URI to connect to the LDAP secure server.
+| features.externalUserManagement.ldap.user.baseDN
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"ou=users,dc=owncloud,dc=com"`
+|
+| features.externalUserManagement.ldap.user.filter
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`nil`
+|
+| features.externalUserManagement.ldap.user.objectClass
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"inetOrgPerson"`
+|
+| features.externalUserManagement.ldap.user.schema.displayName
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"displayname"`
+|
+| features.externalUserManagement.ldap.user.schema.id
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"ownclouduuid"`
+|
+| features.externalUserManagement.ldap.user.schema.idIsOctetString
+a| [subs=-attributes]
++bool+
+a| [subs=-attributes]
+`false`
+|
+| features.externalUserManagement.ldap.user.schema.mail
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"mail"`
+|
+| features.externalUserManagement.ldap.user.schema.userName
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"uid"`
+|
+| features.externalUserManagement.ldap.user.scope
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"sub"`
+|
+| features.externalUserManagement.ldap.user.substringFilterType
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"any"`
+|
 | features.externalUserManagement.oidc.issuerURI
 a| [subs=-attributes]
 +string+

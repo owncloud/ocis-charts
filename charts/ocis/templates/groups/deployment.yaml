@@ -52,6 +52,61 @@ spec:
             - name: GROUPS_GRPC_ADDR
               value: 0.0.0.0:9160
 
+            {{- if .Values.features.externalUserManagement.enabled }}
+            - name: GROUPS_LDAP_INSECURE
+              value: "{{ .Values.features.externalUserManagement.ldap.insecure }}"
+
+            - name: GROUPS_LDAP_USER_BASE_DN
+              value: {{ .Values.features.externalUserManagement.ldap.user.baseDN }}
+            - name: GROUPS_LDAP_GROUP_BASE_DN
+              value: {{ .Values.features.externalUserManagement.ldap.group.baseDN }}
+
+            - name: GROUPS_LDAP_USER_SCOPE
+              value: {{ .Values.features.externalUserManagement.ldap.user.scope }}
+            - name: GROUPS_LDAP_GROUP_SCOPE
+              value: {{ .Values.features.externalUserManagement.ldap.group.scope }}
+
+            - name: GROUPS_LDAP_USER_SUBSTRING_FILTER_TYPE
+              value: {{ .Values.features.externalUserManagement.ldap.user.substringFilterType }}
+
+            - name: GROUPS_LDAP_USER_FILTER
+              value: {{ .Values.features.externalUserManagement.ldap.user.filter }}
+            - name: GROUPS_LDAP_GROUP_FILTER
+              value: {{ .Values.features.externalUserManagement.ldap.group.filter }}
+
+            - name: GROUPS_LDAP_USER_OBJECTCLASS
+              value: {{ .Values.features.externalUserManagement.ldap.user.objectClass }}
+            - name: GROUPS_LDAP_GROUP_OBJECTCLASS
+              value: {{ .Values.features.externalUserManagement.ldap.group.objectClass }}
+
+            - name: GROUPS_LDAP_USER_SCHEMA_ID
+              value: {{ .Values.features.externalUserManagement.ldap.user.schema.id }}
+            - name: GROUPS_LDAP_GROUP_SCHEMA_ID
+              value: {{ .Values.features.externalUserManagement.ldap.group.schema.id }}
+
+            - name: GROUPS_LDAP_USER_SCHEMA_ID_IS_OCTETSTRING
+              value: "{{ .Values.features.externalUserManagement.ldap.user.schema.idIsOctetString }}"
+            - name: GROUPS_LDAP_GROUP_SCHEMA_ID_IS_OCTETSTRING
+              value: "{{ .Values.features.externalUserManagement.ldap.group.schema.idIsOctetString }}"
+
+            - name: GROUPS_LDAP_USER_SCHEMA_MAIL
+              value: {{ .Values.features.externalUserManagement.ldap.user.schema.mail }}
+            - name: GROUPS_LDAP_GROUP_SCHEMA_MAIL
+              value: {{ .Values.features.externalUserManagement.ldap.group.schema.mail }}
+
+            - name: GROUPS_LDAP_USER_SCHEMA_DISPLAYNAME
+              value: {{ .Values.features.externalUserManagement.ldap.user.schema.displayName }}
+            - name: GROUPS_LDAP_GROUP_SCHEMA_DISPLAYNAME
+              value: {{ .Values.features.externalUserManagement.ldap.group.schema.displayName }}
+
+            - name: GROUPS_LDAP_USER_SCHEMA_USERNAME
+              value: {{ .Values.features.externalUserManagement.ldap.user.schema.userName }}
+            - name: GROUPS_LDAP_GROUP_SCHEMA_GROUPNAME
+              value: {{ .Values.features.externalUserManagement.ldap.group.schema.groupName }}
+
+            - name: GROUPS_LDAP_GROUP_SCHEMA_MEMBER
+              value: {{ .Values.features.externalUserManagement.ldap.group.schema.member }}
+            {{- end }}
 
             - name: GROUPS_LDAP_URI
             {{ if not .Values.features.externalUserManagement.enabled }}
