@@ -324,6 +324,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `1000`
 | File system group for all volumes.
+| securityContext.fsGroupChangePolicy
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"OnRootMismatch"`
+| File system group change policy for all volumes. Possible values "Always" and "OnRootMismatch".
 | securityContext.runAsGroup
 a| [subs=-attributes]
 +int+
@@ -348,6 +354,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Persistent volume annotations.
+| services.idm.persistence.chownInitContainer
+a| [subs=-attributes]
++bool+
+a| [subs=-attributes]
+`false`
+| Enables a initContainer to chown the volume. The initContainer is run as root. This is not needed if the driver applies the fsGroup from the securityContext.
 | services.idm.persistence.enabled
 a| [subs=-attributes]
 +bool+
@@ -396,6 +408,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Persistent volume annotations.
+| services.nats.persistence.chownInitContainer
+a| [subs=-attributes]
++bool+
+a| [subs=-attributes]
+`false`
+| Enables a initContainer to chown the volume. The initContainer is run as root. This is not needed if the driver applies the fsGroup from the securityContext.
 | services.nats.persistence.enabled
 a| [subs=-attributes]
 +bool+
@@ -444,6 +462,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Persistent volume annotations.
+| services.search.persistence.chownInitContainer
+a| [subs=-attributes]
++bool+
+a| [subs=-attributes]
+`false`
+| Enables a initContainer to chown the volume. The initContainer is run as root. This is not needed if the driver applies the fsGroup from the securityContext.
 | services.search.persistence.enabled
 a| [subs=-attributes]
 +bool+
@@ -492,6 +516,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Persistent volume annotations.
+| services.storageSystem.persistence.chownInitContainer
+a| [subs=-attributes]
++bool+
+a| [subs=-attributes]
+`false`
+| Enables a initContainer to chown the volume. The initContainer is run as root. This is not needed if the driver applies the fsGroup from the securityContext.
 | services.storageSystem.persistence.enabled
 a| [subs=-attributes]
 +bool+
@@ -540,6 +570,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Persistent volume annotations.
+| services.storageUsers.persistence.chownInitContainer
+a| [subs=-attributes]
++bool+
+a| [subs=-attributes]
+`false`
+| Enables a initContainer to chown the volume. The initContainer is run as root. This is not needed if the driver applies the fsGroup from the securityContext.
 | services.storageUsers.persistence.enabled
 a| [subs=-attributes]
 +bool+
@@ -624,6 +660,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Persistent volume annotations.
+| services.store.persistence.chownInitContainer
+a| [subs=-attributes]
++bool+
+a| [subs=-attributes]
+`false`
+| Enables a initContainer to chown the volume. The initContainer is run as root. This is not needed if the driver applies the fsGroup from the securityContext.
 | services.store.persistence.enabled
 a| [subs=-attributes]
 +bool+
@@ -672,6 +714,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Persistent volume annotations.
+| services.thumbnails.persistence.chownInitContainer
+a| [subs=-attributes]
++bool+
+a| [subs=-attributes]
+`false`
+| Enables a initContainer to chown the volume. The initContainer is run as root. This is not needed if the driver applies the fsGroup from the securityContext.
 | services.thumbnails.persistence.enabled
 a| [subs=-attributes]
 +bool+

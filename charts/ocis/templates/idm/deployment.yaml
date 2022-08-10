@@ -20,7 +20,19 @@ spec:
     spec:
       securityContext:
           fsGroup: {{ .Values.securityContext.fsGroup }}
+          fsGroupChangePolicy: {{ .Values.securityContext.fsGroupChangePolicy }}
       initContainers:
+      {{- if and $.Values.services.idm.persistence.enabled $.Values.services.idm.persistence.chownInitContainer }}
+        - name: init-chown-data
+          image: busybox
+          securityContext:
+            runAsNonRoot: false
+            runAsUser: 0
+          command: ["chown", "-R", "{{ .Values.securityContext.runAsUser }}:{{ .Values.securityContext.runAsGroup }}", "/var/lib/ocis"]
+          volumeMounts:
+          - name: idm-data
+            mountPath: /var/lib/ocis
+      {{ end }}
         - name: init-dir #TODO: that should not be needed, needs fix in the idm service
           image: busybox:stable
           securityContext:
