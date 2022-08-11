@@ -213,6 +213,9 @@ secretRefs:
 securityContext:
   # -- File system group for all volumes.
   fsGroup: 1000
+  # -- File system group change policy for all volumes.
+  # Possible values "Always" and "OnRootMismatch".
+  fsGroupChangePolicy: "OnRootMismatch"
   # -- User ID that all processes within any containers will run with.
   runAsUser: 1000
   # -- Group ID that all processes within any containers will run with.
@@ -289,6 +292,10 @@ services:
       # If not enabled, pod restarts will lead to data loss.
       # Also scaling this service beyond one instance is not possible if the service instances don't share the same storage.
       enabled: false
+      # -- Enables a initContainer to chown the volume.
+      # The initContainer is run as root.
+      # This is not needed if the driver applies the fsGroup from the securityContext.
+      chownInitContainer: false
       # -- Storage class to use.
       # Uses the default storage class if not set.
       storageClassName:
@@ -332,6 +339,10 @@ services:
       # If not enabled, pod restarts will lead to data loss.
       # Also scaling this service beyond one instance is not possible if the service instances don't share the same storage.
       enabled: false
+      # -- Enables a initContainer to chown the volume.
+      # The initContainer is run as root.
+      # This is not needed if the driver applies the fsGroup from the securityContext.
+      chownInitContainer: false
       # -- Storage class to use.
       # Uses the default storage class if not set.
       storageClassName:
@@ -358,6 +369,10 @@ services:
       # If not enabled, pod restarts will lead to data loss.
       # Also scaling this service beyond one instance is not possible if the service instances don't share the same storage.
       enabled: false
+      # -- Enables a initContainer to chown the volume.
+      # The initContainer is run as root.
+      # This is not needed if the driver applies the fsGroup from the securityContext.
+      chownInitContainer: false
       # -- Storage class to use.
       # Uses the default storage class if not set.
       storageClassName:
@@ -384,6 +399,10 @@ services:
       # If enabled, generated thumbnails are cached on this volume and available across pod restarts and service instances.
       # If not enabled, thumbnail generation might lead to higher CPU usage.
       enabled: false
+      # -- Enables a initContainer to chown the volume.
+      # The initContainer is run as root.
+      # This is not needed if the driver applies the fsGroup from the securityContext.
+      chownInitContainer: false
       # -- Storage class to use.
       # Uses the default storage class if not set.
       storageClassName:
@@ -409,6 +428,10 @@ services:
       # If not enabled, pod restarts will lead to data loss.
       # Also scaling this service beyond one instance is not possible if the service instances don't share the same storage.
       enabled: false
+      # -- Enables a initContainer to chown the volume.
+      # The initContainer is run as root.
+      # This is not needed if the driver applies the fsGroup from the securityContext.
+      chownInitContainer: false
       # -- Storage class to use.
       # Uses the default storage class if not set.
       storageClassName:
@@ -435,6 +458,10 @@ services:
       # If not enabled, pod restarts will lead to data loss.
       # Also scaling this service beyond one instance is not possible if the service instances don't share the same storage.
       enabled: false
+      # -- Enables a initContainer to chown the volume.
+      # The initContainer is run as root.
+      # This is not needed if the driver applies the fsGroup from the securityContext.
+      chownInitContainer: false
       # -- Storage class to use.
       # Uses the default storage class if not set.
       storageClassName:
@@ -461,6 +488,10 @@ services:
       # If not enabled, pod restarts will lead to data loss.
       # Also scaling this service beyond one instance is not possible if the service instances don't share the same storage.
       enabled: false
+      # -- Enables a initContainer to chown the volume.
+      # The initContainer is run as root.
+      # This is not needed if the driver applies the fsGroup from the securityContext.
+      chownInitContainer: false
       # -- Storage class to use.
       # Uses the default storage class if not set.
       storageClassName:

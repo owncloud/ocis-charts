@@ -24,6 +24,7 @@ spec:
     spec:
       securityContext:
           fsGroup: {{ .Values.securityContext.fsGroup }}
+          fsGroupChangePolicy: {{ .Values.securityContext.fsGroupChangePolicy }}
       containers:
         - name: auth-basic
           {{- if .Values.image.sha }}

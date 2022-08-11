@@ -188,10 +188,12 @@ This chart only supports following oCIS versions:
 | secretRefs.thumbnailsSecretRef | string | `"thumbnails-transfer-secret"` | Reference to an existing thumbnails transfer secret (see [Secrets](#secrets)) |
 | secretRefs.transferSecretSecretRef | string | `"transfer-secret"` | Reference to an existing transfer secret (see [Secrets](#secrets)) |
 | securityContext.fsGroup | int | `1000` | File system group for all volumes. |
+| securityContext.fsGroupChangePolicy | string | `"OnRootMismatch"` | File system group change policy for all volumes. Possible values "Always" and "OnRootMismatch". |
 | securityContext.runAsGroup | int | `1000` | Group ID that all processes within any containers will run with. |
 | securityContext.runAsUser | int | `1000` | User ID that all processes within any containers will run with. |
 | services.idm.persistence.accessModes | list | `["ReadWriteMany"]` | Persistent volume access modes. Needs to be `["ReadWriteMany"]` when scaling this service beyond one instance. |
 | services.idm.persistence.annotations | object | `{}` | Persistent volume annotations. |
+| services.idm.persistence.chownInitContainer | bool | `false` | Enables a initContainer to chown the volume. The initContainer is run as root. This is not needed if the driver applies the fsGroup from the securityContext. |
 | services.idm.persistence.enabled | bool | `false` | Enables persistence. Needs to be enabled on production installations. If not enabled, pod restarts will lead to data loss. Also scaling this service beyond one instance is not possible if the service instances don't share the same storage. |
 | services.idm.persistence.existingClaim | string | `nil` | Use an existing PersistentVolumeClaim for persistence. |
 | services.idm.persistence.finalizers | list | `["kubernetes.io/pvc-protection"]` | Persistent volume finalizers. |
@@ -200,6 +202,7 @@ This chart only supports following oCIS versions:
 | services.idm.persistence.storageClassName | string | `nil` | Storage class to use. Uses the default storage class if not set. |
 | services.nats.persistence.accessModes | list | `["ReadWriteMany"]` | Persistent volume access modes. Needs to be `["ReadWriteMany"]` when scaling this service beyond one instance. |
 | services.nats.persistence.annotations | object | `{}` | Persistent volume annotations. |
+| services.nats.persistence.chownInitContainer | bool | `false` | Enables a initContainer to chown the volume. The initContainer is run as root. This is not needed if the driver applies the fsGroup from the securityContext. |
 | services.nats.persistence.enabled | bool | `false` | Enables persistence. Needs to be enabled on production installations. If not enabled, pod restarts will lead to data loss. Also scaling this service beyond one instance is not possible if the service instances don't share the same storage. |
 | services.nats.persistence.existingClaim | string | `nil` | Use an existing PersistentVolumeClaim for persistence. |
 | services.nats.persistence.finalizers | list | `["kubernetes.io/pvc-protection"]` | Persistent volume finalizers. |
@@ -208,6 +211,7 @@ This chart only supports following oCIS versions:
 | services.nats.persistence.storageClassName | string | `nil` | Storage class to use. Uses the default storage class if not set. |
 | services.search.persistence.accessModes | list | `["ReadWriteMany"]` | Persistent volume access modes. Needs to be `["ReadWriteMany"]` when scaling this service beyond one instance. |
 | services.search.persistence.annotations | object | `{}` | Persistent volume annotations. |
+| services.search.persistence.chownInitContainer | bool | `false` | Enables a initContainer to chown the volume. The initContainer is run as root. This is not needed if the driver applies the fsGroup from the securityContext. |
 | services.search.persistence.enabled | bool | `false` | Enables persistence. Needs to be enabled on production installations. If not enabled, pod restarts will lead to data loss. Also scaling this service beyond one instance is not possible if the service instances don't share the same storage. |
 | services.search.persistence.existingClaim | string | `nil` | Use an existing PersistentVolumeClaim for persistence. |
 | services.search.persistence.finalizers | list | `["kubernetes.io/pvc-protection"]` | Persistent volume finalizers. |
@@ -216,6 +220,7 @@ This chart only supports following oCIS versions:
 | services.search.persistence.storageClassName | string | `nil` | Storage class to use. Uses the default storage class if not set. |
 | services.storageSystem.persistence.accessModes | list | `["ReadWriteMany"]` | Persistent volume access modes. Needs to be `["ReadWriteMany"]` when scaling this service beyond one instance. |
 | services.storageSystem.persistence.annotations | object | `{}` | Persistent volume annotations. |
+| services.storageSystem.persistence.chownInitContainer | bool | `false` | Enables a initContainer to chown the volume. The initContainer is run as root. This is not needed if the driver applies the fsGroup from the securityContext. |
 | services.storageSystem.persistence.enabled | bool | `false` | Enables persistence. Needs to be enabled on production installations. If not enabled, pod restarts will lead to data loss. Also scaling this service beyond one instance is not possible if the service instances don't share the same storage. |
 | services.storageSystem.persistence.existingClaim | string | `nil` | Use an existing PersistentVolumeClaim for persistence. |
 | services.storageSystem.persistence.finalizers | list | `["kubernetes.io/pvc-protection"]` | Persistent volume finalizers. |
@@ -224,6 +229,7 @@ This chart only supports following oCIS versions:
 | services.storageSystem.persistence.storageClassName | string | `nil` | Storage class to use. Uses the default storage class if not set. |
 | services.storageUsers.persistence.accessModes | list | `["ReadWriteMany"]` | Persistent volume access modes. Needs to be `["ReadWriteMany"]` when scaling this service beyond one instance. |
 | services.storageUsers.persistence.annotations | object | `{}` | Persistent volume annotations. |
+| services.storageUsers.persistence.chownInitContainer | bool | `false` | Enables a initContainer to chown the volume. The initContainer is run as root. This is not needed if the driver applies the fsGroup from the securityContext. |
 | services.storageUsers.persistence.enabled | bool | `false` | Enables persistence. Needs to be enabled on production installations. If not enabled, pod restarts will lead to data loss. Also scaling this service beyond one instance is not possible if the service instances don't share the same storage. |
 | services.storageUsers.persistence.existingClaim | string | `nil` | Use an existing PersistentVolumeClaim for persistence. |
 | services.storageUsers.persistence.finalizers | list | `["kubernetes.io/pvc-protection"]` | Persistent volume finalizers. |
@@ -238,6 +244,7 @@ This chart only supports following oCIS versions:
 | services.storageUsers.storageBackend.driverConfig.s3ng.secretKey | string | `"lorem-ipsum"` | S3 secret key to use for the S3NG driver. Only used if driver is set to "s3ng". |
 | services.store.persistence.accessModes | list | `["ReadWriteMany"]` | Persistent volume access modes. Needs to be `["ReadWriteMany"]` when scaling this service beyond one instance. |
 | services.store.persistence.annotations | object | `{}` | Persistent volume annotations. |
+| services.store.persistence.chownInitContainer | bool | `false` | Enables a initContainer to chown the volume. The initContainer is run as root. This is not needed if the driver applies the fsGroup from the securityContext. |
 | services.store.persistence.enabled | bool | `false` | Enables persistence. Needs to be enabled on production installations. If not enabled, pod restarts will lead to data loss. Also scaling this service beyond one instance is not possible if the service instances don't share the same storage. |
 | services.store.persistence.existingClaim | string | `nil` | Use an existing PersistentVolumeClaim for persistence. |
 | services.store.persistence.finalizers | list | `["kubernetes.io/pvc-protection"]` | Persistent volume finalizers. |
@@ -246,6 +253,7 @@ This chart only supports following oCIS versions:
 | services.store.persistence.storageClassName | string | `nil` | Storage class to use. Uses the default storage class if not set. |
 | services.thumbnails.persistence.accessModes | list | `["ReadWriteMany"]` | Persistent volume access modes. Needs to be `["ReadWriteMany"]` when scaling this service beyond one instance or persistence needs to be disabled. |
 | services.thumbnails.persistence.annotations | object | `{}` | Persistent volume annotations. |
+| services.thumbnails.persistence.chownInitContainer | bool | `false` | Enables a initContainer to chown the volume. The initContainer is run as root. This is not needed if the driver applies the fsGroup from the securityContext. |
 | services.thumbnails.persistence.enabled | bool | `false` | Enables persistence. Is recommended to be enabled on production installations. If enabled, generated thumbnails are cached on this volume and available across pod restarts and service instances. If not enabled, thumbnail generation might lead to higher CPU usage. |
 | services.thumbnails.persistence.existingClaim | string | `nil` | Use an existing PersistentVolumeClaim for persistence. |
 | services.thumbnails.persistence.finalizers | list | `[]` | Persistent volume finalizers. |
