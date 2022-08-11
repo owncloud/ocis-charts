@@ -23,6 +23,19 @@ spec:
     spec:
       securityContext:
           fsGroup: {{ .Values.securityContext.fsGroup }}
+          fsGroupChangePolicy: {{ .Values.securityContext.fsGroupChangePolicy }}
+      {{- if and $.Values.services.storageSystem.persistence.enabled $.Values.services.storageSystem.persistence.chownInitContainer }}
+      initContainers:
+        - name: init-chown-data
+          image: busybox
+          securityContext:
+            runAsNonRoot: false
+            runAsUser: 0
+          command: ["chown", "-R", "{{ .Values.securityContext.runAsUser }}:{{ .Values.securityContext.runAsGroup }}", "/var/lib/ocis"]
+          volumeMounts:
+          - name: storage-system-data
+            mountPath: /var/lib/ocis
+      {{ end }}
       containers:
         - name: storage-system
           {{- if .Values.image.sha }}

@@ -25,6 +25,7 @@ spec:
     spec:
       securityContext:
           fsGroup: {{ .Values.securityContext.fsGroup }}
+          fsGroupChangePolicy: {{ .Values.securityContext.fsGroupChangePolicy }}
       containers:
         - name: idp
           {{- if .Values.image.sha }}

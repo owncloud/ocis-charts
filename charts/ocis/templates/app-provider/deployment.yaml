@@ -25,6 +25,7 @@ spec:
     spec:
       securityContext:
           fsGroup: {{ $.Values.securityContext.fsGroup }}
+          fsGroupChangePolicy: {{ $.Values.securityContext.fsGroupChangePolicy }}
       containers:
         - name:  app-provider-{{ regexReplaceAll "\\W+" (lower $officeSuite.name) "_" }}
           {{- if $.Values.image.sha }}
