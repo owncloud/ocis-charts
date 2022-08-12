@@ -57,8 +57,24 @@ spec:
 
             - name: PROXY_ENABLE_BASIC_AUTH
               value: "{{ .Values.features.basicAuthentication }}"
+
             - name: PROXY_OIDC_ISSUER
-              value: "https://{{ .Values.externalDomain }}"
+            {{- if not .Values.features.externalUserManagement.enabled }}
+              value: https://{{ .Values.externalDomain }}
+            {{- else }}
+              value: {{ .Values.features.externalUserManagement.oidc.issuerURI }}
+            {{- end }}
+
+            {{- if .Values.features.externalUserManagement.enabled }}
+            - name: PROXY_OIDC_REWRITE_WELLKNOWN
+              value: "true"
+
+            - name: PROXY_USER_OIDC_CLAIM
+              value: {{ .Values.features.externalUserManagement.oidc.userIDClaim }}
+            - name: PROXY_USER_CS3_CLAIM
+              value: {{ .Values.features.externalUserManagement.oidc.userIDClaimAttributeMapping }}
+            {{- end }}
+
             - name: PROXY_TLS
               value: "false"
 

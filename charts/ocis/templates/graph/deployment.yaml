@@ -56,16 +56,21 @@ spec:
             - name: GRAPH_SPACES_WEBDAV_BASE
               value: "https://{{ .Values.externalDomain }}"
 
+            {{ if not .Values.features.externalUserManagement.enabled }}
             - name: GRAPH_LDAP_URI
               value: ldaps://idm:9235
             - name: GRAPH_LDAP_CACERT
               value: /etc/ocis/ldap-ca/ldap-ca.crt
-
             - name: GRAPH_LDAP_BIND_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: {{ .Values.secretRefs.ldapSecretRef }}
                   key: graph-ldap-bind-password
+            {{ else }}
+            - name: GRAPH_IDENTITY_BACKEND
+              value: cs3
+            {{ end }}
+
 
             - name: REVA_GATEWAY
               value: gateway:9142
@@ -82,12 +87,15 @@ spec:
           ports:
             - name: http
               containerPort: 9120
+          {{ if not .Values.features.externalUserManagement.enabled }}
           volumeMounts:
             - name: ocis-config-tmp
               mountPath: /etc/ocis # we mount that volume only to apply fsGroup to that path
             - name: ldap-ca
               mountPath: /etc/ocis/ldap-ca
               readOnly: true
+          {{ end }}
+      {{ if not .Values.features.externalUserManagement.enabled }}
       volumes:
         - name: ocis-config-tmp
           emptyDir:
@@ -96,3 +104,4 @@ spec:
         - name: ldap-ca
           secret:
             secretName: {{ .Values.secretRefs.ldapCaRef }}
+      {{ end }}
