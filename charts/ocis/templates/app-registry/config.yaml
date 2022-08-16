@@ -1,0 +1,17 @@
+{{- if .Values.features.appsIntegration.enabled }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-registry-config
+  namespace: {{ template "ocis.namespace" . }}
+  labels:
+    {{- include "ocis.labels" . | nindent 4 }}
+data:
+  app-registry.yaml: |
+    ---
+{{- if gt (len .Values.features.appsIntegration.mimetypes) 0 }}
+    app_registry:
+      mimetypes:
+{{- toYaml .Values.features.appsIntegration.mimetypes | nindent 6 }}
+{{- end }}
+{{- end }}

@@ -19,6 +19,8 @@ spec:
       labels:
         app: app-registry
         {{- include "ocis.labels" . | nindent 8 }}
+      annotations:
+        checksum/config: {{ include (print $.Template.BasePath "/app-registry/config.yaml") . | sha256sum }}
     spec:
       securityContext:
           fsGroup: {{ .Values.securityContext.fsGroup }}
@@ -68,9 +70,14 @@ spec:
           volumeMounts:
             - name: tmp-volume
               mountPath: /tmp
+            - name: configs
+              mountPath: /etc/ocis
       volumes:
         - name: tmp-volume
           emptyDir:
             medium: Memory
             sizeLimit: 6Mi
+        - name: configs
+          configMap:
+            name: app-registry-config
 {{ end }}

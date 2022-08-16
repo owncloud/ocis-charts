@@ -60,6 +60,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `false`
 | Enables the apps integration.
+| features.appsIntegration.mimetypes
+a| [subs=-attributes]
++list+
+a| [subs=-attributes]
+default configuration of oCIS, see https://doc.owncloud.com/ocis/next/deployment/services/app-registry.html#yaml-example
+| Mimetype configuration. Let's you configure a mimetypes' default application, if it is allowed to create a new file and more.
 | features.appsIntegration.wopiIntegration.officeSuites[0].enabled
 a| [subs=-attributes]
 +bool+

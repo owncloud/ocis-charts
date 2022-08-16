@@ -83,6 +83,17 @@ features:
           # -- Disables SSL certificate checking for connections to the office suites http api.
           # Not recommended for production installations.
           insecure: false
+    # -- Mimetype configuration.
+    # Let's you configure a mimetypes' default application, if it is allowed to create a new file and more.
+    # @default -- default configuration of oCIS, see https://doc.owncloud.com/ocis/next/deployment/services/app-registry.html#yaml-example
+    mimetypes: []
+      # - mime_type: application/vnd.oasis.opendocument.text
+        # extension: odt
+        # name: OpenDocument
+        # description: OpenDocument text document
+        # icon: ""
+        # default_app: ""
+        # allow_creation: true
   # External user management
   externalUserManagement:
     # -- Enables external user management (and disables internal user management).
