@@ -334,8 +334,8 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 +string+
 a| [subs=-attributes]
-`"2.0.0-beta.6"`
-| Image tag.
+`""`
+| Image tag. Defaults to the chart's appVersion.
 | ingress.annotations
 a| [subs=-attributes]
 +object+

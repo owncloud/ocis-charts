@@ -26,11 +26,7 @@ spec:
           fsGroupChangePolicy: {{ .Values.securityContext.fsGroupChangePolicy }}
       containers:
         - name: graph
-          {{- if .Values.image.sha }}
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}@sha256:{{ .Values.image.sha }}"
-          {{- else }}
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
-          {{- end }}
+          image: {{ template "ocis.image" $ }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           command: ["ocis"]
           args: ["graph", "server"]

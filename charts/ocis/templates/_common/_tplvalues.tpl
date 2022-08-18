@@ -23,3 +23,16 @@ See also https://github.com/helm/helm/issues/5465
     {{- .Release.Namespace -}}
   {{- end -}}
 {{- end -}}
+
+
+{{/*
+oCIS image logic
+*/}}
+{{- define "ocis.image" -}}
+  {{- $tag := default .Chart.AppVersion .Values.image.tag -}}
+  {{- if $.Values.image.sha -}}
+"{{ $.Values.image.repository }}:{{ $tag }}@sha256:{{ $.Values.image.sha }}"
+  {{- else -}}
+"{{ $.Values.image.repository }}:{{ $tag }}"
+  {{- end -}}
+{{- end -}}
