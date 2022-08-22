@@ -42,6 +42,9 @@ insecure:
 # Feature options.
 # Enable or disable features of oCIS.
 features:
+  quota:
+    # -- default quota for project spaces. Example 1Gi. 0 means unlimited.
+    defaultSpaceQuota: 0
   # -- Enable basic authentication.
   # Not recommended for production installations.
   basicAuthentication: false
@@ -283,6 +286,20 @@ extraResources: []
 # per-service configuration.
 services:
 
+  antivirus:
+    enabled: false
+    icapURL: icap://icap:1344
+    image:
+      # -- Image repository
+      repository: owncloud/ocis-antivirus
+      # -- Image tag.
+      tag: "v0.0.0"
+      # -- Image sha / digest (optional).
+      sha: ""
+      # -- Image pull policy
+      pullPolicy: IfNotPresent
+
+
   # STORAGE-SYSTEM service.
   storageSystem:
     persistence:
@@ -451,6 +468,9 @@ services:
 
   # SEARCH service.
   search:
+    extractor:
+      tika:
+        url: http://tika:9998
     persistence:
       # -- Enables persistence.
       # Needs to be enabled on production installations.

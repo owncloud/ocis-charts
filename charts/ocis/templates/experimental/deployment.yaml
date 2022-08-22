@@ -1,14 +1,14 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: ocdav
+  name: experimental
   namespace: {{ template "ocis.namespace" . }}
   labels:
     {{- include "ocis.labels" . | nindent 4 }}
 spec:
   selector:
     matchLabels:
-      app: ocdav
+      app: experimental
   {{- if and (not .Values.autoscaling.enabled) (.Values.replicas) }}
   replicas: {{ .Values.replicas }}
   {{- end }}
@@ -18,58 +18,38 @@ spec:
   template:
     metadata:
       labels:
-        app: ocdav
+        app: experimental
         {{- include "ocis.labels" . | nindent 8 }}
     spec:
       securityContext:
           fsGroup: {{ .Values.securityContext.fsGroup }}
           fsGroupChangePolicy: {{ .Values.securityContext.fsGroupChangePolicy }}
       containers:
-        - name: ocdav
+        - name: experimental
           image: {{ template "ocis.image" $ }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           command: ["ocis"]
-          args: ["ocdav", "server"]
+          args: ["experimental", "server"]
           securityContext:
             runAsNonRoot: true
             runAsUser: {{ .Values.securityContext.runAsUser }}
             runAsGroup: {{ .Values.securityContext.runAsGroup }}
             readOnlyRootFilesystem: true
           env:
-            - name: OCDAV_LOG_COLOR
+            - name: MICRO_REGISTRY
+              value: kubernetes
+
+            - name: EXPERIMENTAL_LOG_COLOR
               value: "{{ .Values.logging.color }}"
-            - name: OCDAV_LOG_LEVEL
+            - name: EXPERIMENTAL_LOG_LEVEL
               value: "{{ .Values.logging.level }}"
-            - name: OCDAV_LOG_PRETTY
+            - name: EXPERIMENTAL_LOG_PRETTY
               value: "{{ .Values.logging.pretty }}"
 
-            - name: OCDAV_HTTP_ADDR
-              value: 0.0.0.0:8080
-
-            - name: OCDAV_PUBLIC_URL
-              value: https://{{ .Values.externalDomain }}
-
-            - name: REVA_GATEWAY
-              value: gateway:9142
-            - name: OCDAV_EVENTS_ENDPOINT
-              value: nats:9233
-
-            - name: OCDAV_INSECURE
-              value: "{{ .Values.insecure.ocisHttpApiInsecure }}"
-
-            - name: OCDAV_JWT_SECRET
-              valueFrom:
-                secretKeyRef:
-                  name: {{ .Values.secretRefs.jwtSecretRef }}
-                  key: jwt-secret
-
-            - name: OCDAV_MACHINE_AUTH_API_KEY
-              valueFrom:
-                secretKeyRef:
-                  name: {{ .Values.secretRefs.machineAuthApiKeySecretRef }}
-                  key: machine-auth-api-key
+            - name: EXPERIMENTAL_HTTP_ADDR
+              value: 0.0.0.0:9180
 
           resources: {{ toYaml .Values.resources | nindent 12 }}
           ports:
             - name: http
-              containerPort: 8080
+              containerPort: 9180

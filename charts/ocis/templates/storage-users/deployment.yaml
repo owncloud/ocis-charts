@@ -68,9 +68,14 @@ spec:
               value: 0.0.0.0:9158
             - name: STORAGE_USERS_DATA_SERVER_URL
               value: "http://storage-users:9158/data"
+            - name: STORAGE_USERS_DATA_GATEWAY_URL
+              value: "https://{{ .Values.externalDomain }}/data"
 
             - name: STORAGE_USERS_PERMISSION_ENDPOINT
               value: settings:9191
+
+            - name: STORAGE_USERS_OCIS_ASYNC_UPLOADS
+              value: "true"
 
             # oCIS storage driver (decomposed filesystem)
             {{- if  eq .Values.services.storageUsers.storageBackend.driver "ocis" }}

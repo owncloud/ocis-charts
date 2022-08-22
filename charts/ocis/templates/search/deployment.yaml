@@ -65,6 +65,17 @@ spec:
               value: gateway:9142
             - name: SEARCH_EVENTS_ENDPOINT
               value: nats:9233
+            - name: SEARCH_EVENTS_ASYNC_UPLOADS
+              value: "true"
+
+            - name: SEARCH_EXTRACTOR_CS3SOURCE_INSECURE
+              value: "{{ .Values.insecure.ocisHttpApiInsecure }}"
+
+            - name: SEARCH_EXTRACTOR_TYPE
+              value: tika
+
+            - name: SEARCH_EXTRACTOR_TIKA_TIKA_URL
+              value: {{ .Values.services.search.extractor.tika.url}}
 
             - name: SEARCH_MACHINE_AUTH_API_KEY
               valueFrom:

@@ -1,0 +1,62 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: antivirus
+  namespace: {{ template "ocis.namespace" . }}
+  labels:
+    {{- include "ocis.labels" . | nindent 4 }}
+spec:
+  selector:
+    matchLabels:
+      app: antivirus
+  {{- if and (not .Values.autoscaling.enabled) (.Values.replicas) }}
+  replicas: {{ .Values.replicas }}
+  {{- end }}
+  {{- if .Values.deploymentStrategy }}
+  strategy: {{ toYaml .Values.deploymentStrategy | nindent 4 }}
+  {{ end }}
+  template:
+    metadata:
+      labels:
+        app: antivirus
+        {{- include "ocis.labels" . | nindent 8 }}
+    spec:
+      securityContext:
+          fsGroup: {{ .Values.securityContext.fsGroup }}
+          fsGroupChangePolicy: {{ .Values.securityContext.fsGroupChangePolicy }}
+      containers:
+        - name: antivirus
+          image: {{ template "ocis-antivirus.image" $ }}
+          imagePullPolicy: {{ .Values.services.antivirus.image.pullPolicy }}
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: {{ .Values.securityContext.runAsUser }}
+            runAsGroup: {{ .Values.securityContext.runAsGroup }}
+            readOnlyRootFilesystem: true
+          env:
+            - name: ANTIVIRUS_LOG_COLOR
+              value: "{{ .Values.logging.color }}"
+            - name: ANTIVIRUS_LOG_LEVEL
+              value: "{{ .Values.logging.level }}"
+            - name: ANTIVIRUS_LOG_PRETTY
+              value: "{{ .Values.logging.pretty }}"
+
+            - name: ANTIVIRUS_EVENTS_ENDPOINT
+              value: nats:9233
+
+            - name: ANTIVIRUS_FILE_PATH
+              value: "/tmp"
+
+            - name: ANTIVIRUS_SCANNER_TYPE
+              value: icap
+
+            - name: ANTIVIRUS_ICAP_URL
+              value: "{{ .Values.services.antivirus.icapURL }}"
+
+          resources: {{ toYaml .Values.resources | nindent 12 }}
+          volumeMounts:
+            - name: tmp-volume
+              mountPath: /tmp
+      volumes:
+        - name: tmp-volume
+          emptyDir: {}

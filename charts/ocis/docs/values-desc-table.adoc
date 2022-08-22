@@ -312,6 +312,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `"userid"`
 | Attribute mapping of for the userIDClaim. Set to `userid` if the claim specified in `...oidc.userIDClaim` holds the value of the ldap user attribute specified in `...ldap.user.schema.id`. Set to `mail` if the claim specified in `...oidc.userIDClaim` holds the value of the ldap user attribute specified in  `...ldap.user.schema.mail`. Set to `username` if the claim specified in `...oidc.userIDClaim` holds the value of the ldap user attribute specified in `...ldap.user.schema.id`.
+| features.quota.defaultSpaceQuota
+a| [subs=-attributes]
++int+
+a| [subs=-attributes]
+`0`
+| default quota for project spaces. Example 1Gi. 0 means unlimited.
 | image.pullPolicy
 a| [subs=-attributes]
 +string+
@@ -510,6 +516,42 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `1000`
 | User ID that all processes within any containers will run with.
+| services.antivirus.enabled
+a| [subs=-attributes]
++bool+
+a| [subs=-attributes]
+`false`
+|
+| services.antivirus.icapURL
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"icap://icap:1344"`
+|
+| services.antivirus.image.pullPolicy
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"IfNotPresent"`
+| Image pull policy
+| services.antivirus.image.repository
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"owncloud/ocis-antivirus"`
+| Image repository
+| services.antivirus.image.sha
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Image sha / digest (optional).
+| services.antivirus.image.tag
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"v0.0.0"`
+| Image tag.
 | services.idm.persistence.accessModes
 a| [subs=-attributes]
 +list+
@@ -618,6 +660,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `nil`
 | Storage class to use. Uses the default storage class if not set.
+| services.search.extractor.tika.url
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"http://tika:9998"`
+|
 | services.search.persistence.accessModes
 a| [subs=-attributes]
 +list+
