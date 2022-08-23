@@ -34,6 +34,14 @@ features:
           uri: https://onlyoffice.owncloud.test
           iconURI: https://onlyoffice.owncloud.test/web-apps/apps/documenteditor/main/resources/img/favicon.ico
           insecure: false
+    mimetypes:
+      - mime_type: application/vnd.oasis.opendocument.text
+        extension: odt
+        name: OpenDocument
+        description: OpenDocument text document
+        icon: ""
+        default_app: ""
+        allow_creation: true
 
 extraLabels:
   extra1: lorem
