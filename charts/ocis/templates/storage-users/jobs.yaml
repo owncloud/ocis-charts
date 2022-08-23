@@ -1,0 +1,86 @@
+{{- if and .Values.services.storageUsers.persistence.enabled .Values.services.storageUsers.maintenance.cleanUpExpiredUploads.enabled }}
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: storage-users-clean-expired-uploads
+  namespace: {{ template "ocis.namespace" . }}
+  labels:
+    {{- include "ocis.labels" . | nindent 4 }}
+spec:
+  schedule: "{{ .Values.services.storageUsers.maintenance.cleanUpExpiredUploads.schedule }}"
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 3
+  jobTemplate:
+    spec:
+      parallelism: 1
+      template:
+        metadata:
+          labels:
+            app: storage-users-clean-expired-uploads
+            {{- include "ocis.labels" . | nindent 12 }}
+
+        spec:
+          restartPolicy: Never
+          containers:
+            - name: storage-users-clean-expired-uploads
+              image: {{ template "ocis.image" $ }}
+              imagePullPolicy: {{ .Values.image.pullPolicy }}
+              command: ["ocis"]
+              args: ["storage-users", "uploads", "clean"]
+              securityContext:
+                runAsNonRoot: true
+                runAsUser: {{ .Values.securityContext.runAsUser }}
+                runAsGroup: {{ .Values.securityContext.runAsGroup }}
+                readOnlyRootFilesystem: true
+              env:
+                - name: MICRO_REGISTRY
+                  value: kubernetes
+
+                # logging
+                - name: STORAGE_USERS_LOG_COLOR
+                  value: "{{ .Values.logging.color }}"
+                - name: STORAGE_USERS_LOG_LEVEL
+                  value: "{{ .Values.logging.level }}"
+                - name: STORAGE_USERS_LOG_PRETTY
+                  value: "{{ .Values.logging.pretty }}"
+
+                # oCIS storage driver (decomposed filesystem)
+                {{- if  eq .Values.services.storageUsers.storageBackend.driver "ocis" }}
+                - name: STORAGE_USERS_DRIVER
+                  value: ocis
+                {{- end }}
+
+                # S3ng storage driver (decomposed filesystem)
+                {{- if  eq .Values.services.storageUsers.storageBackend.driver "s3ng" }}
+                - name: STORAGE_USERS_DRIVER
+                  value: s3ng
+                {{- end }}
+
+                - name: STORAGE_USERS_JWT_SECRET
+                  valueFrom:
+                    secretKeyRef:
+                      name: {{ .Values.secretRefs.jwtSecretRef }}
+                      key: jwt-secret
+
+                - name: STORAGE_TRANSFER_SECRET
+                  valueFrom:
+                    secretKeyRef:
+                      name: {{ .Values.secretRefs.transferSecretSecretRef }}
+                      key: transfer-secret
+
+              resources: {{ toYaml .Values.resources | nindent 16 }}
+
+              volumeMounts:
+                - name: tmp-volume
+                  mountPath: /tmp
+                - name: storage-users-data
+                  mountPath: /var/lib/ocis
+          volumes:
+            - name: tmp-volume
+              emptyDir:
+                medium: Memory
+                sizeLimit: 6Mi
+            - name: storage-users-data
+              persistentVolumeClaim:
+                claimName: storage-users-data
+{{ end }}
