@@ -144,12 +144,42 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `false`
 | Create demo users on the first startup. Not recommended for production installations.
-| features.emailNotifications
+| features.emailNotifications.enabled
 a| [subs=-attributes]
 +bool+
 a| [subs=-attributes]
 `false`
 | Enables email notifications. This features needs the secret from notificationsSmtpSecretRef present.
+| features.emailNotifications.smtp.authentication
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"none"`
+| Authentication method for the SMTP communication. Possible values are ‘login’, ‘plain’, ‘crammd5’, ‘none’
+| features.emailNotifications.smtp.encryption
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"none"`
+| Encryption method for the SMTP communication. Possible values are ‘starttls’, ‘ssl’, ‘ssltls’, ‘tls’ and ‘none’.
+| features.emailNotifications.smtp.host
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`nil`
+| SMTP host to connect to.
+| features.emailNotifications.smtp.port
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`nil`
+| Port of the SMTP host to connect to.
+| features.emailNotifications.smtp.sender
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`nil`
+| Sender address of emails that will be sent. Example: 'ownCloud <noreply@example.com>'
 | features.externalUserManagement.enabled
 a| [subs=-attributes]
 +bool+

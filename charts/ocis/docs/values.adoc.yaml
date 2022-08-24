@@ -52,9 +52,24 @@ features:
   # -- Create demo users on the first startup.
   # Not recommended for production installations.
   demoUsers: false
-  # -- Enables email notifications.
-  # This features needs the secret from notificationsSmtpSecretRef present.
-  emailNotifications: false
+  emailNotifications:
+    # -- Enables email notifications.
+    # This features needs the secret from notificationsSmtpSecretRef present.
+    enabled: false
+
+    smtp:
+      # -- SMTP host to connect to.
+      host:
+      # -- Port of the SMTP host to connect to.
+      port:
+      # -- Sender address of emails that will be sent. Example: 'ownCloud <noreply@example.com>'
+      sender:
+      # -- Authentication method for the SMTP communication. Possible values are ‘login’, ‘plain’, ‘crammd5’, ‘none’
+      authentication: none
+      # -- Encryption method for the SMTP communication. Possible values are ‘starttls’, ‘ssl’, ‘ssltls’, ‘tls’ and ‘none’.
+      encryption: none
+
+
   # Apps integration
   appsIntegration:
     # -- Enables the apps integration.
