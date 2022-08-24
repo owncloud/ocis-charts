@@ -52,21 +52,85 @@ spec:
             - name: GRAPH_SPACES_WEBDAV_BASE
               value: "https://{{ .Values.externalDomain }}"
 
+            {{- if .Values.features.externalUserManagement.enabled }}
+            - name: LDAP_INSECURE
+              value: "{{ .Values.features.externalUserManagement.ldap.insecure }}"
+
+            - name: LDAP_USER_BASE_DN
+              value: {{ .Values.features.externalUserManagement.ldap.user.baseDN }}
+            - name: LDAP_GROUP_BASE_DN
+              value: {{ .Values.features.externalUserManagement.ldap.group.baseDN }}
+
+            - name: LDAP_USER_SCOPE
+              value: {{ .Values.features.externalUserManagement.ldap.user.scope }}
+            - name: LDAP_GROUP_SCOPE
+              value: {{ .Values.features.externalUserManagement.ldap.group.scope }}
+
+            - name: LDAP_USER_SUBSTRING_FILTER_TYPE
+              value: {{ .Values.features.externalUserManagement.ldap.user.substringFilterType }}
+
+            - name: LDAP_USER_FILTER
+              value: {{ .Values.features.externalUserManagement.ldap.user.filter }}
+            - name: LDAP_GROUP_FILTER
+              value: {{ .Values.features.externalUserManagement.ldap.group.filter }}
+
+            - name: LDAP_USER_OBJECTCLASS
+              value: {{ .Values.features.externalUserManagement.ldap.user.objectClass }}
+            - name: LDAP_GROUP_OBJECTCLASS
+              value: {{ .Values.features.externalUserManagement.ldap.group.objectClass }}
+
+            - name: LDAP_USER_SCHEMA_ID
+              value: {{ .Values.features.externalUserManagement.ldap.user.schema.id }}
+            - name: LDAP_GROUP_SCHEMA_ID
+              value: {{ .Values.features.externalUserManagement.ldap.group.schema.id }}
+
+            - name: LDAP_USER_SCHEMA_ID_IS_OCTETSTRING
+              value: "{{ .Values.features.externalUserManagement.ldap.user.schema.idIsOctetString }}"
+            - name: LDAP_GROUP_SCHEMA_ID_IS_OCTETSTRING
+              value: "{{ .Values.features.externalUserManagement.ldap.group.schema.idIsOctetString }}"
+
+            - name: LDAP_USER_SCHEMA_MAIL
+              value: {{ .Values.features.externalUserManagement.ldap.user.schema.mail }}
+            - name: LDAP_GROUP_SCHEMA_MAIL
+              value: {{ .Values.features.externalUserManagement.ldap.group.schema.mail }}
+
+            - name: LDAP_USER_SCHEMA_DISPLAYNAME
+              value: {{ .Values.features.externalUserManagement.ldap.user.schema.displayName }}
+            - name: LDAP_GROUP_SCHEMA_DISPLAYNAME
+              value: {{ .Values.features.externalUserManagement.ldap.group.schema.displayName }}
+
+            - name: LDAP_USER_SCHEMA_USERNAME
+              value: {{ .Values.features.externalUserManagement.ldap.user.schema.userName }}
+            - name: LDAP_GROUP_SCHEMA_GROUPNAME
+              value: {{ .Values.features.externalUserManagement.ldap.group.schema.groupName }}
+
+            - name: LDAP_GROUP_SCHEMA_MEMBER
+              value: {{ .Values.features.externalUserManagement.ldap.group.schema.member }}
+            {{- end }}
+
+            - name: LDAP_URI
             {{ if not .Values.features.externalUserManagement.enabled }}
-            - name: GRAPH_LDAP_URI
               value: ldaps://idm:9235
-            - name: GRAPH_LDAP_CACERT
+            {{ else }}
+              value: {{ .Values.features.externalUserManagement.ldap.uri }}
+            {{ end }}
+            - name: LDAP_CACERT
+              {{ if or (not .Values.features.externalUserManagement.enabled) ( not .Values.features.externalUserManagement.ldap.certTrusted) }}
               value: /etc/ocis/ldap-ca/ldap-ca.crt
-            - name: GRAPH_LDAP_BIND_PASSWORD
+              {{ else }}
+              value: "" # no cert needed
+              {{ end }}
+
+            {{ if .Values.features.externalUserManagement.enabled }}
+            - name: LDAP_BIND_DN
+              value: {{ .Values.features.externalUserManagement.ldap.bindDN }}
+            {{ end }}
+
+            - name: LDAP_BIND_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: {{ .Values.secretRefs.ldapSecretRef }}
-                  key: graph-ldap-bind-password
-            {{ else }}
-            - name: GRAPH_IDENTITY_BACKEND
-              value: cs3
-            {{ end }}
-
+                  key: reva-ldap-bind-password
 
             - name: REVA_GATEWAY
               value: gateway:9142
