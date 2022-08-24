@@ -59,7 +59,7 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: {{ .Values.secretRefs.notificationsSmtpSecretRef }}
-                  key: smtp-sender
+                  key: smtp-username
 
             - name: NOTIFICATIONS_SMTP_PASSWORD
               valueFrom:
