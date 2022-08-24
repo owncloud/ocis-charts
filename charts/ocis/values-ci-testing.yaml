@@ -18,7 +18,8 @@ ingress:
 externalDomain: ocis.owncloud.test
 
 features:
-  emailNotifications: true
+  emailNotifications:
+    enabled: true
   appsIntegration:
     enabled: true
     wopiIntegration:

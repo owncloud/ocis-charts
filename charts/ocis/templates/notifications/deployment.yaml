@@ -1,4 +1,4 @@
-{{- if .Values.features.emailNotifications }}
+{{- if .Values.features.emailNotifications.enabled }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -44,23 +44,22 @@ spec:
             - name: NOTIFICATIONS_LOG_PRETTY
               value: "{{ .Values.logging.pretty }}"
 
+            - name: NOTIFICATIONS_SMTP_HOST
+              value: "{{ .Values.features.emailNotifications.smtp.host }}"
+            - name: NOTIFICATIONS_SMTP_PORT
+              value: "{{ .Values.features.emailNotifications.smtp.port }}"
             - name: NOTIFICATIONS_SMTP_SENDER
+              value: "{{ .Values.features.emailNotifications.smtp.sender }}"
+            - name: NOTIFICATIONS_SMTP_AUTHENTICATION
+              value: "{{ .Values.features.emailNotifications.smtp.authentication }}"
+            - name: NOTIFICATIONS_SMTP_ENCRYPTION
+              value: "{{ .Values.features.emailNotifications.smtp.encryption }}"
+
+            - name: NOTIFICATIONS_SMTP_USERNAME
               valueFrom:
                 secretKeyRef:
                   name: {{ .Values.secretRefs.notificationsSmtpSecretRef }}
                   key: smtp-sender
-
-            - name: NOTIFICATIONS_SMTP_HOST
-              valueFrom:
-                secretKeyRef:
-                  name: {{ .Values.secretRefs.notificationsSmtpSecretRef }}
-                  key: smtp-host
-
-            - name: NOTIFICATIONS_SMTP_PORT
-              valueFrom:
-                secretKeyRef:
-                  name: {{ .Values.secretRefs.notificationsSmtpSecretRef }}
-                  key: smtp-port
 
             - name: NOTIFICATIONS_SMTP_PASSWORD
               valueFrom:
