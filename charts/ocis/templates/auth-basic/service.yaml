@@ -1,4 +1,3 @@
-{{ if .Values.features.basicAuthentication }}
 apiVersion: v1
 kind: Service
 metadata:
@@ -13,4 +12,3 @@ spec:
       protocol: TCP
   selector:
     app: auth-basic
-{{ end }}
