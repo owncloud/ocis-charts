@@ -126,6 +126,12 @@ spec:
               value: {{ .Values.features.externalUserManagement.ldap.bindDN }}
             {{ end }}
 
+            - name: GRAPH_SPACES_MAX_QUOTA_PERSONAL
+              value: "{{ .Values.features.quota.personalSpaces.maxQuota }}"
+
+            - name: GRAPH_SPACES_MAX_QUOTA_PROJECT
+              value: "{{ .Values.features.quota.projectSpaces.maxQuota }}"
+
             - name: LDAP_BIND_PASSWORD
               valueFrom:
                 secretKeyRef:

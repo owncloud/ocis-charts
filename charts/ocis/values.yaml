@@ -43,8 +43,15 @@ insecure:
 # Enable or disable features of oCIS.
 features:
   quota:
-    # -- default quota for project spaces. Example 1Gi. 0 means unlimited.
-    defaultSpaceQuota: 0
+    personalSpaces:
+      # -- default quota for personal spaces. Example 1GB. 0 means unlimited.
+      defaultQuota: 0
+      # -- max quota for personal spaces. Example 10GB. 0 means unlimited.
+      maxQuota: 0
+    projectSpaces:
+      # -- max quota for project spaces. Example 100GB. 0 means unlimited.
+      maxQuota: 0
+
   # -- Enable basic authentication.
   # Not recommended for production installations.
   basicAuthentication: false

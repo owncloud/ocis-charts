@@ -348,12 +348,24 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `"userid"`
 | Attribute mapping of for the userIDClaim. Set to `userid` if the claim specified in `...oidc.userIDClaim` holds the value of the ldap user attribute specified in `...ldap.user.schema.id`. Set to `mail` if the claim specified in `...oidc.userIDClaim` holds the value of the ldap user attribute specified in  `...ldap.user.schema.mail`. Set to `username` if the claim specified in `...oidc.userIDClaim` holds the value of the ldap user attribute specified in `...ldap.user.schema.id`.
-| features.quota.defaultSpaceQuota
+| features.quota.personalSpaces.defaultQuota
 a| [subs=-attributes]
 +int+
 a| [subs=-attributes]
 `0`
-| default quota for project spaces. Example 1Gi. 0 means unlimited.
+| default quota for personal spaces. Example 1GB. 0 means unlimited.
+| features.quota.personalSpaces.maxQuota
+a| [subs=-attributes]
++int+
+a| [subs=-attributes]
+`0`
+| max quota for personal spaces. Example 10GB. 0 means unlimited.
+| features.quota.projectSpaces.maxQuota
+a| [subs=-attributes]
++int+
+a| [subs=-attributes]
+`0`
+| max quota for project spaces. Example 100GB. 0 means unlimited.
 | image.pullPolicy
 a| [subs=-attributes]
 +string+
