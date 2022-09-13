@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: web-config
+  namespace: {{ template "ocis.namespace" . }}
+  labels:
+    {{- include "ocis.labels" . | nindent 4 }}
+data:
+  web.yaml: |
+    ---
+    web:
+      config:
+        external_apps:
+          - id: ownCloud Webpage
+            path: https:/owncloud.com
+        options:
+          disableFeedbackLink: true
+          previewFileMimeTypes:
+            - image/gif
+            - image/png
+            - image/jpeg
+            - text/plain

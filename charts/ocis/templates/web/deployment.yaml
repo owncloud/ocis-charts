@@ -20,6 +20,8 @@ spec:
       labels:
         app: web
         {{- include "ocis.labels" . | nindent 8 }}
+      annotations:
+        checksum/config: {{ include (print $.Template.BasePath "/web/config.yaml") . | sha256sum }}
     spec:
       securityContext:
           fsGroup: {{ .Values.securityContext.fsGroup }}
@@ -65,3 +67,10 @@ spec:
           ports:
             - name: http
               containerPort: 9100
+          volumeMounts:
+            - name: configs
+              mountPath: /etc/ocis
+      volumes:
+        - name: configs
+          configMap:
+            name: web-config
