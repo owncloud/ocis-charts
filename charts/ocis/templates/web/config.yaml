@@ -10,9 +10,10 @@ data:
     ---
     web:
       config:
-        external_apps:
-          - id: ownCloud Webpage
-            path: https:/owncloud.com
+{{- if gt (len .Values.services.web.applications) 0 }}
+        applications:
+{{- toYaml .Values.services.web.applications | nindent 10 }}
+{{- end }}
         options:
           disableFeedbackLink: true
           previewFileMimeTypes:

@@ -563,3 +563,7 @@ services:
       # -- Use an existing PersistentVolumeClaim for persistence.
       existingClaim:
 
+  web:
+    # -- configure applications for web.
+    applications: []
+

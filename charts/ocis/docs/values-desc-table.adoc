@@ -1020,4 +1020,10 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `nil`
 | Storage class to use. Uses the default storage class if not set.
+| services.web.applications
+a| [subs=-attributes]
++list+
+a| [subs=-attributes]
+`[]`
+| configure applications for web.
 |===
