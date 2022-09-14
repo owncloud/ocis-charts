@@ -1025,5 +1025,11 @@ a| [subs=-attributes]
 +list+
 a| [subs=-attributes]
 `[]`
-| configure applications for web.
+| Configure applications for web.
+| services.web.theme.path
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Path for the Web theme.
 |===

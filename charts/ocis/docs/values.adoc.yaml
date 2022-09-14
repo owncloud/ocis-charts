@@ -564,6 +564,9 @@ services:
       existingClaim:
 
   web:
-    # -- configure applications for web.
+    # -- Configure applications for web.
     applications: []
+    theme:
+      # -- Path for the Web theme.
+      path: ""
 

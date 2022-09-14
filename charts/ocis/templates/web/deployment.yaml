@@ -51,6 +51,11 @@ spec:
             - name: WEB_HTTP_ADDR
               value: 0.0.0.0:9100
 
+            {{ if .Values.services.web.theme.path }}
+            - name: WEB_UI_THEME_PATH
+              value: {{ .Values.services.web.theme.path }}
+            {{ end }}
+
             - name: WEB_OIDC_AUTHORITY
             {{ if not .Values.features.externalUserManagement.enabled }}
               value: https://{{ .Values.externalDomain }}
