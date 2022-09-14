@@ -30,7 +30,7 @@ kubectl -n <namespace> get secrets/admin-user --template='{{"{{"}}.data.password
 {{- if not .Values.services.storageSystem.persistence.enabled }}
 ######     - storage-system                                                 #####
 {{- end }}
-{{- if not .Values.services.idm.persistence.enabled }}
+{{- if and (not .Values.features.externalUserManagement.enabled) (not .Values.services.idm.persistence.enabled) }}
 ######     - idm                                                            #####
 {{- end }}
 {{- if not .Values.services.store.persistence.enabled }}
