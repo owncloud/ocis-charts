@@ -53,7 +53,6 @@ features:
     # -- Enables email notifications.
     # This features needs the secret from notificationsSmtpSecretRef present.
     enabled: false
-
     smtp:
       # -- SMTP host to connect to.
       host:
@@ -65,8 +64,6 @@ features:
       authentication: none
       # -- Encryption method for the SMTP communication. Possible values are ‘starttls’, ‘ssl’, ‘ssltls’, ‘tls’ and ‘none’.
       encryption: none
-
-
   # Apps integration
   appsIntegration:
     # -- Enables the apps integration.
