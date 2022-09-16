@@ -16,17 +16,25 @@ data:
       routes:
       - endpoint: /
         backend: http://web:9100
+        unprotected: true
       - endpoint: /.well-known/
         backend: http://idp:9130
+        unprotected: true
       - endpoint: /konnect/
         backend: http://idp:9130
+        unprotected: true
       - endpoint: /signin/
         backend: http://idp:9130
+        unprotected: true
       - endpoint: /archiver
         backend: http://frontend:9140
       - type: regex
         endpoint: /ocs/v[12].php/cloud/user/signing-key
         backend: http://ocs:9110
+      - type: regex
+        endpoint: /ocs/v[12].php/config
+        backend: http://frontend:9140
+        unprotected: true
       - endpoint: /ocs/
         backend: http://frontend:9140
       - type: query
@@ -34,6 +42,9 @@ data:
         backend: http://webdav:9115
       - method: REPORT
         endpoint: /remote.php/dav/
+        backend: http://webdav:9115
+      - method: REPORT
+        endpoint: /remote.php/webdav
         backend: http://webdav:9115
       - type: query
         endpoint: /dav/?preview=1
@@ -47,23 +58,34 @@ data:
         backend: http://ocdav:8080
       - endpoint: /webdav/
         backend: http://ocdav:8080
+      - endpoint: /status
+        backend: http://ocdav:8080
+        unprotected: true
       - endpoint: /status.php
         backend: http://ocdav:8080
+        unprotected: true
       - endpoint: /index.php/
         backend: http://ocdav:8080
       - endpoint: /apps/
         backend: http://ocdav:8080
       - endpoint: /data
         backend: http://frontend:9140
+        unprotected: true
+      - endpoint: /app/list
+        backend: http://frontend:9140
+        unprotected: true
       - endpoint: /app/
         backend: http://frontend:9140
       - endpoint: /graph/
         backend: http://graph:9120
       - endpoint: /graph-explorer
         backend: http://graph-explorer:9135
+        unprotected: true
       - endpoint: /experimental
         backend: http://experimental:9180
+        unprotected: true
       - endpoint: /api/v0/settings
         backend: http://settings:9190
       - endpoint: /settings.js
         backend: http://settings:9190
+        unprotected: true
