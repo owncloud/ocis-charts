@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: quotas
+data:
+  group.json: {{ toJson .Values.features.quota.groupQuota | quote }}
+---

@@ -20,6 +20,9 @@ spec:
       labels:
         app: gateway
         {{- include "ocis.labels" . | nindent 8 }}
+      annotations:
+        checksum/config: {{ include (print $.Template.BasePath "/gateway/quotas.yaml") . | sha256sum }}
+
     spec:
       securityContext:
           fsGroup: {{ .Values.securityContext.fsGroup }}
@@ -85,6 +88,9 @@ spec:
             - name: GATEWAY_APP_REGISTRY_ENDPOINT
               value: app-registry:9242
 
+            - name: GROUP_QUOTE_FILE
+              value: /etc/ocis/quotas/group.json
+
             - name: GATEWAY_JWT_SECRET
               valueFrom:
                 secretKeyRef:
@@ -104,8 +110,13 @@ spec:
           volumeMounts:
             - name: tmp-volume
               mountPath: /tmp
+            - name: quotas
+              mountPath: /etc/ocis/quotas
       volumes:
         - name: tmp-volume
           emptyDir:
             medium: Memory
             sizeLimit: 6Mi
+        - name: quotas
+          configMap:
+            name: quotas
