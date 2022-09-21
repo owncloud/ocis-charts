@@ -88,7 +88,10 @@ spec:
             - name: GATEWAY_APP_REGISTRY_ENDPOINT
               value: app-registry:9242
 
-            - name: GROUP_QUOTE_FILE
+            - name: PERSONAL_SPACES_DEFAULT_QUOTA
+              value: "{{ .Values.features.quota.personalSpaces.defaultQuota }}"
+
+            - name: GROUP_QUOTA_FILE
               value: /etc/ocis/quotas/group.json
 
             - name: GATEWAY_JWT_SECRET
