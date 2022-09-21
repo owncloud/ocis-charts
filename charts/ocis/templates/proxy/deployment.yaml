@@ -80,9 +80,6 @@ spec:
             - name: PROXY_OIDC_INSECURE
               value: "{{ .Values.insecure.oidcIdpInsecure }}"
 
-            - name: OCIS_DEFAULT_SPACE_QUOTA
-              value: "{{ .Values.features.quota.personalSpaces.defaultQuota }}"
-
             - name: PROXY_JWT_SECRET
               valueFrom:
                 secretKeyRef:
