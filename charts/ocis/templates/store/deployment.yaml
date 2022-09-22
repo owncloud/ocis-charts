@@ -62,6 +62,19 @@ spec:
 
             - name: STORE_GRPC_ADDR
               value: 0.0.0.0:9460
+
+          livenessProbe:
+            exec:
+              command:
+              - /bin/sh
+              - -c
+              - curl --silent --fail http://localhost:9464/healthz
+            timeoutSeconds: 10
+            initialDelaySeconds: 60
+            periodSeconds: 20
+            failureThreshold: 3
+
+
           resources: {{ toYaml .Values.resources | nindent 12 }}
           ports:
             - name: grpc

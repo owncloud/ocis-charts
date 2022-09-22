@@ -54,6 +54,18 @@ spec:
             - name: REVA_GATEWAY
               value: gateway:9142
 
+          livenessProbe:
+            exec:
+              command:
+              - /bin/sh
+              - -c
+              - curl --silent --fail http://localhost:9119/healthz
+            timeoutSeconds: 10
+            initialDelaySeconds: 60
+            periodSeconds: 20
+            failureThreshold: 3
+
+
           resources: {{ toYaml .Values.resources | nindent 12 }}
           ports:
             - name: http

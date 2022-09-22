@@ -79,6 +79,17 @@ spec:
                   name: {{ .Values.secretRefs.storageSystemSecretRef }}
                   key: user-id
 
+          livenessProbe:
+            exec:
+              command:
+              - /bin/sh
+              - -c
+              - curl --silent --fail http://localhost:9194/healthz
+            timeoutSeconds: 10
+            initialDelaySeconds: 60
+            periodSeconds: 20
+            failureThreshold: 3
+
           resources: {{ toYaml .Values.resources | nindent 12 }}
           ports:
             - name: http
