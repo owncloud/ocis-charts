@@ -62,15 +62,16 @@ spec:
 
             # user sharing
             - name: SHARING_USER_DRIVER
-              value: cs3
-            - name: SHARING_USER_CS3_PROVIDER_ADDR
+              value: jsoncs3
+            - name: SHARING_USER_JSONCS3_PROVIDER_ADDR
               value: storage-system:9215
-            - name: SHARING_USER_CS3_SYSTEM_USER_API_KEY
+            - name: SHARING_USER_JSONCS3_SYSTEM_USER_API_KEY
               valueFrom:
                 secretKeyRef:
                   name: {{ .Values.secretRefs.storageSystemSecretRef }}
                   key: api-key
-            - name: SHARING_USER_CS3_SYSTEM_USER_ID
+
+            - name: SHARING_USER_JSONCS3_SYSTEM_USER_ID
               valueFrom:
                 secretKeyRef:
                   name: {{ .Values.secretRefs.storageSystemSecretRef }}
