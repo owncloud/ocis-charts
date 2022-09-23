@@ -72,6 +72,12 @@ spec:
             - name: NOTIFICATIONS_EVENTS_ENDPOINT
               value: nats:9233
 
+            - name: OCIS_MACHINE_AUTH_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.secretRefs.machineAuthApiKeySecretRef }}
+                  key: machine-auth-api-key
+
             - name: NOTIFICATIONS_MACHINE_AUTH_API_KEY
               valueFrom:
                 secretKeyRef:
