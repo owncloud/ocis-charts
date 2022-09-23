@@ -10,6 +10,10 @@ data:
     ---
     web:
       config:
+{{- if gt (len .Values.services.web.externalApplications) 0 }}
+        external_apps:
+{{- toYaml .Values.services.web.externalApplications | nindent 10 }}
+{{- end }}
 {{- if gt (len .Values.services.web.applications) 0 }}
         applications:
 {{- toYaml .Values.services.web.applications | nindent 10 }}
@@ -21,3 +25,6 @@ data:
             - image/png
             - image/jpeg
             - text/plain
+            - image/tiff
+            - image/bmp
+            - image/x-ms-bmp

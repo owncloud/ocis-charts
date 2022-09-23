@@ -563,6 +563,8 @@ services:
   web:
     # -- Configure applications for web.
     applications: []
+    # -- Configure external applications for web.
+    externalApplications: []
     theme:
       # -- Path for the Web theme.
       path: ""
