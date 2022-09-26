@@ -28,3 +28,8 @@ data:
             - image/tiff
             - image/bmp
             - image/x-ms-bmp
+
+{{- if gt (len .Values.services.web.styles) 0 }}
+        styles:
+{{- toYaml .Values.services.web.styles | nindent 10 }}
+{{- end }}
