@@ -49,6 +49,8 @@ spec:
             - name: AUDIT_EVENTS_ENDPOINT
               value: nats:9233
 
+            - name: AUDIT_LOG_TO_CONSOLE
+              value: "true"
             # TODO: log to file or stdout?
             #- name: AUDIT_FILEPATH
             #  value:
