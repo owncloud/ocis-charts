@@ -108,8 +108,6 @@ spec:
               containerPort: 9215
             - name: http
               containerPort: 9216
-            - name: metrics
-              containerPort: 9217
           volumeMounts:
             - name: tmp-volume
               mountPath: /tmp

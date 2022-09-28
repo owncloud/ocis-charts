@@ -13,8 +13,5 @@ spec:
     - name: http
       port: 9216
       protocol: TCP
-    - name: metrics
-      containerPort: 9217
-      protocol: TCP
   selector:
     app: storage-system

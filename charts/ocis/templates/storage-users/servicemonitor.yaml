@@ -1,11 +1,11 @@
 apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
-  name: storage-system
+  name: storage-users
 spec:
   selector:
     matchLabels:
-      app: storage-system
+      app: storage-users
   endpoints:
   - port: metrics
     interval: "60s"

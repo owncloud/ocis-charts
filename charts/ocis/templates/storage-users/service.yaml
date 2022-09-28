@@ -13,5 +13,8 @@ spec:
     - name: http
       port: 9158
       protocol: TCP
+    - name: metrics
+      port: 9159
+      protocol: TCP
   selector:
     app: storage-users
