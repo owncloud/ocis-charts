@@ -49,6 +49,12 @@ spec:
             - name: EXPERIMENTAL_HTTP_ADDR
               value: 0.0.0.0:9180
 
+            - name: OCIS_JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.secretRefs.jwtSecretRef }}
+                  key: jwt-secret
+
           resources: {{ toYaml .Values.resources | nindent 12 }}
           ports:
             - name: http
