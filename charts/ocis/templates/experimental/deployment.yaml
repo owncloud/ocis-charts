@@ -49,6 +49,9 @@ spec:
             - name: EXPERIMENTAL_HTTP_ADDR
               value: 0.0.0.0:9180
 
+            - name: EXPERIMENTAL_EVENTS_ENDPOINT
+              value: nats:9233
+
             - name: OCIS_JWT_SECRET
               valueFrom:
                 secretKeyRef:
