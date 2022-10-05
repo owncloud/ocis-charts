@@ -72,6 +72,9 @@ spec:
             - name: NOTIFICATIONS_EVENTS_ENDPOINT
               value: nats:9233
 
+            - name: OCIS_URL
+              value: https://{{ .Values.externalDomain }}
+
             - name: OCIS_MACHINE_AUTH_API_KEY
               valueFrom:
                 secretKeyRef:

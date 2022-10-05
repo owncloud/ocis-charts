@@ -561,6 +561,8 @@ services:
       existingClaim:
 
   web:
+    # -- Configure apps for web.
+    apps: []
     # -- Configure web styles.
     styles: []
     # -- Configure applications for web.

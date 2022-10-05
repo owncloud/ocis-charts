@@ -83,7 +83,6 @@ data:
         unprotected: true
       - endpoint: /experimental
         backend: http://experimental:9180
-        unprotected: true
       - endpoint: /api/v0/settings
         backend: http://settings:9190
       - endpoint: /settings.js

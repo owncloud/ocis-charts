@@ -10,6 +10,10 @@ data:
     ---
     web:
       config:
+{{- if gt (len .Values.services.web.apps) 0 }}
+        apps:
+{{- toYaml .Values.services.web.apps | nindent 10 }}
+{{- end }}
 {{- if gt (len .Values.services.web.externalApplications) 0 }}
         external_apps:
 {{- toYaml .Values.services.web.externalApplications | nindent 10 }}
