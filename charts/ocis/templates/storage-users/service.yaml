@@ -4,6 +4,7 @@ metadata:
   name: storage-users
   namespace: {{ template "ocis.namespace" . }}
   labels:
+    app: storage-users
     {{- include "ocis.labels" . | nindent 4 }}
 spec:
   ports:
