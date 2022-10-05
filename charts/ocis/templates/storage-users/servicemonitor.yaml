@@ -1,0 +1,13 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: storage-users
+spec:
+  selector:
+    matchLabels:
+      app: storage-users
+  endpoints:
+  - port: metrics
+    interval: "60s"
+    scrapeTimeout: "60s"
+    path: /metrics

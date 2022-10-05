@@ -4,6 +4,7 @@ metadata:
   name: storage-users
   namespace: {{ template "ocis.namespace" . }}
   labels:
+    app: storage-users
     {{- include "ocis.labels" . | nindent 4 }}
 spec:
   ports:
@@ -12,6 +13,9 @@ spec:
       protocol: TCP
     - name: http
       port: 9158
+      protocol: TCP
+    - name: metrics
+      port: 9159
       protocol: TCP
   selector:
     app: storage-users
