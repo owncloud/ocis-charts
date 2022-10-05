@@ -8,6 +8,6 @@ spec:
       app: storage-users
   endpoints:
   - port: metrics
-    interval: "60s"
-    scrapeTimeout: "60s"
+    interval: "10s"
+    scrapeTimeout: "10s"
     path: /metrics
