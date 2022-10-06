@@ -27,7 +27,7 @@ def linting(ctx):
                 "commands": [
                     "helm template --kube-version %s charts/ocis -f charts/ocis/ci/%s > charts/ocis/ci/templated.yaml" % (version, "values.yaml" if version != "1.25.0" else "values-1-25.yaml"),
                 ],
-            }
+            },
         )
         kubeconform_steps.append(
             {
