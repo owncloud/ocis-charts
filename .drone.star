@@ -22,7 +22,16 @@ def linting(ctx):
     for version in config["kubernetesVersions"]:
         kubeconform_steps.append(
             {
-                "name": "kubeconform-%s" % version,
+                "name": "helm template - %s" % version,
+                "image": "owncloudci/alpine:latest",
+                "commands": [
+                    "helm template --kube-version %s charts/ocis -f charts/ocis/ci/%s > charts/ocis/ci/templated.yaml" % (version, "values.yaml" if version != "1.25.0" else "values-1-25.yaml"),
+                ],
+            }
+        )
+        kubeconform_steps.append(
+            {
+                "name": "kubeconform - %s" % version,
                 "image": "ghcr.io/yannh/kubeconform:master",
                 "entrypoint": [
                     "/kubeconform",
@@ -30,7 +39,7 @@ def linting(ctx):
                     "%s" % version,
                     "-summary",
                     "-strict",
-                    "ocis-ci-templated.yaml",
+                    "charts/ocis/ci/templated.yaml",
                 ],
             },
         )
@@ -42,16 +51,16 @@ def linting(ctx):
         "steps": [
             {
                 "name": "helm lint",
-                "image": "alpine/helm:latest",
+                "image": "owncloudci/alpine:latest",
                 "commands": [
                     "helm lint charts/ocis",
                 ],
             },
             {
                 "name": "helm template",
-                "image": "alpine/helm:latest",
+                "image": "owncloudci/alpine:latest",
                 "commands": [
-                    "helm template charts/ocis -f charts/ocis/values-ci-testing.yaml > ocis-ci-templated.yaml",
+                    "helm template charts/ocis -f charts/ocis/ci/values.yaml > charts/ocis/ci/templated.yaml",
                 ],
             },
             {
@@ -60,7 +69,7 @@ def linting(ctx):
                 "entrypoint": [
                     "/kube-linter",
                     "lint",
-                    "ocis-ci-templated.yaml",
+                    "charts/ocis/ci/templated.yaml",
                 ],
             },
         ] + kubeconform_steps,
