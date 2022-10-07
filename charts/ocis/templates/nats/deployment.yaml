@@ -52,14 +52,38 @@ spec:
             - name: NATS_LOG_PRETTY
               value: "{{ .Values.logging.pretty }}"
 
+            - name: NATS_DEBUG_PPROF
+              value: "{{ .Values.debug.profiling }}"
+
             - name: NATS_NATS_HOST
               value: "0.0.0.0"
             - name: NATS_NATS_PORT
               value: "9233"
+
+            - name: NATS_DEBUG_ADDR
+              value: 0.0.0.0:9234
+
+          livenessProbe:
+            # TODO: NATS does not currently provide a debug port, re-enable this once that is implemented
+            # See: https://github.com/owncloud/ocis-charts/issues/111
+            # httpGet:
+            #   path: /healthz
+            #   port: metrics-debug
+            # until then we're just doing a TCP check on the main port
+            tcpSocket:
+              port: 9233
+            timeoutSeconds: 10
+            initialDelaySeconds: 60
+            periodSeconds: 20
+            failureThreshold: 3
+
           resources: {{ toYaml .Values.resources | nindent 12 }}
           ports:
             - name: nats
               containerPort: 9233
+            # TODO: NATS does not currently provide a debug port, re-enable this once that is implemented
+            # - name: metrics-debug
+            #   containerPort: 9234
           volumeMounts:
             - name: nats-data
               mountPath: /var/lib/ocis

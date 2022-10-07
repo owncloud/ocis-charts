@@ -1,5 +1,6 @@
-
-@@ -4,12 +4,17 @@ metadata:
+apiVersion: v1
+kind: Service
+metadata:
   name: proxy
   namespace: {{ template "ocis.namespace" . }}
   labels:

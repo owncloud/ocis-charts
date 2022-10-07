@@ -81,6 +81,17 @@ spec:
                   name: {{ $.Values.secretRefs.jwtSecretRef }}
                   key: jwt-secret
 
+          livenessProbe:
+            exec:
+              command:
+              - /bin/sh
+              - -c
+              - curl --silent --fail http://frontend:9140/app/list | grep {{ $officeSuite.name }}
+            timeoutSeconds: 10
+            initialDelaySeconds: 60
+            periodSeconds: 20
+            failureThreshold: 3
+
           resources: {{ toYaml $.Values.resources | nindent 12 }}
           ports:
             - name: grpc

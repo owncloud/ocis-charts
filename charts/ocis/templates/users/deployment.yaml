@@ -150,6 +150,15 @@ spec:
                   name: {{ .Values.secretRefs.jwtSecretRef }}
                   key: jwt-secret
 
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: metrics-debug
+            timeoutSeconds: 10
+            initialDelaySeconds: 60
+            periodSeconds: 20
+            failureThreshold: 3
+
           resources: {{ toYaml .Values.resources | nindent 12 }}
           ports:
             - name: grpc

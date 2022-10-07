@@ -4,6 +4,8 @@ metadata:
   name: search
   namespace: {{ template "ocis.namespace" . }}
   labels:
+    app: search
+    ocis-metrics: enabled
     {{- include "ocis.labels" . | nindent 4 }}
 spec:
   selector:
