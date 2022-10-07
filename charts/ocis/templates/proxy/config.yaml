@@ -53,21 +53,21 @@ data:
         endpoint: /webdav/?preview=1
         backend: http://webdav:9115
       - endpoint: /remote.php/
-        backend: http://ocdav:8080 # TODO: investigate why service discovery did not work here, 502 bad gateway
+        service: com.owncloud.web.ocdav
       - endpoint: /dav/
-        backend: http://ocdav:8080
+        service: com.owncloud.web.ocdav
       - endpoint: /webdav/
-        backend: http://ocdav:8080
+        service: com.owncloud.web.ocdav
       - endpoint: /status
-        backend: http://ocdav:8080
+        service: com.owncloud.web.ocdav
         unprotected: true
       - endpoint: /status.php
-        backend: http://ocdav:8080
+        service: com.owncloud.web.ocdav
         unprotected: true
       - endpoint: /index.php/
-        backend: http://ocdav:8080
+        service: com.owncloud.web.ocdav
       - endpoint: /apps/
-        backend: http://ocdav:8080
+        service: com.owncloud.web.ocdav
       - endpoint: /data
         backend: http://frontend:9140
         unprotected: true
