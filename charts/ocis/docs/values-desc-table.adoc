@@ -966,4 +966,40 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `nil`
 | Storage class to use. Uses the default storage class if not set.
+| services.web.config.applications
+a| [subs=-attributes]
++list+
+a| [subs=-attributes]
+`[]`
+| Configure the {"applications": []} section in the Web config.json.
+| services.web.config.apps
+a| [subs=-attributes]
++list+
+a| [subs=-attributes]
+`[]`
+| Configure the {"apps": []} section in the Web config.json.
+| services.web.config.disableFeedbackLink
+a| [subs=-attributes]
++bool+
+a| [subs=-attributes]
+`false`
+| Disables the feedback link in the Web UI.
+| services.web.config.externalApplications
+a| [subs=-attributes]
++list+
+a| [subs=-attributes]
+`[]`
+| Configure the {"external_apps": []} section in the Web config.json.
+| services.web.config.theme.path
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| URL path to load themes from. The theme server will be prepended. Defaults to the ownCloud Web default theme.
+| services.web.config.theme.server
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| URL to load themes from. Will be prepended to the theme path. Defaults to the value of "externalDomain".
 |===

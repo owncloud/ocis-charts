@@ -20,6 +20,8 @@ spec:
       labels:
         app: web
         {{- include "ocis.labels" . | nindent 8 }}
+      annotations:
+        checksum/config: {{ include (print $.Template.BasePath "/web/config.yaml") . | sha256sum }}
     spec:
       securityContext:
           fsGroup: {{ .Values.securityContext.fsGroup }}
@@ -60,8 +62,18 @@ spec:
             {{ else }}
               value: {{ .Values.features.externalUserManagement.oidc.issuerURI }}
             {{ end }}
+
             - name: WEB_UI_THEME_SERVER
+            {{ if .Values.services.web.config.theme.server }}
+              value: {{ .Values.services.web.config.theme.server }}
+            {{ else }}
               value: https://{{ .Values.externalDomain }}
+            {{ end }}
+            {{ if .Values.services.web.config.theme.path }}
+            - name: WEB_UI_THEME_PATH
+              value: {{ .Values.services.web.config.theme.path }}
+            {{ end }}
+
             - name: WEB_UI_CONFIG_SERVER
               value: https://{{ .Values.externalDomain }}
             - name: WEB_OIDC_METADATA_URL
@@ -82,3 +94,10 @@ spec:
               containerPort: 9100
             - name: metrics-debug
               containerPort: 9104
+          volumeMounts:
+            - name: configs
+              mountPath: /etc/ocis
+      volumes:
+        - name: configs
+          configMap:
+            name: web-config

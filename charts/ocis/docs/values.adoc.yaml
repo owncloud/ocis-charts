@@ -574,3 +574,45 @@ services:
       # -- Use an existing PersistentVolumeClaim for persistence.
       existingClaim:
 
+  # ownCloud WEB service.
+  web:
+    # Configuration for web, that ends up in the config.json file.
+    config:
+      # -- Disables the feedback link in the Web UI.
+      disableFeedbackLink: false
+      # -- Configure the {"apps": []} section in the Web config.json.
+      apps: []
+        # default apps, add and remove apps as desired
+        # - files
+        # - search
+        # - text-editor
+        # - pdf-viewer
+        # - external
+        # - user-management
+      # -- Configure the {"applications": []} section in the Web config.json.
+      applications: []
+        # example for an user manual homepage, that will be linked in the app drawer
+        # - icon: book-read
+        #   url: "https://manual.owncloud.test"
+        #   target: _blank
+        #   title:
+        #     de: Anleitung
+        #     en: Manual
+      # -- Configure the {"external_apps": []} section in the Web config.json.
+      externalApplications: []
+        # default external application of Web, add and remove apps as desired
+        # - id: preview
+        #   path: web-app-preview
+        #   config:
+        #     mimeTypes:
+        #       - image/tiff
+        #       - image/bmp
+        #       - image/x-ms-bmp
+        # - id: settings
+        #   path: /settings.js
+      theme:
+        # -- URL to load themes from. Will be prepended to the theme path. Defaults to the value of "externalDomain".
+        server: ""
+        # -- URL path to load themes from. The theme server will be prepended. Defaults to the ownCloud Web default theme.
+        path: ""
+
