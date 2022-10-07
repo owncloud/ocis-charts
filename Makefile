@@ -12,7 +12,7 @@ docs: $(HELM_DOCS) $(GOMPLATE)
 .PHONY: ci-template
 ci-template:
 	# TODO: use helm from bingo
-	helm template charts/ocis -f charts/ocis/values-ci-testing.yaml > ocis-ci-templated.yaml
+	helm template --kube-version 1.24 charts/ocis -f charts/ocis/values-ci-testing.yaml > ocis-ci-templated.yaml
 
 .PHONY: clean
 clean:
@@ -23,7 +23,7 @@ clean:
 lint: ci-template $(KUBE_LINTER)
 	# TODO: use helm from bingo
 	helm lint charts/ocis
-	helm template charts/ocis -f charts/ocis/values-ci-testing.yaml > ocis-ci-templated.yaml
+	helm template --kube-version 1.24 charts/ocis -f charts/ocis/values-ci-testing.yaml > ocis-ci-templated.yaml
 	$(KUBE_LINTER) lint ocis-ci-templated.yaml
 
 

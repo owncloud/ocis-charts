@@ -52,7 +52,7 @@ def linting(ctx):
                 "name": "helm template",
                 "image": "alpine/helm:latest",
                 "commands": [
-                    "helm template charts/ocis -f charts/ocis/values-ci-testing.yaml > ocis-ci-templated.yaml",
+                    "helm template --kube-version 1.24 charts/ocis -f charts/ocis/values-ci-testing.yaml > ocis-ci-templated.yaml",
                 ],
             },
             {
