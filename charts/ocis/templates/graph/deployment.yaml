@@ -52,6 +52,9 @@ spec:
             - name: GRAPH_SPACES_WEBDAV_BASE
               value: "https://{{ .Values.externalDomain }}"
 
+            - name: OCIS_URL
+              value: "https://{{ .Values.externalDomain }}"
+
             {{- if .Values.features.externalUserManagement.enabled }}
             - name: LDAP_INSECURE
               value: "{{ .Values.features.externalUserManagement.ldap.insecure }}"
