@@ -62,7 +62,7 @@ spec:
             # external availability grpc
             - name: STORAGE_USERS_GRPC_ADDR
               value: 0.0.0.0:9157
-            
+
             - name: STORAGE_USERS_DEBUG_ADDR
               value: 0.0.0.0:9159
 
@@ -101,6 +101,13 @@ spec:
             - name: STORAGE_USERS_S3NG_BUCKET
               value: "{{ .Values.services.storageUsers.storageBackend.driverConfig.s3ng.bucket }}"
             {{- end }}
+
+            # cache
+            - name: STORAGE_USERS_CACHE_STORE
+              value: ""
+            #   value: redis
+            # - name: STORAGE_USERS_CACHE_NODES
+            #   value: redis-master.ocis-redis.svc.cluster.local:6379
 
             # events
             - name: STORAGE_USERS_EVENTS_ENDPOINT

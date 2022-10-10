@@ -69,6 +69,9 @@ spec:
                   name: {{ .Values.secretRefs.machineAuthApiKeySecretRef }}
                   key: machine-auth-api-key
 
+            - name: FORCE_RESCAN_PERIOD
+              value: 12h
+
           livenessProbe:
             exec:
               command:

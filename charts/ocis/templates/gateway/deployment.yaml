@@ -106,6 +106,13 @@ spec:
                   name: {{ .Values.secretRefs.transferSecretSecretRef }}
                   key: transfer-secret
 
+            # cache
+            - name: GATEWAY_CACHE_STORE
+              value: ""
+            #   value: redis
+            # - name: GATEWAY_CACHE_NODES
+            #   value: redis-master.ocis-redis.svc.cluster.local:6379
+
           livenessProbe:
             exec:
               command:
