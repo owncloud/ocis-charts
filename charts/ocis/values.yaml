@@ -283,7 +283,7 @@ autoscaling:
 #       name: memory
 #       targetAverageUtilization: 60
 
-# -- Resources to apply to all services.
+# -- Resources to apply to all services (except search).
 resources: {}
   # limits:
   #   cpu: 100m
@@ -380,6 +380,14 @@ services:
           accessKey: lorem-ipsum
           # -- S3 secret key to use for the S3NG driver. Only used if driver is set to "s3ng".
           secretKey: lorem-ipsum
+    # -- Resources to apply to storage-users.
+    resources: {}
+      # limits:
+      #   cpu: 100m
+      #   memory: 128Mi
+      # requests:
+      #   cpu: 100m
+      #   memory: 128Mi
     persistence:
       # -- Enables persistence.
       # Needs to be enabled on production installations.
@@ -499,6 +507,15 @@ services:
 
   # SEARCH service.
   search:
+    # -- Resources to apply to search.
+    resources: {}
+      # limits:
+      #   cpu: 100m
+      #   memory: 128Mi
+      # requests:
+      #   cpu: 100m
+      #   memory: 128Mi
+
     extractor:
       tika:
         url: http://tika:9998

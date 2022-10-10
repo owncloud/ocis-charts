@@ -94,7 +94,7 @@ spec:
             periodSeconds: 20
             failureThreshold: 3
 
-          resources: {{ toYaml .Values.resources | nindent 12 }}
+          resources: {{ toYaml .Values.services.search.resources | nindent 12 }}
           ports:
           - name: grpc
             containerPort: 9220
