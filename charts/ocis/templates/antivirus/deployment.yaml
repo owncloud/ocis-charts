@@ -24,6 +24,27 @@ spec:
       securityContext:
           fsGroup: {{ .Values.securityContext.fsGroup }}
           fsGroupChangePolicy: {{ .Values.securityContext.fsGroupChangePolicy }}
+      initContainers:
+        - name: clean-data
+          image: busybox
+          securityContext:
+            runAsNonRoot: false
+            runAsUser: 0
+          command: ["rm", "-rf", "/var/lib/ocis/antivirus/*"]
+          volumeMounts:
+          - name: antivirus-data
+            mountPath: /var/lib/ocis/antivirus
+      {{- if and $.Values.services.antivirus.persistence.enabled $.Values.services.antivirus.persistence.chownInitContainer }}
+        - name: init-chown-data
+          image: busybox
+          securityContext:
+            runAsNonRoot: false
+            runAsUser: 0
+          command: ["chown", "-R", "{{ .Values.securityContext.runAsUser }}:{{ .Values.securityContext.runAsGroup }}", "/var/lib/ocis/antivirus"]
+          volumeMounts:
+          - name: antivirus-data
+            mountPath: /var/lib/ocis/antivirus
+      {{ end }}
       containers:
         - name: antivirus
           image: {{ template "ocis-antivirus.image" $ }}
@@ -45,7 +66,7 @@ spec:
               value: nats:9233
 
             - name: ANTIVIRUS_FILE_PATH
-              value: "/tmp"
+              value: "/var/lib/ocis/antivirus"
 
             - name: ANTIVIRUS_SCANNER_TYPE
               value: icap
@@ -56,10 +77,16 @@ spec:
             - name: ANTIVIRUS_MAX_SCAN_SIZE
               value: 1500MB
 
-          resources: {{ toYaml .Values.resources | nindent 12 }}
+          resources: {{ toYaml .Values.services.antivirus.resources | nindent 12 }}
           volumeMounts:
-            - name: tmp-volume
-              mountPath: /tmp
+            - name: antivirus-data
+              mountPath: /var/lib/ocis/antivirus
       volumes:
-        - name: tmp-volume
+      {{ if .Values.services.antivirus.persistence.enabled }}
+        - name: antivirus-data
+          persistentVolumeClaim:
+            claimName: antivirus-data
+      {{ else }}
+        - name: antivirus-data
           emptyDir: {}
+      {{ end }}
