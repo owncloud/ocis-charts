@@ -69,6 +69,9 @@ spec:
             - name: WEB_OIDC_METADATA_URL
               value: https://{{ .Values.externalDomain }}/.well-known/openid-configuration
 
+            - name: WEB_CACHE_TTL
+              value: "600"
+
           livenessProbe:
             exec:
               command:
