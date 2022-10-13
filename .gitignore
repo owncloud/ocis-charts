@@ -6,5 +6,5 @@
 .DS_Store
 helmfile.yaml
 .drone.yml
-ocis-ci-templated.yaml
+**/ci/templated.yaml
 deployments/*
