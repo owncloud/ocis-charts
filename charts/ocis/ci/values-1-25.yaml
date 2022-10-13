@@ -1,0 +1,132 @@
+---
+
+ingress:
+  enabled: true
+  ingressClassName: some-ingress
+  annotations:
+    kubernetes.io/ingress.class: some-ingress
+    kubernetes.io/tls-acme: "true"
+  labels:
+    label1: lorem
+    label2: ipsum
+
+  tls:
+    - secretName: chart-example-tls
+      hosts:
+        - ocis.owncloud.test
+
+externalDomain: ocis.owncloud.test
+
+features:
+  emailNotifications:
+    enabled: true
+  appsIntegration:
+    enabled: true
+    wopiIntegration:
+      wopiServerURI: https://wopiserver.owncloud.test
+      officeSuites:
+        - name: Collabora
+          enabled: true
+          uri: https://collabora.owncloud.test
+          iconURI: https://collabora.owncloud.test/favicon.ico
+          insecure: false
+        - name: OnlyOffice
+          enabled: true
+          uri: https://onlyoffice.owncloud.test
+          iconURI: https://onlyoffice.owncloud.test/web-apps/apps/documenteditor/main/resources/img/favicon.ico
+          insecure: false
+    mimetypes:
+      - mime_type: application/vnd.oasis.opendocument.text
+        extension: odt
+        name: OpenDocument
+        description: OpenDocument text document
+        icon: ""
+        default_app: ""
+        allow_creation: true
+
+extraLabels:
+  extra1: lorem
+  extra2: ipsum
+
+autoscaling:
+  enabled: true
+  minReplicas: 3
+  maxReplicas: 10
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 60
+    - type: Resource
+      resource:
+        name: memory
+        target:
+          type: Utilization
+          averageUtilization: 60
+
+resources:
+  limits:
+    cpu: 100m
+    memory: 128Mi
+  requests:
+    cpu: 100m
+    memory: 128Mi
+
+services:
+  storageSystem:
+    persistence:
+      enabled: true
+      storageClassName: default-storage
+      accessModes:
+        - ReadWriteMany
+      size: 5Gi
+      annotations:
+        anno-1: test
+      finalizers:
+        - kubernetes.io/pvc-protection
+      selectorLabels:
+        selector1: foobar
+
+  storageUsers:
+    storageBackend:
+      driver: ocis
+    persistence:
+      enabled: true
+      storageClassName: default-storage
+      accessModes:
+        - ReadWriteMany
+      size: 50Gi
+      annotations:
+        anno-1: test
+      finalizers:
+        - kubernetes.io/pvc-protection
+      selectorLabels: {}
+
+  store:
+    persistence:
+      enabled: true
+      storageClassName: default-storage
+      accessModes:
+        - ReadWriteMany
+      size: 5Gi
+      annotations:
+        anno-1: test
+      finalizers:
+        - kubernetes.io/pvc-protection
+      selectorLabels:
+        selector1: foobar
+
+  thumbnails:
+    persistence:
+      enabled: true
+      storageClassName: default-storage
+      accessModes:
+        - ReadWriteMany
+      size: 10Gi
+      annotations:
+        anno-1: test
+      finalizers: []
+      selectorLabels:
+        selector1: foobar
