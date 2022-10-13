@@ -3,7 +3,7 @@ Supported Kubernetes versions
 [width="100%",cols="~",options="header"]
 |===
 | Version
-{{- range (regexSplit (regexQuoteMeta " || ") .KubeVersion -1) }}
+{{- range ((regexSplit (regexQuoteMeta " || ") .KubeVersion -1) | sortAlpha | reverse) }}
 a| [subs=-attributes]
 +{{ . }}+
 {{- end }}
