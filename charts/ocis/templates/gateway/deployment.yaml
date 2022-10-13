@@ -65,8 +65,6 @@ spec:
 
             - name: GATEWAY_AUTH_BASIC_ENDPOINT
               value: auth-basic:9146
-            - name: GATEWAY_AUTH_BEARER_ENDPOINT
-              value: auth-bearer:9148
             - name: GATEWAY_AUTH_MACHINE_ENDPOINT
               value: auth-machine:9166
 
