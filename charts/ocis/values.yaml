@@ -337,34 +337,6 @@ services:
       # requests:
       #   cpu: 100m
       #   memory: 128Mi
-    persistence:
-      # -- Enables persistence.
-      # Needs to be enabled on production installations.
-      # If not enabled, pod restarts will lead to data loss.
-      # Also scaling this service beyond one instance is not possible if the service instances don't share the same storage.
-      enabled: false
-      # -- Enables a initContainer to chown the volume.
-      # The initContainer is run as root.
-      # This is not needed if the driver applies the fsGroup from the securityContext.
-      chownInitContainer: false
-      # -- Storage class to use.
-      # Uses the default storage class if not set.
-      storageClassName:
-      # -- Persistent volume access modes. Needs to be `["ReadWriteMany"]` when scaling this service beyond one instance.
-      accessModes:
-        - ReadWriteMany
-      # -- Size of the persistent volume.
-      size: 50Gi
-      # -- Persistent volume annotations.
-      annotations: {}
-      # -- Persistent volume finalizers.
-      finalizers:
-        - kubernetes.io/pvc-protection
-      # -- Persistent volume selector labels.
-      selectorLabels: {}
-      # -- Use an existing PersistentVolumeClaim for persistence.
-      existingClaim:
-
 
   # STORAGE-SYSTEM service.
   storageSystem:
@@ -480,6 +452,9 @@ services:
       selectorLabels: {}
       # -- Use an existing PersistentVolumeClaim for persistence.
       existingClaim:
+
+  proxy:
+    replicas: 1
 
   # THUMBNAILS service.
   thumbnails:
@@ -613,6 +588,7 @@ services:
       existingClaim:
 
   web:
+    replicas: 1
     # -- Configure apps for web.
     apps: []
     # -- Configure web styles.

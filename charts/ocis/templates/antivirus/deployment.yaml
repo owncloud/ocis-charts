@@ -24,27 +24,6 @@ spec:
       securityContext:
           fsGroup: {{ .Values.securityContext.fsGroup }}
           fsGroupChangePolicy: {{ .Values.securityContext.fsGroupChangePolicy }}
-      initContainers:
-        - name: clean-data
-          image: busybox
-          securityContext:
-            runAsNonRoot: false
-            runAsUser: 0
-          command: ["rm", "-rf", "/var/lib/ocis/antivirus/*"]
-          volumeMounts:
-          - name: antivirus-data
-            mountPath: /var/lib/ocis/antivirus
-      {{- if and $.Values.services.antivirus.persistence.enabled $.Values.services.antivirus.persistence.chownInitContainer }}
-        - name: init-chown-data
-          image: busybox
-          securityContext:
-            runAsNonRoot: false
-            runAsUser: 0
-          command: ["chown", "-R", "{{ .Values.securityContext.runAsUser }}:{{ .Values.securityContext.runAsGroup }}", "/var/lib/ocis/antivirus"]
-          volumeMounts:
-          - name: antivirus-data
-            mountPath: /var/lib/ocis/antivirus
-      {{ end }}
       containers:
         - name: antivirus
           image: {{ template "ocis-antivirus.image" $ }}
@@ -64,9 +43,8 @@ spec:
 
             - name: ANTIVIRUS_EVENTS_ENDPOINT
               value: nats:9233
-
-            - name: ANTIVIRUS_FILE_PATH
-              value: "/var/lib/ocis/antivirus"
+            - name: ANTIVIRUS_EVENTS_TLS_INSECURE
+              value: "true"
 
             - name: ANTIVIRUS_SCANNER_TYPE
               value: icap
@@ -78,15 +56,3 @@ spec:
               value: 1500MB
 
           resources: {{ toYaml .Values.services.antivirus.resources | nindent 12 }}
-          volumeMounts:
-            - name: antivirus-data
-              mountPath: /var/lib/ocis/antivirus
-      volumes:
-      {{ if .Values.services.antivirus.persistence.enabled }}
-        - name: antivirus-data
-          persistentVolumeClaim:
-            claimName: antivirus-data
-      {{ else }}
-        - name: antivirus-data
-          emptyDir: {}
-      {{ end }}

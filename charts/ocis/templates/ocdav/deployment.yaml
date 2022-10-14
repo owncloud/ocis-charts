@@ -53,6 +53,10 @@ spec:
               value: gateway:9142
             - name: OCDAV_EVENTS_ENDPOINT
               value: nats:9233
+            - name: OCDAV_EVENTS_TLS_INSECURE
+              value: "true"
+            - name: SEARCH_EVENTS_TLS_INSECURE
+              value: "true"
 
             - name: OCDAV_INSECURE
               value: "{{ .Values.insecure.ocisHttpApiInsecure }}"

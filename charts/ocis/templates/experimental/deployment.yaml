@@ -51,6 +51,10 @@ spec:
 
             - name: EXPERIMENTAL_EVENTS_ENDPOINT
               value: nats:9233
+            - name: EXPERIMENTAL_EVENTS_TLS_INSECURE
+              value: "true"
+            - name: SEARCH_EVENTS_TLS_INSECURE
+              value: "true"
 
             - name: OCIS_JWT_SECRET
               valueFrom:

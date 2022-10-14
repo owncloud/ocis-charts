@@ -9,8 +9,8 @@ spec:
   selector:
     matchLabels:
       app: proxy
-  {{- if and (not .Values.autoscaling.enabled) (.Values.replicas) }}
-  replicas: {{ .Values.replicas }}
+  {{- if and (not .Values.autoscaling.enabled) (.Values.services.proxy.replicas) }}
+  replicas: {{ .Values.services.proxy.replicas }}
   {{- end }}
   {{- if .Values.deploymentStrategy }}
   strategy: {{ toYaml .Values.deploymentStrategy | nindent 4 }}
@@ -26,6 +26,13 @@ spec:
       securityContext:
           fsGroup: {{ .Values.securityContext.fsGroup }}
           fsGroupChangePolicy: {{ .Values.securityContext.fsGroupChangePolicy }}
+      topologySpreadConstraints:
+        - maxSkew: 1
+          topologyKey: kubernetes.io/hostname
+          whenUnsatisfiable: DoNotSchedule
+          labelSelector:
+            matchLabels:
+              app: proxy
       containers:
         - name: proxy
           image: {{ template "ocis.image" $ }}

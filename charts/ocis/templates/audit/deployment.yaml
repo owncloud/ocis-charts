@@ -48,6 +48,8 @@ spec:
 
             - name: AUDIT_EVENTS_ENDPOINT
               value: nats:9233
+            - name: AUDIT_EVENTS_TLS_INSECURE
+              value: "true"
 
             - name: AUDIT_LOG_TO_CONSOLE
               value: "true"

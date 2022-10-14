@@ -67,6 +67,8 @@ spec:
               value: nats:9233
             - name: SEARCH_EVENTS_ASYNC_UPLOADS
               value: "true"
+            - name: SEARCH_EVENTS_TLS_INSECURE
+              value: "true"
 
             - name: SEARCH_EXTRACTOR_CS3SOURCE_INSECURE
               value: "{{ .Values.insecure.ocisHttpApiInsecure }}"

@@ -53,6 +53,8 @@ spec:
               value: gateway:9142
             - name: SHARING_EVENTS_ENDPOINT
               value: nats:9233
+            - name: SHARING_EVENTS_TLS_INSECURE
+              value: "true"
 
             - name: SHARING_JWT_SECRET
               valueFrom:

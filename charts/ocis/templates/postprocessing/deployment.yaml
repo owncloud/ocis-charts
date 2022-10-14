@@ -45,6 +45,10 @@ spec:
 
             - name: POSTPROCESSING_EVENTS_ENDPOINT
               value: nats:9233
+            - name: POSTPROCESSING_EVENTS_TLS_INSECURE
+              value: "true"
+            - name: SEARCH_EVENTS_TLS_INSECURE
+              value: "true"
 
             - name: POSTPROCESSING_VIRUSSCAN
               value: "true"

@@ -104,14 +104,15 @@ spec:
 
             # cache
             - name: STORAGE_USERS_CACHE_STORE
-              value: ""
-            #   value: redis
-            # - name: STORAGE_USERS_CACHE_NODES
-            #   value: redis-master.ocis-redis.svc.cluster.local:6379
+              value: redis
+            - name: STORAGE_USERS_CACHE_NODES
+              value: redis-master.ocis-redis.svc.cluster.local:6379
 
             # events
             - name: STORAGE_USERS_EVENTS_ENDPOINT
               value: nats:9233
+            - name: STORAGE_USERS_EVENTS_TLS_INSECURE
+              value: "true"
 
             - name: REVA_GATEWAY
               value: gateway:9142
