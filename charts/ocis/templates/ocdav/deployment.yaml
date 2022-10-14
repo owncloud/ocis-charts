@@ -9,8 +9,8 @@ spec:
   selector:
     matchLabels:
       app: ocdav
-  {{- if and (not .Values.autoscaling.enabled) (.Values.replicas) }}
-  replicas: {{ .Values.replicas }}
+  {{- if and (not .Values.autoscaling.enabled) (.Values.services.ocdav.replicas) }}
+  replicas: {{ .Values.services.ocdav.replicas }}
   {{- end }}
   {{- if .Values.deploymentStrategy }}
   strategy: {{ toYaml .Values.deploymentStrategy | nindent 4 }}
@@ -24,6 +24,13 @@ spec:
       securityContext:
           fsGroup: {{ .Values.securityContext.fsGroup }}
           fsGroupChangePolicy: {{ .Values.securityContext.fsGroupChangePolicy }}
+      topologySpreadConstraints:
+        - maxSkew: 1
+          topologyKey: kubernetes.io/hostname
+          whenUnsatisfiable: DoNotSchedule
+          labelSelector:
+            matchLabels:
+              app: ocdav
       containers:
         - name: ocdav
           image: {{ template "ocis.image" $ }}

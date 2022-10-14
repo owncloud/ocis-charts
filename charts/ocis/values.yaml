@@ -600,3 +600,10 @@ services:
     theme:
       # -- Path for the Web theme.
       path: ""
+
+  frontend:
+    replicas: 1
+  gateway:
+    replicas: 1
+  ocdav:
+    replicas: 1

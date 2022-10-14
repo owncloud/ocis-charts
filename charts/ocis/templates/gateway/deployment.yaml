@@ -9,8 +9,8 @@ spec:
   selector:
     matchLabels:
       app: gateway
-  {{- if and (not .Values.autoscaling.enabled) (.Values.replicas) }}
-  replicas: {{ .Values.replicas }}
+  {{- if and (not .Values.autoscaling.enabled) (.Values.services.gateway.replicas) }}
+  replicas: {{ .Values.services.gateway.replicas }}
   {{- end }}
   {{- if .Values.deploymentStrategy }}
   strategy: {{ toYaml .Values.deploymentStrategy | nindent 4 }}
@@ -27,6 +27,13 @@ spec:
       securityContext:
           fsGroup: {{ .Values.securityContext.fsGroup }}
           fsGroupChangePolicy: {{ .Values.securityContext.fsGroupChangePolicy }}
+      topologySpreadConstraints:
+        - maxSkew: 1
+          topologyKey: kubernetes.io/hostname
+          whenUnsatisfiable: DoNotSchedule
+          labelSelector:
+            matchLabels:
+              app: gateway
       containers:
         - name: gateway
           image: {{ template "ocis.image" $ }}
