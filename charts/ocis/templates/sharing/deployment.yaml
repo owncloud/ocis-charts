@@ -81,7 +81,23 @@ spec:
 
             # public sharing
             - name: SHARING_PUBLIC_DRIVER
-              value: cs3
+              value: jsoncs3 # TODO: switch to jsoncs3
+
+            # public driver jsoncs3
+            - name: SHARING_PUBLIC_JSONCS3_PROVIDER_ADDR
+              value: storage-system:9215
+            - name: SHARING_PUBLIC_JSONCS3_SYSTEM_USER_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.secretRefs.storageSystemSecretRef }}
+                  key: api-key
+            - name: SHARING_PUBLIC_JSONCS3_SYSTEM_USER_ID
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.secretRefs.storageSystemSecretRef }}
+                  key: user-id
+
+            # public driver cs3
             - name: SHARING_PUBLIC_CS3_PROVIDER_ADDR
               value: storage-system:9215
             - name: SHARING_PUBLIC_CS3_SYSTEM_USER_API_KEY
