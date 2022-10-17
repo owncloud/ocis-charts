@@ -603,7 +603,24 @@ services:
 
   frontend:
     replicas: 1
+    # -- Resources to apply to frontend.
+    resources: {}
+      # limits:
+      #   cpu: 100m
+      #   memory: 128Mi
+      # requests:
+      #   cpu: 100m
+      #   memory: 128Mi
+
   gateway:
     replicas: 1
   ocdav:
     replicas: 1
+    # -- Resources to apply to ocdav.
+    resources: {}
+      # limits:
+      #   cpu: 100m
+      #   memory: 128Mi
+      # requests:
+      #   cpu: 100m
+      #   memory: 128Mi

@@ -96,7 +96,7 @@ spec:
             periodSeconds: 20
             failureThreshold: 3
 
-          resources: {{ toYaml .Values.resources | nindent 12 }}
+          resources: {{ toYaml .Values.services.frontend.resources | nindent 12 }}
           ports:
           - name: http
             containerPort: 9140
