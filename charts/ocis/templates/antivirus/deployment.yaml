@@ -9,8 +9,8 @@ spec:
   selector:
     matchLabels:
       app: antivirus
-  {{- if and (not .Values.autoscaling.enabled) (.Values.replicas) }}
-  replicas: {{ .Values.replicas }}
+  {{- if and (not .Values.autoscaling.enabled) (.Values.services.antivirus.replicas) }}
+  replicas: {{ .Values.services.antivirus.replicas }}
   {{- end }}
   {{- if .Values.deploymentStrategy }}
   strategy: {{ toYaml .Values.deploymentStrategy | nindent 4 }}

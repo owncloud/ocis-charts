@@ -319,6 +319,7 @@ services:
 
   antivirus:
     enabled: false
+    replicas: 1
     icapURL: icap://icap:1344
     image:
       # -- Image repository
