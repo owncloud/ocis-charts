@@ -89,8 +89,11 @@ spec:
                   name: {{ .Values.secretRefs.machineAuthApiKeySecretRef }}
                   key: machine-auth-api-key
 
+            - name: NOTIFICATIONS_EMAIL_TEMPLATE_PATH
+              value: /var/lib/ocis/templates/email
+
           resources: {{ toYaml .Values.resources | nindent 12 }}
-                    
+
           volumeMounts:
             - name: email-shares-templates
               mountPath: /var/lib/ocis/templates/email/shares/
