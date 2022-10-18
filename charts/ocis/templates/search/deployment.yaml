@@ -59,7 +59,7 @@ spec:
             - name: SEARCH_LOG_COLOR
               value: "{{ .Values.logging.color }}"
             - name: SEARCH_LOG_LEVEL
-              value: "{{ .Values.logging.level }}"
+              value: debug #"{{ .Values.logging.level }}"
             - name: SEARCH_LOG_PRETTY
               value: "{{ .Values.logging.pretty }}"
 
@@ -80,6 +80,9 @@ spec:
 
             - name: SEARCH_EXTRACTOR_TYPE
               value: tika
+
+            - name: SEARCH_EVENTS_NUM_CONSUMERS
+              value: "{{ .Values.services.search.concurrency }}"
 
             - name: SEARCH_EXTRACTOR_TIKA_TIKA_URL
               value: {{ .Values.services.search.extractor.tika.url}}

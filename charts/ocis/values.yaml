@@ -531,6 +531,8 @@ services:
       #   memory: 128Mi
     goMemLimit: ""
 
+    concurrency: "1"
+
     extractor:
       tika:
         url: http://tika:9998
