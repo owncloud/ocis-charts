@@ -338,6 +338,7 @@ services:
       # requests:
       #   cpu: 100m
       #   memory: 128Mi
+    goMemLimit: ""
 
   # STORAGE-SYSTEM service.
   storageSystem:
@@ -396,6 +397,7 @@ services:
       # requests:
       #   cpu: 100m
       #   memory: 128Mi
+    goMemLimit: ""
     persistence:
       # -- Enables persistence.
       # Needs to be enabled on production installations.
@@ -526,6 +528,7 @@ services:
       # requests:
       #   cpu: 100m
       #   memory: 128Mi
+    goMemLimit: ""
 
     extractor:
       tika:

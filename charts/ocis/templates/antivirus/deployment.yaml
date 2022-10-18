@@ -41,6 +41,11 @@ spec:
             runAsGroup: {{ .Values.securityContext.runAsGroup }}
             readOnlyRootFilesystem: true
           env:
+            {{ if .Values.services.antivirus.goMemLimit }}
+            - name: GOMEMLIMIT
+              value: {{ .Values.services.antivirus.goMemLimit }}
+            {{ end }}
+
             - name: ANTIVIRUS_LOG_COLOR
               value: "{{ .Values.logging.color }}"
             - name: ANTIVIRUS_LOG_LEVEL
