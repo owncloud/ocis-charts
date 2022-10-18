@@ -71,6 +71,12 @@ spec:
             - name: STORAGE_USERS_DEBUG_ADDR
               value: 0.0.0.0:9159
 
+            # debug
+            - name: STORAGE_USERS_DEBUG_PPROF
+              value: {{ .Values.services.storageUsers.debug }}
+            - name: STORAGE_USERS_DEBUG_ZPAGES
+              value: {{ .Values.services.storageUsers.debug }}
+
             # external availability data gateway
             - name: STORAGE_USERS_HTTP_ADDR
               value: 0.0.0.0:9158

@@ -398,6 +398,7 @@ services:
       #   cpu: 100m
       #   memory: 128Mi
     goMemLimit: ""
+    debug: "false"
     persistence:
       # -- Enables persistence.
       # Needs to be enabled on production installations.
