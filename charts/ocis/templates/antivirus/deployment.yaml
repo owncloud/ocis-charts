@@ -24,6 +24,13 @@ spec:
       securityContext:
           fsGroup: {{ .Values.securityContext.fsGroup }}
           fsGroupChangePolicy: {{ .Values.securityContext.fsGroupChangePolicy }}
+      topologySpreadConstraints:
+        - maxSkew: 1
+          topologyKey: kubernetes.io/hostname
+          whenUnsatisfiable: DoNotSchedule
+          labelSelector:
+            matchLabels:
+              app: antivirus
       containers:
         - name: antivirus
           image: {{ template "ocis-antivirus.image" $ }}
@@ -34,6 +41,11 @@ spec:
             runAsGroup: {{ .Values.securityContext.runAsGroup }}
             readOnlyRootFilesystem: true
           env:
+            {{ if .Values.services.antivirus.goMemLimit }}
+            - name: GOMEMLIMIT
+              value: {{ .Values.services.antivirus.goMemLimit }}
+            {{ end }}
+
             - name: ANTIVIRUS_LOG_COLOR
               value: "{{ .Values.logging.color }}"
             - name: ANTIVIRUS_LOG_LEVEL

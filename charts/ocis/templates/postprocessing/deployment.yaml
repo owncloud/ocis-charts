@@ -51,6 +51,6 @@ spec:
               value: "true"
 
             - name: POSTPROCESSING_VIRUSSCAN
-              value: "true"
+              value: "{{ .Values.services.antivirus.enabled }}"
 
           resources: {{ toYaml .Values.resources | nindent 12 }}
