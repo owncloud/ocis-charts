@@ -46,8 +46,14 @@ spec:
             - name: AUTH_MACHINE_LOG_PRETTY
               value: "{{ .Values.logging.pretty }}"
 
+            # debug
+            - name: AUTH_MACHINE_DEBUG_PPROF
+              value: "{{ .Values.debug.profiling }}"
+
             - name: AUTH_MACHINE_GRPC_ADDR
               value: 0.0.0.0:9166
+            - name: AUTH_MACHINE_DEBUG_ADDR
+              value: 0.0.0.0:9167
 
             - name: REVA_GATEWAY
               value: gateway:9142
@@ -79,6 +85,8 @@ spec:
           ports:
             - name: grpc
               containerPort: 9166
+            - name: metrics-debug
+              containerPort: 9167
           volumeMounts:
             - name: tmp-volume
               mountPath: /tmp

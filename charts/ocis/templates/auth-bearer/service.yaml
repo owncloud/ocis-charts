@@ -4,11 +4,16 @@ metadata:
   name: auth-bearer
   namespace: {{ template "ocis.namespace" . }}
   labels:
+    app: auth-bearer
+    ocis-metrics: enabled
     {{- include "ocis.labels" . | nindent 4 }}
 spec:
+  selector:
+    app: auth-bearer
   ports:
     - name: grpc
       port: 9148
       protocol: TCP
-  selector:
-    app: auth-bearer
+    - name: metrics-debug
+      port: 9149
+      protocol: TCP

@@ -73,9 +73,7 @@ spec:
 
             # debug
             - name: STORAGE_USERS_DEBUG_PPROF
-              value: "{{ .Values.services.storageUsers.debug }}"
-            - name: STORAGE_USERS_DEBUG_ZPAGES
-              value: "{{ .Values.services.storageUsers.debug }}"
+              value: "{{ .Values.debug.profiling }}"
 
             # external availability data gateway
             - name: STORAGE_USERS_HTTP_ADDR
@@ -158,7 +156,7 @@ spec:
               containerPort: 9157
             - name: http
               containerPort: 9158
-            - name: metrics
+            - name: metrics-debug
               containerPort: 9159
           volumeMounts:
             - name: tmp-volume

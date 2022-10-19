@@ -5,8 +5,11 @@ metadata:
   namespace: {{ template "ocis.namespace" . }}
   labels:
     app: storage-users
+    ocis-metrics: enabled
     {{- include "ocis.labels" . | nindent 4 }}
 spec:
+  selector:
+    app: storage-users
   ports:
     - name: grpc
       port: 9157
@@ -14,8 +17,6 @@ spec:
     - name: http
       port: 9158
       protocol: TCP
-    - name: metrics
+    - name: metrics-debug
       port: 9159
       protocol: TCP
-  selector:
-    app: storage-users

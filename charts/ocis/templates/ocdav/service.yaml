@@ -4,11 +4,16 @@ metadata:
   name: ocdav
   namespace: {{ template "ocis.namespace" . }}
   labels:
+    app: ocdav
+    ocis-metrics: enabled
     {{- include "ocis.labels" . | nindent 4 }}
 spec:
+  selector:
+    app: ocdav
   ports:
     - name: http
       port: 8080
       protocol: TCP
-  selector:
-    app: ocdav
+    - name: metrics-debug
+      port: 9163
+      protocol: TCP

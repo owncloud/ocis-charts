@@ -4,11 +4,12 @@ metadata:
   name: experimental
   namespace: {{ template "ocis.namespace" . }}
   labels:
+    app: experimental
     {{- include "ocis.labels" . | nindent 4 }}
 spec:
+  selector:
+    app: experimental
   ports:
     - name: http
       port: 9180
       protocol: TCP
-  selector:
-    app: experimental

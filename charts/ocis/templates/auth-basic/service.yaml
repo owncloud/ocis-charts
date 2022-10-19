@@ -4,11 +4,16 @@ metadata:
   name: auth-basic
   namespace: {{ template "ocis.namespace" . }}
   labels:
+    app: auth-basic
+    ocis-metrics: enabled
     {{- include "ocis.labels" . | nindent 4 }}
 spec:
+  selector:
+    app: auth-basic
   ports:
     - name: grpc
       port: 9146
       protocol: TCP
-  selector:
-    app: auth-basic
+    - name: metrics-debug
+      port: 9147
+      protocol: TCP

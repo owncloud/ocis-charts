@@ -5,12 +5,13 @@ metadata:
   name: idp
   namespace: {{ template "ocis.namespace" . }}
   labels:
+    app: idp
     {{- include "ocis.labels" . | nindent 4 }}
 spec:
+  selector:
+    app: idp
   ports:
   - name: http
     port: 9130
     protocol: TCP
-  selector:
-    app: idp
 {{- end }}

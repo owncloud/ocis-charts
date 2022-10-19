@@ -46,8 +46,14 @@ spec:
             - name: GRAPH_LOG_PRETTY
               value: "{{ .Values.logging.pretty }}"
 
+            # debug
+            - name: GRAPH_DEBUG_PPROF
+              value: "{{ .Values.debug.profiling }}"
+
             - name: GRAPH_HTTP_ADDR
               value: 0.0.0.0:9120
+            - name: GRAPH_DEBUG_ADDR
+              value: 0.0.0.0:9124
 
             - name: GRAPH_SPACES_WEBDAV_BASE
               value: "https://{{ .Values.externalDomain }}"
@@ -169,6 +175,8 @@ spec:
           ports:
             - name: http
               containerPort: 9120
+            - name: metrics-debug
+              containerPort: 9124
           {{ if not .Values.features.externalUserManagement.enabled }}
           volumeMounts:
             - name: ocis-config-tmp

@@ -46,8 +46,14 @@ spec:
             - name: USERS_LOG_PRETTY
               value: "{{ .Values.logging.pretty }}"
 
+            # debug
+            - name: USERS_DEBUG_PPROF
+              value: "{{ .Values.debug.profiling }}"
+
             - name: USERS_GRPC_ADDR
               value: 0.0.0.0:9144
+            - name: USERS_DEBUG_ADDR
+              value: 0.0.0.0:9145
 
             {{- if .Values.features.externalUserManagement.enabled }}
             - name: USERS_LDAP_INSECURE
@@ -161,6 +167,8 @@ spec:
           ports:
             - name: grpc
               containerPort: 9144
+            - name: metrics-debug
+              containerPort: 9145
           volumeMounts:
             - name: ocis-config-tmp
               mountPath: /etc/ocis # we mount that volume only to apply fsGroup to that path

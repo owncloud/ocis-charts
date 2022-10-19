@@ -4,11 +4,16 @@ metadata:
   name: webdav
   namespace: {{ template "ocis.namespace" . }}
   labels:
+    app: webdav
+    ocis-metrics: enabled
     {{- include "ocis.labels" . | nindent 4 }}
 spec:
+  selector:
+    app: webdav
   ports:
     - name: http
       port: 9115
       protocol: TCP
-  selector:
-    app: webdav
+    - name: metrics-debug
+      port: 9119
+      protocol: TCP

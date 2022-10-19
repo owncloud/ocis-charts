@@ -50,8 +50,14 @@ spec:
             - name: OCDAV_LOG_PRETTY
               value: "{{ .Values.logging.pretty }}"
 
+            # debug
+            - name: OCDAV_DEBUG_PPROF
+              value: "{{ .Values.debug.profiling }}"
+
             - name: OCDAV_HTTP_ADDR
               value: 0.0.0.0:8080
+            - name: OCDAV_DEBUG_ADDR
+              value: 0.0.0.0:9163
 
             - name: OCDAV_PUBLIC_URL
               value: https://{{ .Values.externalDomain }}
@@ -98,3 +104,5 @@ spec:
           ports:
             - name: http
               containerPort: 8080
+            - name: metrics-debug
+              containerPort: 9163

@@ -56,8 +56,14 @@ spec:
             - name: GATEWAY_LOG_PRETTY
               value: "{{ .Values.logging.pretty }}"
 
+            # debug
+            - name: GATEWAY_DEBUG_PPROF
+              value: "{{ .Values.debug.profiling }}"
+
             - name: GATEWAY_GRPC_ADDR
               value: 0.0.0.0:9142
+            - name: GATEWAY_DEBUG_ADDR
+              value: 0.0.0.0:9143
 
             - name: REVA_GATEWAY
               # we also could have gateway:9142 here, but some
@@ -134,6 +140,8 @@ spec:
           ports:
             - name: grpc
               containerPort: 9142
+            - name: metrics-debug
+              containerPort: 9143
           volumeMounts:
             - name: tmp-volume
               mountPath: /tmp

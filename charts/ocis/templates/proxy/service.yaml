@@ -4,12 +4,17 @@ metadata:
   name: proxy
   namespace: {{ template "ocis.namespace" . }}
   labels:
+    app: proxy
+    ocis-metrics: enabled
     {{- include "ocis.labels" . | nindent 4 }}
 spec:
   selector:
-      app: proxy
+    app: proxy
   ports:
     - name: http
       protocol: TCP
       port: 9200
       targetPort: 9200
+    - name: metrics-debug
+      port: 9205
+      protocol: TCP

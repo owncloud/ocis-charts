@@ -22,6 +22,11 @@ logging:
   # Not recommended for production installations.
   color: "false"
 
+# Debug options for oCIS services
+debug:
+  # -- Activates profiling.
+  profiling: "false"
+
 # -- Deployment strategy.
 deploymentStrategy:
   type: RollingUpdate
@@ -398,7 +403,6 @@ services:
       #   cpu: 100m
       #   memory: 128Mi
     goMemLimit: ""
-    debug: "false"
     persistence:
       # -- Enables persistence.
       # Needs to be enabled on production installations.

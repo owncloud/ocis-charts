@@ -4,11 +4,16 @@ metadata:
   name: search
   namespace: {{ template "ocis.namespace" . }}
   labels:
+    app: search
+    ocis-metrics: enabled
     {{- include "ocis.labels" . | nindent 4 }}
 spec:
+  selector:
+    app: search
   ports:
     - name: grpc
       port: 9220
       protocol: TCP
-  selector:
-    app: search
+    - name: metrics-debug
+      port: 9224
+      protocol: TCP
