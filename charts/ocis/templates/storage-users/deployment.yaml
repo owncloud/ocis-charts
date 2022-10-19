@@ -89,6 +89,9 @@ spec:
             - name: STORAGE_USERS_OCIS_ASYNC_UPLOADS
               value: "true"
 
+            - name: STORAGE_USERS_EVENTS_NUM_CONSUMERS
+              value: "{{ .Values.services.storageUsers.concurrency }}"
+
             # oCIS storage driver (decomposed filesystem)
             {{- if  eq .Values.services.storageUsers.storageBackend.driver "ocis" }}
             - name: STORAGE_USERS_DRIVER

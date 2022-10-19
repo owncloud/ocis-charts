@@ -377,6 +377,7 @@ services:
 
   # STORAGE-USERS service.
   storageUsers:
+    concurrency: 1
     storageBackend:
       # -- Configures the storage driver. Possible values are "ocis" and "s3ng".
       # The oCIS driver stores all data in the persistent volume if persistence is enabled.
