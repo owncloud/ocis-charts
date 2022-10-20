@@ -45,6 +45,11 @@ spec:
             runAsGroup: {{ .Values.securityContext.runAsGroup }}
             readOnlyRootFilesystem: true
           env:
+            {{ if .Values.goMemLimit }}
+            - name: GOMEMLIMIT
+              value: {{ .Values.goMemLimit }}
+            {{ end }}
+
             - name: NATS_LOG_COLOR
               value: "{{ .Values.logging.color }}"
             - name: NATS_LOG_LEVEL

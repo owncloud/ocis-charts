@@ -36,6 +36,11 @@ spec:
             runAsGroup: {{ .Values.securityContext.runAsGroup }}
             readOnlyRootFilesystem: true
           env:
+            {{ if .Values.goMemLimit }}
+            - name: GOMEMLIMIT
+              value: {{ .Values.goMemLimit }}
+            {{ end }}
+
             - name: MICRO_REGISTRY
               value: kubernetes
 

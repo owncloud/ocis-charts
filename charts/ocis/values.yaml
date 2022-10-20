@@ -296,6 +296,7 @@ resources: {}
   # requests:
   #   cpu: 100m
   #   memory: 128Mi
+goMemLimit: ""
 
 
 # Include arbitrary resources, eg. config maps or a cert-manager issuer (see example below)
@@ -637,3 +638,4 @@ services:
       # requests:
       #   cpu: 100m
       #   memory: 128Mi
+    goMemLimit: ""
