@@ -54,6 +54,12 @@ spec:
             - name: ANTIVIRUS_LOG_PRETTY
               value: "{{ .Values.logging.pretty }}"
 
+            - name: ANTIVIRUS_DEBUG_ADDR
+              value: 0.0.0.0:9205
+
+            - name: ANTIVIRUS_DEBUG_PPROF
+              value: "true"
+
             - name: ANTIVIRUS_EVENTS_ENDPOINT
               value: nats:9233
             - name: ANTIVIRUS_EVENTS_TLS_INSECURE
@@ -69,4 +75,7 @@ spec:
               value: 1500MB
 
           resources: {{ toYaml .Values.services.antivirus.resources | nindent 12 }}
+          ports:
+            - name: metrics-debug
+              containerPort: 9205
 {{ end }}
