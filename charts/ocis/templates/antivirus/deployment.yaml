@@ -72,7 +72,7 @@ spec:
               value: "{{ .Values.services.antivirus.icapURL }}"
 
             - name: ANTIVIRUS_MAX_SCAN_SIZE
-              value: 1000MB
+              value: 100MB
 
           resources: {{ toYaml .Values.services.antivirus.resources | nindent 12 }}
           ports:
