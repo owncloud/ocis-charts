@@ -1,19 +1,20 @@
 {{ if .Values.features.appsIntegration.enabled }}
 {{- range $officeSuite := .Values.features.appsIntegration.wopiIntegration.officeSuites }}
 {{ if $officeSuite.enabled }}
+{{- $_ := set $ "appName"  (print "app-provider-" (regexReplaceAll "\\W+" (lower $officeSuite.name) "_")) -}}
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: app-provider-{{ regexReplaceAll "\\W+" (lower $officeSuite.name) "_" }}
+  name: {{ $.appName }}
   namespace: {{ template "ocis.namespace" $ }}
   labels:
-    app: app-provider-{{ regexReplaceAll "\\W+" (lower $officeSuite.name) "_" }}
+    app: {{ $.appName }}
     ocis-metrics: enabled
     {{- include "ocis.labels" $ | nindent 4 }}
 spec:
   selector:
-    app:  app-provider-{{ regexReplaceAll "\\W+" (lower $officeSuite.name) "_" }}
+    app:  {{ $.appName }}
   ports:
     - name: grpc
       port: 9164

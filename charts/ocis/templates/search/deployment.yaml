@@ -1,14 +1,15 @@
+{{- $_ := set . "appName" "search" -}}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: search
+  name: {{ .appName }}
   namespace: {{ template "ocis.namespace" . }}
   labels:
     {{- include "ocis.labels" . | nindent 4 }}
 spec:
   selector:
     matchLabels:
-      app: search
+      app: {{ .appName }}
   {{- if and (not .Values.autoscaling.enabled) (.Values.replicas) }}
   replicas: {{ .Values.replicas }}
   {{- end }}
@@ -18,7 +19,7 @@ spec:
   template:
     metadata:
       labels:
-        app: search
+        app: {{ .appName }}
         {{- include "ocis.labels" . | nindent 8 }}
     spec:
       securityContext:
@@ -36,8 +37,12 @@ spec:
           - name: search-data
             mountPath: /var/lib/ocis
       {{ end }}
+      {{- with .Values.topologySpreadConstraints }}
+      topologySpreadConstraints:
+        {{- tpl . $ | nindent 8 }}
+      {{- end }}
       containers:
-        - name: search
+        - name: {{ .appName }}
           image: {{ template "ocis.image" $ }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           command: ["ocis"]

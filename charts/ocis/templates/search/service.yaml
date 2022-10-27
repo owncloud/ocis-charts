@@ -1,15 +1,16 @@
+{{- $_ := set . "appName" "search" -}}
 apiVersion: v1
 kind: Service
 metadata:
-  name: search
+  name: {{ .appName }}
   namespace: {{ template "ocis.namespace" . }}
   labels:
-    app: search
+    app: {{ .appName }}
     ocis-metrics: enabled
     {{- include "ocis.labels" . | nindent 4 }}
 spec:
   selector:
-    app: search
+    app: {{ .appName }}
   ports:
     - name: grpc
       port: 9220

@@ -1,15 +1,16 @@
+{{- $_ := set . "appName" "users" -}}
 apiVersion: v1
 kind: Service
 metadata:
-  name: users
+  name: {{ .appName }}
   namespace: {{ template "ocis.namespace" . }}
   labels:
-    app: users
+    app: {{ .appName }}
     ocis-metrics: enabled
     {{- include "ocis.labels" . | nindent 4 }}
 spec:
   selector:
-    app: users
+    app: {{ .appName }}
   ports:
     - name: grpc
       port: 9144

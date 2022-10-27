@@ -1,15 +1,16 @@
+{{- $_ := set . "appName" "webdav" -}}
 apiVersion: v1
 kind: Service
 metadata:
-  name: webdav
+  name: {{ .appName }}
   namespace: {{ template "ocis.namespace" . }}
   labels:
-    app: webdav
+    app: {{ .appName }}
     ocis-metrics: enabled
     {{- include "ocis.labels" . | nindent 4 }}
 spec:
   selector:
-    app: webdav
+    app: {{ .appName }}
   ports:
     - name: http
       port: 9115

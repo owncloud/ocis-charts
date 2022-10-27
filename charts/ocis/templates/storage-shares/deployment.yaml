@@ -1,14 +1,15 @@
+{{- $_ := set . "appName" "storage-shares" -}}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: storage-shares
+  name: {{ .appName }}
   namespace: {{ template "ocis.namespace" . }}
   labels:
     {{- include "ocis.labels" . | nindent 4 }}
 spec:
   selector:
     matchLabels:
-      app: storage-shares
+      app: {{ .appName }}
   {{- if and (not .Values.autoscaling.enabled) (.Values.replicas) }}
   replicas: {{ .Values.replicas }}
   {{- end }}
@@ -18,14 +19,18 @@ spec:
   template:
     metadata:
       labels:
-        app: storage-shares
+        app: {{ .appName }}
         {{- include "ocis.labels" . | nindent 8 }}
     spec:
       securityContext:
           fsGroup: {{ .Values.securityContext.fsGroup }}
           fsGroupChangePolicy: {{ .Values.securityContext.fsGroupChangePolicy }}
+      {{- with .Values.topologySpreadConstraints }}
+      topologySpreadConstraints:
+        {{- tpl . $ | nindent 8 }}
+      {{- end }}
       containers:
-        - name: storage-shares
+        - name: {{ .appName }}
           image: {{ template "ocis.image" $ }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           command: ["ocis"]

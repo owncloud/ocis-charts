@@ -1,15 +1,16 @@
+{{- $_ := set . "appName" "frontend" -}}
 apiVersion: v1
 kind: Service
 metadata:
-  name: frontend
+  name: {{ .appName }}
   namespace: {{ template "ocis.namespace" . }}
   labels:
-    app: frontend
+    app: {{ .appName }}
     ocis-metrics: enabled
     {{- include "ocis.labels" . | nindent 4 }}
 spec:
   selector:
-    app: frontend
+    app: {{ .appName }}
   ports:
     - name: http
       port: 9140

@@ -1,18 +1,15 @@
----
-
-
----
+{{- $_ := set . "appName" "store" -}}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: store
+  name: {{ .appName }}
   namespace: {{ template "ocis.namespace" . }}
   labels:
     {{- include "ocis.labels" . | nindent 4 }}
 spec:
   selector:
     matchLabels:
-      app: store
+      app: {{ .appName }}
   replicas: 1 #TODO: https://github.com/owncloud/ocis-charts/issues/113
   {{- if .Values.deploymentStrategy }}
   strategy: {{ toYaml .Values.deploymentStrategy | nindent 4 }}
@@ -20,12 +17,16 @@ spec:
   template:
     metadata:
       labels:
-        app: store
+        app: {{ .appName }}
         {{- include "ocis.labels" . | nindent 8 }}
     spec:
       securityContext:
           fsGroup: {{ .Values.securityContext.fsGroup }}
           fsGroupChangePolicy: {{ .Values.securityContext.fsGroupChangePolicy }}
+      {{- with .Values.topologySpreadConstraints }}
+      topologySpreadConstraints:
+        {{- tpl . $ | nindent 8 }}
+      {{- end }}
       {{- if and $.Values.services.store.persistence.enabled $.Values.services.store.persistence.chownInitContainer }}
       initContainers:
         - name: init-chown-data
@@ -39,7 +40,7 @@ spec:
             mountPath: /var/lib/ocis
       {{ end }}
       containers:
-        - name: store
+        - name: {{ .appName }}
           image: {{ template "ocis.image" $ }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           command: ["ocis"]

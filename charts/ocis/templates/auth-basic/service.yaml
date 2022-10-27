@@ -1,16 +1,17 @@
+{{- $_ := set . "appName" "auth-basic" -}}
 {{ if .Values.features.basicAuthentication }}
 apiVersion: v1
 kind: Service
 metadata:
-  name: auth-basic
+  name: {{ .appName }}
   namespace: {{ template "ocis.namespace" . }}
   labels:
-    app: auth-basic
+    app: {{ .appName }}
     ocis-metrics: enabled
     {{- include "ocis.labels" . | nindent 4 }}
 spec:
   selector:
-    app: auth-basic
+    app: {{ .appName }}
   ports:
     - name: grpc
       port: 9146

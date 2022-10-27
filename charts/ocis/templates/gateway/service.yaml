@@ -1,15 +1,16 @@
+{{- $_ := set . "appName" "gateway" -}}
 apiVersion: v1
 kind: Service
 metadata:
-  name: gateway
+  name: {{ .appName }}
   namespace: {{ template "ocis.namespace" . }}
   labels:
-    app: gateway
+    app: {{ .appName }}
     ocis-metrics: enabled
     {{- include "ocis.labels" . | nindent 4 }}
 spec:
   selector:
-    app: gateway
+    app: {{ .appName }}
   ports:
     - name: grpc
       port: 9142

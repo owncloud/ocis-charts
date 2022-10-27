@@ -1,16 +1,17 @@
+{{- $_ := set . "appName" "idm" -}}
 {{- if not .Values.features.externalUserManagement.enabled }}
 apiVersion: v1
 kind: Service
 metadata:
-  name: idm
+  name: {{ .appName }}
   namespace: {{ template "ocis.namespace" . }}
   labels:
-    app: idm
+    app: {{ .appName }}
     ocis-metrics: enabled
     {{- include "ocis.labels" . | nindent 4 }}
 spec:
   selector:
-    app: idm
+    app: {{ .appName }}
   ports:
     - name: ldaps
       port: 9235

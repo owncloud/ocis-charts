@@ -1,15 +1,16 @@
+{{- $_ := set . "appName" "notifications" -}}
 {{- if .Values.features.emailNotifications.enabled }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: notifications
+  name: {{ .appName }}
   namespace: {{ template "ocis.namespace" . }}
   labels:
     {{- include "ocis.labels" . | nindent 4 }}
 spec:
   selector:
     matchLabels:
-      app: notifications
+      app: {{ .appName }}
   {{- if and (not .Values.autoscaling.enabled) (.Values.replicas) }}
   replicas: {{ .Values.replicas }}
   {{- end }}
@@ -19,14 +20,18 @@ spec:
   template:
     metadata:
       labels:
-        app: notifications
+        app: {{ .appName }}
         {{- include "ocis.labels" . | nindent 8 }}
     spec:
       securityContext:
           fsGroup: {{ .Values.securityContext.fsGroup }}
           fsGroupChangePolicy: {{ .Values.securityContext.fsGroupChangePolicy }}
+      {{- with .Values.topologySpreadConstraints }}
+      topologySpreadConstraints:
+        {{- tpl . $ | nindent 8 }}
+      {{- end }}
       containers:
-        - name: notifications
+        - name: {{ .appName }}
           image: {{ template "ocis.image" $ }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           command: ["ocis"]

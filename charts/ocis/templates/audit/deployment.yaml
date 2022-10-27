@@ -12,20 +12,25 @@ spec:
   {{- if and (not .Values.autoscaling.enabled) (.Values.replicas) }}
   replicas: {{ .Values.replicas }}
   {{- end }}
+  {{- $_ := set . "appName" "audit" -}}
   {{- if .Values.deploymentStrategy }}
   strategy: {{ toYaml .Values.deploymentStrategy | nindent 4 }}
   {{ end }}
   template:
     metadata:
       labels:
-        app: audit
+        app: {{ .appName }}
         {{- include "ocis.labels" . | nindent 8 }}
     spec:
       securityContext:
           fsGroup: {{ .Values.securityContext.fsGroup }}
           fsGroupChangePolicy: {{ .Values.securityContext.fsGroupChangePolicy }}
+      {{- with .Values.topologySpreadConstraints }}
+      topologySpreadConstraints:
+        {{- tpl . $ | nindent 8 }}
+      {{- end }}
       containers:
-        - name: audit
+        - name: {{ .appName }}
           image: {{ template "ocis.image" $ }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           command: ["ocis"]

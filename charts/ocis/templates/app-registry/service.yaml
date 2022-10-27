@@ -1,16 +1,17 @@
+{{- $_ := set . "appName" "app-registry" -}}
 {{ if .Values.features.appsIntegration.enabled }}
 apiVersion: v1
 kind: Service
 metadata:
-  name: app-registry
+  name: {{ .appName }}
   namespace: {{ template "ocis.namespace" . }}
   labels:
-    app: app-registry
+    app: {{ .appName }}
     ocis-metrics: enabled
     {{- include "ocis.labels" . | nindent 4 }}
 spec:
   selector:
-    app: app-registry
+    app: {{ .appName }}
   ports:
     - name: grpc
       port: 9242

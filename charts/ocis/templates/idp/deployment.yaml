@@ -1,8 +1,9 @@
+{{- $_ := set . "appName" "idp" -}}
 {{- if not .Values.features.externalUserManagement.enabled }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: idp
+  name: {{ .appName }}
   namespace: {{ template "ocis.namespace" . }}
   labels:
     {{- include "ocis.labels" . | nindent 4 }}
@@ -11,19 +12,23 @@ metadata:
 spec:
   selector:
     matchLabels:
-      app: idp
+      app: {{ .appName }}
   replicas: 1
   template:
     metadata:
       labels:
-        app: idp
+        app: {{ .appName }}
         {{- include "ocis.labels" . | nindent 8 }}
     spec:
       securityContext:
           fsGroup: {{ .Values.securityContext.fsGroup }}
           fsGroupChangePolicy: {{ .Values.securityContext.fsGroupChangePolicy }}
+      {{- with .Values.topologySpreadConstraints }}
+      topologySpreadConstraints:
+        {{- tpl . $ | nindent 8 }}
+      {{- end }}
       containers:
-        - name: idp
+        - name: {{ .appName }}
           image: {{ template "ocis.image" $ }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           command: ["ocis"]

@@ -1,14 +1,15 @@
+{{- $_ := set . "appName" "storage-system" -}}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: storage-system
+  name: {{ .appName }}
   namespace: {{ template "ocis.namespace" . }}
   labels:
     {{- include "ocis.labels" . | nindent 4 }}
 spec:
   selector:
     matchLabels:
-      app: storage-system
+      app: {{ .appName }}
   {{- if and (not .Values.autoscaling.enabled) (.Values.replicas) }}
   replicas: {{ .Values.replicas }}
   {{- end }}
@@ -18,12 +19,16 @@ spec:
   template:
     metadata:
       labels:
-        app: storage-system
+        app: {{ .appName }}
         {{- include "ocis.labels" . | nindent 8 }}
     spec:
       securityContext:
           fsGroup: {{ .Values.securityContext.fsGroup }}
           fsGroupChangePolicy: {{ .Values.securityContext.fsGroupChangePolicy }}
+      {{- with .Values.topologySpreadConstraints }}
+      topologySpreadConstraints:
+        {{- tpl . $ | nindent 8 }}
+      {{- end }}
       {{- if and $.Values.services.storageSystem.persistence.enabled $.Values.services.storageSystem.persistence.chownInitContainer }}
       initContainers:
         - name: init-chown-data
@@ -37,7 +42,7 @@ spec:
             mountPath: /var/lib/ocis
       {{ end }}
       containers:
-        - name: storage-system
+        - name: {{ .appName }}
           image: {{ template "ocis.image" $ }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           command: ["ocis"]

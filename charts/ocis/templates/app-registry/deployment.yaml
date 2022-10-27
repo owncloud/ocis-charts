@@ -1,15 +1,16 @@
+{{- $_ := set . "appName" "app-registry" -}}
 {{ if .Values.features.appsIntegration.enabled }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: app-registry
+  name: {{ .appName }}
   namespace: {{ template "ocis.namespace" . }}
   labels:
     {{- include "ocis.labels" . | nindent 4 }}
 spec:
   selector:
     matchLabels:
-      app: app-registry
+      app: {{ .appName }}
   replicas: 1 #TODO: https://github.com/owncloud/ocis-charts/issues/48
   {{- if .Values.deploymentStrategy }}
   strategy: {{ toYaml .Values.deploymentStrategy | nindent 4 }}
@@ -25,8 +26,12 @@ spec:
       securityContext:
           fsGroup: {{ .Values.securityContext.fsGroup }}
           fsGroupChangePolicy: {{ .Values.securityContext.fsGroupChangePolicy }}
+      {{- with .Values.topologySpreadConstraints }}
+      topologySpreadConstraints:
+        {{- tpl . $ | nindent 8 }}
+      {{- end }}
       containers:
-        - name: app-registry
+        - name: {{ .appName }}
           image: {{ template "ocis.image" $ }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           command: ["ocis"]

@@ -1,21 +1,22 @@
+{{- $_ := set . "appName" "nats" -}}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: nats
+  name: {{ .appName }}
   namespace: {{ template "ocis.namespace" . }}
   labels:
     {{- include "ocis.labels" . | nindent 4 }}
 spec:
   selector:
     matchLabels:
-      app: nats
+      app: {{ .appName }}
   replicas: 1 #TODO: https://github.com/owncloud/ocis-charts/issues/12
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        app: nats
+        app: {{ .appName }}
         {{- include "ocis.labels" . | nindent 8 }}
     spec:
       securityContext:
@@ -33,8 +34,12 @@ spec:
           - name: nats-data
             mountPath: /var/lib/ocis
       {{ end }}
+      {{- with .Values.topologySpreadConstraints }}
+      topologySpreadConstraints:
+        {{- tpl . $ | nindent 8 }}
+      {{- end }}
       containers:
-        - name: nats
+        - name: {{ .appName }}
           image: {{ template "ocis.image" $ }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           command: ["ocis"]
