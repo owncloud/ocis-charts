@@ -48,8 +48,13 @@ spec:
             - name: APP_PROVIDER_LOG_PRETTY
               value: "{{ $.Values.logging.pretty }}"
 
+            - name: APP_PROVIDER_DEBUG_PPROF
+              value: "{{ $.Values.debug.profiling }}"
+
             - name: APP_PROVIDER_GRPC_ADDR
               value: 0.0.0.0:9164
+            - name: APP_PROVIDER_DEBUG_ADDR
+              value: 0.0.0.0:9165
 
             - name: APP_PROVIDER_EXTERNAL_ADDR
               value: app-provider-{{ regexReplaceAll "\\W+" (lower $officeSuite.name) "_" }}:9164
@@ -80,6 +85,8 @@ spec:
           ports:
             - name: grpc
               containerPort: 9164
+            - name: metrics-debug
+              containerPort: 9165
           volumeMounts:
             - name: tmp-volume
               mountPath: /tmp

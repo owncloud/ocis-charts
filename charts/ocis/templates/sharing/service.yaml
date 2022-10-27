@@ -4,11 +4,16 @@ metadata:
   name: sharing
   namespace: {{ template "ocis.namespace" . }}
   labels:
+    app: sharing
+    ocis-metrics: enabled
     {{- include "ocis.labels" . | nindent 4 }}
 spec:
+  selector:
+    app: sharing
   ports:
     - name: grpc
       port: 9150
       protocol: TCP
-  selector:
-    app: sharing
+    - name: metrics-debug
+      port: 9151
+      protocol: TCP

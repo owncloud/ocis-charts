@@ -5,12 +5,17 @@ metadata:
   name: app-registry
   namespace: {{ template "ocis.namespace" . }}
   labels:
+    app: app-registry
+    ocis-metrics: enabled
     {{- include "ocis.labels" . | nindent 4 }}
 spec:
+  selector:
+    app: app-registry
   ports:
     - name: grpc
       port: 9242
       protocol: TCP
-  selector:
-    app: app-registry
+    - name: metrics-debug
+      port: 9243
+      protocol: TCP
 {{ end }}

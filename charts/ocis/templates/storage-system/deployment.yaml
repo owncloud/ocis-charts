@@ -59,9 +59,14 @@ spec:
             - name: STORAGE_SYSTEM_LOG_PRETTY
               value: "{{ .Values.logging.pretty }}"
 
-            # external availability grpc
+            - name: STORAGE_SYSTEM_DEBUG_PPROF
+              value: "{{ .Values.debug.profiling }}"
+
+            # bind configuration
             - name: STORAGE_SYSTEM_GRPC_ADDR
               value: 0.0.0.0:9215
+            - name: STORAGE_SYSTEM_DEBUG_ADDR
+              value: 0.0.0.0:9217
 
             # external availability data gateway
             - name: STORAGE_SYSTEM_HTTP_ADDR
@@ -96,6 +101,8 @@ spec:
               containerPort: 9215
             - name: http
               containerPort: 9216
+            - name: metrics-debug
+              containerPort: 9217
           volumeMounts:
             - name: tmp-volume
               mountPath: /tmp

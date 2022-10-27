@@ -4,11 +4,12 @@ metadata:
   name: nats
   namespace: {{ template "ocis.namespace" . }}
   labels:
+    app: nats
     {{- include "ocis.labels" . | nindent 4 }}
 spec:
+  selector:
+    app: nats
   ports:
     - name: nats
       port: 9233
       protocol: TCP
-  selector:
-    app: nats

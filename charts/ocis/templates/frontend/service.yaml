@@ -4,11 +4,16 @@ metadata:
   name: frontend
   namespace: {{ template "ocis.namespace" . }}
   labels:
+    app: frontend
+    ocis-metrics: enabled
     {{- include "ocis.labels" . | nindent 4 }}
 spec:
+  selector:
+    app: frontend
   ports:
     - name: http
       port: 9140
       protocol: TCP
-  selector:
-    app: frontend
+    - name: metrics-debug
+      port: 9141
+      protocol: TCP

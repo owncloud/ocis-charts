@@ -60,12 +60,20 @@ spec:
             - name: STORE_LOG_PRETTY
               value: "{{ .Values.logging.pretty }}"
 
+            - name: STORE_DEBUG_PPROF
+              value: "{{ .Values.debug.profiling }}"
+
             - name: STORE_GRPC_ADDR
               value: 0.0.0.0:9460
+            - name: STORE_DEBUG_ADDR
+              value: 0.0.0.0:9464
+
           resources: {{ toYaml .Values.resources | nindent 12 }}
           ports:
             - name: grpc
               containerPort: 9460
+            - name: metrics-debug
+              containerPort: 9464
           volumeMounts:
             - name: store-data
               mountPath: /var/lib/ocis

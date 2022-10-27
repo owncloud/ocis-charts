@@ -46,10 +46,15 @@ spec:
             - name: SETTINGS_LOG_PRETTY
               value: "{{ .Values.logging.pretty }}"
 
+            - name: SETTINGS_DEBUG_PPROF
+              value: "{{ .Values.debug.profiling }}"
+
             - name: SETTINGS_HTTP_ADDR
               value: 0.0.0.0:9190
             - name: SETTINGS_GRPC_ADDR
               value: 0.0.0.0:9191
+            - name: SETTINGS_DEBUG_ADDR
+              value: 0.0.0.0:9194
 
             - name: STORAGE_GATEWAY_GRPC_ADDR
               value: storage-system:9215
@@ -85,3 +90,5 @@ spec:
               containerPort: 9190
             - name: grpc
               containerPort: 9191
+            - name: metrics-debug
+              containerPort: 9194

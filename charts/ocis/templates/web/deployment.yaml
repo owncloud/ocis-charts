@@ -46,8 +46,13 @@ spec:
             - name: WEB_LOG_PRETTY
               value: "{{ .Values.logging.pretty }}"
 
+            - name: WEB_DEBUG_PPROF
+              value: "{{ .Values.debug.profiling }}"
+
             - name: WEB_HTTP_ADDR
               value: 0.0.0.0:9100
+            - name: WEB_DEBUG_ADDR
+              value: 0.0.0.0:9104
 
             - name: WEB_OIDC_AUTHORITY
             {{ if not .Values.features.externalUserManagement.enabled }}
@@ -65,3 +70,5 @@ spec:
           ports:
             - name: http
               containerPort: 9100
+            - name: metrics-debug
+              containerPort: 9104

@@ -4,11 +4,16 @@ metadata:
   name: ocs
   namespace: {{ template "ocis.namespace" . }}
   labels:
+    app: ocs
+    ocis-metrics: enabled
     {{- include "ocis.labels" . | nindent 4 }}
 spec:
+  selector:
+    app: ocs
   ports:
     - name: http
       port: 9110
       protocol: TCP
-  selector:
-    app: ocs
+    - name: metrics-debug
+      port: 9114
+      protocol: TCP

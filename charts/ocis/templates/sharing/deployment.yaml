@@ -46,8 +46,13 @@ spec:
             - name: SHARING_LOG_PRETTY
               value: "{{ .Values.logging.pretty }}"
 
+            - name: SHARING_DEBUG_PPROF
+              value: "{{ .Values.debug.profiling }}"
+
             - name: SHARING_GRPC_ADDR
               value: 0.0.0.0:9150
+            - name: SHARING_DEBUG_ADDR
+              value: 0.0.0.0:9151
 
             - name: REVA_GATEWAY
               value: gateway:9142
@@ -96,6 +101,8 @@ spec:
           ports:
             - name: grpc
               containerPort: 9150
+            - name: metrics-debug
+              containerPort: 9151
           volumeMounts:
             - name: tmp-volume
               mountPath: /tmp

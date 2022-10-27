@@ -4,11 +4,16 @@ metadata:
   name: auth-machine
   namespace: {{ template "ocis.namespace" . }}
   labels:
+    app: auth-machine
+    ocis-metrics: enabled
     {{- include "ocis.labels" . | nindent 4 }}
 spec:
+  selector:
+    app: auth-machine
   ports:
     - name: grpc
       port: 9166
       protocol: TCP
-  selector:
-    app: auth-machine
+    - name: metrics-debug
+      port: 9167
+      protocol: TCP

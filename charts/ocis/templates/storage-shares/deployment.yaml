@@ -46,8 +46,13 @@ spec:
             - name: STORAGE_SHARES_LOG_PRETTY
               value: "{{ .Values.logging.pretty }}"
 
+            - name: STORAGE_SHARES_DEBUG_PPROF
+              value: "{{ .Values.debug.profiling }}"
+
             - name: STORAGE_SHARES_GRPC_ADDR
               value: 0.0.0.0:9154
+            - name: STORAGE_SHARES_DEBUG_ADDR
+              value: 0.0.0.0:9156
 
             - name: STORAGE_SHARES_USER_SHARE_PROVIDER_ENDPOINT
               value: sharing:9150
@@ -65,6 +70,8 @@ spec:
           ports:
             - name: grpc
               containerPort: 9154
+            - name: metrics-debug
+              containerPort: 9156
           volumeMounts:
             - name: tmp-volume
               mountPath: /tmp

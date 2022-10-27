@@ -47,8 +47,13 @@ spec:
             - name: APP_REGISTRY_LOG_PRETTY
               value: "{{ .Values.logging.pretty }}"
 
+            - name: APP_REGISTRY_DEBUG_PPROF
+              value: "{{ .Values.debug.profiling }}"
+
             - name: APP_REGISTRY_GRPC_ADDR
               value: 0.0.0.0:9242
+            - name: APP_REGISTRY_DEBUG_ADDR
+              value: 0.0.0.0:9243
 
             - name: REVA_GATEWAY
               value: gateway:9142
@@ -63,6 +68,8 @@ spec:
           ports:
             - name: http
               containerPort: 9242
+            - name: metrics-debug
+              containerPort: 9243
           volumeMounts:
             - name: tmp-volume
               mountPath: /tmp
