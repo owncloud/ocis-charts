@@ -24,6 +24,7 @@ data:
 {{- end }}
         options:
           disableFeedbackLink: true
+          disableActivitiesLink: true
           previewFileMimeTypes:
             - image/gif
             - image/png
