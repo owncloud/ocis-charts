@@ -30,6 +30,18 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `3`
 | Sets minimum replicas for autoscaling.
+| cache.nodes
+a| [subs=-attributes]
++list+
+a| [subs=-attributes]
+`[]`
+| Nodes of the cache to use.
+| cache.type
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"noop"`
+| Type of the cache to use. To disable the cache, set to "noop". Can be set to "redis", then the address of Redis nodes needs to be set to `cache.nodes`.
 | debug.profiling
 a| [subs=-attributes]
 +bool+
