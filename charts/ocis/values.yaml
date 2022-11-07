@@ -360,6 +360,25 @@ services:
       driver: ocis
       driverConfig:
         s3ng:
+          # The S3NG driver needs an existing S3 bucket with following permissions:
+          # {
+          #     "Version": "2012-10-17",
+          #     "Statement": [
+          #         {
+          #             "Sid": "ListObjectsInBucket",
+          #             "Effect": "Allow",
+          #             "Action": ["s3:ListBucket"],
+          #             "Resource": ["arn:aws:s3:::bucket-name"]
+          #         },
+          #         {
+          #             "Sid": "AllObjectActions",
+          #             "Effect": "Allow",
+          #             "Action": "s3:*Object",
+          #             "Resource": ["arn:aws:s3:::bucket-name/*"]
+          #         }
+          #     ]
+          # }
+
           # -- S3 endpoint to use for the S3NG driver. Only used if driver is set to "s3ng".
           endpoint: https://localhost:1234
           # -- S3 region to use for the S3NG driver. Only used if driver is set to "s3ng".
