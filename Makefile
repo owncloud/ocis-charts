@@ -24,9 +24,6 @@ lint: $(KUBE_LINTER)
 
 .PHONY: api
 api: $(KUBECONFORM)
-	helm template --kube-version 1.22.0 charts/ocis -f charts/ocis/ci/values.yaml > charts/ocis/ci/templated.yaml
-	$(KUBECONFORM) -kubernetes-version 1.22.0 -summary -strict charts/ocis/ci/templated.yaml
-
 	helm template --kube-version 1.23.0 charts/ocis -f charts/ocis/ci/values.yaml > charts/ocis/ci/templated.yaml
 	$(KUBECONFORM) -kubernetes-version 1.23.0 -summary -strict charts/ocis/ci/templated.yaml
 
