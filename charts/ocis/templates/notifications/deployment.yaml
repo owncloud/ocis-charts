@@ -67,6 +67,13 @@ spec:
                   name: {{ .Values.secretRefs.notificationsSmtpSecretRef }}
                   key: smtp-password
 
+            #TODO: remove OCIS_URL in favor of NOTIFICATIONS_WEB_UI_URL
+            # after https://github.com/owncloud/ocis/pull/4998 was released
+            - name: OCIS_URL
+              value: https://{{ .Values.externalDomain }}
+            - name: NOTIFICATIONS_WEB_UI_URL
+              value: https://{{ .Values.externalDomain }}
+
             - name: REVA_GATEWAY
               value: gateway:9142
             - name: NOTIFICATIONS_EVENTS_ENDPOINT
