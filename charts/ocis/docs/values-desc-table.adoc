@@ -70,7 +70,7 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 +list+
 a| [subs=-attributes]
-default configuration of oCIS, see https://doc.owncloud.com/ocis/next/deployment/services/app-registry.html#yaml-example
+default configuration of oCIS, see https://doc.owncloud.com/ocis/next/deployment/services/s-list/app-registry.html#yaml-example[doc.owncloud.com]
 | Mimetype configuration. Let's you configure a mimetypes' default application, if it is allowed to create a new file and more.
 | features.appsIntegration.wopiIntegration.officeSuites[0].enabled
 a| [subs=-attributes]
@@ -137,7 +137,7 @@ a| [subs=-attributes]
 +string+
 a| [subs=-attributes]
 `"https://wopiserver.owncloud.test"`
-| URL of the [cs3org/wopiserver](https://github.com/cs3org/wopiserver). Can be deployed [with this Chart](https://artifacthub.io/packages/helm/cs3org/wopiserver).
+| URL of the https://github.com/cs3org/wopiserver[cs3org/wopiserver]. Can be deployed https://artifacthub.io/packages/helm/cs3org/wopiserver[with this Chart].
 | features.basicAuthentication
 a| [subs=-attributes]
 +bool+

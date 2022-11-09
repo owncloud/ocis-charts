@@ -74,9 +74,9 @@ features:
   appsIntegration:
     # -- Enables the apps integration.
     enabled: false
-    # WOPI (office suite integration) needs an [cs3org/wopiserver](https://github.com/cs3org/wopiserver) and at least one office suite.
+    # WOPI (office suite integration) needs an https://github.com/cs3org/wopiserver[cs3org/wopiserver] and at least one office suite.
     wopiIntegration:
-      # -- URL of the [cs3org/wopiserver](https://github.com/cs3org/wopiserver). Can be deployed [with this Chart](https://artifacthub.io/packages/helm/cs3org/wopiserver).
+      # -- URL of the https://github.com/cs3org/wopiserver[cs3org/wopiserver]. Can be deployed https://artifacthub.io/packages/helm/cs3org/wopiserver[with this Chart].
       wopiServerURI: https://wopiserver.owncloud.test
       # List of WOPI compliant office suites.
       officeSuites:
@@ -104,7 +104,7 @@ features:
           insecure: false
     # -- Mimetype configuration.
     # Let's you configure a mimetypes' default application, if it is allowed to create a new file and more.
-    # @default -- default configuration of oCIS, see https://doc.owncloud.com/ocis/next/deployment/services/app-registry.html#yaml-example
+    # @default -- default configuration of oCIS, see https://doc.owncloud.com/ocis/next/deployment/services/s-list/app-registry.html#yaml-example[doc.owncloud.com]
     mimetypes: []
       # - mime_type: application/vnd.oasis.opendocument.text
         # extension: odt
@@ -211,7 +211,7 @@ ingress:
 
 # References to secrets.
 # The secrets need to be manually created.
-# See https://github.com/owncloud/ocis-charts/blob/master/charts/ocis/README.md#secrets for how to generate them.
+# See https://doc.owncloud.com/ocis/next/deployment/container/orchestration/orchestration.html#customize-the-generic-setup[doc.owncloud.com] for how to generate them.
 secretRefs:
   # -- Reference to an existing admin user secret (see ref:Secrets#secrets)
   adminUserSecretRef: "admin-user"
