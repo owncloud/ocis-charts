@@ -397,6 +397,13 @@ services:
           accessKey: lorem-ipsum
           # -- S3 secret key to use for the S3NG driver. Only used if driver is set to "s3ng".
           secretKey: lorem-ipsum
+    maintenance:
+      # Expired uploads can be cleaned up automatically by enabling the clean up job.
+      cleanUpExpiredUploads:
+        # -- Enables a job, that cleans up expired uploads. Requires persistence to be enabled and RWX storage.
+        enabled: false
+        # -- Cron pattern for the job to be run. Defaults to every minute.
+        schedule: "* * * * *"
     persistence:
       # -- Enables persistence.
       # Needs to be enabled on production installations.

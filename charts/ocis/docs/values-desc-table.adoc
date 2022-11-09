@@ -768,6 +768,18 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `nil`
 | Storage class to use. Uses the default storage class if not set.
+| services.storageUsers.maintenance.cleanUpExpiredUploads.enabled
+a| [subs=-attributes]
++bool+
+a| [subs=-attributes]
+`false`
+| Enables a job, that cleans up expired uploads. Requires persistence to be enabled and RWX storage.
+| services.storageUsers.maintenance.cleanUpExpiredUploads.schedule
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"* * * * *"`
+| Cron pattern for the job to be run. Defaults to every minute.
 | services.storageUsers.persistence.accessModes
 a| [subs=-attributes]
 +list+
