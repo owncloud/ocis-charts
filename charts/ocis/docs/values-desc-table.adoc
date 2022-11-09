@@ -186,6 +186,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `nil`
 | Sender address of emails that will be sent. Example: 'ownCloud <noreply@example.com>'
+| features.externalUserManagement.adminUUID
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| UUID of the inital admin user. If the given value matches a user's value from `features.externalUserManagement.oidc.userIDClaim`, the admin role will be assigned.
 | features.externalUserManagement.enabled
 a| [subs=-attributes]
 +bool+
@@ -461,19 +467,19 @@ a| [subs=-attributes]
 +string+
 a| [subs=-attributes]
 `"admin-user"`
-| Reference to an existing admin user secret (see xref:{secrets}[Secrets])
+| Reference to an existing admin user secret (see xref:{secrets}[Secrets]). Not used if `features.externalUserManagement.enabled` equals `true`.
 | secretRefs.idpSecretRef
 a| [subs=-attributes]
 +string+
 a| [subs=-attributes]
 `"idp-secrets"`
-| Reference to an existing IDP secret (see xref:{secrets}[Secrets])
+| Reference to an existing IDP secret (see xref:{secrets}[Secrets]). Not used if `features.externalUserManagement.enabled` equals `true`.
 | secretRefs.jwtSecretRef
 a| [subs=-attributes]
 +string+
 a| [subs=-attributes]
 `"jwt-secret"`
-| Reference to an existing JWT secret (see xref:{secrets}[Secrets])
+| Reference to an existing JWT secret (see xref:{secrets}[Secrets]). Not used if `features.externalUserManagement.enabled` equals `true`.
 | secretRefs.ldapCaRef
 a| [subs=-attributes]
 +string+
@@ -485,7 +491,7 @@ a| [subs=-attributes]
 +string+
 a| [subs=-attributes]
 `"ldap-cert"`
-| Reference to an existing LDAP cert secret (see xref:{secrets}[Secrets])
+| Reference to an existing LDAP cert secret (see xref:{secrets}[Secrets]).
 | secretRefs.ldapSecretRef
 a| [subs=-attributes]
 +string+
@@ -575,7 +581,7 @@ a| [subs=-attributes]
 +bool+
 a| [subs=-attributes]
 `false`
-| Enables persistence. Needs to be enabled on production installations. If not enabled, pod restarts will lead to data loss. Also scaling this service beyond one instance is not possible if the service instances don't share the same storage.
+| Enables persistence. Needs to be enabled on production installations, except `features.externalUserManagement.enabled` equals `true`. If not enabled, pod restarts will lead to data loss. Also scaling this service beyond one instance is not possible if the service instances don't share the same storage.
 | services.idm.persistence.existingClaim
 a| [subs=-attributes]
 +string+

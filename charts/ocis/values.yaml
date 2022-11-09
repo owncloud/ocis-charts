@@ -118,6 +118,9 @@ features:
     # -- Enables external user management (and disables internal user management).
     # Needs an external OpenID Connect Identity Provider and an external LDAP server.
     enabled: false
+    # -- UUID of the inital admin user.
+    # If the given value matches a user's value from `features.externalUserManagement.oidc.userIDClaim`, the admin role will be assigned.
+    adminUUID: ""
     # OpenID Connect Identity provider related settings.
     oidc:
       # -- Issuer URI of the OpenID Connect Identity Provider.
@@ -213,15 +216,15 @@ ingress:
 # The secrets need to be manually created.
 # See https://doc.owncloud.com/ocis/next/deployment/container/orchestration/orchestration.html#customize-the-generic-setup[doc.owncloud.com] for how to generate them.
 secretRefs:
-  # -- Reference to an existing admin user secret (see ref:Secrets#secrets)
+  # -- Reference to an existing admin user secret (see ref:Secrets#secrets). Not used if `features.externalUserManagement.enabled` equals `true`.
   adminUserSecretRef: "admin-user"
-  # -- Reference to an existing IDP secret (see ref:Secrets#secrets)
+  # -- Reference to an existing IDP secret (see ref:Secrets#secrets). Not used if `features.externalUserManagement.enabled` equals `true`.
   idpSecretRef: "idp-secrets"
-  # -- Reference to an existing JWT secret (see ref:Secrets#secrets)
+  # -- Reference to an existing JWT secret (see ref:Secrets#secrets). Not used if `features.externalUserManagement.enabled` equals `true`.
   jwtSecretRef: "jwt-secret"
   # -- Reference to an existing LDAP certificate authority secret (see ref:Secrets#secrets)
   ldapCaRef: "ldap-ca"
-  # -- Reference to an existing LDAP cert secret (see ref:Secrets#secrets)
+  # -- Reference to an existing LDAP cert secret (see ref:Secrets#secrets).
   ldapCertRef: "ldap-cert"
   # -- Reference to an existing LDAP bind secret (see ref:Secrets#secrets)
   ldapSecretRef: "ldap-bind-secrets"
@@ -490,11 +493,11 @@ services:
       # -- Use an existing PersistentVolumeClaim for persistence.
       existingClaim:
 
-  # IDM service.
+  # IDM service. Not used if `features.externalUserManagement.enabled` equals `true`.
   idm:
     persistence:
       # -- Enables persistence.
-      # Needs to be enabled on production installations.
+      # Needs to be enabled on production installations, except `features.externalUserManagement.enabled` equals `true`.
       # If not enabled, pod restarts will lead to data loss.
       # Also scaling this service beyond one instance is not possible if the service instances don't share the same storage.
       enabled: false
