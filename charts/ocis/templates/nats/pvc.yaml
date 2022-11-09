@@ -1,4 +1,4 @@
-{{- if and .Values.services.search.persistence.enabled (not .Values.services.nats.persistence.existingClaim)}}
+{{- if and .Values.services.nats.persistence.enabled (not .Values.services.nats.persistence.existingClaim)}}
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
@@ -21,7 +21,7 @@ spec:
     {{- end }}
   resources:
     requests:
-      storage: {{ .Values.services.search.persistence.size | quote }}
+      storage: {{ .Values.services.nats.persistence.size | quote }}
   {{- if .Values.services.nats.persistence.storageClassName }}
   storageClassName: {{ .Values.services.nats.persistence.storageClassName }}
   {{- end -}}
