@@ -68,13 +68,13 @@ spec:
             - name: IDM_LOG_PRETTY
               value: "{{ .Values.logging.pretty }}"
 
-            - name: IDM_DEBUG_PPROF
-              value: "{{ .Values.debug.profiling }}"
+            # - name: IDM_DEBUG_PPROF
+            #   value: "{{ .Values.debug.profiling }}"
 
             - name: IDM_LDAPS_ADDR
               value: 0.0.0.0:9235
-            - name: IDM_DEBUG_ADDR
-              value: 0.0.0.0:9239
+            # - name: IDM_DEBUG_ADDR
+            #   value: 0.0.0.0:9239
 
             - name: IDM_CREATE_DEMO_USERS
               value: "{{ .Values.features.demoUsers }}"
