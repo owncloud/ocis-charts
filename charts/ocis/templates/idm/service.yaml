@@ -5,12 +5,18 @@ metadata:
   name: idm
   namespace: {{ template "ocis.namespace" . }}
   labels:
+    app: idm
+    ocis-metrics: enabled
     {{- include "ocis.labels" . | nindent 4 }}
 spec:
+  selector:
+    app: idm
   ports:
     - name: ldaps
       port: 9235
       protocol: TCP
-  selector:
-    app: idm
+    # TODO: IDM does not currently provide a debug port, re-enable this once that is implemented
+    # - name: metrics-debug
+    #   port: 9239
+    #   protocol: TCP
 {{- end }}

@@ -4,11 +4,16 @@ metadata:
   name: storage-publiclink
   namespace: {{ template "ocis.namespace" . }}
   labels:
+    app: storage-publiclink
+    ocis-metrics: enabled
     {{- include "ocis.labels" . | nindent 4 }}
 spec:
+  selector:
+    app: storage-publiclink
   ports:
     - name: grpc
       port: 9178
       protocol: TCP
-  selector:
-    app: storage-publiclink
+    - name: metrics-debug
+      port: 9179
+      protocol: TCP

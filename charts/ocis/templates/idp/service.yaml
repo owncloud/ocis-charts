@@ -5,12 +5,18 @@ metadata:
   name: idp
   namespace: {{ template "ocis.namespace" . }}
   labels:
+    app: idp
+    ocis-metrics: enabled
     {{- include "ocis.labels" . | nindent 4 }}
 spec:
-  ports:
-  - name: http
-    port: 9130
-    protocol: TCP
   selector:
     app: idp
+  ports:
+    - name: http
+      port: 9130
+      protocol: TCP
+    - name: metrics-debug
+      port: 9134
+      protocol: TCP
+
 {{- end }}

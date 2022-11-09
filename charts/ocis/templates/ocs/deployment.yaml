@@ -46,8 +46,13 @@ spec:
             - name: OCS_LOG_PRETTY
               value: "{{ .Values.logging.pretty }}"
 
+            - name: OCS_DEBUG_PPROF
+              value: "{{ .Values.debug.profiling }}"
+
             - name: OCS_HTTP_ADDR
               value: 0.0.0.0:9110
+            - name: OCS_DEBUG_ADDR
+              value: 0.0.0.0:9114
 
             - name: OCS_IDM_ADDRESS
             {{ if not .Values.features.externalUserManagement.enabled }}
@@ -71,7 +76,18 @@ spec:
                   name: {{ .Values.secretRefs.machineAuthApiKeySecretRef }}
                   key: machine-auth-api-key
 
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: metrics-debug
+            timeoutSeconds: 10
+            initialDelaySeconds: 60
+            periodSeconds: 20
+            failureThreshold: 3
+
           resources: {{ toYaml .Values.resources | nindent 12 }}
           ports:
-          - name: http
-            containerPort: 9110
+            - name: http
+              containerPort: 9110
+            - name: metrics-debug
+              containerPort: 9114

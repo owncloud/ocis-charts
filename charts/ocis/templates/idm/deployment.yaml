@@ -68,8 +68,13 @@ spec:
             - name: IDM_LOG_PRETTY
               value: "{{ .Values.logging.pretty }}"
 
+            # - name: IDM_DEBUG_PPROF
+            #   value: "{{ .Values.debug.profiling }}"
+
             - name: IDM_LDAPS_ADDR
               value: 0.0.0.0:9235
+            # - name: IDM_DEBUG_ADDR
+            #   value: 0.0.0.0:9239
 
             - name: IDM_CREATE_DEMO_USERS
               value: "{{ .Values.features.demoUsers }}"
@@ -109,10 +114,26 @@ spec:
             - name: IDM_LDAPS_KEY
               value: /etc/ocis/ldap-cert/ldap.key
 
+          livenessProbe:
+            # TODO: IDM does not currently provide a debug port, re-enable this once that is implemented
+            # httpGet:
+            #   path: /healthz
+            #   port: metrics-debug
+            # until then we're just doing a TCP check on the main port
+            tcpSocket:
+              port: ldaps
+            timeoutSeconds: 10
+            initialDelaySeconds: 60
+            periodSeconds: 20
+            failureThreshold: 3
+
           resources: {{ toYaml .Values.resources | nindent 12 }}
           ports:
             - name: ldaps
               containerPort: 9235
+            # TODO: IDM does not currently provide a debug port, re-enable this once that is implemented
+            # - name: metrics-debug
+            #   containerPort: 9239
           volumeMounts:
             - name: ocis-config-tmp
               mountPath: /etc/ocis # we mount that volume only to apply fsGroup to that path

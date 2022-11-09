@@ -4,11 +4,16 @@ metadata:
   name: gateway
   namespace: {{ template "ocis.namespace" . }}
   labels:
+    app: gateway
+    ocis-metrics: enabled
     {{- include "ocis.labels" . | nindent 4 }}
 spec:
+  selector:
+    app: gateway
   ports:
     - name: grpc
       port: 9142
       protocol: TCP
-  selector:
-    app: gateway
+    - name: metrics-debug
+      port: 9143
+      protocol: TCP

@@ -46,8 +46,13 @@ spec:
             - name: STORAGE_PUBLICLINK_LOG_PRETTY
               value: "{{ .Values.logging.pretty }}"
 
+            - name: STORAGE_PUBLICLINK_DEBUG_PPROF
+              value: "{{ .Values.debug.profiling }}"
+
             - name: STORAGE_PUBLICLINK_GRPC_ADDR
               value: 0.0.0.0:9178
+            - name: STORAGE_PUBLICLINK_DEBUG_ADDR
+              value: 0.0.0.0:9179
 
             - name: REVA_GATEWAY
               value: gateway:9142
@@ -58,10 +63,21 @@ spec:
                   name: {{ .Values.secretRefs.jwtSecretRef }}
                   key: jwt-secret
 
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: metrics-debug
+            timeoutSeconds: 10
+            initialDelaySeconds: 60
+            periodSeconds: 20
+            failureThreshold: 3
+
           resources: {{ toYaml .Values.resources | nindent 12 }}
           ports:
-          - name: grpc
-            containerPort: 9178
+            - name: grpc
+              containerPort: 9178
+            - name: metrics-debug
+              containerPort: 9179
           volumeMounts:
             - name: tmp-volume
               mountPath: /tmp

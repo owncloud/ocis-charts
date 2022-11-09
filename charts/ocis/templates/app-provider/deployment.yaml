@@ -48,8 +48,13 @@ spec:
             - name: APP_PROVIDER_LOG_PRETTY
               value: "{{ $.Values.logging.pretty }}"
 
+            - name: APP_PROVIDER_DEBUG_PPROF
+              value: "{{ $.Values.debug.profiling }}"
+
             - name: APP_PROVIDER_GRPC_ADDR
               value: 0.0.0.0:9164
+            - name: APP_PROVIDER_DEBUG_ADDR
+              value: 0.0.0.0:9165
 
             - name: APP_PROVIDER_EXTERNAL_ADDR
               value: app-provider-{{ regexReplaceAll "\\W+" (lower $officeSuite.name) "_" }}:9164
@@ -76,10 +81,23 @@ spec:
                   name: {{ $.Values.secretRefs.jwtSecretRef }}
                   key: jwt-secret
 
+          livenessProbe:
+            exec:
+              command:
+              - /bin/sh
+              - -c
+              - curl --silent --fail http://frontend:9140/app/list | grep {{ $officeSuite.name }}
+            timeoutSeconds: 10
+            initialDelaySeconds: 60
+            periodSeconds: 20
+            failureThreshold: 3
+
           resources: {{ toYaml $.Values.resources | nindent 12 }}
           ports:
             - name: grpc
               containerPort: 9164
+            - name: metrics-debug
+              containerPort: 9165
           volumeMounts:
             - name: tmp-volume
               mountPath: /tmp

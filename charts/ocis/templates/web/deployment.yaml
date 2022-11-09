@@ -46,8 +46,13 @@ spec:
             - name: WEB_LOG_PRETTY
               value: "{{ .Values.logging.pretty }}"
 
+            - name: WEB_DEBUG_PPROF
+              value: "{{ .Values.debug.profiling }}"
+
             - name: WEB_HTTP_ADDR
               value: 0.0.0.0:9100
+            - name: WEB_DEBUG_ADDR
+              value: 0.0.0.0:9104
 
             - name: WEB_OIDC_AUTHORITY
             {{ if not .Values.features.externalUserManagement.enabled }}
@@ -61,7 +66,19 @@ spec:
               value: https://{{ .Values.externalDomain }}
             - name: WEB_OIDC_METADATA_URL
               value: https://{{ .Values.externalDomain }}/.well-known/openid-configuration
+
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: metrics-debug
+            timeoutSeconds: 10
+            initialDelaySeconds: 60
+            periodSeconds: 20
+            failureThreshold: 3
+
           resources: {{ toYaml .Values.resources | nindent 12 }}
           ports:
             - name: http
               containerPort: 9100
+            - name: metrics-debug
+              containerPort: 9104
