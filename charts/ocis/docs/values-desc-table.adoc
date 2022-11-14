@@ -570,60 +570,120 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `1000`
 | User ID that all processes within any containers will run with.
+| services.appProvider
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+see detailed service configuration options below
+| APP PROVIDER service. Not used if `features.appsIntegration.enabled` equals `false`.
 | services.appProvider.resources
 a| [subs=-attributes]
 +object+
 a| [subs=-attributes]
 `{}`
 | Per-service resources configuration. Overrides the default setting from `resources` if set.
+| services.appRegistry
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+see detailed service configuration options below
+| APP REGISTRY service. Not used if `features.appsIntegration.enabled` equals `false`.
 | services.appRegistry.resources
 a| [subs=-attributes]
 +object+
 a| [subs=-attributes]
 `{}`
 | Per-service resources configuration. Overrides the default setting from `resources` if set.
+| services.audit
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+see detailed service configuration options below
+| AUDIT service.
 | services.audit.resources
 a| [subs=-attributes]
 +object+
 a| [subs=-attributes]
 `{}`
 | Per-service resources configuration. Overrides the default setting from `resources` if set.
+| services.authBasic
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+see detailed service configuration options below
+| AUTH BASIC service. Not used if `features.externalUserManagement.enabled` equals `true`.
 | services.authBasic.resources
 a| [subs=-attributes]
 +object+
 a| [subs=-attributes]
 `{}`
 | Per-service resources configuration. Overrides the default setting from `resources` if set.
+| services.authMachine
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+see detailed service configuration options below
+| AUTH MACHINE service.
 | services.authMachine.resources
 a| [subs=-attributes]
 +object+
 a| [subs=-attributes]
 `{}`
 | Per-service resources configuration. Overrides the default setting from `resources` if set.
+| services.frontend
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+see detailed service configuration options below
+| FRONTEND service.
 | services.frontend.resources
 a| [subs=-attributes]
 +object+
 a| [subs=-attributes]
 `{}`
 | Per-service resources configuration. Overrides the default setting from `resources` if set.
+| services.gateway
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+see detailed service configuration options below
+| GATEWAY service.
 | services.gateway.resources
 a| [subs=-attributes]
 +object+
 a| [subs=-attributes]
 `{}`
 | Per-service resources configuration. Overrides the default setting from `resources` if set.
+| services.graph
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+see detailed service configuration options below
+| GRAPH service.
 | services.graph.resources
 a| [subs=-attributes]
 +object+
 a| [subs=-attributes]
 `{}`
 | Per-service resources configuration. Overrides the default setting from `resources` if set.
+| services.groups
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+see detailed service configuration options below
+| GROUPS service.
 | services.groups.resources
 a| [subs=-attributes]
 +object+
 a| [subs=-attributes]
 `{}`
 | Per-service resources configuration. Overrides the default setting from `resources` if set.
+| services.idm
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+see detailed service configuration options below
+| IDM service. Not used if `features.externalUserManagement.enabled` equals `true`.
 | services.idm.persistence.accessModes
 a| [subs=-attributes]
 +list+
@@ -684,12 +744,24 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service resources configuration. Overrides the default setting from `resources` if set.
+| services.idp
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+see detailed service configuration options below
+| IDP service. Not used if `features.externalUserManagement.enabled` equals `true`.
 | services.idp.resources
 a| [subs=-attributes]
 +object+
 a| [subs=-attributes]
 `{}`
 | Per-service resources configuration. Overrides the default setting from `resources` if set.
+| services.nats
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+see detailed service configuration options below
+| NATS service.
 | services.nats.persistence.accessModes
 a| [subs=-attributes]
 +list+
@@ -750,30 +822,60 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service resources configuration. Overrides the default setting from `resources` if set.
+| services.notifications
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+see detailed service configuration options below
+| NOTIFICATIONS service. Not used if `features.emailNotifications.enabled` equals `true`.
 | services.notifications.resources
 a| [subs=-attributes]
 +object+
 a| [subs=-attributes]
 `{}`
 | Per-service resources configuration. Overrides the default setting from `resources` if set.
+| services.ocdav
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+see detailed service configuration options below
+| OCDAV service.
 | services.ocdav.resources
 a| [subs=-attributes]
 +object+
 a| [subs=-attributes]
 `{}`
 | Per-service resources configuration. Overrides the default setting from `resources` if set.
+| services.ocs
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+see detailed service configuration options below
+| OCS service.
 | services.ocs.resources
 a| [subs=-attributes]
 +object+
 a| [subs=-attributes]
 `{}`
 | Per-service resources configuration. Overrides the default setting from `resources` if set.
+| services.proxy
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+see detailed service configuration options below
+| PROXY service.
 | services.proxy.resources
 a| [subs=-attributes]
 +object+
 a| [subs=-attributes]
 `{}`
 | Per-service resources configuration. Overrides the default setting from `resources` if set.
+| services.search
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+see detailed service configuration options below
+| SEARCH service.
 | services.search.persistence.accessModes
 a| [subs=-attributes]
 +list+
@@ -834,30 +936,60 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service resources configuration. Overrides the default setting from `resources` if set.
+| services.settings
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+see detailed service configuration options below
+| SETTINGS service.
 | services.settings.resources
 a| [subs=-attributes]
 +object+
 a| [subs=-attributes]
 `{}`
 | Per-service resources configuration. Overrides the default setting from `resources` if set.
+| services.sharing
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+see detailed service configuration options below
+| SHARING service.
 | services.sharing.resources
 a| [subs=-attributes]
 +object+
 a| [subs=-attributes]
 `{}`
 | Per-service resources configuration. Overrides the default setting from `resources` if set.
+| services.storagePublicLink
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+see detailed service configuration options below
+| STORAGE-PUBLICLINK service.
 | services.storagePublicLink.resources
 a| [subs=-attributes]
 +object+
 a| [subs=-attributes]
 `{}`
 | Per-service resources configuration. Overrides the default setting from `resources` if set.
+| services.storageShares
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+see detailed service configuration options below
+| STORAGE-SHARES service.
 | services.storageShares.resources
 a| [subs=-attributes]
 +object+
 a| [subs=-attributes]
 `{}`
 | Per-service resources configuration. Overrides the default setting from `resources` if set.
+| services.storageSystem
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+see detailed service configuration options below
+| STORAGE-SYSTEM service.
 | services.storageSystem.persistence.accessModes
 a| [subs=-attributes]
 +list+
@@ -918,6 +1050,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service resources configuration. Overrides the default setting from `resources` if set.
+| services.storageUsers
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+see detailed service configuration options below
+| STORAGE-USERS service.
 | services.storageUsers.maintenance.cleanUpExpiredUploads.enabled
 a| [subs=-attributes]
 +bool+
@@ -1026,6 +1164,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `"lorem-ipsum"`
 | S3 secret key to use for the S3NG driver. Only used if driver is set to "s3ng".
+| services.store
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+see detailed service configuration options below
+| STORE service.
 | services.store.persistence.accessModes
 a| [subs=-attributes]
 +list+
@@ -1086,6 +1230,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service resources configuration. Overrides the default setting from `resources` if set.
+| services.thumbnails
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+see detailed service configuration options below
+| THUMBNAILS service.
 | services.thumbnails.persistence.accessModes
 a| [subs=-attributes]
 +list+
@@ -1146,12 +1296,24 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service resources configuration. Overrides the default setting from `resources` if set.
+| services.users
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+see detailed service configuration options below
+| USERS service.
 | services.users.resources
 a| [subs=-attributes]
 +object+
 a| [subs=-attributes]
 `{}`
 | Per-service resources configuration. Overrides the default setting from `resources` if set.
+| services.web
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+see detailed service configuration options below
+| ownCloud WEB service.
 | services.web.config.applications
 a| [subs=-attributes]
 +list+
@@ -1194,6 +1356,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service resources configuration. Overrides the default setting from `resources` if set.
+| services.webdav
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+see detailed service configuration options below
+| WEBDAV service.
 | services.webdav.resources
 a| [subs=-attributes]
 +object+
