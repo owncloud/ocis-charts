@@ -479,7 +479,7 @@ a| [subs=-attributes]
 +string+
 a| [subs=-attributes]
 `"jwt-secret"`
-| Reference to an existing JWT secret (see xref:{secrets}[Secrets]). Not used if `features.externalUserManagement.enabled` equals `true`.
+| Reference to an existing JWT secret (see xref:{secrets}[Secrets]).
 | secretRefs.ldapCaRef
 a| [subs=-attributes]
 +string+
@@ -491,13 +491,13 @@ a| [subs=-attributes]
 +string+
 a| [subs=-attributes]
 `"ldap-cert"`
-| Reference to an existing LDAP cert secret (see xref:{secrets}[Secrets]).
+| Reference to an existing LDAP cert secret (see xref:{secrets}[Secrets]). Not used if `features.externalUserManagement.enabled` equals `true`.
 | secretRefs.ldapSecretRef
 a| [subs=-attributes]
 +string+
 a| [subs=-attributes]
 `"ldap-bind-secrets"`
-| Reference to an existing LDAP bind secret (see xref:{secrets}[Secrets])
+| Reference to an existing LDAP bind secret (see xref:{secrets}[Secrets]).
 | secretRefs.machineAuthApiKeySecretRef
 a| [subs=-attributes]
 +string+
@@ -509,7 +509,7 @@ a| [subs=-attributes]
 +string+
 a| [subs=-attributes]
 `"notifications-smtp-secret"`
-| Reference to an existing SMTP email server settings secret (see xref:{secrets}[Secrets])
+| Reference to an existing SMTP email server settings secret (see xref:{secrets}[Secrets]). Not used if `features.emailNotifications.enabled` equals `false`.
 | secretRefs.storageSystemJwtSecretRef
 a| [subs=-attributes]
 +string+
