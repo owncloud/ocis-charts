@@ -318,10 +318,13 @@ autoscaling:
 #         type: Utilization
 #         averageUtilization: 60
 
-# -- Resources to apply to all services.
+# -- Default resources to apply to all services, except per-service resources configuration in `services.<service-name>.resources` is set.
+# Best practice is to:
+# - set memory request == memory limit (compare to https://home.robusta.dev/blog/kubernetes-memory-limit)
+# - set cpu request and omit cpu limit (compare to https://home.robusta.dev/blog/stop-using-cpu-limits)
 resources: {}
   # limits:
-  #   cpu: 100m
+    # cpu: 100m
   #   memory: 128Mi
   # requests:
   #   cpu: 100m
@@ -351,6 +354,192 @@ extraResources: []
 
 # per-service configuration.
 services:
+  # APP PROVIDER service. Not used if `features.appsIntegration.enabled` equals `false`.
+  appProvider:
+    # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
+    resources: {}
+
+  # APP REGISTRY service. Not used if `features.appsIntegration.enabled` equals `false`.
+  appRegistry:
+    # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
+    resources: {}
+
+  # AUDIT service.
+  audit:
+    # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
+    resources: {}
+
+  # AUTH BASIC service. Not used if `features.externalUserManagement.enabled` equals `true`.
+  authBasic:
+    # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
+    resources: {}
+
+  # AUTH MACHINE service.
+  authMachine:
+    # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
+    resources: {}
+
+  # FRONTEND service.
+  frontend:
+    # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
+    resources: {}
+
+  # GATEWAY service.
+  gateway:
+    # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
+    resources: {}
+
+  # GRAPH service.
+  graph:
+    # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
+    resources: {}
+
+  # GROUPS service.
+  groups:
+    # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
+    resources: {}
+
+  # IDM service. Not used if `features.externalUserManagement.enabled` equals `true`.
+  idm:
+    persistence:
+      # -- Enables persistence.
+      # Needs to be enabled on production installations, except `features.externalUserManagement.enabled` equals `true`.
+      # If not enabled, pod restarts will lead to data loss.
+      # Also scaling this service beyond one instance is not possible if the service instances don't share the same storage.
+      enabled: false
+      # -- Enables a initContainer to chown the volume.
+      # The initContainer is run as root.
+      # This is not needed if the driver applies the fsGroup from the securityContext.
+      chownInitContainer: false
+      # -- Storage class to use.
+      # Uses the default storage class if not set.
+      storageClassName:
+      # -- Persistent volume access modes. Needs to be `["ReadWriteMany"]` when scaling this service beyond one instance.
+      accessModes:
+        - ReadWriteMany
+      # -- Size of the persistent volume.
+      size: 10Gi
+      # -- Persistent volume annotations.
+      annotations: {}
+      # -- Persistent volume finalizers.
+      finalizers:
+        - kubernetes.io/pvc-protection
+      # -- Persistent volume selector labels.
+      selectorLabels: {}
+      # -- Use an existing PersistentVolumeClaim for persistence.
+      existingClaim:
+    # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
+    resources: {}
+
+  # IDP service. Not used if `features.externalUserManagement.enabled` equals `true`.
+  idp:
+    # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
+    resources: {}
+
+  # NATS service.
+  nats:
+    persistence:
+      # -- Enables persistence.
+      # Needs to be enabled on production installations.
+      # If not enabled, pod restarts will lead to data loss.
+      # Also scaling this service beyond one instance is not possible if the service instances don't share the same storage.
+      enabled: false
+      # -- Enables a initContainer to chown the volume.
+      # The initContainer is run as root.
+      # This is not needed if the driver applies the fsGroup from the securityContext.
+      chownInitContainer: false
+      # -- Storage class to use.
+      # Uses the default storage class if not set.
+      storageClassName:
+      # -- Persistent volume access modes. Needs to be `["ReadWriteMany"]` when scaling this service beyond one instance.
+      accessModes:
+        - ReadWriteMany
+      # -- Size of the persistent volume.
+      size: 10Gi
+      # -- Persistent volume annotations.
+      annotations: {}
+      # -- Persistent volume finalizers.
+      finalizers:
+        - kubernetes.io/pvc-protection
+      # -- Persistent volume selector labels.
+      selectorLabels: {}
+      # -- Use an existing PersistentVolumeClaim for persistence.
+      existingClaim:
+    # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
+    resources: {}
+
+
+  # NOTIFICATIONS service. Not used if `features.emailNotifications.enabled` equals `true`.
+  notifications:
+    # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
+    resources: {}
+
+  # OCDAV service.
+  ocdav:
+    # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
+    resources: {}
+
+  # OCS service.
+  ocs:
+    # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
+    resources: {}
+
+  # PROXY service.
+  proxy:
+    # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
+    resources: {}
+
+  # SEARCH service.
+  search:
+    persistence:
+      # -- Enables persistence.
+      # Needs to be enabled on production installations.
+      # If not enabled, pod restarts will lead to data loss.
+      # Also scaling this service beyond one instance is not possible if the service instances don't share the same storage.
+      enabled: false
+      # -- Enables a initContainer to chown the volume.
+      # The initContainer is run as root.
+      # This is not needed if the driver applies the fsGroup from the securityContext.
+      chownInitContainer: false
+      # -- Storage class to use.
+      # Uses the default storage class if not set.
+      storageClassName:
+      # -- Persistent volume access modes. Needs to be `["ReadWriteMany"]` when scaling this service beyond one instance.
+      accessModes:
+        - ReadWriteMany
+      # -- Size of the persistent volume.
+      size: 10Gi
+      # -- Persistent volume annotations.
+      annotations: {}
+      # -- Persistent volume finalizers.
+      finalizers:
+        - kubernetes.io/pvc-protection
+      # -- Persistent volume selector labels.
+      selectorLabels: {}
+      # -- Use an existing PersistentVolumeClaim for persistence.
+      existingClaim:
+    # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
+    resources: {}
+
+  # SETTINGS service.
+  settings:
+    # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
+    resources: {}
+
+  # SHARING service.
+  sharing:
+    # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
+    resources: {}
+
+  # STORAGE-PUBLICLINK service.
+  storagePublicLink:
+    # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
+    resources: {}
+
+  # STORAGE-SHARES service.
+  storageShares:
+    # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
+    resources: {}
 
   # STORAGE-SYSTEM service.
   storageSystem:
@@ -381,6 +570,8 @@ services:
       selectorLabels: {}
       # -- Use an existing PersistentVolumeClaim for persistence.
       existingClaim:
+    # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
+    resources: {}
 
   # STORAGE-USERS service.
   storageUsers:
@@ -454,6 +645,9 @@ services:
       selectorLabels: {}
       # -- Use an existing PersistentVolumeClaim for persistence.
       existingClaim:
+    # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
+    resources: {}
+
 
   # store service.
   store:
@@ -484,6 +678,8 @@ services:
       selectorLabels: {}
       # -- Use an existing PersistentVolumeClaim for persistence.
       existingClaim:
+    # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
+    resources: {}
 
   # THUMBNAILS service.
   thumbnails:
@@ -513,96 +709,13 @@ services:
       selectorLabels: {}
       # -- Use an existing PersistentVolumeClaim for persistence.
       existingClaim:
+    # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
+    resources: {}
 
-  # IDM service. Not used if `features.externalUserManagement.enabled` equals `true`.
-  idm:
-    persistence:
-      # -- Enables persistence.
-      # Needs to be enabled on production installations, except `features.externalUserManagement.enabled` equals `true`.
-      # If not enabled, pod restarts will lead to data loss.
-      # Also scaling this service beyond one instance is not possible if the service instances don't share the same storage.
-      enabled: false
-      # -- Enables a initContainer to chown the volume.
-      # The initContainer is run as root.
-      # This is not needed if the driver applies the fsGroup from the securityContext.
-      chownInitContainer: false
-      # -- Storage class to use.
-      # Uses the default storage class if not set.
-      storageClassName:
-      # -- Persistent volume access modes. Needs to be `["ReadWriteMany"]` when scaling this service beyond one instance.
-      accessModes:
-        - ReadWriteMany
-      # -- Size of the persistent volume.
-      size: 10Gi
-      # -- Persistent volume annotations.
-      annotations: {}
-      # -- Persistent volume finalizers.
-      finalizers:
-        - kubernetes.io/pvc-protection
-      # -- Persistent volume selector labels.
-      selectorLabels: {}
-      # -- Use an existing PersistentVolumeClaim for persistence.
-      existingClaim:
-
-  # SEARCH service.
-  search:
-    persistence:
-      # -- Enables persistence.
-      # Needs to be enabled on production installations.
-      # If not enabled, pod restarts will lead to data loss.
-      # Also scaling this service beyond one instance is not possible if the service instances don't share the same storage.
-      enabled: false
-      # -- Enables a initContainer to chown the volume.
-      # The initContainer is run as root.
-      # This is not needed if the driver applies the fsGroup from the securityContext.
-      chownInitContainer: false
-      # -- Storage class to use.
-      # Uses the default storage class if not set.
-      storageClassName:
-      # -- Persistent volume access modes. Needs to be `["ReadWriteMany"]` when scaling this service beyond one instance.
-      accessModes:
-        - ReadWriteMany
-      # -- Size of the persistent volume.
-      size: 10Gi
-      # -- Persistent volume annotations.
-      annotations: {}
-      # -- Persistent volume finalizers.
-      finalizers:
-        - kubernetes.io/pvc-protection
-      # -- Persistent volume selector labels.
-      selectorLabels: {}
-      # -- Use an existing PersistentVolumeClaim for persistence.
-      existingClaim:
-
-  # NATS service.
-  nats:
-    persistence:
-      # -- Enables persistence.
-      # Needs to be enabled on production installations.
-      # If not enabled, pod restarts will lead to data loss.
-      # Also scaling this service beyond one instance is not possible if the service instances don't share the same storage.
-      enabled: false
-      # -- Enables a initContainer to chown the volume.
-      # The initContainer is run as root.
-      # This is not needed if the driver applies the fsGroup from the securityContext.
-      chownInitContainer: false
-      # -- Storage class to use.
-      # Uses the default storage class if not set.
-      storageClassName:
-      # -- Persistent volume access modes. Needs to be `["ReadWriteMany"]` when scaling this service beyond one instance.
-      accessModes:
-        - ReadWriteMany
-      # -- Size of the persistent volume.
-      size: 10Gi
-      # -- Persistent volume annotations.
-      annotations: {}
-      # -- Persistent volume finalizers.
-      finalizers:
-        - kubernetes.io/pvc-protection
-      # -- Persistent volume selector labels.
-      selectorLabels: {}
-      # -- Use an existing PersistentVolumeClaim for persistence.
-      existingClaim:
+  # USERS service.
+  users:
+      # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
+    resources: {}
 
   # ownCloud WEB service.
   web:
@@ -645,3 +758,10 @@ services:
         server: ""
         # -- URL path to load themes from. The theme server will be prepended. Defaults to the ownCloud Web default theme.
         path: ""
+    # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
+    resources: {}
+
+  # WEBDAV service.
+  webdav:
+    # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
+    resources: {}

@@ -1,5 +1,6 @@
 {{- $_ := set . "appName" "idm" -}}
 {{- if not .Values.features.externalUserManagement.enabled }}
+{{- $_ := set . "resources" (default (default (dict) .Values.resources) .Values.services.idm.resources) -}}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -43,7 +44,7 @@ spec:
             runAsGroup: {{ .Values.securityContext.runAsGroup }}
             readOnlyRootFilesystem: true
           command: ["mkdir", "-p", "/var/lib/ocis/idm"]
-          resources: {{ toYaml .Values.resources | nindent 12 }}
+          resources: {{ toYaml .resources | nindent 12 }}
           volumeMounts:
           - name: idm-data
             mountPath: /var/lib/ocis
@@ -132,7 +133,7 @@ spec:
             periodSeconds: 20
             failureThreshold: 3
 
-          resources: {{ toYaml .Values.resources | nindent 12 }}
+          resources: {{ toYaml .resources | nindent 12 }}
           ports:
             - name: ldaps
               containerPort: 9235

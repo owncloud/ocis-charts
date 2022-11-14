@@ -1,5 +1,6 @@
 {{- $_ := set . "appName" "notifications" -}}
 {{- if .Values.features.emailNotifications.enabled }}
+{{- $_ := set . "resources" (default (default (dict) .Values.resources) .Values.services.notifications.resources) -}}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -107,7 +108,7 @@ spec:
           #   periodSeconds: 20
           #   failureThreshold: 3
 
-          resources: {{ toYaml .Values.resources | nindent 12 }}
+          resources: {{ toYaml .resources | nindent 12 }}
           # TODO: This service does not currently provide a debug port, re-enable this once that is implemented
           # ports:
           #   - name: metrics-debug

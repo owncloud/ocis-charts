@@ -1,3 +1,4 @@
+{{- $_ := set . "resources" (default (default (dict) .Values.resources) .Values.services.audit.resources) -}}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -57,4 +58,4 @@ spec:
             - name: AUDIT_LOG_TO_CONSOLE
               value: "true"
 
-          resources: {{ toYaml .Values.resources | nindent 12 }}
+          resources: {{ toYaml .resources | nindent 12 }}
