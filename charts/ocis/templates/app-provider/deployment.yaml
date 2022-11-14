@@ -2,7 +2,7 @@
 {{- range $officeSuite := .Values.features.appsIntegration.wopiIntegration.officeSuites }}
 {{ if $officeSuite.enabled }}
 {{- $_ := set $ "appName"  (print "app-provider-" (regexReplaceAll "\\W+" (lower $officeSuite.name) "_")) -}}
-{{- $_ := set $ "resources" (default (default (dict) .Values.resources) .Values.services.appProvider.resources) -}}
+{{- $_ := set $ "resources" (default (default (dict) $.Values.resources) $.Values.services.appProvider.resources) -}}
 ---
 apiVersion: apps/v1
 kind: Deployment
