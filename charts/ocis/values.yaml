@@ -230,17 +230,17 @@ secretRefs:
   adminUserSecretRef: "admin-user"
   # -- Reference to an existing IDP secret (see ref:Secrets#secrets). Not used if `features.externalUserManagement.enabled` equals `true`.
   idpSecretRef: "idp-secrets"
-  # -- Reference to an existing JWT secret (see ref:Secrets#secrets). Not used if `features.externalUserManagement.enabled` equals `true`.
+  # -- Reference to an existing JWT secret (see ref:Secrets#secrets).
   jwtSecretRef: "jwt-secret"
   # -- Reference to an existing LDAP certificate authority secret (see ref:Secrets#secrets)
   ldapCaRef: "ldap-ca"
-  # -- Reference to an existing LDAP cert secret (see ref:Secrets#secrets).
+  # -- Reference to an existing LDAP cert secret (see ref:Secrets#secrets). Not used if `features.externalUserManagement.enabled` equals `true`.
   ldapCertRef: "ldap-cert"
-  # -- Reference to an existing LDAP bind secret (see ref:Secrets#secrets)
+  # -- Reference to an existing LDAP bind secret (see ref:Secrets#secrets).
   ldapSecretRef: "ldap-bind-secrets"
   # -- Reference to an existing machine auth api key secret (see ref:Secrets#secrets)
   machineAuthApiKeySecretRef: "machine-auth-api-key"
-  # -- Reference to an existing SMTP email server settings secret (see ref:Secrets#secrets)
+  # -- Reference to an existing SMTP email server settings secret (see ref:Secrets#secrets). Not used if `features.emailNotifications.enabled` equals `false`.
   notificationsSmtpSecretRef: "notifications-smtp-secret"
   # -- Reference to an existing storage-system JWT secret (see ref:Secrets#secrets)
   storageSystemJwtSecretRef: "storage-system-jwt-secret"
