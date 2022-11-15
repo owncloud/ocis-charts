@@ -12,12 +12,7 @@ spec:
   selector:
     matchLabels:
       app: idp
-  {{- if and (not .Values.autoscaling.enabled) (.Values.replicas) }}
-  replicas: {{ .Values.replicas }}
-  {{- end }}
-  {{- if .Values.deploymentStrategy }}
-  strategy: {{ toYaml .Values.deploymentStrategy | nindent 4 }}
-  {{ end }}
+  replicas: 1
   template:
     metadata:
       labels:
