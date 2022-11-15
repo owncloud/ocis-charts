@@ -88,6 +88,14 @@ spec:
             - name: GATEWAY_APP_REGISTRY_ENDPOINT
               value: app-registry:9242
 
+            # cache
+            - name: GATEWAY_CACHE_STORE
+              value: {{ .Values.cache.type }}
+            {{- if ne .Values.cache.type "noop" }}
+            - name: GATEWAY_CACHE_NODES
+              value: {{ join "," .Values.cache.nodes }}
+            {{- end }}
+
             - name: GATEWAY_JWT_SECRET
               valueFrom:
                 secretKeyRef:

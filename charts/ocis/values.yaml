@@ -46,6 +46,16 @@ insecure:
   # Not recommended for production installations.
   ocisHttpApiInsecure: false
 
+cache:
+  # -- Type of the cache to use. To disable the cache, set to "noop".
+  # Can be set to "redis", then the address of Redis nodes needs to be set to `cache.nodes`.
+  type: noop
+  # -- Nodes of the cache to use.
+  nodes: []
+  # nodes:
+  #   - redis-master-1.ocis-redis.svc.cluster.local:6379
+  #   - redis-master-2.ocis-redis.svc.cluster.local:6379
+
 # Feature options.
 # Enable or disable features of oCIS.
 features:
