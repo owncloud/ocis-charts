@@ -17,11 +17,11 @@ GO     ?= $(shell which go)
 #	@echo "Running bingo"
 #	@$(BINGO) <flags/args..>
 #
-BINGO := $(GOBIN)/bingo-v0.6.1-0.20220802115931-bc8384942721
+BINGO := $(GOBIN)/bingo-v0.7.0
 $(BINGO): $(BINGO_DIR)/bingo.mod
 	@# Install binary/ries using Go 1.14+ build command. This is using bwplotka/bingo-controlled, separate go module with pinned dependencies.
-	@echo "(re)installing $(GOBIN)/bingo-v0.6.1-0.20220802115931-bc8384942721"
-	@cd $(BINGO_DIR) && GOWORK=off $(GO) build -mod=mod -modfile=bingo.mod -o=$(GOBIN)/bingo-v0.6.1-0.20220802115931-bc8384942721 "github.com/bwplotka/bingo"
+	@echo "(re)installing $(GOBIN)/bingo-v0.7.0"
+	@cd $(BINGO_DIR) && GOWORK=off $(GO) build -mod=mod -modfile=bingo.mod -o=$(GOBIN)/bingo-v0.7.0 "github.com/bwplotka/bingo"
 
 GOMPLATE := $(GOBIN)/gomplate-v3.11.3
 $(GOMPLATE): $(BINGO_DIR)/gomplate.mod
@@ -41,9 +41,9 @@ $(KUBE_LINTER): $(BINGO_DIR)/kube-linter.mod
 	@echo "(re)installing $(GOBIN)/kube-linter-v0.4.0"
 	@cd $(BINGO_DIR) && GOWORK=off $(GO) build -mod=mod -modfile=kube-linter.mod -o=$(GOBIN)/kube-linter-v0.4.0 "golang.stackrox.io/kube-linter/cmd/kube-linter"
 
-KUBECONFORM := $(GOBIN)/kubeconform-v0.4.14
+KUBECONFORM := $(GOBIN)/kubeconform-v0.5.0
 $(KUBECONFORM): $(BINGO_DIR)/kubeconform.mod
 	@# Install binary/ries using Go 1.14+ build command. This is using bwplotka/bingo-controlled, separate go module with pinned dependencies.
-	@echo "(re)installing $(GOBIN)/kubeconform-v0.4.14"
-	@cd $(BINGO_DIR) && GOWORK=off $(GO) build -mod=mod -modfile=kubeconform.mod -o=$(GOBIN)/kubeconform-v0.4.14 "github.com/yannh/kubeconform/cmd/kubeconform"
+	@echo "(re)installing $(GOBIN)/kubeconform-v0.5.0"
+	@cd $(BINGO_DIR) && GOWORK=off $(GO) build -mod=mod -modfile=kubeconform.mod -o=$(GOBIN)/kubeconform-v0.5.0 "github.com/yannh/kubeconform/cmd/kubeconform"
 
