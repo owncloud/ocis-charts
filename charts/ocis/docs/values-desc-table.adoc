@@ -42,6 +42,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `"noop"`
 | Type of the cache to use. To disable the cache, set to "noop". Can be set to "redis", then the address of Redis nodes needs to be set to `cache.nodes`.
+| configRefs.storageUsersConfigRef
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"storage-users"`
+| Reference to an existing storage-users config.
 | debug.profiling
 a| [subs=-attributes]
 +bool+

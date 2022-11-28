@@ -222,6 +222,13 @@ ingress:
   #    hosts:
   #      - ocis.owncloud.test
 
+# References to ConfigMaps.
+# The ConfigMaps need to be manually created.
+# See https://doc.owncloud.com/ocis/next/deployment/container/orchestration/orchestration.html#customize-the-generic-setup[doc.owncloud.com] for how to generate them.
+configRefs:
+  # -- Reference to an existing storage-users config.
+  storageUsersConfigRef: "storage-users"
+
 # References to secrets.
 # The secrets need to be manually created.
 # See https://doc.owncloud.com/ocis/next/deployment/container/orchestration/orchestration.html#customize-the-generic-setup[doc.owncloud.com] for how to generate them.
