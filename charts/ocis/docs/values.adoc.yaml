@@ -267,13 +267,13 @@ securityContext:
 # -- TopologySpreadConstraints controls how Pods of a service are spread across the cluster among failure-domains.
 # Defaults to allow skew no more then 1 node per node.
 # Passed through tpl and therefore needs to be configured as string.
-topologySpreadConstraints: |
-  - maxSkew: 1
-    topologyKey: kubernetes.io/hostname
-    whenUnsatisfiable: DoNotSchedule
-    labelSelector:
-      matchLabels:
-        app: {{ .appName }}
+topologySpreadConstraints: "" # |
+#  - maxSkew: 1
+#    topologyKey: kubernetes.io/hostname
+#    whenUnsatisfiable: DoNotSchedule
+#    labelSelector:
+#      matchLabels:
+#        app: {{ .appName }}
 
 # -- Custom labels for all manifests
 extraLabels: {}
