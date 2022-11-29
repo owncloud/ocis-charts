@@ -1,4 +1,5 @@
 {{- $_ := set . "appName" "webdav" -}}
+{{- $_ := set . "resources" (default (default (dict) .Values.resources) .Values.services.webdav.resources) -}}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -73,7 +74,7 @@ spec:
             periodSeconds: 20
             failureThreshold: 3
 
-          resources: {{ toYaml .Values.resources | nindent 12 }}
+          resources: {{ toYaml .resources | nindent 12 }}
           ports:
             - name: http
               containerPort: 9115

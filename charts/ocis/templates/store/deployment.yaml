@@ -1,4 +1,5 @@
 {{- $_ := set . "appName" "store" -}}
+{{- $_ := set . "resources" (default (default (dict) .Values.resources) .Values.services.store.resources) -}}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -78,7 +79,7 @@ spec:
             periodSeconds: 20
             failureThreshold: 3
 
-          resources: {{ toYaml .Values.resources | nindent 12 }}
+          resources: {{ toYaml .resources | nindent 12 }}
           ports:
             - name: grpc
               containerPort: 9460

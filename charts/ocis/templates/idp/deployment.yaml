@@ -1,5 +1,6 @@
 {{- $_ := set . "appName" "idp" -}}
 {{- if not .Values.features.externalUserManagement.enabled }}
+{{- $_ := set . "resources" (default (default (dict) .Values.resources) .Values.services.idp.resources) -}}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -87,7 +88,7 @@ spec:
             periodSeconds: 20
             failureThreshold: 3
 
-          resources: {{ toYaml .Values.resources | nindent 12 }}
+          resources: {{ toYaml .resources | nindent 12 }}
           ports:
             - name: http
               containerPort: 9130
