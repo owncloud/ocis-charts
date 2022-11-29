@@ -1,15 +1,16 @@
+{{- $_ := set . "appName" "ocdav" -}}
 apiVersion: v1
 kind: Service
 metadata:
-  name: ocdav
+  name: {{ .appName }}
   namespace: {{ template "ocis.namespace" . }}
   labels:
-    app: ocdav
+    app: {{ .appName }}
     ocis-metrics: enabled
     {{- include "ocis.labels" . | nindent 4 }}
 spec:
   selector:
-    app: ocdav
+    app: {{ .appName }}
   ports:
     - name: http
       port: 8080

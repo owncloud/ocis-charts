@@ -1,15 +1,16 @@
+{{- $_ := set . "appName" "groups" -}}
 apiVersion: v1
 kind: Service
 metadata:
-  name: groups
+  name: {{ .appName }}
   namespace: {{ template "ocis.namespace" . }}
   labels:
-    app: groups
+    app: {{ .appName }}
     ocis-metrics: enabled
     {{- include "ocis.labels" . | nindent 4 }}
 spec:
   selector:
-    app: groups
+    app: {{ .appName }}
   ports:
     - name: grpc
       port: 9160

@@ -1,15 +1,16 @@
+{{- $_ := set . "appName" "auth-machine" -}}
 apiVersion: v1
 kind: Service
 metadata:
-  name: auth-machine
+  name: {{ .appName }}
   namespace: {{ template "ocis.namespace" . }}
   labels:
-    app: auth-machine
+    app: {{ .appName }}
     ocis-metrics: enabled
     {{- include "ocis.labels" . | nindent 4 }}
 spec:
   selector:
-    app: auth-machine
+    app: {{ .appName }}
   ports:
     - name: grpc
       port: 9166

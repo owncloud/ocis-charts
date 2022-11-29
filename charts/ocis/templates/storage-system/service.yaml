@@ -1,15 +1,16 @@
+{{- $_ := set . "appName" "storage-system" -}}
 apiVersion: v1
 kind: Service
 metadata:
-  name: storage-system
+  name: {{ .appName }}
   namespace: {{ template "ocis.namespace" . }}
   labels:
-    app: storage-system
+    app: {{ .appName }}
     ocis-metrics: enabled
     {{- include "ocis.labels" . | nindent 4 }}
 spec:
   selector:
-    app: storage-system
+    app: {{ .appName }}
   ports:
     - name: grpc
       port: 9215

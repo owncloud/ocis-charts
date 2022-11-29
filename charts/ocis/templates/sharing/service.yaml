@@ -1,15 +1,16 @@
+{{- $_ := set . "appName" "sharing" -}}
 apiVersion: v1
 kind: Service
 metadata:
-  name: sharing
+  name: {{ .appName }}
   namespace: {{ template "ocis.namespace" . }}
   labels:
-    app: sharing
+    app: {{ .appName }}
     ocis-metrics: enabled
     {{- include "ocis.labels" . | nindent 4 }}
 spec:
   selector:
-    app: sharing
+    app: {{ .appName }}
   ports:
     - name: grpc
       port: 9150

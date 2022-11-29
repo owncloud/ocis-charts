@@ -1,15 +1,16 @@
+{{- $_ := set . "appName" "nats" -}}
 apiVersion: v1
 kind: Service
 metadata:
-  name: nats
+  name: {{ .appName }}
   namespace: {{ template "ocis.namespace" . }}
   labels:
-    app: nats
+    app: {{ .appName }}
     ocis-metrics: enabled
     {{- include "ocis.labels" . | nindent 4 }}
 spec:
   selector:
-    app: nats
+    app: {{ .appName }}
   ports:
     - name: nats
       port: 9233

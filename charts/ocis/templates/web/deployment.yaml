@@ -1,14 +1,15 @@
+{{- $_ := set . "appName" "web" -}}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: web
+  name: {{ .appName }}
   namespace: {{ template "ocis.namespace" . }}
   labels:
     {{- include "ocis.labels" . | nindent 4 }}
 spec:
   selector:
     matchLabels:
-      app: web
+      app: {{ .appName }}
   {{- if and (not .Values.autoscaling.enabled) (.Values.replicas) }}
   replicas: {{ .Values.replicas }}
   {{- end }}
@@ -18,7 +19,7 @@ spec:
   template:
     metadata:
       labels:
-        app: web
+        app: {{ .appName }}
         {{- include "ocis.labels" . | nindent 8 }}
       annotations:
         checksum/config: {{ include (print $.Template.BasePath "/web/config.yaml") . | sha256sum }}
@@ -26,8 +27,12 @@ spec:
       securityContext:
           fsGroup: {{ .Values.securityContext.fsGroup }}
           fsGroupChangePolicy: {{ .Values.securityContext.fsGroupChangePolicy }}
+      {{- with .Values.topologySpreadConstraints }}
+      topologySpreadConstraints:
+        {{- tpl . $ | nindent 8 }}
+      {{- end }}
       containers:
-        - name: web
+        - name: {{ .appName }}
           image: {{ template "ocis.image" $ }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           command: ["ocis"]

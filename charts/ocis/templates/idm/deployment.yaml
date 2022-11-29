@@ -1,22 +1,23 @@
+{{- $_ := set . "appName" "idm" -}}
 {{- if not .Values.features.externalUserManagement.enabled }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: idm
+  name: {{ .appName }}
   namespace: {{ template "ocis.namespace" . }}
   labels:
     {{- include "ocis.labels" . | nindent 4 }}
 spec:
   selector:
     matchLabels:
-      app: idm
+      app: {{ .appName }}
   replicas: 1
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        app: idm
+        app: {{ .appName }}
         {{- include "ocis.labels" . | nindent 8 }}
     spec:
       securityContext:
@@ -46,8 +47,12 @@ spec:
           volumeMounts:
           - name: idm-data
             mountPath: /var/lib/ocis
+      {{- with .Values.topologySpreadConstraints }}
+      topologySpreadConstraints:
+        {{- tpl . $ | nindent 8 }}
+      {{- end }}
       containers:
-        - name: idm
+        - name: {{ .appName }}
           image: {{ template "ocis.image" $ }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           command: ["ocis"]

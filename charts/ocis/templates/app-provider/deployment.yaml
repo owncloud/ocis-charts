@@ -1,18 +1,19 @@
 {{ if .Values.features.appsIntegration.enabled }}
 {{- range $officeSuite := .Values.features.appsIntegration.wopiIntegration.officeSuites }}
 {{ if $officeSuite.enabled }}
+{{- $_ := set $ "appName"  (print "app-provider-" (regexReplaceAll "\\W+" (lower $officeSuite.name) "_")) -}}
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: app-provider-{{ regexReplaceAll "\\W+" (lower $officeSuite.name) "_" }}
+  name: {{ $.appName }}
   namespace: {{ template "ocis.namespace" $ }}
   labels:
     {{- include "ocis.labels" $ | nindent 4 }}
 spec:
   selector:
     matchLabels:
-      app:  app-provider-{{ regexReplaceAll "\\W+" (lower $officeSuite.name) "_" }}
+      app:  {{ $.appName }}
   replicas: 1 #TODO: https://github.com/owncloud/ocis-charts/issues/48
   {{- if $.Values.deploymentStrategy }}
   strategy: {{ toYaml $.Values.deploymentStrategy | nindent 4 }}
@@ -20,14 +21,18 @@ spec:
   template:
     metadata:
       labels:
-        app:  app-provider-{{ regexReplaceAll "\\W+" (lower $officeSuite.name) "_" }}
+        app:  {{ $.appName }}
         {{- include "ocis.labels" $ | nindent 8 }}
     spec:
       securityContext:
           fsGroup: {{ $.Values.securityContext.fsGroup }}
           fsGroupChangePolicy: {{ $.Values.securityContext.fsGroupChangePolicy }}
+      {{- with $.Values.topologySpreadConstraints }}
+      topologySpreadConstraints:
+        {{- tpl . $ | nindent 8 }}
+      {{- end }}
       containers:
-        - name:  app-provider-{{ regexReplaceAll "\\W+" (lower $officeSuite.name) "_" }}
+        - name:  {{ $.appName }}
           image: {{ template "ocis.image" $ }}
           imagePullPolicy: {{ $.Values.image.pullPolicy }}
           command: ["ocis"]
@@ -57,7 +62,7 @@ spec:
               value: 0.0.0.0:9165
 
             - name: APP_PROVIDER_EXTERNAL_ADDR
-              value: app-provider-{{ regexReplaceAll "\\W+" (lower $officeSuite.name) "_" }}:9164
+              value: {{ $.appName }}:9164
 
             - name: APP_PROVIDER_DRIVER
               value: wopi

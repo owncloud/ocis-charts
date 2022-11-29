@@ -1,15 +1,16 @@
+{{- $_ := set . "appName" "thumbnails" -}}
 apiVersion: v1
 kind: Service
 metadata:
-  name: thumbnails
+  name: {{ .appName }}
   namespace: {{ template "ocis.namespace" . }}
   labels:
-    app: thumbnails
+    app: {{ .appName }}
     ocis-metrics: enabled
     {{- include "ocis.labels" . | nindent 4 }}
 spec:
   selector:
-    app: thumbnails
+    app: {{ .appName }}
   ports:
     - name: grpc
       port: 9185
