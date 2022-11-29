@@ -101,6 +101,12 @@ spec:
               value: {{ join "," .Values.cache.nodes }}
             {{- end }}
 
+            - name: GATEWAY_STORAGE_USERS_MOUNT_ID
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ .Values.configRefs.storageUsersConfigRef }}
+                  key: storage-uuid
+
             - name: GATEWAY_JWT_SECRET
               valueFrom:
                 secretKeyRef:
