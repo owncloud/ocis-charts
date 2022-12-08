@@ -46,14 +46,14 @@ spec:
               value: kubernetes
 
             - name: USERS_LOG_COLOR
-              value: "{{ .Values.logging.color }}"
+              value: {{ .Values.logging.color | quote }}
             - name: USERS_LOG_LEVEL
-              value: "{{ .Values.logging.level }}"
+              value: {{ .Values.logging.level | quote }}
             - name: USERS_LOG_PRETTY
-              value: "{{ .Values.logging.pretty }}"
+              value: {{ .Values.logging.pretty | quote }}
 
             - name: USERS_DEBUG_PPROF
-              value: "{{ .Values.debug.profiling }}"
+              value: {{ .Values.debug.profiling | quote }}
 
             - name: USERS_GRPC_ADDR
               value: 0.0.0.0:9144
@@ -62,65 +62,65 @@ spec:
 
             {{- if .Values.features.externalUserManagement.enabled }}
             - name: USERS_LDAP_INSECURE
-              value: "{{ .Values.features.externalUserManagement.ldap.insecure }}"
+              value: {{ .Values.features.externalUserManagement.ldap.insecure | quote }}
 
             - name: USERS_LDAP_USER_BASE_DN
-              value: {{ .Values.features.externalUserManagement.ldap.user.baseDN }}
+              value: {{ .Values.features.externalUserManagement.ldap.user.baseDN | quote }}
             - name: USERS_LDAP_GROUP_BASE_DN
-              value: {{ .Values.features.externalUserManagement.ldap.group.baseDN }}
+              value: {{ .Values.features.externalUserManagement.ldap.group.baseDN | quote }}
 
             - name: USERS_LDAP_USER_SCOPE
-              value: {{ .Values.features.externalUserManagement.ldap.user.scope }}
+              value: {{ .Values.features.externalUserManagement.ldap.user.scope | quote }}
             - name: USERS_LDAP_GROUP_SCOPE
-              value: {{ .Values.features.externalUserManagement.ldap.group.scope }}
+              value: {{ .Values.features.externalUserManagement.ldap.group.scope | quote }}
 
             - name: USERS_LDAP_USER_SUBSTRING_FILTER_TYPE
-              value: {{ .Values.features.externalUserManagement.ldap.user.substringFilterType }}
+              value: {{ .Values.features.externalUserManagement.ldap.user.substringFilterType | quote }}
 
             - name: USERS_LDAP_USER_FILTER
-              value: {{ .Values.features.externalUserManagement.ldap.user.filter }}
+              value: {{ .Values.features.externalUserManagement.ldap.user.filter | quote }}
             - name: USERS_LDAP_GROUP_FILTER
-              value: {{ .Values.features.externalUserManagement.ldap.group.filter }}
+              value: {{ .Values.features.externalUserManagement.ldap.group.filter | quote }}
 
             - name: USERS_LDAP_USER_OBJECTCLASS
-              value: {{ .Values.features.externalUserManagement.ldap.user.objectClass }}
+              value: {{ .Values.features.externalUserManagement.ldap.user.objectClass | quote }}
             - name: USERS_LDAP_GROUP_OBJECTCLASS
-              value: {{ .Values.features.externalUserManagement.ldap.group.objectClass }}
+              value: {{ .Values.features.externalUserManagement.ldap.group.objectClass | quote }}
 
             - name: USERS_LDAP_USER_SCHEMA_ID
-              value: {{ .Values.features.externalUserManagement.ldap.user.schema.id }}
+              value: {{ .Values.features.externalUserManagement.ldap.user.schema.id | quote }}
             - name: USERS_LDAP_GROUP_SCHEMA_ID
-              value: {{ .Values.features.externalUserManagement.ldap.group.schema.id }}
+              value: {{ .Values.features.externalUserManagement.ldap.group.schema.id | quote }}
 
             - name: USERS_LDAP_USER_SCHEMA_ID_IS_OCTETSTRING
-              value: "{{ .Values.features.externalUserManagement.ldap.user.schema.idIsOctetString }}"
+              value: {{ .Values.features.externalUserManagement.ldap.user.schema.idIsOctetString | quote }}
             - name: USERS_LDAP_GROUP_SCHEMA_ID_IS_OCTETSTRING
-              value: "{{ .Values.features.externalUserManagement.ldap.group.schema.idIsOctetString }}"
+              value: {{ .Values.features.externalUserManagement.ldap.group.schema.idIsOctetString | quote }}
 
             - name: USERS_LDAP_USER_SCHEMA_MAIL
-              value: {{ .Values.features.externalUserManagement.ldap.user.schema.mail }}
+              value: {{ .Values.features.externalUserManagement.ldap.user.schema.mail | quote }}
             - name: USERS_LDAP_GROUP_SCHEMA_MAIL
-              value: {{ .Values.features.externalUserManagement.ldap.group.schema.mail }}
+              value: {{ .Values.features.externalUserManagement.ldap.group.schema.mail | quote }}
 
             - name: USERS_LDAP_USER_SCHEMA_DISPLAYNAME
-              value: {{ .Values.features.externalUserManagement.ldap.user.schema.displayName }}
+              value: {{ .Values.features.externalUserManagement.ldap.user.schema.displayName | quote }}
             - name: USERS_LDAP_GROUP_SCHEMA_DISPLAYNAME
-              value: {{ .Values.features.externalUserManagement.ldap.group.schema.displayName }}
+              value: {{ .Values.features.externalUserManagement.ldap.group.schema.displayName | quote }}
 
             - name: USERS_LDAP_USER_SCHEMA_USERNAME
-              value: {{ .Values.features.externalUserManagement.ldap.user.schema.userName }}
+              value: {{ .Values.features.externalUserManagement.ldap.user.schema.userName | quote }}
             - name: USERS_LDAP_GROUP_SCHEMA_GROUPNAME
-              value: {{ .Values.features.externalUserManagement.ldap.group.schema.groupName }}
+              value: {{ .Values.features.externalUserManagement.ldap.group.schema.groupName | quote }}
 
             - name: USERS_LDAP_GROUP_SCHEMA_MEMBER
-              value: {{ .Values.features.externalUserManagement.ldap.group.schema.member }}
+              value: {{ .Values.features.externalUserManagement.ldap.group.schema.member | quote }}
             {{- end }}
 
             - name: USERS_LDAP_URI
             {{ if not .Values.features.externalUserManagement.enabled }}
               value: ldaps://idm:9235
             {{ else }}
-              value: {{ .Values.features.externalUserManagement.ldap.uri }}
+              value: {{ .Values.features.externalUserManagement.ldap.uri | quote }}
             {{ end }}
 
             - name: USERS_LDAP_CACERT
@@ -132,7 +132,7 @@ spec:
 
             {{ if .Values.features.externalUserManagement.enabled }}
             - name: USERS_LDAP_BIND_DN
-              value: {{ .Values.features.externalUserManagement.ldap.bindDN }}
+              value: {{ .Values.features.externalUserManagement.ldap.bindDN | quote }}
             {{ end }}
 
             - name: USERS_LDAP_BIND_PASSWORD
@@ -142,9 +142,9 @@ spec:
                   key: reva-ldap-bind-password
             - name: USERS_IDP_URL
             {{ if not .Values.features.externalUserManagement.enabled }}
-              value: https://{{ .Values.externalDomain }}
+              value: "https://{{ .Values.externalDomain }}"
             {{ else }}
-              value: {{ .Values.features.externalUserManagement.oidc.issuerURI }}
+              value: {{ .Values.features.externalUserManagement.oidc.issuerURI | quote }}
             {{ end }}
 
             - name: REVA_GATEWAY

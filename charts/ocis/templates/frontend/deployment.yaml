@@ -46,14 +46,14 @@ spec:
               value: kubernetes
 
             - name: FRONTEND_LOG_COLOR
-              value: "{{ .Values.logging.color }}"
+              value: {{ .Values.logging.color | quote }}
             - name: FRONTEND_LOG_LEVEL
-              value: "{{ .Values.logging.level }}"
+              value: {{ .Values.logging.level | quote }}
             - name: FRONTEND_LOG_PRETTY
-              value: "{{ .Values.logging.pretty }}"
+              value: {{ .Values.logging.pretty | quote }}
 
             - name: FRONTEND_DEBUG_PPROF
-              value: "{{ .Values.debug.profiling }}"
+              value: {{ .Values.debug.profiling | quote }}
 
             - name: FRONTEND_HTTP_ADDR
               value: 0.0.0.0:9140
@@ -73,10 +73,10 @@ spec:
                   key: jwt-secret
 
             - name: FRONTEND_APP_HANDLER_INSECURE
-              value: "{{ .Values.insecure.ocisHttpApiInsecure }}"
+              value: {{ .Values.insecure.ocisHttpApiInsecure | quote }}
 
             - name: FRONTEND_ARCHIVER_INSECURE
-              value: "{{ .Values.insecure.ocisHttpApiInsecure }}"
+              value: {{ .Values.insecure.ocisHttpApiInsecure | quote }}
 
             - name: FRONTEND_MACHINE_AUTH_API_KEY
               valueFrom:

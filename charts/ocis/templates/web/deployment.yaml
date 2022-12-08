@@ -48,14 +48,14 @@ spec:
               value: kubernetes
 
             - name: WEB_LOG_COLOR
-              value: "{{ .Values.logging.color }}"
+              value: {{ .Values.logging.color | quote }}
             - name: WEB_LOG_LEVEL
-              value: "{{ .Values.logging.level }}"
+              value: {{ .Values.logging.level | quote }}
             - name: WEB_LOG_PRETTY
-              value: "{{ .Values.logging.pretty }}"
+              value: {{ .Values.logging.pretty | quote }}
 
             - name: WEB_DEBUG_PPROF
-              value: "{{ .Values.debug.profiling }}"
+              value: {{ .Values.debug.profiling | quote }}
 
             - name: WEB_HTTP_ADDR
               value: 0.0.0.0:9100
@@ -64,26 +64,26 @@ spec:
 
             - name: WEB_OIDC_AUTHORITY
             {{ if not .Values.features.externalUserManagement.enabled }}
-              value: https://{{ .Values.externalDomain }}
+              value: "https://{{ .Values.externalDomain }}"
             {{ else }}
-              value: {{ .Values.features.externalUserManagement.oidc.issuerURI }}
+              value: {{ .Values.features.externalUserManagement.oidc.issuerURI | quote }}
             {{ end }}
 
             - name: WEB_UI_THEME_SERVER
             {{ if .Values.services.web.config.theme.server }}
-              value: {{ .Values.services.web.config.theme.server }}
+              value: {{ .Values.services.web.config.theme.server | quote }}
             {{ else }}
               value: https://{{ .Values.externalDomain }}
             {{ end }}
             {{ if .Values.services.web.config.theme.path }}
             - name: WEB_UI_THEME_PATH
-              value: {{ .Values.services.web.config.theme.path }}
+              value: {{ .Values.services.web.config.theme.path | quote }}
             {{ end }}
 
             - name: WEB_UI_CONFIG_SERVER
-              value: https://{{ .Values.externalDomain }}
+              value: "https://{{ .Values.externalDomain }}"
             - name: WEB_OIDC_METADATA_URL
-              value: https://{{ .Values.externalDomain }}/.well-known/openid-configuration
+              value: "https://{{ .Values.externalDomain }}/.well-known/openid-configuration"
 
           livenessProbe:
             httpGet:

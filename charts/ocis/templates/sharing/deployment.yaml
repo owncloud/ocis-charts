@@ -46,14 +46,14 @@ spec:
               value: kubernetes
 
             - name: SHARING_LOG_COLOR
-              value: "{{ .Values.logging.color }}"
+              value: {{ .Values.logging.color | quote }}
             - name: SHARING_LOG_LEVEL
-              value: "{{ .Values.logging.level }}"
+              value: {{ .Values.logging.level | quote }}
             - name: SHARING_LOG_PRETTY
-              value: "{{ .Values.logging.pretty }}"
+              value: {{ .Values.logging.pretty | quote }}
 
             - name: SHARING_DEBUG_PPROF
-              value: "{{ .Values.debug.profiling }}"
+              value: {{ .Values.debug.profiling | quote }}
 
             - name: SHARING_GRPC_ADDR
               value: 0.0.0.0:9150

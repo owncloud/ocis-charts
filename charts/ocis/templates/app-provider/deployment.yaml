@@ -48,11 +48,11 @@ spec:
               value: kubernetes
 
             - name: APP_PROVIDER_LOG_COLOR
-              value: "{{ $.Values.logging.color }}"
+              value: {{ $.Values.logging.color | quote }}
             - name: APP_PROVIDER_LOG_LEVEL
-              value: "{{ $.Values.logging.level }}"
+              value: {{ $.Values.logging.level | quote }}
             - name: APP_PROVIDER_LOG_PRETTY
-              value: "{{ $.Values.logging.pretty }}"
+              value: {{ $.Values.logging.pretty | quote }}
 
             - name: APP_PROVIDER_DEBUG_PPROF
               value: "{{ $.Values.debug.profiling }}"
@@ -63,20 +63,20 @@ spec:
               value: 0.0.0.0:9165
 
             - name: APP_PROVIDER_EXTERNAL_ADDR
-              value: {{ $.appName }}:9164
+              value: "{{ $.appName }}:9164"
 
             - name: APP_PROVIDER_DRIVER
               value: wopi
             - name: APP_PROVIDER_WOPI_APP_NAME
-              value: {{ $officeSuite.name }}
+              value: {{ $officeSuite.name | quote }}
             - name: APP_PROVIDER_WOPI_APP_ICON_URI
-              value: {{ $officeSuite.iconURI }}
+              value: {{ $officeSuite.iconURI | quote }}
             - name: APP_PROVIDER_WOPI_APP_URL
-              value: {{ $officeSuite.uri }}
+              value: {{ $officeSuite.uri | quote }}
             - name: APP_PROVIDER_WOPI_INSECURE
-              value: "{{ $officeSuite.insecure }}"
+              value: {{ $officeSuite.insecure | quote }}
             - name: APP_PROVIDER_WOPI_WOPI_SERVER_EXTERNAL_URL
-              value: {{ $.Values.features.appsIntegration.wopiIntegration.wopiServerURI }}
+              value: {{ $.Values.features.appsIntegration.wopiIntegration.wopiServerURI | quote }}
 
             - name: REVA_GATEWAY
               value: gateway:9142

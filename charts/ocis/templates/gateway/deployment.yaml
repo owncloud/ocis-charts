@@ -46,14 +46,14 @@ spec:
               value: kubernetes
 
             - name: GATEWAY_LOG_COLOR
-              value: "{{ .Values.logging.color }}"
+              value: {{ .Values.logging.color | quote }}
             - name: GATEWAY_LOG_LEVEL
-              value: "{{ .Values.logging.level }}"
+              value: {{ .Values.logging.level | quote }}
             - name: GATEWAY_LOG_PRETTY
-              value: "{{ .Values.logging.pretty }}"
+              value: {{ .Values.logging.pretty | quote }}
 
             - name: GATEWAY_DEBUG_PPROF
-              value: "{{ .Values.debug.profiling }}"
+              value: {{ .Values.debug.profiling | quote }}
 
             - name: GATEWAY_GRPC_ADDR
               value: 0.0.0.0:9142
@@ -96,10 +96,10 @@ spec:
 
             # cache
             - name: GATEWAY_CACHE_STORE
-              value: {{ .Values.cache.type }}
+              value: {{ .Values.cache.type | quote }}
             {{- if ne .Values.cache.type "noop" }}
             - name: GATEWAY_CACHE_NODES
-              value: {{ join "," .Values.cache.nodes }}
+              value: {{ join "," .Values.cache.nodes | quote }}
             {{- end }}
 
             - name: GATEWAY_STORAGE_USERS_MOUNT_ID

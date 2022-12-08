@@ -38,11 +38,11 @@ spec:
 
                 # logging
                 - name: STORAGE_USERS_LOG_COLOR
-                  value: "{{ .Values.logging.color }}"
+                  value: {{ .Values.logging.color | quote }}
                 - name: STORAGE_USERS_LOG_LEVEL
-                  value: "{{ .Values.logging.level }}"
+                  value: {{ .Values.logging.level | quote }}
                 - name: STORAGE_USERS_LOG_PRETTY
-                  value: "{{ .Values.logging.pretty }}"
+                  value: {{ .Values.logging.pretty | quote }}
 
                 # oCIS storage driver (decomposed filesystem)
                 {{- if  eq .Values.services.storageUsers.storageBackend.driver "ocis" }}

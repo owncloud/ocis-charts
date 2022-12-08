@@ -59,14 +59,14 @@ spec:
 
             # logging
             - name: STORAGE_USERS_LOG_COLOR
-              value: "{{ .Values.logging.color }}"
+              value: {{ .Values.logging.color | quote }}
             - name: STORAGE_USERS_LOG_LEVEL
-              value: "{{ .Values.logging.level }}"
+              value: {{ .Values.logging.level | quote }}
             - name: STORAGE_USERS_LOG_PRETTY
-              value: "{{ .Values.logging.pretty }}"
+              value: {{ .Values.logging.pretty | quote }}
 
             - name: STORAGE_USERS_DEBUG_PPROF
-              value: "{{ .Values.debug.profiling }}"
+              value: {{ .Values.debug.profiling | quote }}
 
             # bind config
             - name: STORAGE_USERS_GRPC_ADDR
@@ -94,15 +94,15 @@ spec:
             - name: STORAGE_USERS_DRIVER
               value: s3ng
             - name: STORAGE_USERS_S3NG_ENDPOINT
-              value: "{{ .Values.services.storageUsers.storageBackend.driverConfig.s3ng.endpoint }}"
+              value: {{ .Values.services.storageUsers.storageBackend.driverConfig.s3ng.endpoint | quote }}
             - name: STORAGE_USERS_S3NG_REGION
-              value: "{{ .Values.services.storageUsers.storageBackend.driverConfig.s3ng.region }}"
+              value: {{ .Values.services.storageUsers.storageBackend.driverConfig.s3ng.region | quote }}
             - name: STORAGE_USERS_S3NG_ACCESS_KEY
-              value: "{{ .Values.services.storageUsers.storageBackend.driverConfig.s3ng.accessKey }}"
+              value: {{ .Values.services.storageUsers.storageBackend.driverConfig.s3ng.accessKey | quote }}
             - name: STORAGE_USERS_S3NG_SECRET_KEY
-              value: "{{ .Values.services.storageUsers.storageBackend.driverConfig.s3ng.secretKey }}"
+              value: {{ .Values.services.storageUsers.storageBackend.driverConfig.s3ng.secretKey | quote }}
             - name: STORAGE_USERS_S3NG_BUCKET
-              value: "{{ .Values.services.storageUsers.storageBackend.driverConfig.s3ng.bucket }}"
+              value: {{ .Values.services.storageUsers.storageBackend.driverConfig.s3ng.bucket | quote }}
             {{- end }}
 
             # events
@@ -114,10 +114,10 @@ spec:
 
             # cache
             - name: STORAGE_USERS_CACHE_STORE
-              value: {{ .Values.cache.type }}
+              value: {{ .Values.cache.type | quote }}
             {{- if ne .Values.cache.type "noop" }}
             - name: STORAGE_USERS_CACHE_NODES
-              value: {{ join "," .Values.cache.nodes }}
+              value: {{ join "," .Values.cache.nodes | quote }}
             {{- end }}
 
             - name: STORAGE_USERS_MOUNT_ID

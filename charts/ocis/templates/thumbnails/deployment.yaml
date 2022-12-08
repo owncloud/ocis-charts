@@ -58,14 +58,14 @@ spec:
               value: kubernetes
 
             - name: THUMBNAILS_LOG_COLOR
-              value: "{{ .Values.logging.color }}"
+              value: {{ .Values.logging.color | quote }}
             - name: THUMBNAILS_LOG_LEVEL
-              value: "{{ .Values.logging.level }}"
+              value: {{ .Values.logging.level | quote }}
             - name: THUMBNAILS_LOG_PRETTY
-              value: "{{ .Values.logging.pretty }}"
+              value: {{ .Values.logging.pretty | quote }}
 
             - name: THUMBNAILS_DEBUG_PPROF
-              value: "{{ .Values.debug.profiling }}"
+              value: {{ .Values.debug.profiling | quote }}
 
             - name: THUMBNAILS_GRPC_ADDR
               value: 0.0.0.0:9185
@@ -78,10 +78,10 @@ spec:
               value: http://thumbnails:9186/thumbnails/data
 
             - name: THUMBNAILS_WEBDAVSOURCE_INSECURE
-              value: "{{ .Values.insecure.ocisHttpApiInsecure }}"
+              value: {{ .Values.insecure.ocisHttpApiInsecure | quote }}
 
             - name: THUMBNAILS_CS3SOURCE_INSECURE
-              value: "{{ .Values.insecure.ocisHttpApiInsecure }}"
+              value: {{ .Values.insecure.ocisHttpApiInsecure | quote }}
 
             - name: REVA_GATEWAY
               value: gateway:9142

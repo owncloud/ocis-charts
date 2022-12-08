@@ -46,14 +46,14 @@ spec:
               value: kubernetes
 
             - name: GRAPH_LOG_COLOR
-              value: "{{ .Values.logging.color }}"
+              value: {{ .Values.logging.color | quote }}
             - name: GRAPH_LOG_LEVEL
-              value: "{{ .Values.logging.level }}"
+              value: {{ .Values.logging.level | quote }}
             - name: GRAPH_LOG_PRETTY
-              value: "{{ .Values.logging.pretty }}"
+              value: {{ .Values.logging.pretty | quote }}
 
             - name: GRAPH_DEBUG_PPROF
-              value: "{{ .Values.debug.profiling }}"
+              value: {{ .Values.debug.profiling | quote }}
 
             - name: GRAPH_HTTP_ADDR
               value: 0.0.0.0:9120
@@ -75,9 +75,9 @@ spec:
                   key: graph-ldap-bind-password
             {{ else }}
             - name: LDAP_URI
-              value: {{ .Values.features.externalUserManagement.ldap.uri }}
+              value: {{ .Values.features.externalUserManagement.ldap.uri | quote }}
             - name: LDAP_BIND_DN
-              value: {{ .Values.features.externalUserManagement.ldap.bindDN }}
+              value: {{ .Values.features.externalUserManagement.ldap.bindDN | quote }}
             - name: LDAP_BIND_PASSWORD
               valueFrom:
                 secretKeyRef:
@@ -92,47 +92,47 @@ spec:
               value: "" # no cert needed
               {{ end }}
             - name: LDAP_INSECURE
-              value: "{{ .Values.features.externalUserManagement.ldap.insecure }}"
+              value: {{ .Values.features.externalUserManagement.ldap.insecure | quote }}
 
             - name: LDAP_USER_BASE_DN
-              value: {{ .Values.features.externalUserManagement.ldap.user.baseDN }}
+              value: {{ .Values.features.externalUserManagement.ldap.user.baseDN | quote }}
             - name: LDAP_GROUP_BASE_DN
-              value: {{ .Values.features.externalUserManagement.ldap.group.baseDN }}
+              value: {{ .Values.features.externalUserManagement.ldap.group.baseDN | quote }}
 
             - name: LDAP_USER_SCOPE
-              value: {{ .Values.features.externalUserManagement.ldap.user.scope }}
+              value: {{ .Values.features.externalUserManagement.ldap.user.scope | quote }}
             - name: LDAP_GROUP_SCOPE
-              value: {{ .Values.features.externalUserManagement.ldap.group.scope }}
+              value: {{ .Values.features.externalUserManagement.ldap.group.scope | quote }}
 
             - name: LDAP_USER_FILTER
-              value: {{ .Values.features.externalUserManagement.ldap.user.filter }}
+              value: {{ .Values.features.externalUserManagement.ldap.user.filter | quote }}
             - name: LDAP_GROUP_FILTER
-              value: {{ .Values.features.externalUserManagement.ldap.group.filter }}
+              value: {{ .Values.features.externalUserManagement.ldap.group.filter | quote }}
 
             - name: LDAP_USER_OBJECTCLASS
-              value: {{ .Values.features.externalUserManagement.ldap.user.objectClass }}
+              value: {{ .Values.features.externalUserManagement.ldap.user.objectClass | quote }}
             - name: LDAP_GROUP_OBJECTCLASS
-              value: {{ .Values.features.externalUserManagement.ldap.group.objectClass }}
+              value: {{ .Values.features.externalUserManagement.ldap.group.objectClass | quote }}
 
             - name: LDAP_USER_SCHEMA_ID
-              value: {{ .Values.features.externalUserManagement.ldap.user.schema.id }}
+              value: {{ .Values.features.externalUserManagement.ldap.user.schema.id | quote }}
             - name: LDAP_GROUP_SCHEMA_ID
-              value: {{ .Values.features.externalUserManagement.ldap.group.schema.id }}
+              value: {{ .Values.features.externalUserManagement.ldap.group.schema.id | quote }}
 
             - name: LDAP_USER_SCHEMA_MAIL
-              value: {{ .Values.features.externalUserManagement.ldap.user.schema.mail }}
+              value: {{ .Values.features.externalUserManagement.ldap.user.schema.mail | quote }}
             - name: LDAP_GROUP_SCHEMA_MAIL
-              value: {{ .Values.features.externalUserManagement.ldap.group.schema.mail }}
+              value: {{ .Values.features.externalUserManagement.ldap.group.schema.mail | quote }}
 
             - name: LDAP_USER_SCHEMA_DISPLAYNAME
-              value: {{ .Values.features.externalUserManagement.ldap.user.schema.displayName }}
+              value: {{ .Values.features.externalUserManagement.ldap.user.schema.displayName | quote }}
             - name: LDAP_GROUP_SCHEMA_DISPLAYNAME
-              value: {{ .Values.features.externalUserManagement.ldap.group.schema.displayName }}
+              value: {{ .Values.features.externalUserManagement.ldap.group.schema.displayName | quote }}
 
             - name: LDAP_USER_SCHEMA_USERNAME
-              value: {{ .Values.features.externalUserManagement.ldap.user.schema.userName }}
+              value: {{ .Values.features.externalUserManagement.ldap.user.schema.userName | quote }}
             - name: LDAP_GROUP_SCHEMA_GROUPNAME
-              value: {{ .Values.features.externalUserManagement.ldap.group.schema.groupName }}
+              value: {{ .Values.features.externalUserManagement.ldap.group.schema.groupName | quote }}
             {{ end }}
 
 
