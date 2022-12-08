@@ -142,13 +142,13 @@ spec:
             {{- if not .Values.messagingSystem.external.enabled }}
               value: nats:9233
             {{- else }}
-              value: {{ .Values.messagingSystem.external.endpoint }}
+              value: {{ .Values.messagingSystem.external.endpoint | quote }}
             - name: GRAPH_EVENTS_CLUSTER
-              value: {{ .Values.messagingSystem.external.cluster }}
+              value: {{ .Values.messagingSystem.external.cluster | quote }}
             - name: GRAPH_EVENTS_ENABLE_TLS
-              value: {{ .Values.messagingSystem.external.tls.enabled }}
+              value: {{ .Values.messagingSystem.external.tls.enabled | quote }}
             - name: GRAPH_EVENTS_TLS_INSECURE
-              value: {{ .Values.messagingSystem.external.tls.insecure }}
+              value: {{ .Values.messagingSystem.external.tls.insecure | quote }}
             - name: GRAPH_EVENTS_TLS_ROOT_CA_CERTIFICATE
               {{ if or (not .Values.messagingSystem.external.enabled) (not .Values.messagingSystem.external.tls.certTrusted) }}
               value: /etc/ocis/messaging-system-ca/messaging-system-ca.crt

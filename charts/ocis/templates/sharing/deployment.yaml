@@ -70,9 +70,9 @@ spec:
             - name: SHARING_EVENTS_CLUSTER
               value: {{ .Values.messagingSystem.external.cluster }}
             - name: SHARING_EVENTS_ENABLE_TLS
-              value: {{ .Values.messagingSystem.external.tls.enabled }}
+              value: {{ .Values.messagingSystem.external.tls.enabled | quote }}
             - name: SHARING_EVENTS_TLS_INSECURE
-              value: {{ .Values.messagingSystem.external.tls.insecure }}
+              value: {{ .Values.messagingSystem.external.tls.insecure | quote }}
             - name: SHARING_EVENTS_TLS_ROOT_CA_CERTIFICATE
               {{ if or (not .Values.messagingSystem.external.enabled) (not .Values.messagingSystem.external.tls.certTrusted) }}
               value: /etc/ocis/messaging-system-ca/messaging-system-ca.crt

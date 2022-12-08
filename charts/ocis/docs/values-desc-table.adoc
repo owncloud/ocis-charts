@@ -472,7 +472,7 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 +bool+
 a| [subs=-attributes]
-`true`
+`false`
 | Use an external NATS messaging system instead of the internal one. Recommended for all production instances. Needs to be used if HighAvailability is needed. Needs to be used if oCIS shall be used by more than a 2-digit user count.
 | messagingSystem.external.endpoint
 a| [subs=-attributes]

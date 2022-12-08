@@ -63,7 +63,7 @@ messagingSystem:
     # Recommended for all production instances.
     # Needs to be used if HighAvailability is needed.
     # Needs to be used if oCIS shall be used by more than a 2-digit user count.
-    enabled: true
+    enabled: false
     # -- Endpoint of the messaging system.
     endpoint: "nats.ocis-nats.svc.cluster.local:4222"
     # -- Cluster name to use with the messaging system.
