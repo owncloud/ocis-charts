@@ -75,7 +75,25 @@ spec:
             - name: REVA_GATEWAY
               value: gateway:9142
             - name: SEARCH_EVENTS_ENDPOINT
+            {{- if not .Values.messagingSystem.external.enabled }}
               value: nats:9233
+            {{- else }}
+              value: {{ .Values.messagingSystem.external.endpoint }}
+            - name: SEARCH_EVENTS_CLUSTER
+              value: {{ .Values.messagingSystem.external.cluster }}
+            - name: SEARCH_EVENTS_ENABLE_TLS
+              value: {{ .Values.messagingSystem.external.tls.enabled }}
+            - name: SEARCH_EVENTS_TLS_INSECURE
+              value: {{ .Values.messagingSystem.external.tls.insecure }}
+            - name: SEARCH_EVENTS_TLS_ROOT_CA_CERTIFICATE
+              {{ if or (not .Values.messagingSystem.external.enabled) (not .Values.messagingSystem.external.tls.certTrusted) }}
+              value: /etc/ocis/messaging-system-ca/messaging-system-ca.crt
+              {{ else }}
+              value: "" # no cert needed
+              {{ end }}
+            {{- end }}
+
+
 
             - name: SEARCH_MACHINE_AUTH_API_KEY
               valueFrom:
@@ -93,20 +111,36 @@ spec:
             failureThreshold: 3
 
           resources: {{ toYaml .resources | nindent 12 }}
+
           ports:
             - name: grpc
               containerPort: 9220
             - name: metrics-debug
               containerPort: 9224
+
           volumeMounts:
+            - name: ocis-config-tmp
+              mountPath: /etc/ocis # we mount that volume only to apply fsGroup to that path
+            - name: messaging-system-ca
+              mountPath: /etc/ocis/messaging-system-ca
+              readOnly: true
             - name: search-data
               mountPath: /var/lib/ocis
+
       volumes:
-      {{- if .Values.services.search.persistence.enabled }}
+        - name: ocis-config-tmp
+          emptyDir: {}
+        - name: messaging-system-ca
+          {{ if or (not .Values.messagingSystem.external.enabled) (not .Values.messagingSystem.external.tls.certTrusted) }}
+          secret:
+            secretName: {{ .Values.secretRefs.messagingSystemCaRef }}
+          {{ else }}
+          emptyDir: {}
+          {{ end }}
         - name: search-data
+          {{ if .Values.services.search.persistence.enabled }}
           persistentVolumeClaim:
             claimName: search-data
-      {{ else }}
-        - name: search-data
+          {{ else }}
           emptyDir: {}
-      {{ end }}
+          {{ end }}

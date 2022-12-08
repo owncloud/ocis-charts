@@ -80,20 +80,22 @@ spec:
             failureThreshold: 3
 
           resources: {{ toYaml .resources | nindent 12 }}
+
           ports:
             - name: grpc
               containerPort: 9460
             - name: metrics-debug
               containerPort: 9464
+
           volumeMounts:
             - name: store-data
               mountPath: /var/lib/ocis
+
       volumes:
-      {{- if .Values.services.store.persistence.enabled }}
         - name: store-data
+          {{ if .Values.services.store.persistence.enabled }}
           persistentVolumeClaim:
             claimName: store-data
-      {{ else }}
-        - name: store-data
+          {{ else }}
           emptyDir: {}
-      {{ end }}
+          {{ end }}

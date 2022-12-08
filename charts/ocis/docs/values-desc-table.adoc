@@ -462,6 +462,42 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `"false"`
 | Activates pretty log output. Not recommended for production installations.
+| messagingSystem.external.cluster
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"ocis-cluster"`
+| Cluster name to use with the messaging system.
+| messagingSystem.external.enabled
+a| [subs=-attributes]
++bool+
+a| [subs=-attributes]
+`true`
+| Use an external NATS messaging system instead of the internal one. Recommended for all production instances. Needs to be used if HighAvailability is needed. Needs to be used if oCIS shall be used by more than a 2-digit user count.
+| messagingSystem.external.endpoint
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"nats.ocis-nats.svc.cluster.local:4222"`
+| Endpoint of the messaging system.
+| messagingSystem.external.tls.certTrusted
+a| [subs=-attributes]
++bool+
+a| [subs=-attributes]
+`true`
+| Set only to false, if the certificate of your messaging system service is not trusted. If set to false, you need to put the CA cert of the messaging system server into the secret referenced by "messagingSystemCaRef"
+| messagingSystem.external.tls.enabled
+a| [subs=-attributes]
++bool+
+a| [subs=-attributes]
+`true`
+| Enables TLS encrypted communication with the messaging system. Recommended for production installations.
+| messagingSystem.external.tls.insecure
+a| [subs=-attributes]
++bool+
+a| [subs=-attributes]
+`false`
+| For self signed certificates, consider to put the CA cert of the messaging system secure server into the secret referenced by "messagingSystemCaRef" Not recommended for production installations.
 | namespaceOverride
 a| [subs=-attributes]
 +string+
@@ -522,6 +558,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `"machine-auth-api-key"`
 | Reference to an existing machine auth api key secret (see xref:{secrets}[Secrets])
+| secretRefs.messagingSystemCaRef
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"messaging-system-ca"`
+| Reference to an existing messaging system certificate authority secret (see xref:{secrets}[Secrets])
 | secretRefs.notificationsSmtpSecretRef
 a| [subs=-attributes]
 +string+
@@ -767,7 +809,7 @@ a| [subs=-attributes]
 +object+
 a| [subs=-attributes]
 see detailed service configuration options below
-| NATS service.
+| NATS service. Not used if `messagingSystem.external` equals `true`.
 | services.nats.persistence.accessModes
 a| [subs=-attributes]
 +list+
@@ -791,7 +833,7 @@ a| [subs=-attributes]
 +bool+
 a| [subs=-attributes]
 `false`
-| Enables persistence. Needs to be enabled on production installations. If not enabled, pod restarts will lead to data loss. Also scaling this service beyond one instance is not possible if the service instances don't share the same storage.
+| Enables persistence. Needs to be enabled on production installations, except `messagingSystem.external` equals `true`. If not enabled, pod restarts will lead to data loss. Also scaling this service beyond one instance is not possible if the service instances don't share the same storage.
 | services.nats.persistence.existingClaim
 a| [subs=-attributes]
 +string+

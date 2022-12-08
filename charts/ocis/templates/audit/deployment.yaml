@@ -1,3 +1,4 @@
+{{- $_ := set . "appName" "audit" -}}
 {{- $_ := set . "resources" (default (default (dict) .Values.resources) .Values.services.audit.resources) -}}
 apiVersion: apps/v1
 kind: Deployment
@@ -13,7 +14,6 @@ spec:
   {{- if and (not .Values.autoscaling.enabled) (.Values.replicas) }}
   replicas: {{ .Values.replicas }}
   {{- end }}
-  {{- $_ := set . "appName" "audit" -}}
   {{- if .Values.deploymentStrategy }}
   strategy: {{ toYaml .Values.deploymentStrategy | nindent 4 }}
   {{ end }}
@@ -53,9 +53,43 @@ spec:
               value: {{ .Values.logging.pretty | quote }}
 
             - name: AUDIT_EVENTS_ENDPOINT
+            {{- if not .Values.messagingSystem.external.enabled }}
               value: nats:9233
+            {{- else }}
+              value: {{ .Values.messagingSystem.external.endpoint }}
+            - name: AUDIT_EVENTS_CLUSTER
+              value: {{ .Values.messagingSystem.external.cluster }}
+            - name: AUDIT_EVENTS_ENABLE_TLS
+              value: {{ .Values.messagingSystem.external.tls.enabled }}
+            - name: AUDIT_EVENTS_TLS_INSECURE
+              value: {{ .Values.messagingSystem.external.tls.insecure }}
+            - name: AUDIT_EVENTS_TLS_ROOT_CA_CERTIFICATE
+              {{ if or (not .Values.messagingSystem.external.enabled) (not .Values.messagingSystem.external.tls.certTrusted) }}
+              value: /etc/ocis/messaging-system-ca/messaging-system-ca.crt
+              {{ else }}
+              value: "" # no cert needed
+              {{ end }}
+            {{- end }}
 
             - name: AUDIT_LOG_TO_CONSOLE
               value: "true"
 
           resources: {{ toYaml .resources | nindent 12 }}
+
+          volumeMounts:
+            - name: ocis-config-tmp
+              mountPath: /etc/ocis # we mount that volume only to apply fsGroup to that path
+            - name: messaging-system-ca
+              mountPath: /etc/ocis/messaging-system-ca
+              readOnly: true
+
+      volumes:
+        - name: ocis-config-tmp
+          emptyDir: {}
+        - name: messaging-system-ca
+          {{ if or (not .Values.messagingSystem.external.enabled) (not .Values.messagingSystem.external.tls.certTrusted) }}
+          secret:
+            secretName: {{ .Values.secretRefs.messagingSystemCaRef }}
+          {{ else }}
+          emptyDir: {}
+          {{ end }}

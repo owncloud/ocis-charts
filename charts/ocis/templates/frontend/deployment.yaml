@@ -100,16 +100,17 @@ spec:
             failureThreshold: 3
 
           resources: {{ toYaml .resources | nindent 12 }}
+
           ports:
             - name: http
               containerPort: 9140
             - name: metrics-debug
               containerPort: 9141
+
           volumeMounts:
             - name: tmp-volume
               mountPath: /tmp
+
       volumes:
         - name: tmp-volume
-          emptyDir:
-            medium: Memory
-            sizeLimit: 6Mi
+          emptyDir: {}
