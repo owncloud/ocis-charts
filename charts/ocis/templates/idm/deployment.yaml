@@ -68,14 +68,14 @@ spec:
               value: kubernetes
 
             - name: IDM_LOG_COLOR
-              value: "{{ .Values.logging.color }}"
+              value: {{ .Values.logging.color | quote }}
             - name: IDM_LOG_LEVEL
-              value: "{{ .Values.logging.level }}"
+              value: {{ .Values.logging.level | quote }}
             - name: IDM_LOG_PRETTY
-              value: "{{ .Values.logging.pretty }}"
+              value: {{ .Values.logging.pretty | quote }}
 
             # - name: IDM_DEBUG_PPROF
-            #   value: "{{ .Values.debug.profiling }}"
+            #   value: {{ .Values.debug.profiling | quote }}
 
             - name: IDM_LDAPS_ADDR
               value: 0.0.0.0:9235
@@ -83,7 +83,7 @@ spec:
             #   value: 0.0.0.0:9239
 
             - name: IDM_CREATE_DEMO_USERS
-              value: "{{ .Values.features.demoUsers }}"
+              value: {{ .Values.features.demoUsers | quote }}
 
             - name: IDM_ADMIN_PASSWORD
               valueFrom:

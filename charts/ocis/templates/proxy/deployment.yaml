@@ -48,14 +48,14 @@ spec:
               value: kubernetes
 
             - name: PROXY_LOG_COLOR
-              value: "{{ .Values.logging.color }}"
+              value: {{ .Values.logging.color | quote }}
             - name: PROXY_LOG_LEVEL
-              value: "{{ .Values.logging.level }}"
+              value: {{ .Values.logging.level | quote }}
             - name: PROXY_LOG_PRETTY
-              value: "{{ .Values.logging.pretty }}"
+              value: {{ .Values.logging.pretty | quote }}
 
             - name: PROXY_DEBUG_PPROF
-              value: "{{ .Values.debug.profiling }}"
+              value: {{ .Values.debug.profiling | quote }}
 
             - name: PROXY_HTTP_ADDR
               value: 0.0.0.0:9200
@@ -63,13 +63,13 @@ spec:
               value: 0.0.0.0:9205
 
             - name: PROXY_ENABLE_BASIC_AUTH
-              value: "{{ .Values.features.basicAuthentication }}"
+              value: {{ .Values.features.basicAuthentication | quote }}
 
             - name: PROXY_OIDC_ISSUER
             {{- if not .Values.features.externalUserManagement.enabled }}
-              value: https://{{ .Values.externalDomain }}
+              value: "https://{{ .Values.externalDomain }}"
             {{- else }}
-              value: {{ .Values.features.externalUserManagement.oidc.issuerURI }}
+              value: {{ .Values.features.externalUserManagement.oidc.issuerURI | quote }}
             {{- end }}
 
             {{- if .Values.features.externalUserManagement.enabled }}
@@ -77,9 +77,9 @@ spec:
               value: "true"
 
             - name: PROXY_USER_OIDC_CLAIM
-              value: {{ .Values.features.externalUserManagement.oidc.userIDClaim }}
+              value: {{ .Values.features.externalUserManagement.oidc.userIDClaim | quote }}
             - name: PROXY_USER_CS3_CLAIM
-              value: {{ .Values.features.externalUserManagement.oidc.userIDClaimAttributeMapping }}
+              value: {{ .Values.features.externalUserManagement.oidc.userIDClaimAttributeMapping | quote }}
             {{- end }}
 
             - name: PROXY_TLS
@@ -89,7 +89,7 @@ spec:
               value: gateway:9142
 
             - name: PROXY_OIDC_INSECURE
-              value: "{{ .Values.insecure.oidcIdpInsecure }}"
+              value: {{ .Values.insecure.oidcIdpInsecure | quote }}
 
             - name: PROXY_JWT_SECRET
               valueFrom:

@@ -44,28 +44,28 @@ spec:
             readOnlyRootFilesystem: true
           env:
             - name: NOTIFICATIONS_LOG_COLOR
-              value: "{{ .Values.logging.color }}"
+              value: {{ .Values.logging.color | quote }}
             - name: NOTIFICATIONS_LOG_LEVEL
-              value: "{{ .Values.logging.level }}"
+              value: {{ .Values.logging.level | quote }}
             - name: NOTIFICATIONS_LOG_PRETTY
-              value: "{{ .Values.logging.pretty }}"
+              value: {{ .Values.logging.pretty | quote }}
 
             # - name: NOTIFICATIONS_DEBUG_PPROF
-            #   value: "{{ .Values.debug.profiling }}"
+            #   value: {{ .Values.debug.profiling | quote }}
 
             # - name: NOTIFICATIONS_DEBUG_ADDR
             #   value: 0.0.0.0:9174
 
             - name: NOTIFICATIONS_SMTP_HOST
-              value: "{{ .Values.features.emailNotifications.smtp.host }}"
+              value: {{ .Values.features.emailNotifications.smtp.host | quote }}
             - name: NOTIFICATIONS_SMTP_PORT
-              value: "{{ .Values.features.emailNotifications.smtp.port }}"
+              value: {{ .Values.features.emailNotifications.smtp.port | quote }}
             - name: NOTIFICATIONS_SMTP_SENDER
-              value: "{{ .Values.features.emailNotifications.smtp.sender }}"
+              value: {{ .Values.features.emailNotifications.smtp.sender | quote }}
             - name: NOTIFICATIONS_SMTP_AUTHENTICATION
-              value: "{{ .Values.features.emailNotifications.smtp.authentication }}"
+              value: {{ .Values.features.emailNotifications.smtp.authentication | quote }}
             - name: NOTIFICATIONS_SMTP_ENCRYPTION
-              value: "{{ .Values.features.emailNotifications.smtp.encryption }}"
+              value: {{ .Values.features.emailNotifications.smtp.encryption | quote }}
 
             - name: NOTIFICATIONS_SMTP_USERNAME
               valueFrom:
@@ -82,9 +82,9 @@ spec:
             #TODO: remove OCIS_URL in favor of NOTIFICATIONS_WEB_UI_URL
             # after https://github.com/owncloud/ocis/pull/4998 was released
             - name: OCIS_URL
-              value: https://{{ .Values.externalDomain }}
+              value: "https://{{ .Values.externalDomain }}"
             - name: NOTIFICATIONS_WEB_UI_URL
-              value: https://{{ .Values.externalDomain }}
+              value: "https://{{ .Values.externalDomain }}"
 
             - name: REVA_GATEWAY
               value: gateway:9142
