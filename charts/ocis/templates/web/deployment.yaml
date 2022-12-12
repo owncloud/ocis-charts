@@ -82,12 +82,6 @@ spec:
 
             - name: WEB_UI_CONFIG_SERVER
               value: "https://{{ .Values.externalDomain }}"
-            - name: WEB_OIDC_METADATA_URL
-            {{ if not .Values.features.externalUserManagement.enabled }}
-              value: "https://{{ .Values.externalDomain }}/.well-known/openid-configuration"
-            {{ else }}
-              value: "{{ .Values.features.externalUserManagement.oidc.issuerURI }}/.well-known/openid-configuration"
-            {{ end }}
 
           livenessProbe:
             httpGet:
