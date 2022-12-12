@@ -82,7 +82,7 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: {{ .Values.secretRefs.ldapSecretRef }}
-                  key: graph-ldap-bind-password
+                  key: reva-ldap-bind-password
             - name: GRAPH_LDAP_SERVER_WRITE_ENABLED
               value: "false"
             - name: LDAP_CACERT
