@@ -32,3 +32,6 @@ api: $(KUBECONFORM)
 
 	helm template --kube-version 1.25.0 charts/ocis -f charts/ocis/ci/values-1-25.yaml > charts/ocis/ci/templated.yaml
 	$(KUBECONFORM) -kubernetes-version 1.25.0 -summary -strict charts/ocis/ci/templated.yaml
+
+	helm template --kube-version 1.26.0 charts/ocis -f charts/ocis/ci/values-1-25.yaml > charts/ocis/ci/templated.yaml
+	$(KUBECONFORM) -kubernetes-version 1.26.0 -summary -strict charts/ocis/ci/templated.yaml
