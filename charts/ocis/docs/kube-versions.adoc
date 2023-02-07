@@ -4,6 +4,8 @@ Supported Kubernetes versions
 |===
 | Version
 a| [subs=-attributes]
++~1.26.0+
+a| [subs=-attributes]
 +~1.25.0+
 a| [subs=-attributes]
 +~1.24.0+

@@ -7,6 +7,7 @@ config = {
         "1.23.0",
         "1.24.0",
         "1.25.0",
+        "1.26.0",
     ],
 }
 
@@ -21,24 +22,25 @@ def linting(ctx):
     for version in config["kubernetesVersions"]:
         kubeconform_steps.append(
             {
-                "name": "helm template - %s" % version,
+                "name": "template - %s" % version,
                 "image": "owncloudci/alpine:latest",
                 "commands": [
-                    "helm template --kube-version %s charts/ocis -f charts/ocis/ci/%s > charts/ocis/ci/templated.yaml" % (version, "values.yaml" if version != "1.25.0" else "values-1-25.yaml"),
+                    "make api-%s-template" % version,
                 ],
             },
         )
         kubeconform_steps.append(
             {
                 "name": "kubeconform - %s" % version,
-                "image": "ghcr.io/yannh/kubeconform:master",
-                "entrypoint": [
-                    "/kubeconform",
-                    "-kubernetes-version",
-                    "%s" % version,
-                    "-summary",
-                    "-strict",
-                    "charts/ocis/ci/templated.yaml",
+                "image": "owncloudci/golang:latest",
+                "commands": [
+                    "make api-%s-kubeconform" % version,
+                ],
+                "volumes": [
+                    {
+                        "name": "gopath",
+                        "path": "/go",
+                    },
                 ],
             },
         )
@@ -59,7 +61,7 @@ def linting(ctx):
                 "name": "helm template",
                 "image": "owncloudci/alpine:latest",
                 "commands": [
-                    "helm template charts/ocis -f charts/ocis/ci/values.yaml > charts/ocis/ci/templated.yaml",
+                    "helm template charts/ocis -f 'charts/ocis/ci/values_<1.25.0.yaml' > charts/ocis/ci/templated.yaml",
                 ],
             },
             {
@@ -78,6 +80,12 @@ def linting(ctx):
                 "refs/pull/**",
             ],
         },
+        "volumes": [
+            {
+                "name": "gopath",
+                "temp": {},
+            },
+        ],
     }
 
     for branch in config["branches"]:
