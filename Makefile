@@ -1,4 +1,6 @@
+ifneq (, $(shell command -v go 2> /dev/null)) # suppress `command not found warnings` for non go targets in CI
 include .bingo/Variables.mk
+endif
 
 all: docs lint api clean
 
@@ -18,20 +20,54 @@ clean:
 lint: $(KUBE_LINTER)
 	# TODO: use helm from bingo
 	helm lint charts/ocis
-	helm template charts/ocis -f charts/ocis/ci/values.yaml > charts/ocis/ci/templated.yaml
+	helm template charts/ocis -f 'charts/ocis/ci/values_<1.25.0.yaml' > charts/ocis/ci/templated.yaml
 	$(KUBE_LINTER) lint charts/ocis/ci/templated.yaml
 
 
 .PHONY: api
-api: $(KUBECONFORM)
-	helm template --kube-version 1.23.0 charts/ocis -f charts/ocis/ci/values.yaml > charts/ocis/ci/templated.yaml
+api: api-1.23.0 api-1.24.0 api-1.25.0 api-1.26.0
+
+
+.PHONY: api-1.23.0
+api-1.23.0: api-1.23.0-template api-1.23.0-kubeconform
+
+.PHONY: api-1.23.0-template
+api-1.23.0-template:
+	helm template --kube-version 1.23.0 charts/ocis -f 'charts/ocis/ci/values_<1.25.0.yaml' > charts/ocis/ci/templated.yaml
+
+.PHONY: api-1.23.0-kubeconform
+api-1.23.0-kubeconform: $(KUBECONFORM)
 	$(KUBECONFORM) -kubernetes-version 1.23.0 -summary -strict charts/ocis/ci/templated.yaml
 
-	helm template --kube-version 1.24.0 charts/ocis -f charts/ocis/ci/values.yaml > charts/ocis/ci/templated.yaml
+.PHONY: api-1.24.0
+api-1.24.0: api-1.24.0-template api-1.24.0-kubeconform
+
+.PHONY: api-1.24.0-template
+api-1.24.0-template:
+	helm template --kube-version 1.24.0 charts/ocis -f 'charts/ocis/ci/values_<1.25.0.yaml' > charts/ocis/ci/templated.yaml
+
+.PHONY: api-1.24.0-kubeconform
+api-1.24.0-kubeconform: $(KUBECONFORM)
 	$(KUBECONFORM) -kubernetes-version 1.24.0 -summary -strict charts/ocis/ci/templated.yaml
 
-	helm template --kube-version 1.25.0 charts/ocis -f charts/ocis/ci/values-1-25.yaml > charts/ocis/ci/templated.yaml
+.PHONY: api-1.25.0
+api-1.25.0: api-1.25.0-template api-1.25.0-kubeconform
+
+.PHONY: api-1.25.0-template
+api-1.25.0-template:
+	helm template --kube-version 1.25.0 charts/ocis -f 'charts/ocis/ci/values_>=1.25.0.yaml' > charts/ocis/ci/templated.yaml
+
+.PHONY: api-1.25.0-kubeconform
+api-1.25.0-kubeconform: $(KUBECONFORM)
 	$(KUBECONFORM) -kubernetes-version 1.25.0 -summary -strict charts/ocis/ci/templated.yaml
 
-	helm template --kube-version 1.26.0 charts/ocis -f charts/ocis/ci/values-1-25.yaml > charts/ocis/ci/templated.yaml
+.PHONY: api-1.26.0
+api-1.26.0: api-1.26.0-template api-1.26.0-kubeconform
+
+.PHONY: api-1.26.0-template
+api-1.26.0-template:
+	helm template --kube-version 1.26.0 charts/ocis -f 'charts/ocis/ci/values_>=1.25.0.yaml' > charts/ocis/ci/templated.yaml
+
+.PHONY: api-1.26.0-kubeconform
+api-1.26.0-kubeconform: $(KUBECONFORM)
 	$(KUBECONFORM) -kubernetes-version 1.26.0 -summary -strict charts/ocis/ci/templated.yaml
