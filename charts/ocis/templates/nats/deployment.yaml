@@ -1,4 +1,4 @@
-{{- if not .Values.messagingSystem.external }}
+{{- if not .Values.messagingSystem.external.enabled }}
 {{- $_ := set . "appName" "nats" -}}
 {{- $_ := set . "resources" (default (default (dict) .Values.resources) .Values.services.nats.resources) -}}
 apiVersion: apps/v1

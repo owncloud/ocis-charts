@@ -86,11 +86,11 @@ spec:
             - name: SEARCH_EVENTS_TLS_INSECURE
               value: {{ .Values.messagingSystem.external.tls.insecure | quote }}
             - name: SEARCH_EVENTS_TLS_ROOT_CA_CERTIFICATE
-              {{ if or (not .Values.messagingSystem.external.enabled) (not .Values.messagingSystem.external.tls.certTrusted) }}
+              {{- if not .Values.messagingSystem.external.tls.certTrusted }}
               value: /etc/ocis/messaging-system-ca/messaging-system-ca.crt
-              {{ else }}
+              {{- else }}
               value: "" # no cert needed
-              {{ end }}
+              {{- end }}
             {{- end }}
 
 
@@ -131,7 +131,7 @@ spec:
         - name: ocis-config-tmp
           emptyDir: {}
         - name: messaging-system-ca
-          {{ if or (not .Values.messagingSystem.external.enabled) (not .Values.messagingSystem.external.tls.certTrusted) }}
+          {{ if and (.Values.messagingSystem.external.enabled) (not .Values.messagingSystem.external.tls.certTrusted) }}
           secret:
             secretName: {{ .Values.secretRefs.messagingSystemCaRef }}
           {{ else }}

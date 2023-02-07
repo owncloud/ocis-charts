@@ -809,7 +809,7 @@ a| [subs=-attributes]
 +object+
 a| [subs=-attributes]
 see detailed service configuration options below
-| NATS service. Not used if `messagingSystem.external` equals `true`.
+| NATS service. Not used if `messagingSystem.external.enabled` equals `true`.
 | services.nats.persistence.accessModes
 a| [subs=-attributes]
 +list+
@@ -833,7 +833,7 @@ a| [subs=-attributes]
 +bool+
 a| [subs=-attributes]
 `false`
-| Enables persistence. Needs to be enabled on production installations, except `messagingSystem.external` equals `true`. If not enabled, pod restarts will lead to data loss. Also scaling this service beyond one instance is not possible if the service instances don't share the same storage.
+| Enables persistence. Needs to be enabled on production installations, except `messagingSystem.external.enabled` equals `true`. If not enabled, pod restarts will lead to data loss. Also scaling this service beyond one instance is not possible if the service instances don't share the same storage.
 | services.nats.persistence.existingClaim
 a| [subs=-attributes]
 +string+
