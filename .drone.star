@@ -36,6 +36,12 @@ def linting(ctx):
                 "commands": [
                     "make api-%s-kubeconform" % version,
                 ],
+                "volumes": [
+                    {
+                        "name": "gopath",
+                        "path": "/go",
+                    },
+                ],
             },
         )
 
@@ -74,6 +80,12 @@ def linting(ctx):
                 "refs/pull/**",
             ],
         },
+        "volumes": [
+            {
+                "name": "gopath",
+                "temp": {},
+            },
+        ],
     }
 
     for branch in config["branches"]:
