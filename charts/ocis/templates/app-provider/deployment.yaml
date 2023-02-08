@@ -14,7 +14,7 @@ metadata:
 spec:
   selector:
     matchLabels:
-      app:  {{ $.appName }}
+      app: {{ $.appName }}
   replicas: 1 #TODO: https://github.com/owncloud/ocis-charts/issues/48
   {{- if $.Values.deploymentStrategy }}
   strategy: {{ toYaml $.Values.deploymentStrategy | nindent 4 }}
@@ -22,7 +22,7 @@ spec:
   template:
     metadata:
       labels:
-        app:  {{ $.appName }}
+        app: {{ $.appName }}
         {{- include "ocis.labels" $ | nindent 8 }}
     spec:
       securityContext:
@@ -33,7 +33,7 @@ spec:
         {{- tpl . $ | nindent 8 }}
       {{- end }}
       containers:
-        - name:  {{ $.appName }}
+        - name: {{ $.appName }}
           image: {{ template "ocis.image" $ }}
           imagePullPolicy: {{ $.Values.image.pullPolicy }}
           command: ["ocis"]
@@ -99,19 +99,20 @@ spec:
             failureThreshold: 3
 
           resources: {{ toYaml $.resources | nindent 12 }}
+
           ports:
             - name: grpc
               containerPort: 9164
             - name: metrics-debug
               containerPort: 9165
+
           volumeMounts:
             - name: tmp-volume
               mountPath: /tmp
+
       volumes:
         - name: tmp-volume
-          emptyDir:
-            medium: Memory
-            sizeLimit: 6Mi
+          emptyDir: {}
 {{ end }}
 {{ end }}
 {{ end }}

@@ -102,6 +102,7 @@ spec:
             failureThreshold: 3
 
           resources: {{ toYaml .resources | nindent 12 }}
+
           ports:
             - name: grpc
               containerPort: 9185
@@ -109,15 +110,16 @@ spec:
               containerPort: 9186
             - name: metrics-debug
               containerPort: 9189
+
           volumeMounts:
             - name: thumbnails-data
               mountPath: /var/lib/ocis
+
       volumes:
-      {{- if .Values.services.thumbnails.persistence.enabled }}
         - name: thumbnails-data
+          {{ if .Values.services.thumbnails.persistence.enabled }}
           persistentVolumeClaim:
             claimName: thumbnails-data
-      {{ else }}
-        - name: thumbnails-data
+          {{ else }}
           emptyDir: {}
-      {{ end }}
+          {{ end }}

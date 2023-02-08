@@ -1,3 +1,4 @@
+{{- if not .Values.messagingSystem.external.enabled }}
 {{- $_ := set . "appName" "nats" -}}
 {{- $_ := set . "resources" (default (default (dict) .Values.resources) .Values.services.nats.resources) -}}
 apiVersion: apps/v1
@@ -84,21 +85,24 @@ spec:
             failureThreshold: 3
 
           resources: {{ toYaml .resources | nindent 12 }}
+
           ports:
             - name: nats
               containerPort: 9233
             # TODO: NATS does not currently provide a debug port, re-enable this once that is implemented
             # - name: metrics-debug
             #   containerPort: 9234
+
           volumeMounts:
             - name: nats-data
               mountPath: /var/lib/ocis
+
       volumes:
-      {{- if .Values.services.nats.persistence.enabled }}
         - name: nats-data
+          {{ if .Values.services.nats.persistence.enabled }}
           persistentVolumeClaim:
             claimName: nats-data
-      {{ else }}
-        - name: nats-data
+          {{ else }}
           emptyDir: {}
-      {{ end }}
+          {{ end }}
+{{- end }}

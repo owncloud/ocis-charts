@@ -79,16 +79,17 @@ spec:
             failureThreshold: 3
 
           resources: {{ toYaml .resources | nindent 12 }}
+
           ports:
             - name: grpc
               containerPort: 9178
             - name: metrics-debug
               containerPort: 9179
+
           volumeMounts:
             - name: tmp-volume
               mountPath: /tmp
+
       volumes:
         - name: tmp-volume
-          emptyDir:
-            medium: Memory
-            sizeLimit: 6Mi
+          emptyDir: {}

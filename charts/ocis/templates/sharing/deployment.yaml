@@ -63,7 +63,23 @@ spec:
             - name: REVA_GATEWAY
               value: gateway:9142
             - name: SHARING_EVENTS_ENDPOINT
+            {{- if not .Values.messagingSystem.external.enabled }}
               value: nats:9233
+            {{- else }}
+              value: {{ .Values.messagingSystem.external.endpoint }}
+            - name: SHARING_EVENTS_CLUSTER
+              value: {{ .Values.messagingSystem.external.cluster }}
+            - name: SHARING_EVENTS_ENABLE_TLS
+              value: {{ .Values.messagingSystem.external.tls.enabled | quote }}
+            - name: SHARING_EVENTS_TLS_INSECURE
+              value: {{ .Values.messagingSystem.external.tls.insecure | quote }}
+            - name: SHARING_EVENTS_TLS_ROOT_CA_CERTIFICATE
+              {{- if not .Values.messagingSystem.external.tls.certTrusted }}
+              value: /etc/ocis/messaging-system-ca/messaging-system-ca.crt
+              {{- else }}
+              value: "" # no cert needed
+              {{- end }}
+            {{- end }}
 
             - name: SHARING_JWT_SECRET
               valueFrom:
@@ -113,16 +129,32 @@ spec:
             failureThreshold: 3
 
           resources: {{ toYaml .resources | nindent 12 }}
+
           ports:
             - name: grpc
               containerPort: 9150
             - name: metrics-debug
               containerPort: 9151
+
           volumeMounts:
             - name: tmp-volume
               mountPath: /tmp
+            - name: ocis-config-tmp
+              mountPath: /etc/ocis # we mount that volume only to apply fsGroup to that path
+            - name: messaging-system-ca
+              mountPath: /etc/ocis/messaging-system-ca
+              readOnly: true
+
+
       volumes:
         - name: tmp-volume
-          emptyDir:
-            medium: Memory
-            sizeLimit: 6Mi
+          emptyDir: {}
+        - name: ocis-config-tmp
+          emptyDir: {}
+        - name: messaging-system-ca
+          {{ if and (.Values.messagingSystem.external.enabled) (not .Values.messagingSystem.external.tls.certTrusted) }}
+          secret:
+            secretName: {{ .Values.secretRefs.messagingSystemCaRef }}
+          {{ else }}
+          emptyDir: {}
+          {{ end }}

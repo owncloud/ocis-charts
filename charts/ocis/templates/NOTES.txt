@@ -1,5 +1,5 @@
 {{- $idm := and (not .Values.features.externalUserManagement.enabled) (not .Values.services.idm.persistence.enabled) -}}
-{{- $nats := not .Values.services.nats.persistence.enabled -}}
+{{- $nats := and (not .Values.messagingSystem.external.enabled) (not .Values.services.nats.persistence.enabled) -}}
 {{- $search := not .Values.services.search.persistence.enabled -}}
 {{- $storageSystem := not .Values.services.storageSystem.persistence.enabled -}}
 {{- $storageUsers := not .Values.services.storageUsers.persistence.enabled -}}

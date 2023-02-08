@@ -14,7 +14,7 @@ metadata:
     {{- include "ocis.labels" $ | nindent 4 }}
 spec:
   selector:
-    app:  {{ $.appName }}
+    app: {{ $.appName }}
   ports:
     - name: grpc
       port: 9164

@@ -1,5 +1,5 @@
-{{- $_ := set . "appName" "auth-basic" -}}
 {{ if .Values.features.basicAuthentication }}
+{{- $_ := set . "appName" "auth-basic" -}}
 {{- $_ := set . "resources" (default (default (dict) .Values.resources) .Values.services.authBasic.resources) -}}
 apiVersion: apps/v1
 kind: Deployment
@@ -168,33 +168,32 @@ spec:
             failureThreshold: 3
 
           resources: {{ toYaml .resources | nindent 12 }}
+
           ports:
             - name: grpc
               containerPort: 9146
             - name: metrics-debug
               containerPort: 9147
+
           volumeMounts:
+            - name: tmp-volume
+              mountPath: /tmp
             - name: ocis-config-tmp
               mountPath: /etc/ocis # we mount that volume only to apply fsGroup to that path
-            {{ if or (not .Values.features.externalUserManagement.enabled) ( not .Values.features.externalUserManagement.ldap.certTrusted) }}
             - name: ldap-ca
               mountPath: /etc/ocis/ldap-ca
               readOnly: true
-            {{ end }}
-            - name: tmp-volume
-              mountPath: /tmp
+
       volumes:
+        - name: tmp-volume
+          emptyDir: {}
         - name: ocis-config-tmp
-          emptyDir:
-            medium: Memory
-            sizeLimit: 6Mi
-        {{ if or (not .Values.features.externalUserManagement.enabled) ( not .Values.features.externalUserManagement.ldap.certTrusted) }}
+          emptyDir: {}
         - name: ldap-ca
+          {{ if or (not .Values.features.externalUserManagement.enabled) ( not .Values.features.externalUserManagement.ldap.certTrusted) }}
           secret:
             secretName: {{ .Values.secretRefs.ldapCaRef }}
-        {{ end }}
-        - name: tmp-volume
-          emptyDir:
-            medium: Memory
-            sizeLimit: 6Mi
+          {{ else }}
+          emptyDir: {}
+          {{ end }}
 {{ end }}

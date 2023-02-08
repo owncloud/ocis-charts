@@ -56,6 +56,30 @@ cache:
   #   - redis-master-1.ocis-redis.svc.cluster.local:6379
   #   - redis-master-2.ocis-redis.svc.cluster.local:6379
 
+messagingSystem:
+  external:
+    # -- Use an external NATS messaging system instead of the internal one.
+    # Recommended for all production instances.
+    # Needs to be used if HighAvailability is needed.
+    # Needs to be used if oCIS shall be used by more than a 2-digit user count.
+    enabled: false
+    # -- Endpoint of the messaging system.
+    endpoint: "nats.ocis-nats.svc.cluster.local:4222"
+    # -- Cluster name to use with the messaging system.
+    cluster: "ocis-cluster"
+    tls:
+      # -- Enables TLS encrypted communication with the messaging system.
+      # Recommended for production installations.
+      enabled: true
+      # -- Set only to false, if the certificate of your messaging system service is not trusted.
+      # If set to false, you need to put the CA cert of the messaging system server into the secret referenced by "messagingSystemCaRef"
+      certTrusted: true
+      # -- Disables SSL certificate checking for connections to the messaging system server.
+      # -- For self signed certificates, consider to put the CA cert of the messaging system secure server into the secret referenced by "messagingSystemCaRef"
+      # Not recommended for production installations.
+      insecure: false
+
+
 # Feature options.
 # Enable or disable features of oCIS.
 features:
@@ -247,6 +271,8 @@ secretRefs:
   ldapSecretRef: "ldap-bind-secrets"
   # -- Reference to an existing machine auth api key secret (see ref:Secrets#secrets)
   machineAuthApiKeySecretRef: "machine-auth-api-key"
+  # -- Reference to an existing messaging system certificate authority secret (see ref:Secrets#secrets)
+  messagingSystemCaRef: "messaging-system-ca"
   # -- Reference to an existing SMTP email server settings secret (see ref:Secrets#secrets). Not used if `features.emailNotifications.enabled` equals `false`.
   notificationsSmtpSecretRef: "notifications-smtp-secret"
   # -- Reference to an existing storage-system JWT secret (see ref:Secrets#secrets)
@@ -454,12 +480,12 @@ services:
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
 
-  # -- NATS service.
+  # -- NATS service. Not used if `messagingSystem.external.enabled` equals `true`.
   # @default -- see detailed service configuration options below
   nats:
     persistence:
       # -- Enables persistence.
-      # Needs to be enabled on production installations.
+      # Needs to be enabled on production installations, except `messagingSystem.external.enabled` equals `true`.
       # If not enabled, pod restarts will lead to data loss.
       # Also scaling this service beyond one instance is not possible if the service instances don't share the same storage.
       enabled: false
