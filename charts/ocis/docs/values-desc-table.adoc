@@ -209,7 +209,7 @@ a| [subs=-attributes]
 +string+
 a| [subs=-attributes]
 `""`
-| UUID of the inital admin user. If the given value matches a user's value from `features.externalUserManagement.oidc.userIDClaim`, the admin role will be assigned.
+| UUID of the inital admin user. If the given value matches a user's value from `features.externalUserManagement.oidc.userIDClaim`, the admin role will be assigned. Consider that the UUID can be encoded in some LDAP deployment configurations like in .ldif files. These need to be decoded beforehand.
 | features.externalUserManagement.enabled
 a| [subs=-attributes]
 +bool+
