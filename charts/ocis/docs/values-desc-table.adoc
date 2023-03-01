@@ -42,6 +42,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `"noop"`
 | Type of the cache to use. To disable the cache, set to "noop". Can be set to "redis", then the address of Redis nodes needs to be set to `cache.nodes`.
+| configRefs.graphConfigRef
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"graph"`
+| Reference to an existing graph config.
 | configRefs.storageUsersConfigRef
 a| [subs=-attributes]
 +string+
@@ -678,6 +684,18 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service resources configuration. Overrides the default setting from `resources` if set.
+| services.eventhistory
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+see detailed service configuration options below
+| EVENT HISTORY service.
+| services.eventhistory.resources
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service resources configuration. Overrides the default setting from `resources` if set.
 | services.frontend
 a| [subs=-attributes]
 +object+
@@ -901,6 +919,18 @@ a| [subs=-attributes]
 see detailed service configuration options below
 | OCS service.
 | services.ocs.resources
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service resources configuration. Overrides the default setting from `resources` if set.
+| services.postprocessing
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+see detailed service configuration options below
+| POSTPROCESSING service.
+| services.postprocessing.resources
 a| [subs=-attributes]
 +object+
 a| [subs=-attributes]
@@ -1344,6 +1374,18 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service resources configuration. Overrides the default setting from `resources` if set.
+| services.userlog
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+see detailed service configuration options below
+| USERLOG service.
+| services.userlog.resources
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service resources configuration. Overrides the default setting from `resources` if set.
 | services.users
 a| [subs=-attributes]
 +object+
@@ -1411,6 +1453,18 @@ a| [subs=-attributes]
 see detailed service configuration options below
 | WEBDAV service.
 | services.webdav.resources
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service resources configuration. Overrides the default setting from `resources` if set.
+| services.webfinger
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+see detailed service configuration options below
+| WEBFINGER service.
+| services.webfinger.resources
 a| [subs=-attributes]
 +object+
 a| [subs=-attributes]

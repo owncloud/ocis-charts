@@ -1,0 +1,83 @@
+{{- $_ := set . "appName" "webfinger" -}}
+{{- $_ := set . "resources" (default (default (dict) .Values.resources) .Values.services.webfinger.resources) -}}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .appName }}
+  namespace: {{ template "ocis.namespace" . }}
+  labels:
+    {{- include "ocis.labels" . | nindent 4 }}
+spec:
+  selector:
+    matchLabels:
+      app: {{ .appName }}
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: {{ .appName }}
+        {{- include "ocis.labels" . | nindent 8 }}
+    spec:
+      securityContext:
+          fsGroup: {{ .Values.securityContext.fsGroup }}
+          fsGroupChangePolicy: {{ .Values.securityContext.fsGroupChangePolicy }}
+      {{- with .Values.topologySpreadConstraints }}
+      topologySpreadConstraints:
+        {{- tpl . $ | nindent 8 }}
+      {{- end }}
+      containers:
+        - name: {{ .appName }}
+          image: {{ template "ocis.image" $ }}
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          command: ["ocis"]
+          args: ["webfinger", "server"]
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: {{ .Values.securityContext.runAsUser }}
+            runAsGroup: {{ .Values.securityContext.runAsGroup }}
+            readOnlyRootFilesystem: true
+          env:
+            - name: MICRO_REGISTRY
+              value: kubernetes
+
+            - name: WEBFINGER_LOG_COLOR
+              value: {{ .Values.logging.color | quote }}
+            - name: WEBFINGER_LOG_LEVEL
+              value: {{ .Values.logging.level | quote }}
+            - name: WEBFINGER_LOG_PRETTY
+              value: {{ .Values.logging.pretty | quote }}
+
+            - name: WEBFINGER_DEBUG_PPROF
+              value: {{ .Values.debug.profiling | quote }}
+
+            - name: WEBFINGER_HTTP_ADDR
+              value: 0.0.0.0:8080
+            - name: WEBFINGER_DEBUG_ADDR
+              value: 0.0.0.0:8081
+
+            - name: WEBFINGER_OIDC_ISSUER
+            {{- if not .Values.features.externalUserManagement.enabled }}
+              value: "https://{{ .Values.externalDomain }}"
+            {{- else }}
+              value: {{ .Values.features.externalUserManagement.oidc.issuerURI | quote }}
+            {{- end }}
+
+            - name: WEBFINGER_OWNCLOUD_SERVER_INSTANCE_URL
+              value: "https://{{ .Values.externalDomain }}"
+
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: metrics-debug
+            timeoutSeconds: 10
+            initialDelaySeconds: 60
+            periodSeconds: 20
+            failureThreshold: 3
+
+          resources: {{ toYaml .resources | nindent 12 }}
+
+          ports:
+            - name: http
+              containerPort: 8080
+            - name: metrics-debug
+              containerPort: 8081
