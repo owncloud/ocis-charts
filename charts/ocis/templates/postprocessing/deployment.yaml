@@ -53,8 +53,8 @@ spec:
             # - name: POSTPROCESSING_DEBUG_ADDR
             #   value: 0.0.0.0:TODO
 
-            - name: POSTPROCESSING_VIRUSSCAN
-              value: "false" # TODO: configurable when antivirus service is added
+            - name: POSTPROCESSING_STEPS
+              value: "" # TODO: set to "virusscan" to when antivirus service is added and activated
 
             - name: POSTPROCESSING_EVENTS_ENDPOINT
             {{- if not .Values.messagingSystem.external.enabled }}
