@@ -157,6 +157,11 @@ spec:
               {{- end }}
             {{- end }}
 
+            - name: GRAPH_APPLICATION_ID
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ .Values.configRefs.graphConfigRef }}
+                  key: application-id
 
             - name: GRAPH_JWT_SECRET
               valueFrom:

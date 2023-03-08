@@ -254,6 +254,9 @@ ingress:
 configRefs:
   # -- Reference to an existing storage-users config.
   storageUsersConfigRef: "storage-users"
+  # -- Reference to an existing graph config.
+  graphConfigRef: "graph"
+
 
 # References to secrets.
 # The secrets need to be manually created.
@@ -419,6 +422,12 @@ services:
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
 
+  # -- EVENT HISTORY service.
+  # @default -- see detailed service configuration options below
+  eventhistory:
+    # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
+    resources: {}
+
   # -- FRONTEND service.
   # @default -- see detailed service configuration options below
   frontend:
@@ -531,6 +540,12 @@ services:
   # -- OCS service.
   # @default -- see detailed service configuration options below
   ocs:
+    # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
+    resources: {}
+
+  # -- POSTPROCESSING service.
+  # @default -- see detailed service configuration options below
+  postprocessing:
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
 
@@ -772,10 +787,16 @@ services:
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
 
+  # -- USERLOG service.
+  # @default -- see detailed service configuration options below
+  userlog:
+    # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
+    resources: {}
+
   # -- USERS service.
   # @default -- see detailed service configuration options below
   users:
-      # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
+    # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
 
   # -- ownCloud WEB service.
@@ -826,6 +847,12 @@ services:
   # -- WEBDAV service.
   # @default -- see detailed service configuration options below
   webdav:
+    # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
+    resources: {}
+
+  # -- WEBFINGER service.
+  # @default -- see detailed service configuration options below
+  webfinger:
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
 

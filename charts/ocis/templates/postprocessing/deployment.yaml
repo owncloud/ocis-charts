@@ -1,0 +1,111 @@
+{{- $_ := set . "appName" "postprocessing" -}}
+{{- $_ := set . "resources" (default (default (dict) .Values.resources) .Values.services.postprocessing.resources) -}}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .appName }}
+  namespace: {{ template "ocis.namespace" . }}
+  labels:
+    {{- include "ocis.labels" . | nindent 4 }}
+spec:
+  selector:
+    matchLabels:
+      app: {{ .appName }}
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: {{ .appName }}
+        {{- include "ocis.labels" . | nindent 8 }}
+    spec:
+      securityContext:
+          fsGroup: {{ .Values.securityContext.fsGroup }}
+          fsGroupChangePolicy: {{ .Values.securityContext.fsGroupChangePolicy }}
+      {{- with .Values.topologySpreadConstraints }}
+      topologySpreadConstraints:
+        {{- tpl . $ | nindent 8 }}
+      {{- end }}
+      containers:
+        - name: {{ .appName }}
+          image: {{ template "ocis.image" $ }}
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          command: ["ocis"]
+          args: ["postprocessing", "server"]
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: {{ .Values.securityContext.runAsUser }}
+            runAsGroup: {{ .Values.securityContext.runAsGroup }}
+            readOnlyRootFilesystem: true
+          env:
+            - name: MICRO_REGISTRY
+              value: kubernetes
+
+            - name: POSTPROCESSING_LOG_COLOR
+              value: {{ .Values.logging.color | quote }}
+            - name: POSTPROCESSING_LOG_LEVEL
+              value: {{ .Values.logging.level | quote }}
+            - name: POSTPROCESSING_LOG_PRETTY
+              value: {{ .Values.logging.pretty | quote }}
+
+            # - name: POSTPROCESSING_DEBUG_PPROF
+            #   value: {{ .Values.debug.profiling | quote }}
+
+            # - name: POSTPROCESSING_DEBUG_ADDR
+            #   value: 0.0.0.0:TODO
+
+            - name: POSTPROCESSING_STEPS
+              value: "" # TODO: set to "virusscan" to when antivirus service is added and activated
+
+            - name: POSTPROCESSING_EVENTS_ENDPOINT
+            {{- if not .Values.messagingSystem.external.enabled }}
+              value: nats:9233
+            {{- else }}
+              value: {{ .Values.messagingSystem.external.endpoint | quote }}
+            - name: POSTPROCESSING_EVENTS_CLUSTER
+              value: {{ .Values.messagingSystem.external.cluster | quote }}
+            - name: POSTPROCESSING_EVENTS_ENABLE_TLS
+              value: {{ .Values.messagingSystem.external.tls.enabled | quote }}
+            - name: POSTPROCESSING_EVENTS_TLS_INSECURE
+              value: {{ .Values.messagingSystem.external.tls.insecure | quote }}
+            - name: POSTPROCESSING_EVENTS_TLS_ROOT_CA_CERTIFICATE
+              {{- if not .Values.messagingSystem.external.tls.certTrusted }}
+              value: /etc/ocis/messaging-system-ca/messaging-system-ca.crt
+              {{- else }}
+              value: "" # no cert needed
+              {{- end }}
+            {{- end }}
+
+          # TODO: This service does not currently provide a debug port, re-enable this once that is implemented
+          # See: https://github.com/owncloud/ocis-charts/issues/111
+          # livenessProbe:
+          #   httpGet:
+          #     path: /healthz
+          #     port: metrics-debug
+          #   timeoutSeconds: 10
+          #   initialDelaySeconds: 60
+          #   periodSeconds: 20
+          #   failureThreshold: 3
+
+          resources: {{ toYaml .resources | nindent 12 }}
+          # TODO: This service does not currently provide a debug port, re-enable this once that is implemented
+          # ports:
+          #   - name: metrics-debug
+          #     containerPort: TODO
+
+          volumeMounts:
+            - name: ocis-config-tmp
+              mountPath: /etc/ocis # we mount that volume only to apply fsGroup to that path
+            - name: messaging-system-ca
+              mountPath: /etc/ocis/messaging-system-ca
+              readOnly: true
+
+      volumes:
+        - name: ocis-config-tmp
+          emptyDir: {}
+        - name: messaging-system-ca
+          {{ if and (.Values.messagingSystem.external.enabled) (not .Values.messagingSystem.external.tls.certTrusted) }}
+          secret:
+            secretName: {{ .Values.secretRefs.messagingSystemCaRef }}
+          {{ else }}
+          emptyDir: {}
+          {{ end }}
