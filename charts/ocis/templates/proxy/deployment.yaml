@@ -113,14 +113,17 @@ spec:
             failureThreshold: 3
 
           resources: {{ toYaml .resources | nindent 12 }}
+
           ports:
             - name: http
               containerPort: 9200
             - name: metrics-debug
               containerPort: 9205
+
           volumeMounts:
             - name: configs
               mountPath: /etc/ocis
+
       volumes:
         - name: configs
           configMap:

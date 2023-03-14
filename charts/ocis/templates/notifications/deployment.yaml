@@ -1,5 +1,5 @@
-{{- $_ := set . "appName" "notifications" -}}
 {{- if .Values.features.emailNotifications.enabled }}
+{{- $_ := set . "appName" "notifications" -}}
 {{- $_ := set . "resources" (default (default (dict) .Values.resources) .Values.services.notifications.resources) -}}
 apiVersion: apps/v1
 kind: Deployment
@@ -89,7 +89,23 @@ spec:
             - name: REVA_GATEWAY
               value: gateway:9142
             - name: NOTIFICATIONS_EVENTS_ENDPOINT
+            {{- if not .Values.messagingSystem.external.enabled }}
               value: nats:9233
+            {{- else }}
+              value: {{ .Values.messagingSystem.external.endpoint | quote }}
+            - name: NOTIFICIATIONS_EVENTS_CLUSTER
+              value: {{ .Values.messagingSystem.external.cluster | quote }}
+            - name: NOTIFICIATIONS_EVENTS_ENABLE_TLS
+              value: {{ .Values.messagingSystem.external.tls.enabled | quote }}
+            - name: NOTIFICIATIONS_EVENTS_TLS_INSECURE
+              value: {{ .Values.messagingSystem.external.tls.insecure | quote }}
+            - name: NOTIFICIATIONS_EVENTS_TLS_ROOT_CA_CERTIFICATE
+              {{- if not .Values.messagingSystem.external.tls.certTrusted }}
+              value: /etc/ocis/messaging-system-ca/messaging-system-ca.crt
+              {{- else }}
+              value: "" # no cert needed
+              {{- end }}
+            {{- end }}
 
             - name: NOTIFICATIONS_MACHINE_AUTH_API_KEY
               valueFrom:
@@ -113,4 +129,22 @@ spec:
           # ports:
           #   - name: metrics-debug
           #     containerPort: 9174
+
+          volumeMounts:
+            - name: ocis-config-tmp
+              mountPath: /etc/ocis # we mount that volume only to apply fsGroup to that path
+            - name: messaging-system-ca
+              mountPath: /etc/ocis/messaging-system-ca
+              readOnly: true
+
+      volumes:
+        - name: ocis-config-tmp
+          emptyDir: {}
+        - name: messaging-system-ca
+          {{ if and (.Values.messagingSystem.external.enabled) (not .Values.messagingSystem.external.tls.certTrusted) }}
+          secret:
+            secretName: {{ .Values.secretRefs.messagingSystemCaRef }}
+          {{ else }}
+          emptyDir: {}
+          {{ end }}
 {{- end }}

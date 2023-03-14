@@ -139,7 +139,29 @@ spec:
             - name: REVA_GATEWAY
               value: gateway:9142
             - name: GRAPH_EVENTS_ENDPOINT
+            {{- if not .Values.messagingSystem.external.enabled }}
               value: nats:9233
+            {{- else }}
+              value: {{ .Values.messagingSystem.external.endpoint | quote }}
+            - name: GRAPH_EVENTS_CLUSTER
+              value: {{ .Values.messagingSystem.external.cluster | quote }}
+            - name: GRAPH_EVENTS_ENABLE_TLS
+              value: {{ .Values.messagingSystem.external.tls.enabled | quote }}
+            - name: GRAPH_EVENTS_TLS_INSECURE
+              value: {{ .Values.messagingSystem.external.tls.insecure | quote }}
+            - name: GRAPH_EVENTS_TLS_ROOT_CA_CERTIFICATE
+              {{- if not .Values.messagingSystem.external.tls.certTrusted }}
+              value: /etc/ocis/messaging-system-ca/messaging-system-ca.crt
+              {{- else }}
+              value: "" # no cert needed
+              {{- end }}
+            {{- end }}
+
+            - name: GRAPH_APPLICATION_ID
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ .Values.configRefs.graphConfigRef }}
+                  key: application-id
 
             - name: GRAPH_JWT_SECRET
               valueFrom:
@@ -157,26 +179,37 @@ spec:
             failureThreshold: 3
 
           resources: {{ toYaml .resources | nindent 12 }}
+
           ports:
             - name: http
               containerPort: 9120
             - name: metrics-debug
               containerPort: 9124
-          {{ if not .Values.features.externalUserManagement.enabled }}
+
           volumeMounts:
             - name: ocis-config-tmp
               mountPath: /etc/ocis # we mount that volume only to apply fsGroup to that path
+            - name: messaging-system-ca
+              mountPath: /etc/ocis/messaging-system-ca
+              readOnly: true
             - name: ldap-ca
               mountPath: /etc/ocis/ldap-ca
               readOnly: true
-          {{ end }}
-      {{ if not .Values.features.externalUserManagement.enabled }}
+
       volumes:
         - name: ocis-config-tmp
-          emptyDir:
-            medium: Memory
-            sizeLimit: 6Mi
+          emptyDir: {}
+        - name: messaging-system-ca
+          {{ if and (.Values.messagingSystem.external.enabled) (not .Values.messagingSystem.external.tls.certTrusted) }}
+          secret:
+            secretName: {{ .Values.secretRefs.messagingSystemCaRef }}
+          {{ else }}
+          emptyDir: {}
+          {{ end }}
         - name: ldap-ca
+          {{ if not .Values.features.externalUserManagement.enabled }}
           secret:
             secretName: {{ .Values.secretRefs.ldapCaRef }}
-      {{ end }}
+          {{ else }}
+          emptyDir: {}
+          {{ end }}

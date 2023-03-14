@@ -1,3 +1,4 @@
+{{- if not .Values.messagingSystem.external.enabled }}
 {{- if and .Values.services.nats.persistence.enabled (not .Values.services.nats.persistence.existingClaim)}}
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -30,4 +31,5 @@ spec:
     matchLabels:
 {{ toYaml . | indent 6 }}
   {{- end }}
-{{- end -}}
+{{- end }}
+{{- end }}

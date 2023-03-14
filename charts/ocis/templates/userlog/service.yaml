@@ -1,5 +1,4 @@
-{{- if not .Values.features.externalUserManagement.enabled }}
-{{- $_ := set . "appName" "idp" -}}
+{{- $_ := set . "appName" "userlog" -}}
 apiVersion: v1
 kind: Service
 metadata:
@@ -14,9 +13,8 @@ spec:
     app: {{ .appName }}
   ports:
     - name: http
-      port: 9130
+      port: 8080
       protocol: TCP
-    - name: metrics-debug
-      port: 9134
-      protocol: TCP
-{{- end }}
+    # - name: metrics-debug
+    #   port: 8081
+    #   protocol: TCP

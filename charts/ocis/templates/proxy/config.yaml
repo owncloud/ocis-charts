@@ -17,9 +17,14 @@ data:
       - endpoint: /
         backend: http://web:9100
         unprotected: true
-      - endpoint: /.well-known/
+      - endpoint: /.well-known/webfinger
+        backend: http://webfinger:8080
+        unprotected: true
+      - endpoint: /.well-known/openid-configuration
         backend: http://idp:9130
         unprotected: true
+      - endpoint: /branding/logo
+        backend: http://web:9100
       - endpoint: /konnect/
         backend: http://idp:9130
         unprotected: true
@@ -28,6 +33,8 @@ data:
         unprotected: true
       - endpoint: /archiver
         backend: http://frontend:9140
+      - endpoint: /ocs/v2.php/apps/notifications/api/v1/notifications
+        backend: http://userlog:8080
       - type: regex
         endpoint: /ocs/v[12].php/cloud/user/signing-key
         backend: http://ocs:9110
@@ -46,6 +53,9 @@ data:
       - method: REPORT
         endpoint: /remote.php/webdav
         backend: http://webdav:9115
+      - method: REPORT
+        endpoint: /dav/spaces
+        backend: http://webdav:9115
       - type: query
         endpoint: /dav/?preview=1
         backend: http://webdav:9115
@@ -53,21 +63,21 @@ data:
         endpoint: /webdav/?preview=1
         backend: http://webdav:9115
       - endpoint: /remote.php/
-        service: com.owncloud.web.ocdav
+        backend: http://ocdav:8080
       - endpoint: /dav/
-        service: com.owncloud.web.ocdav
+        backend: http://ocdav:8080
       - endpoint: /webdav/
-        service: com.owncloud.web.ocdav
+        backend: http://ocdav:8080
       - endpoint: /status
-        service: com.owncloud.web.ocdav
+        backend: http://ocdav:8080
         unprotected: true
       - endpoint: /status.php
-        service: com.owncloud.web.ocdav
+        backend: http://ocdav:8080
         unprotected: true
       - endpoint: /index.php/
-        service: com.owncloud.web.ocdav
+        backend: http://ocdav:8080
       - endpoint: /apps/
-        service: com.owncloud.web.ocdav
+        backend: http://ocdav:8080
       - endpoint: /data
         backend: http://frontend:9140
         unprotected: true
@@ -80,6 +90,3 @@ data:
         backend: http://graph:9120
       - endpoint: /api/v0/settings
         backend: http://settings:9190
-      - endpoint: /settings.js
-        backend: http://settings:9190
-        unprotected: true

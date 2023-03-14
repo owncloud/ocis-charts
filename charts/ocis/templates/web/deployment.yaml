@@ -83,6 +83,15 @@ spec:
             - name: WEB_UI_CONFIG_SERVER
               value: "https://{{ .Values.externalDomain }}"
 
+            - name: REVA_GATEWAY
+              value: gateway:9142
+
+            - name: WEB_JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.secretRefs.jwtSecretRef }}
+                  key: jwt-secret
+
           livenessProbe:
             httpGet:
               path: /healthz
@@ -93,14 +102,17 @@ spec:
             failureThreshold: 3
 
           resources: {{ toYaml .resources | nindent 12 }}
+
           ports:
             - name: http
               containerPort: 9100
             - name: metrics-debug
               containerPort: 9104
+
           volumeMounts:
             - name: configs
               mountPath: /etc/ocis
+
       volumes:
         - name: configs
           configMap:

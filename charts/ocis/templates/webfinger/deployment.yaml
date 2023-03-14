@@ -1,5 +1,5 @@
-{{- $_ := set . "appName" "store" -}}
-{{- $_ := set . "resources" (default (default (dict) .Values.resources) .Values.services.store.resources) -}}
+{{- $_ := set . "appName" "webfinger" -}}
+{{- $_ := set . "resources" (default (default (dict) .Values.resources) .Values.services.webfinger.resources) -}}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -11,10 +11,7 @@ spec:
   selector:
     matchLabels:
       app: {{ .appName }}
-  replicas: 1 #TODO: https://github.com/owncloud/ocis-charts/issues/113
-  {{- if .Values.deploymentStrategy }}
-  strategy: {{ toYaml .Values.deploymentStrategy | nindent 4 }}
-  {{ end }}
+  replicas: 1
   template:
     metadata:
       labels:
@@ -28,24 +25,12 @@ spec:
       topologySpreadConstraints:
         {{- tpl . $ | nindent 8 }}
       {{- end }}
-      {{- if and $.Values.services.store.persistence.enabled $.Values.services.store.persistence.chownInitContainer }}
-      initContainers:
-        - name: init-chown-data
-          image: busybox
-          securityContext:
-            runAsNonRoot: false
-            runAsUser: 0
-          command: ["chown", "-R", "{{ .Values.securityContext.runAsUser }}:{{ .Values.securityContext.runAsGroup }}", "/var/lib/ocis"]
-          volumeMounts:
-          - name: store-data
-            mountPath: /var/lib/ocis
-      {{ end }}
       containers:
         - name: {{ .appName }}
           image: {{ template "ocis.image" $ }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           command: ["ocis"]
-          args: ["store", "server"]
+          args: ["webfinger", "server"]
           securityContext:
             runAsNonRoot: true
             runAsUser: {{ .Values.securityContext.runAsUser }}
@@ -55,20 +40,30 @@ spec:
             - name: MICRO_REGISTRY
               value: kubernetes
 
-            - name: STORE_LOG_COLOR
+            - name: WEBFINGER_LOG_COLOR
               value: {{ .Values.logging.color | quote }}
-            - name: STORE_LOG_LEVEL
+            - name: WEBFINGER_LOG_LEVEL
               value: {{ .Values.logging.level | quote }}
-            - name: STORE_LOG_PRETTY
+            - name: WEBFINGER_LOG_PRETTY
               value: {{ .Values.logging.pretty | quote }}
 
-            - name: STORE_DEBUG_PPROF
+            - name: WEBFINGER_DEBUG_PPROF
               value: {{ .Values.debug.profiling | quote }}
 
-            - name: STORE_GRPC_ADDR
-              value: 0.0.0.0:9460
-            - name: STORE_DEBUG_ADDR
-              value: 0.0.0.0:9464
+            - name: WEBFINGER_HTTP_ADDR
+              value: 0.0.0.0:8080
+            - name: WEBFINGER_DEBUG_ADDR
+              value: 0.0.0.0:8081
+
+            - name: WEBFINGER_OIDC_ISSUER
+            {{- if not .Values.features.externalUserManagement.enabled }}
+              value: "https://{{ .Values.externalDomain }}"
+            {{- else }}
+              value: {{ .Values.features.externalUserManagement.oidc.issuerURI | quote }}
+            {{- end }}
+
+            - name: WEBFINGER_OWNCLOUD_SERVER_INSTANCE_URL
+              value: "https://{{ .Values.externalDomain }}"
 
           livenessProbe:
             httpGet:
@@ -82,20 +77,7 @@ spec:
           resources: {{ toYaml .resources | nindent 12 }}
 
           ports:
-            - name: grpc
-              containerPort: 9460
+            - name: http
+              containerPort: 8080
             - name: metrics-debug
-              containerPort: 9464
-
-          volumeMounts:
-            - name: store-data
-              mountPath: /var/lib/ocis
-
-      volumes:
-        - name: store-data
-          {{ if .Values.services.store.persistence.enabled }}
-          persistentVolumeClaim:
-            claimName: store-data
-          {{ else }}
-          emptyDir: {}
-          {{ end }}
+              containerPort: 8081

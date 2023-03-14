@@ -75,11 +75,10 @@ spec:
                   mountPath: /tmp
                 - name: storage-users-data
                   mountPath: /var/lib/ocis
+
           volumes:
             - name: tmp-volume
-              emptyDir:
-                medium: Memory
-                sizeLimit: 6Mi
+              emptyDir: {}
             - name: storage-users-data
               persistentVolumeClaim:
                 claimName: storage-users-data

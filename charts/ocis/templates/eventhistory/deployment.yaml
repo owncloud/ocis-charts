@@ -1,22 +1,17 @@
-{{- $_ := set . "appName" "audit" -}}
-{{- $_ := set . "resources" (default (default (dict) .Values.resources) .Values.services.audit.resources) -}}
+{{- $_ := set . "appName" "eventhistory" -}}
+{{- $_ := set . "resources" (default (default (dict) .Values.resources) .Values.services.eventhistory.resources) -}}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: audit
+  name: {{ .appName }}
   namespace: {{ template "ocis.namespace" . }}
   labels:
     {{- include "ocis.labels" . | nindent 4 }}
 spec:
   selector:
     matchLabels:
-      app: audit
-  {{- if and (not .Values.autoscaling.enabled) (.Values.replicas) }}
-  replicas: {{ .Values.replicas }}
-  {{- end }}
-  {{- if .Values.deploymentStrategy }}
-  strategy: {{ toYaml .Values.deploymentStrategy | nindent 4 }}
-  {{ end }}
+      app: {{ .appName }}
+  replicas: 1
   template:
     metadata:
       labels:
@@ -35,7 +30,7 @@ spec:
           image: {{ template "ocis.image" $ }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           command: ["ocis"]
-          args: ["audit", "server"]
+          args: ["eventhistory", "server"]
           securityContext:
             runAsNonRoot: true
             runAsUser: {{ .Values.securityContext.runAsUser }}
@@ -45,25 +40,38 @@ spec:
             - name: MICRO_REGISTRY
               value: kubernetes
 
-            - name: AUDIT_LOG_COLOR
+            - name: EVENTHISTORY_LOG_COLOR
               value: {{ .Values.logging.color | quote }}
-            - name: AUDIT_LOG_LEVEL
+            - name: EVENTHISTORY_LOG_LEVEL
               value: {{ .Values.logging.level | quote }}
-            - name: AUDIT_LOG_PRETTY
+            - name: EVENTHISTORY_LOG_PRETTY
               value: {{ .Values.logging.pretty | quote }}
 
-            - name: AUDIT_EVENTS_ENDPOINT
+            - name: EVENTHISTORY_DEBUG_PPROF
+              value: {{ .Values.debug.profiling | quote }}
+
+            - name: EVENTHISTORY_GRPC_ADDR
+              value: 0.0.0.0:8080
+            # - name: EVENTHISTORY_DEBUG_ADDR
+            #   value: 0.0.0.0:8081
+
+            # - name: EVENTHISTORY_STORE_TYPE
+            #   value: "mem" # TODO
+            # - name: EVENTHISTORY_STORE_ADDRESSES
+            #   value: "nats:9233" # TODO
+
+            - name: EVENTHISTORY_EVENTS_ENDPOINT
             {{- if not .Values.messagingSystem.external.enabled }}
               value: nats:9233
             {{- else }}
               value: {{ .Values.messagingSystem.external.endpoint | quote }}
-            - name: AUDIT_EVENTS_CLUSTER
+            - name: EVENTHISTORY_EVENTS_CLUSTER
               value: {{ .Values.messagingSystem.external.cluster | quote }}
-            - name: AUDIT_EVENTS_ENABLE_TLS
+            - name: EVENTHISTORY_EVENTS_ENABLE_TLS
               value: {{ .Values.messagingSystem.external.tls.enabled | quote }}
-            - name: AUDIT_EVENTS_TLS_INSECURE
+            - name: EVENTHISTORY_EVENTS_TLS_INSECURE
               value: {{ .Values.messagingSystem.external.tls.insecure | quote }}
-            - name: AUDIT_EVENTS_TLS_ROOT_CA_CERTIFICATE
+            - name: EVENTHISTORY_EVENTS_TLS_ROOT_CA_CERTIFICATE
               {{- if not .Values.messagingSystem.external.tls.certTrusted }}
               value: /etc/ocis/messaging-system-ca/messaging-system-ca.crt
               {{- else }}
@@ -71,10 +79,25 @@ spec:
               {{- end }}
             {{- end }}
 
-            - name: AUDIT_LOG_TO_CONSOLE
-              value: "true"
+          # TODO: This service does not currently provide a debug port, re-enable this once that is implemented
+          # See: https://github.com/owncloud/ocis-charts/issues/111
+          # livenessProbe:
+          #   httpGet:
+          #     path: /healthz
+          #     port: metrics-debug
+          #   timeoutSeconds: 10
+          #   initialDelaySeconds: 60
+          #   periodSeconds: 20
+          #   failureThreshold: 3
 
           resources: {{ toYaml .resources | nindent 12 }}
+
+          ports:
+            - name: grpc
+              containerPort: 8080
+            # TODO: This service does not currently provide a debug port, re-enable this once that is implemented
+            # - name: metrics-debug
+            #   containerPort: 8081
 
           volumeMounts:
             - name: ocis-config-tmp

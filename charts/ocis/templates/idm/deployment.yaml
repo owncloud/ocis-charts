@@ -1,5 +1,5 @@
-{{- $_ := set . "appName" "idm" -}}
 {{- if not .Values.features.externalUserManagement.enabled }}
+{{- $_ := set . "appName" "idm" -}}
 {{- $_ := set . "resources" (default (default (dict) .Values.resources) .Values.services.idm.resources) -}}
 apiVersion: apps/v1
 kind: Deployment
@@ -134,12 +134,14 @@ spec:
             failureThreshold: 3
 
           resources: {{ toYaml .resources | nindent 12 }}
+
           ports:
             - name: ldaps
               containerPort: 9235
             # TODO: IDM does not currently provide a debug port, re-enable this once that is implemented
             # - name: metrics-debug
             #   containerPort: 9239
+
           volumeMounts:
             - name: ocis-config-tmp
               mountPath: /etc/ocis # we mount that volume only to apply fsGroup to that path
@@ -148,20 +150,18 @@ spec:
               readOnly: true
             - name: idm-data
               mountPath: /var/lib/ocis
+
       volumes:
         - name: ocis-config-tmp
-          emptyDir:
-            medium: Memory
-            sizeLimit: 6Mi
+          emptyDir: {}
         - name: ldap-cert
           secret:
             secretName: {{ .Values.secretRefs.ldapCertRef }}
-      {{ if .Values.services.idm.persistence.enabled }}
         - name: idm-data
+          {{ if .Values.services.idm.persistence.enabled }}
           persistentVolumeClaim:
             claimName: idm-data
-      {{ else }}
-        - name: idm-data
+          {{ else }}
           emptyDir: {}
-      {{ end }}
+          {{ end }}
 {{- end }}

@@ -111,6 +111,7 @@ spec:
             failureThreshold: 3
 
           resources: {{ toYaml .resources | nindent 12 }}
+
           ports:
             - name: grpc
               containerPort: 9215
@@ -118,21 +119,20 @@ spec:
               containerPort: 9216
             - name: metrics-debug
               containerPort: 9217
+
           volumeMounts:
             - name: tmp-volume
               mountPath: /tmp
             - name: storage-system-data
               mountPath: /var/lib/ocis
+
       volumes:
         - name: tmp-volume
-          emptyDir:
-              medium: Memory
-              sizeLimit: 6Mi
-      {{- if .Values.services.storageSystem.persistence.enabled }}
+          emptyDir: {}
         - name: storage-system-data
+          {{ if .Values.services.storageSystem.persistence.enabled }}
           persistentVolumeClaim:
             claimName: storage-system-data
-      {{ else }}
-        - name: storage-system-data
+          {{ else }}
           emptyDir: {}
-      {{ end }}
+          {{ end }}
