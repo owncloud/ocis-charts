@@ -84,7 +84,7 @@ spec:
                   name: {{ .Values.secretRefs.ldapSecretRef }}
                   key: reva-ldap-bind-password
             - name: GRAPH_LDAP_SERVER_WRITE_ENABLED
-              value: "false"
+              value: {{ .Values.features.externalUserManagement.ldap.writeable | quote }}
             - name: LDAP_CACERT
               {{ if or (not .Values.features.externalUserManagement.enabled) (not .Values.features.externalUserManagement.ldap.certTrusted) }}
               value: /etc/ocis/ldap-ca/ldap-ca.crt

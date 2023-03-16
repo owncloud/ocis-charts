@@ -42,7 +42,7 @@ spec:
       {{ end }}
       containers:
         - name: {{ .appName }}
-          image: {{ template "ocis.image" $ }}
+          image: owncloud/ocis:2.0.0
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           command: ["ocis"]
           args: ["store", "server"]
