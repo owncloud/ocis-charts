@@ -460,7 +460,7 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 +string+
 a| [subs=-attributes]
-`"error"`
+`"info"`
 | Log level. Valid values: `panic`, `fatal`, `error`, `warn`, `info`, `debug`, `trace`.
 | logging.pretty
 a| [subs=-attributes]
