@@ -172,6 +172,8 @@ features:
 
     # LDAP related settings.
     ldap:
+      # -- Writeable configures if oCIS is allowed to write to the LDAP server, to eg. create users.
+      writeable: true
       # -- URI to connect to the LDAP secure server.
       uri: ldaps://ldaps.owncloud.test
       # -- Set only to false, if the certificate of your LDAP secure service is not trusted.
