@@ -25,7 +25,7 @@ kubectl -n <namespace> get secrets/admin-user --template='{{"{{"}}.data.password
 {{- $oidcIdpInsecure := .Values.insecure.oidcIdpInsecure -}}
 {{- $ocisHttpApiInsecure := .Values.insecure.ocisHttpApiInsecure -}}
 {{- $externalLDAPinsecure := and .Values.features.externalUserManagement.enabled .Values.features.externalUserManagement.ldap.insecure -}}
-{{- $noSMTPencryption := and .Values.features.emailNotifications.enabled (eq .Values.cache.type "noop") -}}
+{{- $noSMTPencryption := and .Values.features.emailNotifications.enabled (eq .Values.features.emailNotifications.smtp.encryption "none") -}}
 
 {{ if or $noExternalUserManagement $noopCache $basicAuth $demoUsers $oidcIdpInsecure $ocisHttpApiInsecure $externalLDAPinsecure $noSMTPencryption }}
 #################################################################################
@@ -57,7 +57,8 @@ kubectl -n <namespace> get secrets/admin-user --template='{{"{{"}}.data.password
 ######        be set to `false`                                             #####
 {{- end }}
 {{- if $noSMTPencryption}}
-######     - `features.emailNotifications.enabled` should be set to `false` #####
+######     - `features.emailNotifications.smtp.encryption` should           #####
+######        not be set to `none`                                          #####
 {{- end }}
 #################################################################################
 {{ end }}
