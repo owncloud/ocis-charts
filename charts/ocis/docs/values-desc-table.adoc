@@ -756,6 +756,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 see detailed service configuration options below
 | IDM service. Not used if `features.externalUserManagement.enabled` equals `true`.
+| services.idm.persistence
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+see detailed persistence configuration options below
+| Persistence settings.
 | services.idm.persistence.accessModes
 a| [subs=-attributes]
 +list+
@@ -834,6 +840,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 see detailed service configuration options below
 | NATS service. Not used if `messagingSystem.external.enabled` equals `true`.
+| services.nats.persistence
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+see detailed persistence configuration options below
+| Persistence settings.
 | services.nats.persistence.accessModes
 a| [subs=-attributes]
 +list+
@@ -960,6 +972,30 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 see detailed service configuration options below
 | SEARCH service.
+| services.search.extractor
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+see detailed search extractor configuration options below
+| Search Extractor settings.
+| services.search.extractor.tika.url
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"http://tika.tika.svc.cluster.local:9998"`
+| Set the URL to Tika. Only applicable if `services.search.extractor.type` == `tika`.
+| services.search.extractor.type
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"basic"`
+| Configures the search extractor type to be used. Possible extractors: - `basic`: the default search extractor. - `tika`: the Tika search extractor. If set to this value, additional settings in the `tika` section apply.
+| services.search.persistence
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+see detailed persistence configuration options below
+| Persistence settings.
 | services.search.persistence.accessModes
 a| [subs=-attributes]
 +list+
@@ -1074,6 +1110,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 see detailed service configuration options below
 | STORAGE-SYSTEM service.
+| services.storageSystem.persistence
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+see detailed persistence configuration options below
+| Persistence settings.
 | services.storageSystem.persistence.accessModes
 a| [subs=-attributes]
 +list+
@@ -1152,6 +1194,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `"* * * * *"`
 | Cron pattern for the job to be run. Defaults to every minute.
+| services.storageUsers.persistence
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+see detailed persistence configuration options below
+| Persistence settings.
 | services.storageUsers.persistence.accessModes
 a| [subs=-attributes]
 +list+
@@ -1254,6 +1302,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 see detailed service configuration options below
 | STORE service.
+| services.store.persistence
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+see detailed persistence configuration options below
+| Persistence settings.
 | services.store.persistence.accessModes
 a| [subs=-attributes]
 +list+
@@ -1320,6 +1374,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 see detailed service configuration options below
 | THUMBNAILS service.
+| services.thumbnails.persistence
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+see detailed persistence configuration options below
+| Persistence settings.
 | services.thumbnails.persistence.accessModes
 a| [subs=-attributes]
 +list+

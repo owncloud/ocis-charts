@@ -456,6 +456,8 @@ services:
   # -- IDM service. Not used if `features.externalUserManagement.enabled` equals `true`.
   # @default -- see detailed service configuration options below
   idm:
+    # -- Persistence settings.
+    # @default -- see detailed persistence configuration options below
     persistence:
       # -- Enables persistence.
       # Needs to be enabled on production installations, except `features.externalUserManagement.enabled` equals `true`.
@@ -495,6 +497,8 @@ services:
   # -- NATS service. Not used if `messagingSystem.external.enabled` equals `true`.
   # @default -- see detailed service configuration options below
   nats:
+    # -- Persistence settings.
+    # @default -- see detailed persistence configuration options below
     persistence:
       # -- Enables persistence.
       # Needs to be enabled on production installations, except `messagingSystem.external.enabled` equals `true`.
@@ -559,6 +563,18 @@ services:
   # -- SEARCH service.
   # @default -- see detailed service configuration options below
   search:
+    # -- Search Extractor settings.
+    # @default -- see detailed search extractor configuration options below
+    extractor:
+      # -- Configures the search extractor type to be used. Possible extractors:
+      # - `basic`: the default search extractor.
+      # - `tika`: the Tika search extractor. If set to this value, additional settings in the `tika` section apply.
+      type: basic
+      tika:
+        # -- Set the URL to Tika. Only applicable if `services.search.extractor.type` == `tika`.
+        url: http://tika.tika.svc.cluster.local:9998
+    # -- Persistence settings.
+    # @default -- see detailed persistence configuration options below
     persistence:
       # -- Enables persistence.
       # Needs to be enabled on production installations.
@@ -616,6 +632,8 @@ services:
   # -- STORAGE-SYSTEM service.
   # @default -- see detailed service configuration options below
   storageSystem:
+    # -- Persistence settings.
+    # @default -- see detailed persistence configuration options below
     persistence:
       # -- Enables persistence.
       # Needs to be enabled on production installations.
@@ -692,6 +710,8 @@ services:
         enabled: false
         # -- Cron pattern for the job to be run. Defaults to every minute.
         schedule: "* * * * *"
+    # -- Persistence settings.
+    # @default -- see detailed persistence configuration options below
     persistence:
       # -- Enables persistence.
       # Needs to be enabled on production installations.
@@ -726,6 +746,8 @@ services:
   # -- STORE service.
   # @default -- see detailed service configuration options below
   store:
+    # -- Persistence settings.
+    # @default -- see detailed persistence configuration options below
     persistence:
       # -- Enables persistence.
       # Needs to be enabled on production installations.
@@ -759,6 +781,8 @@ services:
   # -- THUMBNAILS service.
   # @default -- see detailed service configuration options below
   thumbnails:
+    # -- Persistence settings.
+    # @default -- see detailed persistence configuration options below
     persistence:
       # -- Enables persistence.
       # Is recommended to be enabled on production installations.
