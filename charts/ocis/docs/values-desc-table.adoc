@@ -366,6 +366,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `"any"`
 | Type of substring search filter to use for substring searches for users. Possible values: `initial` for doing prefix only searches, `final` for doing suffix only searches or `any` for doing full substring searches
+| features.externalUserManagement.ldap.writeable
+a| [subs=-attributes]
++bool+
+a| [subs=-attributes]
+`true`
+| Writeable configures if oCIS is allowed to write to the LDAP server, to eg. create users.
 | features.externalUserManagement.oidc.issuerURI
 a| [subs=-attributes]
 +string+
