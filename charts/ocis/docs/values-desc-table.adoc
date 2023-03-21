@@ -966,6 +966,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service resources configuration. Overrides the default setting from `resources` if set.
+| services.proxy.role_quotas
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Define role_quotas.
 | services.search
 a| [subs=-attributes]
 +object+
