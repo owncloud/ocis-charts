@@ -156,6 +156,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `"https://onlyoffice.owncloud.test"`
 | URI of the office suite.
+| features.appsIntegration.wopiIntegration.wopiFolderURI
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"https://ocis.owncloud.test"`
+| Base url to navigate back from the app to the containing folder in the file list.
 | features.appsIntegration.wopiIntegration.wopiServerURI
 a| [subs=-attributes]
 +string+
