@@ -196,6 +196,10 @@ spec:
               mountPath: /etc/ocis/ldap-ca
               readOnly: true
 
+      {{- with $.Values.image.pullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
       volumes:
         - name: ocis-config-tmp
           emptyDir: {}

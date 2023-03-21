@@ -90,6 +90,10 @@ spec:
             - name: tmp-volume
               mountPath: /tmp
 
+      {{- with $.Values.image.pullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
       volumes:
         - name: tmp-volume
           emptyDir: {}

@@ -126,6 +126,10 @@ spec:
             - name: storage-system-data
               mountPath: /var/lib/ocis
 
+      {{- with $.Values.image.pullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
       volumes:
         - name: tmp-volume
           emptyDir: {}

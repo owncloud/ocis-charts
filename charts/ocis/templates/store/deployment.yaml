@@ -91,6 +91,10 @@ spec:
             - name: store-data
               mountPath: /var/lib/ocis
 
+      {{- with $.Values.image.pullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
       volumes:
         - name: store-data
           {{ if .Values.services.store.persistence.enabled }}

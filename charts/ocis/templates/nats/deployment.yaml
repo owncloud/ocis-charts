@@ -97,6 +97,10 @@ spec:
             - name: nats-data
               mountPath: /var/lib/ocis
 
+      {{- with $.Values.image.pullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
       volumes:
         - name: nats-data
           {{ if .Values.services.nats.persistence.enabled }}

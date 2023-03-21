@@ -80,3 +80,7 @@ spec:
               containerPort: 9115
             - name: metrics-debug
               containerPort: 9119
+      {{- with $.Values.image.pullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}

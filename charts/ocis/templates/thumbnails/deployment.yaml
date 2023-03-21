@@ -115,6 +115,10 @@ spec:
             - name: thumbnails-data
               mountPath: /var/lib/ocis
 
+      {{- with $.Values.image.pullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
       volumes:
         - name: thumbnails-data
           {{ if .Values.services.thumbnails.persistence.enabled }}

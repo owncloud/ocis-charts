@@ -151,6 +151,10 @@ spec:
             - name: idm-data
               mountPath: /var/lib/ocis
 
+      {{- with $.Values.image.pullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
       volumes:
         - name: ocis-config-tmp
           emptyDir: {}
