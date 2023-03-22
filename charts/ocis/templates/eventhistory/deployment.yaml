@@ -106,10 +106,7 @@ spec:
               mountPath: /etc/ocis/messaging-system-ca
               readOnly: true
 
-      {{- with $.Values.image.pullSecrets }}
-      imagePullSecrets:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
+      {{- include "ocis.imagePullSecrets" $ | nindent 6 }}
       volumes:
         - name: ocis-config-tmp
           emptyDir: {}

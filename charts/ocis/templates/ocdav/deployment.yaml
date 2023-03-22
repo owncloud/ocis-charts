@@ -96,7 +96,4 @@ spec:
               containerPort: 8080
             - name: metrics-debug
               containerPort: 9163
-      {{- with $.Values.image.pullSecrets }}
-      imagePullSecrets:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
+      {{- include "ocis.imagePullSecrets" $ | nindent 6 }}
