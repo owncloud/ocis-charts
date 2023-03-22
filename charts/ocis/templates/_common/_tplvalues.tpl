@@ -36,3 +36,28 @@ oCIS image logic
 "{{ $.Values.image.repository }}:{{ $tag }}"
   {{- end -}}
 {{- end -}}
+
+{{/*
+oCIS PDB template
+
+@param .appName         The name of the service/app
+@param .valuesAppName   The name of the service/app in the values file
+@param .root            Access to the root scope
+*/}}
+{{- define "ocis.pdb" -}}
+{{- $_ := set . "podDisruptionBudget" (default (default (dict) .root.Values.podDisruptionBudget) (index .root.Values.services .valuesAppName).podDisruptionBudget) -}}
+{{ if .podDisruptionBudget }}
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: {{ .appName }}
+  namespace: {{ template "ocis.namespace" .root }}
+  labels:
+    {{- include "ocis.labels" .root | nindent 4 }}
+spec:
+  {{- toYaml .podDisruptionBudget | nindent 2 }}
+  selector:
+  matchLabels:
+    app: {{ .appName }}
+{{- end }}
+{{- end -}}
