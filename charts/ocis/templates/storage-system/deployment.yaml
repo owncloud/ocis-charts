@@ -126,6 +126,7 @@ spec:
             - name: storage-system-data
               mountPath: /var/lib/ocis
 
+      {{- include "ocis.imagePullSecrets" $ | nindent 6 }}
       volumes:
         - name: tmp-volume
           emptyDir: {}

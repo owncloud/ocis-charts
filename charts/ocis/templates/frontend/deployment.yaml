@@ -111,6 +111,7 @@ spec:
             - name: tmp-volume
               mountPath: /tmp
 
+      {{- include "ocis.imagePullSecrets" $ | nindent 6 }}
       volumes:
         - name: tmp-volume
           emptyDir: {}
