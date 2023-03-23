@@ -160,7 +160,7 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 +string+
 a| [subs=-attributes]
-`"https://ocis.owncloud.test"`
+`"https://{{ .Values.externalDomain }}"`
 | Base url to navigate back from the app to the containing folder in the file list.
 | features.appsIntegration.wopiIntegration.wopiServerURI
 a| [subs=-attributes]
