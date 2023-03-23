@@ -38,6 +38,16 @@ oCIS image logic
 {{- end -}}
 
 {{/*
+imagePullSecrets logic
+*/}}
+{{- define "ocis.imagePullSecrets" -}}
+  {{- with $.Values.image.pullSecrets }}
+imagePullSecrets:
+  {{- toYaml . | nindent 2 }}
+  {{- end }}
+{{- end -}}
+
+{{/*
 oCIS PDB template
 
 @param .appName         The name of the service/app

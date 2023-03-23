@@ -96,3 +96,4 @@ spec:
               containerPort: 8080
             - name: metrics-debug
               containerPort: 9163
+      {{- include "ocis.imagePullSecrets" $ | nindent 6 }}

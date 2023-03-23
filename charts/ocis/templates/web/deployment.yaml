@@ -113,6 +113,7 @@ spec:
             - name: configs
               mountPath: /etc/ocis
 
+      {{- include "ocis.imagePullSecrets" $ | nindent 6 }}
       volumes:
         - name: configs
           configMap:
