@@ -1,1 +1,3 @@
+{{- if .Values.features.emailNotifications.enabled }}
 {{ include "ocis.pdb" (dict "appName" "notifications" "valuesAppName" "notifications" "root" $) }}
+{{- end }}
