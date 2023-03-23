@@ -58,6 +58,9 @@ spec:
             - name: IDP_DEBUG_ADDR
               value: 0.0.0.0:9134
 
+            - name: IDP_ACCESS_TOKEN_EXPIRATION
+              value: "60000"
+
             - name: IDP_ISS
               value: "https://{{ .Values.externalDomain }}"
 

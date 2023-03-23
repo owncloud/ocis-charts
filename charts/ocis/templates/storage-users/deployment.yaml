@@ -83,6 +83,9 @@ spec:
             - name: STORAGE_USERS_PERMISSION_ENDPOINT
               value: settings:9191
 
+            - name: STORAGE_USERS_OCIS_METADATA_BACKEND
+              value: messagepack
+
             # oCIS storage driver (decomposed filesystem)
             {{- if  eq .Values.services.storageUsers.storageBackend.driver "ocis" }}
             - name: STORAGE_USERS_DRIVER
