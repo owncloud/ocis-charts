@@ -77,6 +77,8 @@ spec:
               value: {{ $officeSuite.insecure | quote }}
             - name: APP_PROVIDER_WOPI_WOPI_SERVER_EXTERNAL_URL
               value: {{ $.Values.features.appsIntegration.wopiIntegration.wopiServerURI | quote }}
+            - name: APP_PROVIDER_WOPI_FOLDER_URL_BASE_URL
+              value: {{ tpl $.Values.features.appsIntegration.wopiIntegration.wopiFolderURI $ | quote }}
 
             - name: REVA_GATEWAY
               value: gateway:9142
