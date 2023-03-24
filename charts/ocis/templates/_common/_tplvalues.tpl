@@ -67,7 +67,7 @@ metadata:
 spec:
   {{- toYaml .podDisruptionBudget | nindent 2 }}
   selector:
-  matchLabels:
-    app: {{ .appName }}
+    matchLabels:
+      app: {{ .appName }}
 {{- end }}
 {{- end -}}
