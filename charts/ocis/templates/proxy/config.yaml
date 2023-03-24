@@ -11,7 +11,7 @@ data:
     policy_selector:
       static:
         policy: ocis
-    {{- with $.Values.services.proxy.role_quotas }}
+    {{- with $.Values.features.quotas.roles }}
     role_quotas:
       {{- toYaml . | nindent 8 }}
     {{- end }}

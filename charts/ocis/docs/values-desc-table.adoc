@@ -390,6 +390,30 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `"userid"`
 | Attribute mapping of for the userIDClaim. Set to `userid` if the claim specified in `...oidc.userIDClaim` holds the value of the ldap user attribute specified in `...ldap.user.schema.id`. Set to `mail` if the claim specified in `...oidc.userIDClaim` holds the value of the ldap user attribute specified in  `...ldap.user.schema.mail`. Set to `username` if the claim specified in `...oidc.userIDClaim` holds the value of the ldap user attribute specified in `...ldap.user.schema.userName`.
+| features.quotas
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{"default":null,"max":null,"roles":{}}`
+| Define quota settings.
+| features.quotas.default
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`nil`
+| Sets the default quota for spaces
+| features.quotas.max
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`nil`
+| Sets the maximum quota for spaces
+| features.quotas.roles
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Sets specific quotas for roles
 | image.pullPolicy
 a| [subs=-attributes]
 +string+
@@ -966,12 +990,6 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service resources configuration. Overrides the default setting from `resources` if set.
-| services.proxy.role_quotas
-a| [subs=-attributes]
-+object+
-a| [subs=-attributes]
-`{}`
-| Define role_quotas.
 | services.search
 a| [subs=-attributes]
 +object+
