@@ -48,6 +48,9 @@ extraLabels:
   extra1: lorem
   extra2: ipsum
 
+podDisruptionBudget:
+  maxUnavailable: 1
+
 autoscaling:
   enabled: true
   minReplicas: 3
