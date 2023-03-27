@@ -233,9 +233,9 @@ features:
         objectClass: groupOfNames
   # -- Define quota settings.
   quotas:
-    # -- Sets the maximum quota for spaces
+    # -- Sets the maximum quota for spaces in bytes. So 1024 sets the max quota to 1KB.
     max: 
-    # -- Sets the default quota for spaces
+    # -- Sets the default quota for spaces in bytes. So 1024 sets the default quota to 1KB. 0 means unlimited.
     default: 
     # -- Sets specific quotas for roles
     roles: {}
