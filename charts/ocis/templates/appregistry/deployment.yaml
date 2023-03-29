@@ -1,5 +1,6 @@
-{{- $_ := set . "appName" "storage-shares" -}}
-{{- $_ := set . "resources" (default (default (dict) .Values.resources) .Values.services.storageShares.resources) -}}
+{{ if .Values.features.appsIntegration.enabled }}
+{{- $_ := set . "appName" "appregistry" -}}
+{{- $_ := set . "resources" (default (default (dict) .Values.resources) .Values.services.appregistry.resources) -}}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -11,9 +12,7 @@ spec:
   selector:
     matchLabels:
       app: {{ .appName }}
-  {{- if and (not .Values.autoscaling.enabled) (.Values.replicas) }}
-  replicas: {{ .Values.replicas }}
-  {{- end }}
+  replicas: 1 #TODO: https://github.com/owncloud/ocis-charts/issues/48
   {{- if .Values.deploymentStrategy }}
   strategy: {{ toYaml .Values.deploymentStrategy | nindent 4 }}
   {{ end }}
@@ -22,6 +21,8 @@ spec:
       labels:
         app: {{ .appName }}
         {{- include "ocis.labels" . | nindent 8 }}
+      annotations:
+        checksum/config: {{ include (print $.Template.BasePath "/appregistry/config.yaml") . | sha256sum }}
     spec:
       securityContext:
           fsGroup: {{ .Values.securityContext.fsGroup }}
@@ -35,7 +36,7 @@ spec:
           image: {{ template "ocis.image" $ }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           command: ["ocis"]
-          args: ["storage-shares", "server"]
+          args: ["app-registry", "server"]
           securityContext:
             runAsNonRoot: true
             runAsUser: {{ .Values.securityContext.runAsUser }}
@@ -45,28 +46,25 @@ spec:
             - name: MICRO_REGISTRY
               value: kubernetes
 
-            - name: STORAGE_SHARES_LOG_COLOR
+            - name: APP_REGISTRY_LOG_COLOR
               value: {{ .Values.logging.color | quote }}
-            - name: STORAGE_SHARES_LOG_LEVEL
+            - name: APP_REGISTRY_LOG_LEVEL
               value: {{ .Values.logging.level | quote }}
-            - name: STORAGE_SHARES_LOG_PRETTY
+            - name: APP_REGISTRY_LOG_PRETTY
               value: {{ .Values.logging.pretty | quote }}
 
-            - name: STORAGE_SHARES_DEBUG_PPROF
+            - name: APP_REGISTRY_DEBUG_PPROF
               value: {{ .Values.debug.profiling | quote }}
 
-            - name: STORAGE_SHARES_GRPC_ADDR
-              value: 0.0.0.0:9154
-            - name: STORAGE_SHARES_DEBUG_ADDR
-              value: 0.0.0.0:9156
-
-            - name: STORAGE_SHARES_USER_SHARE_PROVIDER_ENDPOINT
-              value: sharing:9150
+            - name: APP_REGISTRY_GRPC_ADDR
+              value: 0.0.0.0:9242
+            - name: APP_REGISTRY_DEBUG_ADDR
+              value: 0.0.0.0:9243
 
             - name: REVA_GATEWAY
               value: gateway:9142
 
-            - name: STORAGE_SHARES_JWT_SECRET
+            - name: APP_REGISTRY_JWT_SECRET
               valueFrom:
                 secretKeyRef:
                   name: {{ .Values.secretRefs.jwtSecretRef }}
@@ -84,16 +82,22 @@ spec:
           resources: {{ toYaml .resources | nindent 12 }}
 
           ports:
-            - name: grpc
-              containerPort: 9154
+            - name: http
+              containerPort: 9242
             - name: metrics-debug
-              containerPort: 9156
+              containerPort: 9243
 
           volumeMounts:
             - name: tmp-volume
               mountPath: /tmp
+            - name: configs
+              mountPath: /etc/ocis
 
       {{- include "ocis.imagePullSecrets" $ | nindent 6 }}
       volumes:
         - name: tmp-volume
           emptyDir: {}
+        - name: configs
+          configMap:
+            name: {{ .appName }}-registry-config
+{{ end }}

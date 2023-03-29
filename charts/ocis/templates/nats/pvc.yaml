@@ -1,9 +1,10 @@
 {{- if not .Values.messagingSystem.external.enabled }}
 {{- if and .Values.services.nats.persistence.enabled (not .Values.services.nats.persistence.existingClaim)}}
+{{- $_ := set . "appName" "nats" -}}
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: nats-data
+  name: {{ .appName }}-data
   namespace: {{ template "ocis.namespace" . }}
   labels:
     {{- include "ocis.labels" . | nindent 4 }}

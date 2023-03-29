@@ -1,8 +1,9 @@
 {{- if and .Values.services.store.persistence.enabled (not .Values.services.store.persistence.existingClaim)}}
+{{- $_ := set . "appName" "store" -}}
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: store-data
+  name: {{ .appName }}-data
   namespace: {{ template "ocis.namespace" . }}
   labels:
     {{- include "ocis.labels" . | nindent 4 }}

@@ -1,4 +1,5 @@
-{{- if and .Values.services.storageUsers.persistence.enabled .Values.services.storageUsers.maintenance.cleanUpExpiredUploads.enabled }}
+{{- if and .Values.services.storageusers.persistence.enabled .Values.services.storageusers.maintenance.cleanUpExpiredUploads.enabled }}
+{{- $_ := set . "appName" "storageusers" -}}
 apiVersion: batch/v1
 kind: CronJob
 metadata:
@@ -7,7 +8,7 @@ metadata:
   labels:
     {{- include "ocis.labels" . | nindent 4 }}
 spec:
-  schedule: "{{ .Values.services.storageUsers.maintenance.cleanUpExpiredUploads.schedule }}"
+  schedule: "{{ .Values.services.storageusers.maintenance.cleanUpExpiredUploads.schedule }}"
   successfulJobsHistoryLimit: 3
   failedJobsHistoryLimit: 3
   jobTemplate:
@@ -45,13 +46,13 @@ spec:
                   value: {{ .Values.logging.pretty | quote }}
 
                 # oCIS storage driver (decomposed filesystem)
-                {{- if  eq .Values.services.storageUsers.storageBackend.driver "ocis" }}
+                {{- if  eq .Values.services.storageusers.storageBackend.driver "ocis" }}
                 - name: STORAGE_USERS_DRIVER
                   value: ocis
                 {{- end }}
 
                 # S3ng storage driver (decomposed filesystem)
-                {{- if  eq .Values.services.storageUsers.storageBackend.driver "s3ng" }}
+                {{- if  eq .Values.services.storageusers.storageBackend.driver "s3ng" }}
                 - name: STORAGE_USERS_DRIVER
                   value: s3ng
                 {{- end }}
@@ -82,5 +83,5 @@ spec:
               emptyDir: {}
             - name: storage-users-data
               persistentVolumeClaim:
-                claimName: storage-users-data
+                claimName: {{ .appName }}-data
 {{ end }}

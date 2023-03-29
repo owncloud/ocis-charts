@@ -96,7 +96,7 @@ spec:
         - name: store-data
           {{ if .Values.services.store.persistence.enabled }}
           persistentVolumeClaim:
-            claimName: store-data
+            claimName: {{ .appName }}-data
           {{ else }}
           emptyDir: {}
           {{ end }}

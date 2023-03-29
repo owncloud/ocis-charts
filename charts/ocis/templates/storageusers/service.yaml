@@ -1,4 +1,4 @@
-{{- $_ := set . "appName" "auth-machine" -}}
+{{- $_ := set . "appName" "storageusers" -}}
 apiVersion: v1
 kind: Service
 metadata:
@@ -13,8 +13,11 @@ spec:
     app: {{ .appName }}
   ports:
     - name: grpc
-      port: 9166
+      port: 9157
+      protocol: TCP
+    - name: http
+      port: 9158
       protocol: TCP
     - name: metrics-debug
-      port: 9167
+      port: 9159
       protocol: TCP

@@ -287,7 +287,7 @@ ingress:
 # See https://doc.owncloud.com/ocis/next/deployment/container/orchestration/orchestration.html#customize-the-generic-setup[doc.owncloud.com] for how to generate them.
 configRefs:
   # -- Reference to an existing storage-users config.
-  storageUsersConfigRef: "storage-users"
+  storageusersConfigRef: "storage-users"
   # -- Reference to an existing graph config.
   graphConfigRef: "graph"
 
@@ -315,9 +315,9 @@ secretRefs:
   # -- Reference to an existing SMTP email server settings secret (see xref:{secrets}[Secrets]). Not used if `features.emailNotifications.enabled` equals `false`.
   notificationsSmtpSecretRef: "notifications-smtp-secret"
   # -- Reference to an existing storage-system JWT secret (see xref:{secrets}[Secrets])
-  storageSystemJwtSecretRef: "storage-system-jwt-secret"
+  storagesystemJwtSecretRef: "storage-system-jwt-secret"
   # -- Reference to an existing storage-system secret (see xref:{secrets}[Secrets])
-  storageSystemSecretRef: "storage-system"
+  storagesystemSecretRef: "storage-system"
   # -- Reference to an existing thumbnails transfer secret (see xref:{secrets}[Secrets])
   thumbnailsSecretRef: "thumbnails-transfer-secret"
   # -- Reference to an existing transfer secret (see xref:{secrets}[Secrets])
@@ -428,13 +428,13 @@ extraResources: []
 services:
   # -- APP PROVIDER service. Not used if `features.appsIntegration.enabled` equals `false`.
   # @default -- see detailed service configuration options below
-  appProvider:
+  appprovider:
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
 
   # -- APP REGISTRY service. Not used if `features.appsIntegration.enabled` equals `false`.
   # @default -- see detailed service configuration options below
-  appRegistry:
+  appregistry:
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
 
@@ -446,13 +446,13 @@ services:
 
   # -- AUTH BASIC service. Not used if `features.externalUserManagement.enabled` equals `true`.
   # @default -- see detailed service configuration options below
-  authBasic:
+  authbasic:
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
 
   # -- AUTH MACHINE service.
   # @default -- see detailed service configuration options below
-  authMachine:
+  authmachine:
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
 
@@ -652,19 +652,19 @@ services:
 
   # -- STORAGE-PUBLICLINK service.
   # @default -- see detailed service configuration options below
-  storagePublicLink:
+  storagepubliclink:
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
 
   # -- STORAGE-SHARES service.
   # @default -- see detailed service configuration options below
-  storageShares:
+  storageshares:
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
 
   # -- STORAGE-SYSTEM service.
   # @default -- see detailed service configuration options below
-  storageSystem:
+  storagesystem:
     # -- Persistence settings.
     # @default -- see detailed persistence configuration options below
     persistence:
@@ -699,7 +699,7 @@ services:
 
   # -- STORAGE-USERS service.
   # @default -- see detailed service configuration options below
-  storageUsers:
+  storageusers:
     storageBackend:
       # -- Configures the storage driver. Possible values are "ocis" and "s3ng".
       # The oCIS driver stores all data in the persistent volume if persistence is enabled.

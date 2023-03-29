@@ -1,5 +1,5 @@
 {{ if .Values.features.appsIntegration.enabled }}
-{{- $_ := set . "appName" "app-registry" -}}
+{{- $_ := set . "appName" "appregistry" -}}
 apiVersion: v1
 kind: Service
 metadata:

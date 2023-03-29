@@ -155,7 +155,7 @@ spec:
         - name: search-data
           {{ if .Values.services.search.persistence.enabled }}
           persistentVolumeClaim:
-            claimName: search-data
+            claimName: {{ .appName }}-data
           {{ else }}
           emptyDir: {}
           {{ end }}

@@ -1,5 +1,5 @@
-{{- $_ := set . "appName" "storage-system" -}}
-{{- $_ := set . "resources" (default (default (dict) .Values.resources) .Values.services.storageSystem.resources) -}}
+{{- $_ := set . "appName" "storagesystem" -}}
+{{- $_ := set . "resources" (default (default (dict) .Values.resources) .Values.services.storagesystem.resources) -}}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -30,7 +30,7 @@ spec:
       topologySpreadConstraints:
         {{- tpl . $ | nindent 8 }}
       {{- end }}
-      {{- if and $.Values.services.storageSystem.persistence.enabled $.Values.services.storageSystem.persistence.chownInitContainer }}
+      {{- if and $.Values.services.storagesystem.persistence.enabled $.Values.services.storagesystem.persistence.chownInitContainer }}
       initContainers:
         - name: init-chown-data
           image: busybox
@@ -86,19 +86,19 @@ spec:
             - name: STORAGE_SYSTEM_JWT_SECRET
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.secretRefs.storageSystemJwtSecretRef }}
+                  name: {{ .Values.secretRefs.storagesystemJwtSecretRef }}
                   key: storage-system-jwt-secret
 
             - name: OCIS_SYSTEM_USER_API_KEY
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.secretRefs.storageSystemSecretRef }}
+                  name: {{ .Values.secretRefs.storagesystemSecretRef }}
                   key: api-key
 
             - name: OCIS_SYSTEM_USER_ID
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.secretRefs.storageSystemSecretRef }}
+                  name: {{ .Values.secretRefs.storagesystemSecretRef }}
                   key: user-id
 
           livenessProbe:
@@ -131,9 +131,9 @@ spec:
         - name: tmp-volume
           emptyDir: {}
         - name: storage-system-data
-          {{ if .Values.services.storageSystem.persistence.enabled }}
+          {{ if .Values.services.storagesystem.persistence.enabled }}
           persistentVolumeClaim:
-            claimName: storage-system-data
+            claimName: {{ .appName }}-data
           {{ else }}
           emptyDir: {}
           {{ end }}

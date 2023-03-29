@@ -48,7 +48,7 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `"graph"`
 | Reference to an existing graph config.
-| configRefs.storageUsersConfigRef
+| configRefs.storageusersConfigRef
 a| [subs=-attributes]
 +string+
 a| [subs=-attributes]
@@ -624,13 +624,13 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `"notifications-smtp-secret"`
 | Reference to an existing SMTP email server settings secret (see xref:{secrets}[Secrets]). Not used if `features.emailNotifications.enabled` equals `false`.
-| secretRefs.storageSystemJwtSecretRef
+| secretRefs.storagesystemJwtSecretRef
 a| [subs=-attributes]
 +string+
 a| [subs=-attributes]
 `"storage-system-jwt-secret"`
 | Reference to an existing storage-system JWT secret (see xref:{secrets}[Secrets])
-| secretRefs.storageSystemSecretRef
+| secretRefs.storagesystemSecretRef
 a| [subs=-attributes]
 +string+
 a| [subs=-attributes]
@@ -672,25 +672,25 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `1000`
 | User ID that all processes within any containers will run with.
-| services.appProvider
+| services.appprovider
 a| [subs=-attributes]
 +object+
 a| [subs=-attributes]
 see detailed service configuration options below
 | APP PROVIDER service. Not used if `features.appsIntegration.enabled` equals `false`.
-| services.appProvider.resources
+| services.appprovider.resources
 a| [subs=-attributes]
 +object+
 a| [subs=-attributes]
 `{}`
 | Per-service resources configuration. Overrides the default setting from `resources` if set.
-| services.appRegistry
+| services.appregistry
 a| [subs=-attributes]
 +object+
 a| [subs=-attributes]
 see detailed service configuration options below
 | APP REGISTRY service. Not used if `features.appsIntegration.enabled` equals `false`.
-| services.appRegistry.resources
+| services.appregistry.resources
 a| [subs=-attributes]
 +object+
 a| [subs=-attributes]
@@ -708,25 +708,25 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service resources configuration. Overrides the default setting from `resources` if set.
-| services.authBasic
+| services.authbasic
 a| [subs=-attributes]
 +object+
 a| [subs=-attributes]
 see detailed service configuration options below
 | AUTH BASIC service. Not used if `features.externalUserManagement.enabled` equals `true`.
-| services.authBasic.resources
+| services.authbasic.resources
 a| [subs=-attributes]
 +object+
 a| [subs=-attributes]
 `{}`
 | Per-service resources configuration. Overrides the default setting from `resources` if set.
-| services.authMachine
+| services.authmachine
 a| [subs=-attributes]
 +object+
 a| [subs=-attributes]
 see detailed service configuration options below
 | AUTH MACHINE service.
-| services.authMachine.resources
+| services.authmachine.resources
 a| [subs=-attributes]
 +object+
 a| [subs=-attributes]
@@ -1122,217 +1122,217 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service resources configuration. Overrides the default setting from `resources` if set.
-| services.storagePublicLink
+| services.storagepubliclink
 a| [subs=-attributes]
 +object+
 a| [subs=-attributes]
 see detailed service configuration options below
 | STORAGE-PUBLICLINK service.
-| services.storagePublicLink.resources
+| services.storagepubliclink.resources
 a| [subs=-attributes]
 +object+
 a| [subs=-attributes]
 `{}`
 | Per-service resources configuration. Overrides the default setting from `resources` if set.
-| services.storageShares
+| services.storageshares
 a| [subs=-attributes]
 +object+
 a| [subs=-attributes]
 see detailed service configuration options below
 | STORAGE-SHARES service.
-| services.storageShares.resources
+| services.storageshares.resources
 a| [subs=-attributes]
 +object+
 a| [subs=-attributes]
 `{}`
 | Per-service resources configuration. Overrides the default setting from `resources` if set.
-| services.storageSystem
+| services.storagesystem
 a| [subs=-attributes]
 +object+
 a| [subs=-attributes]
 see detailed service configuration options below
 | STORAGE-SYSTEM service.
-| services.storageSystem.persistence
+| services.storagesystem.persistence
 a| [subs=-attributes]
 +object+
 a| [subs=-attributes]
 see detailed persistence configuration options below
 | Persistence settings.
-| services.storageSystem.persistence.accessModes
+| services.storagesystem.persistence.accessModes
 a| [subs=-attributes]
 +list+
 a| [subs=-attributes]
 `["ReadWriteMany"]`
 | Persistent volume access modes. Needs to be `["ReadWriteMany"]` when scaling this service beyond one instance.
-| services.storageSystem.persistence.annotations
+| services.storagesystem.persistence.annotations
 a| [subs=-attributes]
 +object+
 a| [subs=-attributes]
 `{}`
 | Persistent volume annotations.
-| services.storageSystem.persistence.chownInitContainer
+| services.storagesystem.persistence.chownInitContainer
 a| [subs=-attributes]
 +bool+
 a| [subs=-attributes]
 `false`
 | Enables a initContainer to chown the volume. The initContainer is run as root. This is not needed if the driver applies the fsGroup from the securityContext.
-| services.storageSystem.persistence.enabled
+| services.storagesystem.persistence.enabled
 a| [subs=-attributes]
 +bool+
 a| [subs=-attributes]
 `false`
 | Enables persistence. Needs to be enabled on production installations. If not enabled, pod restarts will lead to data loss. Also scaling this service beyond one instance is not possible if the service instances don't share the same storage.
-| services.storageSystem.persistence.existingClaim
+| services.storagesystem.persistence.existingClaim
 a| [subs=-attributes]
 +string+
 a| [subs=-attributes]
 `nil`
 | Use an existing PersistentVolumeClaim for persistence.
-| services.storageSystem.persistence.finalizers
+| services.storagesystem.persistence.finalizers
 a| [subs=-attributes]
 +list+
 a| [subs=-attributes]
 `["kubernetes.io/pvc-protection"]`
 | Persistent volume finalizers.
-| services.storageSystem.persistence.selectorLabels
+| services.storagesystem.persistence.selectorLabels
 a| [subs=-attributes]
 +object+
 a| [subs=-attributes]
 `{}`
 | Persistent volume selector labels.
-| services.storageSystem.persistence.size
+| services.storagesystem.persistence.size
 a| [subs=-attributes]
 +string+
 a| [subs=-attributes]
 `"5Gi"`
 | Size of the persistent volume.
-| services.storageSystem.persistence.storageClassName
+| services.storagesystem.persistence.storageClassName
 a| [subs=-attributes]
 +string+
 a| [subs=-attributes]
 `nil`
 | Storage class to use. Uses the default storage class if not set.
-| services.storageSystem.resources
+| services.storagesystem.resources
 a| [subs=-attributes]
 +object+
 a| [subs=-attributes]
 `{}`
 | Per-service resources configuration. Overrides the default setting from `resources` if set.
-| services.storageUsers
+| services.storageusers
 a| [subs=-attributes]
 +object+
 a| [subs=-attributes]
 see detailed service configuration options below
 | STORAGE-USERS service.
-| services.storageUsers.maintenance.cleanUpExpiredUploads.enabled
+| services.storageusers.maintenance.cleanUpExpiredUploads.enabled
 a| [subs=-attributes]
 +bool+
 a| [subs=-attributes]
 `false`
 | Enables a job, that cleans up expired uploads. Requires persistence to be enabled and RWX storage.
-| services.storageUsers.maintenance.cleanUpExpiredUploads.schedule
+| services.storageusers.maintenance.cleanUpExpiredUploads.schedule
 a| [subs=-attributes]
 +string+
 a| [subs=-attributes]
 `"* * * * *"`
 | Cron pattern for the job to be run. Defaults to every minute.
-| services.storageUsers.persistence
+| services.storageusers.persistence
 a| [subs=-attributes]
 +object+
 a| [subs=-attributes]
 see detailed persistence configuration options below
 | Persistence settings.
-| services.storageUsers.persistence.accessModes
+| services.storageusers.persistence.accessModes
 a| [subs=-attributes]
 +list+
 a| [subs=-attributes]
 `["ReadWriteMany"]`
 | Persistent volume access modes. Needs to be `["ReadWriteMany"]` when scaling this service beyond one instance.
-| services.storageUsers.persistence.annotations
+| services.storageusers.persistence.annotations
 a| [subs=-attributes]
 +object+
 a| [subs=-attributes]
 `{}`
 | Persistent volume annotations.
-| services.storageUsers.persistence.chownInitContainer
+| services.storageusers.persistence.chownInitContainer
 a| [subs=-attributes]
 +bool+
 a| [subs=-attributes]
 `false`
 | Enables a initContainer to chown the volume. The initContainer is run as root. This is not needed if the driver applies the fsGroup from the securityContext.
-| services.storageUsers.persistence.enabled
+| services.storageusers.persistence.enabled
 a| [subs=-attributes]
 +bool+
 a| [subs=-attributes]
 `false`
 | Enables persistence. Needs to be enabled on production installations. If not enabled, pod restarts will lead to data loss. Also scaling this service beyond one instance is not possible if the service instances don't share the same storage.
-| services.storageUsers.persistence.existingClaim
+| services.storageusers.persistence.existingClaim
 a| [subs=-attributes]
 +string+
 a| [subs=-attributes]
 `nil`
 | Use an existing PersistentVolumeClaim for persistence.
-| services.storageUsers.persistence.finalizers
+| services.storageusers.persistence.finalizers
 a| [subs=-attributes]
 +list+
 a| [subs=-attributes]
 `["kubernetes.io/pvc-protection"]`
 | Persistent volume finalizers.
-| services.storageUsers.persistence.selectorLabels
+| services.storageusers.persistence.selectorLabels
 a| [subs=-attributes]
 +object+
 a| [subs=-attributes]
 `{}`
 | Persistent volume selector labels.
-| services.storageUsers.persistence.size
+| services.storageusers.persistence.size
 a| [subs=-attributes]
 +string+
 a| [subs=-attributes]
 `"50Gi"`
 | Size of the persistent volume.
-| services.storageUsers.persistence.storageClassName
+| services.storageusers.persistence.storageClassName
 a| [subs=-attributes]
 +string+
 a| [subs=-attributes]
 `nil`
 | Storage class to use. Uses the default storage class if not set.
-| services.storageUsers.resources
+| services.storageusers.resources
 a| [subs=-attributes]
 +object+
 a| [subs=-attributes]
 `{}`
 | Per-service resources configuration. Overrides the default setting from `resources` if set.
-| services.storageUsers.storageBackend.driver
+| services.storageusers.storageBackend.driver
 a| [subs=-attributes]
 +string+
 a| [subs=-attributes]
 `"ocis"`
 | Configures the storage driver. Possible values are "ocis" and "s3ng". The oCIS driver stores all data in the persistent volume if persistence is enabled. The S3NG driver stores all metadata in the persistent volume and uploads blobs to s3 if persistence is enabled.
-| services.storageUsers.storageBackend.driverConfig.s3ng.accessKey
+| services.storageusers.storageBackend.driverConfig.s3ng.accessKey
 a| [subs=-attributes]
 +string+
 a| [subs=-attributes]
 `"lorem-ipsum"`
 | S3 access key to use for the S3NG driver. Only used if driver is set to "s3ng".
-| services.storageUsers.storageBackend.driverConfig.s3ng.bucket
+| services.storageusers.storageBackend.driverConfig.s3ng.bucket
 a| [subs=-attributes]
 +string+
 a| [subs=-attributes]
 `"example-bucket"`
 | S3 bucket to use for the S3NG driver. Only used if driver is set to "s3ng".
-| services.storageUsers.storageBackend.driverConfig.s3ng.endpoint
+| services.storageusers.storageBackend.driverConfig.s3ng.endpoint
 a| [subs=-attributes]
 +string+
 a| [subs=-attributes]
 `"https://localhost:1234"`
 | S3 endpoint to use for the S3NG driver. Only used if driver is set to "s3ng".
-| services.storageUsers.storageBackend.driverConfig.s3ng.region
+| services.storageusers.storageBackend.driverConfig.s3ng.region
 a| [subs=-attributes]
 +string+
 a| [subs=-attributes]
 `"default"`
 | S3 region to use for the S3NG driver. Only used if driver is set to "s3ng".
-| services.storageUsers.storageBackend.driverConfig.s3ng.secretKey
+| services.storageusers.storageBackend.driverConfig.s3ng.secretKey
 a| [subs=-attributes]
 +string+
 a| [subs=-attributes]

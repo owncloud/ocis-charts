@@ -67,21 +67,21 @@ kubectl -n <namespace> get secrets/admin-user --template='{{"{{"}}.data.password
 {{- $idmUnpersisted := and (not .Values.features.externalUserManagement.enabled) (not .Values.services.idm.persistence.enabled) -}}
 {{- $natsUnpersisted := and (not .Values.messagingSystem.external.enabled) (not .Values.services.nats.persistence.enabled) -}}
 {{- $searchUnpersisted := not .Values.services.search.persistence.enabled -}}
-{{- $storageSystemUnpersisted := not .Values.services.storageSystem.persistence.enabled -}}
-{{- $storageUsersUnpersisted := not .Values.services.storageUsers.persistence.enabled -}}
+{{- $storagesystemUnpersisted := not .Values.services.storagesystem.persistence.enabled -}}
+{{- $storageusersUnpersisted := not .Values.services.storageusers.persistence.enabled -}}
 {{- $storeUnpersisted := not .Values.services.store.persistence.enabled -}}
 
-{{ if or $storageSystemUnpersisted $storageUsersUnpersisted $storeUnpersisted $idmUnpersisted $searchUnpersisted $natsUnpersisted }}
+{{ if or $storagesystemUnpersisted $storageusersUnpersisted $storeUnpersisted $idmUnpersisted $searchUnpersisted $natsUnpersisted }}
 #################################################################################
 ######   WARNING: Persistence is disabled for some services.                #####
 ######   You will lose your data when a service's pod is terminated.        #####
 ######                                                                      #####
 ######   Following services don't use persistence:                          #####
-{{- if $storageUsersUnpersisted }}
-######     - storage-users                                                  #####
+{{- if $storageusersUnpersisted }}
+######     - storageusers                                                   #####
 {{- end }}
-{{- if $storageSystemUnpersisted }}
-######     - storage-system                                                 #####
+{{- if $storagesystemUnpersisted }}
+######     - storagesystem                                                  #####
 {{- end }}
 {{- if $idmUnpersisted }}
 ######     - idm                                                            #####

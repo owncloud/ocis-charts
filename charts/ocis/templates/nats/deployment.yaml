@@ -102,7 +102,7 @@ spec:
         - name: nats-data
           {{ if .Values.services.nats.persistence.enabled }}
           persistentVolumeClaim:
-            claimName: nats-data
+            claimName: {{ .appName }}-data
           {{ else }}
           emptyDir: {}
           {{ end }}

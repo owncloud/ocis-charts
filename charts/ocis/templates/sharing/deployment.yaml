@@ -95,12 +95,12 @@ spec:
             - name: SHARING_USER_JSONCS3_SYSTEM_USER_API_KEY
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.secretRefs.storageSystemSecretRef }}
+                  name: {{ .Values.secretRefs.storagesystemSecretRef }}
                   key: api-key
             - name: SHARING_USER_JSONCS3_SYSTEM_USER_ID
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.secretRefs.storageSystemSecretRef }}
+                  name: {{ .Values.secretRefs.storagesystemSecretRef }}
                   key: user-id
 
             # public sharing
@@ -111,12 +111,12 @@ spec:
             - name: SHARING_PUBLIC_JSONCS3_SYSTEM_USER_API_KEY
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.secretRefs.storageSystemSecretRef }}
+                  name: {{ .Values.secretRefs.storagesystemSecretRef }}
                   key: api-key
             - name: SHARING_PUBLIC_JSONCS3_SYSTEM_USER_ID
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.secretRefs.storageSystemSecretRef }}
+                  name: {{ .Values.secretRefs.storagesystemSecretRef }}
                   key: user-id
 
           livenessProbe:

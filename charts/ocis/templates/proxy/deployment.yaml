@@ -128,4 +128,4 @@ spec:
       volumes:
         - name: configs
           configMap:
-            name: proxy-config
+            name: {{ .appName }}-config

@@ -1,6 +1,6 @@
 {{ if .Values.features.basicAuthentication }}
-{{- $_ := set . "appName" "auth-basic" -}}
-{{- $_ := set . "resources" (default (default (dict) .Values.resources) .Values.services.authBasic.resources) -}}
+{{- $_ := set . "appName" "authbasic" -}}
+{{- $_ := set . "resources" (default (default (dict) .Values.resources) .Values.services.authbasic.resources) -}}
 apiVersion: apps/v1
 kind: Deployment
 metadata:

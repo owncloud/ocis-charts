@@ -1,8 +1,9 @@
 {{- if .Values.features.appsIntegration.enabled }}
+{{- $_ := set . "appName" "appregistry" -}}
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: app-registry-config
+  name: {{ .appName }}-registry-config
   namespace: {{ template "ocis.namespace" . }}
   labels:
     {{- include "ocis.labels" . | nindent 4 }}

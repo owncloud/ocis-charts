@@ -1,4 +1,5 @@
-{{- $_ := set . "appName" "storage-users" -}}
+{{ if .Values.features.basicAuthentication }}
+{{- $_ := set . "appName" "authbasic" -}}
 apiVersion: v1
 kind: Service
 metadata:
@@ -13,11 +14,9 @@ spec:
     app: {{ .appName }}
   ports:
     - name: grpc
-      port: 9157
-      protocol: TCP
-    - name: http
-      port: 9158
+      port: 9146
       protocol: TCP
     - name: metrics-debug
-      port: 9159
+      port: 9147
       protocol: TCP
+{{ end }}
