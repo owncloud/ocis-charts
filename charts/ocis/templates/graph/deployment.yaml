@@ -169,6 +169,11 @@ spec:
                   name: {{ .Values.secretRefs.jwtSecretRef }}
                   key: jwt-secret
 
+            {{- if .Values.features.quotas.default }}
+            - name: GRAPH_SPACES_DEFAULT_QUOTA
+              value: {{ .Values.features.quotas.default }}
+            {{- end }}
+
           livenessProbe:
             httpGet:
               path: /healthz

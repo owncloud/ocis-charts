@@ -153,6 +153,11 @@ spec:
                 secretKeyRef:
                   name: {{ .Values.secretRefs.transferSecretSecretRef }}
                   key: transfer-secret
+            
+            {{- if .Values.features.quotas.max }}
+            - name: STORAGE_USERS_OCIS_MAX_QUOTA
+              value: {{ .Values.features.quotas.max }}
+            {{- end }}
 
           livenessProbe:
             httpGet:
