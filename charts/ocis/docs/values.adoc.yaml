@@ -11,7 +11,7 @@ image:
   sha: ""
   # -- Image pull policy
   pullPolicy: IfNotPresent
-  # -- Name of the secret containing the credentials to pull an image from the registry. More 
+  # -- Name of the secret containing the credentials to pull an image from the registry. More
   # information how a secret can be defined at https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
   pullSecrets: []
   # pullSecrets:
@@ -241,7 +241,15 @@ features:
         filter:
         # -- The object class to use for groups in the default group search filter like `groupOfNames`.
         objectClass: groupOfNames
-  # -- Define quota settings.
+  # Define custom roles here. Note that the definition will be either or. So you cannot provide a ConfigMap name and text at once.
+  roles:
+    # -- Define the roles by specifying a name of a ConfigMap which already contains the the role description (might also be defined in the `extraResources` section).
+    # The ConfigMap needs to contain a file named `custom-roles.json` which holds the role description in JSON format
+    # Please note that you have to restart the settings service manually if you change the content of you ConfigMap.
+    customRolesConfigRef:
+    # -- Define the roles by providing the JSON text here.
+    customRoles: ""
+  # Define quota settings.
   quotas:
     # -- Sets the maximum quota for spaces in bytes. So 1000 sets the max quota to 1KB.
     max:
