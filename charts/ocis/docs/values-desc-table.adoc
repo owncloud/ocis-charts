@@ -407,7 +407,7 @@ a| [subs=-attributes]
 +string+
 a| [subs=-attributes]
 `nil`
-| Define the roles by specifying a name of a ConfigMap which already contains the the role description (might also be defined in the `extraResources` section). The ConfigMap needs to contain a file named `custom-roles.json` which holds the role description in JSON format Please note that you have to restart the settings manually if you change the content of you ConfigMap.
+| Define the roles by specifying a name of a ConfigMap which already contains the the role description (might also be defined in the `extraResources` section). The ConfigMap needs to contain a file named `custom-roles.json` which holds the role description in JSON format Please note that you have to restart the settings service manually if you change the content of you ConfigMap.
 | image.pullPolicy
 a| [subs=-attributes]
 +string+
