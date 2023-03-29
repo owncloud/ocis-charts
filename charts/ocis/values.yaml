@@ -234,9 +234,9 @@ features:
   # -- Define quota settings.
   quotas:
     # -- Sets the maximum quota for spaces in bytes. So 1000 sets the max quota to 1KB.
-    max: 
+    max:
     # -- Sets the default quota for spaces in bytes. So 1000 sets the default quota to 1KB. 0 means unlimited.
-    default: 
+    default:
     # -- Sets specific quotas for roles
     roles: {}
     # roles:

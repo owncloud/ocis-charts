@@ -232,6 +232,21 @@ features:
         filter:
         # -- The object class to use for groups in the default group search filter like `groupOfNames`.
         objectClass: groupOfNames
+  # -- Define quota settings.
+  quotas:
+    # -- Sets the maximum quota for spaces in bytes. So 1000 sets the max quota to 1KB.
+    max:
+    # -- Sets the default quota for spaces in bytes. So 1000 sets the default quota to 1KB. 0 means unlimited.
+    default:
+    # -- Sets specific quotas for roles
+    roles: {}
+    # roles:
+    #   # User Role set to 2GB
+    #   d7beeea8-8ff4-406b-8fb6-ab2dd81e6b11: 2000000000
+    #   # Administrator Role set to 100GB
+    #   71881883-1768-46bd-a24d-a356a2afdf7f: 100000000000
+    #   # Space Administrator Role set to 100GB
+    #   2aadd357-682c-406b-8874-293091995fdd: 100000000000
 
 # Ingress for oCIS.
 ingress:
@@ -560,15 +575,6 @@ services:
   proxy:
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
-    # -- Define role_quotas.
-    role_quotas: {}
-    # role_quotas:
-    #   # Role 1 2GB
-    #   d7beeea8-8ff4-406b-8fb6-ab2dd81e6b11: 2000000000
-    #   # Role 2 100GB
-    #   71881883-1768-46bd-a24d-a356a2afdf7f: 100000000000
-    #   # Role 3 100GB
-    #   2aadd357-682c-406b-8874-293091995fdd: 100000000000
 
   # -- SEARCH service.
   # @default -- see detailed service configuration options below
