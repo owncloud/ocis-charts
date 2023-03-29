@@ -396,12 +396,6 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `"userid"`
 | Attribute mapping of for the userIDClaim. Set to `userid` if the claim specified in `...oidc.userIDClaim` holds the value of the ldap user attribute specified in `...ldap.user.schema.id`. Set to `mail` if the claim specified in `...oidc.userIDClaim` holds the value of the ldap user attribute specified in  `...ldap.user.schema.mail`. Set to `username` if the claim specified in `...oidc.userIDClaim` holds the value of the ldap user attribute specified in `...ldap.user.schema.userName`.
-| features.quotas
-a| [subs=-attributes]
-+object+
-a| [subs=-attributes]
-`{"default":null,"max":null,"roles":{}}`
-| Define quota settings.
 | features.quotas.default
 a| [subs=-attributes]
 +string+
@@ -420,12 +414,6 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Sets specific quotas for roles
-| features.roles
-a| [subs=-attributes]
-+object+
-a| [subs=-attributes]
-`{"customRoles":"","customRolesConfigRef":null}`
-| Define custom roles here. Note that the definition will be either or. So you cannot provide a ConfigMap name and text at once.
 | features.roles.customRoles
 a| [subs=-attributes]
 +string+
