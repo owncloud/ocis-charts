@@ -182,6 +182,7 @@ spec:
               mountPath: /etc/ocis/ldap-ca
               readOnly: true
 
+      {{- include "ocis.imagePullSecrets" $ | nindent 6 }}
       volumes:
         - name: tmp-volume
           emptyDir: {}

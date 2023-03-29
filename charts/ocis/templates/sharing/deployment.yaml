@@ -145,7 +145,7 @@ spec:
               mountPath: /etc/ocis/messaging-system-ca
               readOnly: true
 
-
+      {{- include "ocis.imagePullSecrets" $ | nindent 6 }}
       volumes:
         - name: tmp-volume
           emptyDir: {}

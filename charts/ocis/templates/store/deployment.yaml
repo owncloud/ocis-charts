@@ -91,6 +91,7 @@ spec:
             - name: store-data
               mountPath: /var/lib/ocis
 
+      {{- include "ocis.imagePullSecrets" $ | nindent 6 }}
       volumes:
         - name: store-data
           {{ if .Values.services.store.persistence.enabled }}

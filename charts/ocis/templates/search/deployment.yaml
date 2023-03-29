@@ -95,6 +95,20 @@ spec:
 
 
 
+            {{- if  eq .Values.services.search.extractor.type "tika" }}
+            - name: SEARCH_EXTRACTOR_TYPE
+              value: tika
+
+            - name: SEARCH_EXTRACTOR_TIKA_TIKA_URL
+              value: {{ .Values.services.search.extractor.tika.url | quote }}
+            {{- else }}
+            - name: SEARCH_EXTRACTOR_TYPE
+              value: basic
+            {{- end }}
+
+            - name: SEARCH_EXTRACTOR_CS3SOURCE_INSECURE
+              value: {{ .Values.insecure.ocisHttpApiInsecure | quote }}
+
             - name: SEARCH_MACHINE_AUTH_API_KEY
               valueFrom:
                 secretKeyRef:
@@ -127,6 +141,7 @@ spec:
             - name: search-data
               mountPath: /var/lib/ocis
 
+      {{- include "ocis.imagePullSecrets" $ | nindent 6 }}
       volumes:
         - name: ocis-config-tmp
           emptyDir: {}

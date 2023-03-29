@@ -1,10 +1,3 @@
-{{- $idm := and (not .Values.features.externalUserManagement.enabled) (not .Values.services.idm.persistence.enabled) -}}
-{{- $nats := and (not .Values.messagingSystem.external.enabled) (not .Values.services.nats.persistence.enabled) -}}
-{{- $search := not .Values.services.search.persistence.enabled -}}
-{{- $storageSystem := not .Values.services.storageSystem.persistence.enabled -}}
-{{- $storageUsers := not .Values.services.storageUsers.persistence.enabled -}}
-{{- $store := not .Values.services.store.persistence.enabled -}}
-
 You're now running
                  ,----..      ,---,   .--.--.
                 /   /   \  ,`--.' |  /  /    '.
@@ -25,28 +18,81 @@ You can get the initial "admin" administrator user password by running:
 
 kubectl -n <namespace> get secrets/admin-user --template='{{"{{"}}.data.password | base64decode{{"}}"}}'
 
-{{ if or $storageSystem $storageUsers $store $idm $search $nats }}
+{{ $noExternalUserManagement := not .Values.features.externalUserManagement.enabled -}}
+{{- $noopCache := eq .Values.cache.type "noop" -}}
+{{- $basicAuth := .Values.features.basicAuthentication -}}
+{{- $demoUsers := .Values.features.demoUsers -}}
+{{- $oidcIdpInsecure := .Values.insecure.oidcIdpInsecure -}}
+{{- $ocisHttpApiInsecure := .Values.insecure.ocisHttpApiInsecure -}}
+{{- $externalLDAPinsecure := and .Values.features.externalUserManagement.enabled .Values.features.externalUserManagement.ldap.insecure -}}
+{{- $noSMTPencryption := and .Values.features.emailNotifications.enabled (eq .Values.features.emailNotifications.smtp.encryption "none") -}}
+
+{{ if or $noExternalUserManagement $noopCache $basicAuth $demoUsers $oidcIdpInsecure $ocisHttpApiInsecure $externalLDAPinsecure $noSMTPencryption }}
+#################################################################################
+######   WARNING: Your deployment of oCIS does not follow all best          #####
+######   practices for production deployments of oCIS.                      #####
+######                                                                      #####
+######   Following best practices are not applied:                          #####
+{{- if $noExternalUserManagement}}
+######     - `features.externalUserManagement.enabled` should be            #####
+######       set to `true`.                                                 #####
+{{- end }}
+{{- if $noopCache}}
+######     - `cache.type` should not be set to `noop`                       #####
+{{- end }}
+{{- if $basicAuth}}
+######     - `features.basicAuthentication` should be set to `false`        #####
+{{- end }}
+{{- if $demoUsers}}
+######     - `features.demoUsers` should be set to `false`                  #####
+{{- end }}
+{{- if $oidcIdpInsecure}}
+######     - `insecure.oidcIdpInsecure` should be set to `false`            #####
+{{- end }}
+{{- if $ocisHttpApiInsecure}}
+######     - `insecure.ocisHttpApiInsecure` should be set to `false`        #####
+{{- end }}
+{{- if $externalLDAPinsecure}}
+######     - `features.externalUserManagement.ldap.insecure` should         #####
+######        be set to `false`                                             #####
+{{- end }}
+{{- if $noSMTPencryption}}
+######     - `features.emailNotifications.smtp.encryption` should           #####
+######        not be set to `none`                                          #####
+{{- end }}
+#################################################################################
+{{ end }}
+
+
+{{- $idmUnpersisted := and (not .Values.features.externalUserManagement.enabled) (not .Values.services.idm.persistence.enabled) -}}
+{{- $natsUnpersisted := and (not .Values.messagingSystem.external.enabled) (not .Values.services.nats.persistence.enabled) -}}
+{{- $searchUnpersisted := not .Values.services.search.persistence.enabled -}}
+{{- $storageSystemUnpersisted := not .Values.services.storageSystem.persistence.enabled -}}
+{{- $storageUsersUnpersisted := not .Values.services.storageUsers.persistence.enabled -}}
+{{- $storeUnpersisted := not .Values.services.store.persistence.enabled -}}
+
+{{ if or $storageSystemUnpersisted $storageUsersUnpersisted $storeUnpersisted $idmUnpersisted $searchUnpersisted $natsUnpersisted }}
 #################################################################################
 ######   WARNING: Persistence is disabled for some services.                #####
 ######   You will lose your data when a service's pod is terminated.        #####
 ######                                                                      #####
 ######   Following services don't use persistence:                          #####
-{{- if $storageUsers }}
+{{- if $storageUsersUnpersisted }}
 ######     - storage-users                                                  #####
 {{- end }}
-{{- if $storageSystem }}
+{{- if $storageSystemUnpersisted }}
 ######     - storage-system                                                 #####
 {{- end }}
-{{- if $idm }}
+{{- if $idmUnpersisted }}
 ######     - idm                                                            #####
 {{- end }}
-{{- if $store }}
+{{- if $storeUnpersisted }}
 ######     - store                                                          #####
 {{- end }}
-{{- if $search }}
+{{- if $searchUnpersisted }}
 ######     - search                                                         #####
 {{- end }}
-{{- if $nats }}
+{{- if $natsUnpersisted }}
 ######     - nats                                                           #####
 {{- end }}
 #################################################################################

@@ -22,6 +22,9 @@ spec:
       labels:
         app: {{ .appName }}
         {{- include "ocis.labels" . | nindent 8 }}
+      annotations:
+        checksum/config: {{ include (print $.Template.BasePath "/settings/config.yaml") . | sha256sum }}
+
     spec:
       securityContext:
           fsGroup: {{ .Values.securityContext.fsGroup }}
@@ -77,6 +80,10 @@ spec:
                   key: user-id
             {{- end }}
 
+            {{- if or .Values.features.roles.customRoles .Values.features.roles.customRolesConfigRef }}
+            - name: SETTINGS_BUNDLES_PATH
+              value: /etc/ocis/custom-roles.json
+            {{- end }}
             - name: SETTINGS_JWT_SECRET
               valueFrom:
                 secretKeyRef:
@@ -111,3 +118,24 @@ spec:
               containerPort: 9191
             - name: metrics-debug
               containerPort: 9194
+
+          {{- if or .Values.features.roles.customRoles .Values.features.roles.customRolesConfigRef }}
+          volumeMounts:
+            - name: ocis-role-config
+              mountPath: /etc/ocis
+          {{- end }}
+
+      {{- include "ocis.imagePullSecrets" $ | nindent 6 }}
+
+      {{- if .Values.features.roles.customRoles }}
+      volumes:
+        - name: ocis-role-config
+          configMap:
+            name: ocis-role-config
+      {{- end }}
+      {{- if .Values.features.roles.customRolesConfigRef }}
+      volumes:
+        - name: ocis-role-config
+          configMap:
+            name: {{ .Values.features.roles.customRolesConfigRef }}
+      {{- end }}

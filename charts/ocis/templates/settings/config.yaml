@@ -1,0 +1,11 @@
+{{- if .Values.features.roles.customRoles }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ocis-role-config
+  namespace: {{ template "ocis.namespace" . }}
+  labels:
+    {{- include "ocis.labels" . | nindent 4 }}
+data:
+  custom-roles.json: {{ .Values.features.roles.customRoles | quote }}
+{{- end }}
