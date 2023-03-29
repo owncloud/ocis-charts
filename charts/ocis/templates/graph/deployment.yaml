@@ -169,6 +169,11 @@ spec:
                   name: {{ .Values.secretRefs.jwtSecretRef }}
                   key: jwt-secret
 
+            {{- if .Values.features.quotas.default }}
+            - name: GRAPH_SPACES_DEFAULT_QUOTA
+              value: {{ .Values.features.quotas.default }}
+            {{- end }}
+
           livenessProbe:
             httpGet:
               path: /healthz
@@ -196,6 +201,7 @@ spec:
               mountPath: /etc/ocis/ldap-ca
               readOnly: true
 
+      {{- include "ocis.imagePullSecrets" $ | nindent 6 }}
       volumes:
         - name: ocis-config-tmp
           emptyDir: {}

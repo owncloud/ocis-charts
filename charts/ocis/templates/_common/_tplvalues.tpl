@@ -36,3 +36,13 @@ oCIS image logic
 "{{ $.Values.image.repository }}:{{ $tag }}"
   {{- end -}}
 {{- end -}}
+
+{{/*
+imagePullSecrets logic
+*/}}
+{{- define "ocis.imagePullSecrets" -}}
+  {{- with $.Values.image.pullSecrets }}
+imagePullSecrets:
+  {{- toYaml . | nindent 2 }}
+  {{- end }}
+{{- end -}}

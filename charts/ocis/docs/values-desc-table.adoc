@@ -156,6 +156,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `"https://onlyoffice.owncloud.test"`
 | URI of the office suite.
+| features.appsIntegration.wopiIntegration.wopiFolderURI
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"https://{{ .Values.externalDomain }}"`
+| Base url to navigate back from the app to the containing folder in the file list.
 | features.appsIntegration.wopiIntegration.wopiServerURI
 a| [subs=-attributes]
 +string+
@@ -390,6 +396,30 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `"userid"`
 | Attribute mapping of for the userIDClaim. Set to `userid` if the claim specified in `...oidc.userIDClaim` holds the value of the ldap user attribute specified in `...ldap.user.schema.id`. Set to `mail` if the claim specified in `...oidc.userIDClaim` holds the value of the ldap user attribute specified in  `...ldap.user.schema.mail`. Set to `username` if the claim specified in `...oidc.userIDClaim` holds the value of the ldap user attribute specified in `...ldap.user.schema.userName`.
+| features.quotas
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{"default":null,"max":null,"roles":{}}`
+| Define quota settings.
+| features.quotas.default
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`nil`
+| Sets the default quota for spaces in bytes. So 1000 sets the default quota to 1KB. 0 means unlimited.
+| features.quotas.max
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`nil`
+| Sets the maximum quota for spaces in bytes. So 1000 sets the max quota to 1KB.
+| features.quotas.roles
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Sets specific quotas for roles
 | features.roles
 a| [subs=-attributes]
 +object+
@@ -414,6 +444,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `"IfNotPresent"`
 | Image pull policy
+| image.pullSecrets
+a| [subs=-attributes]
++list+
+a| [subs=-attributes]
+`[]`
+| Name of the secret containing the credentials to pull an image from the registry. More information how a secret can be defined at https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
 | image.repository
 a| [subs=-attributes]
 +string+

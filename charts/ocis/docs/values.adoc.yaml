@@ -11,6 +11,13 @@ image:
   sha: ""
   # -- Image pull policy
   pullPolicy: IfNotPresent
+  # -- Name of the secret containing the credentials to pull an image from the registry. More
+  # information how a secret can be defined at https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
+  pullSecrets: []
+  # pullSecrets:
+  #   - name: mySecret
+  #   - name: mySecret2
+
 
 # Logging settings for oCIS services
 logging:
@@ -113,6 +120,8 @@ features:
     wopiIntegration:
       # -- URL of the https://github.com/cs3org/wopiserver[cs3org/wopiserver]. Can be deployed https://artifacthub.io/packages/helm/cs3org/wopiserver[with this Chart].
       wopiServerURI: https://wopiserver.owncloud.test
+      # -- Base url to navigate back from the app to the containing folder in the file list.
+      wopiFolderURI: https://{{ .Values.externalDomain }}
       # List of WOPI compliant office suites.
       officeSuites:
         - # -- Name of the office suite. Will be displayed to the users.
@@ -240,6 +249,21 @@ features:
     customRolesConfigRef:
     # -- Define the roles by providing the JSON text here.
     customRoles: ""
+  # -- Define quota settings.
+  quotas:
+    # -- Sets the maximum quota for spaces in bytes. So 1000 sets the max quota to 1KB.
+    max:
+    # -- Sets the default quota for spaces in bytes. So 1000 sets the default quota to 1KB. 0 means unlimited.
+    default:
+    # -- Sets specific quotas for roles
+    roles: {}
+    # roles:
+    #   # User Role set to 2GB
+    #   d7beeea8-8ff4-406b-8fb6-ab2dd81e6b11: 2000000000
+    #   # Administrator Role set to 100GB
+    #   71881883-1768-46bd-a24d-a356a2afdf7f: 100000000000
+    #   # Space Administrator Role set to 100GB
+    #   2aadd357-682c-406b-8874-293091995fdd: 100000000000
 
 # Ingress for oCIS.
 ingress:

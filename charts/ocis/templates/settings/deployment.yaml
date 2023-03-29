@@ -122,9 +122,11 @@ spec:
           {{- if or .Values.features.roles.customRoles .Values.features.roles.customRolesConfigRef }}
           volumeMounts:
             - name: ocis-role-config
-              mountPath: /etc/ocis 
-
+              mountPath: /etc/ocis
           {{- end }}
+
+      {{- include "ocis.imagePullSecrets" $ | nindent 6 }}
+
       {{- if .Values.features.roles.customRoles }}
       volumes:
         - name: ocis-role-config

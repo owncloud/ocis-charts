@@ -90,6 +90,11 @@ spec:
                   name: {{ .Values.secretRefs.transferSecretSecretRef }}
                   key: transfer-secret
 
+            {{- if .Values.features.quotas.max  }}
+            - name: FRONTEND_MAX_QUOTA
+              value: {{ .Values.features.quotas.max }}
+            {{- end }}
+
           livenessProbe:
             httpGet:
               path: /healthz
@@ -111,6 +116,7 @@ spec:
             - name: tmp-volume
               mountPath: /tmp
 
+      {{- include "ocis.imagePullSecrets" $ | nindent 6 }}
       volumes:
         - name: tmp-volume
           emptyDir: {}
