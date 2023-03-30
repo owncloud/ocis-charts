@@ -1,31 +1,32 @@
-{{- if and .Values.services.storageSystem.persistence.enabled (not .Values.services.storageSystem.persistence.existingClaim)}}
+{{- if and .Values.services.storagesystem.persistence.enabled (not .Values.services.storagesystem.persistence.existingClaim)}}
+{{- $_ := set . "appName" "storagesystem" -}}
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: storage-system-data
+  name: {{ .appName }}-data
   namespace: {{ template "ocis.namespace" . }}
   labels:
     {{- include "ocis.labels" . | nindent 4 }}
-  {{- with .Values.services.storageSystem.persistence.annotations  }}
+  {{- with .Values.services.storagesystem.persistence.annotations  }}
   annotations:
 {{ toYaml . | indent 4 }}
   {{- end }}
-  {{- with .Values.services.storageSystem.persistence.finalizers  }}
+  {{- with .Values.services.storagesystem.persistence.finalizers  }}
   finalizers:
 {{ toYaml . | indent 4 }}
   {{- end }}
 spec:
   accessModes:
-    {{- range .Values.services.storageSystem.persistence.accessModes }}
+    {{- range .Values.services.storagesystem.persistence.accessModes }}
     - {{ . | quote }}
     {{- end }}
   resources:
     requests:
-      storage: {{ .Values.services.storageSystem.persistence.size | quote }}
-  {{- if .Values.services.storageSystem.persistence.storageClassName }}
-  storageClassName: {{ .Values.services.storageSystem.persistence.storageClassName }}
+      storage: {{ .Values.services.storagesystem.persistence.size | quote }}
+  {{- if .Values.services.storagesystem.persistence.storageClassName }}
+  storageClassName: {{ .Values.services.storagesystem.persistence.storageClassName }}
   {{- end -}}
-  {{- with .Values.services.storageSystem.persistence.selectorLabels }}
+  {{- with .Values.services.storagesystem.persistence.selectorLabels }}
   selector:
     matchLabels:
 {{ toYaml . | indent 6 }}
