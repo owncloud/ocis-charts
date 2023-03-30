@@ -1,7 +1,4 @@
-{{- $_ := set . "appName" "graph" -}}
-{{- $_ := set . "appNameGateway" "gateway" -}}
-{{- $_ := set . "appNameIdm" "idm" -}}
-{{- $_ := set . "appNameNats" "nats" -}}
+{{- include "ocis.appNames" (dict "scope" . "appName" "appNameGraph" "appNameSuffix" "") -}}
 {{- $_ := set . "resources" (default (default (dict) .Values.resources) .Values.services.graph.resources) -}}
 apiVersion: apps/v1
 kind: Deployment

@@ -1,14 +1,4 @@
-{{- $_ := set . "appName" "gateway" -}}
-{{- $_ := set . "appNameStorageUsers" "storageusers" -}}
-{{- $_ := set . "appNameStoragePubliclink" "storagepubliclink" -}}
-{{- $_ := set . "appNameStorageShares" "storageshares" -}}
-{{- $_ := set . "appNameAppRegistry" "appregistry" -}}
-{{- $_ := set . "appNameAuthBasic" "authbasic" -}}
-{{- $_ := set . "appNameAuthMachine" "authmachine" -}}
-{{- $_ := set . "appNameUsers" "users" -}}
-{{- $_ := set . "appNameGroups" "groups" -}}
-{{- $_ := set . "appNameSettings" "settings" -}}
-{{- $_ := set . "appNameSharing" "sharing" -}}
+{{- include "ocis.appNames" (dict "scope" . "appName" "appNameGateway" "appNameSuffix" "") -}}
 {{- $_ := set . "resources" (default (default (dict) .Values.resources) .Values.services.gateway.resources) -}}
 apiVersion: apps/v1
 kind: Deployment

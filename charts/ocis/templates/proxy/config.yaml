@@ -1,14 +1,4 @@
-{{- $_ := set . "appName" "proxy" -}}
-{{- $_ := set . "appNameIdp" "idp" -}}
-{{- $_ := set . "appNameWeb" "web" -}}
-{{- $_ := set . "appNameWebdav" "webdav" -}}
-{{- $_ := set . "appNameOcdav" "ocdav" -}}
-{{- $_ := set . "appNameGraph" "graph" -}}
-{{- $_ := set . "appNameOcs" "ocs" -}}
-{{- $_ := set . "appNameUserlog" "userlog" -}}
-{{- $_ := set . "appNameFrontend" "frontend" -}}
-{{- $_ := set . "appNameWebfinger" "webfinger" -}}
-{{- $_ := set . "appNameSettings" "settings" -}}
+{{- include "ocis.appNames" (dict "scope" . "appName" "appNameProxy" "appNameSuffix" "") -}}
 apiVersion: v1
 kind: ConfigMap
 metadata:

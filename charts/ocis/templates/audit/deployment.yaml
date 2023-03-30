@@ -1,5 +1,4 @@
-{{- $_ := set . "appName" "audit" -}}
-{{- $_ := set . "appNameNats" "nats" -}}
+{{- include "ocis.appNames" (dict "scope" . "appName" "appNameAudit" "appNameSuffix" "") -}}
 {{- $_ := set . "resources" (default (default (dict) .Values.resources) .Values.services.audit.resources) -}}
 apiVersion: apps/v1
 kind: Deployment

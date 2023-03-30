@@ -1,5 +1,4 @@
-{{- $_ := set . "appName" "eventhistory" -}}
-{{- $_ := set . "appNameNats" "nats" -}}
+{{- include "ocis.appNames" (dict "scope" . "appName" "appNameEventhistory" "appNameSuffix" "") -}}
 {{- $_ := set . "resources" (default (default (dict) .Values.resources) .Values.services.eventhistory.resources) -}}
 apiVersion: apps/v1
 kind: Deployment

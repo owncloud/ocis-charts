@@ -1,5 +1,4 @@
-{{- $_ := set . "appName" "frontend" -}}
-{{- $_ := set . "appNameGateway" "gateway" -}}
+{{- include "ocis.appNames" (dict "scope" . "appName" "appNameFrontend" "appNameSuffix" "") -}}
 {{- $_ := set . "resources" (default (default (dict) .Values.resources) .Values.services.frontend.resources) -}}
 apiVersion: apps/v1
 kind: Deployment

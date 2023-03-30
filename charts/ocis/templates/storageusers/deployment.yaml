@@ -1,8 +1,4 @@
-{{- $_ := set . "appName" "storageusers" -}}
-{{- $_ := set . "appNameGateway" "gateway" -}}
-{{- $_ := set . "appNameSettings" "settings" -}}
-{{- $_ := set . "appNameStorageUsers" "storage-users" -}}
-{{- $_ := set . "appNameNats" "nats" -}}
+{{- include "ocis.appNames" (dict "scope" . "appName" "appNameStorageUsers" "appNameSuffix" "") -}}
 {{- $_ := set . "resources" (default (default (dict) .Values.resources) .Values.services.storageusers.resources) -}}
 apiVersion: apps/v1
 kind: Deployment
@@ -82,7 +78,7 @@ spec:
             - name: STORAGE_USERS_HTTP_ADDR
               value: 0.0.0.0:9158
             - name: STORAGE_USERS_DATA_SERVER_URL
-              value: "http://{{ .appNameStorageUsers }}:9158/data"
+              value: "http://{{ .appName }}:9158/data"
 
             - name: STORAGE_USERS_PERMISSION_ENDPOINT
               value: {{ .appNameSettings }}:9191

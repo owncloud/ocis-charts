@@ -1,8 +1,7 @@
 {{ if .Values.features.appsIntegration.enabled }}
 {{- range $officeSuite := .Values.features.appsIntegration.wopiIntegration.officeSuites }}
 {{ if $officeSuite.enabled }}
-{{- $_ := set $ "appName"  (print "appprovider-" (regexReplaceAll "\\W+" (lower $officeSuite.name) "_")) -}}
-{{- $_ := set $ "appNameGateway" "gateway" -}}
+{{- include "ocis.appNames" (dict "scope" $ "appName" "appNameAppProvider" "appNameSuffix" (regexReplaceAll "\\W+" (lower $officeSuite.name) "_")) -}}
 {{- $_ := set $ "resources" (default (default (dict) $.Values.resources) $.Values.services.appprovider.resources) -}}
 ---
 apiVersion: apps/v1
@@ -82,7 +81,7 @@ spec:
               value: {{ tpl $.Values.features.appsIntegration.wopiIntegration.wopiFolderURI $ | quote }}
 
             - name: REVA_GATEWAY
-              value: {{ .appNameGateway }}:9142
+              value: {{ $.appNameGateway }}:9142
 
             - name: APP_PROVIDER_JWT_SECRET
               valueFrom:

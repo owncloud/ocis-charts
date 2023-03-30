@@ -1,5 +1,4 @@
-{{- $_ := set . "appName" "postprocessing" -}}
-{{- $_ := set . "appNameNats" "nats" -}}
+{{- include "ocis.appNames" (dict "scope" . "appName" "appNamePostprocessing" "appNameSuffix" "") -}}
 {{- $_ := set . "resources" (default (default (dict) .Values.resources) .Values.services.postprocessing.resources) -}}
 apiVersion: apps/v1
 kind: Deployment

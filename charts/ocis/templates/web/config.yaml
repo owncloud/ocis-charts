@@ -1,4 +1,4 @@
-{{- $_ := set . "appName" "web" -}}
+{{- include "ocis.appNames" (dict "scope" . "appName" "appNameWeb" "appNameSuffix" "") -}}
 apiVersion: v1
 kind: ConfigMap
 metadata:

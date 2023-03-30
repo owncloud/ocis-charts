@@ -1,5 +1,5 @@
 {{- if .Values.autoscaling.enabled }}
-{{- $_ := set . "appName" "proxy" -}}
+{{- include "ocis.appNames" (dict "scope" . "appName" "appNameProxy" "appNameSuffix" "") -}}
 apiVersion: {{ template "common.apiversion.hpa" . }}
 kind: HorizontalPodAutoscaler
 metadata:

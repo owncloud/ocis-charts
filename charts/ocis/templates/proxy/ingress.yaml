@@ -1,5 +1,5 @@
 {{- if .Values.ingress.enabled -}}
-{{- $_ := set . "appName" "proxy" -}}
+{{- include "ocis.appNames" (dict "scope" . "appName" "appNameProxy" "appNameSuffix" "") -}}
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:

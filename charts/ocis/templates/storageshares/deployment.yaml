@@ -1,6 +1,4 @@
-{{- $_ := set . "appName" "storageshares" -}}
-{{- $_ := set . "appNameGateway" "gateway" -}}
-{{- $_ := set . "appNameSharing" "sharing" -}}
+{{- include "ocis.appNames" (dict "scope" . "appName" "appNameStorageShares" "appNameSuffix" "") -}}
 {{- $_ := set . "resources" (default (default (dict) .Values.resources) .Values.services.storageshares.resources) -}}
 apiVersion: apps/v1
 kind: Deployment

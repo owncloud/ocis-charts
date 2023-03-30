@@ -46,3 +46,50 @@ imagePullSecrets:
   {{- toYaml . | nindent 2 }}
   {{- end }}
 {{- end -}}
+
+{{/*
+Adds the app names to the scope and set the name of the app based on the input parameters
+
+@param .scope          The current scope
+@param .appName        The name of the current app
+@param .appNameSuffix  The suffix to be added to the appName (if needed)
+*/}}
+{{- define "ocis.appNames" -}}
+  {{- $_ := set .scope "appNameAppProvider" "appprovider" -}}
+  {{- $_ := set .scope "appNameAppRegistry" "appregistry" -}}
+  {{- $_ := set .scope "appNameAudit" "audit" -}}
+  {{- $_ := set .scope "appNameAuthBasic" "authbasic" -}}
+  {{- $_ := set .scope "appNameAuthMachine" "authmachine" -}}
+  {{- $_ := set .scope "appNameEventhistory" "eventhistory" -}}
+  {{- $_ := set .scope "appNameFrontend" "frontend" -}}
+  {{- $_ := set .scope "appNameGateway" "gateway" -}}
+  {{- $_ := set .scope "appNameGraph" "graph" -}}
+  {{- $_ := set .scope "appNameGroups" "groups" -}}
+  {{- $_ := set .scope "appNameIdm" "idm" -}}
+  {{- $_ := set .scope "appNameIdp" "idp" -}}
+  {{- $_ := set .scope "appNameNats" "nats" -}}
+  {{- $_ := set .scope "appNameNotifications" "notifications" -}}
+  {{- $_ := set .scope "appNameOcdav" "ocdav" -}}
+  {{- $_ := set .scope "appNameOcs" "ocs" -}}
+  {{- $_ := set .scope "appNamePostprocessing" "postprocessing" -}}
+  {{- $_ := set .scope "appNameProxy" "proxy" -}}
+  {{- $_ := set .scope "appNameSearch" "search" -}}
+  {{- $_ := set .scope "appNameSettings" "settings" -}}
+  {{- $_ := set .scope "appNameSharing" "sharing" -}}
+  {{- $_ := set .scope "appNameStoragePubliclink" "storagepubliclink" -}}
+  {{- $_ := set .scope "appNameStorageShares" "storageshares" -}}
+  {{- $_ := set .scope "appNameStorageUsers" "storageusers" -}}
+  {{- $_ := set .scope "appNameStorageSystem" "storagesystem" -}}
+  {{- $_ := set .scope "appNameStore" "store" -}}
+  {{- $_ := set .scope "appNameUserlog" "userlog" -}}
+  {{- $_ := set .scope "appNameUsers" "users" -}}
+  {{- $_ := set .scope "appNameWeb" "web" -}}
+  {{- $_ := set .scope "appNameWebdav" "webdav" -}}
+  {{- $_ := set .scope "appNameWebfinger" "webfinger" -}}
+
+  {{- if .appNameSuffix -}}
+  {{- $_ := set .scope "appName" (print (index .scope .appName) "-" .appNameSuffix) -}}
+  {{- else -}}
+  {{- $_ := set .scope "appName" (index .scope .appName) -}}
+  {{- end -}}
+{{- end -}}

@@ -1,6 +1,5 @@
 {{ if .Values.features.appsIntegration.enabled }}
-{{- $_ := set . "appName" "appregistry" -}}
-{{- $_ := set . "appNameGateway" "gateway" -}}
+{{- include "ocis.appNames" (dict "scope" . "appName" "appNameAppRegistry" "appNameSuffix" "") -}}
 {{- $_ := set . "resources" (default (default (dict) .Values.resources) .Values.services.appregistry.resources) -}}
 apiVersion: apps/v1
 kind: Deployment

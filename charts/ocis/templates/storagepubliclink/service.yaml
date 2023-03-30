@@ -1,4 +1,4 @@
-{{- $_ := set . "appName" "storagepubliclink" -}}
+{{- include "ocis.appNames" (dict "scope" . "appName" "appNameStoragePubliclink" "appNameSuffix" "") -}}
 apiVersion: v1
 kind: Service
 metadata:
