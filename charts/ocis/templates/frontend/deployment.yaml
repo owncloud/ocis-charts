@@ -1,4 +1,5 @@
 {{- $_ := set . "appName" "frontend" -}}
+{{- $_ := set . "appNameGateway" "gateway" -}}
 {{- $_ := set . "resources" (default (default (dict) .Values.resources) .Values.services.frontend.resources) -}}
 apiVersion: apps/v1
 kind: Deployment
@@ -64,7 +65,7 @@ spec:
               value: "https://{{ .Values.externalDomain }}"
 
             - name: REVA_GATEWAY
-              value: gateway:9142
+              value: {{ .appNameGateway }}:9142
 
             - name: FRONTEND_JWT_SECRET
               valueFrom:

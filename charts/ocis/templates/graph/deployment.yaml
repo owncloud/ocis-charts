@@ -1,4 +1,7 @@
 {{- $_ := set . "appName" "graph" -}}
+{{- $_ := set . "appNameGateway" "gateway" -}}
+{{- $_ := set . "appNameIdm" "idm" -}}
+{{- $_ := set . "appNameNats" "nats" -}}
 {{- $_ := set . "resources" (default (default (dict) .Values.resources) .Values.services.graph.resources) -}}
 apiVersion: apps/v1
 kind: Deployment
@@ -65,7 +68,7 @@ spec:
 
             {{ if not .Values.features.externalUserManagement.enabled }}
             - name: GRAPH_LDAP_URI
-              value: ldaps://idm:9235
+              value: ldaps://{{ .appNameIdm }}:9235
             - name: GRAPH_LDAP_CACERT
               value: /etc/ocis/ldap-ca/ldap-ca.crt
             - name: GRAPH_LDAP_BIND_PASSWORD
@@ -137,10 +140,10 @@ spec:
 
 
             - name: REVA_GATEWAY
-              value: gateway:9142
+              value: {{ .appNameGateway }}:9142
             - name: GRAPH_EVENTS_ENDPOINT
             {{- if not .Values.messagingSystem.external.enabled }}
-              value: nats:9233
+              value: {{ .appNameNats }}:9233
             {{- else }}
               value: {{ .Values.messagingSystem.external.endpoint | quote }}
             - name: GRAPH_EVENTS_CLUSTER

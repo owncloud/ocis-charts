@@ -1,4 +1,6 @@
 {{- $_ := set . "appName" "thumbnails" -}}
+{{- $_ := set . "appNameGateway" "gateway" -}}
+{{- $_ := set . "appNameThumbnails" "thumbnails" -}}
 {{- $_ := set . "resources" (default (default (dict) .Values.resources) .Values.services.thumbnails.resources) -}}
 apiVersion: apps/v1
 kind: Deployment
@@ -75,7 +77,7 @@ spec:
               value: 0.0.0.0:9189
 
             - name: THUMBNAILS_DATA_ENDPOINT
-              value: http://thumbnails:9186/thumbnails/data
+              value: http://{{ .appNameThumbnails }}:9186/thumbnails/data
 
             - name: THUMBNAILS_WEBDAVSOURCE_INSECURE
               value: {{ .Values.insecure.ocisHttpApiInsecure | quote }}
@@ -84,7 +86,7 @@ spec:
               value: {{ .Values.insecure.ocisHttpApiInsecure | quote }}
 
             - name: REVA_GATEWAY
-              value: gateway:9142
+              value: {{ .appNameGateway }}:9142
 
             - name: THUMBNAILS_TRANSFER_TOKEN
               valueFrom:

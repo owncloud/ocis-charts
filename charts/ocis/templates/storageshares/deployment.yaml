@@ -1,4 +1,6 @@
 {{- $_ := set . "appName" "storageshares" -}}
+{{- $_ := set . "appNameGateway" "gateway" -}}
+{{- $_ := set . "appNameSharing" "sharing" -}}
 {{- $_ := set . "resources" (default (default (dict) .Values.resources) .Values.services.storageshares.resources) -}}
 apiVersion: apps/v1
 kind: Deployment
@@ -61,10 +63,10 @@ spec:
               value: 0.0.0.0:9156
 
             - name: STORAGE_SHARES_USER_SHARE_PROVIDER_ENDPOINT
-              value: sharing:9150
+              value: {{ .appNameSharing }}:9150
 
             - name: REVA_GATEWAY
-              value: gateway:9142
+              value: {{ .appNameGateway }}:9142
 
             - name: STORAGE_SHARES_JWT_SECRET
               valueFrom:

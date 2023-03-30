@@ -1,4 +1,5 @@
 {{- $_ := set . "appName" "settings" -}}
+{{- $_ := set . "appNameStorageSystem" "storagesystem" -}}
 {{- $_ := set . "resources" (default (default (dict) .Values.resources) .Values.services.settings.resources) -}}
 apiVersion: apps/v1
 kind: Deployment
@@ -66,9 +67,9 @@ spec:
               value: 0.0.0.0:9194
 
             - name: STORAGE_GATEWAY_GRPC_ADDR
-              value: storage-system:9215
+              value: {{ .appNameStorageSystem }}:9215
             - name: STORAGE_GRPC_ADDR
-              value: storage-system:9215
+              value: {{ .appNameStorageSystem }}:9215
 
             - name: SETTINGS_ADMIN_USER_ID
             {{- if .Values.features.externalUserManagement.enabled }}

@@ -1,4 +1,5 @@
 {{- $_ := set . "appName" "storagesystem" -}}
+{{- $_ := set . "appNameGateway" "gateway" -}}
 {{- $_ := set . "resources" (default (default (dict) .Values.resources) .Values.services.storagesystem.resources) -}}
 apiVersion: apps/v1
 kind: Deployment
@@ -78,10 +79,10 @@ spec:
             - name: STORAGE_SYSTEM_HTTP_ADDR
               value: 0.0.0.0:9216
             - name: STORAGE_SYSTEM_DATA_SERVER_URL
-              value: http://storage-system:9216/data
+              value: http://{{ .appName }}:9216/data
 
             - name: REVA_GATEWAY
-              value: "gateway:9142"
+              value: {{ .appNameGateway }}:9142
 
             - name: STORAGE_SYSTEM_JWT_SECRET
               valueFrom:

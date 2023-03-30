@@ -1,4 +1,6 @@
 {{- $_ := set . "appName" "search" -}}
+{{- $_ := set . "appNameGateway" "gateway" -}}
+{{- $_ := set . "appNameNats" "nats" -}}
 {{- $_ := set . "resources" (default (default (dict) .Values.resources) .Values.services.search.resources) -}}
 apiVersion: apps/v1
 kind: Deployment
@@ -73,10 +75,10 @@ spec:
               value: 0.0.0.0:9224
 
             - name: REVA_GATEWAY
-              value: gateway:9142
+              value: {{ .appNameGateway }}:9142
             - name: SEARCH_EVENTS_ENDPOINT
             {{- if not .Values.messagingSystem.external.enabled }}
-              value: nats:9233
+              value: {{ .appNameNats }}:9233
             {{- else }}
               value: {{ .Values.messagingSystem.external.endpoint }}
             - name: SEARCH_EVENTS_CLUSTER

@@ -1,4 +1,14 @@
 {{- $_ := set . "appName" "gateway" -}}
+{{- $_ := set . "appNameStorageUsers" "storageusers" -}}
+{{- $_ := set . "appNameStoragePubliclink" "storagepubliclink" -}}
+{{- $_ := set . "appNameStorageShares" "storageshares" -}}
+{{- $_ := set . "appNameAppRegistry" "appregistry" -}}
+{{- $_ := set . "appNameAuthBasic" "authbasic" -}}
+{{- $_ := set . "appNameAuthMachine" "authmachine" -}}
+{{- $_ := set . "appNameUsers" "users" -}}
+{{- $_ := set . "appNameGroups" "groups" -}}
+{{- $_ := set . "appNameSettings" "settings" -}}
+{{- $_ := set . "appNameSharing" "sharing" -}}
 {{- $_ := set . "resources" (default (default (dict) .Values.resources) .Values.services.gateway.resources) -}}
 apiVersion: apps/v1
 kind: Deployment
@@ -70,29 +80,29 @@ spec:
               value: "https://{{ .Values.externalDomain }}"
 
             - name: GATEWAY_USERS_ENDPOINT
-              value: users:9144
+              value: {{ .appNameUsers }}:9144
             - name: GATEWAY_GROUPS_ENDPOINT
-              value: groups:9160
+              value: {{ .appNameGroups }}:9160
 
             - name: GATEWAY_AUTH_BASIC_ENDPOINT
-              value: auth-basic:9146
+              value: {{ .appNameAuthBasic }}:9146
             - name: GATEWAY_AUTH_MACHINE_ENDPOINT
-              value: auth-machine:9166
+              value: {{ .appNameAuthMachine }}:9166
 
             - name: GATEWAY_PERMISSIONS_ENDPOINT
-              value: settings:9191
+              value: {{ .appNameSettings }}:9191
 
             - name: GATEWAY_SHARING_ENDPOINT
-              value: sharing:9150
+              value: {{ .appNameSharing }}:9150
             - name: GATEWAY_STORAGE_PUBLIC_LINK_ENDPOINT
-              value: storage-publiclink:9178
+              value: {{ .appNameStoragePubliclink }}:9178
             - name: GATEWAY_STORAGE_USERS_ENDPOINT
-              value: storage-users:9157
+              value: {{ .appNameStorageUsers }}:9157
             - name: GATEWAY_STORAGE_SHARES_ENDPOINT
-              value: storage-shares:9154
+              value: {{ .appNameStorageShares }}:9154
 
             - name: GATEWAY_APP_REGISTRY_ENDPOINT
-              value: app-registry:9242
+              value: {{ .appNameAppRegistry }}:9242
 
             # cache
             - name: GATEWAY_CACHE_STORE

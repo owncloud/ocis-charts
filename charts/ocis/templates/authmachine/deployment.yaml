@@ -1,4 +1,5 @@
 {{- $_ := set . "appName" "authmachine" -}}
+{{- $_ := set . "appNameGateway" "gateway" -}}
 {{- $_ := set . "resources" (default (default (dict) .Values.resources) .Values.services.authmachine.resources) -}}
 apiVersion: apps/v1
 kind: Deployment
@@ -61,7 +62,7 @@ spec:
               value: 0.0.0.0:9167
 
             - name: REVA_GATEWAY
-              value: gateway:9142
+              value: {{ .appNameGateway }}:9142
 
             - name: AUTH_MACHINE_JWT_SECRET
               valueFrom:

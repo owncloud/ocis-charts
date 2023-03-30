@@ -1,4 +1,5 @@
 {{- $_ := set . "appName" "webdav" -}}
+{{- $_ := set . "appNameGateway" "gateway" -}}
 {{- $_ := set . "resources" (default (default (dict) .Values.resources) .Values.services.webdav.resources) -}}
 apiVersion: apps/v1
 kind: Deployment
@@ -63,7 +64,7 @@ spec:
             - name: OCIS_PUBLIC_URL
               value: "https://{{ .Values.externalDomain }}"
             - name: REVA_GATEWAY
-              value: gateway:9142
+              value: {{ .appNameGateway }}:9142
 
           livenessProbe:
             httpGet:

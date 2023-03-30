@@ -1,4 +1,8 @@
 {{- $_ := set . "appName" "storageusers" -}}
+{{- $_ := set . "appNameGateway" "gateway" -}}
+{{- $_ := set . "appNameSettings" "settings" -}}
+{{- $_ := set . "appNameStorageUsers" "storage-users" -}}
+{{- $_ := set . "appNameNats" "nats" -}}
 {{- $_ := set . "resources" (default (default (dict) .Values.resources) .Values.services.storageusers.resources) -}}
 apiVersion: apps/v1
 kind: Deployment
@@ -78,10 +82,10 @@ spec:
             - name: STORAGE_USERS_HTTP_ADDR
               value: 0.0.0.0:9158
             - name: STORAGE_USERS_DATA_SERVER_URL
-              value: "http://storage-users:9158/data"
+              value: "http://{{ .appNameStorageUsers }}:9158/data"
 
             - name: STORAGE_USERS_PERMISSION_ENDPOINT
-              value: settings:9191
+              value: {{ .appNameSettings }}:9191
 
             # oCIS storage driver (decomposed filesystem)
             {{- if  eq .Values.services.storageusers.storageBackend.driver "ocis" }}
@@ -108,7 +112,7 @@ spec:
             # events
             - name: STORAGE_USERS_EVENTS_ENDPOINT
             {{- if not .Values.messagingSystem.external.enabled }}
-              value: nats:9233
+              value: {{ .appNameNats }}:9233
             {{- else }}
               value: {{ .Values.messagingSystem.external.endpoint | quote }}
             - name: STORAGE_USERS_EVENTS_CLUSTER
@@ -126,7 +130,7 @@ spec:
             {{- end }}
 
             - name: REVA_GATEWAY
-              value: gateway:9142
+              value: {{ .appNameGateway }}:9142
 
             # cache
             - name: STORAGE_USERS_CACHE_STORE

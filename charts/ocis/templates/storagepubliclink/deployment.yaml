@@ -1,4 +1,5 @@
 {{- $_ := set . "appName" "storagepubliclink" -}}
+{{- $_ := set . "appNameGateway" "gateway" -}}
 {{- $_ := set . "resources" (default (default (dict) .Values.resources) .Values.services.storagepubliclink.resources) -}}
 apiVersion: apps/v1
 kind: Deployment
@@ -61,7 +62,7 @@ spec:
               value: 0.0.0.0:9179
 
             - name: REVA_GATEWAY
-              value: gateway:9142
+              value: {{ .appNameGateway }}:9142
 
             - name: STORAGE_PUBLICLINK_JWT_SECRET
               valueFrom:

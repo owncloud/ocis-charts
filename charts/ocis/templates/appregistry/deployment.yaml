@@ -1,5 +1,6 @@
 {{ if .Values.features.appsIntegration.enabled }}
 {{- $_ := set . "appName" "appregistry" -}}
+{{- $_ := set . "appNameGateway" "gateway" -}}
 {{- $_ := set . "resources" (default (default (dict) .Values.resources) .Values.services.appregistry.resources) -}}
 apiVersion: apps/v1
 kind: Deployment
@@ -62,7 +63,7 @@ spec:
               value: 0.0.0.0:9243
 
             - name: REVA_GATEWAY
-              value: gateway:9142
+              value: {{ .appNameGateway }}:9142
 
             - name: APP_REGISTRY_JWT_SECRET
               valueFrom:

@@ -1,4 +1,6 @@
 {{- $_ := set . "appName" "groups" -}}
+{{- $_ := set . "appNameGateway" "gateway" -}}
+{{- $_ := set . "appNameIdm" "idm" -}}
 {{- $_ := set . "resources" (default (default (dict) .Values.resources) .Values.services.groups.resources) -}}
 apiVersion: apps/v1
 kind: Deployment
@@ -118,7 +120,7 @@ spec:
 
             - name: GROUPS_LDAP_URI
             {{ if not .Values.features.externalUserManagement.enabled }}
-              value: ldaps://idm:9235
+              value: ldaps://{{ .appNameIdm }}:9235
             {{ else }}
               value: {{ .Values.features.externalUserManagement.ldap.uri | quote }}
             {{ end }}
@@ -148,7 +150,7 @@ spec:
             {{ end }}
 
             - name: REVA_GATEWAY
-              value: gateway:9142
+              value: {{ .appNameGateway }}:9142
 
             - name: GROUPS_JWT_SECRET
               valueFrom:

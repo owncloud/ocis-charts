@@ -1,5 +1,7 @@
 {{ if .Values.features.basicAuthentication }}
 {{- $_ := set . "appName" "authbasic" -}}
+{{- $_ := set . "appNameGateway" "gateway" -}}
+{{- $_ := set . "appNameIdm" "idm" -}}
 {{- $_ := set . "resources" (default (default (dict) .Values.resources) .Values.services.authbasic.resources) -}}
 apiVersion: apps/v1
 kind: Deployment
@@ -62,7 +64,7 @@ spec:
               value: 0.0.0.0:9147
 
             - name: REVA_GATEWAY
-              value: gateway:9142
+              value: {{ .appNameGateway }}:9142
 
             {{- if .Values.features.externalUserManagement.enabled }}
             - name: AUTH_BASIC_LDAP_INSECURE
@@ -122,7 +124,7 @@ spec:
 
             - name: AUTH_BASIC_LDAP_URI
             {{ if not .Values.features.externalUserManagement.enabled }}
-              value: ldaps://idm:9235
+              value: ldaps://{{ .appNameIdm }}:9235
             {{ else }}
               value: {{ .Values.features.externalUserManagement.ldap.uri | quote }}
             {{ end }}
