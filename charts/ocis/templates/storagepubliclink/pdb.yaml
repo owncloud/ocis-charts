@@ -1,1 +1,2 @@
-{{ include "ocis.pdb" (dict "appName" "storage-publiclink" "valuesAppName" "storagePublicLink" "root" $) }}
+{{- include "ocis.appNames" (dict "scope" . "appName" "appNameStoragePubliclink" "appNameSuffix" "") -}}
+{{ include "ocis.pdb" . }}

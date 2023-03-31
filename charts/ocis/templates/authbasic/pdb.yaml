@@ -1,3 +1,4 @@
 {{ if .Values.features.basicAuthentication }}
-{{ include "ocis.pdb" (dict "appName" "auth-basic" "valuesAppName" "authBasic" "root" $) }}
+{{- include "ocis.appNames" (dict "scope" . "appName" "appNameAuthBasic" "appNameSuffix" "") -}}
+{{ include "ocis.pdb" . }}
 {{ end }}

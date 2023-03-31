@@ -98,20 +98,17 @@ Adds the app names to the scope and set the name of the app based on the input p
 {{/*
 oCIS PDB template
 
-@param .appName         The name of the service/app
-@param .valuesAppName   The name of the service/app in the values file
-@param .root            Access to the root scope
 */}}
 {{- define "ocis.pdb" -}}
-{{- $_ := set . "podDisruptionBudget" (default (default (dict) .root.Values.podDisruptionBudget) (index .root.Values.services .valuesAppName).podDisruptionBudget) -}}
+{{- $_ := set . "podDisruptionBudget" (default (default (dict) .Values.podDisruptionBudget) (index .Values.services .appName).podDisruptionBudget) -}}
 {{ if .podDisruptionBudget }}
 apiVersion: policy/v1
 kind: PodDisruptionBudget
 metadata:
   name: {{ .appName }}
-  namespace: {{ template "ocis.namespace" .root }}
+  namespace: {{ template "ocis.namespace" . }}
   labels:
-    {{- include "ocis.labels" .root | nindent 4 }}
+    {{- include "ocis.labels" . | nindent 4 }}
 spec:
   {{- toYaml .podDisruptionBudget | nindent 2 }}
   selector:
