@@ -726,7 +726,7 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 see detailed service configuration options below
 | AUTH BASIC service. Not used if `features.externalUserManagement.enabled` equals `true`.
-| services.authBasic.podDisruptionBudget
+| services.authbasic.podDisruptionBudget
 a| [subs=-attributes]
 +object+
 a| [subs=-attributes]
@@ -744,7 +744,7 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 see detailed service configuration options below
 | AUTH MACHINE service.
-| services.authMachine.podDisruptionBudget
+| services.authmachine.podDisruptionBudget
 a| [subs=-attributes]
 +object+
 a| [subs=-attributes]
@@ -1218,7 +1218,7 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 see detailed service configuration options below
 | STORAGE-PUBLICLINK service.
-| services.storagePublicLink.podDisruptionBudget
+| services.storagepubliclink.podDisruptionBudget
 a| [subs=-attributes]
 +object+
 a| [subs=-attributes]
@@ -1236,7 +1236,7 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 see detailed service configuration options below
 | STORAGE-SHARES service.
-| services.storageShares.podDisruptionBudget
+| services.storageshares.podDisruptionBudget
 a| [subs=-attributes]
 +object+
 a| [subs=-attributes]
@@ -1314,7 +1314,7 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `nil`
 | Storage class to use. Uses the default storage class if not set.
-| services.storageSystem.podDisruptionBudget
+| services.storagesystem.podDisruptionBudget
 a| [subs=-attributes]
 +object+
 a| [subs=-attributes]
@@ -1404,7 +1404,7 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `nil`
 | Storage class to use. Uses the default storage class if not set.
-| services.storageUsers.podDisruptionBudget
+| services.storageusers.podDisruptionBudget
 a| [subs=-attributes]
 +object+
 a| [subs=-attributes]
