@@ -1,4 +1,4 @@
-{{- $_ := set . "appName" "ocs" -}}
+{{- include "ocis.appNames" (dict "scope" . "appName" "appNameOcs" "appNameSuffix" "") -}}
 {{- $_ := set . "resources" (default (default (dict) .Values.resources) .Values.services.ocs.resources) -}}
 apiVersion: apps/v1
 kind: Deployment
@@ -68,7 +68,7 @@ spec:
             {{ end }}
 
             - name: REVA_GATEWAY
-              value: gateway:9142
+              value: {{ .appNameGateway }}:9142
 
             - name: OCS_JWT_SECRET
               valueFrom:

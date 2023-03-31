@@ -1,0 +1,12 @@
+{{- if .Values.features.roles.customRoles }}
+{{- include "ocis.appNames" (dict "scope" . "appName" "appNameSettings" "appNameSuffix" "") -}}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .appName }}-role-config
+  namespace: {{ template "ocis.namespace" . }}
+  labels:
+    {{- include "ocis.labels" . | nindent 4 }}
+data:
+  custom-roles.json: {{ .Values.features.roles.customRoles | quote }}
+{{- end }}

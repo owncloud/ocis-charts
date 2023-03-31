@@ -1,4 +1,4 @@
-{{- $_ := set . "appName" "ocdav" -}}
+{{- include "ocis.appNames" (dict "scope" . "appName" "appNameOcdav" "appNameSuffix" "") -}}
 apiVersion: v1
 kind: Service
 metadata:

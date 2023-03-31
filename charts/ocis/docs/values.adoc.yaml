@@ -11,7 +11,7 @@ image:
   sha: ""
   # -- Image pull policy
   pullPolicy: IfNotPresent
-  # -- Name of the secret containing the credentials to pull an image from the registry. More 
+  # -- Name of the secret containing the credentials to pull an image from the registry. More
   # information how a secret can be defined at https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
   pullSecrets: []
   # pullSecrets:
@@ -33,7 +33,7 @@ logging:
 # Debug settings for the oCIS service
 debug:
   # -- Profiling enables the http://<pod>:<debug-metrics>/debug/pprof endpoint to inspect various Go runtime internals.
-  # You can use the endpoint on your machine by forwarding the port, eg: `kubectl port-forward -n ocis pod/auth-basic-8587dc9d64-fs24l 9147:9147`
+  # You can use the endpoint on your machine by forwarding the port, eg: `kubectl port-forward -n ocis pod/authbasic-8587dc9d64-fs24l 9147:9147`
   # and then accessing the port on https://localhost:9147/debug/pprof or using the pprof command line tool: `go tool pprof -web http://localhost:9147/debug/pprof/symbol\?seconds\=10`
   profiling: false
 
@@ -241,6 +241,29 @@ features:
         filter:
         # -- The object class to use for groups in the default group search filter like `groupOfNames`.
         objectClass: groupOfNames
+  # Define custom roles here. Note that the definition will be either or. So you cannot provide a ConfigMap name and text at once.
+  roles:
+    # -- Define the roles by specifying a name of a ConfigMap which already contains the the role description (might also be defined in the `extraResources` section).
+    # The ConfigMap needs to contain a file named `custom-roles.json` which holds the role description in JSON format
+    # Please note that you have to restart the settings service manually if you change the content of you ConfigMap.
+    customRolesConfigRef:
+    # -- Define the roles by providing the JSON text here.
+    customRoles: ""
+  # Define quota settings.
+  quotas:
+    # -- Sets the maximum quota for spaces in bytes. So 1000 sets the max quota to 1KB.
+    max:
+    # -- Sets the default quota for spaces in bytes. So 1000 sets the default quota to 1KB. 0 means unlimited.
+    default:
+    # -- Sets specific quotas for roles
+    roles: {}
+    # roles:
+    #   # User Role set to 2GB
+    #   d7beeea8-8ff4-406b-8fb6-ab2dd81e6b11: 2000000000
+    #   # Administrator Role set to 100GB
+    #   71881883-1768-46bd-a24d-a356a2afdf7f: 100000000000
+    #   # Space Administrator Role set to 100GB
+    #   2aadd357-682c-406b-8874-293091995fdd: 100000000000
 
 # Ingress for oCIS.
 ingress:
@@ -264,7 +287,7 @@ ingress:
 # See https://doc.owncloud.com/ocis/next/deployment/container/orchestration/orchestration.html#customize-the-generic-setup[doc.owncloud.com] for how to generate them.
 configRefs:
   # -- Reference to an existing storage-users config.
-  storageUsersConfigRef: "storage-users"
+  storageusersConfigRef: "storage-users"
   # -- Reference to an existing graph config.
   graphConfigRef: "graph"
 
@@ -292,9 +315,9 @@ secretRefs:
   # -- Reference to an existing SMTP email server settings secret (see xref:{secrets}[Secrets]). Not used if `features.emailNotifications.enabled` equals `false`.
   notificationsSmtpSecretRef: "notifications-smtp-secret"
   # -- Reference to an existing storage-system JWT secret (see xref:{secrets}[Secrets])
-  storageSystemJwtSecretRef: "storage-system-jwt-secret"
+  storagesystemJwtSecretRef: "storage-system-jwt-secret"
   # -- Reference to an existing storage-system secret (see xref:{secrets}[Secrets])
-  storageSystemSecretRef: "storage-system"
+  storagesystemSecretRef: "storage-system"
   # -- Reference to an existing thumbnails transfer secret (see xref:{secrets}[Secrets])
   thumbnailsSecretRef: "thumbnails-transfer-secret"
   # -- Reference to an existing transfer secret (see xref:{secrets}[Secrets])
@@ -410,13 +433,13 @@ extraResources: []
 services:
   # -- APP PROVIDER service. Not used if `features.appsIntegration.enabled` equals `false`.
   # @default -- see detailed service configuration options below
-  appProvider:
+  appprovider:
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
 
   # -- APP REGISTRY service. Not used if `features.appsIntegration.enabled` equals `false`.
   # @default -- see detailed service configuration options below
-  appRegistry:
+  appregistry:
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
 
@@ -430,7 +453,7 @@ services:
 
   # -- AUTH BASIC service. Not used if `features.externalUserManagement.enabled` equals `true`.
   # @default -- see detailed service configuration options below
-  authBasic:
+  authbasic:
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
@@ -438,7 +461,7 @@ services:
 
   # -- AUTH MACHINE service.
   # @default -- see detailed service configuration options below
-  authMachine:
+  authmachine:
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
@@ -662,7 +685,7 @@ services:
 
   # -- STORAGE-PUBLICLINK service.
   # @default -- see detailed service configuration options below
-  storagePublicLink:
+  storagepubliclink:
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
@@ -670,7 +693,7 @@ services:
 
   # -- STORAGE-SHARES service.
   # @default -- see detailed service configuration options below
-  storageShares:
+  storageshares:
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
@@ -678,7 +701,7 @@ services:
 
   # -- STORAGE-SYSTEM service.
   # @default -- see detailed service configuration options below
-  storageSystem:
+  storagesystem:
     # -- Persistence settings.
     # @default -- see detailed persistence configuration options below
     persistence:
@@ -715,7 +738,7 @@ services:
 
   # -- STORAGE-USERS service.
   # @default -- see detailed service configuration options below
-  storageUsers:
+  storageusers:
     storageBackend:
       # -- Configures the storage driver. Possible values are "ocis" and "s3ng".
       # The oCIS driver stores all data in the persistent volume if persistence is enabled.

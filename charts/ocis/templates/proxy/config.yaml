@@ -1,7 +1,8 @@
+{{- include "ocis.appNames" (dict "scope" . "appName" "appNameProxy" "appNameSuffix" "") -}}
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: proxy-config
+  name: {{ .appName }}-config
   namespace: {{ template "ocis.namespace" . }}
   labels:
     {{- include "ocis.labels" . | nindent 4 }}
@@ -11,82 +12,86 @@ data:
     policy_selector:
       static:
         policy: ocis
+    {{- with $.Values.features.quotas.roles }}
+    role_quotas:
+      {{- toYaml . | nindent 8 }}
+    {{- end }}
     policies:
     - name: ocis
       routes:
       - endpoint: /
-        backend: http://web:9100
+        backend: http://{{ .appNameWeb }}:9100
         unprotected: true
       - endpoint: /.well-known/webfinger
-        backend: http://webfinger:8080
+        backend: http://{{ .appNameWebfinger }}:8080
         unprotected: true
       - endpoint: /.well-known/openid-configuration
-        backend: http://idp:9130
+        backend: http://{{ .appNameIdp }}:9130
         unprotected: true
       - endpoint: /branding/logo
-        backend: http://web:9100
+        backend: http://{{ .appNameWeb }}:9100
       - endpoint: /konnect/
-        backend: http://idp:9130
+        backend: http://{{ .appNameIdp }}:9130
         unprotected: true
       - endpoint: /signin/
-        backend: http://idp:9130
+        backend: http://{{ .appNameIdp }}:9130
         unprotected: true
       - endpoint: /archiver
-        backend: http://frontend:9140
+        backend: http://{{ .appNameFrontend }}:9140
       - endpoint: /ocs/v2.php/apps/notifications/api/v1/notifications
-        backend: http://userlog:8080
+        backend: http://{{ .appNameUserlog }}:8080
       - type: regex
         endpoint: /ocs/v[12].php/cloud/user/signing-key
-        backend: http://ocs:9110
+        backend: http://{{ .appNameOcs }}:9110
       - type: regex
         endpoint: /ocs/v[12].php/config
-        backend: http://frontend:9140
+        backend: http://{{ .appNameFrontend }}:9140
         unprotected: true
       - endpoint: /ocs/
-        backend: http://frontend:9140
+        backend: http://{{ .appNameFrontend }}:9140
       - type: query
         endpoint: /remote.php/?preview=1
-        backend: http://webdav:9115
+        backend: http://{{ .appNameWebdav }}:9115
       - method: REPORT
         endpoint: /remote.php/dav/
-        backend: http://webdav:9115
+        backend: http://{{ .appNameWebdav }}:9115
       - method: REPORT
         endpoint: /remote.php/webdav
-        backend: http://webdav:9115
+        backend: http://{{ .appNameWebdav }}:9115
       - method: REPORT
         endpoint: /dav/spaces
-        backend: http://webdav:9115
+        backend: http://{{ .appNameWebdav }}:9115
       - type: query
         endpoint: /dav/?preview=1
-        backend: http://webdav:9115
+        backend: http://{{ .appNameWebdav }}:9115
       - type: query
         endpoint: /webdav/?preview=1
-        backend: http://webdav:9115
+        backend: http://{{ .appNameWebdav }}:9115
       - endpoint: /remote.php/
-        backend: http://ocdav:8080
+        backend: http://{{ .appNameOcdav }}:8080
       - endpoint: /dav/
-        backend: http://ocdav:8080
+        backend: http://{{ .appNameOcdav }}:8080
       - endpoint: /webdav/
-        backend: http://ocdav:8080
+        backend: http://{{ .appNameOcdav }}:8080
       - endpoint: /status
-        backend: http://ocdav:8080
+        backend: http://{{ .appNameOcdav }}:8080
         unprotected: true
       - endpoint: /status.php
-        backend: http://ocdav:8080
+        backend: http://{{ .appNameOcdav }}:8080
         unprotected: true
       - endpoint: /index.php/
-        backend: http://ocdav:8080
+        backend: http://{{ .appNameOcdav }}:8080
       - endpoint: /apps/
-        backend: http://ocdav:8080
+        backend: http://{{ .appNameOcdav }}:8080
       - endpoint: /data
-        backend: http://frontend:9140
+        backend: http://{{ .appNameFrontend }}:9140
         unprotected: true
       - endpoint: /app/list
-        backend: http://frontend:9140
+        backend: http://{{ .appNameFrontend }}:9140
         unprotected: true
       - endpoint: /app/
-        backend: http://frontend:9140
+        backend: http://{{ .appNameFrontend }}:9140
       - endpoint: /graph/
-        backend: http://graph:9120
+        backend: http://{{ .appNameGraph }}:9120
       - endpoint: /api/v0/settings
-        backend: http://settings:9190
+        backend: http://{{ .appNameSettings }}:9190

@@ -1,5 +1,5 @@
 {{- if .Values.features.emailNotifications.enabled }}
-{{- $_ := set . "appName" "notifications" -}}
+{{- include "ocis.appNames" (dict "scope" . "appName" "appNameNotifications" "appNameSuffix" "") -}}
 {{- $_ := set . "resources" (default (default (dict) .Values.resources) .Values.services.notifications.resources) -}}
 apiVersion: apps/v1
 kind: Deployment
@@ -87,10 +87,10 @@ spec:
               value: "https://{{ .Values.externalDomain }}"
 
             - name: REVA_GATEWAY
-              value: gateway:9142
+              value: {{ .appNameGateway }}:9142
             - name: NOTIFICATIONS_EVENTS_ENDPOINT
             {{- if not .Values.messagingSystem.external.enabled }}
-              value: nats:9233
+              value: {{ .appNameNats }}:9233
             {{- else }}
               value: {{ .Values.messagingSystem.external.endpoint | quote }}
             - name: NOTIFICIATIONS_EVENTS_CLUSTER

@@ -74,7 +74,7 @@ resources:
     memory: 128Mi
 
 services:
-  storageSystem:
+  storagesystem:
     persistence:
       enabled: true
       storageClassName: default-storage
@@ -88,7 +88,7 @@ services:
       selectorLabels:
         selector1: foobar
 
-  storageUsers:
+  storageusers:
     storageBackend:
       driver: ocis
     persistence:

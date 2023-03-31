@@ -1,7 +1,8 @@
+{{- include "ocis.appNames" (dict "scope" . "appName" "appNameWeb" "appNameSuffix" "") -}}
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: web-config
+  name: {{ .appName }}-config
   namespace: {{ template "ocis.namespace" . }}
   labels:
     {{- include "ocis.labels" . | nindent 4 }}

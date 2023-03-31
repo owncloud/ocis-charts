@@ -1,4 +1,4 @@
-{{- $_ := set . "appName" "frontend" -}}
+{{- include "ocis.appNames" (dict "scope" . "appName" "appNameFrontend" "appNameSuffix" "") -}}
 {{- $_ := set . "resources" (default (default (dict) .Values.resources) .Values.services.frontend.resources) -}}
 apiVersion: apps/v1
 kind: Deployment
@@ -64,7 +64,7 @@ spec:
               value: "https://{{ .Values.externalDomain }}"
 
             - name: REVA_GATEWAY
-              value: gateway:9142
+              value: {{ .appNameGateway }}:9142
 
             - name: FRONTEND_JWT_SECRET
               valueFrom:
@@ -89,6 +89,11 @@ spec:
                 secretKeyRef:
                   name: {{ .Values.secretRefs.transferSecretSecretRef }}
                   key: transfer-secret
+
+            {{- if .Values.features.quotas.max  }}
+            - name: FRONTEND_MAX_QUOTA
+              value: {{ .Values.features.quotas.max }}
+            {{- end }}
 
           livenessProbe:
             httpGet:

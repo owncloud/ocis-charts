@@ -1,5 +1,5 @@
 {{- if not .Values.features.externalUserManagement.enabled }}
-{{- $_ := set . "appName" "idp" -}}
+{{- include "ocis.appNames" (dict "scope" . "appName" "appNameIdp" "appNameSuffix" "") -}}
 {{- $_ := set . "resources" (default (default (dict) .Values.resources) .Values.services.idp.resources) -}}
 apiVersion: apps/v1
 kind: Deployment
@@ -62,7 +62,7 @@ spec:
               value: "https://{{ .Values.externalDomain }}"
 
             - name: IDP_LDAP_URI
-              value: ldaps://idm:9235
+              value: ldaps://{{ .appNameIdm }}:9235
 
             - name: IDP_LDAP_TLS_CACERT
               value: /etc/ocis/ldap-ca/ldap-ca.crt
