@@ -1,4 +1,4 @@
-{{- $_ := set . "appName" "proxy" -}}
+{{- include "ocis.appNames" (dict "scope" . "appName" "appNameProxy" "appNameSuffix" "") -}}
 {{- $_ := set . "resources" (default (default (dict) .Values.resources) .Values.services.proxy.resources) -}}
 apiVersion: apps/v1
 kind: Deployment
@@ -86,7 +86,7 @@ spec:
               value: "false"
 
             - name: REVA_GATEWAY
-              value: gateway:9142
+              value: {{ .appNameGateway }}:9142
 
             - name: PROXY_OIDC_INSECURE
               value: {{ .Values.insecure.oidcIdpInsecure | quote }}
@@ -128,4 +128,4 @@ spec:
       volumes:
         - name: configs
           configMap:
-            name: proxy-config
+            name: {{ .appName }}-config

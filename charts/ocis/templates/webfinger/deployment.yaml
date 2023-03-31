@@ -1,4 +1,4 @@
-{{- $_ := set . "appName" "webfinger" -}}
+{{- include "ocis.appNames" (dict "scope" . "appName" "appNameWebfinger" "appNameSuffix" "") -}}
 {{- $_ := set . "resources" (default (default (dict) .Values.resources) .Values.services.webfinger.resources) -}}
 apiVersion: apps/v1
 kind: Deployment

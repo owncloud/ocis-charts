@@ -1,0 +1,34 @@
+{{- if and .Values.services.storageusers.persistence.enabled (not .Values.services.storageusers.persistence.existingClaim)}}
+{{- include "ocis.appNames" (dict "scope" . "appName" "appNameStorageUsers" "appNameSuffix" "") -}}
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ .appName }}-data
+  namespace: {{ template "ocis.namespace" . }}
+  labels:
+    {{- include "ocis.labels" . | nindent 4 }}
+  {{- with .Values.services.storageusers.persistence.annotations  }}
+  annotations:
+{{ toYaml . | indent 4 }}
+  {{- end }}
+  {{- with .Values.services.storageusers.persistence.finalizers  }}
+  finalizers:
+{{ toYaml . | indent 4 }}
+  {{- end }}
+spec:
+  accessModes:
+    {{- range .Values.services.storageusers.persistence.accessModes }}
+    - {{ . | quote }}
+    {{- end }}
+  resources:
+    requests:
+      storage: {{ .Values.services.storageusers.persistence.size | quote }}
+  {{- if .Values.services.storageusers.persistence.storageClassName }}
+  storageClassName: {{ .Values.services.storageusers.persistence.storageClassName }}
+  {{- end -}}
+  {{- with .Values.services.storageusers.persistence.selectorLabels }}
+  selector:
+    matchLabels:
+{{ toYaml . | indent 6 }}
+  {{- end }}
+{{- end -}}

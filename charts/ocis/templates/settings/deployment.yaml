@@ -1,4 +1,4 @@
-{{- $_ := set . "appName" "settings" -}}
+{{- include "ocis.appNames" (dict "scope" . "appName" "appNameSettings" "appNameSuffix" "") -}}
 {{- $_ := set . "resources" (default (default (dict) .Values.resources) .Values.services.settings.resources) -}}
 apiVersion: apps/v1
 kind: Deployment
@@ -66,9 +66,9 @@ spec:
               value: 0.0.0.0:9194
 
             - name: STORAGE_GATEWAY_GRPC_ADDR
-              value: storage-system:9215
+              value: {{ .appNameStorageSystem }}:9215
             - name: STORAGE_GRPC_ADDR
-              value: storage-system:9215
+              value: {{ .appNameStorageSystem }}:9215
 
             - name: SETTINGS_ADMIN_USER_ID
             {{- if .Values.features.externalUserManagement.enabled }}
@@ -93,12 +93,12 @@ spec:
             - name: OCIS_SYSTEM_USER_API_KEY
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.secretRefs.storageSystemSecretRef }}
+                  name: {{ .Values.secretRefs.storagesystemSecretRef }}
                   key: api-key
             - name: OCIS_SYSTEM_USER_ID
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.secretRefs.storageSystemSecretRef }}
+                  name: {{ .Values.secretRefs.storagesystemSecretRef }}
                   key: user-id
 
           livenessProbe:
@@ -131,7 +131,7 @@ spec:
       volumes:
         - name: ocis-role-config
           configMap:
-            name: ocis-role-config
+            name: {{ .appName }}-role-config
       {{- end }}
       {{- if .Values.features.roles.customRolesConfigRef }}
       volumes:

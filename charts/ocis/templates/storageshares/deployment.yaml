@@ -1,0 +1,99 @@
+{{- include "ocis.appNames" (dict "scope" . "appName" "appNameStorageShares" "appNameSuffix" "") -}}
+{{- $_ := set . "resources" (default (default (dict) .Values.resources) .Values.services.storageshares.resources) -}}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .appName }}
+  namespace: {{ template "ocis.namespace" . }}
+  labels:
+    {{- include "ocis.labels" . | nindent 4 }}
+spec:
+  selector:
+    matchLabels:
+      app: {{ .appName }}
+  {{- if and (not .Values.autoscaling.enabled) (.Values.replicas) }}
+  replicas: {{ .Values.replicas }}
+  {{- end }}
+  {{- if .Values.deploymentStrategy }}
+  strategy: {{ toYaml .Values.deploymentStrategy | nindent 4 }}
+  {{ end }}
+  template:
+    metadata:
+      labels:
+        app: {{ .appName }}
+        {{- include "ocis.labels" . | nindent 8 }}
+    spec:
+      securityContext:
+          fsGroup: {{ .Values.securityContext.fsGroup }}
+          fsGroupChangePolicy: {{ .Values.securityContext.fsGroupChangePolicy }}
+      {{- with .Values.topologySpreadConstraints }}
+      topologySpreadConstraints:
+        {{- tpl . $ | nindent 8 }}
+      {{- end }}
+      containers:
+        - name: {{ .appName }}
+          image: {{ template "ocis.image" $ }}
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          command: ["ocis"]
+          args: ["storage-shares", "server"]
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: {{ .Values.securityContext.runAsUser }}
+            runAsGroup: {{ .Values.securityContext.runAsGroup }}
+            readOnlyRootFilesystem: true
+          env:
+            - name: MICRO_REGISTRY
+              value: kubernetes
+
+            - name: STORAGE_SHARES_LOG_COLOR
+              value: {{ .Values.logging.color | quote }}
+            - name: STORAGE_SHARES_LOG_LEVEL
+              value: {{ .Values.logging.level | quote }}
+            - name: STORAGE_SHARES_LOG_PRETTY
+              value: {{ .Values.logging.pretty | quote }}
+
+            - name: STORAGE_SHARES_DEBUG_PPROF
+              value: {{ .Values.debug.profiling | quote }}
+
+            - name: STORAGE_SHARES_GRPC_ADDR
+              value: 0.0.0.0:9154
+            - name: STORAGE_SHARES_DEBUG_ADDR
+              value: 0.0.0.0:9156
+
+            - name: STORAGE_SHARES_USER_SHARE_PROVIDER_ENDPOINT
+              value: {{ .appNameSharing }}:9150
+
+            - name: REVA_GATEWAY
+              value: {{ .appNameGateway }}:9142
+
+            - name: STORAGE_SHARES_JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.secretRefs.jwtSecretRef }}
+                  key: jwt-secret
+
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: metrics-debug
+            timeoutSeconds: 10
+            initialDelaySeconds: 60
+            periodSeconds: 20
+            failureThreshold: 3
+
+          resources: {{ toYaml .resources | nindent 12 }}
+
+          ports:
+            - name: grpc
+              containerPort: 9154
+            - name: metrics-debug
+              containerPort: 9156
+
+          volumeMounts:
+            - name: tmp-volume
+              mountPath: /tmp
+
+      {{- include "ocis.imagePullSecrets" $ | nindent 6 }}
+      volumes:
+        - name: tmp-volume
+          emptyDir: {}

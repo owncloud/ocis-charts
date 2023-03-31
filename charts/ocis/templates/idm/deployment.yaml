@@ -1,5 +1,5 @@
 {{- if not .Values.features.externalUserManagement.enabled }}
-{{- $_ := set . "appName" "idm" -}}
+{{- include "ocis.appNames" (dict "scope" . "appName" "appNameIdm" "appNameSuffix" "") -}}
 {{- $_ := set . "resources" (default (default (dict) .Values.resources) .Values.services.idm.resources) -}}
 apiVersion: apps/v1
 kind: Deployment
@@ -161,7 +161,7 @@ spec:
         - name: idm-data
           {{ if .Values.services.idm.persistence.enabled }}
           persistentVolumeClaim:
-            claimName: idm-data
+            claimName: {{ .appName }}-data
           {{ else }}
           emptyDir: {}
           {{ end }}
