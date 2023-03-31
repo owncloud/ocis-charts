@@ -118,5 +118,5 @@ kubectl -n <namespace> get secrets/admin-user --template='{{"{{"}}.data.password
 ######      storagePublicLink         -> storagepubliclink                  #####
 ######      storageShares             -> storageshares                      #####
 ######      storageSystem             -> storagesystem                      #####
-######      storageUsers              -> services.storageusers              #####
+######      storageUsers              -> storageusers                       #####
 #################################################################################
