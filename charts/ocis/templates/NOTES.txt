@@ -97,3 +97,26 @@ kubectl -n <namespace> get secrets/admin-user --template='{{"{{"}}.data.password
 {{- end }}
 #################################################################################
 {{- end }}
+
+#################################################################################
+######   WARNING: Breaking change.                                          #####
+######   Version 0.2.0 introduces some changes to the value names to align  #####
+######   the service/app names at various places (values file, YAML files,  #####
+######   directories) The following changes have been done in detail        #####
+######   between 0.1.0 and 0.2.0:                                           #####
+######                                                                      #####
+######   configRefs:                                                        #####
+######      storageUsersConfigRef     -> configRefs.storageusersConfigRef   #####
+######   secretRefs:                                                        #####
+######      storageSystemJwtSecretRef -> storagesystemJwtSecretRef          #####
+######      storageSystemSecretRef    -> storagesystemSecretRef             #####
+######   services:                                                          #####
+######      appProvider               -> appprovider                        #####
+######      appRegistry               -> appregistry                        #####
+######      authBasic                 -> authbasic                          #####
+######      authMachine               -> authmachine                        #####
+######      storagePublicLink         -> storagepubliclink                  #####
+######      storageShares             -> storageshares                      #####
+######      storageSystem             -> storagesystem                      #####
+######      storageUsers              -> services.storageusers              #####
+#################################################################################
