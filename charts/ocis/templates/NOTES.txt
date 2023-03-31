@@ -106,7 +106,7 @@ kubectl -n <namespace> get secrets/admin-user --template='{{"{{"}}.data.password
 ######   between 0.1.0 and 0.2.0:                                           #####
 ######                                                                      #####
 ######   configRefs:                                                        #####
-######      storageUsersConfigRef     -> configRefs.storageusersConfigRef   #####
+######      storageUsersConfigRef     -> storageusersConfigRef              #####
 ######   secretRefs:                                                        #####
 ######      storageSystemJwtSecretRef -> storagesystemJwtSecretRef          #####
 ######      storageSystemSecretRef    -> storagesystemSecretRef             #####
