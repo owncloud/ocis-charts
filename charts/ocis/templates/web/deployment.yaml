@@ -117,4 +117,4 @@ spec:
       volumes:
         - name: configs
           configMap:
-            name: {{ .appName }}-data
+            name: {{ .appName }}-config
