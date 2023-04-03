@@ -1,4 +1,4 @@
-{{- $_ := set . "appName" "webfinger" -}}
+{{- include "ocis.appNames" (dict "scope" . "appName" "appNameWebfinger" "appNameSuffix" "") -}}
 apiVersion: v1
 kind: Service
 metadata:

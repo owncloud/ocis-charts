@@ -1,8 +1,9 @@
 {{- if and .Values.services.search.persistence.enabled (not .Values.services.search.persistence.existingClaim)}}
+{{- include "ocis.appNames" (dict "scope" . "appName" "appNameSearch" "appNameSuffix" "") -}}
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: search-data
+  name: {{ .appName }}-data
   namespace: {{ template "ocis.namespace" . }}
   labels:
     {{- include "ocis.labels" . | nindent 4 }}

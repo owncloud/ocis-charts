@@ -1,0 +1,139 @@
+{{- include "ocis.appNames" (dict "scope" . "appName" "appNameStorageSystem" "appNameSuffix" "") -}}
+{{- $_ := set . "resources" (default (default (dict) .Values.resources) .Values.services.storagesystem.resources) -}}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .appName }}
+  namespace: {{ template "ocis.namespace" . }}
+  labels:
+    {{- include "ocis.labels" . | nindent 4 }}
+spec:
+  selector:
+    matchLabels:
+      app: {{ .appName }}
+  {{- if and (not .Values.autoscaling.enabled) (.Values.replicas) }}
+  replicas: {{ .Values.replicas }}
+  {{- end }}
+  {{- if .Values.deploymentStrategy }}
+  strategy: {{ toYaml .Values.deploymentStrategy | nindent 4 }}
+  {{ end }}
+  template:
+    metadata:
+      labels:
+        app: {{ .appName }}
+        {{- include "ocis.labels" . | nindent 8 }}
+    spec:
+      securityContext:
+          fsGroup: {{ .Values.securityContext.fsGroup }}
+          fsGroupChangePolicy: {{ .Values.securityContext.fsGroupChangePolicy }}
+      {{- with .Values.topologySpreadConstraints }}
+      topologySpreadConstraints:
+        {{- tpl . $ | nindent 8 }}
+      {{- end }}
+      {{- if and $.Values.services.storagesystem.persistence.enabled $.Values.services.storagesystem.persistence.chownInitContainer }}
+      initContainers:
+        - name: init-chown-data
+          image: busybox
+          securityContext:
+            runAsNonRoot: false
+            runAsUser: 0
+          command: ["chown", "-R", "{{ .Values.securityContext.runAsUser }}:{{ .Values.securityContext.runAsGroup }}", "/var/lib/ocis"]
+          volumeMounts:
+          - name: storage-system-data
+            mountPath: /var/lib/ocis
+      {{ end }}
+      containers:
+        - name: {{ .appName }}
+          image: {{ template "ocis.image" $ }}
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          command: ["ocis"]
+          args: ["storage-system", "server"]
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: {{ .Values.securityContext.runAsUser }}
+            runAsGroup: {{ .Values.securityContext.runAsGroup }}
+            readOnlyRootFilesystem: true
+          env:
+            - name: MICRO_REGISTRY
+              value: kubernetes
+
+            # logging
+            - name: STORAGE_SYSTEM_LOG_COLOR
+              value: {{ .Values.logging.color | quote }}
+            - name: STORAGE_SYSTEM_LOG_LEVEL
+              value: {{ .Values.logging.level | quote }}
+            - name: STORAGE_SYSTEM_LOG_PRETTY
+              value: {{ .Values.logging.pretty | quote }}
+
+            - name: STORAGE_SYSTEM_DEBUG_PPROF
+              value: {{ .Values.debug.profiling | quote }}
+
+            # bind configuration
+            - name: STORAGE_SYSTEM_GRPC_ADDR
+              value: 0.0.0.0:9215
+            - name: STORAGE_SYSTEM_DEBUG_ADDR
+              value: 0.0.0.0:9217
+
+            # external availability data gateway
+            - name: STORAGE_SYSTEM_HTTP_ADDR
+              value: 0.0.0.0:9216
+            - name: STORAGE_SYSTEM_DATA_SERVER_URL
+              value: http://{{ .appName }}:9216/data
+
+            - name: REVA_GATEWAY
+              value: {{ .appNameGateway }}:9142
+
+            - name: STORAGE_SYSTEM_JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.secretRefs.storagesystemJwtSecretRef }}
+                  key: storage-system-jwt-secret
+
+            - name: OCIS_SYSTEM_USER_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.secretRefs.storagesystemSecretRef }}
+                  key: api-key
+
+            - name: OCIS_SYSTEM_USER_ID
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.secretRefs.storagesystemSecretRef }}
+                  key: user-id
+
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: metrics-debug
+            timeoutSeconds: 10
+            initialDelaySeconds: 60
+            periodSeconds: 20
+            failureThreshold: 3
+
+          resources: {{ toYaml .resources | nindent 12 }}
+
+          ports:
+            - name: grpc
+              containerPort: 9215
+            - name: http
+              containerPort: 9216
+            - name: metrics-debug
+              containerPort: 9217
+
+          volumeMounts:
+            - name: tmp-volume
+              mountPath: /tmp
+            - name: storage-system-data
+              mountPath: /var/lib/ocis
+
+      {{- include "ocis.imagePullSecrets" $ | nindent 6 }}
+      volumes:
+        - name: tmp-volume
+          emptyDir: {}
+        - name: storage-system-data
+          {{ if .Values.services.storagesystem.persistence.enabled }}
+          persistentVolumeClaim:
+            claimName: {{ .appName }}-data
+          {{ else }}
+          emptyDir: {}
+          {{ end }}

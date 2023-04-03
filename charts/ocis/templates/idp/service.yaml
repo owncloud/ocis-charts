@@ -1,5 +1,5 @@
 {{- if not .Values.features.externalUserManagement.enabled }}
-{{- $_ := set . "appName" "idp" -}}
+{{- include "ocis.appNames" (dict "scope" . "appName" "appNameIdp" "appNameSuffix" "") -}}
 apiVersion: v1
 kind: Service
 metadata:
