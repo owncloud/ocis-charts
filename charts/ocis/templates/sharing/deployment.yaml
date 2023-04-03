@@ -1,4 +1,4 @@
-{{- $_ := set . "appName" "sharing" -}}
+{{- include "ocis.appNames" (dict "scope" . "appName" "appNameSharing" "appNameSuffix" "") -}}
 {{- $_ := set . "resources" (default (default (dict) .Values.resources) .Values.services.sharing.resources) -}}
 apiVersion: apps/v1
 kind: Deployment
@@ -61,10 +61,10 @@ spec:
               value: 0.0.0.0:9151
 
             - name: REVA_GATEWAY
-              value: gateway:9142
+              value: {{ .appNameGateway }}:9142
             - name: SHARING_EVENTS_ENDPOINT
             {{- if not .Values.messagingSystem.external.enabled }}
-              value: nats:9233
+              value: {{ .appNameNats }}:9233
             {{- else }}
               value: {{ .Values.messagingSystem.external.endpoint }}
             - name: SHARING_EVENTS_CLUSTER
@@ -91,32 +91,32 @@ spec:
             - name: SHARING_USER_DRIVER
               value: jsoncs3
             - name: SHARING_USER_JSONCS3_PROVIDER_ADDR
-              value: storage-system:9215
+              value: {{ .appNameStorageSystem }}:9215
             - name: SHARING_USER_JSONCS3_SYSTEM_USER_API_KEY
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.secretRefs.storageSystemSecretRef }}
+                  name: {{ .Values.secretRefs.storagesystemSecretRef }}
                   key: api-key
             - name: SHARING_USER_JSONCS3_SYSTEM_USER_ID
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.secretRefs.storageSystemSecretRef }}
+                  name: {{ .Values.secretRefs.storagesystemSecretRef }}
                   key: user-id
 
             # public sharing
             - name: SHARING_PUBLIC_DRIVER
               value: jsoncs3
             - name: SHARING_PUBLIC_JSONCS3_PROVIDER_ADDR
-              value: storage-system:9215
+              value: {{ .appNameStorageSystem }}:9215
             - name: SHARING_PUBLIC_JSONCS3_SYSTEM_USER_API_KEY
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.secretRefs.storageSystemSecretRef }}
+                  name: {{ .Values.secretRefs.storagesystemSecretRef }}
                   key: api-key
             - name: SHARING_PUBLIC_JSONCS3_SYSTEM_USER_ID
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.secretRefs.storageSystemSecretRef }}
+                  name: {{ .Values.secretRefs.storagesystemSecretRef }}
                   key: user-id
 
           livenessProbe:

@@ -1,4 +1,4 @@
-{{- $_ := set . "appName" "store" -}}
+{{- include "ocis.appNames" (dict "scope" . "appName" "appNameStore" "appNameSuffix" "") -}}
 {{- $_ := set . "resources" (default (default (dict) .Values.resources) .Values.services.store.resources) -}}
 apiVersion: apps/v1
 kind: Deployment
@@ -96,7 +96,7 @@ spec:
         - name: store-data
           {{ if .Values.services.store.persistence.enabled }}
           persistentVolumeClaim:
-            claimName: store-data
+            claimName: {{ .appName }}-data
           {{ else }}
           emptyDir: {}
           {{ end }}

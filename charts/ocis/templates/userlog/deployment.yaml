@@ -1,4 +1,4 @@
-{{- $_ := set . "appName" "userlog" -}}
+{{- include "ocis.appNames" (dict "scope" . "appName" "appNameUserlog" "appNameSuffix" "") -}}
 {{- $_ := set . "resources" (default (default (dict) .Values.resources) .Values.services.userlog.resources) -}}
 apiVersion: apps/v1
 kind: Deployment
@@ -62,7 +62,7 @@ spec:
 
             - name: USERLOG_EVENTS_ENDPOINT
             {{- if not .Values.messagingSystem.external.enabled }}
-              value: "nats:9233"
+              value: {{ .appNameNats }}:9233
             {{- else }}
               value: {{ .Values.messagingSystem.external.endpoint | quote }}
             - name: USERLOG_EVENTS_CLUSTER
@@ -80,7 +80,7 @@ spec:
             {{- end }}
 
             - name: REVA_GATEWAY
-              value: gateway:9142
+              value: {{ .appNameGateway }}:9142
 
             - name: USERLOG_MACHINE_AUTH_API_KEY
               valueFrom:

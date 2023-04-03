@@ -32,7 +32,7 @@ logging:
 # Debug settings for the oCIS service
 debug:
   # -- Profiling enables the http://<pod>:<debug-metrics>/debug/pprof endpoint to inspect various Go runtime internals.
-  # You can use the endpoint on your machine by forwarding the port, eg: `kubectl port-forward -n ocis pod/auth-basic-8587dc9d64-fs24l 9147:9147`
+  # You can use the endpoint on your machine by forwarding the port, eg: `kubectl port-forward -n ocis pod/authbasic-8587dc9d64-fs24l 9147:9147`
   # and then accessing the port on https://localhost:9147/debug/pprof or using the pprof command line tool: `go tool pprof -web http://localhost:9147/debug/pprof/symbol\?seconds\=10`
   profiling: false
 
@@ -286,7 +286,7 @@ ingress:
 # See https://doc.owncloud.com/ocis/next/deployment/container/orchestration/orchestration.html#customize-the-generic-setup[doc.owncloud.com] for how to generate them.
 configRefs:
   # -- Reference to an existing storage-users config.
-  storageUsersConfigRef: "storage-users"
+  storageusersConfigRef: "storage-users"
   # -- Reference to an existing graph config.
   graphConfigRef: "graph"
 
@@ -314,9 +314,9 @@ secretRefs:
   # -- Reference to an existing SMTP email server settings secret (see ref:Secrets#secrets). Not used if `features.emailNotifications.enabled` equals `false`.
   notificationsSmtpSecretRef: "notifications-smtp-secret"
   # -- Reference to an existing storage-system JWT secret (see ref:Secrets#secrets)
-  storageSystemJwtSecretRef: "storage-system-jwt-secret"
+  storagesystemJwtSecretRef: "storage-system-jwt-secret"
   # -- Reference to an existing storage-system secret (see ref:Secrets#secrets)
-  storageSystemSecretRef: "storage-system"
+  storagesystemSecretRef: "storage-system"
   # -- Reference to an existing thumbnails transfer secret (see ref:Secrets#secrets)
   thumbnailsSecretRef: "thumbnails-transfer-secret"
   # -- Reference to an existing transfer secret (see ref:Secrets#secrets)
@@ -353,6 +353,11 @@ namespaceOverride:
 
 # -- Number of replicas for each scalable service. Has no effect when `autoscaling.enabled` is set to `true`.
 replicas: 1
+
+# Default PodDisruptionBudget to apply to all services, except per-service PodDisruptionBudget configuration in `services.<service-name>.podDisruptionBudget` is set.
+podDisruptionBudget: {}
+  # -- Sets the maxUnavailable or the global PodDisruptionBudget.
+  #maxUnavailable: 1
 
 # Autoscaling settings.
 autoscaling:
@@ -427,13 +432,13 @@ extraResources: []
 services:
   # -- APP PROVIDER service. Not used if `features.appsIntegration.enabled` equals `false`.
   # @default -- see detailed service configuration options below
-  appProvider:
+  appprovider:
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
 
   # -- APP REGISTRY service. Not used if `features.appsIntegration.enabled` equals `false`.
   # @default -- see detailed service configuration options below
-  appRegistry:
+  appregistry:
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
 
@@ -442,18 +447,24 @@ services:
   audit:
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
+    # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
+    podDisruptionBudget: {}
 
   # -- AUTH BASIC service. Not used if `features.externalUserManagement.enabled` equals `true`.
   # @default -- see detailed service configuration options below
-  authBasic:
+  authbasic:
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
+    # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
+    podDisruptionBudget: {}
 
   # -- AUTH MACHINE service.
   # @default -- see detailed service configuration options below
-  authMachine:
+  authmachine:
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
+    # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
+    podDisruptionBudget: {}
 
   # -- EVENT HISTORY service.
   # @default -- see detailed service configuration options below
@@ -466,24 +477,32 @@ services:
   frontend:
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
+    # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
+    podDisruptionBudget: {}
 
   # -- GATEWAY service.
   # @default -- see detailed service configuration options below
   gateway:
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
+    # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
+    podDisruptionBudget: {}
 
   # -- GRAPH service.
   # @default -- see detailed service configuration options below
   graph:
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
+    # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
+    podDisruptionBudget: {}
 
   # -- GROUPS service.
   # @default -- see detailed service configuration options below
   groups:
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
+    # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
+    podDisruptionBudget: {}
 
   # -- IDM service. Not used if `features.externalUserManagement.enabled` equals `true`.
   # @default -- see detailed service configuration options below
@@ -567,18 +586,24 @@ services:
   notifications:
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
+    # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
+    podDisruptionBudget: {}
 
   # -- OCDAV service.
   # @default -- see detailed service configuration options below
   ocdav:
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
+    # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
+    podDisruptionBudget: {}
 
   # -- OCS service.
   # @default -- see detailed service configuration options below
   ocs:
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
+    # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
+    podDisruptionBudget: {}
 
   # -- POSTPROCESSING service.
   # @default -- see detailed service configuration options below
@@ -591,6 +616,8 @@ services:
   proxy:
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
+    # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
+    podDisruptionBudget: {}
 
   # -- SEARCH service.
   # @default -- see detailed service configuration options below
@@ -636,34 +663,44 @@ services:
       existingClaim:
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
+    # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
+    podDisruptionBudget: {}
 
   # -- SETTINGS service.
   # @default -- see detailed service configuration options below
   settings:
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
+    # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
+    podDisruptionBudget: {}
 
   # -- SHARING service.
   # @default -- see detailed service configuration options below
   sharing:
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
+    # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
+    podDisruptionBudget: {}
 
   # -- STORAGE-PUBLICLINK service.
   # @default -- see detailed service configuration options below
-  storagePublicLink:
+  storagepubliclink:
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
+    # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
+    podDisruptionBudget: {}
 
   # -- STORAGE-SHARES service.
   # @default -- see detailed service configuration options below
-  storageShares:
+  storageshares:
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
+    # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
+    podDisruptionBudget: {}
 
   # -- STORAGE-SYSTEM service.
   # @default -- see detailed service configuration options below
-  storageSystem:
+  storagesystem:
     # -- Persistence settings.
     # @default -- see detailed persistence configuration options below
     persistence:
@@ -695,10 +732,12 @@ services:
       existingClaim:
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
+    # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
+    podDisruptionBudget: {}
 
   # -- STORAGE-USERS service.
   # @default -- see detailed service configuration options below
-  storageUsers:
+  storageusers:
     storageBackend:
       # -- Configures the storage driver. Possible values are "ocis" and "s3ng".
       # The oCIS driver stores all data in the persistent volume if persistence is enabled.
@@ -773,6 +812,8 @@ services:
       existingClaim:
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
+    # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
+    podDisruptionBudget: {}
 
 
   # -- STORE service.
@@ -843,6 +884,8 @@ services:
       existingClaim:
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
+    # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
+    podDisruptionBudget: {}
 
   # -- USERLOG service.
   # @default -- see detailed service configuration options below
@@ -855,6 +898,8 @@ services:
   users:
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
+    # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
+    podDisruptionBudget: {}
 
   # -- ownCloud WEB service.
   # @default -- see detailed service configuration options below
@@ -900,12 +945,16 @@ services:
         path: ""
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
+    # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
+    podDisruptionBudget: {}
 
   # -- WEBDAV service.
   # @default -- see detailed service configuration options below
   webdav:
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
+    # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
+    podDisruptionBudget: {}
 
   # -- WEBFINGER service.
   # @default -- see detailed service configuration options below

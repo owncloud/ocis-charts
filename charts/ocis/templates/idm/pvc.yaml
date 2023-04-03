@@ -1,9 +1,10 @@
 {{- if not .Values.features.externalUserManagement.enabled }}
 {{- if and .Values.services.idm.persistence.enabled (not .Values.services.idm.persistence.existingClaim)}}
+{{- include "ocis.appNames" (dict "scope" . "appName" "appNameIdm" "appNameSuffix" "") -}}
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: idm-data
+  name: {{ .appName }}-data
   namespace: {{ template "ocis.namespace" . }}
   labels:
     {{- include "ocis.labels" . | nindent 4 }}

@@ -1,8 +1,9 @@
 {{- if and .Values.services.thumbnails.persistence.enabled (not .Values.services.thumbnails.persistence.existingClaim)}}
+{{- include "ocis.appNames" (dict "scope" . "appName" "appNameThumbnails" "appNameSuffix" "") -}}
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: thumbnails-data
+  name: {{ .appName }}-data
   namespace: {{ template "ocis.namespace" . }}
   labels:
     {{- include "ocis.labels" . | nindent 4 }}
