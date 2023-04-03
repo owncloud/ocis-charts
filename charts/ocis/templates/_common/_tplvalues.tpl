@@ -94,3 +94,25 @@ Adds the app names to the scope and set the name of the app based on the input p
   {{- $_ := set .scope "appName" (index .scope .appName) -}}
   {{- end -}}
 {{- end -}}
+
+{{/*
+oCIS PDB template
+
+*/}}
+{{- define "ocis.pdb" -}}
+{{- $_ := set . "podDisruptionBudget" (default (default (dict) .Values.podDisruptionBudget) (index .Values.services .appName).podDisruptionBudget) -}}
+{{ if .podDisruptionBudget }}
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: {{ .appName }}
+  namespace: {{ template "ocis.namespace" . }}
+  labels:
+    {{- include "ocis.labels" . | nindent 4 }}
+spec:
+  {{- toYaml .podDisruptionBudget | nindent 2 }}
+  selector:
+    matchLabels:
+      app: {{ .appName }}
+{{- end }}
+{{- end -}}

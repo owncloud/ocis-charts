@@ -558,6 +558,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `nil`
 | Override the deployment namespace of all resources in this Helm chart.
+| podDisruptionBudget
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+|
 | replicas
 a| [subs=-attributes]
 +int+
@@ -702,6 +708,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 see detailed service configuration options below
 | AUDIT service.
+| services.audit.podDisruptionBudget
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
 | services.audit.resources
 a| [subs=-attributes]
 +object+
@@ -714,6 +726,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 see detailed service configuration options below
 | AUTH BASIC service. Not used if `features.externalUserManagement.enabled` equals `true`.
+| services.authbasic.podDisruptionBudget
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
 | services.authbasic.resources
 a| [subs=-attributes]
 +object+
@@ -726,6 +744,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 see detailed service configuration options below
 | AUTH MACHINE service.
+| services.authmachine.podDisruptionBudget
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
 | services.authmachine.resources
 a| [subs=-attributes]
 +object+
@@ -750,6 +774,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 see detailed service configuration options below
 | FRONTEND service.
+| services.frontend.podDisruptionBudget
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
 | services.frontend.resources
 a| [subs=-attributes]
 +object+
@@ -762,6 +792,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 see detailed service configuration options below
 | GATEWAY service.
+| services.gateway.podDisruptionBudget
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
 | services.gateway.resources
 a| [subs=-attributes]
 +object+
@@ -774,6 +810,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 see detailed service configuration options below
 | GRAPH service.
+| services.graph.podDisruptionBudget
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
 | services.graph.resources
 a| [subs=-attributes]
 +object+
@@ -786,6 +828,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 see detailed service configuration options below
 | GROUPS service.
+| services.groups.podDisruptionBudget
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
 | services.groups.resources
 a| [subs=-attributes]
 +object+
@@ -954,6 +1002,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 see detailed service configuration options below
 | NOTIFICATIONS service. Not used if `features.emailNotifications.enabled` equals `true`.
+| services.notifications.podDisruptionBudget
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
 | services.notifications.resources
 a| [subs=-attributes]
 +object+
@@ -966,6 +1020,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 see detailed service configuration options below
 | OCDAV service.
+| services.ocdav.podDisruptionBudget
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
 | services.ocdav.resources
 a| [subs=-attributes]
 +object+
@@ -978,6 +1038,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 see detailed service configuration options below
 | OCS service.
+| services.ocs.podDisruptionBudget
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
 | services.ocs.resources
 a| [subs=-attributes]
 +object+
@@ -1002,6 +1068,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 see detailed service configuration options below
 | PROXY service.
+| services.proxy.podDisruptionBudget
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
 | services.proxy.resources
 a| [subs=-attributes]
 +object+
@@ -1092,6 +1164,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `nil`
 | Storage class to use. Uses the default storage class if not set.
+| services.search.podDisruptionBudget
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
 | services.search.resources
 a| [subs=-attributes]
 +object+
@@ -1104,6 +1182,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 see detailed service configuration options below
 | SETTINGS service.
+| services.settings.podDisruptionBudget
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
 | services.settings.resources
 a| [subs=-attributes]
 +object+
@@ -1116,6 +1200,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 see detailed service configuration options below
 | SHARING service.
+| services.sharing.podDisruptionBudget
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
 | services.sharing.resources
 a| [subs=-attributes]
 +object+
@@ -1128,6 +1218,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 see detailed service configuration options below
 | STORAGE-PUBLICLINK service.
+| services.storagepubliclink.podDisruptionBudget
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
 | services.storagepubliclink.resources
 a| [subs=-attributes]
 +object+
@@ -1140,6 +1236,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 see detailed service configuration options below
 | STORAGE-SHARES service.
+| services.storageshares.podDisruptionBudget
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
 | services.storageshares.resources
 a| [subs=-attributes]
 +object+
@@ -1212,6 +1314,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `nil`
 | Storage class to use. Uses the default storage class if not set.
+| services.storagesystem.podDisruptionBudget
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
 | services.storagesystem.resources
 a| [subs=-attributes]
 +object+
@@ -1296,6 +1404,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `nil`
 | Storage class to use. Uses the default storage class if not set.
+| services.storageusers.podDisruptionBudget
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
 | services.storageusers.resources
 a| [subs=-attributes]
 +object+
@@ -1476,6 +1590,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `nil`
 | Storage class to use. Uses the default storage class if not set.
+| services.thumbnails.podDisruptionBudget
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
 | services.thumbnails.resources
 a| [subs=-attributes]
 +object+
@@ -1500,6 +1620,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 see detailed service configuration options below
 | USERS service.
+| services.users.podDisruptionBudget
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
 | services.users.resources
 a| [subs=-attributes]
 +object+
@@ -1548,6 +1674,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `""`
 | URL to load themes from. Will be prepended to the theme path. Defaults to the value of "externalDomain".
+| services.web.podDisruptionBudget
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
 | services.web.resources
 a| [subs=-attributes]
 +object+
@@ -1560,6 +1692,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 see detailed service configuration options below
 | WEBDAV service.
+| services.webdav.podDisruptionBudget
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
 | services.webdav.resources
 a| [subs=-attributes]
 +object+

@@ -1,0 +1,2 @@
+{{- include "ocis.appNames" (dict "scope" . "appName" "appNameSettings" "appNameSuffix" "") -}}
+{{ include "ocis.pdb" . }}
