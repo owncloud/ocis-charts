@@ -762,12 +762,30 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 see detailed service configuration options below
 | EVENT HISTORY service.
+| services.eventhistory.podDisruptionBudget
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
 | services.eventhistory.resources
 a| [subs=-attributes]
 +object+
 a| [subs=-attributes]
 `{}`
 | Per-service resources configuration. Overrides the default setting from `resources` if set.
+| services.eventhistory.storeAddresses
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"{{ .appNameNats }}:9233"`
+| Provide a list of comma-separated addresses of `etcd`, `redis`, `redis-sentinel` or `nats-js` servers here if the proper store is selected
+| services.eventhistory.storeType
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"nats-js"`
+| Configure the store type for the userlog service. Might be `memory`, `ocmem`, `etcd`, `redis`,  `redis-sentinel`, `nats-js` or `noop`
 | services.frontend
 a| [subs=-attributes]
 +object+
@@ -1608,12 +1626,30 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 see detailed service configuration options below
 | USERLOG service.
+| services.userlog.podDisruptionBudget
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
 | services.userlog.resources
 a| [subs=-attributes]
 +object+
 a| [subs=-attributes]
 `{}`
 | Per-service resources configuration. Overrides the default setting from `resources` if set.
+| services.userlog.storeAddresses
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"{{ .appNameNats }}:9233"`
+| Provide a list of comma-separated addresses of `etcd`, `redis`, `redis-sentinel` or `nats-js` servers here if the proper store is selected
+| services.userlog.storeType
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"nats-js"`
+| Configure the store type for the userlog service. Might be `memory`, `ocmem`, `etcd`, `redis`,  `redis-sentinel`, `nats-js` or `noop`
 | services.users
 a| [subs=-attributes]
 +object+
