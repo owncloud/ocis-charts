@@ -471,6 +471,14 @@ services:
   eventhistory:
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
+    # -- Configure the store type for the userlog service. Might be `memory`, `ocmem`, `etcd`, `redis`, 
+    # `redis-sentinel`, `nats-js` or `noop`
+    storeType: nats-js
+    # -- Provide a list of comma-separated addresses of `etcd`, `redis`, `redis-sentinel` or `nats-js` servers here
+    # if the proper store is selected
+    storeAddresses: "{{ .appNameNats }}:9233"
+    # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
+    podDisruptionBudget: {}
 
   # -- FRONTEND service.
   # @default -- see detailed service configuration options below
@@ -892,6 +900,14 @@ services:
   userlog:
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
+    # -- Configure the store type for the userlog service. Might be `memory`, `ocmem`, `etcd`, `redis`, 
+    # `redis-sentinel`, `nats-js` or `noop`
+    storeType: nats-js
+    # -- Provide a list of comma-separated addresses of `etcd`, `redis`, `redis-sentinel` or `nats-js` servers here
+    # if the proper store is selected
+    storeAddresses: "{{ .appNameNats }}:9233"
+    # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
+    podDisruptionBudget: {}
 
   # -- USERS service.
   # @default -- see detailed service configuration options below

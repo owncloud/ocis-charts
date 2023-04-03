@@ -11,7 +11,12 @@ spec:
   selector:
     matchLabels:
       app: {{ .appName }}
-  replicas: 1
+  {{- if and (not .Values.autoscaling.enabled) (.Values.replicas) }}
+  replicas: {{ .Values.replicas }}
+  {{- end }}
+  {{- if .Values.deploymentStrategy }}
+  strategy: {{ toYaml .Values.deploymentStrategy | nindent 4 }}
+  {{ end }}
   template:
     metadata:
       labels:
@@ -55,10 +60,10 @@ spec:
             # - name: EVENTHISTORY_DEBUG_ADDR
             #   value: 0.0.0.0:8081
 
-            # - name: EVENTHISTORY_STORE_TYPE
-            #   value: "mem" # TODO
-            # - name: EVENTHISTORY_STORE_ADDRESSES
-            #   value: "nats:9233" # TODO
+            - name: EVENTHISTORY_STORE_TYPE
+              value: {{ .Values.services.eventhistory.storeType }}
+            - name: EVENTHISTORY_STORE_ADDRESSES
+              value: {{ tpl .Values.services.eventhistory.storeAddresses . }}
 
             - name: EVENTHISTORY_EVENTS_ENDPOINT
             {{- if not .Values.messagingSystem.external.enabled }}
