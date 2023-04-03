@@ -61,9 +61,9 @@ spec:
             #   value: 0.0.0.0:8081
 
             - name: EVENTHISTORY_STORE_TYPE
-              value: {{ .Values.services.eventhistory.storeType }}
+              value: {{ .Values.services.eventhistory.store.type | quote }}
             - name: EVENTHISTORY_STORE_ADDRESSES
-              value: {{ tpl .Values.services.eventhistory.storeAddresses . }}
+              value: {{ tpl (join "," .Values.services.eventhistory.store.addresses) . | quote }}
 
             - name: EVENTHISTORY_EVENTS_ENDPOINT
             {{- if not .Values.messagingSystem.external.enabled }}

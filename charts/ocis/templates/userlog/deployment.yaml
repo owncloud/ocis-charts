@@ -61,9 +61,9 @@ spec:
             #   value: 0.0.0.0:8081
 
             - name: USERLOG_STORE_TYPE
-              value: {{ .Values.services.userlog.storeType }}
+              value: {{ .Values.services.userlog.store.type | quote }}
             - name: USERLOG_STORE_ADDRESSES
-              value: {{ tpl .Values.services.userlog.storeAddresses . }}
+              value: {{ tpl (join "," .Values.services.userlog.store.addresses) . | quote }}
 
             - name: USERLOG_EVENTS_ENDPOINT
             {{- if not .Values.messagingSystem.external.enabled }}

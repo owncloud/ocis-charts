@@ -1,0 +1,39 @@
+replicas: 2
+
+externalDomain: ocis.owncloud.test
+ingress:
+  enabled: true
+  annotations:
+    nginx.ingress.kubernetes.io/proxy-body-size: 1024m
+  tls:
+    - hosts:
+        - ocis.owncloud.test
+insecure:
+  # disables ssl certificate checking for connections to the openID connect identity provider.
+  # Not recommended for production setups, but we don't have valid certificates in minikube
+  oidcIdpInsecure: true
+  # disables ssl certificate checking for connections to the oCIS http apis.
+  # Not recommended for production setups, but we don't have valid certificates in minikube
+  ocisHttpApiInsecure: true
+
+podDisruptionBudget:
+  maxUnavailable: 1
+services:
+ userlog:
+    # -- Configure the store type for the userlog service. Might be `memory`, `ocmem`, `etcd`, `redis`, 
+    # `redis-sentinel`, `nats-js` or `noop`
+    storeType: redis
+    # -- Provide a list of comma-separated addresses of `redis`, `redis-sentinel` or `etcd` servers here
+    # if the proper store is selected
+    storeAddresses: "127.0.0.1:433,127.0.0.2:433"
+    podDisruptionBudget:
+      maxUnavailable: 1
+ eventhistory:
+    # -- Configure the store type for the userlog service. Might be `memory`, `ocmem`, `etcd`, `redis`, 
+    # `redis-sentinel`, `nats-js` or `noop`
+    storeType: redis
+    # -- Provide a list of comma-separated addresses of `redis`, `redis-sentinel` or `etcd` servers here
+    # if the proper store is selected
+    storeAddresses: "127.0.0.1:433,127.0.0.2:433"
+    podDisruptionBudget:
+      maxUnavailable: 1
