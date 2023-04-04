@@ -762,12 +762,24 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 see detailed service configuration options below
 | EVENT HISTORY service.
+| services.eventhistory.podDisruptionBudget
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
 | services.eventhistory.resources
 a| [subs=-attributes]
 +object+
 a| [subs=-attributes]
 `{}`
 | Per-service resources configuration. Overrides the default setting from `resources` if set.
+| services.eventhistory.store
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service store configuration for the eventhistory service. Overrides the default setting from `store` if set.
 | services.frontend
 a| [subs=-attributes]
 +object+
@@ -1608,12 +1620,24 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 see detailed service configuration options below
 | USERLOG service.
+| services.userlog.podDisruptionBudget
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
 | services.userlog.resources
 a| [subs=-attributes]
 +object+
 a| [subs=-attributes]
 `{}`
 | Per-service resources configuration. Overrides the default setting from `resources` if set.
+| services.userlog.store
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service store configuration for the userlog service. Overrides the default setting from `store` if set.
 | services.users
 a| [subs=-attributes]
 +object+
@@ -1716,6 +1740,18 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service resources configuration. Overrides the default setting from `resources` if set.
+| store.addresses
+a| [subs=-attributes]
++list+
+a| [subs=-attributes]
+`["{{ .appNameNats }}:9233"]`
+| Provide a list of comma-separated addresses of `etcd`, `redis`, `redis-sentinel` or `nats-js` servers here if the proper store is selected
+| store.type
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"nats-js"`
+| Configure the store type. Might be `memory`, `ocmem`, `etcd`, `redis`, `redis-sentinel`, `nats-js` or `noop`
 | topologySpreadConstraints
 a| [subs=-attributes]
 +string+

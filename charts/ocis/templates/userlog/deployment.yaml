@@ -1,5 +1,6 @@
 {{- include "ocis.appNames" (dict "scope" . "appName" "appNameUserlog" "appNameSuffix" "") -}}
 {{- $_ := set . "resources" (default (default (dict) .Values.resources) .Values.services.userlog.resources) -}}
+{{- $_ := set . "store" (default (default (dict) .Values.store) .Values.services.userlog.store) -}}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -11,7 +12,12 @@ spec:
   selector:
     matchLabels:
       app: {{ .appName }}
-  replicas: 1
+  {{- if and (not .Values.autoscaling.enabled) (.Values.replicas) }}
+  replicas: {{ .Values.replicas }}
+  {{- end }}
+  {{- if .Values.deploymentStrategy }}
+  strategy: {{ toYaml .Values.deploymentStrategy | nindent 4 }}
+  {{ end }}
   template:
     metadata:
       labels:
@@ -56,9 +62,9 @@ spec:
             #   value: 0.0.0.0:8081
 
             - name: USERLOG_STORE_TYPE
-              value: "mem" # TODO
-            # - name: USERLOG_STORE_ADDRESSES
-            #   value: "nats:9233" # TODO
+              value: {{ .store.type | quote }}
+            - name: USERLOG_STORE_ADDRESSES
+              value: {{ tpl (join "," .store.addresses) . | quote }}
 
             - name: USERLOG_EVENTS_ENDPOINT
             {{- if not .Values.messagingSystem.external.enabled }}
