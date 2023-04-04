@@ -63,6 +63,14 @@ cache:
   #   - redis-master-1.ocis-redis.svc.cluster.local:6379
   #   - redis-master-2.ocis-redis.svc.cluster.local:6379
 
+store:
+  # -- Configure the store type. Might be `memory`, `ocmem`, `etcd`, `redis`, `redis-sentinel`, `nats-js` or `noop`
+  type: nats-js
+  # -- Provide a list of comma-separated addresses of `etcd`, `redis`, `redis-sentinel` or `nats-js` servers here
+  # if the proper store is selected
+  addresses: 
+    - "{{ .appNameNats }}:9233"
+
 messagingSystem:
   external:
     # -- Use an external NATS messaging system instead of the internal one.
@@ -471,14 +479,15 @@ services:
   eventhistory:
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
-    store:
-      # -- Configure the store type for the userlog service. Might be `memory`, `ocmem`, `etcd`, `redis`, 
+    # -- Per-service store configuration for the eventhistory service. Overrides the default setting from `store` if set.
+    store: {}
+      # -- Configure the store type for the eventhistory service. Might be `memory`, `ocmem`, `etcd`, `redis`, 
       # `redis-sentinel`, `nats-js` or `noop`
-      type: nats-js
+      #type: 
       # -- Provide a list of comma-separated addresses of `etcd`, `redis`, `redis-sentinel` or `nats-js` servers here
       # if the proper store is selected
-      addresses: 
-        - "{{ .appNameNats }}:9233"
+      # addresses: []
+        # - "{{ .appNameNats }}:9233"
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
     podDisruptionBudget: {}
 
@@ -902,14 +911,15 @@ services:
   userlog:
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
-    store:
+    # -- Per-service store configuration for the userlog service. Overrides the default setting from `store` if set.
+    store: {}
       # -- Configure the store type for the userlog service. Might be `memory`, `ocmem`, `etcd`, `redis`, 
       # `redis-sentinel`, `nats-js` or `noop`
-      type: nats-js
+      # type: 
       # -- Provide a list of comma-separated addresses of `etcd`, `redis`, `redis-sentinel` or `nats-js` servers here
       # if the proper store is selected
-      addresses: 
-        - "{{ .appNameNats }}:9233"
+      # addresses: 
+        # - "{{ .appNameNats }}:9233"
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
     podDisruptionBudget: {}
 
