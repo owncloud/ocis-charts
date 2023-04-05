@@ -179,6 +179,20 @@ features:
       # Set to `username` if the claim specified in `...oidc.userIDClaim` holds the value of the ldap user attribute specified in `...ldap.user.schema.userName`.
       userIDClaimAttributeMapping: userid
 
+      # -- Configure OIDC role assignment. If activate oCIS will read the role assigment from the OIDC token, see 
+      # https://owncloud.dev/services/proxy/#automatic-role-assignments
+      # Note: Enabling `roleAssignment` will disable `adminUUID`.
+      roleAssignment: 
+        enabled: false
+        # -- The name of the OIDC claim holding the role assignment
+        claim: roles
+        # -- Configure the mapping for the role assignment
+        mapping: 
+          admin: ocisAdmin
+          user: ocisUser
+          spaceadmin: ocisSpaceAdmin
+          guest: ocisGuest
+
     # LDAP related settings.
     ldap:
       # -- Writeable configures if oCIS is allowed to write to the LDAP server, to eg. create users.

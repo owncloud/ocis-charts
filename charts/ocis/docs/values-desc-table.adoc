@@ -384,6 +384,24 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `"https://idp.owncloud.test/realms/ocis"`
 | Issuer URI of the OpenID Connect Identity Provider. If the IDP doesn't have valid / trusted SSL certificates, certificate validation can be disabled with the `insecure.oidcIdpInsecure` option.
+| features.externalUserManagement.oidc.roleAssignment
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{"claim":"roles","enabled":false,"mapping":{"admin":"ocisAdmin","guest":"ocisGuest","spaceadmin":"ocisSpaceAdmin","user":"ocisUser"}}`
+| Configure OIDC role assignment. If activate oCIS will read the role assigment from the OIDC token, see  https://owncloud.dev/services/proxy/#automatic-role-assignments Note: Enabling `roleAssignment` will disable `adminUUID`.
+| features.externalUserManagement.oidc.roleAssignment.claim
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"roles"`
+| The name of the OIDC claim holding the role assignment
+| features.externalUserManagement.oidc.roleAssignment.mapping
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{"admin":"ocisAdmin","guest":"ocisGuest","spaceadmin":"ocisSpaceAdmin","user":"ocisUser"}`
+| Configure the mapping for the role assignment
 | features.externalUserManagement.oidc.userIDClaim
 a| [subs=-attributes]
 +string+

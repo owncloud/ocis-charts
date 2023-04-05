@@ -16,6 +16,20 @@ data:
     role_quotas:
       {{- toYaml . | nindent 8 }}
     {{- end }}
+    {{- if $.Values.features.externalUserManagement.oidc.roleAssignment.enabled }}
+    role_assignment:
+      driver: oidc
+      {{- if or $.Values.features.externalUserManagement.oidc.roleAssignment.claim $.Values.features.externalUserManagement.oidc.roleAssignment.mapping }}
+      oidc_role_mapper:
+        {{- with $.Values.features.externalUserManagement.oidc.roleAssignment.claim }}
+        role_claim: {{ . }}
+        {{- end }}
+        {{- with $.Values.features.externalUserManagement.oidc.roleAssignment.mapping }}
+        role_mapping:
+          {{- toYaml . | nindent 10 }}
+        {{- end }}
+      {{- end }}
+    {{- end }}
     policies:
     - name: ocis
       routes:

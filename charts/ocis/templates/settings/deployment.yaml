@@ -70,6 +70,7 @@ spec:
             - name: STORAGE_GRPC_ADDR
               value: {{ .appNameStorageSystem }}:9215
 
+            {{- if not .Values.features.externalUserManagement.oidc.roleAssignment.enabled }}
             - name: SETTINGS_ADMIN_USER_ID
             {{- if .Values.features.externalUserManagement.enabled }}
               value: {{ .Values.features.externalUserManagement.adminUUID | quote }}
@@ -78,6 +79,7 @@ spec:
                 secretKeyRef:
                   name: {{ .Values.secretRefs.adminUserSecretRef }}
                   key: user-id
+            {{- end }}
             {{- end }}
 
             {{- if or .Values.features.roles.customRoles .Values.features.roles.customRolesConfigRef }}
