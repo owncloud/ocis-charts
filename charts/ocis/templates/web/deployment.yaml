@@ -68,7 +68,11 @@ spec:
             {{ else }}
               value: {{ .Values.features.externalUserManagement.oidc.issuerURI | quote }}
             {{ end }}
-
+            
+            {{- with .Values.features.externalUserManagement.oidc.webClientID }}
+            - name: WEB_OIDC_CLIENT_ID
+              value: {{ . | quote }}
+            {{ end }}
             - name: WEB_UI_THEME_SERVER
             {{ if .Values.services.web.config.theme.server }}
               value: {{ .Values.services.web.config.theme.server | quote }}
