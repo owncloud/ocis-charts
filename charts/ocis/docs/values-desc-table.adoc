@@ -221,7 +221,7 @@ a| [subs=-attributes]
 +string+
 a| [subs=-attributes]
 `""`
-| UUID of the inital admin user. If the given value matches a user's value from `features.externalUserManagement.oidc.userIDClaim`, the admin role will be assigned. Consider that the UUID can be encoded in some LDAP deployment configurations like in .ldif files. These need to be decoded beforehand.
+| UUID of the inital admin user. If the given value matches a user's value from `features.externalUserManagement.oidc.userIDClaim`, the admin role will be assigned. Consider that the UUID can be encoded in some LDAP deployment configurations like in .ldif files. These need to be decoded beforehand. Note: Enabling `roleAssignment` will disable `adminUUID`.
 | features.externalUserManagement.enabled
 a| [subs=-attributes]
 +bool+
@@ -384,6 +384,24 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `"https://idp.owncloud.test/realms/ocis"`
 | Issuer URI of the OpenID Connect Identity Provider. If the IDP doesn't have valid / trusted SSL certificates, certificate validation can be disabled with the `insecure.oidcIdpInsecure` option.
+| features.externalUserManagement.oidc.roleAssignment
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{"claim":"roles","enabled":false,"mapping":{"admin":"ocisAdmin","guest":"ocisGuest","spaceadmin":"ocisSpaceAdmin","user":"ocisUser"}}`
+| Configure OIDC role assignment. If activated, oCIS will read the role assigment from the OIDC token, see  xref:{s-path}/proxy.adoc#automatic-role-assignments[Automatic Role Assignments]
+| features.externalUserManagement.oidc.roleAssignment.claim
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"roles"`
+| The name of the OIDC claim holding the role assignment
+| features.externalUserManagement.oidc.roleAssignment.mapping
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{"admin":"ocisAdmin","guest":"ocisGuest","spaceadmin":"ocisSpaceAdmin","user":"ocisUser"}`
+| Configure the mapping for the role assignment
 | features.externalUserManagement.oidc.userIDClaim
 a| [subs=-attributes]
 +string+

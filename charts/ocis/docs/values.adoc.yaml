@@ -173,6 +173,7 @@ features:
     # -- UUID of the inital admin user.
     # If the given value matches a user's value from `features.externalUserManagement.oidc.userIDClaim`, the admin role will be assigned.
     # Consider that the UUID can be encoded in some LDAP deployment configurations like in .ldif files. These need to be decoded beforehand.
+    # Note: Enabling `roleAssignment` will disable `adminUUID`.
     adminUUID: ""
     # OpenID Connect Identity provider related settings.
     oidc:
@@ -187,6 +188,19 @@ features:
       # Set to `mail` if the claim specified in `...oidc.userIDClaim` holds the value of the ldap user attribute specified in  `...ldap.user.schema.mail`.
       # Set to `username` if the claim specified in `...oidc.userIDClaim` holds the value of the ldap user attribute specified in `...ldap.user.schema.userName`.
       userIDClaimAttributeMapping: userid
+
+      # -- Configure OIDC role assignment. If activated, oCIS will read the role assigment from the OIDC token, see 
+      # xref:{s-path}/proxy.adoc#automatic-role-assignments[Automatic Role Assignments]
+      roleAssignment: 
+        enabled: false
+        # -- The name of the OIDC claim holding the role assignment
+        claim: roles
+        # -- Configure the mapping for the role assignment
+        mapping: 
+          admin: ocisAdmin
+          user: ocisUser
+          spaceadmin: ocisSpaceAdmin
+          guest: ocisGuest
 
     # LDAP related settings.
     ldap:
