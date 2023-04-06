@@ -181,7 +181,7 @@ features:
       userIDClaimAttributeMapping: userid
 
       # -- Configure OIDC role assignment. If activate oCIS will read the role assigment from the OIDC token, see 
-      # https://owncloud.dev/services/proxy/#automatic-role-assignments
+      # xref:{s-path}/proxy.adoc#automatic-role-assignments[Automatic Role Assignments]
       roleAssignment: 
         enabled: false
         # -- The name of the OIDC claim holding the role assignment
