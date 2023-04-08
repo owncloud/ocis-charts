@@ -181,6 +181,8 @@ features:
       # If the IDP doesn't have valid / trusted SSL certificates, certificate validation can be disabled with the `insecure.oidcIdpInsecure` option.
       issuerURI: https://idp.owncloud.test/realms/ocis
 
+      # -- Specify the client ID which the web frontend will use
+      webClientID: web
       # -- Claim to take an unique user identifier from. It will be used to look up the user on the LDAP server.
       userIDClaim: ocis.user.uuid
       # -- Attribute mapping of for the userIDClaim.
