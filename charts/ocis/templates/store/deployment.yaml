@@ -42,7 +42,7 @@ spec:
       {{ end }}
       containers:
         - name: {{ .appName }}
-          image: owncloud/ocis:2.0.0
+          image: owncloud/ocis:latest@sha256:5980276f6aaf06e478a7639ddaa1378967a947df32c4a5fd18749179d7daf570 # post 3.0.0-alpha.1
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           command: ["ocis"]
           args: ["store", "server"]
