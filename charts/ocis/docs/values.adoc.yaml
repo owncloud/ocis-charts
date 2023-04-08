@@ -780,7 +780,13 @@ services:
       # The S3NG driver stores all metadata in the persistent volume and uploads blobs to s3 if persistence is enabled.
       driver: ocis
       driverConfig:
+        ocis:
+          # -- Metadata backend to use for the oCIS storage driver. Valid values are: "messagepack", "xattrs".
+          metadataBackend: messagepack
         s3ng:
+          # -- Metadata backend to use for the S3NG storage driver. Valid values are: "messagepack", "xattrs".
+          metadataBackend: messagepack
+
           # The S3NG driver needs an existing S3 bucket with following permissions:
           # {
           #     "Version": "2012-10-17",
@@ -799,7 +805,6 @@ services:
           #         }
           #     ]
           # }
-
           # -- S3 endpoint to use for the S3NG driver. Only used if driver is set to "s3ng".
           endpoint: https://localhost:1234
           # -- S3 region to use for the S3NG driver. Only used if driver is set to "s3ng".

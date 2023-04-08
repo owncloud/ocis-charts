@@ -87,12 +87,16 @@ spec:
             {{- if  eq .Values.services.storageusers.storageBackend.driver "ocis" }}
             - name: STORAGE_USERS_DRIVER
               value: ocis
+            - name: STORAGE_USERS_OCIS_METADATA_BACKEND
+              value: {{ .Values.services.storageusers.storageBackend.driverConfig.ocis.metadataBackend | quote }}
             {{- end }}
 
             # S3ng storage driver (decomposed filesystem)
             {{- if  eq .Values.services.storageusers.storageBackend.driver "s3ng" }}
             - name: STORAGE_USERS_DRIVER
               value: s3ng
+            - name: STORAGE_USERS_S3NG_METADATA_BACKEND
+              value: {{ .Values.services.storageusers.storageBackend.driverConfig.s3ng.metadataBackend | quote }}
             - name: STORAGE_USERS_S3NG_ENDPOINT
               value: {{ .Values.services.storageusers.storageBackend.driverConfig.s3ng.endpoint | quote }}
             - name: STORAGE_USERS_S3NG_REGION
@@ -153,7 +157,7 @@ spec:
                 secretKeyRef:
                   name: {{ .Values.secretRefs.transferSecretSecretRef }}
                   key: transfer-secret
-            
+
             {{- if .Values.features.quotas.max }}
             - name: STORAGE_USERS_OCIS_MAX_QUOTA
               value: {{ .Values.features.quotas.max }}
