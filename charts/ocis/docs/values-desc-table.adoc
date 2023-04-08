@@ -221,7 +221,7 @@ a| [subs=-attributes]
 +string+
 a| [subs=-attributes]
 `""`
-| UUID of the inital admin user. If the given value matches a user's value from `features.externalUserManagement.oidc.userIDClaim`, the admin role will be assigned. Consider that the UUID can be encoded in some LDAP deployment configurations like in .ldif files. These need to be decoded beforehand.
+| UUID of the inital admin user. If the given value matches a user's value from `features.externalUserManagement.oidc.userIDClaim`, the admin role will be assigned. Consider that the UUID can be encoded in some LDAP deployment configurations like in .ldif files. These need to be decoded beforehand. Note: Enabling `roleAssignment` will disable `adminUUID`.
 | features.externalUserManagement.enabled
 a| [subs=-attributes]
 +bool+
@@ -384,6 +384,24 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `"https://idp.owncloud.test/realms/ocis"`
 | Issuer URI of the OpenID Connect Identity Provider. If the IDP doesn't have valid / trusted SSL certificates, certificate validation can be disabled with the `insecure.oidcIdpInsecure` option.
+| features.externalUserManagement.oidc.roleAssignment
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{"claim":"roles","enabled":false,"mapping":{"admin":"ocisAdmin","guest":"ocisGuest","spaceadmin":"ocisSpaceAdmin","user":"ocisUser"}}`
+| Configure OIDC role assignment. If activated, oCIS will read the role assigment from the OIDC token, see  xref:{s-path}/proxy.adoc#automatic-role-assignments[Automatic Role Assignments]
+| features.externalUserManagement.oidc.roleAssignment.claim
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"roles"`
+| The name of the OIDC claim holding the role assignment
+| features.externalUserManagement.oidc.roleAssignment.mapping
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{"admin":"ocisAdmin","guest":"ocisGuest","spaceadmin":"ocisSpaceAdmin","user":"ocisUser"}`
+| Configure the mapping for the role assignment
 | features.externalUserManagement.oidc.userIDClaim
 a| [subs=-attributes]
 +string+
@@ -396,6 +414,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `"userid"`
 | Attribute mapping of for the userIDClaim. Set to `userid` if the claim specified in `...oidc.userIDClaim` holds the value of the ldap user attribute specified in `...ldap.user.schema.id`. Set to `mail` if the claim specified in `...oidc.userIDClaim` holds the value of the ldap user attribute specified in  `...ldap.user.schema.mail`. Set to `username` if the claim specified in `...oidc.userIDClaim` holds the value of the ldap user attribute specified in `...ldap.user.schema.userName`.
+| features.externalUserManagement.oidc.webClientID
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"web"`
+| Specify the client ID which the web frontend will use
 | features.quotas.default
 a| [subs=-attributes]
 +string+
@@ -762,12 +786,24 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 see detailed service configuration options below
 | EVENT HISTORY service.
+| services.eventhistory.podDisruptionBudget
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
 | services.eventhistory.resources
 a| [subs=-attributes]
 +object+
 a| [subs=-attributes]
 `{}`
 | Per-service resources configuration. Overrides the default setting from `resources` if set.
+| services.eventhistory.store
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service store configuration for the eventhistory service. Overrides the default setting from `store` if set.
 | services.frontend
 a| [subs=-attributes]
 +object+
@@ -1422,6 +1458,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `"ocis"`
 | Configures the storage driver. Possible values are "ocis" and "s3ng". The oCIS driver stores all data in the persistent volume if persistence is enabled. The S3NG driver stores all metadata in the persistent volume and uploads blobs to s3 if persistence is enabled.
+| services.storageusers.storageBackend.driverConfig.ocis.metadataBackend
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"messagepack"`
+| Metadata backend to use for the oCIS storage driver. Valid values are: "messagepack", "xattrs".
 | services.storageusers.storageBackend.driverConfig.s3ng.accessKey
 a| [subs=-attributes]
 +string+
@@ -1440,6 +1482,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `"https://localhost:1234"`
 | S3 endpoint to use for the S3NG driver. Only used if driver is set to "s3ng".
+| services.storageusers.storageBackend.driverConfig.s3ng.metadataBackend
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"messagepack"`
+| Metadata backend to use for the S3NG storage driver. Valid values are: "messagepack", "xattrs".
 | services.storageusers.storageBackend.driverConfig.s3ng.region
 a| [subs=-attributes]
 +string+
@@ -1608,12 +1656,24 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 see detailed service configuration options below
 | USERLOG service.
+| services.userlog.podDisruptionBudget
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
 | services.userlog.resources
 a| [subs=-attributes]
 +object+
 a| [subs=-attributes]
 `{}`
 | Per-service resources configuration. Overrides the default setting from `resources` if set.
+| services.userlog.store
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service store configuration for the userlog service. Overrides the default setting from `store` if set.
 | services.users
 a| [subs=-attributes]
 +object+
@@ -1716,6 +1776,18 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service resources configuration. Overrides the default setting from `resources` if set.
+| store.addresses
+a| [subs=-attributes]
++list+
+a| [subs=-attributes]
+`["{{ .appNameNats }}:9233"]`
+| Provide a list of comma-separated addresses of `etcd`, `redis`, `redis-sentinel` or `nats-js` servers here if the proper store is selected
+| store.type
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"nats-js"`
+| Configure the store type. Might be `memory`, `ocmem`, `etcd`, `redis`, `redis-sentinel`, `nats-js` or `noop`
 | topologySpreadConstraints
 a| [subs=-attributes]
 +string+

@@ -63,22 +63,25 @@ spec:
               value: 0.0.0.0:9104
 
             - name: WEB_OIDC_AUTHORITY
-            {{ if not .Values.features.externalUserManagement.enabled }}
+            {{- if not .Values.features.externalUserManagement.enabled }}
               value: "https://{{ .Values.externalDomain }}"
-            {{ else }}
+            {{- else }}
               value: {{ .Values.features.externalUserManagement.oidc.issuerURI | quote }}
-            {{ end }}
+            {{- end }}
+
+            - name: WEB_OIDC_CLIENT_ID
+              value: {{ .Values.features.externalUserManagement.oidc.webClientID | quote }}
 
             - name: WEB_UI_THEME_SERVER
-            {{ if .Values.services.web.config.theme.server }}
+            {{- if .Values.services.web.config.theme.server }}
               value: {{ .Values.services.web.config.theme.server | quote }}
-            {{ else }}
+            {{- else }}
               value: https://{{ .Values.externalDomain }}
-            {{ end }}
-            {{ if .Values.services.web.config.theme.path }}
+            {{- end }}
+            {{- if .Values.services.web.config.theme.path }}
             - name: WEB_UI_THEME_PATH
               value: {{ .Values.services.web.config.theme.path | quote }}
-            {{ end }}
+            {{- end }}
 
             - name: WEB_UI_CONFIG_SERVER
               value: "https://{{ .Values.externalDomain }}"

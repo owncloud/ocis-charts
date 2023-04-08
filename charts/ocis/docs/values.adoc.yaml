@@ -64,6 +64,14 @@ cache:
   #   - redis-master-1.ocis-redis.svc.cluster.local:6379
   #   - redis-master-2.ocis-redis.svc.cluster.local:6379
 
+store:
+  # -- Configure the store type. Might be `memory`, `ocmem`, `etcd`, `redis`, `redis-sentinel`, `nats-js` or `noop`
+  type: nats-js
+  # -- Provide a list of comma-separated addresses of `etcd`, `redis`, `redis-sentinel` or `nats-js` servers here
+  # if the proper store is selected
+  addresses: 
+    - "{{ .appNameNats }}:9233"
+
 messagingSystem:
   external:
     # -- Use an external NATS messaging system instead of the internal one.
@@ -165,6 +173,7 @@ features:
     # -- UUID of the inital admin user.
     # If the given value matches a user's value from `features.externalUserManagement.oidc.userIDClaim`, the admin role will be assigned.
     # Consider that the UUID can be encoded in some LDAP deployment configurations like in .ldif files. These need to be decoded beforehand.
+    # Note: Enabling `roleAssignment` will disable `adminUUID`.
     adminUUID: ""
     # OpenID Connect Identity provider related settings.
     oidc:
@@ -172,6 +181,8 @@ features:
       # If the IDP doesn't have valid / trusted SSL certificates, certificate validation can be disabled with the `insecure.oidcIdpInsecure` option.
       issuerURI: https://idp.owncloud.test/realms/ocis
 
+      # -- Specify the client ID which the web frontend will use
+      webClientID: web
       # -- Claim to take an unique user identifier from. It will be used to look up the user on the LDAP server.
       userIDClaim: ocis.user.uuid
       # -- Attribute mapping of for the userIDClaim.
@@ -179,6 +190,19 @@ features:
       # Set to `mail` if the claim specified in `...oidc.userIDClaim` holds the value of the ldap user attribute specified in  `...ldap.user.schema.mail`.
       # Set to `username` if the claim specified in `...oidc.userIDClaim` holds the value of the ldap user attribute specified in `...ldap.user.schema.userName`.
       userIDClaimAttributeMapping: userid
+
+      # -- Configure OIDC role assignment. If activated, oCIS will read the role assigment from the OIDC token, see 
+      # xref:{s-path}/proxy.adoc#automatic-role-assignments[Automatic Role Assignments]
+      roleAssignment: 
+        enabled: false
+        # -- The name of the OIDC claim holding the role assignment
+        claim: roles
+        # -- Configure the mapping for the role assignment
+        mapping: 
+          admin: ocisAdmin
+          user: ocisUser
+          spaceadmin: ocisSpaceAdmin
+          guest: ocisGuest
 
     # LDAP related settings.
     ldap:
@@ -472,6 +496,17 @@ services:
   eventhistory:
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
+    # -- Per-service store configuration for the eventhistory service. Overrides the default setting from `store` if set.
+    store: {}
+      # -- Configure the store type for the eventhistory service. Might be `memory`, `ocmem`, `etcd`, `redis`, 
+      # `redis-sentinel`, `nats-js` or `noop`
+      #type: 
+      # -- Provide a list of comma-separated addresses of `etcd`, `redis`, `redis-sentinel` or `nats-js` servers here
+      # if the proper store is selected
+      # addresses: []
+        # - "{{ .appNameNats }}:9233"
+    # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
+    podDisruptionBudget: {}
 
   # -- FRONTEND service.
   # @default -- see detailed service configuration options below
@@ -745,7 +780,13 @@ services:
       # The S3NG driver stores all metadata in the persistent volume and uploads blobs to s3 if persistence is enabled.
       driver: ocis
       driverConfig:
+        ocis:
+          # -- Metadata backend to use for the oCIS storage driver. Valid values are: "messagepack", "xattrs".
+          metadataBackend: messagepack
         s3ng:
+          # -- Metadata backend to use for the S3NG storage driver. Valid values are: "messagepack", "xattrs".
+          metadataBackend: messagepack
+
           # The S3NG driver needs an existing S3 bucket with following permissions:
           # {
           #     "Version": "2012-10-17",
@@ -764,7 +805,6 @@ services:
           #         }
           #     ]
           # }
-
           # -- S3 endpoint to use for the S3NG driver. Only used if driver is set to "s3ng".
           endpoint: https://localhost:1234
           # -- S3 region to use for the S3NG driver. Only used if driver is set to "s3ng".
@@ -893,6 +933,17 @@ services:
   userlog:
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
+    # -- Per-service store configuration for the userlog service. Overrides the default setting from `store` if set.
+    store: {}
+      # -- Configure the store type for the userlog service. Might be `memory`, `ocmem`, `etcd`, `redis`, 
+      # `redis-sentinel`, `nats-js` or `noop`
+      # type: 
+      # -- Provide a list of comma-separated addresses of `etcd`, `redis`, `redis-sentinel` or `nats-js` servers here
+      # if the proper store is selected
+      # addresses: 
+        # - "{{ .appNameNats }}:9233"
+    # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
+    podDisruptionBudget: {}
 
   # -- USERS service.
   # @default -- see detailed service configuration options below
