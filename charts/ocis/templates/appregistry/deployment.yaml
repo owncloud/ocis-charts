@@ -99,5 +99,5 @@ spec:
           emptyDir: {}
         - name: configs
           configMap:
-            name: {{ .appName }}-registry-config
+            name: {{ .appName }}-config
 {{ end }}
