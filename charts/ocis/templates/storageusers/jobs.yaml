@@ -1,5 +1,6 @@
 {{- if and .Values.services.storageusers.persistence.enabled .Values.services.storageusers.maintenance.cleanUpExpiredUploads.enabled }}
 {{- include "ocis.appNames" (dict "scope" . "appName" "appNameStorageUsers" "appNameSuffix" "") -}}
+---
 apiVersion: batch/v1
 kind: CronJob
 metadata:
@@ -11,6 +12,7 @@ spec:
   schedule: "{{ .Values.services.storageusers.maintenance.cleanUpExpiredUploads.schedule }}"
   successfulJobsHistoryLimit: 3
   failedJobsHistoryLimit: 3
+  concurrencyPolicy: Forbid
   jobTemplate:
     spec:
       parallelism: 1
@@ -68,6 +70,127 @@ spec:
                     secretKeyRef:
                       name: {{ .Values.secretRefs.transferSecretSecretRef }}
                       key: transfer-secret
+
+                - name: STORAGE_USERS_MOUNT_ID
+                  valueFrom:
+                    configMapKeyRef:
+                      name: {{ .Values.configRefs.storageusersConfigRef }}
+                      key: storage-uuid
+
+              resources: {{ toYaml .Values.resources | nindent 16 }}
+
+              volumeMounts:
+                - name: tmp-volume
+                  mountPath: /tmp
+                - name: storage-users-data
+                  mountPath: /var/lib/ocis
+
+          {{- include "ocis.imagePullSecrets" $ | nindent 10 }}
+          volumes:
+            - name: tmp-volume
+              emptyDir: {}
+            - name: storage-users-data
+              persistentVolumeClaim:
+                claimName: {{ .appName }}-data
+{{ end }}
+{{- if and .Values.services.storageusers.persistence.enabled .Values.services.storageusers.maintenance.purgeExpiredTrashBinItems.enabled }}
+{{- include "ocis.appNames" (dict "scope" . "appName" "appNameStorageUsers" "appNameSuffix" "") -}}
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: storage-users-purge-expired-trash-bin-items
+  namespace: {{ template "ocis.namespace" . }}
+  labels:
+    {{- include "ocis.labels" . | nindent 4 }}
+spec:
+  schedule: "{{ .Values.services.storageusers.maintenance.purgeExpiredTrashBinItems.schedule }}"
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 3
+  concurrencyPolicy: Forbid
+  jobTemplate:
+    spec:
+      parallelism: 1
+      template:
+        metadata:
+          labels:
+            app: storage-users-purge-expired-trash-bin-items
+            {{- include "ocis.labels" . | nindent 12 }}
+
+        spec:
+          restartPolicy: Never
+          containers:
+            - name: storage-users-purge-expired-trash-bin-items
+              image: {{ template "ocis.image" $ }}
+              imagePullPolicy: {{ .Values.image.pullPolicy }}
+              command: ["ocis"]
+              args: ["storage-users", "trash-bin", "purge-expired"]
+              securityContext:
+                runAsNonRoot: true
+                runAsUser: {{ .Values.securityContext.runAsUser }}
+                runAsGroup: {{ .Values.securityContext.runAsGroup }}
+                readOnlyRootFilesystem: true
+              env:
+                - name: MICRO_REGISTRY
+                  value: kubernetes
+
+                # logging
+                - name: STORAGE_USERS_LOG_COLOR
+                  value: {{ .Values.logging.color | quote }}
+                - name: STORAGE_USERS_LOG_LEVEL
+                  value: {{ .Values.logging.level | quote }}
+                - name: STORAGE_USERS_LOG_PRETTY
+                  value: {{ .Values.logging.pretty | quote }}
+
+                # oCIS storage driver (decomposed filesystem)
+                {{- if  eq .Values.services.storageusers.storageBackend.driver "ocis" }}
+                - name: STORAGE_USERS_DRIVER
+                  value: ocis
+                {{- end }}
+
+                # S3ng storage driver (decomposed filesystem)
+                {{- if  eq .Values.services.storageusers.storageBackend.driver "s3ng" }}
+                - name: STORAGE_USERS_DRIVER
+                  value: s3ng
+                {{- end }}
+
+                - name: STORAGE_USERS_JWT_SECRET
+                  valueFrom:
+                    secretKeyRef:
+                      name: {{ .Values.secretRefs.jwtSecretRef }}
+                      key: jwt-secret
+
+                - name: STORAGE_TRANSFER_SECRET
+                  valueFrom:
+                    secretKeyRef:
+                      name: {{ .Values.secretRefs.transferSecretSecretRef }}
+                      key: transfer-secret
+
+                - name: STORAGE_USERS_MOUNT_ID
+                  valueFrom:
+                    configMapKeyRef:
+                      name: {{ .Values.configRefs.storageusersConfigRef }}
+                      key: storage-uuid
+
+                # events
+                - name: STORAGE_USERS_EVENTS_ENDPOINT
+                {{- if not .Values.messagingSystem.external.enabled }}
+                  value: {{ .appNameNats }}:9233
+                {{- else }}
+                  value: {{ .Values.messagingSystem.external.endpoint | quote }}
+                - name: STORAGE_USERS_EVENTS_CLUSTER
+                  value: {{ .Values.messagingSystem.external.cluster | quote }}
+                - name: STORAGE_USERS_EVENTS_ENABLE_TLS
+                  value: {{ .Values.messagingSystem.external.tls.enabled | quote }}
+                - name: STORAGE_USERS_EVENTS_TLS_INSECURE
+                  value: {{ .Values.messagingSystem.external.tls.insecure | quote }}
+                - name: STORAGE_USERS_EVENTS_TLS_ROOT_CA_CERTIFICATE
+                  {{- if not .Values.messagingSystem.external.tls.certTrusted }}
+                  value: /etc/ocis/messaging-system-ca/messaging-system-ca.crt
+                  {{- else }}
+                  value: "" # no cert needed
+                  {{- end }}
+                {{- end }}
 
               resources: {{ toYaml .Values.resources | nindent 16 }}
 

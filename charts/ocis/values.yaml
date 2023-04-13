@@ -821,6 +821,12 @@ services:
         enabled: false
         # -- Cron pattern for the job to be run. Defaults to every minute.
         schedule: "* * * * *"
+      # Expired trash bin items can be cleaned up automatically by enabling the purge exired trash bin items job.
+      purgeExpiredTrashBinItems:
+        # -- Enables a job, that purges expired trash bin items. Requires persistence to be enabled.
+        enabled: false
+        # -- Cron pattern for the job to be run. Defaults to every minute.
+        schedule: "* * * * *"
     # -- Persistence settings.
     # @default -- see detailed persistence configuration options below
     persistence:
