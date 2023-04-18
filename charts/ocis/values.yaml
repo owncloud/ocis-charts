@@ -68,7 +68,7 @@ store:
   type: nats-js
   # -- Provide a list of comma-separated addresses of `etcd`, `redis`, `redis-sentinel` or `nats-js` servers here
   # if the proper store is selected
-  addresses: 
+  addresses:
     - "{{ .appNameNats }}:9233"
 
 messagingSystem:
@@ -190,14 +190,14 @@ features:
       # Set to `username` if the claim specified in `...oidc.userIDClaim` holds the value of the ldap user attribute specified in `...ldap.user.schema.userName`.
       userIDClaimAttributeMapping: userid
 
-      # -- Configure OIDC role assignment. If activated, oCIS will read the role assigment from the OIDC token, see 
+      # -- Configure OIDC role assignment. If activated, oCIS will read the role assigment from the OIDC token, see
       # xref:{s-path}/proxy.adoc#automatic-role-assignments[Automatic Role Assignments]
-      roleAssignment: 
+      roleAssignment:
         enabled: false
         # -- The name of the OIDC claim holding the role assignment
         claim: roles
         # -- Configure the mapping for the role assignment
-        mapping: 
+        mapping:
           admin: ocisAdmin
           user: ocisUser
           spaceadmin: ocisSpaceAdmin
@@ -287,6 +287,26 @@ features:
     #   71881883-1768-46bd-a24d-a356a2afdf7f: 100000000000
     #   # Space Administrator Role set to 100GB
     #   2aadd357-682c-406b-8874-293091995fdd: 100000000000
+  # Define virus scanning
+  virusscan:
+    # -- Enabled virus scanning
+    enabled: false
+    # -- Define what should happen with infected files. Supported options are: 'delete', 'continue' and 'abort '.
+    # Delete will delete the file.
+    # Continue will mark the file as infected but continues further processing.
+    # Abort will keep the file in the uploads folder for further admin inspection and will not move it to its final destination.
+    infectedFileHandling: delete
+    # -- Sets a maximum file size for scans. Only this many bytes of a file will be scanned. 0 means unlimited and is the default.
+    # Usable common abbreviations: [KB, KiB, GB, GiB, TB, TiB, PB, PiB, EB, EiB], example: 2GB.
+    maxScanSize:
+    # -- Define icap parameters
+    icap:
+      # -- Sets the timeout for icap scans
+      timeout: 300
+      # -- Sets the icap url
+      url: icap://127.0.0.1:1344
+      # -- Sets the service to be used in icap
+      service: avscan
 
 # Ingress for oCIS.
 ingress:
@@ -490,6 +510,14 @@ services:
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
     podDisruptionBudget: {}
 
+  # -- ANTIVIRUS service. Not used if `features.virusscan.enabled` equals `false`.
+  # @default -- see detailed service configuration options below
+  antivirus:
+    # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
+    resources: {}
+    # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
+    podDisruptionBudget: {}
+
   # -- EVENT HISTORY service.
   # @default -- see detailed service configuration options below
   eventhistory:
@@ -497,9 +525,9 @@ services:
     resources: {}
     # -- Per-service store configuration for the eventhistory service. Overrides the default setting from `store` if set.
     store: {}
-      # -- Configure the store type for the eventhistory service. Might be `memory`, `ocmem`, `etcd`, `redis`, 
+      # -- Configure the store type for the eventhistory service. Might be `memory`, `ocmem`, `etcd`, `redis`,
       # `redis-sentinel`, `nats-js` or `noop`
-      #type: 
+      #type:
       # -- Provide a list of comma-separated addresses of `etcd`, `redis`, `redis-sentinel` or `nats-js` servers here
       # if the proper store is selected
       # addresses: []
@@ -934,12 +962,12 @@ services:
     resources: {}
     # -- Per-service store configuration for the userlog service. Overrides the default setting from `store` if set.
     store: {}
-      # -- Configure the store type for the userlog service. Might be `memory`, `ocmem`, `etcd`, `redis`, 
+      # -- Configure the store type for the userlog service. Might be `memory`, `ocmem`, `etcd`, `redis`,
       # `redis-sentinel`, `nats-js` or `noop`
-      # type: 
+      # type:
       # -- Provide a list of comma-separated addresses of `etcd`, `redis`, `redis-sentinel` or `nats-js` servers here
       # if the proper store is selected
-      # addresses: 
+      # addresses:
         # - "{{ .appNameNats }}:9233"
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
     podDisruptionBudget: {}

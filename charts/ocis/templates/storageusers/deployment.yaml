@@ -163,6 +163,12 @@ spec:
               value: {{ .Values.features.quotas.max }}
             {{- end }}
 
+            - name: OCIS_ASYNC_UPLOADS
+              value: "true"
+
+            - name: STORAGE_USERS_DATA_GATEWAY_URL
+              value: "http://{{ .appNameFrontend }}:9140/data/"
+
           livenessProbe:
             httpGet:
               path: /healthz

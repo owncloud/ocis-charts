@@ -389,7 +389,7 @@ a| [subs=-attributes]
 +object+
 a| [subs=-attributes]
 `{"claim":"roles","enabled":false,"mapping":{"admin":"ocisAdmin","guest":"ocisGuest","spaceadmin":"ocisSpaceAdmin","user":"ocisUser"}}`
-| Configure OIDC role assignment. If activated, oCIS will read the role assigment from the OIDC token, see  xref:{s-path}/proxy.adoc#automatic-role-assignments[Automatic Role Assignments]
+| Configure OIDC role assignment. If activated, oCIS will read the role assigment from the OIDC token, see xref:{s-path}/proxy.adoc#automatic-role-assignments[Automatic Role Assignments]
 | features.externalUserManagement.oidc.roleAssignment.claim
 a| [subs=-attributes]
 +string+
@@ -450,6 +450,48 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `nil`
 | Define the roles by specifying a name of a ConfigMap which already contains the the role description (might also be defined in the `extraResources` section). The ConfigMap needs to contain a file named `custom-roles.json` which holds the role description in JSON format Please note that you have to restart the settings service manually if you change the content of you ConfigMap.
+| features.virusscan.enabled
+a| [subs=-attributes]
++bool+
+a| [subs=-attributes]
+`false`
+| Enabled virus scanning
+| features.virusscan.icap
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{"service":"avscan","timeout":300,"url":"icap://127.0.0.1:1344"}`
+| Define icap parameters
+| features.virusscan.icap.service
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"avscan"`
+| Sets the service to be used in icap
+| features.virusscan.icap.timeout
+a| [subs=-attributes]
++int+
+a| [subs=-attributes]
+`300`
+| Sets the timeout for icap scans
+| features.virusscan.icap.url
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"icap://127.0.0.1:1344"`
+| Sets the icap url
+| features.virusscan.infectedFileHandling
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"delete"`
+| Define what should happen with infected files. Supported options are: 'delete', 'continue' and 'abort '. Delete will delete the file. Continue will mark the file as infected but continues further processing. Abort will keep the file in the uploads folder for further admin inspection and will not move it to its final destination.
+| features.virusscan.maxScanSize
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`nil`
+| Sets a maximum file size for scans. Only this many bytes of a file will be scanned. 0 means unlimited and is the default. Usable common abbreviations: [KB, KiB, GB, GiB, TB, TiB, PB, PiB, EB, EiB], example: 2GB.
 | image.pullPolicy
 a| [subs=-attributes]
 +string+
@@ -702,6 +744,24 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `1000`
 | User ID that all processes within any containers will run with.
+| services.antivirus
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+see detailed service configuration options below
+| ANTIVIRUS service. Not used if `features.virusscan.enabled` equals `false`.
+| services.antivirus.podDisruptionBudget
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
+| services.antivirus.resources
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service resources configuration. Overrides the default setting from `resources` if set.
 | services.appprovider
 a| [subs=-attributes]
 +object+

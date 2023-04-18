@@ -43,6 +43,8 @@ features:
         icon: ""
         default_app: ""
         allow_creation: true
+  virusscan:
+    enabled: true
 
 extraLabels:
   extra1: lorem
