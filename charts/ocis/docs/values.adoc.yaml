@@ -288,6 +288,22 @@ features:
     #   71881883-1768-46bd-a24d-a356a2afdf7f: 100000000000
     #   # Space Administrator Role set to 100GB
     #   2aadd357-682c-406b-8874-293091995fdd: 100000000000
+  # Define virus scanning
+  virusscan:
+    # -- Enabled virus scanning
+    enabled: false
+    # -- Define what should happen with infected files
+    infectedFileHandling: delete
+    # -- Sets a maximum file size for scans
+    maxScanSize: 
+    # -- Define icap parameters
+    icap:
+      # -- Sets the timeout for icap scans
+      timeout: 300
+      # -- Sets the icap url
+      url: icap://127.0.0.1:1344
+      # -- Sets the service to be used in icap 
+      service: avscan
 
 # Ingress for oCIS.
 ingress:
@@ -486,6 +502,14 @@ services:
   # -- AUTH MACHINE service.
   # @default -- see detailed service configuration options below
   authmachine:
+    # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
+    resources: {}
+    # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
+    podDisruptionBudget: {}
+
+  # -- ANTIVIRUS service.
+  # @default -- see detailed service configuration options below
+  antivirus:
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
