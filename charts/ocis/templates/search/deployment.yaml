@@ -115,6 +115,9 @@ spec:
                   name: {{ .Values.secretRefs.machineAuthApiKeySecretRef }}
                   key: machine-auth-api-key
 
+            - name: OCIS_ASYNC_UPLOADS
+              value: "true"
+
           livenessProbe:
             httpGet:
               path: /healthz

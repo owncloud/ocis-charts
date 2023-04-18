@@ -1,5 +1,6 @@
-{{- include "ocis.appNames" (dict "scope" . "appName" "appNamePostprocessing" "appNameSuffix" "") -}}
-{{- $_ := set . "resources" (default (default (dict) .Values.resources) .Values.services.postprocessing.resources) -}}
+{{ if .Values.features.virusscan.enabled }}
+{{- include "ocis.appNames" (dict "scope" . "appName" "appNameAntivirus" "appNameSuffix" "") -}}
+{{- $_ := set . "resources" (default (default (dict) .Values.resources) .Values.services.audit.resources) -}}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -11,7 +12,12 @@ spec:
   selector:
     matchLabels:
       app: {{ .appName }}
-  replicas: 1
+  {{- if and (not .Values.autoscaling.enabled) (.Values.replicas) }}
+  replicas: {{ .Values.replicas }}
+  {{- end }}
+  {{- if .Values.deploymentStrategy }}
+  strategy: {{ toYaml .Values.deploymentStrategy | nindent 4 }}
+  {{ end }}
   template:
     metadata:
       labels:
@@ -30,7 +36,7 @@ spec:
           image: {{ template "ocis.image" $ }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           command: ["ocis"]
-          args: ["postprocessing", "server"]
+          args: ["antivirus", "server"]
           securityContext:
             runAsNonRoot: true
             runAsUser: {{ .Values.securityContext.runAsUser }}
@@ -39,37 +45,36 @@ spec:
           env:
             - name: MICRO_REGISTRY
               value: kubernetes
-
-            - name: POSTPROCESSING_LOG_COLOR
+            - name: ANTIVIRUS_LOG_COLOR
               value: {{ .Values.logging.color | quote }}
-            - name: POSTPROCESSING_LOG_LEVEL
+            - name: ANTIVIRUS_LOG_LEVEL
               value: {{ .Values.logging.level | quote }}
-            - name: POSTPROCESSING_LOG_PRETTY
+            - name: ANTIVIRUS_LOG_PRETTY
               value: {{ .Values.logging.pretty | quote }}
-
-            # - name: POSTPROCESSING_DEBUG_PPROF
-            #   value: {{ .Values.debug.profiling | quote }}
-
-            # - name: POSTPROCESSING_DEBUG_ADDR
-            #   value: 0.0.0.0:TODO
-
-            {{- if .Values.features.virusscan.enabled }}
-            - name: POSTPROCESSING_STEPS
-              value: "virusscan"
-            {{- end }}
-
-            - name: POSTPROCESSING_EVENTS_ENDPOINT
+            - name: ANTIVIRUS_INFECTED_FILE_HANDLING
+              value: {{ .Values.features.virusscan.infectedFileHandling | quote }}
+            - name: ANTIVIRUS_SCANNER_TYPE
+              value: "icap"
+            - name: ANTIVIRUS_ICAP_TIMEOUT
+              value: {{ .Values.features.virusscan.icap.timeout | quote }}
+            - name: ANTIVIRUS_ICAP_URL
+              value: {{ .Values.features.virusscan.icap.url | quote }}
+            - name: ANTIVIRUS_ICAP_SERVICE
+              value: {{ .Values.features.virusscan.icap.service | quote }}
+            - name: ANTIVIRUS_MAX_SCAN_SIZE
+              value: {{ .Values.features.virusscan.maxScanSize | quote }}
+            - name: ANTIVIRUS_EVENTS_ENDPOINT
             {{- if not .Values.messagingSystem.external.enabled }}
               value: {{ .appNameNats }}:9233
             {{- else }}
               value: {{ .Values.messagingSystem.external.endpoint | quote }}
-            - name: POSTPROCESSING_EVENTS_CLUSTER
+            - name: ANTIVIRUS_EVENTS_CLUSTER
               value: {{ .Values.messagingSystem.external.cluster | quote }}
-            - name: POSTPROCESSING_EVENTS_ENABLE_TLS
+            - name: ANTIVIRUS_EVENTS_ENABLE_TLS
               value: {{ .Values.messagingSystem.external.tls.enabled | quote }}
-            - name: POSTPROCESSING_EVENTS_TLS_INSECURE
+            - name: ANTIVIRUS_EVENTS_TLS_INSECURE
               value: {{ .Values.messagingSystem.external.tls.insecure | quote }}
-            - name: POSTPROCESSING_EVENTS_TLS_ROOT_CA_CERTIFICATE
+            - name: ANTIVIRUS_EVENTS_TLS_ROOT_CA_CERTIFICATE
               {{- if not .Values.messagingSystem.external.tls.certTrusted }}
               value: /etc/ocis/messaging-system-ca/messaging-system-ca.crt
               {{- else }}
@@ -77,22 +82,7 @@ spec:
               {{- end }}
             {{- end }}
 
-          # TODO: This service does not currently provide a debug port, re-enable this once that is implemented
-          # See: https://github.com/owncloud/ocis-charts/issues/111
-          # livenessProbe:
-          #   httpGet:
-          #     path: /healthz
-          #     port: metrics-debug
-          #   timeoutSeconds: 10
-          #   initialDelaySeconds: 60
-          #   periodSeconds: 20
-          #   failureThreshold: 3
-
           resources: {{ toYaml .resources | nindent 12 }}
-          # TODO: This service does not currently provide a debug port, re-enable this once that is implemented
-          # ports:
-          #   - name: metrics-debug
-          #     containerPort: TODO
 
           volumeMounts:
             - name: ocis-config-tmp
@@ -112,3 +102,4 @@ spec:
           {{ else }}
           emptyDir: {}
           {{ end }}
+{{ end }}
