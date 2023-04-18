@@ -1,0 +1,4 @@
+{{ if .Values.features.virusscan.enabled }}
+{{- include "ocis.appNames" (dict "scope" . "appName" "appNameAntivirus" "appNameSuffix" "") -}}
+{{ include "ocis.pdb" . }}
+{{ end }}
