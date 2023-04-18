@@ -83,9 +83,9 @@ spec:
             - name: REVA_GATEWAY
               value: {{ .appNameGateway }}:9142
 
-            - name: STORAGE_USERS_DRIVER
+            - name: STORAGE_SYSTEM_DRIVER
               value: ocis
-            - name: STORAGE_USERS_OCIS_METADATA_BACKEND
+            - name: STORAGE_SYSTEM_OCIS_METADATA_BACKEND
               value: messagepack
 
             - name: STORAGE_SYSTEM_JWT_SECRET
