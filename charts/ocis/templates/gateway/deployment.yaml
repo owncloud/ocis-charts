@@ -91,8 +91,10 @@ spec:
             - name: GATEWAY_STORAGE_SHARES_ENDPOINT
               value: {{ .appNameStorageShares }}:9154
 
+            {{- if .Values.features.appsIntegration.enabled }}
             - name: GATEWAY_APP_REGISTRY_ENDPOINT
               value: {{ .appNameAppRegistry }}:9242
+            {{- end }}
 
             # cache
             - name: GATEWAY_CACHE_STORE
