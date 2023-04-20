@@ -1,4 +1,3 @@
-{{ if .Values.features.appsIntegration.enabled }}
 {{- include "ocis.appNames" (dict "scope" . "appName" "appNameAppRegistry" "appNameSuffix" "") -}}
 {{- $_ := set . "resources" (default (default (dict) .Values.resources) .Values.services.appregistry.resources) -}}
 apiVersion: apps/v1
@@ -100,4 +99,3 @@ spec:
         - name: configs
           configMap:
             name: {{ .appName }}-config
-{{ end }}
