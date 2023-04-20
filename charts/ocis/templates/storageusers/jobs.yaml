@@ -47,6 +47,10 @@ spec:
                 - name: STORAGE_USERS_LOG_PRETTY
                   value: {{ .Values.logging.pretty | quote }}
 
+                # Duration in seconds after which uploads will expire.
+                - name: STORAGE_USERS_UPLOAD_EXPIRATION
+                  value: {{ .Values.services.storageusers.maintenance.cleanUpExpiredUploads.uploadExpiration | quote }}
+
                 # oCIS storage driver (decomposed filesystem)
                 {{- if  eq .Values.services.storageusers.storageBackend.driver "ocis" }}
                 - name: STORAGE_USERS_DRIVER
@@ -142,6 +146,12 @@ spec:
                 - name: STORAGE_USERS_LOG_PRETTY
                   value: {{ .Values.logging.pretty | quote }}
 
+                # Settings for how old trash bin items should be deleted
+                - name: STORAGE_USERS_PURGE_TRASH_BIN_PERSONAL_DELETE_BEFORE
+                  value: {{ .Values.services.storageusers.maintenance.purgeExpiredTrashBinItems.personalDeleteBefore | quote}}
+                - name: STORAGE_USERS_PURGE_TRASH_BIN_PROJECT_DELETE_BEFORE
+                  value: {{ .Values.services.storageusers.maintenance.purgeExpiredTrashBinItems.projectDeleteBefore | quote }}
+
                 # oCIS storage driver (decomposed filesystem)
                 {{- if  eq .Values.services.storageusers.storageBackend.driver "ocis" }}
                 - name: STORAGE_USERS_DRIVER
@@ -171,6 +181,12 @@ spec:
                     configMapKeyRef:
                       name: {{ .Values.configRefs.storageusersConfigRef }}
                       key: storage-uuid
+
+                - name: STORAGE_USERS_PURGE_TRASH_BIN_USER_ID
+                  valueFrom:
+                    secretKeyRef:
+                      name: {{ .Values.secretRefs.adminUserSecretRef }}
+                      key: user-id
 
                 # events
                 - name: STORAGE_USERS_EVENTS_ENDPOINT
