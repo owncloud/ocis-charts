@@ -1,5 +1,4 @@
 ---
-
 # Image for oCIS services
 image:
   # -- Image repository
@@ -16,7 +15,6 @@ image:
   # pullSecrets:
   #   - name: mySecret
   #   - name: mySecret2
-
 
 # Logging settings for oCIS services
 logging:
@@ -94,7 +92,6 @@ messagingSystem:
       # Not recommended for production installations.
       insecure: false
 
-
 # Feature options.
 # Enable or disable features of oCIS.
 features:
@@ -169,14 +166,15 @@ features:
     # -- Mimetype configuration.
     # Let's you configure a mimetypes' default application, if it is allowed to create a new file and more.
     # @default -- default configuration of oCIS, see https://doc.owncloud.com/ocis/next/deployment/services/s-list/app-registry.html#yaml-example[doc.owncloud.com]
-    mimetypes: []
+    mimetypes:
+      []
       # - mime_type: application/vnd.oasis.opendocument.text
-        # extension: odt
-        # name: OpenDocument
-        # description: OpenDocument text document
-        # icon: ""
-        # default_app: ""
-        # allow_creation: true
+      # extension: odt
+      # name: OpenDocument
+      # description: OpenDocument text document
+      # icon: ""
+      # default_app: ""
+      # allow_creation: true
   # External user management
   externalUserManagement:
     # -- Enables external user management (and disables internal user management).
@@ -219,6 +217,22 @@ features:
             claim_value: ocisUser
           - role_name: guest
             claim_value: ocisGuest
+
+      gdprExport:
+        # -- Enables the GDPR export feature for the external OIDC provider.
+        # Note, this will only work with KeyCloak as OIDC provider.
+        enabled: false
+        # -- Base URI of keycloak.
+        basePath: https://keycloak.owncloud.test
+        # -- Client ID to authenticate against keycloak with.
+        clientID: gdpr-exporter
+        # -- Realm that the client ID is configured in, usually master.
+        clientRealm: master
+        # -- Realm that the users are in.
+        userRealm: oCIS
+        # -- Disables SSL certificate checking for connections to the GDPR export service.
+        # Not recommended for production installations.
+        insecure: false
 
     # LDAP related settings.
     ldap:
@@ -459,7 +473,6 @@ configRefs:
   # -- Reference to an existing graph config.
   graphConfigRef: "graph"
 
-
 # References to secrets.
 # The secrets need to be manually created.
 # See https://doc.owncloud.com/ocis/next/deployment/container/orchestration/orchestration.html#customize-the-generic-setup[doc.owncloud.com] for how to generate them.
@@ -470,6 +483,8 @@ secretRefs:
   idpSecretRef: "idp-secrets"
   # -- Reference to an existing JWT secret (see ref:Secrets#secrets).
   jwtSecretRef: "jwt-secret"
+  # -- Reference to an existing keycloak client secret, used for the GDPR export. Only used if features.externalUserManagement.gdprExport.enabled equals true.
+  gdprExportClientSecretRef: "gdpr-export-client-secret"
   # -- Reference to an existing LDAP certificate authority secret (see ref:Secrets#secrets)
   ldapCaRef: "ldap-ca"
   # -- Reference to an existing LDAP cert secret (see ref:Secrets#secrets). Not used if `features.externalUserManagement.enabled` equals `true`.
@@ -524,7 +539,8 @@ namespaceOverride:
 replicas: 1
 
 # Default PodDisruptionBudget to apply to all services, except per-service PodDisruptionBudget configuration in `services.<service-name>.podDisruptionBudget` is set.
-podDisruptionBudget: {}
+podDisruptionBudget:
+  {}
   # -- Sets the maxUnavailable or the global PodDisruptionBudget.
   #maxUnavailable: 1
 
@@ -567,14 +583,14 @@ autoscaling:
 # Best practice is to:
 # - set memory request == memory limit (compare to https://home.robusta.dev/blog/kubernetes-memory-limit)
 # - set cpu request and omit cpu limit (compare to https://home.robusta.dev/blog/stop-using-cpu-limits)
-resources: {}
+resources:
+  {}
   # limits:
-    # cpu: 100m
+  # cpu: 100m
   #   memory: 128Mi
   # requests:
   #   cpu: 100m
   #   memory: 128Mi
-
 
 # Include arbitrary resources, eg. config maps or a cert-manager issuer (see example below)
 # -- Extra resources to be included.
@@ -595,7 +611,6 @@ extraResources: []
 #        - http01:
 #            ingress:
 #              class: nginx
-
 
 # per-service configuration.
 services:
@@ -649,14 +664,15 @@ services:
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
     # -- Per-service store configuration for the eventhistory service. Overrides the default setting from `store` if set.
-    store: {}
+    store:
+      {}
       # -- Configure the store type for the eventhistory service. Might be `memory`, `ocmem`, `etcd`, `redis`,
       # `redis-sentinel`, `nats-js` or `noop`
       #type:
       # -- Provide a list of comma-separated addresses of `etcd`, `redis`, `redis-sentinel` or `nats-js` servers here
       # if the proper store is selected
       # addresses: []
-        # - "{{ .appNameNats }}:9233"
+      # - "{{ .appNameNats }}:9233"
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
     podDisruptionBudget: {}
 
@@ -767,7 +783,6 @@ services:
       existingClaim:
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
-
 
   # -- NOTIFICATIONS service. Not used if `features.emailNotifications.enabled` equals `true`.
   # @default -- see detailed service configuration options below
@@ -1023,7 +1038,6 @@ services:
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
     podDisruptionBudget: {}
 
-
   # -- STORE service.
   # @default -- see detailed service configuration options below
   store:
@@ -1101,14 +1115,15 @@ services:
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
     # -- Per-service store configuration for the userlog service. Overrides the default setting from `store` if set.
-    store: {}
+    store:
+      {}
       # -- Configure the store type for the userlog service. Might be `memory`, `ocmem`, `etcd`, `redis`,
       # `redis-sentinel`, `nats-js` or `noop`
       # type:
       # -- Provide a list of comma-separated addresses of `etcd`, `redis`, `redis-sentinel` or `nats-js` servers here
       # if the proper store is selected
       # addresses:
-        # - "{{ .appNameNats }}:9233"
+      # - "{{ .appNameNats }}:9233"
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
     podDisruptionBudget: {}
 
@@ -1128,7 +1143,8 @@ services:
       # -- Disables the feedback link in the Web UI.
       disableFeedbackLink: false
       # -- Configure the {"apps": []} section in the Web config.json.
-      apps: []
+      apps:
+        []
         # default apps, add and remove apps as desired
         # - files
         # - search
@@ -1137,7 +1153,8 @@ services:
         # - external
         # - user-management
       # -- Configure the {"applications": []} section in the Web config.json.
-      applications: []
+      applications:
+        []
         # example for an user manual homepage, that will be linked in the app drawer
         # - icon: book-read
         #   url: "https://manual.owncloud.test"
@@ -1146,7 +1163,8 @@ services:
         #     de: Anleitung
         #     en: Manual
       # -- Configure the {"external_apps": []} section in the Web config.json.
-      externalApplications: []
+      externalApplications:
+        []
         # default external application of Web, add and remove apps as desired
         # - id: preview
         #   path: web-app-preview

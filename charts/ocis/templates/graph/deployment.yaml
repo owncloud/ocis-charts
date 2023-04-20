@@ -162,6 +162,24 @@ spec:
               value: {{ .Values.features.quotas.default }}
             {{- end }}
 
+            {{-- if .Values.features.externalUserManagement.oidc.gdprExport.enabled }}
+            - name: GRAPH_KEYCLOAK_BASE_PATH
+              value: {{ .values.features.externalUserManagement.oidc.gdprExport.basePath | quote }}
+            - name: GRAPH_KEYCLOAK_CLIENT_ID
+              value: {{ .values.features.externalUserManagement.oidc.gdprExport.realm | quote }}
+            - name: GRAPH_KEYCLOAK_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.secretRefs.gdprExportClientSecretRef }}
+                  key: oidc-secret
+            - name: GRAPH_KEYCLOAK_CLIENT_REALM
+              value: {{ .values.features.externalUserManagement.oidc.gdprExport.clientRealm | quote }}
+            - name: GRAPH_KEYCLOAK_USER_REALM
+              value: {{ .values.features.externalUserManagement.oidc.gdprExport.userRealm | quote }}
+            - name: GRAPH_KEYCLOAK_INSECURE_SKIP_VERIFY
+              value: {{ .values.features.externalUserManagement.oidc.gdprExport.insecure | quote }}
+            {{- end }}
+
           {{- include "ocis.livenessProbe" . | nindent 10 }}
 
           resources: {{ toYaml .resources | nindent 12 }}
