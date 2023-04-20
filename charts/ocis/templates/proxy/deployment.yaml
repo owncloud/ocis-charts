@@ -103,6 +103,11 @@ spec:
                   name: {{ .Values.secretRefs.machineAuthApiKeySecretRef }}
                   key: machine-auth-api-key
 
+            {{- if .Values.features.policies.enabled }}
+            - name: PROXY_POLICIES_QUERY
+              value: data.proxy.granted
+            {{- end }}
+
           livenessProbe:
             httpGet:
               path: /healthz

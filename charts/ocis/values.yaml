@@ -289,7 +289,7 @@ features:
     #   2aadd357-682c-406b-8874-293091995fdd: 100000000000
   # Define virus scanning
   virusscan:
-    # -- Enabled virus scanning
+    # -- Enables virus scanning
     enabled: false
     # -- Define what should happen with infected files. Supported options are: 'delete', 'continue' and 'abort '.
     # Delete will delete the file.
@@ -307,7 +307,102 @@ features:
       url: icap://127.0.0.1:1344
       # -- Sets the service to be used in icap
       service: avscan
-
+  # Define policies
+  policies:
+    # -- Enables policies
+    enabled: false
+    # -- Sets the timeout the rego expression evaluation can take. The timeout can be set as number followed by a unit identifier 
+    # like ms, s, etc. Rules default to deny if the timeout was reached.
+    engineTimeout: 10s
+    # -- Sets the policies. Each policy is defined by a `fileName` and a `content`. The content takes the rego script as text, see 
+    # https://doc.owncloud.com/ocis/next/deployment/services/s-list/policies.html#example-policies
+    policies: []
+    # - fileName: proxy.rego
+    #   content: |-
+    #     package proxy
+    #
+    #     import future.keywords.if
+    #     import data.utils
+    #
+    #     default granted := true
+    #
+    #     granted = false if {
+    #         utils.is_request_type_put
+    #         not input.request.path == "/data"
+    #         not utils.collection_contains(utils.ALLOWED_FILE_EXTENSIONS, input.request.path)
+    #     }
+    #
+    #     granted = false if {
+    #         utils.is_request_type_post
+    #         startswith(input.request.path, "/remote.php")
+    #         not utils.collection_contains(utils.ALLOWED_FILE_EXTENSIONS, input.resource.name)
+    #     }
+    # - fileName: postprocessing.rego
+    #   content: |-
+    #     package postprocessing
+    #
+    #     import future.keywords.if
+    #     import data.utils
+    #
+    #     default granted := true
+    #
+    #     granted = false if {
+    #         not utils.collection_contains(utils.ALLOWED_FILE_EXTENSIONS, input.resource.name)
+    #     }
+    # - fileName: util.rego
+    #   content: |-
+    #     package utils
+    #
+    #     import future.keywords.if
+    #
+    #     ALLOWED_FILE_EXTENSIONS := [
+    #         ".apk", ".avi", ".bat", ".bmp", ".css", ".csv", ".doc", ".docm", ".docx",
+    #         ".docxf", ".dotx", ".eml", ".epub", ".htm", ".html", ".ipa", ".jar", ".java",
+    #         ".jpg", ".js", ".json", ".mp3", ".mp4", ".msg", ".odp", ".ods", ".odt", ".oform",
+    #         ".ots", ".ott", ".pdf", ".php", ".png", ".potm", ".potx", ".ppsm", ".ppsx", ".ppt",
+    #         ".pptm", ".pptx", ".py", ".rtf", ".sb3", ".sprite3", ".sql", ".svg", ".tif", ".tiff",
+    #         ".txt", ".xls", ".xlsm", ".xlsx", ".xltm", ".xltx", ".xml", ".zip", ".md"
+    #     ]
+    #
+    #     ##
+    #
+    #     is_stage_http {
+    #         input.stage == "http"
+    #     }
+    #
+    #     is_stage_pp {
+    #         input.stage == "pp"
+    #     }
+    #
+    #     ##
+    #
+    #     is_user_admin {
+    #         input.user.username == "admin"
+    #     }
+    #
+    #     ##
+    #
+    #     is_request_type_put {
+    #         is_stage_http
+    #         input.request.method == "PUT"
+    #     }
+    #
+    #     is_request_type_post {
+    #         is_stage_http
+    #         input.request.method == "POST"
+    #     }
+    #
+    #     is_request_type_mkcol {
+    #         is_stage_http
+    #         input.request.method == "MKCOL"
+    #     }
+    #
+    #     ##
+    #
+    #     collection_contains(collection, source) {
+    #         current := collection[_]
+    #         endswith(source, current)
+    #     }
 # Ingress for oCIS.
 ingress:
   # -- Enables the Ingress.
