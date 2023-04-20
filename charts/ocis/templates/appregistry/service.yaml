@@ -1,4 +1,3 @@
-{{ if .Values.features.appsIntegration.enabled }}
 {{- include "ocis.appNames" (dict "scope" . "appName" "appNameAppRegistry" "appNameSuffix" "") -}}
 apiVersion: v1
 kind: Service
@@ -19,4 +18,3 @@ spec:
     - name: metrics-debug
       port: 9243
       protocol: TCP
-{{ end }}

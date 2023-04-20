@@ -1,4 +1,3 @@
-{{- if .Values.features.appsIntegration.enabled }}
 {{- include "ocis.appNames" (dict "scope" . "appName" "appNameAppRegistry" "appNameSuffix" "") -}}
 apiVersion: v1
 kind: ConfigMap
@@ -14,5 +13,4 @@ data:
     app_registry:
       mimetypes:
 {{- toYaml .Values.features.appsIntegration.mimetypes | nindent 6 }}
-{{- end }}
 {{- end }}
