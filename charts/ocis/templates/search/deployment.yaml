@@ -11,9 +11,7 @@ spec:
   selector:
     matchLabels:
       app: {{ .appName }}
-  {{- if and (not .Values.autoscaling.enabled) (.Values.replicas) }}
-  replicas: {{ .Values.replicas }}
-  {{- end }}
+  replicas: 1 #TODO: https://github.com/owncloud/ocis-charts/issues/15
   {{- if .Values.deploymentStrategy }}
   strategy: {{ toYaml .Values.deploymentStrategy | nindent 4 }}
   {{ end }}
