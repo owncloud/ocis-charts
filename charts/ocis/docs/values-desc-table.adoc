@@ -1380,6 +1380,36 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `"* * * * *"`
 | Cron pattern for the job to be run. Defaults to every minute.
+| services.storageusers.maintenance.cleanUpExpiredUploads.uploadExpiration
+a| [subs=-attributes]
++int+
+a| [subs=-attributes]
+`86400`
+| Duration in seconds after which uploads will expire.
+| services.storageusers.maintenance.purgeExpiredTrashBinItems.enabled
+a| [subs=-attributes]
++bool+
+a| [subs=-attributes]
+`false`
+| Enables a job, that purges expired trash bin items. Requires persistence to be enabled.
+| services.storageusers.maintenance.purgeExpiredTrashBinItems.personalDeleteBefore
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"30d"`
+| Setting that makes the command delete all trashed personal files older than the value.
+| services.storageusers.maintenance.purgeExpiredTrashBinItems.projectDeleteBefore
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"30d"`
+| Setting that makes the command delete all trashed project files older than the value.
+| services.storageusers.maintenance.purgeExpiredTrashBinItems.schedule
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"* * * * *"`
+| Cron pattern for the job to be run. Defaults to every minute.
 | services.storageusers.persistence
 a| [subs=-attributes]
 +object+
