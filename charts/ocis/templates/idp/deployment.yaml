@@ -3,17 +3,11 @@
 {{- $_ := set . "resources" (default (default (dict) .Values.resources) .Values.services.idp.resources) -}}
 apiVersion: apps/v1
 kind: Deployment
-metadata:
-  name: {{ .appName }}
-  namespace: {{ template "ocis.namespace" . }}
-  labels:
-    {{- include "ocis.labels" . | nindent 4 }}
+{{ include "ocis.metadata" . }}
   annotations:
     ignore-check.kube-linter.io/env-var-secret : "IDP_ENCRYPTION_SECRET_FILE is no secret, it's the file path to the secret"
 spec:
-  selector:
-    matchLabels:
-      app: {{ .appName }}
+  {{- include "ocis.selector" . | nindent 2 }}
   replicas: 1
   template:
     metadata:
@@ -21,13 +15,7 @@ spec:
         app: {{ .appName }}
         {{- include "ocis.labels" . | nindent 8 }}
     spec:
-      securityContext:
-          fsGroup: {{ .Values.securityContext.fsGroup }}
-          fsGroupChangePolicy: {{ .Values.securityContext.fsGroupChangePolicy }}
-      {{- with .Values.topologySpreadConstraints }}
-      topologySpreadConstraints:
-        {{- tpl . $ | nindent 8 }}
-      {{- end }}
+      {{- include "ocis.securityContextAndtopologySpreadConstraints" . | nindent 6 }}
       containers:
         - name: {{ .appName }}
           image: {{ template "ocis.image" $ }}

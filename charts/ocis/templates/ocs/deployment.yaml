@@ -2,15 +2,9 @@
 {{- $_ := set . "resources" (default (default (dict) .Values.resources) .Values.services.ocs.resources) -}}
 apiVersion: apps/v1
 kind: Deployment
-metadata:
-  name: {{ .appName }}
-  namespace: {{ template "ocis.namespace" . }}
-  labels:
-    {{- include "ocis.labels" . | nindent 4 }}
+{{ include "ocis.metadata" . }}
 spec:
-  selector:
-    matchLabels:
-      app: {{ .appName }}
+  {{- include "ocis.selector" . | nindent 2 }}
   {{- if and (not .Values.autoscaling.enabled) (.Values.replicas) }}
   replicas: {{ .Values.replicas }}
   {{- end }}
@@ -23,13 +17,7 @@ spec:
         app: {{ .appName }}
         {{- include "ocis.labels" . | nindent 8 }}
     spec:
-      securityContext:
-          fsGroup: {{ .Values.securityContext.fsGroup }}
-          fsGroupChangePolicy: {{ .Values.securityContext.fsGroupChangePolicy }}
-      {{- with .Values.topologySpreadConstraints }}
-      topologySpreadConstraints:
-        {{- tpl . $ | nindent 8 }}
-      {{- end }}
+      {{- include "ocis.securityContextAndtopologySpreadConstraints" . | nindent 6 }}
       containers:
         - name: {{ .appName }}
           image: {{ template "ocis.image" $ }}

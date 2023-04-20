@@ -3,15 +3,9 @@
 {{- $_ := set . "resources" (default (default (dict) .Values.resources) .Values.services.idm.resources) -}}
 apiVersion: apps/v1
 kind: Deployment
-metadata:
-  name: {{ .appName }}
-  namespace: {{ template "ocis.namespace" . }}
-  labels:
-    {{- include "ocis.labels" . | nindent 4 }}
+{{ include "ocis.metadata" . }}
 spec:
-  selector:
-    matchLabels:
-      app: {{ .appName }}
+  {{- include "ocis.selector" . | nindent 2 }}
   replicas: 1
   strategy:
     type: Recreate
@@ -21,9 +15,7 @@ spec:
         app: {{ .appName }}
         {{- include "ocis.labels" . | nindent 8 }}
     spec:
-      securityContext:
-          fsGroup: {{ .Values.securityContext.fsGroup }}
-          fsGroupChangePolicy: {{ .Values.securityContext.fsGroupChangePolicy }}
+      {{- include "ocis.securityContextAndtopologySpreadConstraints" . | nindent 6 }}
       initContainers:
       {{- if and $.Values.services.idm.persistence.enabled $.Values.services.idm.persistence.chownInitContainer }}
         - name: init-chown-data
@@ -48,10 +40,6 @@ spec:
           volumeMounts:
           - name: idm-data
             mountPath: /var/lib/ocis
-      {{- with .Values.topologySpreadConstraints }}
-      topologySpreadConstraints:
-        {{- tpl . $ | nindent 8 }}
-      {{- end }}
       containers:
         - name: {{ .appName }}
           image: {{ template "ocis.image" $ }}
