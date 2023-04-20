@@ -51,6 +51,13 @@ spec:
             - name: IDM_LOG_PRETTY
               value: {{ .Values.logging.pretty | quote }}
 
+            - name: IDM_TRACING_ENABLED
+              value: "{{ .Values.tracing.enabled }}"
+            - name: IDM_TRACING_TYPE
+              value: {{ .Values.tracing.type | quote }}
+            - name: IDM_TRACING_ENDPOINT
+              value: {{ .Values.tracing.endpoint | quote }}
+
             # - name: IDM_DEBUG_PPROF
             #   value: {{ .Values.debug.profiling | quote }}
 

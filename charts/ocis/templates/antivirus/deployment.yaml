@@ -37,6 +37,14 @@ spec:
               value: 0.0.0.0:9277
             - name: ANTIVIRUS_DEBUG_PPROF
               value: {{ .Values.debug.profiling | quote }}
+
+            - name: ANTIVIRUS_TRACING_ENABLED
+              value: "{{ .Values.tracing.enabled }}"
+            - name: ANTIVIRUS_TRACING_TYPE
+              value: {{ .Values.tracing.type | quote }}
+            - name: ANTIVIRUS_TRACING_ENDPOINT
+              value: {{ .Values.tracing.endpoint | quote }}
+
             - name: ANTIVIRUS_INFECTED_FILE_HANDLING
               value: {{ .Values.features.virusscan.infectedFileHandling | quote }}
             - name: ANTIVIRUS_SCANNER_TYPE

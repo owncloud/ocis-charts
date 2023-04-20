@@ -40,6 +40,13 @@ spec:
             - name: NATS_LOG_PRETTY
               value: {{ .Values.logging.pretty | quote }}
 
+            - name: NATS_TRACING_ENABLED
+              value: "{{ .Values.tracing.enabled }}"
+            - name: NATS_TRACING_TYPE
+              value: {{ .Values.tracing.type | quote }}
+            - name: NATS_TRACING_ENDPOINT
+              value: {{ .Values.tracing.endpoint | quote }}
+
             # - name: NATS_DEBUG_PPROF
             #   value: {{ .Values.debug.profiling | quote }}
 

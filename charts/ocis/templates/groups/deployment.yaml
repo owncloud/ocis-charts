@@ -33,6 +33,13 @@ spec:
             - name: GROUPS_LOG_PRETTY
               value: {{ .Values.logging.pretty | quote }}
 
+            - name: GROUPS_TRACING_ENABLED
+              value: "{{ .Values.tracing.enabled }}"
+            - name: GROUPS_TRACING_TYPE
+              value: {{ .Values.tracing.type | quote }}
+            - name: GROUPS_TRACING_ENDPOINT
+              value: {{ .Values.tracing.endpoint | quote }}
+
             - name: GROUPS_DEBUG_PPROF
               value: {{ .Values.debug.profiling | quote }}
 

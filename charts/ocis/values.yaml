@@ -29,6 +29,17 @@ logging:
   # Not recommended for production installations.
   color: "false"
 
+# Tracing settings for oCIS services
+tracing:
+  # -- Tracing enables sending traces
+  enabled: false
+
+  # -- Type of trace provider to use
+  type: "jaeger"
+  
+  # -- Endpoint of the tracing system.
+  endpoint: "jaeger-agent.jaeger.svc.cluster.local:6831"
+
 # Debug settings for the oCIS service
 debug:
   # -- Profiling enables the http://<pod>:<debug-metrics>/debug/pprof endpoint to inspect various Go runtime internals.

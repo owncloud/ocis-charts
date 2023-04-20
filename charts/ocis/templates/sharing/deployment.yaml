@@ -33,6 +33,13 @@ spec:
             - name: SHARING_LOG_PRETTY
               value: {{ .Values.logging.pretty | quote }}
 
+            - name: SHARING_TRACING_ENABLED
+              value: "{{ .Values.tracing.enabled }}"
+            - name: SHARING_TRACING_TYPE
+              value: {{ .Values.tracing.type | quote }}
+            - name: SHARING_TRACING_ENDPOINT
+              value: {{ .Values.tracing.endpoint | quote }}
+
             - name: SHARING_DEBUG_PPROF
               value: {{ .Values.debug.profiling | quote }}
 

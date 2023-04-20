@@ -30,6 +30,13 @@ spec:
             - name: POSTPROCESSING_LOG_PRETTY
               value: {{ .Values.logging.pretty | quote }}
 
+            - name: POSTPROCESSING_TRACING_ENABLED
+              value: "{{ .Values.tracing.enabled }}"
+            - name: POSTPROCESSING_TRACING_TYPE
+              value: {{ .Values.tracing.type | quote }}
+            - name: POSTPROCESSING_TRACING_ENDPOINT
+              value: {{ .Values.tracing.endpoint | quote }}
+
             # - name: POSTPROCESSING_DEBUG_PPROF
             #   value: {{ .Values.debug.profiling | quote }}
 

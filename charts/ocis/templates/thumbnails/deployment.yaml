@@ -45,6 +45,13 @@ spec:
             - name: THUMBNAILS_LOG_PRETTY
               value: {{ .Values.logging.pretty | quote }}
 
+            - name: THUMBNAILS_TRACING_ENABLED
+              value: "{{ .Values.tracing.enabled }}"
+            - name: THUMBNAILS_TRACING_TYPE
+              value: {{ .Values.tracing.type | quote }}
+            - name: THUMBNAILS_TRACING_ENDPOINT
+              value: {{ .Values.tracing.endpoint | quote }}
+
             - name: THUMBNAILS_DEBUG_PPROF
               value: {{ .Values.debug.profiling | quote }}
 

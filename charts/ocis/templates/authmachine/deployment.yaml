@@ -33,6 +33,13 @@ spec:
             - name: AUTH_MACHINE_LOG_PRETTY
               value: {{ .Values.logging.pretty | quote }}
 
+            - name: AUTH_MACHINE_TRACING_ENABLED
+              value: "{{ .Values.tracing.enabled }}"
+            - name: AUTH_MACHINE_TRACING_TYPE
+              value: {{ .Values.tracing.type | quote }}
+            - name: AUTH_MACHINE_TRACING_ENDPOINT
+              value: {{ .Values.tracing.endpoint | quote }}
+
             - name: AUTH_MACHINE_DEBUG_PPROF
               value: {{ .Values.debug.profiling | quote }}
 
