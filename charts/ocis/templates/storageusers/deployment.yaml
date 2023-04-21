@@ -133,7 +133,6 @@ spec:
             - name: STORAGE_USERS_UPLOAD_EXPIRATION
               value: {{ .Values.services.storageusers.maintenance.cleanUpExpiredUploads.uploadExpiration | quote }}
 
-
             # Settings for how old trash bin items should be deleted
             - name: STORAGE_USERS_PURGE_TRASH_BIN_PERSONAL_DELETE_BEFORE
               value: {{ .Values.services.storageusers.maintenance.purgeExpiredTrashBinItems.personalDeleteBefore | quote}}
@@ -143,6 +142,7 @@ spec:
             # User ID to use for purging trash bin items
             - name: STORAGE_USERS_PURGE_TRASH_BIN_USER_ID
               value: {{ .Values.services.storageusers.maintenance.purgeExpiredTrashBinItems.purgeTrashBinUserID | quote}}
+
             - name: OCIS_MACHINE_AUTH_API_KEY
               valueFrom:
                 secretKeyRef:
