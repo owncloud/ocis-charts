@@ -849,6 +849,21 @@ services:
         enabled: false
         # -- Cron pattern for the job to be run. Defaults to every minute.
         schedule: "* * * * *"
+        # -- Duration in seconds after which uploads will expire.
+        uploadExpiration: 86400
+      # Expired trash bin items can be cleaned up automatically by enabling the purge exired trash bin items job.
+      purgeExpiredTrashBinItems:
+        # -- Enables a job, that purges expired trash bin items. Requires persistence to be enabled.
+        enabled: false
+        # -- Cron pattern for the job to be run. Defaults to every minute.
+        schedule: "* * * * *"
+        # -- User ID of a user that has permissions to list all personal and project spaces.
+        purgeTrashBinUserID: ""
+        # -- Setting that makes the command delete all trashed personal files older than the value. The value is a number and a unit "d", "h", "m", "s".
+        personalDeleteBefore: 30d
+        # -- Setting that makes the command delete all trashed project files older than the value. The value is a number and a unit "d", "h", "m", "s".
+        projectDeleteBefore: 30d
+
     # -- Persistence settings.
     # @default -- see detailed persistence configuration options below
     persistence:
