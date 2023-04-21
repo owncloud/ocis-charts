@@ -39,7 +39,7 @@ spec:
           securityContext:
             runAsNonRoot: true
             runAsUser: {{ .Values.securityContext.runAsUser }}
-            runAsGroup: 100
+            runAsGroup: {{ $.Values.securityContext.runAsGroup }}
             readOnlyRootFilesystem: true
           env:
             - name: MICRO_REGISTRY
