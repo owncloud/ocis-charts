@@ -176,3 +176,20 @@ securityContext:
   runAsGroup: {{ .Values.securityContext.runAsGroup }}
   readOnlyRootFilesystem: true
 {{- end -}}
+
+{{/*
+oCIS deployment template metadata template
+
+@param .scope          The current scope
+@param .configCheck    If this pod contains a configMap which has to be checked to trigger pod redeployment
+*/}}
+{{- define "ocis.templateMetadata" -}}
+metadata:
+  labels:
+    app: {{ .scope.appName }}
+    {{- include "ocis.labels" .scope | nindent 4 }}
+  {{- if .configCheck }}
+  annotations:
+    checksum/config: {{ include (print .scope.Template.BasePath "/" .scope.appName "/config.yaml") .scope | sha256sum }}
+  {{- end }}
+{{- end -}}

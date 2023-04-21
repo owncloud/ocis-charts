@@ -12,12 +12,7 @@ spec:
   strategy: {{ toYaml .Values.deploymentStrategy | nindent 4 }}
   {{ end }}
   template:
-    metadata:
-      labels:
-        app: {{ .appName }}
-        {{- include "ocis.labels" . | nindent 8 }}
-      annotations:
-        checksum/config: {{ include (print $.Template.BasePath "/settings/config.yaml") . | sha256sum }}
+    {{- include "ocis.templateMetadata" (dict "scope" $ "configCheck" true) | nindent 4 }}
 
     spec:
       {{- include "ocis.securityContextAndtopologySpreadConstraints" . | nindent 6 }}

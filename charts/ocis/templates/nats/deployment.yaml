@@ -10,10 +10,7 @@ spec:
   strategy:
     type: Recreate
   template:
-    metadata:
-      labels:
-        app: {{ .appName }}
-        {{- include "ocis.labels" . | nindent 8 }}
+    {{- include "ocis.templateMetadata" (dict "scope" $ "configCheck" false) | nindent 4 }}
     spec:
       {{- include "ocis.securityContextAndtopologySpreadConstraints" . | nindent 6 }}
       {{- if and $.Values.services.nats.persistence.enabled $.Values.services.nats.persistence.chownInitContainer }}
