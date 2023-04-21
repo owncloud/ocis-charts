@@ -829,9 +829,11 @@ services:
         enabled: false
         # -- Cron pattern for the job to be run. Defaults to every minute.
         schedule: "* * * * *"
-        # -- Setting that makes the command delete all trashed personal files older than the value.
+        # -- User ID of a user that has permissions to list all personal and project spaces.
+        purgeTrashBinUserID: ""
+        # -- Setting that makes the command delete all trashed personal files older than the value. The value is a number and a unit "d", "h", "m", "s".
         personalDeleteBefore: 30d
-        # -- Setting that makes the command delete all trashed project files older than the value.
+        # -- Setting that makes the command delete all trashed project files older than the value. The value is a number and a unit "d", "h", "m", "s".
         projectDeleteBefore: 30d
 
     # -- Persistence settings.
