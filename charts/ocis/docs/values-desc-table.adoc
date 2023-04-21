@@ -437,7 +437,7 @@ a| [subs=-attributes]
 +list+
 a| [subs=-attributes]
 `[]`
-| Sets the policies. Each policy is defined by a `fileName` and a `content`. The content takes the rego script as text, see  https://doc.owncloud.com/ocis/next/deployment/services/s-list/policies.html#example-policies
+| Sets the policies. Each policy is defined by a `fileName` and a `content`. The content takes the rego script as text, see  https://doc.owncloud.com/ocis/next/deployment/services/s-list/policies.html#example-policies Attention: All scripts provided here will end up in a ConfigMap. The data stored in a ConfigMap cannot exceed 1 MiB. see  https://kubernetes.io/docs/concepts/configuration/configmap/#:~:text=The%20data%20stored%20in%20a,separate%20database%20or%20file%20service.
 | features.quotas.default
 a| [subs=-attributes]
 +string+
