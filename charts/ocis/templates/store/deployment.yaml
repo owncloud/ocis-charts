@@ -34,11 +34,7 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           command: ["ocis"]
           args: ["store", "server"]
-          securityContext:
-            runAsNonRoot: true
-            runAsUser: {{ .Values.securityContext.runAsUser }}
-            runAsGroup: {{ .Values.securityContext.runAsGroup }}
-            readOnlyRootFilesystem: true
+          {{- include "ocis.containerSecurityContext" . | nindent 10 }}
           env:
             - name: MICRO_REGISTRY
               value: kubernetes

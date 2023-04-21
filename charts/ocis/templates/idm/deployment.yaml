@@ -30,11 +30,7 @@ spec:
       {{ end }}
         - name: init-dir #TODO: that should not be needed, needs fix in the idm service
           image: busybox:stable
-          securityContext:
-            runAsNonRoot: true
-            runAsUser: {{ .Values.securityContext.runAsUser }}
-            runAsGroup: {{ .Values.securityContext.runAsGroup }}
-            readOnlyRootFilesystem: true
+          {{- include "ocis.containerSecurityContext" . | nindent 10 }}
           command: ["mkdir", "-p", "/var/lib/ocis/idm"]
           resources: {{ toYaml .resources | nindent 12 }}
           volumeMounts:
@@ -46,11 +42,7 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           command: ["ocis"]
           args: ["idm", "server"]
-          securityContext:
-            runAsNonRoot: true
-            runAsUser: {{ .Values.securityContext.runAsUser }}
-            runAsGroup: {{ .Values.securityContext.runAsGroup }}
-            readOnlyRootFilesystem: true
+          {{- include "ocis.containerSecurityContext" . | nindent 10 }}
           env:
             - name: MICRO_REGISTRY
               value: kubernetes

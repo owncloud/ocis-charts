@@ -164,3 +164,15 @@ selector:
   matchLabels:
     app: {{ .appName }}
 {{- end -}}
+
+{{/*
+oCIS deployment container securityContext template
+
+*/}}
+{{- define "ocis.containerSecurityContext" -}}
+securityContext:
+  runAsNonRoot: true
+  runAsUser: {{ .Values.securityContext.runAsUser }}
+  runAsGroup: {{ .Values.securityContext.runAsGroup }}
+  readOnlyRootFilesystem: true
+{{- end -}}

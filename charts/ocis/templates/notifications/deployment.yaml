@@ -25,11 +25,7 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           command: ["ocis"]
           args: ["notifications", "server"]
-          securityContext:
-            runAsNonRoot: true
-            runAsUser: {{ .Values.securityContext.runAsUser }}
-            runAsGroup: {{ .Values.securityContext.runAsGroup }}
-            readOnlyRootFilesystem: true
+          {{- include "ocis.containerSecurityContext" . | nindent 10 }}
           env:
             - name: NOTIFICATIONS_LOG_COLOR
               value: {{ .Values.logging.color | quote }}
