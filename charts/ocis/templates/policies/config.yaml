@@ -1,0 +1,26 @@
+{{ if .Values.features.policies.enabled }}
+{{- include "ocis.appNames" (dict "scope" . "appName" "appNamePolicies" "appNameSuffix" "") -}}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .appName }}-config
+  namespace: {{ template "ocis.namespace" . }}
+  labels:
+    {{- include "ocis.labels" . | nindent 4 }}
+data:
+  policies.yaml: |
+    ---
+    {{- with $.Values.features.policies.policies }}
+    engine:
+      policies:
+    {{- range . }}
+          - /etc/ocis/{{- .fileName }}
+    {{- end }}
+    {{- end }}
+  {{- with $.Values.features.policies.policies -}}
+  {{- range . -}}
+  {{- .fileName | nindent 2 }}: |
+  {{- .content | nindent 4 -}}  
+  {{- end -}}
+  {{- end -}}
+{{ end }}
