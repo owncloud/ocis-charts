@@ -3,42 +3,23 @@
 {{- $_ := set . "resources" (default (default (dict) .Values.resources) .Values.services.idp.resources) -}}
 apiVersion: apps/v1
 kind: Deployment
-metadata:
-  name: {{ .appName }}
-  namespace: {{ template "ocis.namespace" . }}
-  labels:
-    {{- include "ocis.labels" . | nindent 4 }}
+{{ include "ocis.metadata" . }}
   annotations:
     ignore-check.kube-linter.io/env-var-secret : "IDP_ENCRYPTION_SECRET_FILE is no secret, it's the file path to the secret"
 spec:
-  selector:
-    matchLabels:
-      app: {{ .appName }}
+  {{- include "ocis.selector" . | nindent 2 }}
   replicas: 1
   template:
-    metadata:
-      labels:
-        app: {{ .appName }}
-        {{- include "ocis.labels" . | nindent 8 }}
+    {{- include "ocis.templateMetadata" (dict "scope" $ "configCheck" false) | nindent 4 }}
     spec:
-      securityContext:
-          fsGroup: {{ .Values.securityContext.fsGroup }}
-          fsGroupChangePolicy: {{ .Values.securityContext.fsGroupChangePolicy }}
-      {{- with .Values.topologySpreadConstraints }}
-      topologySpreadConstraints:
-        {{- tpl . $ | nindent 8 }}
-      {{- end }}
+      {{- include "ocis.securityContextAndtopologySpreadConstraints" . | nindent 6 }}
       containers:
         - name: {{ .appName }}
           image: {{ template "ocis.image" $ }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           command: ["ocis"]
           args: ["idp", "server"]
-          securityContext:
-            runAsNonRoot: true
-            runAsUser: {{ .Values.securityContext.runAsUser }}
-            runAsGroup: {{ .Values.securityContext.runAsGroup }}
-            readOnlyRootFilesystem: true
+          {{- include "ocis.containerSecurityContext" . | nindent 10 }}
           env:
             - name: MICRO_REGISTRY
               value: kubernetes
@@ -79,14 +60,7 @@ spec:
             - name: IDP_ENCRYPTION_SECRET_FILE
               value: /etc/ocis/idp/encryption.key
 
-          livenessProbe:
-            httpGet:
-              path: /healthz
-              port: metrics-debug
-            timeoutSeconds: 10
-            initialDelaySeconds: 60
-            periodSeconds: 20
-            failureThreshold: 3
+          {{- include "ocis.livenessProbe" . | nindent 10 }}
 
           resources: {{ toYaml .resources | nindent 12 }}
 

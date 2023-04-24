@@ -106,16 +106,10 @@ oCIS PDB template
 {{ if .podDisruptionBudget }}
 apiVersion: policy/v1
 kind: PodDisruptionBudget
-metadata:
-  name: {{ .appName }}
-  namespace: {{ template "ocis.namespace" . }}
-  labels:
-    {{- include "ocis.labels" . | nindent 4 }}
+{{ include "ocis.metadata" . }}
 spec:
   {{- toYaml .podDisruptionBudget | nindent 2 }}
-  selector:
-    matchLabels:
-      app: {{ .appName }}
+  {{- include "ocis.selector" . | nindent 2 }}
 {{- end }}
 {{- end -}}
 
@@ -123,11 +117,7 @@ spec:
 {{- if .Values.autoscaling.enabled }}
 apiVersion: {{ template "common.apiversion.hpa" . }}
 kind: HorizontalPodAutoscaler
-metadata:
-  name: {{ .appName }}
-  namespace: {{ template "ocis.namespace" . }}
-  labels:
-    {{- include "ocis.labels" . | nindent 4 }}
+{{ include "ocis.metadata" . }}
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
@@ -138,4 +128,84 @@ spec:
   metrics:
 {{ toYaml .Values.autoscaling.metrics | indent 4 }}
 {{- end }}
+{{- end -}}
+
+{{/*
+oCIS security Context template
+
+*/}}
+{{- define "ocis.securityContextAndtopologySpreadConstraints" -}}
+securityContext:
+    fsGroup: {{ .Values.securityContext.fsGroup }}
+    fsGroupChangePolicy: {{ .Values.securityContext.fsGroupChangePolicy }}
+{{- with .Values.topologySpreadConstraints }}
+topologySpreadConstraints:
+  {{- tpl . $ | nindent 8 }}
+{{- end }}
+{{- end -}}
+
+{{/*
+oCIS deployment metadata template
+
+*/}}
+{{- define "ocis.metadata" -}}
+metadata:
+  name: {{ .appName }}
+  namespace: {{ template "ocis.namespace" . }}
+  labels:
+    {{- include "ocis.labels" . | nindent 4 }}
+{{- end -}}
+
+{{/*
+oCIS deployment selector template
+
+*/}}
+{{- define "ocis.selector" -}}
+selector:
+  matchLabels:
+    app: {{ .appName }}
+{{- end -}}
+
+{{/*
+oCIS deployment container securityContext template
+
+*/}}
+{{- define "ocis.containerSecurityContext" -}}
+securityContext:
+  runAsNonRoot: true
+  runAsUser: {{ .Values.securityContext.runAsUser }}
+  runAsGroup: {{ .Values.securityContext.runAsGroup }}
+  readOnlyRootFilesystem: true
+{{- end -}}
+
+{{/*
+oCIS deployment template metadata template
+
+@param .scope          The current scope
+@param .configCheck    If this pod contains a configMap which has to be checked to trigger pod redeployment
+*/}}
+{{- define "ocis.templateMetadata" -}}
+metadata:
+  labels:
+    app: {{ .scope.appName }}
+    {{- include "ocis.labels" .scope | nindent 4 }}
+  {{- if .configCheck }}
+  annotations:
+    checksum/config: {{ include (print .scope.Template.BasePath "/" .scope.appName "/config.yaml") .scope | sha256sum }}
+  {{- end }}
+{{- end -}}
+
+{{/*
+oCIS deployment container livenessProbe template
+
+*/}}
+{{- define "ocis.livenessProbe" -}}
+livenessProbe:
+  httpGet:
+    path: /healthz
+    port: metrics-debug
+  timeoutSeconds: 10
+  initialDelaySeconds: 60
+  periodSeconds: 20
+  failureThreshold: 3
 {{- end -}}

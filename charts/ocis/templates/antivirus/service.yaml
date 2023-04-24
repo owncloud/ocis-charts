@@ -1,0 +1,17 @@
+{{- include "ocis.appNames" (dict "scope" . "appName" "appNameAntivirus" "appNameSuffix" "") -}}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .appName }}
+  namespace: {{ template "ocis.namespace" . }}
+  labels:
+    app: {{ .appName }}
+    ocis-metrics: enabled
+    {{- include "ocis.labels" . | nindent 4 }}
+spec:
+  selector:
+    app: {{ .appName }}
+  ports:
+    - name: metrics-debug
+      port: 9277
+      protocol: TCP

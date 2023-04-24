@@ -2,15 +2,9 @@
 {{- $_ := set . "resources" (default (default (dict) .Values.resources) .Values.services.users.resources) -}}
 apiVersion: apps/v1
 kind: Deployment
-metadata:
-  name: {{ .appName }}
-  namespace: {{ template "ocis.namespace" . }}
-  labels:
-    {{- include "ocis.labels" . | nindent 4 }}
+{{ include "ocis.metadata" . }}
 spec:
-  selector:
-    matchLabels:
-      app: {{ .appName }}
+  {{- include "ocis.selector" . | nindent 2 }}
   {{- if and (not .Values.autoscaling.enabled) (.Values.replicas) }}
   replicas: {{ .Values.replicas }}
   {{- end }}
@@ -18,29 +12,16 @@ spec:
   strategy: {{ toYaml .Values.deploymentStrategy | nindent 4 }}
   {{ end }}
   template:
-    metadata:
-      labels:
-        app: {{ .appName }}
-        {{- include "ocis.labels" . | nindent 8 }}
+    {{- include "ocis.templateMetadata" (dict "scope" $ "configCheck" false) | nindent 4 }}
     spec:
-      securityContext:
-          fsGroup: {{ .Values.securityContext.fsGroup }}
-          fsGroupChangePolicy: {{ .Values.securityContext.fsGroupChangePolicy }}
-      {{- with .Values.topologySpreadConstraints }}
-      topologySpreadConstraints:
-        {{- tpl . $ | nindent 8 }}
-      {{- end }}
+      {{- include "ocis.securityContextAndtopologySpreadConstraints" . | nindent 6 }}
       containers:
         - name: {{ .appName }}
           image: {{ template "ocis.image" $ }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           command: ["ocis"]
           args: ["users", "server"]
-          securityContext:
-            runAsNonRoot: true
-            runAsUser: {{ .Values.securityContext.runAsUser }}
-            runAsGroup: {{ .Values.securityContext.runAsGroup }}
-            readOnlyRootFilesystem: true
+          {{- include "ocis.containerSecurityContext" . | nindent 10 }}
           env:
             - name: MICRO_REGISTRY
               value: kubernetes
@@ -156,14 +137,7 @@ spec:
                   name: {{ .Values.secretRefs.jwtSecretRef }}
                   key: jwt-secret
 
-          livenessProbe:
-            httpGet:
-              path: /healthz
-              port: metrics-debug
-            timeoutSeconds: 10
-            initialDelaySeconds: 60
-            periodSeconds: 20
-            failureThreshold: 3
+          {{- include "ocis.livenessProbe" . | nindent 10 }}
 
           resources: {{ toYaml .resources | nindent 12 }}
 
