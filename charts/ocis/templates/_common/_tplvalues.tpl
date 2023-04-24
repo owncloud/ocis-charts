@@ -193,3 +193,18 @@ metadata:
     checksum/config: {{ include (print .scope.Template.BasePath "/" .scope.appName "/config.yaml") .scope | sha256sum }}
   {{- end }}
 {{- end -}}
+
+{{/*
+oCIS deployment container livenessProbe template
+
+*/}}
+{{- define "ocis.livenessProbe" -}}
+livenessProbe:
+  httpGet:
+    path: /healthz
+    port: metrics-debug
+  timeoutSeconds: 10
+  initialDelaySeconds: 60
+  periodSeconds: 20
+  failureThreshold: 3
+{{- end -}}

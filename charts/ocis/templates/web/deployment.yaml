@@ -74,14 +74,7 @@ spec:
                   name: {{ .Values.secretRefs.jwtSecretRef }}
                   key: jwt-secret
 
-          livenessProbe:
-            httpGet:
-              path: /healthz
-              port: metrics-debug
-            timeoutSeconds: 10
-            initialDelaySeconds: 60
-            periodSeconds: 20
-            failureThreshold: 3
+          {{- include "ocis.livenessProbe" . | nindent 10 }}
 
           resources: {{ toYaml .resources | nindent 12 }}
 

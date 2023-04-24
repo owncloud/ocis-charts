@@ -60,14 +60,7 @@ spec:
             - name: IDP_ENCRYPTION_SECRET_FILE
               value: /etc/ocis/idp/encryption.key
 
-          livenessProbe:
-            httpGet:
-              path: /healthz
-              port: metrics-debug
-            timeoutSeconds: 10
-            initialDelaySeconds: 60
-            periodSeconds: 20
-            failureThreshold: 3
+          {{- include "ocis.livenessProbe" . | nindent 10 }}
 
           resources: {{ toYaml .resources | nindent 12 }}
 

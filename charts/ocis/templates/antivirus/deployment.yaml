@@ -33,6 +33,10 @@ spec:
               value: {{ .Values.logging.level | quote }}
             - name: ANTIVIRUS_LOG_PRETTY
               value: {{ .Values.logging.pretty | quote }}
+            - name: ANTIVIRUS_DEBUG_ADDR
+              value: 0.0.0.0:9277
+            - name: ANTIVIRUS_DEBUG_PPROF
+              value: {{ .Values.debug.profiling | quote }}
             - name: ANTIVIRUS_INFECTED_FILE_HANDLING
               value: {{ .Values.features.virusscan.infectedFileHandling | quote }}
             - name: ANTIVIRUS_SCANNER_TYPE
@@ -64,7 +68,13 @@ spec:
               {{- end }}
             {{- end }}
 
+          {{- include "ocis.livenessProbe" . | nindent 10 }}
+
           resources: {{ toYaml .resources | nindent 12 }}
+
+          ports:
+            - name: metrics-debug
+              containerPort: 9277
 
           volumeMounts:
             - name: ocis-config-tmp
