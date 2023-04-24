@@ -34,9 +34,16 @@ spec:
             # - name: POSTPROCESSING_DEBUG_ADDR
             #   value: 0.0.0.0:TODO
 
+            {{- $_ := set . "postprocessingSteps" list -}}
+            {{- if .Values.features.policies.enabled }}
+            {{- $_ := set . "postprocessingSteps" (append .postprocessingSteps "policies") -}}
+            {{- end }}
             {{- if .Values.features.virusscan.enabled }}
+            {{- $_ := set . "postprocessingSteps" (append .postprocessingSteps "virusscan") -}}
+            {{- end }}
+            {{- if .postprocessingSteps }}
             - name: POSTPROCESSING_STEPS
-              value: "virusscan"
+              value: {{ join "," .postprocessingSteps | quote }}
             {{- end }}
 
             - name: POSTPROCESSING_EVENTS_ENDPOINT

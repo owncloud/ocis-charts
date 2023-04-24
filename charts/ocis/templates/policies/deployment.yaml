@@ -1,0 +1,116 @@
+{{ if .Values.features.policies.enabled }}
+{{- include "ocis.appNames" (dict "scope" . "appName" "appNamePolicies" "appNameSuffix" "") -}}
+{{- $_ := set . "resources" (default (default (dict) .Values.resources) .Values.services.audit.resources) -}}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .appName }}
+  namespace: {{ template "ocis.namespace" . }}
+  labels:
+    {{- include "ocis.labels" . | nindent 4 }}
+spec:
+  selector:
+    matchLabels:
+      app: {{ .appName }}
+  {{- if and (not .Values.autoscaling.enabled) (.Values.replicas) }}
+  replicas: {{ .Values.replicas }}
+  {{- end }}
+  {{- if .Values.deploymentStrategy }}
+  strategy: {{ toYaml .Values.deploymentStrategy | nindent 4 }}
+  {{ end }}
+  template:
+    metadata:
+      labels:
+        app: {{ .appName }}
+        {{- include "ocis.labels" . | nindent 8 }}
+      annotations:
+        checksum/config: {{ include (print $.Template.BasePath "/policies/config.yaml") . | sha256sum }}
+    spec:
+      securityContext:
+          fsGroup: {{ .Values.securityContext.fsGroup }}
+          fsGroupChangePolicy: {{ .Values.securityContext.fsGroupChangePolicy }}
+      {{- with .Values.topologySpreadConstraints }}
+      topologySpreadConstraints:
+        {{- tpl . $ | nindent 8 }}
+      {{- end }}
+      containers:
+        - name: {{ .appName }}
+          image: {{ template "ocis.image" $ }}
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          command: ["ocis"]
+          args: ["policies", "server"]
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: {{ .Values.securityContext.runAsUser }}
+            runAsGroup: {{ .Values.securityContext.runAsGroup }}
+            readOnlyRootFilesystem: true
+          env:
+            - name: MICRO_REGISTRY
+              value: kubernetes
+            - name: POLICIES_LOG_COLOR
+              value: {{ .Values.logging.color | quote }}
+            - name: POLICIES_LOG_LEVEL
+              value: {{ .Values.logging.level | quote }}
+            - name: POLICIES_LOG_PRETTY
+              value: {{ .Values.logging.pretty | quote }}
+            - name: POLICIES_GRPC_ADDR
+              value: 0.0.0.0:9125
+            - name: POLICIES_ENGINE_TIMEOUT
+              value: {{ .Values.features.policies.engineTimeout | quote }}
+            - name: POLICIES_POSTPROCESSING_QUERY
+              value: "data.postprocessing.granted"
+            - name: POLICIES_EVENTS_ENDPOINT
+            {{- if not .Values.messagingSystem.external.enabled }}
+              value: {{ .appNameNats }}:9233
+            {{- else }}
+              value: {{ .Values.messagingSystem.external.endpoint | quote }}
+            - name: POLICIES_EVENTS_CLUSTER
+              value: {{ .Values.messagingSystem.external.cluster | quote }}
+            - name: POLICIES_EVENTS_ENABLE_TLS
+              value: {{ .Values.messagingSystem.external.tls.enabled | quote }}
+            - name: POLICIES_EVENTS_TLS_INSECURE
+              value: {{ .Values.messagingSystem.external.tls.insecure | quote }}
+            - name: POLICIES_EVENTS_TLS_ROOT_CA_CERTIFICATE
+              {{- if not .Values.messagingSystem.external.tls.certTrusted }}
+              value: /etc/ocis/messaging-system-ca/messaging-system-ca.crt
+              {{- else }}
+              value: "" # no cert needed
+              {{- end }}
+            {{- end }}
+            - name: OCIS_REVA_GATEWAY
+              value: {{ .appNameGateway }}:9142
+            - name: POLICIES_JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: {{ $.Values.secretRefs.jwtSecretRef }}
+                  key: jwt-secret
+            - name: POLICIES_MACHINE_AUTH_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.secretRefs.machineAuthApiKeySecretRef }}
+                  key: machine-auth-api-key
+
+
+          resources: {{ toYaml .resources | nindent 12 }}
+
+          volumeMounts:
+            - name: messaging-system-ca
+              mountPath: /etc/ocis/messaging-system-ca
+              readOnly: true
+            - name: configs
+              mountPath: /etc/ocis
+
+
+      {{- include "ocis.imagePullSecrets" $ | nindent 6 }}
+      volumes:
+        - name: messaging-system-ca
+          {{ if and (.Values.messagingSystem.external.enabled) (not .Values.messagingSystem.external.tls.certTrusted) }}
+          secret:
+            secretName: {{ .Values.secretRefs.messagingSystemCaRef }}
+          {{ else }}
+          emptyDir: {}
+          {{ end }}
+        - name: configs
+          configMap:
+            name: {{ .appName }}-config
+{{ end }}

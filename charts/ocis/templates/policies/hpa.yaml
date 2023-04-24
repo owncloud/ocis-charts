@@ -1,0 +1,4 @@
+{{ if .Values.features.policies.enabled }}
+{{- include "ocis.appNames" (dict "scope" . "appName" "appNamePolicies" "appNameSuffix" "") -}}
+{{ include "ocis.hpa" . }}
+{{ end }}

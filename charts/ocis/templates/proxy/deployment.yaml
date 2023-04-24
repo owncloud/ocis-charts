@@ -82,6 +82,11 @@ spec:
                   name: {{ .Values.secretRefs.machineAuthApiKeySecretRef }}
                   key: machine-auth-api-key
 
+            {{- if .Values.features.policies.enabled }}
+            - name: PROXY_POLICIES_QUERY
+              value: data.proxy.granted
+            {{- end }}
+
           {{- include "ocis.livenessProbe" . | nindent 10 }}
 
           resources: {{ toYaml .resources | nindent 12 }}

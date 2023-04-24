@@ -110,6 +110,26 @@ spec:
               {{- end }}
             {{- end }}
 
+            # Duration in seconds after which uploads will expire.
+            - name: STORAGE_USERS_UPLOAD_EXPIRATION
+              value: {{ .Values.services.storageusers.maintenance.cleanUpExpiredUploads.uploadExpiration | quote }}
+
+            # Settings for how old trash bin items should be deleted
+            - name: STORAGE_USERS_PURGE_TRASH_BIN_PERSONAL_DELETE_BEFORE
+              value: {{ .Values.services.storageusers.maintenance.purgeExpiredTrashBinItems.personalDeleteBefore | quote}}
+            - name: STORAGE_USERS_PURGE_TRASH_BIN_PROJECT_DELETE_BEFORE
+              value: {{ .Values.services.storageusers.maintenance.purgeExpiredTrashBinItems.projectDeleteBefore | quote }}
+
+            # User ID to use for purging trash bin items
+            - name: STORAGE_USERS_PURGE_TRASH_BIN_USER_ID
+              value: {{ .Values.services.storageusers.maintenance.purgeExpiredTrashBinItems.purgeTrashBinUserID | quote}}
+
+            - name: OCIS_MACHINE_AUTH_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.secretRefs.machineAuthApiKeySecretRef }}
+                  key: machine-auth-api-key
+
             - name: REVA_GATEWAY
               value: {{ .appNameGateway }}:9142
 
