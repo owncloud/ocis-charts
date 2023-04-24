@@ -654,6 +654,18 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `false`
 | For self signed certificates, consider to put the CA cert of the messaging system secure server into the secret referenced by "messagingSystemCaRef" Not recommended for production installations.
+| monitoring
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{"enabled":false}`
+| Service monitoring configuration.
+| monitoring.enabled
+a| [subs=-attributes]
++bool+
+a| [subs=-attributes]
+`false`
+| Enable service monitoring.
 | namespaceOverride
 a| [subs=-attributes]
 +string+

@@ -1203,3 +1203,9 @@ services:
     resources: {}
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
     podDisruptionBudget: {}
+
+
+# -- Service monitoring configuration.
+monitoring:
+  # -- Enable service monitoring.
+  enabled: false

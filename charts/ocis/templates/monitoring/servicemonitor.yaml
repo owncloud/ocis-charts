@@ -1,0 +1,17 @@
+{{ if .Values.monitoring.enabled }}
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: ocis-metrics
+  namespace: {{ template "ocis.namespace" . }}
+spec:
+  selector:
+    matchLabels:
+      ocis-metrics: enabled
+  endpoints:
+    - port: metrics-debug
+      interval: "60s"
+      scrapeTimeout: "60s"
+      path: /metrics
+{{ end }}
