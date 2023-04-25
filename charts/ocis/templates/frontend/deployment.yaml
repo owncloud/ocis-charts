@@ -47,6 +47,10 @@ spec:
             - name: REVA_GATEWAY
               value: {{ .appNameGateway }}:9142
 
+            {{- if .Values.features.externalUserManagement.enabled }}
+            - name: FRONTEND_READONLY_USER_ATTRIBUTES
+              value: {{ tpl (join "," .Values.features.externalUserManagement.ldap.readOnlyAttributes) . | quote }}
+            {{- end }}
             - name: FRONTEND_JWT_SECRET
               valueFrom:
                 secretKeyRef:
