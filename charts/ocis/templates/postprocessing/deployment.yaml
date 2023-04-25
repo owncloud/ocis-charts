@@ -5,7 +5,9 @@ kind: Deployment
 {{ include "ocis.metadata" . }}
 spec:
   {{- include "ocis.selector" . | nindent 2 }}
-  replicas: 1
+  {{- if and (not .Values.autoscaling.enabled) (.Values.replicas) }}
+  replicas: {{ .Values.replicas }}
+  {{- end }}
   template:
     {{- include "ocis.templateMetadata" (dict "scope" $ "configCheck" false) | nindent 4 }}
     spec:
