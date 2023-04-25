@@ -36,9 +36,6 @@ data:
       - endpoint: /
         backend: http://{{ .appNameWeb }}:9100
         unprotected: true
-      - endpoint: /.well-known/webfinger
-        backend: http://{{ .appNameWebfinger }}:8080
-        unprotected: true
       - endpoint: /.well-known/openid-configuration
         backend: http://{{ .appNameIdp }}:9130
         unprotected: true
