@@ -68,10 +68,11 @@ kubectl -n {{ .Release.Namespace }} get secrets/admin-user --template='{{"{{"}}.
 {{- $natsUnpersisted := and (not .Values.messagingSystem.external.enabled) (not .Values.services.nats.persistence.enabled) -}}
 {{- $searchUnpersisted := not .Values.services.search.persistence.enabled -}}
 {{- $storagesystemUnpersisted := not .Values.services.storagesystem.persistence.enabled -}}
+{{- $webUnpersisted := not .Values.services.web.persistence.enabled -}}
 {{- $storageusersUnpersisted := not .Values.services.storageusers.persistence.enabled -}}
 {{- $storeUnpersisted := not .Values.services.store.persistence.enabled -}}
 
-{{ if or $storagesystemUnpersisted $storageusersUnpersisted $storeUnpersisted $idmUnpersisted $searchUnpersisted $natsUnpersisted }}
+{{ if or $storagesystemUnpersisted $webUnpersisted $storageusersUnpersisted $storeUnpersisted $idmUnpersisted $searchUnpersisted $natsUnpersisted }}
 #################################################################################
 ######   WARNING: Persistence is disabled for some services.                #####
 ######   You will lose your data when a service's pod is terminated.        #####
@@ -82,6 +83,9 @@ kubectl -n {{ .Release.Namespace }} get secrets/admin-user --template='{{"{{"}}.
 {{- end }}
 {{- if $storagesystemUnpersisted }}
 ######     - storagesystem                                                  #####
+{{- end }}
+{{- if $webUnpersisted }}
+######     - web                                                            #####
 {{- end }}
 {{- if $idmUnpersisted }}
 ######     - idm                                                            #####
