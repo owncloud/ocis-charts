@@ -134,12 +134,16 @@ spec:
               value: {{ .appNameGateway }}:9142
 
             # cache
-            - name: STORAGE_USERS_CACHE_STORE
+            - name: STORAGE_USERS_FILEMETADATA_CACHE_STORE
               value: {{ .Values.cache.type | quote }}
             {{- if ne .Values.cache.type "noop" }}
-            - name: STORAGE_USERS_CACHE_NODES
+            - name: STORAGE_USERS_FILEMETADATA_CACHE_STORE_NODES
               value: {{ join "," .Values.cache.nodes | quote }}
             {{- end }}
+
+            # the stat cache is disabled for now for performance reasons
+            - name: STORAGE_USERS_STAT_CACHE_STORE
+              value: noop
 
             - name: STORAGE_USERS_MOUNT_ID
               valueFrom:

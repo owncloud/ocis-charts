@@ -68,7 +68,7 @@ store:
   type: nats-js
   # -- Provide a list of comma-separated addresses of `etcd`, `redis`, `redis-sentinel` or `nats-js` servers here
   # if the proper store is selected
-  addresses:
+  nodes:
     - "{{ .appNameNats }}:9233"
 
 messagingSystem:
@@ -198,10 +198,14 @@ features:
         claim: roles
         # -- Configure the mapping for the role assignment
         mapping:
-          admin: ocisAdmin
-          user: ocisUser
-          spaceadmin: ocisSpaceAdmin
-          guest: ocisGuest
+          - role_name: admin
+            claim_value: ocisAdmin
+          - role_name: spaceadmin
+            claim_value: ocisSpaceAdmin
+          - role_name: user
+            claim_value: ocisUser
+          - role_name: guest
+            claim_value: ocisGuest
 
     # LDAP related settings.
     ldap:
@@ -311,12 +315,12 @@ features:
   policies:
     # -- Enables policies
     enabled: false
-    # -- Sets the timeout the rego expression evaluation can take. The timeout can be set as number followed by a unit identifier 
+    # -- Sets the timeout the rego expression evaluation can take. The timeout can be set as number followed by a unit identifier
     # like ms, s, etc. Rules default to deny if the timeout was reached.
     engineTimeout: 10s
-    # -- Sets the policies. Each policy is defined by a `fileName` and a `content`. The content takes the rego script as text, see 
+    # -- Sets the policies. Each policy is defined by a `fileName` and a `content`. The content takes the rego script as text, see
     # https://doc.owncloud.com/ocis/next/deployment/services/s-list/policies.html#example-policies
-    # Attention: All scripts provided here will end up in a ConfigMap. The data stored in a ConfigMap cannot exceed 1 MiB. see 
+    # Attention: All scripts provided here will end up in a ConfigMap. The data stored in a ConfigMap cannot exceed 1 MiB. see
     # https://kubernetes.io/docs/concepts/configuration/configmap/#:~:text=The%20data%20stored%20in%20a,separate%20database%20or%20file%20service.
     policies: []
     # - fileName: proxy.rego

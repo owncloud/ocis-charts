@@ -76,12 +76,9 @@ spec:
               value: {{ .appNameAppRegistry }}:9242
 
             # cache
+            # the stat cache is disabled for now for performance reasons
             - name: GATEWAY_CACHE_STORE
-              value: {{ .Values.cache.type | quote }}
-            {{- if ne .Values.cache.type "noop" }}
-            - name: GATEWAY_CACHE_NODES
-              value: {{ join "," .Values.cache.nodes | quote }}
-            {{- end }}
+              value: noop
 
             - name: GATEWAY_STORAGE_USERS_MOUNT_ID
               valueFrom:

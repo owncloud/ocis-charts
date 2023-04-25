@@ -59,6 +59,14 @@ spec:
             - name: FRONTEND_ARCHIVER_INSECURE
               value: {{ .Values.insecure.ocisHttpApiInsecure | quote }}
 
+            # cache
+            - name: FRONTEND_OCS_RESOURCE_INFO_CACHE_STORE
+              value: {{ .Values.cache.type | quote }}
+            {{- if ne .Values.cache.type "noop" }}
+            - name: FRONTEND_OCS_RESOURCE_INFO_CACHE_STORE_NODES
+              value: {{ join "," .Values.cache.nodes | quote }}
+            {{- end }}
+
             - name: FRONTEND_MACHINE_AUTH_API_KEY
               valueFrom:
                 secretKeyRef:

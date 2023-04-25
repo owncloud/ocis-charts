@@ -388,7 +388,7 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 +object+
 a| [subs=-attributes]
-`{"claim":"roles","enabled":false,"mapping":{"admin":"ocisAdmin","guest":"ocisGuest","spaceadmin":"ocisSpaceAdmin","user":"ocisUser"}}`
+`{"claim":"roles","enabled":false,"mapping":[{"claim_value":"ocisAdmin","role_name":"admin"},{"claim_value":"ocisSpaceAdmin","role_name":"spaceadmin"},{"claim_value":"ocisUser","role_name":"user"},{"claim_value":"ocisGuest","role_name":"guest"}]}`
 | Configure OIDC role assignment. If activated, oCIS will read the role assigment from the OIDC token, see xref:{s-path}/proxy.adoc#automatic-role-assignments[Automatic Role Assignments]
 | features.externalUserManagement.oidc.roleAssignment.claim
 a| [subs=-attributes]
@@ -398,9 +398,9 @@ a| [subs=-attributes]
 | The name of the OIDC claim holding the role assignment
 | features.externalUserManagement.oidc.roleAssignment.mapping
 a| [subs=-attributes]
-+object+
++list+
 a| [subs=-attributes]
-`{"admin":"ocisAdmin","guest":"ocisGuest","spaceadmin":"ocisSpaceAdmin","user":"ocisUser"}`
+`[{"claim_value":"ocisAdmin","role_name":"admin"},{"claim_value":"ocisSpaceAdmin","role_name":"spaceadmin"},{"claim_value":"ocisUser","role_name":"user"},{"claim_value":"ocisGuest","role_name":"guest"}]`
 | Configure the mapping for the role assignment
 | features.externalUserManagement.oidc.userIDClaim
 a| [subs=-attributes]
@@ -431,13 +431,13 @@ a| [subs=-attributes]
 +string+
 a| [subs=-attributes]
 `"10s"`
-| Sets the timeout the rego expression evaluation can take. The timeout can be set as number followed by a unit identifier  like ms, s, etc. Rules default to deny if the timeout was reached.
+| Sets the timeout the rego expression evaluation can take. The timeout can be set as number followed by a unit identifier like ms, s, etc. Rules default to deny if the timeout was reached.
 | features.policies.policies
 a| [subs=-attributes]
 +list+
 a| [subs=-attributes]
 `[]`
-| Sets the policies. Each policy is defined by a `fileName` and a `content`. The content takes the rego script as text, see  https://doc.owncloud.com/ocis/next/deployment/services/s-list/policies.html#example-policies Attention: All scripts provided here will end up in a ConfigMap. The data stored in a ConfigMap cannot exceed 1 MiB. see  https://kubernetes.io/docs/concepts/configuration/configmap/#:~:text=The%20data%20stored%20in%20a,separate%20database%20or%20file%20service.
+| Sets the policies. Each policy is defined by a `fileName` and a `content`. The content takes the rego script as text, see https://doc.owncloud.com/ocis/next/deployment/services/s-list/policies.html#example-policies Attention: All scripts provided here will end up in a ConfigMap. The data stored in a ConfigMap cannot exceed 1 MiB. see https://kubernetes.io/docs/concepts/configuration/configmap/#:~:text=The%20data%20stored%20in%20a,separate%20database%20or%20file%20service.
 | features.quotas.default
 a| [subs=-attributes]
 +string+
@@ -1890,7 +1890,7 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service resources configuration. Overrides the default setting from `resources` if set.
-| store.addresses
+| store.nodes
 a| [subs=-attributes]
 +list+
 a| [subs=-attributes]

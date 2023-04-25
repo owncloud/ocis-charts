@@ -42,10 +42,10 @@ spec:
             # - name: EVENTHISTORY_DEBUG_ADDR
             #   value: 0.0.0.0:8081
 
-            - name: EVENTHISTORY_STORE_TYPE
+            - name: EVENTHISTORY_STORE
               value: {{ .store.type | quote }}
-            - name: EVENTHISTORY_STORE_ADDRESSES
-              value: {{ tpl (join "," .store.addresses) . | quote }}
+            - name: EVENTHISTORY_STORE_NODES
+              value: {{ tpl (join "," .store.nodes) . | quote }}
 
             - name: EVENTHISTORY_EVENTS_ENDPOINT
             {{- if not .Values.messagingSystem.external.enabled }}
