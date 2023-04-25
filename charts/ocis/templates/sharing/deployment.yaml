@@ -68,6 +68,9 @@ spec:
                   name: {{ .Values.secretRefs.jwtSecretRef }}
                   key: jwt-secret
 
+            - name: SHARING_PUBLIC_WRITEABLE_SHARE_MUST_HAVE_PASSWORD
+              value: {{ .Values.features.sharing.publiclink.writeableShareMustHavePassword | quote }}
+
             # user sharing
             - name: SHARING_USER_DRIVER
               value: jsoncs3

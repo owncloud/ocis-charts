@@ -63,6 +63,12 @@ spec:
             - name: FRONTEND_ARCHIVER_INSECURE
               value: {{ .Values.insecure.ocisHttpApiInsecure | quote }}
 
+            - name: FRONTEND_OCS_PUBLIC_WRITEABLE_SHARE_MUST_HAVE_PASSWORD
+              value: {{ .Values.features.sharing.publiclink.writeableShareMustHavePassword | quote }}
+
+            - name: FRONTEND_SEARCH_MIN_LENGTH
+              value: {{ .Values.features.sharing.users.search.minLengthLimit | quote }}
+
             # cache
             - name: FRONTEND_OCS_RESOURCE_INFO_CACHE_STORE
               value: {{ .Values.cache.type | quote }}
