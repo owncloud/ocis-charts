@@ -42,10 +42,10 @@ spec:
             # - name: USERLOG_DEBUG_ADDR
             #   value: 0.0.0.0:8081
 
-            - name: USERLOG_STORE_TYPE
+            - name: USERLOG_STORE
               value: {{ .store.type | quote }}
-            - name: USERLOG_STORE_ADDRESSES
-              value: {{ tpl (join "," .store.addresses) . | quote }}
+            - name: USERLOG_STORE_NODES
+              value: {{ tpl (join "," .store.nodes) . | quote }}
 
             - name: USERLOG_EVENTS_ENDPOINT
             {{- if not .Values.messagingSystem.external.enabled }}

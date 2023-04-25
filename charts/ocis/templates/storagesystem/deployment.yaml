@@ -69,6 +69,14 @@ spec:
             - name: STORAGE_SYSTEM_OCIS_METADATA_BACKEND
               value: messagepack
 
+            # cache
+            - name: STORAGE_SYSTEM_CACHE_STORE
+              value: {{ .Values.cache.type | quote }}
+            {{- if ne .Values.cache.type "noop" }}
+            - name: STORAGE_SYSTEM_CACHE_NODES
+              value: {{ join "," .Values.cache.nodes | quote }}
+            {{- end }}
+
             - name: STORAGE_SYSTEM_JWT_SECRET
               valueFrom:
                 secretKeyRef:
