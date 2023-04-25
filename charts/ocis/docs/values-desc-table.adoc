@@ -1848,6 +1848,66 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `""`
 | URL to load themes from. Will be prepended to the theme path. Defaults to the value of "externalDomain".
+| services.web.persistence
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+see detailed persistence configuration options below
+| Persistence settings.
+| services.web.persistence.accessModes
+a| [subs=-attributes]
++list+
+a| [subs=-attributes]
+`["ReadWriteMany"]`
+| Persistent volume access modes. Needs to be `["ReadWriteMany"]` when scaling this service beyond one instance or persistence needs to be disabled.
+| services.web.persistence.annotations
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Persistent volume annotations.
+| services.web.persistence.chownInitContainer
+a| [subs=-attributes]
++bool+
+a| [subs=-attributes]
+`false`
+| Enables a initContainer to chown the volume. The initContainer is run as root. This is not needed if the driver applies the fsGroup from the securityContext.
+| services.web.persistence.enabled
+a| [subs=-attributes]
++bool+
+a| [subs=-attributes]
+`false`
+| Enables persistence. Is recommended to be enabled on production installations. If enabled, generated thumbnails are cached on this volume and available across pod restarts and service instances. If not enabled, thumbnail generation might lead to higher CPU usage.
+| services.web.persistence.existingClaim
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`nil`
+| Use an existing PersistentVolumeClaim for persistence.
+| services.web.persistence.finalizers
+a| [subs=-attributes]
++list+
+a| [subs=-attributes]
+`[]`
+| Persistent volume finalizers.
+| services.web.persistence.selectorLabels
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Persistent volume selector labels.
+| services.web.persistence.size
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"1Gi"`
+| Size of the persistent volume.
+| services.web.persistence.storageClassName
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`nil`
+| Storage class to use. Uses the default storage class if not set.
 | services.web.podDisruptionBudget
 a| [subs=-attributes]
 +object+

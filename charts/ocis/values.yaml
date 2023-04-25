@@ -1139,6 +1139,35 @@ services:
         server: ""
         # -- URL path to load themes from. The theme server will be prepended. Defaults to the ownCloud Web default theme.
         path: ""
+
+    # -- Persistence settings.
+    # @default -- see detailed persistence configuration options below
+    persistence:
+      # -- Enables persistence.
+      # Is recommended to be enabled on production installations.
+      # If enabled, generated thumbnails are cached on this volume and available across pod restarts and service instances.
+      # If not enabled, thumbnail generation might lead to higher CPU usage.
+      enabled: false
+      # -- Enables a initContainer to chown the volume.
+      # The initContainer is run as root.
+      # This is not needed if the driver applies the fsGroup from the securityContext.
+      chownInitContainer: false
+      # -- Storage class to use.
+      # Uses the default storage class if not set.
+      storageClassName:
+      # -- Persistent volume access modes. Needs to be `["ReadWriteMany"]` when scaling this service beyond one instance or persistence needs to be disabled.
+      accessModes:
+        - ReadWriteMany
+      # -- Size of the persistent volume.
+      size: 1Gi
+      # -- Persistent volume annotations.
+      annotations: {}
+      # -- Persistent volume finalizers.
+      finalizers: []
+      # -- Persistent volume selector labels.
+      selectorLabels: {}
+      # -- Use an existing PersistentVolumeClaim for persistence.
+      existingClaim:
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.

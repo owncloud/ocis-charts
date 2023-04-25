@@ -65,7 +65,7 @@ spec:
             - name: WEB_UI_CONFIG_SERVER
               value: "https://{{ .Values.externalDomain }}"
 
-            - name: REVA_GATEWAY
+            - name: WEB_GATEWAY_GRPC_ADDR #TODO: does not support fallback to REVA_GATEWAY as of oCIS 3.0.0-rc.1
               value: {{ .appNameGateway }}:9142
 
             - name: WEB_JWT_SECRET
@@ -87,9 +87,18 @@ spec:
           volumeMounts:
             - name: configs
               mountPath: /etc/ocis
+            - name: web-data
+              mountPath: /var/lib/ocis
 
       {{- include "ocis.imagePullSecrets" $ | nindent 6 }}
       volumes:
         - name: configs
           configMap:
             name: {{ .appName }}-config
+        - name: web-data
+          {{ if .Values.services.web.persistence.enabled }}
+          persistentVolumeClaim:
+            claimName: {{ .appName }}-data
+          {{ else }}
+          emptyDir: {}
+          {{ end }}
