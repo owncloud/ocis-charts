@@ -331,6 +331,7 @@ features:
     #     granted = false if {
     #         utils.is_request_type_put
     #         not input.request.path == "/data"
+    #         not startswith(input.request.path, "/ocs")
     #         not utils.collection_contains(utils.ALLOWED_FILE_EXTENSIONS, input.request.path)
     #     }
     #
