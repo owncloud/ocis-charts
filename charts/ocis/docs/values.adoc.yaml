@@ -210,8 +210,18 @@ features:
 
     # LDAP related settings.
     ldap:
-      # -- Writeable configures if oCIS is allowed to write to the LDAP server, to eg. create users.
+      # -- Writeable configures if oCIS is allowed to write to the LDAP server, to eg. create or edit users.
       writeable: true
+      # -- If the LDAP server is set to writable in general, some user attributes can be restricted to read only in the UI.
+      # Note: This only disables editing in the UI. The readonly permissions need to be enforced in the LDAP server itself.
+      readOnlyAttributes: []
+        # - user.onPremisesSamAccountName # username
+        # - user.displayName # display name
+        # - user.mail # mail
+        # - user.passwordProfile # password
+        # - user.appRoleAssignments # role
+        # - user.accountEnabled # login allowed
+        # - drive.quota # quota
       # -- URI to connect to the LDAP secure server.
       uri: ldaps://ldaps.owncloud.test
       # -- Set only to false, if the certificate of your LDAP secure service is not trusted.

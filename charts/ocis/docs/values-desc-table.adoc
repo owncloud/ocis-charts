@@ -306,6 +306,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `false`
 | For self signed certificates, consider to put the CA cert of the LDAP secure server into the secret referenced by "ldapCaRef" Not recommended for production installations.
+| features.externalUserManagement.ldap.readOnlyAttributes
+a| [subs=-attributes]
++list+
+a| [subs=-attributes]
+`[]`
+| If the LDAP server is set to writable in general, some user attributes can be restricted to read only in the UI. Note: This only disables editing in the UI. The readonly permissions need to be enforced in the LDAP server itself.
 | features.externalUserManagement.ldap.uri
 a| [subs=-attributes]
 +string+
@@ -377,7 +383,7 @@ a| [subs=-attributes]
 +bool+
 a| [subs=-attributes]
 `true`
-| Writeable configures if oCIS is allowed to write to the LDAP server, to eg. create users.
+| Writeable configures if oCIS is allowed to write to the LDAP server, to eg. create or edit users.
 | features.externalUserManagement.oidc.issuerURI
 a| [subs=-attributes]
 +string+
