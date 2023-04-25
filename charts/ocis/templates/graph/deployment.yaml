@@ -75,6 +75,9 @@ spec:
             - name: LDAP_INSECURE
               value: {{ .Values.features.externalUserManagement.ldap.insecure | quote }}
 
+            - name: GRAPH_LDAP_REFINT_ENABLED
+              value: {{ .Values.features.externalUserManagement.ldap.refintEnabled | quote }}
+
             - name: LDAP_USER_BASE_DN
               value: {{ .Values.features.externalUserManagement.ldap.user.baseDN | quote }}
             - name: LDAP_GROUP_BASE_DN
