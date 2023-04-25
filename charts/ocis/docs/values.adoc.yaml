@@ -1182,9 +1182,3 @@ services:
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
     podDisruptionBudget: {}
 
-  # -- WEBFINGER service.
-  # @default -- see detailed service configuration options below
-  webfinger:
-    # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
-    resources: {}
-
