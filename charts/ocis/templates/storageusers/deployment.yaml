@@ -141,7 +141,7 @@ spec:
               value: {{ join "," .Values.cache.nodes | quote }}
             {{- end }}
 
-            # the stat cache is disabled for now for performance reasons
+            # the stat cache is disabled for now for performance reasons, see https://github.com/owncloud/ocis-charts/issues/214
             - name: STORAGE_USERS_STAT_CACHE_STORE
               value: noop
 
