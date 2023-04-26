@@ -13,13 +13,7 @@ Please refer to Helm's [documentation](https://helm.sh/docs/) to get started.
 This chart repository and it's charts are still in an experimental phase, and it has not yet been published.
 For instructions on how to run it anyways the the respective chart's readme.
 
-[//]: # (Once Helm is set up properly, add the repo as follows:)
 
-[//]: # (```console)
-[//]: # (helm repo add ocis https://owncloud.dev/ocis/helm-charts)
-[//]: # (```)
-
-[//]: # (You can then run `helm search repo ocis` to see the charts.)
 
 <!-- Keep full URL links to repo files because this README syncs from main to gh-pages.  -->
 Chart documentation is available in [oCIS directory](https://github.com/owncloud/ocis-charts/blob/master/charts/ocis/README.md).
