@@ -165,7 +165,7 @@ spec:
 
             {{- if .Values.features.quotas.max }}
             - name: STORAGE_USERS_OCIS_MAX_QUOTA
-              value: {{ .Values.features.quotas.max }}
+              value: {{ .Values.features.quotas.max | quote }}
             {{- end }}
 
             - name: OCIS_ASYNC_UPLOADS

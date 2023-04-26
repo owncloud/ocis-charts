@@ -91,7 +91,7 @@ spec:
 
             {{- if .Values.features.quotas.max  }}
             - name: FRONTEND_MAX_QUOTA
-              value: {{ .Values.features.quotas.max }}
+              value: {{ .Values.features.quotas.max | quote }}
             {{- end }}
 
           {{- include "ocis.livenessProbe" . | nindent 10 }}
