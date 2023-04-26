@@ -13,8 +13,6 @@ Please refer to Helm's [documentation](https://helm.sh/docs/) to get started.
 This chart repository and it's charts are still in an experimental phase, and it has not yet been published.
 For instructions on how to run it anyways the the respective chart's readme.
 
-[//]: # (Once Helm is set up properly, add the repo as follows:)
-
 
 
 <!-- Keep full URL links to repo files because this README syncs from main to gh-pages.  -->
