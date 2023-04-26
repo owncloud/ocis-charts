@@ -384,6 +384,42 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `true`
 | Writeable configures if oCIS is allowed to write to the LDAP server, to eg. create or edit users.
+| features.externalUserManagement.oidc.gdprExport.basePath
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"https://keycloak.owncloud.test"`
+| Base URI of keycloak.
+| features.externalUserManagement.oidc.gdprExport.clientID
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"gdpr-exporter"`
+| Client ID to authenticate against keycloak with.
+| features.externalUserManagement.oidc.gdprExport.clientRealm
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"master"`
+| Realm that the client ID is configured in, usually master.
+| features.externalUserManagement.oidc.gdprExport.enabled
+a| [subs=-attributes]
++bool+
+a| [subs=-attributes]
+`false`
+| Enables the GDPR export feature for the external OIDC provider. Note, this will only work with KeyCloak as OIDC provider.
+| features.externalUserManagement.oidc.gdprExport.insecure
+a| [subs=-attributes]
++bool+
+a| [subs=-attributes]
+`false`
+| Disables SSL certificate checking for connections to the GDPR export service. Not recommended for production installations.
+| features.externalUserManagement.oidc.gdprExport.userRealm
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"oCIS"`
+| Realm that the users are in.
 | features.externalUserManagement.oidc.issuerURI
 a| [subs=-attributes]
 +string+
@@ -684,6 +720,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `"admin-user"`
 | Reference to an existing admin user secret (see xref:{secrets}[Secrets]). Not used if `features.externalUserManagement.enabled` equals `true`.
+| secretRefs.gdprExportClientSecretRef
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"gdpr-export-client-secret"`
+| Reference to an existing keycloak client secret, used for the GDPR export. Only used if features.externalUserManagement.gdprExport.enabled equals true.
 | secretRefs.idpSecretRef
 a| [subs=-attributes]
 +string+
