@@ -159,7 +159,7 @@ spec:
 
             {{- if .Values.features.quotas.default }}
             - name: GRAPH_SPACES_DEFAULT_QUOTA
-              value: {{ .Values.features.quotas.default }}
+              value: {{ .Values.features.quotas.default | quote }}
             {{- end }}
 
           {{- include "ocis.livenessProbe" . | nindent 10 }}
