@@ -474,6 +474,18 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `nil`
 | Define the roles by specifying a name of a ConfigMap which already contains the the role description (might also be defined in the `extraResources` section). The ConfigMap needs to contain a file named `custom-roles.json` which holds the role description in JSON format Please note that you have to restart the settings service manually if you change the content of you ConfigMap.
+| features.sharing.publiclink.writeableShareMustHavePassword
+a| [subs=-attributes]
++bool+
+a| [subs=-attributes]
+`false`
+| Enforce a password on writable public link shares.
+| features.sharing.users.search.minLengthLimit
+a| [subs=-attributes]
++int+
+a| [subs=-attributes]
+`3`
+| Minimum number of characters to enter before a client should start a search for Share receivers. This setting can be used to customize the user experience if e.g too many results are displayed.
 | features.virusscan.enabled
 a| [subs=-attributes]
 +bool+

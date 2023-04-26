@@ -120,6 +120,19 @@ features:
       authentication: none
       # -- Encryption method for the SMTP communication. Possible values are ‘starttls’, ‘ssl’, ‘ssltls’, ‘tls’ and ‘none’.
       encryption: none
+  # Sharing related settings
+  sharing:
+    # Sharing with users related settings
+    users:
+      # Search settings for finding users to share with.
+      search:
+        # -- Minimum number of characters to enter before a client should start a search for Share receivers.
+        # This setting can be used to customize the user experience if e.g too many results are displayed.
+        minLengthLimit: 3
+    # Sharing per public link related setings
+    publiclink:
+      # -- Enforce a password on writable public link shares.
+      writeableShareMustHavePassword: false
   # Apps integration
   appsIntegration:
     # -- Enables the apps integration.
