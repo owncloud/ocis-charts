@@ -59,6 +59,9 @@ spec:
               value: {{ .Values.features.externalUserManagement.oidc.userIDClaim | quote }}
             - name: PROXY_USER_CS3_CLAIM
               value: {{ .Values.features.externalUserManagement.oidc.userIDClaimAttributeMapping | quote }}
+
+            - name: PROXY_OIDC_SKIP_CLIENT_ID_CHECK
+              value: "true"
             {{- end }}
 
             - name: PROXY_TLS
