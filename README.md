@@ -16,7 +16,7 @@ For instructions on how to run it anyways the the respective chart's readme.
 [//]: # (Once Helm is set up properly, add the repo as follows:)
 
 [//]: # (```console)
-[//]: # (helm repo add ocis https://owncloud.dev/ocis/helm-charts)
+[//]: # (helm repo add ocis https://github.com/owncloud/ocis-charts/tree/master/charts/ocis)
 [//]: # (```)
 
 [//]: # (You can then run `helm search repo ocis` to see the charts.)
