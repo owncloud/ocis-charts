@@ -67,8 +67,6 @@ spec:
               value: "" # no cert needed
               {{- end }}
             {{- end }}
-            - name: ANTIVIRUS_DEBUG_ADDR
-              value: 0.0.0.0:9277
 
           {{- include "ocis.livenessProbe" . | nindent 10 }}
 

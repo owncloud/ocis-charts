@@ -11,7 +11,7 @@ spec:
       ocis-metrics: enabled
   endpoints:
     - port: metrics-debug
-      interval: "60s"
-      scrapeTimeout: "60s"
+      interval: {{ .Values.monitoring.interval | quote }}
+      scrapeTimeout: {{  .Values.monitoring.scrapeTimeout | quote }}
       path: /metrics
 {{ end }}

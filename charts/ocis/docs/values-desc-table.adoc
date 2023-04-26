@@ -658,14 +658,26 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 +object+
 a| [subs=-attributes]
-`{"enabled":false}`
-| Service monitoring configuration.
+`{"enabled":false,"interval":"60s","scrapeTimeout":"60s"}`
+| Service monitoring configuration. Requires the monitoring.coreos.com/v1 CRDs to be installed.
 | monitoring.enabled
 a| [subs=-attributes]
 +bool+
 a| [subs=-attributes]
 `false`
 | Enable service monitoring.
+| monitoring.interval
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"60s"`
+| Interval at which to scrape metrics.
+| monitoring.scrapeTimeout
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"60s"`
+| Scrape timeout.
 | namespaceOverride
 a| [subs=-attributes]
 +string+

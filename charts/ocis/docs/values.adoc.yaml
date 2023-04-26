@@ -1206,8 +1206,12 @@ services:
     podDisruptionBudget: {}
 
 
-# -- Service monitoring configuration.
+# -- Service monitoring configuration. Requires the monitoring.coreos.com/v1 CRDs to be installed.
 monitoring:
   # -- Enable service monitoring.
   enabled: false
+  # -- Interval at which to scrape metrics.
+  interval: 60s
+  # -- Scrape timeout.
+  scrapeTimeout: 60s
 
