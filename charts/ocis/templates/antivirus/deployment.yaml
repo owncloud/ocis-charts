@@ -67,6 +67,17 @@ spec:
               value: "" # no cert needed
               {{- end }}
             {{- end }}
+            - name: ANTIVIRUS_DEBUG_ADDR
+              value: 0.0.0.0:9277
+
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: metrics-debug
+            timeoutSeconds: 10
+            initialDelaySeconds: 60
+            periodSeconds: 20
+            failureThreshold: 3
 
           {{- include "ocis.livenessProbe" . | nindent 10 }}
 
