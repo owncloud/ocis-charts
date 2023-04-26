@@ -15,7 +15,6 @@ For instructions on how to run it anyways the the respective chart's readme.
 
 [//]: # (Once Helm is set up properly, add the repo as follows:)
 
-[//]: # (```console)
 
 
 <!-- Keep full URL links to repo files because this README syncs from main to gh-pages.  -->
