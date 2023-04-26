@@ -166,7 +166,7 @@ spec:
             - name: GRAPH_KEYCLOAK_BASE_PATH
               value: {{ .Values.features.externalUserManagement.oidc.gdprExport.basePath | quote }}
             - name: GRAPH_KEYCLOAK_CLIENT_ID
-              value: {{ .Values.features.externalUserManagement.oidc.gdprExport.realm | quote }}
+              value: {{ .Values.features.externalUserManagement.oidc.gdprExport.clientID | quote }}
             - name: GRAPH_KEYCLOAK_CLIENT_SECRET
               valueFrom:
                 secretKeyRef:
