@@ -165,6 +165,31 @@ spec:
               value: {{ .Values.features.quotas.default | quote }}
             {{- end }}
 
+            - name: USERLOG_MACHINE_AUTH_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.secretRefs.machineAuthApiKeySecretRef }}
+                  key: machine-auth-api-key
+
+            {{- if .Values.features.gdprReport.integrations.keycloak.enabled }}
+            - name: GRAPH_KEYCLOAK_BASE_PATH
+              value: {{ .Values.features.gdprReport.integrations.keycloak.basePath | quote }}
+            - name: GRAPH_KEYCLOAK_CLIENT_ID
+              value: {{ .Values.features.gdprReport.integrations.keycloak.clientID | quote }}
+            - name: GRAPH_KEYCLOAK_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.secretRefs.gdprExportClientSecretRef }}
+                  key: oidc-secret
+            - name: GRAPH_KEYCLOAK_CLIENT_REALM
+              value: {{ .Values.features.gdprReport.integrations.keycloak.clientRealm | quote }}
+            - name: GRAPH_KEYCLOAK_USER_REALM
+              value: {{ .Values.features.gdprReport.integrations.keycloak.userRealm | quote }}
+            - name: GRAPH_KEYCLOAK_INSECURE_SKIP_VERIFY
+              value: {{ .Values.features.gdprReport.integrations.keycloak.insecure | quote }}
+            {{- end }}
+
+
           {{- include "ocis.livenessProbe" . | nindent 10 }}
 
           resources: {{ toYaml .resources | nindent 12 }}

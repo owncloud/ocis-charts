@@ -432,6 +432,48 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `"web"`
 | Specify the client ID which the web frontend will use
+| features.gdprReport.integrations
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{"keycloak":{"basePath":"https://keycloak.owncloud.test","clientID":"gdpr-exporter","clientRealm":"master","enabled":false,"insecure":false,"userRealm":"oCIS"}}`
+| Controls the separate GDPR integrations
+| features.gdprReport.integrations.keycloak.basePath
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"https://keycloak.owncloud.test"`
+| Base URI of keycloak.
+| features.gdprReport.integrations.keycloak.clientID
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"gdpr-exporter"`
+| Client ID to authenticate against keycloak with.
+| features.gdprReport.integrations.keycloak.clientRealm
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"master"`
+| Realm that the client ID is configured in, usually master.
+| features.gdprReport.integrations.keycloak.enabled
+a| [subs=-attributes]
++bool+
+a| [subs=-attributes]
+`false`
+| Enable keycloak data export.
+| features.gdprReport.integrations.keycloak.insecure
+a| [subs=-attributes]
++bool+
+a| [subs=-attributes]
+`false`
+| Disables SSL certificate checking for connections to the GDPR export service. Not recommended for production installations.
+| features.gdprReport.integrations.keycloak.userRealm
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"oCIS"`
+| Realm that the users are in.
 | features.policies.enabled
 a| [subs=-attributes]
 +bool+
@@ -714,6 +756,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `"admin-user"`
 | Reference to an existing admin user secret (see xref:{secrets}[Secrets]). Not used if `features.externalUserManagement.enabled` equals `true`.
+| secretRefs.gdprExportClientSecretRef
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"gdpr-export-client-secret"`
+| Reference to an existing keycloak client secret, used for the GDPR export. Only used if features.externalUserManagement.gdprExport.enabled equals true.
 | secretRefs.idpSecretRef
 a| [subs=-attributes]
 +string+
