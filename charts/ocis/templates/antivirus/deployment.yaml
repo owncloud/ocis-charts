@@ -44,6 +44,8 @@ spec:
               value: {{ .Values.tracing.type | quote }}
             - name: ANTIVIRUS_TRACING_ENDPOINT
               value: {{ .Values.tracing.endpoint | quote }}
+            - name: ANTIVIRUS_TRACING_COLLECTOR
+              value: {{ .Values.tracing.collector | quote }}
 
             - name: ANTIVIRUS_INFECTED_FILE_HANDLING
               value: {{ .Values.features.virusscan.infectedFileHandling | quote }}

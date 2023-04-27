@@ -51,6 +51,8 @@ spec:
               value: {{ .Values.tracing.type | quote }}
             - name: THUMBNAILS_TRACING_ENDPOINT
               value: {{ .Values.tracing.endpoint | quote }}
+            - name: THUMBNAILS_TRACING_COLLECTOR
+              value: {{ .Values.tracing.collector | quote }}
 
             - name: THUMBNAILS_DEBUG_PPROF
               value: {{ .Values.debug.profiling | quote }}

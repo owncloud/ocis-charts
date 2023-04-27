@@ -39,6 +39,8 @@ spec:
               value: {{ .Values.tracing.type | quote }}
             - name: GROUPS_TRACING_ENDPOINT
               value: {{ .Values.tracing.endpoint | quote }}
+            - name: GROUPS_TRACING_COLLECTOR
+              value: {{ .Values.tracing.collector | quote }}
 
             - name: GROUPS_DEBUG_PPROF
               value: {{ .Values.debug.profiling | quote }}

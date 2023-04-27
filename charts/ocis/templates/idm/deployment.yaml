@@ -57,6 +57,8 @@ spec:
               value: {{ .Values.tracing.type | quote }}
             - name: IDM_TRACING_ENDPOINT
               value: {{ .Values.tracing.endpoint | quote }}
+            - name: IDM_TRACING_COLLECTOR
+              value: {{ .Values.tracing.collector | quote }}
 
             # - name: IDM_DEBUG_PPROF
             #   value: {{ .Values.debug.profiling | quote }}

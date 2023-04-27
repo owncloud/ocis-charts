@@ -52,6 +52,8 @@ spec:
               value: {{ .Values.tracing.type | quote }}
             - name: STORAGE_SYSTEM_TRACING_ENDPOINT
               value: {{ .Values.tracing.endpoint | quote }}
+            - name: STORAGE_SYSTEM_TRACING_COLLECTOR
+              value: {{ .Values.tracing.collector | quote }}
 
             - name: STORAGE_SYSTEM_DEBUG_PPROF
               value: {{ .Values.debug.profiling | quote }}

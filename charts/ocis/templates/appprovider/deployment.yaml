@@ -41,6 +41,8 @@ spec:
               value: {{ .Values.tracing.type | quote }}
             - name: APP_PROVIDER_TRACING_ENDPOINT
               value: {{ .Values.tracing.endpoint | quote }}
+            - name: APP_PROVIDER_TRACING_COLLECTOR
+              value: {{ .Values.tracing.collector | quote }}
 
             - name: APP_PROVIDER_DEBUG_PPROF
               value: "{{ $.Values.debug.profiling }}"
