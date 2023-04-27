@@ -34,14 +34,15 @@ spec:
             - name: EVENTHISTORY_LOG_PRETTY
               value: {{ .Values.logging.pretty | quote }}
 
-            - name: EVENTHISTORY_TRACING_ENABLED
-              value: "{{ .Values.tracing.enabled }}"
-            - name: EVENTHISTORY_TRACING_TYPE
-              value: {{ .Values.tracing.type | quote }}
-            - name: EVENTHISTORY_TRACING_ENDPOINT
-              value: {{ .Values.tracing.endpoint | quote }}
-            - name: EVENTHISTORY_TRACING_COLLECTOR
-              value: {{ .Values.tracing.collector | quote }}
+            # Tracing not yet implemented: https://github.com/owncloud/ocis/issues/6173
+            # - name: EVENTHISTORY_TRACING_ENABLED
+            #   value: "{{ .Values.tracing.enabled }}"
+            # - name: EVENTHISTORY_TRACING_TYPE
+            #   value: {{ .Values.tracing.type | quote }}
+            # - name: EVENTHISTORY_TRACING_ENDPOINT
+            #   value: {{ .Values.tracing.endpoint | quote }}
+            # - name: EVENTHISTORY_TRACING_COLLECTOR
+            #   value: {{ .Values.tracing.collector | quote }}
 
             - name: EVENTHISTORY_DEBUG_PPROF
               value: {{ .Values.debug.profiling | quote }}

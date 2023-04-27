@@ -38,14 +38,15 @@ spec:
             - name: ANTIVIRUS_DEBUG_PPROF
               value: {{ .Values.debug.profiling | quote }}
 
-            - name: ANTIVIRUS_TRACING_ENABLED
-              value: "{{ .Values.tracing.enabled }}"
-            - name: ANTIVIRUS_TRACING_TYPE
-              value: {{ .Values.tracing.type | quote }}
-            - name: ANTIVIRUS_TRACING_ENDPOINT
-              value: {{ .Values.tracing.endpoint | quote }}
-            - name: ANTIVIRUS_TRACING_COLLECTOR
-              value: {{ .Values.tracing.collector | quote }}
+            # Tracing not yet implemented: https://github.com/owncloud/ocis/issues/6171
+            # - name: ANTIVIRUS_TRACING_ENABLED
+            #   value: "{{ .Values.tracing.enabled }}"
+            # - name: ANTIVIRUS_TRACING_TYPE
+            #   value: {{ .Values.tracing.type | quote }}
+            # - name: ANTIVIRUS_TRACING_ENDPOINT
+            #   value: {{ .Values.tracing.endpoint | quote }}
+            # - name: ANTIVIRUS_TRACING_COLLECTOR
+            #   value: {{ .Values.tracing.collector | quote }}
 
             - name: ANTIVIRUS_INFECTED_FILE_HANDLING
               value: {{ .Values.features.virusscan.infectedFileHandling | quote }}

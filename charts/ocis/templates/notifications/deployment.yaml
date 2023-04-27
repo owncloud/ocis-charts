@@ -31,14 +31,15 @@ spec:
             - name: NOTIFICATIONS_LOG_PRETTY
               value: {{ .Values.logging.pretty | quote }}
 
-            - name: NOTIFICATIONS_TRACING_ENABLED
-              value: "{{ .Values.tracing.enabled }}"
-            - name: NOTIFICATIONS_TRACING_TYPE
-              value: {{ .Values.tracing.type | quote }}
-            - name: NOTIFICATIONS_TRACING_ENDPOINT
-              value: {{ .Values.tracing.endpoint | quote }}
-            - name: NOTIFICATIONS_TRACING_COLLECTOR
-              value: {{ .Values.tracing.collector | quote }}
+            # Tracing not yet implemented: https://github.com/owncloud/ocis/issues/6175
+            # - name: NOTIFICATIONS_TRACING_ENABLED
+            #   value: "{{ .Values.tracing.enabled }}"
+            # - name: NOTIFICATIONS_TRACING_TYPE
+            #   value: {{ .Values.tracing.type | quote }}
+            # - name: NOTIFICATIONS_TRACING_ENDPOINT
+            #   value: {{ .Values.tracing.endpoint | quote }}
+            # - name: NOTIFICATIONS_TRACING_COLLECTOR
+            #   value: {{ .Values.tracing.collector | quote }}
 
             # - name: NOTIFICATIONS_DEBUG_PPROF
             #   value: {{ .Values.debug.profiling | quote }}
