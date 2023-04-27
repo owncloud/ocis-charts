@@ -384,42 +384,6 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `true`
 | Writeable configures if oCIS is allowed to write to the LDAP server, to eg. create or edit users.
-| features.externalUserManagement.oidc.gdprExport.basePath
-a| [subs=-attributes]
-+string+
-a| [subs=-attributes]
-`"https://keycloak.owncloud.test"`
-| Base URI of keycloak.
-| features.externalUserManagement.oidc.gdprExport.clientID
-a| [subs=-attributes]
-+string+
-a| [subs=-attributes]
-`"gdpr-exporter"`
-| Client ID to authenticate against keycloak with.
-| features.externalUserManagement.oidc.gdprExport.clientRealm
-a| [subs=-attributes]
-+string+
-a| [subs=-attributes]
-`"master"`
-| Realm that the client ID is configured in, usually master.
-| features.externalUserManagement.oidc.gdprExport.enabled
-a| [subs=-attributes]
-+bool+
-a| [subs=-attributes]
-`false`
-| Enables the GDPR export feature for the external OIDC provider. Note, this will only work with KeyCloak as OIDC provider.
-| features.externalUserManagement.oidc.gdprExport.insecure
-a| [subs=-attributes]
-+bool+
-a| [subs=-attributes]
-`false`
-| Disables SSL certificate checking for connections to the GDPR export service. Not recommended for production installations.
-| features.externalUserManagement.oidc.gdprExport.userRealm
-a| [subs=-attributes]
-+string+
-a| [subs=-attributes]
-`"oCIS"`
-| Realm that the users are in.
 | features.externalUserManagement.oidc.issuerURI
 a| [subs=-attributes]
 +string+
@@ -462,6 +426,54 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `"web"`
 | Specify the client ID which the web frontend will use
+| features.gdprReport.enabled
+a| [subs=-attributes]
++bool+
+a| [subs=-attributes]
+`false`
+| Enables the GDPR report feature
+| features.gdprReport.integrations
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{"keycloak":{"basePath":"https://keycloak.owncloud.test","clientID":"gdpr-exporter","clientRealm":"master","enabled":false,"insecure":false,"userRealm":"oCIS"}}`
+| Controls the separate GDPR integrations
+| features.gdprReport.integrations.keycloak.basePath
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"https://keycloak.owncloud.test"`
+| Base URI of keycloak.
+| features.gdprReport.integrations.keycloak.clientID
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"gdpr-exporter"`
+| Client ID to authenticate against keycloak with.
+| features.gdprReport.integrations.keycloak.clientRealm
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"master"`
+| Realm that the client ID is configured in, usually master.
+| features.gdprReport.integrations.keycloak.enabled
+a| [subs=-attributes]
++bool+
+a| [subs=-attributes]
+`false`
+| Enable keycloak data export.
+| features.gdprReport.integrations.keycloak.insecure
+a| [subs=-attributes]
++bool+
+a| [subs=-attributes]
+`false`
+| Disables SSL certificate checking for connections to the GDPR export service. Not recommended for production installations.
+| features.gdprReport.integrations.keycloak.userRealm
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"oCIS"`
+| Realm that the users are in.
 | features.policies.enabled
 a| [subs=-attributes]
 +bool+
