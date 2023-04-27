@@ -60,6 +60,9 @@ spec:
             - name: PROXY_USER_CS3_CLAIM
               value: {{ .Values.features.externalUserManagement.oidc.userIDClaimAttributeMapping | quote }}
 
+            - name: PROXY_OIDC_ACCESS_TOKEN_VERIFY_METHOD
+              value: {{ .Values.features.externalUserManagement.oidc.accessTokenVerifyMethod | quote }}
+
             - name: PROXY_OIDC_SKIP_CLIENT_ID_CHECK
               value: "true"
             {{- end }}
