@@ -289,10 +289,9 @@ features:
         filter:
         # -- The object class to use for groups in the default group search filter like `groupOfNames`.
         objectClass: groupOfNames
-  # GDPR report
+  # GDPR report related settings.
   gdprReport:
     # -- Enables the GDPR report feature
-    enabled: false
     # -- Controls the separate GDPR integrations
     integrations:
       keycloak:

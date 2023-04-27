@@ -162,7 +162,6 @@ spec:
               value: {{ .Values.features.quotas.default }}
             {{- end }}
 
-            {{- if .Values.features.gdprReport.enabled }}
             - name: USERLOG_MACHINE_AUTH_API_KEY
               valueFrom:
                 secretKeyRef:
@@ -187,7 +186,6 @@ spec:
               value: {{ .Values.features.gdprReport.integrations.keycloak.insecure | quote }}
             {{- end }}
 
-            {{- end }}
 
           {{- include "ocis.livenessProbe" . | nindent 10 }}
 

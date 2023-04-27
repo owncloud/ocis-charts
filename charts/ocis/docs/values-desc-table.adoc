@@ -426,12 +426,6 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `"web"`
 | Specify the client ID which the web frontend will use
-| features.gdprReport.enabled
-a| [subs=-attributes]
-+bool+
-a| [subs=-attributes]
-`false`
-| Enables the GDPR report feature
 | features.gdprReport.integrations
 a| [subs=-attributes]
 +object+
