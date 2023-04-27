@@ -2052,4 +2052,28 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `""`
 | TopologySpreadConstraints controls how Pods of a service are spread across the cluster among failure-domains. Defaults to allow skew no more then 1 node per node. Passed through tpl and therefore needs to be configured as string.
+| tracing.collector
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| The HTTP endpoint for sending spans directly to a collector, i.e. http://jaeger-collector.observability.svc.cluster.local:14268/api/traces. Only used if the tracing endpoint is unset.
+| tracing.enabled
+a| [subs=-attributes]
++bool+
+a| [subs=-attributes]
+`false`
+| Tracing enables sending traces
+| tracing.endpoint
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Endpoint of the tracing system, jaeger-agent.observability.svc.cluster.local:6831 or similar.
+| tracing.type
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"jaeger"`
+| Type of trace provider to use
 |===
