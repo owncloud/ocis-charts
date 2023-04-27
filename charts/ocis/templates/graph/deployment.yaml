@@ -162,27 +162,31 @@ spec:
               value: {{ .Values.features.quotas.default }}
             {{- end }}
 
-            {{- if .Values.features.externalUserManagement.oidc.gdprExport.enabled }}
+            {{- if .Values.features.gdprReport.enabled }}
+            - name: USERLOG_MACHINE_AUTH_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.secretRefs.machineAuthApiKeySecretRef }}
+                  key: machine-auth-api-key
+
+            {{- if .Values.features.gdprReport.integrations.keycloak.enabled }}
             - name: GRAPH_KEYCLOAK_BASE_PATH
-              value: {{ .Values.features.externalUserManagement.oidc.gdprExport.basePath | quote }}
+              value: {{ .Values.features.gdprReport.integrations.keycloak.basePath | quote }}
             - name: GRAPH_KEYCLOAK_CLIENT_ID
-              value: {{ .Values.features.externalUserManagement.oidc.gdprExport.clientID | quote }}
+              value: {{ .Values.features.gdprReport.integrations.keycloak.clientID | quote }}
             - name: GRAPH_KEYCLOAK_CLIENT_SECRET
               valueFrom:
                 secretKeyRef:
                   name: {{ .Values.secretRefs.gdprExportClientSecretRef }}
                   key: oidc-secret
             - name: GRAPH_KEYCLOAK_CLIENT_REALM
-              value: {{ .Values.features.externalUserManagement.oidc.gdprExport.clientRealm | quote }}
+              value: {{ .Values.features.gdprReport.integrations.keycloak.clientRealm | quote }}
             - name: GRAPH_KEYCLOAK_USER_REALM
-              value: {{ .Values.features.externalUserManagement.oidc.gdprExport.userRealm | quote }}
+              value: {{ .Values.features.gdprReport.integrations.keycloak.userRealm | quote }}
             - name: GRAPH_KEYCLOAK_INSECURE_SKIP_VERIFY
-              value: {{ .Values.features.externalUserManagement.oidc.gdprExport.insecure | quote }}
-            - name: USERLOG_MACHINE_AUTH_API_KEY
-              valueFrom:
-                secretKeyRef:
-                  name: {{ .Values.secretRefs.machineAuthApiKeySecretRef }}
-                  key: machine-auth-api-key
+              value: {{ .Values.features.gdprReport.integrations.keycloak.insecure | quote }}
+            {{- end }}
+
             {{- end }}
 
           {{- include "ocis.livenessProbe" . | nindent 10 }}

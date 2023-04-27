@@ -217,30 +217,14 @@ features:
             claim_value: ocisUser
           - role_name: guest
             claim_value: ocisGuest
-
-      gdprExport:
-        # -- Enables the GDPR export feature for the external OIDC provider.
-        # Note, this will only work with KeyCloak as OIDC provider.
-        enabled: false
-        # -- Base URI of keycloak.
-        basePath: https://keycloak.owncloud.test
-        # -- Client ID to authenticate against keycloak with.
-        clientID: gdpr-exporter
-        # -- Realm that the client ID is configured in, usually master.
-        clientRealm: master
-        # -- Realm that the users are in.
-        userRealm: oCIS
-        # -- Disables SSL certificate checking for connections to the GDPR export service.
-        # Not recommended for production installations.
-        insecure: false
-
     # LDAP related settings.
     ldap:
       # -- Writeable configures if oCIS is allowed to write to the LDAP server, to eg. create or edit users.
       writeable: true
       # -- If the LDAP server is set to writable in general, some user attributes can be restricted to read only in the UI.
       # Note: This only disables editing in the UI. The readonly permissions need to be enforced in the LDAP server itself.
-      readOnlyAttributes: []
+      readOnlyAttributes:
+        []
         # - user.onPremisesSamAccountName # username
         # - user.displayName # display name
         # - user.mail # mail
@@ -305,6 +289,26 @@ features:
         filter:
         # -- The object class to use for groups in the default group search filter like `groupOfNames`.
         objectClass: groupOfNames
+  # GDPR report
+  gdprReport:
+    # -- Enables the GDPR report feature
+    enabled: false
+    # -- Controls the separate GDPR integrations
+    integrations:
+      keycloak:
+        # -- Enable keycloak data export.
+        enabled: false
+        # -- Base URI of keycloak.
+        basePath: https://keycloak.owncloud.test
+        # -- Client ID to authenticate against keycloak with.
+        clientID: gdpr-exporter
+        # -- Realm that the client ID is configured in, usually master.
+        clientRealm: master
+        # -- Realm that the users are in.
+        userRealm: oCIS
+        # -- Disables SSL certificate checking for connections to the GDPR export service.
+        # Not recommended for production installations.
+        insecure: false
   # Define custom roles here. Note that the definition will be either or. So you cannot provide a ConfigMap name and text at once.
   roles:
     # -- Define the roles by specifying a name of a ConfigMap which already contains the the role description (might also be defined in the `extraResources` section).
