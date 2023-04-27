@@ -390,6 +390,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `true`
 | Writeable configures if oCIS is allowed to write to the LDAP server, to eg. create or edit users.
+| features.externalUserManagement.oidc.accessTokenVerifyMethod
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"jwt"`
+| OIDC Acces Token Verify Method Set to "jwt" or "none"
 | features.externalUserManagement.oidc.issuerURI
 a| [subs=-attributes]
 +string+
