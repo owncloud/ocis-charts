@@ -4,7 +4,6 @@
 .project
 .settings
 .DS_Store
-helmfile.yaml
+/helmfile.yaml
 .drone.yml
 **/ci/templated.yaml
-deployments/*
