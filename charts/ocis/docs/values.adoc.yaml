@@ -248,6 +248,8 @@ features:
       # The password for the user needs to be set in the secret referenced by `secretRefs.ldapSecretRef` as `reva-ldap-bind-password`.
       # The user needs to have permission to list users and groups.
       bindDN: uid=ocis,ou=system-users,dc=owncloud,dc=test
+      # -- Signals that the LDAP server has the refint plugin enabled, which makes some actions not needed.
+      refintEnabled: false
       user:
         schema:
           # -- LDAP Attribute to use as the unique id for users. This should be a stable globally unique id like a UUID.

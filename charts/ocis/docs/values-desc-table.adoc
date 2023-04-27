@@ -312,6 +312,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `[]`
 | If the LDAP server is set to writable in general, some user attributes can be restricted to read only in the UI. Note: This only disables editing in the UI. The readonly permissions need to be enforced in the LDAP server itself.
+| features.externalUserManagement.ldap.refintEnabled
+a| [subs=-attributes]
++bool+
+a| [subs=-attributes]
+`false`
+| Signals that the LDAP server has the refint plugin enabled, which makes some actions not needed.
 | features.externalUserManagement.ldap.uri
 a| [subs=-attributes]
 +string+
