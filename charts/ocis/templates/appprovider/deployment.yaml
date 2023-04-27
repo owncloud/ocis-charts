@@ -36,13 +36,13 @@ spec:
               value: {{ $.Values.logging.pretty | quote }}
 
             - name: APP_PROVIDER_TRACING_ENABLED
-              value: "{{ .Values.tracing.enabled }}"
+              value: "{{ $.Values.tracing.enabled }}"
             - name: APP_PROVIDER_TRACING_TYPE
-              value: {{ .Values.tracing.type | quote }}
+              value: {{ $.Values.tracing.type | quote }}
             - name: APP_PROVIDER_TRACING_ENDPOINT
-              value: {{ .Values.tracing.endpoint | quote }}
+              value: {{ $.Values.tracing.endpoint | quote }}
             - name: APP_PROVIDER_TRACING_COLLECTOR
-              value: {{ .Values.tracing.collector | quote }}
+              value: {{ $.Values.tracing.collector | quote }}
 
             - name: APP_PROVIDER_DEBUG_PPROF
               value: "{{ $.Values.debug.profiling }}"
