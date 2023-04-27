@@ -49,6 +49,8 @@ spec:
               value: {{ .Values.tracing.type | quote }}
             - name: STORE_TRACING_ENDPOINT
               value: {{ .Values.tracing.endpoint | quote }}
+            - name: STORE_TRACING_COLLECTOR
+              value: {{ .Values.tracing.collector | quote }}
 
             - name: STORE_DEBUG_PPROF
               value: {{ .Values.debug.profiling | quote }}

@@ -39,6 +39,8 @@ spec:
               value: {{ .Values.tracing.type | quote }}
             - name: AUDIT_TRACING_ENDPOINT
               value: {{ .Values.tracing.endpoint | quote }}
+            - name: AUDIT_TRACING_COLLECTOR
+              value: {{ .Values.tracing.collector | quote }}
 
             - name: AUDIT_EVENTS_ENDPOINT
             {{- if not .Values.messagingSystem.external.enabled }}

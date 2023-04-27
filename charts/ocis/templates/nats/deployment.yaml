@@ -46,6 +46,8 @@ spec:
               value: {{ .Values.tracing.type | quote }}
             - name: NATS_TRACING_ENDPOINT
               value: {{ .Values.tracing.endpoint | quote }}
+            - name: NATS_TRACING_COLLECTOR
+              value: {{ .Values.tracing.collector | quote }}
 
             # - name: NATS_DEBUG_PPROF
             #   value: {{ .Values.debug.profiling | quote }}
