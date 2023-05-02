@@ -1,0 +1,19 @@
+apiVersion: k8s.keycloak.org/v2alpha1
+kind: Keycloak
+metadata:
+  name: ocis-keycloak
+spec:
+  instances: 1
+  db:
+    vendor: postgres
+    host: postgres-postgresql.postgres.svc.cluster.local
+    usernameSecret:
+      name: keycloak-db-secret
+      key: username
+    passwordSecret:
+      name: keycloak-db-secret
+      key: password
+  http:
+    tlsSecret: keycloak-tls-secret
+  hostname:
+    hostname: keycloak.kube.owncloud.test

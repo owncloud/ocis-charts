@@ -1,0 +1,558 @@
+repositories:
+  - name: openldap
+    url: https://jp-gouin.github.io/helm-openldap/
+  - name: bitnami
+    url: https://charts.bitnami.com/bitnami
+
+releases:
+  - name: postgres
+    namespace: postgres
+    chart: bitnami/postgresql
+    values:
+      - auth:
+          postgrePassword: postgres
+          username: "keycloak"
+          password: "keycloak"
+          database: "keycloak"
+      - architecture: standalone
+      - primary:
+          persistence:
+            enabled: true
+            size: 8Gi
+  - name: openldap
+    namespace: openldap
+    chart: openldap/openldap-stack-ha
+    values:
+      - ltb-passwd:
+          enabled: false
+      - replication:
+          enabled: true
+      - global:
+          ldapDomain: "owncloud.com"
+          adminPassword: admin # or existingSecret
+          configPassword: config
+      - customLdifFiles:
+          10_owncloud_root.ldif: |-
+            dn: dc=owncloud,dc=com
+            objectClass: organization
+            objectClass: dcObject
+            dc: owncloud
+            o: ownCloud
+
+            dn: ou=schools,dc=owncloud,dc=com
+            objectClass: organizationalUnit
+            ou: schools
+
+            dn: ou=users,dc=owncloud,dc=com
+            objectClass: organizationalUnit
+            ou: users
+
+            dn: ou=groups,dc=owncloud,dc=com
+            objectClass: organizationalUnit
+            ou: groups
+          20_users.ldif: |-
+            dn: uid=einstein,ou=users,dc=owncloud,dc=com
+            objectClass: inetOrgPerson
+            objectClass: organizationalPerson
+            objectClass: ownCloudUser
+            objectClass: person
+            objectClass: posixAccount
+            objectClass: top
+            uid: einstein
+            givenName: Albert
+            sn: Einstein
+            cn: einstein
+            displayName: Albert Einstein
+            description: A German-born theoretical physicist who developed the theory of relativity, one of the two pillars of modern physics (alongside quantum mechanics).
+            mail: einstein@example.org
+            uidNumber: 20000
+            gidNumber: 30000
+            homeDirectory: /home/einstein
+            ownCloudUUID: 4c510ada-c86b-4815-8820-42cdf82c3d51
+            userPassword:: e1NTSEF9TXJEcXpFNGdKbXZxbVRVTGhvWEZ1VzJBbkV3NWFLK3J3WTIvbHc9PQ==
+
+            dn: uid=marie,ou=users,dc=owncloud,dc=com
+            objectClass: inetOrgPerson
+            objectClass: organizationalPerson
+            objectClass: ownCloudUser
+            objectClass: person
+            objectClass: posixAccount
+            objectClass: top
+            uid: marie
+            givenName: Marie
+            sn: Curie
+            cn: marie
+            displayName: Marie Skłodowska Curie
+            description: A Polish and naturalized-French physicist and chemist who conducted pioneering research on radioactivity.
+            mail: marie@example.org
+            uidNumber: 20001
+            gidNumber: 30000
+            homeDirectory: /home/marie
+            ownCloudUUID: f7fbf8c8-139b-4376-b307-cf0a8c2d0d9c
+            userPassword:: e1NTSEF9UmFvQWs3TU9jRHBIUWY3bXN3MGhHNnVraFZQWnRIRlhOSUNNZEE9PQ==
+
+            dn: uid=richard,ou=users,dc=owncloud,dc=com
+            objectClass: inetOrgPerson
+            objectClass: organizationalPerson
+            objectClass: ownCloudUser
+            objectClass: person
+            objectClass: posixAccount
+            objectClass: top
+            uid: richard
+            givenName: Richard
+            sn: Feynman
+            cn: richard
+            displayName: Richard Phillips Feynman
+            description: An American theoretical physicist, known for his work in the path integral formulation of quantum mechanics, the theory of quantum electrodynamics, the physics of the superfluidity of supercooled liquid helium, as well as his work in particle physics for which he proposed the parton model.
+            mail: richard@example.org
+            uidNumber: 20002
+            gidNumber: 30000
+            homeDirectory: /home/richard
+            ownCloudUUID: 932b4540-8d16-481e-8ef4-588e4b6b151c
+            userPassword:: e1NTSEF9Z05LZTRreHdmOGRUREY5eHlhSmpySTZ3MGxSVUM1d1RGcWROTVE9PQ==
+
+            dn: uid=moss,ou=users,dc=owncloud,dc=com
+            objectClass: inetOrgPerson
+            objectClass: organizationalPerson
+            objectClass: ownCloudUser
+            objectClass: person
+            objectClass: posixAccount
+            objectClass: top
+            uid: moss
+            givenName: Maurice
+            sn: Moss
+            cn: moss
+            displayName: Maurice Moss
+            description: A worker in the IT Department of Reynholm Industries. Of all the working staff in the IT Department, he is the most hard-working, the most experienced, and the most capable of doing his job well. He puts a lot of effort into his work, however he does not get the credit he deserves.
+            mail: moss@example.org
+            uidNumber: 20003
+            gidNumber: 30000
+            homeDirectory: /home/moss
+            ownCloudUUID: 058bff95-6708-4fe5-91e4-9ea3d377588b
+            userPassword:: e1NTSEF9N0hEdTRoMkFDVExFWWt4U0RtSDZVQjhmUlpKRExDZDc=
+
+            dn: uid=admin,ou=users,dc=owncloud,dc=com
+            objectClass: inetOrgPerson
+            objectClass: organizationalPerson
+            objectClass: ownCloudUser
+            objectClass: person
+            objectClass: posixAccount
+            objectClass: top
+            uid: admin
+            givenName: Admin
+            sn: Admin
+            cn: admin
+            displayName: Admin
+            description: An admin for this oCIS instance.
+            mail: admin@example.org
+            uidNumber: 20004
+            gidNumber: 30000
+            homeDirectory: /home/admin
+            ownCloudUUID: ddc2004c-0977-11eb-9d3f-a793888cd0f8
+            userPassword:: e1NTSEF9UWhmaFB3dERydTUydURoWFFObDRMbzVIckI3TkI5Nmo=
+          30_groups.ldif: |-
+            dn: cn=users,ou=groups,dc=owncloud,dc=com
+            objectClass: groupOfNames
+            objectClass: ownCloud
+            objectClass: top
+            cn: users
+            description: Users
+            ownCloudUUID: 509a9dcd-bb37-4f4f-a01a-19dca27d9cfa
+            member: uid=einstein,ou=users,dc=owncloud,dc=com
+            member: uid=marie,ou=users,dc=owncloud,dc=com
+            member: uid=richard,ou=users,dc=owncloud,dc=com
+            member: uid=moss,ou=users,dc=owncloud,dc=com
+            member: uid=admin,ou=users,dc=owncloud,dc=com
+
+            dn: cn=sailing-lovers,ou=groups,dc=owncloud,dc=com
+            objectClass: groupOfNames
+            objectClass: ownCloud
+            objectClass: top
+            cn: sailing-lovers
+            description: Sailing lovers
+            ownCloudUUID: 6040aa17-9c64-4fef-9bd0-77234d71bad0
+            member: uid=einstein,ou=users,dc=owncloud,dc=com
+
+            dn: cn=violin-haters,ou=groups,dc=owncloud,dc=com
+            objectClass: groupOfNames
+            objectClass: ownCloud
+            objectClass: top
+            cn: violin-haters
+            description: Violin haters
+            ownCloudUUID: dd58e5ec-842e-498b-8800-61f2ec6f911f
+            member: uid=einstein,ou=users,dc=owncloud,dc=com
+
+            dn: cn=radium-lovers,ou=groups,dc=owncloud,dc=com
+            objectClass: groupOfNames
+            objectClass: ownCloud
+            objectClass: top
+            cn: radium-lovers
+            description: Radium lovers
+            ownCloudUUID: 7b87fd49-286e-4a5f-bafd-c535d5dd997a
+            member: uid=marie,ou=users,dc=owncloud,dc=com
+
+            dn: cn=polonium-lovers,ou=groups,dc=owncloud,dc=com
+            objectClass: groupOfNames
+            objectClass: ownCloud
+            objectClass: top
+            cn: polonium-lovers
+            description: Polonium lovers
+            ownCloudUUID: cedc21aa-4072-4614-8676-fa9165f598ff
+            member: uid=marie,ou=users,dc=owncloud,dc=com
+
+            dn: cn=quantum-lovers,ou=groups,dc=owncloud,dc=com
+            objectClass: groupOfNames
+            objectClass: ownCloud
+            objectClass: top
+            cn: quantum-lovers
+            description: Quantum lovers
+            ownCloudUUID: a1726108-01f8-4c30-88df-2b1a9d1cba1a
+            member: uid=richard,ou=users,dc=owncloud,dc=com
+
+            dn: cn=philosophy-haters,ou=groups,dc=owncloud,dc=com
+            objectClass: groupOfNames
+            objectClass: ownCloud
+            objectClass: top
+            cn: philosophy-haters
+            description: Philosophy haters
+            ownCloudUUID: 167cbee2-0518-455a-bfb2-031fe0621e5d
+            member: uid=richard,ou=users,dc=owncloud,dc=com
+
+            dn: cn=physics-lovers,ou=groups,dc=owncloud,dc=com
+            objectClass: groupOfNames
+            objectClass: ownCloud
+            objectClass: top
+            cn: physics-lovers
+            description: Physics lovers
+            ownCloudUUID: 262982c1-2362-4afa-bfdf-8cbfef64a06e
+            member: uid=einstein,ou=users,dc=owncloud,dc=com
+            member: uid=marie,ou=users,dc=owncloud,dc=com
+            member: uid=richard,ou=users,dc=owncloud,dc=com
+
+      - customSchemaFiles:
+          10_owncloud_schema.ldif: |-
+            # This LDIF files describes the ownCloud schema and can be used to
+            # add three optional attributes: ownCloudQuota, ownCloudUUID and ownCloudUserEnabled
+            # The ownCloudUUID is used to store a unique, non-reassignable, persistent identifier for users and groups
+            dn: cn=owncloud,cn=schema,cn=config
+            objectClass: olcSchemaConfig
+            cn: owncloud
+            olcObjectIdentifier: ownCloudOid 1.3.6.1.4.1.39430
+            olcAttributeTypes: ( ownCloudOid:1.1.1 NAME 'ownCloudQuota'
+              DESC 'User Quota (e.g. 2 GB)'
+              EQUALITY caseExactMatch
+              SUBSTR caseIgnoreSubstringsMatch
+              SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 SINGLE-VALUE )
+            olcAttributeTypes: ( ownCloudOid:1.1.2 NAME 'ownCloudUUID'
+              DESC 'A non-reassignable and persistent account ID)'
+              EQUALITY uuidMatch
+              SUBSTR caseIgnoreSubstringsMatch
+              SYNTAX 1.3.6.1.1.16.1 SINGLE-VALUE )
+            olcAttributeTypes: ( ownCloudOid:1.1.3 NAME 'oCExternalIdentity'
+              DESC 'A triple separated by "$" representing the objectIdentity resource type of the Graph API ( signInType $ issuer $ issuerAssignedId )'
+              EQUALITY caseIgnoreMatch
+              SUBSTR caseIgnoreSubstringsMatch
+              SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 )
+            olcAttributeTypes: ( ownCloudOid:1.1.4 NAME 'ownCloudUserEnabled'
+              DESC 'A boolean value indicating if ownCloudUser is enabled'
+              EQUALITY booleanMatch
+              SYNTAX 1.3.6.1.4.1.1466.115.121.1.7 SINGLE-VALUE)
+            olcAttributeTypes: ( ownCloudOid:1.1.5 NAME 'ownCloudUserType'
+              DESC 'User type (e.g. Member or Guest)'
+              EQUALITY caseIgnoreMatch
+              SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 SINGLE-VALUE )
+            olcObjectClasses: ( ownCloudOid:1.2.1 NAME 'ownCloud'
+              DESC 'ownCloud LDAP Schema'
+              AUXILIARY
+              MAY ( ownCloudQuota $ ownCloudUUID ) )
+            olcObjectClasses: ( ownCloudOid:1.2.2 NAME 'ownCloudUser'
+              DESC 'ownCloud User LDAP Schema'
+              SUP ownCloud
+              AUXILIARY
+              MAY ( ocExternalIdentity $ ownCloudUserEnabled $ ownCloudUserType ) )
+
+            # This LDIF files describes the ownCloud schema to be used for
+            # storing education related objects as exposed by the graph/education/ REST API
+            dn: cn=owncloud-education,cn=schema,cn=config
+            cn: owncloud-education
+            objectClass: olcSchemaConfig
+            olcObjectIdentifier: ownCloudEduOid 1.3.6.1.4.1.39430.42
+            olcAttributeTypes: ( ownCloudEduOid:1.1 NAME 'ocEducationSchoolNumber'
+              DESC 'numerical School identifier, might have leading zeros'
+              EQUALITY numericStringMatch
+              SYNTAX 1.3.6.1.4.1.1466.115.121.1.36 SINGLE-VALUE )
+            olcAttributeTypes: ( ownCloudEduOid:1.2 NAME 'ocMemberOfSchool'
+              DESC 'the UUID of the School(s) a user or group is assigned to'
+              EQUALITY uuidMatch
+              SYNTAX 1.3.6.1.1.16.1 )
+            olcAttributeTypes: ( ownCloudEduOid:1.3 NAME 'ocEducationClassType'
+              DESC 'type of the educationClass, e.g. be "class" or "course"'
+              EQUALITY caseIgnoreMatch
+              SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 SINGLE-VALUE )
+            olcAttributeTypes: ( ownCloudEduOid:1.4 NAME 'ocEducationExternalId'
+              DESC 'An externally issued ID for education related objects'
+              EQUALITY caseExactMatch
+              SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 SINGLE-VALUE )
+            olcAttributeTypes: ( ownCloudEduOid:1.5 NAME 'ocEducationTeacherMember'
+              DESC 'DN of teacher assigned to class'
+              SUP distinguishedName )
+            olcAttributeTypes: ( ownCloudEduOid:1.6 NAME 'ocEducationTosAcceptanceState'
+              DESC 'Attribute containing acceptance timestamps of TOS versions'
+              EQUALITY caseIgnoreMatch
+              SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 )
+            olcObjectClasses: ( ownCloudEduOid:2.1 NAME 'ocEducationSchool'
+              DESC 'auxiliary class for Schools'
+              AUXILIARY
+              MAY ( ownCloudUUID $ ocEducationSchoolNumber) )
+            olcObjectClasses: ( ownCloudEduOid:2.2 NAME 'ocEducationUser'
+              DESC 'auxiliary class for education users'
+              SUP ownCloudUser
+              AUXILIARY
+              MAY ( userClass $ ocMemberOfSchool $ ocEducationTosAcceptanceState) )
+            olcObjectClasses: ( ownCloudEduOid:2.3 NAME 'ocEducationClass'
+              DESC 'auxiliary class for education classes'
+              AUXILIARY
+              MAY ( ownCloudUUID $ ocEducationClassType $ ocEducationExternalId $
+                    ocMemberOfSchool $ ocEducationTeacherMember ) )
+  - name: keycloak-operator
+    chart: ../../charts/keycloak-operator
+    namespace: keycloak
+  - name: keycloak
+    chart: ../../charts/keycloak
+    namespace: keycloak
+    needs:
+      - keycloak-operator
+      - postgres/postgres
+  - name: ocis
+    chart: ../../charts/ocis
+    namespace: ocis
+    values:
+      - logging:
+          level: debug
+      - externalDomain: ocis.kube.owncloud.test
+      - ingress:
+          enabled: true
+          ingressClassName: nginx
+          annotations:
+            nginx.ingress.kubernetes.io/proxy-body-size: 1024m
+      - insecure:
+          oidcIdpInsecure: true
+          ocisHttpApiInsecure: true
+      - features:
+          #gdprReport:
+          #  integrations:
+          #    keycloak:
+          #      enabled: true
+          #      basePath: https://keycloak.owncloud.kube
+          #      clientID: export
+          #      clientRealm: master
+          #      userRealm: oCIS
+          #      insecure: true
+          externalUserManagement:
+            # -- Enables external user management (and disables internal user management).
+            # Needs an external OpenID Connect Identity Provider and an external LDAP server.
+            enabled: true
+            # -- UUID of the inital admin user.
+            # If the given value matches a user's value from `features.externalUserManagement.oidc.userIDClaim`, the admin role will be assigned.
+            # Consider that the UUID can be encoded in some LDAP deployment configurations like in .ldif files. These need to be decoded beforehand.
+            # Note: Enabling `roleAssignment` will disable `adminUUID`.
+            adminUUID: "ddc2004c-0977-11eb-9d3f-a793888cd0f8"
+            # OpenID Connect Identity provider related settings.
+            oidc:
+              # -- Issuer URI of the OpenID Connect Identity Provider.
+              # If the IDP doesn't have valid / trusted SSL certificates, certificate validation can be disabled with the `insecure.oidcIdpInsecure` option.
+              issuerURI: https://keycloak.kube.owncloud.test/realms/oCIS
+
+              # -- Specify the client ID which the web frontend will use
+              webClientID: web
+              # -- Claim to take an unique user identifier from. It will be used to look up the user on the LDAP server.
+              userIDClaim: ocis.user.uuid
+              # -- Attribute mapping of for the userIDClaim.
+              # Set to `userid` if the claim specified in `...oidc.userIDClaim` holds the value of the ldap user attribute specified in `...ldap.user.schema.id`.
+              # Set to `mail` if the claim specified in `...oidc.userIDClaim` holds the value of the ldap user attribute specified in  `...ldap.user.schema.mail`.
+              # Set to `username` if the claim specified in `...oidc.userIDClaim` holds the value of the ldap user attribute specified in `...ldap.user.schema.userName`.
+              userIDClaimAttributeMapping: userid
+
+            ldap:
+              writeable: true
+              uri: ldap://openldap.openldap.svc.cluster.local:389
+              insecure: true
+              bindDN: cn=admin,dc=owncloud,dc=com
+              user:
+                schema:
+                  id: ownCloudUUID
+              group:
+                schema:
+                  id: ownCloudUUID
+
+      - services:
+          idm:
+            persistence:
+              enabled: true
+              chownInitContainer: true
+              accessModes:
+                - ReadWriteOnce
+
+          nats:
+            persistence:
+              enabled: true
+              chownInitContainer: true
+              accessModes:
+                - ReadWriteOnce
+
+          search:
+            persistence:
+              enabled: true
+              chownInitContainer: true
+              accessModes:
+                - ReadWriteOnce
+
+          storagesystem:
+            persistence:
+              enabled: true
+              chownInitContainer: true
+              accessModes:
+                - ReadWriteOnce
+
+          storageusers:
+            persistence:
+              enabled: true
+              chownInitContainer: true
+              accessModes:
+                - ReadWriteOnce
+            maintenance:
+              cleanUpExpiredUploads:
+                enabled: true
+                chownInitContainer: true
+                accessModes:
+                  - ReadWriteOnce
+          store:
+            persistence:
+              enabled: true
+              chownInitContainer: true
+              accessModes:
+                - ReadWriteOnce
+
+          thumbnails:
+            persistence:
+              enabled: true
+              chownInitContainer: true
+              accessModes:
+                - ReadWriteOnce
+
+      - extraResources:
+          - |
+            apiVersion: v1
+            kind: Secret
+            metadata:
+              name: jwt-secret
+            type: Opaque
+            data:
+              jwt-secret: ZEFhdEdZY0puMmtKSU9aaGJnQXMwd2syVTVHTEU5QlN1WnQ4LGouM21icjN1VjZSUk8K
+          - |
+            apiVersion: v1
+            kind: Secret
+            metadata:
+              name: machine-auth-api-key
+            type: Opaque
+            data:
+              machine-auth-api-key: bDN0bzZseUlsQ1MyaFpNdXRNNHFvWXlYN3owcWJVMHViQnprZFk0MXAzWkYyMmpvaFUK
+          - |
+            apiVersion: v1
+            kind: Secret
+            metadata:
+              name: storage-system-jwt-secret
+            type: Opaque
+            data:
+              storage-system-jwt-secret: eERiaXNYUGZFenJXUWdrc2ZmVWR5c2JtOWRkS1N4SDVOZTh1QTdESyxRME43cHRTY0EK
+          - |
+            apiVersion: v1
+            kind: Secret
+            metadata:
+              name: storage-system
+            type: Opaque
+            data:
+              api-key: N0wuTWx0ZzR6VnVTcTFWMGFXbmhOUjBxUmRCeHU4djB1aHZaRzB1RUF0OEFMU1NUWksK
+              user-id: ZDFjNmE1NWYtMzBjNC00ZTg1LWFmM2QtOGRhZWM1NTc0OTYz
+          - |
+            apiVersion: v1
+            kind: Secret
+            metadata:
+              name: transfer-secret
+            type: Opaque
+            data:
+              transfer-secret: VUU4MzBmMXZSeFhxZkZmMlVIb053T001LllyMU5VOU41QklKT2FqalFFazVaMU1RR1AK
+          - |
+            apiVersion: v1
+            kind: Secret
+            metadata:
+              name: thumbnails-transfer-secret
+            type: Opaque
+            data:
+              thumbnails-transfer-secret: UVNScSxqV3l3QmYwNFRNLi5zeVl2cGl0dzg5TFl3bGU3TzB2cktEOHVRTnozZUNkRFcK
+
+          - |
+            apiVersion: v1
+            kind: Secret
+            metadata:
+              name: ldap-bind-secrets
+            type: Opaque
+            data:
+              reva-ldap-bind-password: YWRtaW4=
+              idp-ldap-bind-password: MFgxUjNCRjJ0MmJmOXV1MlJjb09QLGZjTnNNMSx5ZjVORFR1amEwbjVxLEdhYklXbHAK
+              graph-ldap-bind-password: RWZsb3FyQWxUWlhzMlEsOE93bHduWjhZU2U5SElrSFlSYmdMakVIVFp2MWhRbHdnbm4K
+
+          - |
+            apiVersion: v1
+            kind: Secret
+            metadata:
+              name: ldap-ca
+            type: Opaque
+            data:
+              ldap-ca.crt: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUZhekNDQTFPZ0F3SUJBZ0lVUDB4d09iN2EwZjlkVzc5dUxhaFgyQ2FQZTRzd0RRWUpLb1pJaHZjTkFRRUwKQlFBd1JURUxNQWtHQTFVRUJoTUNSRVV4RXpBUkJnTlZCQWdNQ2xOdmJXVXRVM1JoZEdVeElUQWZCZ05WQkFvTQpHRWx1ZEdWeWJtVjBJRmRwWkdkcGRITWdVSFI1SUV4MFpEQWVGdzB5TWpFeE1qa3hNREk0TWpkYUZ3MHpNakV4Ck1qWXhNREk0TWpkYU1FVXhDekFKQmdOVkJBWVRBa1JGTVJNd0VRWURWUVFJREFwVGIyMWxMVk4wWVhSbE1TRXcKSHdZRFZRUUtEQmhKYm5SbGNtNWxkQ0JYYVdSbmFYUnpJRkIwZVNCTWRHUXdnZ0lpTUEwR0NTcUdTSWIzRFFFQgpBUVVBQTRJQ0R3QXdnZ0lLQW9JQ0FRQ1hwSkRwY3hab0sxMSs3KzhUZmhyQW9PeW5tQklqNzlFbGpFV09NR2pzCmROTzFyRlprZVhTbzNiVUNrdHgxZ2FYeEw3REZJbzNGcUJ1ZGJpbDhsVmNDeW5XdWJEMGlQZTJndVE4bytjU3cKSmljQlRRdHdpU3JEaSsrMlJXcllDSnFGNFZQRmpLaWhxZUN2b2EwL0JyTCt0OU1qb3RGaTNieTl5Vkc4ZmIvTQpIODJIN3pvNVI1aEd0c3dzUHdFaGMxczNxYVJPcUJkanladWVOOG1zcWtnbVhFTjBaT3ZpRUNCK2xSNDVYRlh6CnFvbWpTOENjUTZVZ1h5Ymk1S0tnMU03UVkwNnNGMkc3a2ZHWWpnWWpPOE5uT3BRT1dwOXdBUy9CNXJRQlFZdzQKdHZKZ3pkdFdrbVp1ZHh3ZHNPcHpCbXpWZmN4cnoraVpuYnRKczVodW1oTXNkM2pjWHlETEVaNWZzckJhajlOaQpjcGw0ZENROXBrL1Bhb21WaEE3czFQUTVBcjJwOHp4MmVDUXozdVNvNzl1RjRObXpWMDQ1Z0ZPV2U5VXdvOURpCm14Q0VPWVVjTGYyTjl0MnBJUzhpQXJjVG1vdmRpN21VYXh6dmx5Q0xyNDM0Q1FuZHFaRnE5NWlUT1RkdFlCMEQKNzduVGxaNFArbHVHNDZPR0cyN3RmWVZYUWdWNUpoYTlKallMU0RkS0VQVkM3V1E5SVl1YlVyNzZhZUtlUDhxQwoxOHlZT3pwZUlCcEVneDBtaGd1OVFsNVZ1OGFWeXlYc3dtblVZMlFMZ0VvK2tqaWNWVVo4UnpDZVhxanRkaTdVCnFkc1A1UU5IclpPc2xIQjdDMFBndE1QcHc4czV1M2VwMXRQQTNSS3NzdVYwaWNsMXkxN2FIVSs3eFg1cjBkVk8KTlFJREFRQUJvMU13VVRBZEJnTlZIUTRFRmdRVXRNdTF0aW5HMndPZm8wVkpBeEFCTkZLZDlUWXdId1lEVlIwagpCQmd3Rm9BVXRNdTF0aW5HMndPZm8wVkpBeEFCTkZLZDlUWXdEd1lEVlIwVEFRSC9CQVV3QXdFQi96QU5CZ2txCmhraUc5dzBCQVFzRkFBT0NBZ0VBVlc2MVBjcjBPdGRxRjVhQUwybXd3NEtSZk5vZHRTRnREYTE4U0ZsbjNmeDcKOGlIL3M5ZWluelhqTzZQZ3E5T2hzdkRZa25yRzIwZzV6RlJtL3FGMDRIZ3crMFVGci9uSjNTejhtYm92SFM0Mwo3c0FlQk56YUxPNDNXTlN5R3dIS1Z2dFY3a1R6OWdPUkh4c3RYUEpVUUdhNkRtbHlaWlN1aWFad2Fxc01YNStNCnZtMWJpVE1hV3hVaXBBRS9RS2M1YnpYaFhVOGhKaVVzeWIydHZMTFdQUVFad2xCQmJWd3N4WURXMXZ2RUlMY04KRkpXTVJIZW5XdVBzbTFnU0MvNWRMRHdVWDl0RlFIVlBKR25qcWR4YXNYVjk3Mis1dERrWHYvMmg5ZEVvSlRaSQpjMEViMVB6L25HNWhJQ3M4emdPYmJORnloQ1piVzdiZnFzNzNKV1RobDZWRTRaZThCZ2huMXNYYm4vL2tqY2trCkRsY1F4VTgwVW10UzNCcGZHWUlkaWU1dGFKbHJueDJFbnF2UXV5YlVJQ0VzQ1lnR0M4WnJqQmZ4KytYaGxhakgKRE1KRUhDVnpVZGVlVFRhc3M2QmlQVnIxclg1VXhNVVlldGNnN1pIUVZ6WGhLRG5YS0ZOZlYyY1M2QU1jd0xoNQo4alJBTjRPdjRKZUpHN2F6SEU4bFJmQmJkalljdGFBUmMvaERNa05CN0lHSG9KdDY0eXVxc0MrZmplOWwwVHRsCnVHUW5zckUzVjRMRk1xbEJ5NlBYampYYkpGZ3VsZ0o5U1NLZ0hxVlN5VWxid1VkM3JCNzZpYnA3VmFIZk1hUkcKanFVQWxlUVhRWUphK1JsRFVoOS85ZFNobFJYZmNiV1ovUEJsY0RzUU1Gb2dMcFdKMlhHbXdEVjE4NURvYzY4PQotLS0tLUVORCBDRVJUSUZJQ0FURS0tLS0tCg==
+
+          - |
+            apiVersion: v1
+            kind: Secret
+            metadata:
+              name: ldap-cert
+            type: Opaque
+            data:
+              ldap.key: LS0tLS1CRUdJTiBQUklWQVRFIEtFWS0tLS0tCk1JSUpRZ0lCQURBTkJna3Foa2lHOXcwQkFRRUZBQVNDQ1N3d2dna29BZ0VBQW9JQ0FRQ3lPTi83U2d2SkJuSEIKZkZTNmowVVhra2I1RCttNFBLUnF5S3Z2dEtTTTdmZWl6RGVTSGczblJ0dnZpVmxDclRUZ1lMbE9VS1F6LytuMgpDYjZYV0djUXhha05hYzk0NVl1cHMvY3dDY2RCTUFDanorekx2K2Jpd0xxWTBHR2h1V1ROY3hJY0dqbkJYZkpDCjlqbVZhZHU3RU9BV1N4YVJLQUU2L1c3OW9FMFVyNUZ3M2hFaVhqc2V3Qnd6T2hvMUc1S3F5MVJqWUJHVmZsM0cKL0ttdU0vVnAzSEtIb05PRWJQTUNsbVNDcm81TzQzYzdwcjk0ak9OZDFoZEVRQVBlSTJzRlNwSVFzdWQ1NEh5bQpWbHlRb29MbW12NjI4YlEvVGxKaVh0eVhoY1pHbmdvbWg0dzFoM0F1V1hyY0tyMnpySk1GY2M0YVdRWXlkekJ1CnNQb1pmSFhzSWc2RmxONUNFQmV2QkhzeUt6OFdWU3lzNStlSlNHbURDSHNtRGJRVHBQTTRoNDF4R2VmYW9vQk0KWS8rQXJVNExYTUt3V0NKTnkybW90cmVWVDU5K0l4WjVUWmljYWdTVzl2ZHF0bS9xMjJOK0sxS2lFUm52cXgzWgpPZEgyRFozSXJmanI4ZjcyZlN0cFBPQ2tzMUFReDlaU3pZZUY3TXVKOFoyRjU3Y3ZVdUVYUDNGR1FVaXJUbDZpCmRUc0hpU2pKSUpkRXhMUmFYdGtaNkwvVC9ZRjBFYXBYejdCbjZ3bTlSWE54a0JzSURpVThqL2FJb2doYUJpcHAKMlVXVDBwZVpJOW5nN1RUMThWQjkySmNHdkp4U0h2cVlaNFdXTGpOWmloZmlpYWdvY0tMTUJ5WEtRbk9NQjJvZApSKzBuQkVKVU9LdHc5MjNudWo5TGt4SU5HZllBaFFJREFRQUJBb0lCLzFROGphRTRYbG1sc2g3QnBVcUliUiszCkE5UzBzTU5qNWxLU2hySEZzQURzZVI5NVpzcXBhZWptbFEyaTNZMm1VRmU5WDlpa1JQaE8vVVpOVk1nMEFJTHMKNmZwdENLTWIyK2RhS0h1TUk2R3NEcUZlcFkyb0pua0dueXViVW9vZUZvY0UzSXByMnVDS2h2Y2ZhaGcwOEtaNgpVM0EyRFhTT2RBWnR3d2dkdkZFS3FyT3VRbXI4SHZWcDErcGVqQVNPQThTMlZpeWlPNjF0RE9ZQWhqTFFYQzZ0CkEzVVhqdUlJbk5PY1FlV0NtOEN0d3Exdkl4RFhocC9Ua1N1eEZpTG9tcXpsa2lSU2F4WXdCTHFhRnlaRnFabFYKcVE3UEwySzhvalBjb21iNzA3dU05ejgrMGdaNi9ZcnF3Q2RRREZuZ041MWJMUTlIQktiVnJ3NmlsNU4wUUVlUgphUGxGWitoVTdsZ3BXRGF6VWYxaVRsVGM2Q1FUUEJEM1dmVTRhNGliUFBBNDRNWnRJZTBEbnBXMFl3a0pwUDNVCnJmY0RwaHlPUXZIUU04N1VITmJFc2lranAxT3JNVzZ6eDN4UGE4YWtiMTNwd1Q3RllJZnZmZHdpRGJiU1B0ZVMKUDVVbFM5YWZLU282U2JCY0tVZTA2THRiaHFqdGtDT1R5NDRIclErRnRjTjlITmhDRTVFeVNuZ1VuNnV4TTR0MwpYbEVHblNzTTJvc0VQT2dwU1RJSW1WZVlCY0RjdytteEhyWVZ1aHNOVUpZNkxPbEZhTVFlMlhjbExWREp4aDhRCmQxYi9sVHIrTVY5KzlER2VMSmNPYVoxMTVZbkxIbjJrM2gwVGxheFpiMHN3aFBBV0pxd0xYTzEveFhEVU10QUcKS3V0SXhOL3BscmJJQk12OGJNMENnZ0VCQU1jK1JtUVNHaGNJNGVPZGVhS2tWK2pUYVZLYWhiRTlzOFBNTGxENgplOGppM3ZNek1lZ2FKUTFkSVVPelo1Y0gvRWFvOGNqYVVrK2puVlN4RjJnMUpBdEtlb2NsQjZseGg3SDJPOGpCCkNsNW40QnVzakZMb29hNDBuUjRMYjFOZ050UzVCY3dXQVErYUljWnhtY3pQOHZvYVRERVRDNFUwQUliRWhKb04KQ2psLzMvd3kxbk94TWRpZkxVR2k1Y014V1UxL2d0ZUVuNW9DNUJVQmozOXhndVFnc1pMckhCQTBuZ3ZFQ0d4QwpCSEFXWEJvZEp0VDF3am5oaFpzV0RmTEExVThRZFBGdkpqOGV1VzdmMWk5b2w0RlNBRHlzTlg4eXpVVHpHbXB3CnB4NC9JbVA0K1VNMTIrZ0c5bHJFaXlZWnVTLzR0RFNGWGkxbHVXdVFVcVRmVVBjQ2dnRUJBT1Q5cFdzNzZRNk8KYmJuYXo3WUZMeTVlR09sc3ZjK0FJM2l4UG5ZYmI1cjF6eFhNZ0NNd1p2M0V6M2NaM3hDYW9CQnpDVUhSUEtNdQp4V2dQd1lwK0dNSUpnQzZEaFVLbDR3K3FDc1d1c2M4TWhnMUdpeHdWS1Z3UjNiSXNaMEc3RzhISkdCZGJQWWtTCnlkQnpjMUNhUkNwczBTZUx0c3lzalZvUHU5cnRwOXBrMTZLMlU0TzFkc1JVUThFbWFRbndscHhFcFphVy9SRDAKc00vNXExRTVnRjZpUGlqMU9RNmd0SGtXT2lsRWd3YjBJd1FhclFXRXd4dGhDbFkzQXNaQzIzSTRzdTg5N0JqMwozblczMkprZUljd3l6M0d6VEM2clVZZ1dmQk1wT1ljTnJJeE1TRTl6RjJEbVluVXpVSXhvMWMyQUZLb3VCTzlPCnVaSGJldm5vbDJNQ2dnRUJBTVlMb2I1Z3Urdy9tUUUrQzZUZUJML2FQT3V0eXN3MXo5VUV4TmtiVWlXSlZTR2EKdHJYR0h5UmNlTzhwaWdOM0hZMUM2eXJCMEdWMjliRTBZbGJqMDVNaGtnOTVnRmN1RVRxVXpqSXJwOW5WR00rSgpRT1k4ZEZHTDNNejdnc24yYmlvZVM2UGtEMlBweWo3TnRwbjk3Y0FxbWFlQ0RjWjJ2VHM0WmJJVzJoM3pmTG5iCjhveUhDa3dQVk5YVVROd3IxbCtSS29aOVBvUEE4ZVByYkM2NnJ1ZUJrK0M4c0dWdlY5WE1JcTh4SStZaVk2UlYKYTc3dEZnV2dwTVJXTk1FaWFpVXY3MzM1QktSakx1RUZ2NG5hUmhaMll1UHNMVFRsVTJLQTNyWUVpaWtuaWxDagpMMmxlUk5zcTZIK3FzOEhJZWVvMEpUTzdpYlJJVS9tV09IL0h0bHNDZ2dFQU1XY1RtQlg5eXRrcGpRNUsvNjhRCnBjVkJSS0xrTkc4bHQvVXRUNWZOdFRYUTdwZ0hFUkJ4TjlDTkhkbmtDUllDOEdtUkZyVUlpd0FkTUwwdGVTNkoKTXR1UDN2a2E5KzBJRnFvTjF1WkFrRFhZZWVhOVBsckdhSW1tTmJsa3NZYW5qMkJPSlVQVys4cWs1YWJ5dXZIOQpRTlhuTGN2enJTYVEvRndtb0MzanA3ZFgyay9ScHJtd25OeTlIVituQzdEdkhWbW1DOTRaVE40dGcwRVBGOS82CjlPKzF6MnBRVy9xSjFSSFpqR3V1aFFLSXgycmw1eW5rV2ZUT29Sa1BMU3poWVR3Z1JvTXFlNXlHVHdsUjNuN2sKdGNSRWd2ZzJ1RjdYb1MrUXB5V2V0cWRaa1k4bmpwUjY5N25jaGdLREh6ZkM0S29BUzFMUVY3eTVSbUYrbjRueApsd0tDQVFFQWpUZjdXTUZEd3k3WjhtOHc3amlEZ0RDTHRHWEJGWUFSWHJSQ3MvR1NGQUpzT1lZOUdld283ZjUvCmc4NGdvVnJ6cjVtT0ZlTFBqd2IxNnltUzcyWHMwYklIbDVrNzVLdUc1WW41OER6cFBhb2Y2NHhsOUVyQjd2QVkKb0lCUndQZUJMS0ZGYU4vZG50SUlzaUdwSWhSTGI3MDhYOTJBYlhIZjhOazVRbkFBa3hWajdjb2xIQld1enNiOApLaWRIeGEyeXNOU1hTK1NhTUZBTlJ3NytYZmU4b0FFZmx1UWNMSDgreElveWY5OU9hSHlqRXVtRkxCRnJVQUFwCmZ2UkhxTGdxaEFoVXZSdDkza01pZ2pvbFRqMFR4VU41V29Pb3Z3WkV5RDY3c1AwNFJUM0NoUFdWQnhOSi82SUMKbkVQVnhmdlZiNTdnOXc3OVJ3TDFOdjl5UDlaNnB3PT0KLS0tLS1FTkQgUFJJVkFURSBLRVktLS0tLQo=
+              ldap.crt: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUZNekNDQXh1Z0F3SUJBZ0lVWi91UFVNUTB6eGxXZHdLM0U1VlZ6WmFDdGEwd0RRWUpLb1pJaHZjTkFRRUwKQlFBd1JURUxNQWtHQTFVRUJoTUNSRVV4RXpBUkJnTlZCQWdNQ2xOdmJXVXRVM1JoZEdVeElUQWZCZ05WQkFvTQpHRWx1ZEdWeWJtVjBJRmRwWkdkcGRITWdVSFI1SUV4MFpEQWVGdzB5TWpFeE1qa3hNREk1TVROYUZ3MHlNekV4Ck1qa3hNREk1TVROYU1BNHhEREFLQmdOVkJBTU1BMmxrYlRDQ0FpSXdEUVlKS29aSWh2Y05BUUVCQlFBRGdnSVAKQURDQ0Fnb0NnZ0lCQUxJNDMvdEtDOGtHY2NGOFZMcVBSUmVTUnZrUDZiZzhwR3JJcSsrMHBJenQ5NkxNTjVJZQpEZWRHMisrSldVS3ROT0JndVU1UXBEUC82ZllKdnBkWVp4REZxUTFwejNqbGk2bXo5ekFKeDBFd0FLUFA3TXUvCjV1TEF1cGpRWWFHNVpNMXpFaHdhT2NGZDhrTDJPWlZwMjdzUTRCWkxGcEVvQVRyOWJ2MmdUUlN2a1hEZUVTSmUKT3g3QUhETTZHalVia3FyTFZHTmdFWlYrWGNiOHFhNHo5V25jY29lZzA0UnM4d0tXWklLdWprN2pkenVtdjNpTQo0MTNXRjBSQUE5NGphd1ZLa2hDeTUzbmdmS1pXWEpDaWd1YWEvcmJ4dEQ5T1VtSmUzSmVGeGthZUNpYUhqRFdICmNDNVpldHdxdmJPc2t3Vnh6aHBaQmpKM01HNncraGw4ZGV3aURvV1Uza0lRRjY4RWV6SXJQeFpWTEt6bjU0bEkKYVlNSWV5WU50Qk9rOHppSGpYRVo1OXFpZ0V4ai80Q3RUZ3Rjd3JCWUlrM0xhYWkydDVWUG4zNGpGbmxObUp4cQpCSmIyOTJxMmIrcmJZMzRyVXFJUkdlK3JIZGs1MGZZTm5jaXQrT3Z4L3ZaOUsyazg0S1N6VUJESDFsTE5oNFhzCnk0bnhuWVhudHk5UzRSYy9jVVpCU0t0T1hxSjFPd2VKS01rZ2wwVEV0RnBlMlJub3Y5UDlnWFFScWxmUHNHZnIKQ2IxRmMzR1FHd2dPSlR5UDlvaWlDRm9HS21uWlJaUFNsNWtqMmVEdE5QWHhVSDNZbHdhOG5GSWUrcGhuaFpZdQpNMW1LRitLSnFDaHdvc3dISmNwQ2M0d0hhaDFIN1NjRVFsUTRxM0QzYmVlNlAwdVRFZzBaOWdDRkFnTUJBQUdqClVqQlFNQTRHQTFVZEVRUUhNQVdDQTJsa2JUQWRCZ05WSFE0RUZnUVV3dnRJNGNHWk9LT3RkSmE5OFNudVFac2IKKzA4d0h3WURWUjBqQkJnd0ZvQVV0TXUxdGluRzJ3T2ZvMFZKQXhBQk5GS2Q5VFl3RFFZSktvWklodmNOQVFFTApCUUFEZ2dJQkFIMnByWmZUc1htcnJVaUw5RDVCdEpXT2RSSzNQNjV3S0dQQnFsa3pCenJKT0lHald4YmQxYkpqCjJNb2hpT2xRNlBUV1ZteE1pL0VRS2xtZGoyejZrVzdhcWZYQk92RWxkOWR5WmlBTVk2UEtjVms0dmVNQ1ZmaTAKYnQ2V09ZOXlYS1drZDV0OWg0SWFjbENQNUkxaERxNUt2RWRoMG5BL2NZT2FuLy9nRTNySzV2ZU1NQU51ZTNCSQp3NVdlY0pHVnlHeVhtM3M4SkZ6OU95T3FkcFZFMXFBcWJMWVdUSEhMM2UvbFd2UWZ4UFF2WXlqTnZxWk9TbjBaClY3TUJmWElwZmt5dWxScG53UUx3eWJ4QzYxVGUrdjBQNWFHUUxteTV2ckp3UHR2anFZampXOS83ZDc5MXZhYlgKand1ZU9QYzJxUmw2dmhqY2lnOExXWVYwZy9yY3d1eWl2ckd6MW9haGVENnFqeTBOUE9VUzI0RjFTVTYyUHp4OQpiaTRvVjRjOFQxcUhnenpURUpzL0RwZmpZTk9NV3ZlbGZnaTRuL2FReThpdGhreWVsZ2pFVkhtejdDSkt5TTFqCnBwZTluK1NZVmtSWStOSjNGM1dvTDJrNU1pcmJGcTNuNmk0Yy9yWWFLRWRBRU0ydTIwTHVCbFBxYjludjFncU4KTEc1L09mQnFTK2IwZzRNUTRGQmd0TnIxWVhULzdwQlZkMFFGcTN1Qjh4WnhxR0s4UG50RlNkcTlMQzRMODV0YQpFb2ZUTWJPdU9YNEY4RWlTWVY0SXFFOFhINDB5dGJZRGtYU0Z2dURXNDNDSzdMdnphOUFNRVZqUjBDdzNzL1NiCjcxOC9mVktLb01rQnJXTVR6d1VjUTRvU2dSUTZqeklVUUQ1WGJHMEFIVExocUQyTlNTRngKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=
+
+          - |
+            apiVersion: v1
+            kind: Secret
+            metadata:
+              name: admin-user
+            type: Opaque
+            data:
+              user-id: MmY0MmQ2NTAtNWQzNC00ZDE1LTljZjctODExY2EwMzg3ZmQ3
+              password: aFlbWGQ4aG5KRDlDSkZPNEtha0NpMEYxQjlGcm5EZTRkdmMxZkNNUFIxQVpKZUV5UXk=
+
+          - |
+            apiVersion: v1
+            kind: Secret
+            metadata:
+              name: idp-secrets
+            type: Opaque
+            data:
+              encryption.key: 5m2rtxL08dzii4c8f1OaUqg2rmMSwRLg1dmmmXna9EM=
+              private-key.pem: LS0tLS1CRUdJTiBQUklWQVRFIEtFWS0tLS0tCk1JSUpRZ0lCQURBTkJna3Foa2lHOXcwQkFRRUZBQVNDQ1N3d2dna29BZ0VBQW9JQ0FRQ1R6bUo1cDhBalBnajEKaDRFc3JzRnZaSktsdFU5S0IvcmNaRFFJMy9XRTl2ekplQi9JcG1kNnFEcjRMMUZrQnAyRENVaEp2am00YTZWcApITmluZm4rdWFoMEFqLzhGa0FNem04M1AyYkxaQmwyTGxrTGw3Vk9Ba3A0UmNTcWUzQnRDZVAwR3FncVc3OUI4CkdNbkdSOE9nMmhUc0l4K1FVUnQraE4yZE1XNENIaEpNRDhJd0ZhdDV5ZjJLSFBndUtwQW9lZERBWVlteHhlOUQKcjJyeUlqakJsWkhCUVYvZW9hbUkzN21HaXNKL3lPN3YrU3dMSmNFcmZHVFhWRVBGdzdtY2RoTHg4QUtROUVYRQozd0tDWVRLektzcjBSeTdBMW8rWm9qa1dDS3VybytyTndyZVV1UmYxMnFLVE9aYVNuM0hMNXNPSEN2YWdjNEVBCkNWUTFuYitZcGE4bmQ3VVZnN1hDaTUwNzR5dW53S2pnYUoyektNQkllQzdYSHd1VmZUZ0lLRTJ5L1czNEpvT0UKRG1aRXdPSmI2ZzdnSlVDZElkUmZwdXQ2cmRDTVRONkpxbExybGw4VkZRUWZIc2FKSGozcmcvVjBzU0M2VUxOTAp2R2k5MThzb2NwVDZFcDlNNkJoS05CSEZ4UDdlNnRIWGdSWFh5T2RFZnNXczYrUDF1ZzhkZk80UWh1UHFFR3p0Cml5TUd4eUkyMjVRSjYvbUowU3kxQmcyMktya0o3dy9ramE1ZUVad1E0Zjl1bDEvZzJmdCtwcEdnQU42WEk5UksKSDQzL3MyWHNYY29xVUlaYm5tdVBHRFduNEM4TldDWmhDazlQUGlIU3FCb1lxMjNTZTd5UXBjWkVlU3BpOVJ6bgptY2RtMEIwQW4vMXlvK0MzR3IvYklDdXNzUTVnOFFJREFRQUJBb0lDQUE5L2Q3QmhZRUpodmc4K29OTUdWT2FBCjhXWjZLeURzVXNlNm93RWVPSkJ6VkdDc25ZcU10ak4wZ2RCbHA3OVkrVG1VNXRWQ29xczljRWZqL0N5ZDFUWDgKenVNdzloREhmNnB3NXdUcEF2bUNFeHR3aXoyd0k0NEs4Wk9MSGVpdjFCVGxla1J4WG5CaW4yWHZ0SEo3c2wzQwptQ2lGYTBrVzFBN3hVQXBzTlNoNExqdDIrSW5Scjl2eWk4am9UamFMQkhnV0E4YzBRdnVXc1VhVDFWOGpxdmRUClgwZlgrcjB0anNqNUNtczZ6L2VWb2tZYnhwdzVublpZa2Z0SkROMG03MmFpTTh6VitYTHBCZ3JGUm01VTBqdmEKbkJLK2h2NjEwTE5QZ1BSWVB1WGRwMkJoVHg0RFJXbWtQZUU1aTluK2FYQnpseU5wQ1NDY1U5V2s1TVZGYitJaApCTG9TWWpGQzJPRUp6c1Rrc21NK29lcmd5R0d2bHBRa041d2IvQzQzcFFYV2MwbGZkVkQxcVJnR0VYMWViTDNICkVWVUNkeHNxSGFzYktWbWJjV3U3QmkvTWszeVNLem03MEdwUEVZK0gwb0tYaXN0TENrZUJGWk9LcHpiMk1lNW8KZ2tBOStIWEVjZFhjWFFkOC93LzlQNUJwMFhFNG16TlV5ZXNST1M3emdPSStHVXVTa1VIbjljRGx3MWVtS0NPcwpMclZKeHV3UGExR2N1ekU0LzZ3bDl6ZEg4ZnNjTFduTHE3V2dkWmZwcnVHbmxRNW11L21zT2JWdXpjcTRlMmdpCnVRdEFNaHV0UVNkMGF1TlhGOXJQbFg2ZGZEOW1CR2pNOUhwWDA1ZXQ2MWxEVGZGUFRHZ2VVcE1rWG5GL2JQSVUKMVNVSVNvWFVOR04zaGNocWxsZ2xBb0lCQVFES0ZvK1g5c0h0eFJtcjRsTnU0Z2FkZ3VhNFRFZ0EzWXh0RUxsbApjcGdNM3p3RG1CajFCMGZoQVRwai9Kdm5iTVFzTHZPaWdqWUtIMXVNS2V5MElmcHFycWlGcy9XYUNPOU94OHlMCjJ0aXQzQzU1c0dwQVVIU3I3cXByOGQ2V3JrZG5TaXlXUy8xSGZxaDJOQ0pHdVhESk1lTE02anVBL0FCQjd4OFUKeVdFN2lHMEo1Q3NwMXhRc1c3d2NpT0hFUTBHem9CVFB0QUNPZzFqa0VRUmJCQlhjei9CamRuSkRwb2dlMGpGdgpWK05BUW5UR3djdG94SGh6aXpJekdwZ2F5Sit3OGdjNC8wWkhBNHdFQnB3SFdCN3MvMkNTY1N5ODRVWHRzOUNYCnlDRFYzS1FRVHE0d05teVNTcW1RYUFsV0tpMTFyR1QxY3VDR3ZocXRTb0w5ejdRTkFvSUJBUUM3UEs4dzNRdmMKYTF3aUU4bmNWamsxRDd2OUc0RUJvblovYzlOSnUxU2paMStyamdrRm0vNGtlelpDZHQ1U1IzbGVRaDlaNytGbQpBS2Jtd3E1S29qM2I5L3lJbHpUaUc2VFJlTEtGcWNGYlRjaG1qN1F4MEh3TzRnNWJnb21oSTQvMEtTNVJzS2E5CmNMQUh6T1lFd1pSaExabEpjOUVIMzM4aTl4bk1VLzNCK0tZNVN5aVZoakQ2WXJxTjBrTDdhTTIvZk9uWjJXbWUKZW41RHpXY0I4RHpWSEo1Vnh2Y0tQcGNjZ3ZWaFcxeEh6TGIzaG9QbWlScFpzVzAzVlEwVDBXS3YvRTFuU3k4SQpmWFFGV20yaFRpWEtJUmxXQksyb1FVRkkyUzRxSWVZQ0NqemwwUGxFNUw5T2llQzNya0ZoNXpoUmJ5WitzZ0lzCjZzQVd2YnlVTExOMUFvSUJBRitabXFaZUFsSFQ2eGdJQWtZelFNUGt0L2E1aDFwNWRFUG9KSHhjWUplK1J5ckEKR2haWU1tVzc2ZjZBOHRQZy9WQ1ZpWVg0S1U1U2xVRlNWL3JERkM3Qm4xRlkxN2Zkd0MrNWp3Y2VLV0RlQjFKago1VysxWCt3eUJJYjZMYjJFaHB6VFZ4Sm1zbFBQRkN5Tzd5UWI5OElHQ20rNzR4aGFubGlTb1ZaNUNibGJDWklqClVWUUN2alZaMUR4L2VLWWExd3I5a0xyTlFYSXBxclNCWkZrV0xxMTk1UTk0YWdlYzBVb2JUMjJIMnlaOENiZzQKMTF3aGpZWERkS1QrVUxSaThrQ0h6bWpsUWo2MzY5Vy90ckkydXJLTkFRZGw2SzhWdHJvRFZZdG9Eamg5bjFOagpsVDJUa1hzSFBQM21hWHhNaWFMZ1FnWm5LTlkxT25OK0MwZThxVVVDZ2dFQUhwUzZ5SEJTRDU0NVhoZDlVTStFCmFIWTViZzJmOUhSa2hreVVwZVpDM0sxMW9yK0FHYnB3dCtTbjZCTWlISzR2MUlWWU9ZaEVlRFNERGcyZUNmS1YKeCtlcEIyWXE3UU0yMkQrdWFNWmhIbGlGOHJwbDQvejVSalVGdzB4K3ppTFEwRUFwb0k0SnJjZEorUHd1VlhpSQprNWF2QXFBMzgrRTlFcWpwUGNZNkhBUlFvZXIwcGZkVTZKQlhoL0pmbmxCdnltYk1peGhIZCtycDFJa24yZGt6CkZsdW1RTHhPZlEzY0FId2pOOU9FTHZYd3JGejhEaHMyZ28vSUZ0RjlZVTlCbnh6R1I2aXY5ZU1Ib0JnMDc3T2oKMkcrdmc2MGY3K3M0am4xcVhOZE1pZWpDS1ljSUw0aHM5cGJ1YlJHNC9CU1h6alVwUkdndWtzZUV1RElsS3M1aQpRUUtDQVFFQXFvUXpYaHBybGdBc2oybDAzU3JVcWNmWTR2cDcrSmhaTjczbFJyUEZoUk13VGdyeWp4WW8rU01WCmZFN2drRGprVlBjRVRmaWQxWU5KMHVlbnR1UmhuWUJ0NTVUTUprM2VBRTdyQkt2OEp5dHZTMzJUZFpTa2tXNlUKTEdMRzRKZVlPakRIN0xrblh4a2c1blRSMThlb2JNQno0QzNLejVhd3ZiMkJmemJLbmVkNDBRVExybFUzL0htMwpqY3AvSysxaTJqZzdzVERNZ21oY29aeDRvRlpPaUM5UEhMVTZGd1RIbS9teDZ6Y3lwT3ptVTRvNXZDNHNEa2xqCi9KMytmZ0h3ZWZNUWdWUm1WVHd2RE9PLzV2b2d4cG91cjNzTzFqR1JJS1k3NFJIRWtFeHFoU2lMbUZPZ2J3dVIKbFV3bGNzdERuN0tDSExrUWQ5QzU2OHpvbmR1VG5RPT0KLS0tLS1FTkQgUFJJVkFURSBLRVktLS0tLQo=
+
+          - |
+            apiVersion: v1
+            kind: ConfigMap
+            metadata:
+              name: storage-users
+            data:
+              storage-uuid: 1284d238-aa92-42ce-bdc4-0b0000009157
+
+          - |
+            apiVersion: v1
+            kind: ConfigMap
+            metadata:
+              name: graph
+            data:
+              application-id: 6daae694-6fc4-4421-82a5-7a9c7d7e58b4
