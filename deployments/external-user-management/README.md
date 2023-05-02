@@ -42,6 +42,12 @@ $ helmfile sync
 
 This will deploy all the needed steps.
 
+### Logging in
+
 Once keycloak is up and running, you should be able to login to oCIS. Do note, that if you are still
 using the default self-signed certificate for keycloak, you will need to accept the certificate in your
 browser before you can login to oCIS.
+
+The Keycloak admin account username and password can be found in the `ocis-keycloak-initial-admin` secret.
+
+The oCIS `admin` user has the password `admin`.
