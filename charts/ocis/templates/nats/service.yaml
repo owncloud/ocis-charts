@@ -16,8 +16,7 @@ spec:
     - name: nats
       port: 9233
       protocol: TCP
-    # TODO: NATS does not currently provide a debug port, re-enable this once that is implemented
-    # - name: metrics-debug
-    #   port: 9234
-    #   protocol: TCP
+    - name: metrics-debug
+      port: 9234
+      protocol: TCP
 {{- end }}

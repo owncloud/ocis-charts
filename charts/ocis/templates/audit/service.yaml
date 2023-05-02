@@ -1,5 +1,4 @@
-{{- if not .Values.features.externalUserManagement.enabled }}
-{{- include "ocis.appNames" (dict "scope" . "appName" "appNameIdm" "appNameSuffix" "") -}}
+{{- include "ocis.appNames" (dict "scope" . "appName" "appNameAudit" "appNameSuffix" "") -}}
 apiVersion: v1
 kind: Service
 metadata:
@@ -13,10 +12,6 @@ spec:
   selector:
     app: {{ .appName }}
   ports:
-    - name: ldaps
-      port: 9235
-      protocol: TCP
     - name: metrics-debug
-      port: 9239
+      port: 9229
       protocol: TCP
-{{- end }}

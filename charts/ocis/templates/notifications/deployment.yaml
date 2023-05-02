@@ -41,11 +41,11 @@ spec:
             # - name: NOTIFICATIONS_TRACING_COLLECTOR
             #   value: {{ .Values.tracing.collector | quote }}
 
-            # - name: NOTIFICATIONS_DEBUG_PPROF
-            #   value: {{ .Values.debug.profiling | quote }}
+            - name: NOTIFICATIONS_DEBUG_PPROF
+              value: {{ .Values.debug.profiling | quote }}
 
-            # - name: NOTIFICATIONS_DEBUG_ADDR
-            #   value: 0.0.0.0:9174
+            - name: NOTIFICATIONS_DEBUG_ADDR
+              value: 0.0.0.0:9174
 
             - name: NOTIFICATIONS_SMTP_HOST
               value: {{ .Values.features.emailNotifications.smtp.host | quote }}
@@ -104,22 +104,12 @@ spec:
                   name: {{ .Values.secretRefs.machineAuthApiKeySecretRef }}
                   key: machine-auth-api-key
 
-          # TODO: This service does not currently provide a debug port, re-enable this once that is implemented
-          # See: https://github.com/owncloud/ocis-charts/issues/111
-          # livenessProbe:
-          #   httpGet:
-          #     path: /healthz
-          #     port: metrics-debug
-          #   timeoutSeconds: 10
-          #   initialDelaySeconds: 60
-          #   periodSeconds: 20
-          #   failureThreshold: 3
+          {{- include "ocis.livenessProbe" . | nindent 10 }}
 
           resources: {{ toYaml .resources | nindent 12 }}
-          # TODO: This service does not currently provide a debug port, re-enable this once that is implemented
-          # ports:
-          #   - name: metrics-debug
-          #     containerPort: 9174
+          ports:
+            - name: metrics-debug
+              containerPort: 9174
 
           volumeMounts:
             - name: ocis-config-tmp
