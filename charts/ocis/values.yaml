@@ -1267,11 +1267,15 @@ services:
         # - image/x-ms-bmp
 
       # -- Configure the {"styles": []} section in the Web config.json.
-      styles:
-        - href: /theme/foo.css
+      styles: []
+        # - href: /theme/foo.css
       # -- Configure the {"styles": []} section in the Web config.json.
-      scripts:
-        - href: /theme/foo.js
+      scripts: []
+        # - src: /theme/foo.js
+        #   async: true
+      # -- COnfigure custom translations
+      translations: []
+        # - url: https://foo.bar
       # -- Configure the {"custom_translations": []} section in the Web config.json.
       custom_translations: []
       # -- Configure the {"apps": []} section in the Web config.json.
@@ -1313,7 +1317,6 @@ services:
         # -- URL path to load themes from. The theme server will be prepended. Defaults to the ownCloud Web default theme.
         path: ""
 
-    theme: [] #TODO
 
     # -- Persistence settings.
     # @default -- see detailed persistence configuration options below

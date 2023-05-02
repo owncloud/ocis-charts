@@ -19,6 +19,10 @@ data:
         scripts:
           {{- toYaml .Values.services.web.config.scripts | nindent 10 }}
         {{- end }}
+        {{- if gt (len .Values.services.web.config.translations) 0 }}
+        custom_translations:
+          {{- toYaml .Values.services.web.config.translations | nindent 10 }}
+        {{- end }}
         {{- if gt (len .Values.services.web.config.apps) 0 }}
         apps:
           {{- toYaml .Values.services.web.config.apps | nindent 10 }}
@@ -32,7 +36,7 @@ data:
           {{- toYaml .Values.services.web.config.applications | nindent 10 }}
         {{- end }}
         options:
-          contextHelpersReadMore: {{ .Values.services.web.config.contextHelpersReadMore.enabled }}
+
           disableFeedbackLink: {{ not .Values.services.web.config.feedbackLink.enabled }}
           {{- if .Values.services.web.config.feedbackLink.enabled }}
           {{- if (or .Values.services.web.config.feedbackLink.href .Values.services.web.config.feedbackLink.ariaLabel .Values.services.web.config.feedbackLink.description) }}
@@ -48,14 +52,8 @@ data:
             {{- end }}
           {{- end }}
           {{- end }}
+
           {{- if gt (len .Values.services.web.config.previewFileMimeTypes) 0 }}
           previewFileMimeTypes:
             {{- toYaml .Values.services.web.config.previewFileMimeTypes | nindent 12 }}
-          {{- end }}
-          {{- if .Values.features.externalUserManagement.oidc.sessionManagementLink }}
-          logoutUrl: {{ .Values.features.externalUserManagement.oidc.sessionManagementLink | quote }}
-          {{- end }}
-          {{- if .Values.features.externalUserManagement.oidc.editAccountLink }}
-          accountEditLink:
-            href: {{ .Values.features.externalUserManagement.oidc.editAccountLink | quote }}
           {{- end }}
