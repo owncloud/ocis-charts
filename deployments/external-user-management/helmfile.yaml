@@ -456,7 +456,7 @@ releases:
               name: machine-auth-api-key
             type: Opaque
             data:
-              machine-auth-api-key: bDN0bzZseUlsQ1MyaFpNdXRNNHFvWXlYN3owcWJVMHViQnprZFk0MXAzWkYyMmpvaFUK
+              machine-auth-api-key: {{ randAlphaNum 30 | b64enc | quote }}
           - |
             apiVersion: v1
             kind: Secret
@@ -464,7 +464,7 @@ releases:
               name: storage-system-jwt-secret
             type: Opaque
             data:
-              storage-system-jwt-secret: eERiaXNYUGZFenJXUWdrc2ZmVWR5c2JtOWRkS1N4SDVOZTh1QTdESyxRME43cHRTY0EK
+              storage-system-jwt-secret: {{ randAlphaNum 30 | b64enc | quote }}
           - |
             apiVersion: v1
             kind: Secret
@@ -472,8 +472,8 @@ releases:
               name: storage-system
             type: Opaque
             data:
-              api-key: N0wuTWx0ZzR6VnVTcTFWMGFXbmhOUjBxUmRCeHU4djB1aHZaRzB1RUF0OEFMU1NUWksK
-              user-id: ZDFjNmE1NWYtMzBjNC00ZTg1LWFmM2QtOGRhZWM1NTc0OTYz
+              api-key: {{ randAlphaNum 30 | b64enc | quote }}
+              user-id: {{ uuidv4 | b64enc | quote }}
           - |
             apiVersion: v1
             kind: Secret
@@ -481,7 +481,7 @@ releases:
               name: transfer-secret
             type: Opaque
             data:
-              transfer-secret: VUU4MzBmMXZSeFhxZkZmMlVIb053T001LllyMU5VOU41QklKT2FqalFFazVaMU1RR1AK
+              transfer-secret: {{ randAlphaNum 30 | b64enc | quote }}
           - |
             apiVersion: v1
             kind: Secret
@@ -489,7 +489,7 @@ releases:
               name: thumbnails-transfer-secret
             type: Opaque
             data:
-              thumbnails-transfer-secret: UVNScSxqV3l3QmYwNFRNLi5zeVl2cGl0dzg5TFl3bGU3TzB2cktEOHVRTnozZUNkRFcK
+              thumbnails-transfer-secret: {{ randAlphaNum 30 | b64enc | quote }}
 
           - |
             apiVersion: v1
@@ -499,26 +499,6 @@ releases:
             type: Opaque
             data:
               reva-ldap-bind-password: YWRtaW4=
-
-          - |
-            apiVersion: v1
-            kind: Secret
-            metadata:
-              name: admin-user
-            type: Opaque
-            data:
-              user-id: MmY0MmQ2NTAtNWQzNC00ZDE1LTljZjctODExY2EwMzg3ZmQ3
-              password: aFlbWGQ4aG5KRDlDSkZPNEtha0NpMEYxQjlGcm5EZTRkdmMxZkNNUFIxQVpKZUV5UXk=
-
-          - |
-            apiVersion: v1
-            kind: Secret
-            metadata:
-              name: idp-secrets
-            type: Opaque
-            data:
-              encryption.key: 5m2rtxL08dzii4c8f1OaUqg2rmMSwRLg1dmmmXna9EM=
-              private-key.pem: LS0tLS1CRUdJTiBQUklWQVRFIEtFWS0tLS0tCk1JSUpRZ0lCQURBTkJna3Foa2lHOXcwQkFRRUZBQVNDQ1N3d2dna29BZ0VBQW9JQ0FRQ1R6bUo1cDhBalBnajEKaDRFc3JzRnZaSktsdFU5S0IvcmNaRFFJMy9XRTl2ekplQi9JcG1kNnFEcjRMMUZrQnAyRENVaEp2am00YTZWcApITmluZm4rdWFoMEFqLzhGa0FNem04M1AyYkxaQmwyTGxrTGw3Vk9Ba3A0UmNTcWUzQnRDZVAwR3FncVc3OUI4CkdNbkdSOE9nMmhUc0l4K1FVUnQraE4yZE1XNENIaEpNRDhJd0ZhdDV5ZjJLSFBndUtwQW9lZERBWVlteHhlOUQKcjJyeUlqakJsWkhCUVYvZW9hbUkzN21HaXNKL3lPN3YrU3dMSmNFcmZHVFhWRVBGdzdtY2RoTHg4QUtROUVYRQozd0tDWVRLektzcjBSeTdBMW8rWm9qa1dDS3VybytyTndyZVV1UmYxMnFLVE9aYVNuM0hMNXNPSEN2YWdjNEVBCkNWUTFuYitZcGE4bmQ3VVZnN1hDaTUwNzR5dW53S2pnYUoyektNQkllQzdYSHd1VmZUZ0lLRTJ5L1czNEpvT0UKRG1aRXdPSmI2ZzdnSlVDZElkUmZwdXQ2cmRDTVRONkpxbExybGw4VkZRUWZIc2FKSGozcmcvVjBzU0M2VUxOTAp2R2k5MThzb2NwVDZFcDlNNkJoS05CSEZ4UDdlNnRIWGdSWFh5T2RFZnNXczYrUDF1ZzhkZk80UWh1UHFFR3p0Cml5TUd4eUkyMjVRSjYvbUowU3kxQmcyMktya0o3dy9ramE1ZUVad1E0Zjl1bDEvZzJmdCtwcEdnQU42WEk5UksKSDQzL3MyWHNYY29xVUlaYm5tdVBHRFduNEM4TldDWmhDazlQUGlIU3FCb1lxMjNTZTd5UXBjWkVlU3BpOVJ6bgptY2RtMEIwQW4vMXlvK0MzR3IvYklDdXNzUTVnOFFJREFRQUJBb0lDQUE5L2Q3QmhZRUpodmc4K29OTUdWT2FBCjhXWjZLeURzVXNlNm93RWVPSkJ6VkdDc25ZcU10ak4wZ2RCbHA3OVkrVG1VNXRWQ29xczljRWZqL0N5ZDFUWDgKenVNdzloREhmNnB3NXdUcEF2bUNFeHR3aXoyd0k0NEs4Wk9MSGVpdjFCVGxla1J4WG5CaW4yWHZ0SEo3c2wzQwptQ2lGYTBrVzFBN3hVQXBzTlNoNExqdDIrSW5Scjl2eWk4am9UamFMQkhnV0E4YzBRdnVXc1VhVDFWOGpxdmRUClgwZlgrcjB0anNqNUNtczZ6L2VWb2tZYnhwdzVublpZa2Z0SkROMG03MmFpTTh6VitYTHBCZ3JGUm01VTBqdmEKbkJLK2h2NjEwTE5QZ1BSWVB1WGRwMkJoVHg0RFJXbWtQZUU1aTluK2FYQnpseU5wQ1NDY1U5V2s1TVZGYitJaApCTG9TWWpGQzJPRUp6c1Rrc21NK29lcmd5R0d2bHBRa041d2IvQzQzcFFYV2MwbGZkVkQxcVJnR0VYMWViTDNICkVWVUNkeHNxSGFzYktWbWJjV3U3QmkvTWszeVNLem03MEdwUEVZK0gwb0tYaXN0TENrZUJGWk9LcHpiMk1lNW8KZ2tBOStIWEVjZFhjWFFkOC93LzlQNUJwMFhFNG16TlV5ZXNST1M3emdPSStHVXVTa1VIbjljRGx3MWVtS0NPcwpMclZKeHV3UGExR2N1ekU0LzZ3bDl6ZEg4ZnNjTFduTHE3V2dkWmZwcnVHbmxRNW11L21zT2JWdXpjcTRlMmdpCnVRdEFNaHV0UVNkMGF1TlhGOXJQbFg2ZGZEOW1CR2pNOUhwWDA1ZXQ2MWxEVGZGUFRHZ2VVcE1rWG5GL2JQSVUKMVNVSVNvWFVOR04zaGNocWxsZ2xBb0lCQVFES0ZvK1g5c0h0eFJtcjRsTnU0Z2FkZ3VhNFRFZ0EzWXh0RUxsbApjcGdNM3p3RG1CajFCMGZoQVRwai9Kdm5iTVFzTHZPaWdqWUtIMXVNS2V5MElmcHFycWlGcy9XYUNPOU94OHlMCjJ0aXQzQzU1c0dwQVVIU3I3cXByOGQ2V3JrZG5TaXlXUy8xSGZxaDJOQ0pHdVhESk1lTE02anVBL0FCQjd4OFUKeVdFN2lHMEo1Q3NwMXhRc1c3d2NpT0hFUTBHem9CVFB0QUNPZzFqa0VRUmJCQlhjei9CamRuSkRwb2dlMGpGdgpWK05BUW5UR3djdG94SGh6aXpJekdwZ2F5Sit3OGdjNC8wWkhBNHdFQnB3SFdCN3MvMkNTY1N5ODRVWHRzOUNYCnlDRFYzS1FRVHE0d05teVNTcW1RYUFsV0tpMTFyR1QxY3VDR3ZocXRTb0w5ejdRTkFvSUJBUUM3UEs4dzNRdmMKYTF3aUU4bmNWamsxRDd2OUc0RUJvblovYzlOSnUxU2paMStyamdrRm0vNGtlelpDZHQ1U1IzbGVRaDlaNytGbQpBS2Jtd3E1S29qM2I5L3lJbHpUaUc2VFJlTEtGcWNGYlRjaG1qN1F4MEh3TzRnNWJnb21oSTQvMEtTNVJzS2E5CmNMQUh6T1lFd1pSaExabEpjOUVIMzM4aTl4bk1VLzNCK0tZNVN5aVZoakQ2WXJxTjBrTDdhTTIvZk9uWjJXbWUKZW41RHpXY0I4RHpWSEo1Vnh2Y0tQcGNjZ3ZWaFcxeEh6TGIzaG9QbWlScFpzVzAzVlEwVDBXS3YvRTFuU3k4SQpmWFFGV20yaFRpWEtJUmxXQksyb1FVRkkyUzRxSWVZQ0NqemwwUGxFNUw5T2llQzNya0ZoNXpoUmJ5WitzZ0lzCjZzQVd2YnlVTExOMUFvSUJBRitabXFaZUFsSFQ2eGdJQWtZelFNUGt0L2E1aDFwNWRFUG9KSHhjWUplK1J5ckEKR2haWU1tVzc2ZjZBOHRQZy9WQ1ZpWVg0S1U1U2xVRlNWL3JERkM3Qm4xRlkxN2Zkd0MrNWp3Y2VLV0RlQjFKago1VysxWCt3eUJJYjZMYjJFaHB6VFZ4Sm1zbFBQRkN5Tzd5UWI5OElHQ20rNzR4aGFubGlTb1ZaNUNibGJDWklqClVWUUN2alZaMUR4L2VLWWExd3I5a0xyTlFYSXBxclNCWkZrV0xxMTk1UTk0YWdlYzBVb2JUMjJIMnlaOENiZzQKMTF3aGpZWERkS1QrVUxSaThrQ0h6bWpsUWo2MzY5Vy90ckkydXJLTkFRZGw2SzhWdHJvRFZZdG9Eamg5bjFOagpsVDJUa1hzSFBQM21hWHhNaWFMZ1FnWm5LTlkxT25OK0MwZThxVVVDZ2dFQUhwUzZ5SEJTRDU0NVhoZDlVTStFCmFIWTViZzJmOUhSa2hreVVwZVpDM0sxMW9yK0FHYnB3dCtTbjZCTWlISzR2MUlWWU9ZaEVlRFNERGcyZUNmS1YKeCtlcEIyWXE3UU0yMkQrdWFNWmhIbGlGOHJwbDQvejVSalVGdzB4K3ppTFEwRUFwb0k0SnJjZEorUHd1VlhpSQprNWF2QXFBMzgrRTlFcWpwUGNZNkhBUlFvZXIwcGZkVTZKQlhoL0pmbmxCdnltYk1peGhIZCtycDFJa24yZGt6CkZsdW1RTHhPZlEzY0FId2pOOU9FTHZYd3JGejhEaHMyZ28vSUZ0RjlZVTlCbnh6R1I2aXY5ZU1Ib0JnMDc3T2oKMkcrdmc2MGY3K3M0am4xcVhOZE1pZWpDS1ljSUw0aHM5cGJ1YlJHNC9CU1h6alVwUkdndWtzZUV1RElsS3M1aQpRUUtDQVFFQXFvUXpYaHBybGdBc2oybDAzU3JVcWNmWTR2cDcrSmhaTjczbFJyUEZoUk13VGdyeWp4WW8rU01WCmZFN2drRGprVlBjRVRmaWQxWU5KMHVlbnR1UmhuWUJ0NTVUTUprM2VBRTdyQkt2OEp5dHZTMzJUZFpTa2tXNlUKTEdMRzRKZVlPakRIN0xrblh4a2c1blRSMThlb2JNQno0QzNLejVhd3ZiMkJmemJLbmVkNDBRVExybFUzL0htMwpqY3AvSysxaTJqZzdzVERNZ21oY29aeDRvRlpPaUM5UEhMVTZGd1RIbS9teDZ6Y3lwT3ptVTRvNXZDNHNEa2xqCi9KMytmZ0h3ZWZNUWdWUm1WVHd2RE9PLzV2b2d4cG91cjNzTzFqR1JJS1k3NFJIRWtFeHFoU2lMbUZPZ2J3dVIKbFV3bGNzdERuN0tDSExrUWQ5QzU2OHpvbmR1VG5RPT0KLS0tLS1FTkQgUFJJVkFURSBLRVktLS0tLQo=
 
           - |
             apiVersion: v1
