@@ -70,6 +70,8 @@ spec:
             - name: AUDIT_LOG_TO_CONSOLE
               value: "true"
 
+          {{- include "ocis.livenessProbe" . | nindent 10 }}
+
           resources: {{ toYaml .resources | nindent 12 }}
 
           volumeMounts:
