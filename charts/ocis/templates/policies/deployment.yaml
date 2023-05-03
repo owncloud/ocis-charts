@@ -90,8 +90,19 @@ spec:
                   name: {{ .Values.secretRefs.machineAuthApiKeySecretRef }}
                   key: machine-auth-api-key
 
+            - name: POLICIES_DEBUG_PPROF
+              value: {{ .Values.debug.profiling | quote }}
+
+            - name: POLICIES_DEBUG_ADDR
+              value: 0.0.0.0:9129
+
+          {{- include "ocis.livenessProbe" . | nindent 10 }}
 
           resources: {{ toYaml .resources | nindent 12 }}
+
+          ports:
+            - name: metrics-debug
+              containerPort: 9129
 
           volumeMounts:
             - name: messaging-system-ca

@@ -40,11 +40,11 @@ spec:
             # - name: POSTPROCESSING_TRACING_COLLECTOR
             #   value: {{ .Values.tracing.collector | quote }}
 
-            # - name: POSTPROCESSING_DEBUG_PPROF
-            #   value: {{ .Values.debug.profiling | quote }}
+            - name: POSTPROCESSING_DEBUG_PPROF
+              value: {{ .Values.debug.profiling | quote }}
 
-            # - name: POSTPROCESSING_DEBUG_ADDR
-            #   value: 0.0.0.0:TODO
+            - name: POSTPROCESSING_DEBUG_ADDR
+              value: 0.0.0.0:9255
 
             {{- $_ := set . "postprocessingSteps" list -}}
             {{- if .Values.features.policies.enabled }}
@@ -77,22 +77,13 @@ spec:
               {{- end }}
             {{- end }}
 
-          # TODO: This service does not currently provide a debug port, re-enable this once that is implemented
-          # See: https://github.com/owncloud/ocis-charts/issues/111
-          # livenessProbe:
-          #   httpGet:
-          #     path: /healthz
-          #     port: metrics-debug
-          #   timeoutSeconds: 10
-          #   initialDelaySeconds: 60
-          #   periodSeconds: 20
-          #   failureThreshold: 3
+          {{- include "ocis.livenessProbe" . | nindent 10 }}
 
           resources: {{ toYaml .resources | nindent 12 }}
-          # TODO: This service does not currently provide a debug port, re-enable this once that is implemented
-          # ports:
-          #   - name: metrics-debug
-          #     containerPort: TODO
+
+          ports:
+            - name: metrics-debug
+              containerPort: 9255
 
           volumeMounts:
             - name: ocis-config-tmp

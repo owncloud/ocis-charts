@@ -49,8 +49,9 @@ spec:
 
             - name: EVENTHISTORY_GRPC_ADDR
               value: 0.0.0.0:8080
-            # - name: EVENTHISTORY_DEBUG_ADDR
-            #   value: 0.0.0.0:8081
+
+            - name: EVENTHISTORY_DEBUG_ADDR
+              value: 0.0.0.0:9270
 
             - name: EVENTHISTORY_STORE
               value: {{ .store.type | quote }}
@@ -76,25 +77,15 @@ spec:
               {{- end }}
             {{- end }}
 
-          # TODO: This service does not currently provide a debug port, re-enable this once that is implemented
-          # See: https://github.com/owncloud/ocis-charts/issues/111
-          # livenessProbe:
-          #   httpGet:
-          #     path: /healthz
-          #     port: metrics-debug
-          #   timeoutSeconds: 10
-          #   initialDelaySeconds: 60
-          #   periodSeconds: 20
-          #   failureThreshold: 3
+          {{- include "ocis.livenessProbe" . | nindent 10 }}
 
           resources: {{ toYaml .resources | nindent 12 }}
 
           ports:
             - name: grpc
               containerPort: 8080
-            # TODO: This service does not currently provide a debug port, re-enable this once that is implemented
-            # - name: metrics-debug
-            #   containerPort: 8081
+            - name: metrics-debug
+              containerPort: 9270
 
           volumeMounts:
             - name: ocis-config-tmp
