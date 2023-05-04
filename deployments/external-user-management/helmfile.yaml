@@ -8,6 +8,7 @@ releases:
   - name: postgres
     namespace: postgres
     chart: bitnami/postgresql
+    version: 12.4.2
     values:
       - auth:
           postgrePassword: postgres
@@ -22,6 +23,7 @@ releases:
   - name: openldap
     namespace: openldap
     chart: openldap/openldap-stack-ha
+    version: 4.1.1
     values:
       - ltb-passwd:
           enabled: false
@@ -315,10 +317,10 @@ releases:
               MAY ( ownCloudUUID $ ocEducationClassType $ ocEducationExternalId $
                     ocMemberOfSchool $ ocEducationTeacherMember ) )
   - name: keycloak-operator
-    chart: ../../charts/keycloak-operator
+    chart: ./charts/keycloak-operator
     namespace: keycloak
   - name: keycloak
-    chart: ../../charts/keycloak
+    chart: ./charts/keycloak
     namespace: keycloak
     needs:
       - keycloak-operator
@@ -339,15 +341,6 @@ releases:
           oidcIdpInsecure: true
           ocisHttpApiInsecure: true
       - features:
-          #gdprReport:
-          #  integrations:
-          #    keycloak:
-          #      enabled: true
-          #      basePath: https://keycloak.owncloud.kube
-          #      clientID: export
-          #      clientRealm: master
-          #      userRealm: oCIS
-          #      insecure: true
           externalUserManagement:
             # -- Enables external user management (and disables internal user management).
             # Needs an external OpenID Connect Identity Provider and an external LDAP server.
@@ -386,13 +379,6 @@ releases:
                   id: ownCloudUUID
 
       - services:
-          idm:
-            persistence:
-              enabled: true
-              chownInitContainer: true
-              accessModes:
-                - ReadWriteOnce
-
           nats:
             persistence:
               enabled: true
@@ -420,12 +406,6 @@ releases:
               chownInitContainer: true
               accessModes:
                 - ReadWriteOnce
-            maintenance:
-              cleanUpExpiredUploads:
-                enabled: true
-                chownInitContainer: true
-                accessModes:
-                  - ReadWriteOnce
           store:
             persistence:
               enabled: true
