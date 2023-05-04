@@ -1,0 +1,497 @@
+repositories:
+  - name: openldap
+    url: https://jp-gouin.github.io/helm-openldap/
+  - name: bitnami
+    url: https://charts.bitnami.com/bitnami
+
+releases:
+  - name: postgres
+    namespace: postgres
+    chart: bitnami/postgresql
+    version: 12.4.2
+    values:
+      - auth:
+          postgrePassword: postgres
+          username: "keycloak"
+          password: "keycloak"
+          database: "keycloak"
+      - architecture: standalone
+      - primary:
+          persistence:
+            enabled: true
+            size: 8Gi
+  - name: openldap
+    namespace: openldap
+    chart: openldap/openldap-stack-ha
+    version: 4.1.1
+    values:
+      - ltb-passwd:
+          enabled: false
+      - replication:
+          enabled: true
+      - global:
+          ldapDomain: "owncloud.com"
+          adminPassword: admin # or existingSecret
+          configPassword: config
+      - customLdifFiles:
+          10_owncloud_root.ldif: |-
+            dn: dc=owncloud,dc=com
+            objectClass: organization
+            objectClass: dcObject
+            dc: owncloud
+            o: ownCloud
+
+            dn: ou=schools,dc=owncloud,dc=com
+            objectClass: organizationalUnit
+            ou: schools
+
+            dn: ou=users,dc=owncloud,dc=com
+            objectClass: organizationalUnit
+            ou: users
+
+            dn: ou=groups,dc=owncloud,dc=com
+            objectClass: organizationalUnit
+            ou: groups
+          20_users.ldif: |-
+            dn: uid=einstein,ou=users,dc=owncloud,dc=com
+            objectClass: inetOrgPerson
+            objectClass: organizationalPerson
+            objectClass: ownCloudUser
+            objectClass: person
+            objectClass: posixAccount
+            objectClass: top
+            uid: einstein
+            givenName: Albert
+            sn: Einstein
+            cn: einstein
+            displayName: Albert Einstein
+            description: A German-born theoretical physicist who developed the theory of relativity, one of the two pillars of modern physics (alongside quantum mechanics).
+            mail: einstein@example.org
+            uidNumber: 20000
+            gidNumber: 30000
+            homeDirectory: /home/einstein
+            ownCloudUUID: 4c510ada-c86b-4815-8820-42cdf82c3d51
+            userPassword:: e1NTSEF9TXJEcXpFNGdKbXZxbVRVTGhvWEZ1VzJBbkV3NWFLK3J3WTIvbHc9PQ==
+
+            dn: uid=marie,ou=users,dc=owncloud,dc=com
+            objectClass: inetOrgPerson
+            objectClass: organizationalPerson
+            objectClass: ownCloudUser
+            objectClass: person
+            objectClass: posixAccount
+            objectClass: top
+            uid: marie
+            givenName: Marie
+            sn: Curie
+            cn: marie
+            displayName: Marie Skłodowska Curie
+            description: A Polish and naturalized-French physicist and chemist who conducted pioneering research on radioactivity.
+            mail: marie@example.org
+            uidNumber: 20001
+            gidNumber: 30000
+            homeDirectory: /home/marie
+            ownCloudUUID: f7fbf8c8-139b-4376-b307-cf0a8c2d0d9c
+            userPassword:: e1NTSEF9UmFvQWs3TU9jRHBIUWY3bXN3MGhHNnVraFZQWnRIRlhOSUNNZEE9PQ==
+
+            dn: uid=richard,ou=users,dc=owncloud,dc=com
+            objectClass: inetOrgPerson
+            objectClass: organizationalPerson
+            objectClass: ownCloudUser
+            objectClass: person
+            objectClass: posixAccount
+            objectClass: top
+            uid: richard
+            givenName: Richard
+            sn: Feynman
+            cn: richard
+            displayName: Richard Phillips Feynman
+            description: An American theoretical physicist, known for his work in the path integral formulation of quantum mechanics, the theory of quantum electrodynamics, the physics of the superfluidity of supercooled liquid helium, as well as his work in particle physics for which he proposed the parton model.
+            mail: richard@example.org
+            uidNumber: 20002
+            gidNumber: 30000
+            homeDirectory: /home/richard
+            ownCloudUUID: 932b4540-8d16-481e-8ef4-588e4b6b151c
+            userPassword:: e1NTSEF9Z05LZTRreHdmOGRUREY5eHlhSmpySTZ3MGxSVUM1d1RGcWROTVE9PQ==
+
+            dn: uid=moss,ou=users,dc=owncloud,dc=com
+            objectClass: inetOrgPerson
+            objectClass: organizationalPerson
+            objectClass: ownCloudUser
+            objectClass: person
+            objectClass: posixAccount
+            objectClass: top
+            uid: moss
+            givenName: Maurice
+            sn: Moss
+            cn: moss
+            displayName: Maurice Moss
+            description: A worker in the IT Department of Reynholm Industries. Of all the working staff in the IT Department, he is the most hard-working, the most experienced, and the most capable of doing his job well. He puts a lot of effort into his work, however he does not get the credit he deserves.
+            mail: moss@example.org
+            uidNumber: 20003
+            gidNumber: 30000
+            homeDirectory: /home/moss
+            ownCloudUUID: 058bff95-6708-4fe5-91e4-9ea3d377588b
+            userPassword:: e1NTSEF9N0hEdTRoMkFDVExFWWt4U0RtSDZVQjhmUlpKRExDZDc=
+
+            dn: uid=admin,ou=users,dc=owncloud,dc=com
+            objectClass: inetOrgPerson
+            objectClass: organizationalPerson
+            objectClass: ownCloudUser
+            objectClass: person
+            objectClass: posixAccount
+            objectClass: top
+            uid: admin
+            givenName: Admin
+            sn: Admin
+            cn: admin
+            displayName: Admin
+            description: An admin for this oCIS instance.
+            mail: admin@example.org
+            uidNumber: 20004
+            gidNumber: 30000
+            homeDirectory: /home/admin
+            ownCloudUUID: ddc2004c-0977-11eb-9d3f-a793888cd0f8
+            userPassword:: e1NTSEF9UWhmaFB3dERydTUydURoWFFObDRMbzVIckI3TkI5Nmo=
+          30_groups.ldif: |-
+            dn: cn=users,ou=groups,dc=owncloud,dc=com
+            objectClass: groupOfNames
+            objectClass: ownCloud
+            objectClass: top
+            cn: users
+            description: Users
+            ownCloudUUID: 509a9dcd-bb37-4f4f-a01a-19dca27d9cfa
+            member: uid=einstein,ou=users,dc=owncloud,dc=com
+            member: uid=marie,ou=users,dc=owncloud,dc=com
+            member: uid=richard,ou=users,dc=owncloud,dc=com
+            member: uid=moss,ou=users,dc=owncloud,dc=com
+            member: uid=admin,ou=users,dc=owncloud,dc=com
+
+            dn: cn=sailing-lovers,ou=groups,dc=owncloud,dc=com
+            objectClass: groupOfNames
+            objectClass: ownCloud
+            objectClass: top
+            cn: sailing-lovers
+            description: Sailing lovers
+            ownCloudUUID: 6040aa17-9c64-4fef-9bd0-77234d71bad0
+            member: uid=einstein,ou=users,dc=owncloud,dc=com
+
+            dn: cn=violin-haters,ou=groups,dc=owncloud,dc=com
+            objectClass: groupOfNames
+            objectClass: ownCloud
+            objectClass: top
+            cn: violin-haters
+            description: Violin haters
+            ownCloudUUID: dd58e5ec-842e-498b-8800-61f2ec6f911f
+            member: uid=einstein,ou=users,dc=owncloud,dc=com
+
+            dn: cn=radium-lovers,ou=groups,dc=owncloud,dc=com
+            objectClass: groupOfNames
+            objectClass: ownCloud
+            objectClass: top
+            cn: radium-lovers
+            description: Radium lovers
+            ownCloudUUID: 7b87fd49-286e-4a5f-bafd-c535d5dd997a
+            member: uid=marie,ou=users,dc=owncloud,dc=com
+
+            dn: cn=polonium-lovers,ou=groups,dc=owncloud,dc=com
+            objectClass: groupOfNames
+            objectClass: ownCloud
+            objectClass: top
+            cn: polonium-lovers
+            description: Polonium lovers
+            ownCloudUUID: cedc21aa-4072-4614-8676-fa9165f598ff
+            member: uid=marie,ou=users,dc=owncloud,dc=com
+
+            dn: cn=quantum-lovers,ou=groups,dc=owncloud,dc=com
+            objectClass: groupOfNames
+            objectClass: ownCloud
+            objectClass: top
+            cn: quantum-lovers
+            description: Quantum lovers
+            ownCloudUUID: a1726108-01f8-4c30-88df-2b1a9d1cba1a
+            member: uid=richard,ou=users,dc=owncloud,dc=com
+
+            dn: cn=philosophy-haters,ou=groups,dc=owncloud,dc=com
+            objectClass: groupOfNames
+            objectClass: ownCloud
+            objectClass: top
+            cn: philosophy-haters
+            description: Philosophy haters
+            ownCloudUUID: 167cbee2-0518-455a-bfb2-031fe0621e5d
+            member: uid=richard,ou=users,dc=owncloud,dc=com
+
+            dn: cn=physics-lovers,ou=groups,dc=owncloud,dc=com
+            objectClass: groupOfNames
+            objectClass: ownCloud
+            objectClass: top
+            cn: physics-lovers
+            description: Physics lovers
+            ownCloudUUID: 262982c1-2362-4afa-bfdf-8cbfef64a06e
+            member: uid=einstein,ou=users,dc=owncloud,dc=com
+            member: uid=marie,ou=users,dc=owncloud,dc=com
+            member: uid=richard,ou=users,dc=owncloud,dc=com
+
+      - customSchemaFiles:
+          10_owncloud_schema.ldif: |-
+            # This LDIF files describes the ownCloud schema and can be used to
+            # add three optional attributes: ownCloudQuota, ownCloudUUID and ownCloudUserEnabled
+            # The ownCloudUUID is used to store a unique, non-reassignable, persistent identifier for users and groups
+            dn: cn=owncloud,cn=schema,cn=config
+            objectClass: olcSchemaConfig
+            cn: owncloud
+            olcObjectIdentifier: ownCloudOid 1.3.6.1.4.1.39430
+            olcAttributeTypes: ( ownCloudOid:1.1.1 NAME 'ownCloudQuota'
+              DESC 'User Quota (e.g. 2 GB)'
+              EQUALITY caseExactMatch
+              SUBSTR caseIgnoreSubstringsMatch
+              SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 SINGLE-VALUE )
+            olcAttributeTypes: ( ownCloudOid:1.1.2 NAME 'ownCloudUUID'
+              DESC 'A non-reassignable and persistent account ID)'
+              EQUALITY uuidMatch
+              SUBSTR caseIgnoreSubstringsMatch
+              SYNTAX 1.3.6.1.1.16.1 SINGLE-VALUE )
+            olcAttributeTypes: ( ownCloudOid:1.1.3 NAME 'oCExternalIdentity'
+              DESC 'A triple separated by "$" representing the objectIdentity resource type of the Graph API ( signInType $ issuer $ issuerAssignedId )'
+              EQUALITY caseIgnoreMatch
+              SUBSTR caseIgnoreSubstringsMatch
+              SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 )
+            olcAttributeTypes: ( ownCloudOid:1.1.4 NAME 'ownCloudUserEnabled'
+              DESC 'A boolean value indicating if ownCloudUser is enabled'
+              EQUALITY booleanMatch
+              SYNTAX 1.3.6.1.4.1.1466.115.121.1.7 SINGLE-VALUE)
+            olcAttributeTypes: ( ownCloudOid:1.1.5 NAME 'ownCloudUserType'
+              DESC 'User type (e.g. Member or Guest)'
+              EQUALITY caseIgnoreMatch
+              SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 SINGLE-VALUE )
+            olcObjectClasses: ( ownCloudOid:1.2.1 NAME 'ownCloud'
+              DESC 'ownCloud LDAP Schema'
+              AUXILIARY
+              MAY ( ownCloudQuota $ ownCloudUUID ) )
+            olcObjectClasses: ( ownCloudOid:1.2.2 NAME 'ownCloudUser'
+              DESC 'ownCloud User LDAP Schema'
+              SUP ownCloud
+              AUXILIARY
+              MAY ( ocExternalIdentity $ ownCloudUserEnabled $ ownCloudUserType ) )
+
+            # This LDIF files describes the ownCloud schema to be used for
+            # storing education related objects as exposed by the graph/education/ REST API
+            dn: cn=owncloud-education,cn=schema,cn=config
+            cn: owncloud-education
+            objectClass: olcSchemaConfig
+            olcObjectIdentifier: ownCloudEduOid 1.3.6.1.4.1.39430.42
+            olcAttributeTypes: ( ownCloudEduOid:1.1 NAME 'ocEducationSchoolNumber'
+              DESC 'numerical School identifier, might have leading zeros'
+              EQUALITY numericStringMatch
+              SYNTAX 1.3.6.1.4.1.1466.115.121.1.36 SINGLE-VALUE )
+            olcAttributeTypes: ( ownCloudEduOid:1.2 NAME 'ocMemberOfSchool'
+              DESC 'the UUID of the School(s) a user or group is assigned to'
+              EQUALITY uuidMatch
+              SYNTAX 1.3.6.1.1.16.1 )
+            olcAttributeTypes: ( ownCloudEduOid:1.3 NAME 'ocEducationClassType'
+              DESC 'type of the educationClass, e.g. be "class" or "course"'
+              EQUALITY caseIgnoreMatch
+              SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 SINGLE-VALUE )
+            olcAttributeTypes: ( ownCloudEduOid:1.4 NAME 'ocEducationExternalId'
+              DESC 'An externally issued ID for education related objects'
+              EQUALITY caseExactMatch
+              SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 SINGLE-VALUE )
+            olcAttributeTypes: ( ownCloudEduOid:1.5 NAME 'ocEducationTeacherMember'
+              DESC 'DN of teacher assigned to class'
+              SUP distinguishedName )
+            olcAttributeTypes: ( ownCloudEduOid:1.6 NAME 'ocEducationTosAcceptanceState'
+              DESC 'Attribute containing acceptance timestamps of TOS versions'
+              EQUALITY caseIgnoreMatch
+              SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 )
+            olcObjectClasses: ( ownCloudEduOid:2.1 NAME 'ocEducationSchool'
+              DESC 'auxiliary class for Schools'
+              AUXILIARY
+              MAY ( ownCloudUUID $ ocEducationSchoolNumber) )
+            olcObjectClasses: ( ownCloudEduOid:2.2 NAME 'ocEducationUser'
+              DESC 'auxiliary class for education users'
+              SUP ownCloudUser
+              AUXILIARY
+              MAY ( userClass $ ocMemberOfSchool $ ocEducationTosAcceptanceState) )
+            olcObjectClasses: ( ownCloudEduOid:2.3 NAME 'ocEducationClass'
+              DESC 'auxiliary class for education classes'
+              AUXILIARY
+              MAY ( ownCloudUUID $ ocEducationClassType $ ocEducationExternalId $
+                    ocMemberOfSchool $ ocEducationTeacherMember ) )
+  - name: keycloak-operator
+    chart: ./charts/keycloak-operator
+    namespace: keycloak
+  - name: keycloak
+    chart: ./charts/keycloak
+    namespace: keycloak
+    needs:
+      - keycloak-operator
+      - postgres/postgres
+  - name: ocis
+    chart: ../../charts/ocis
+    namespace: ocis
+    values:
+      - logging:
+          level: debug
+      - externalDomain: ocis.kube.owncloud.test
+      - ingress:
+          enabled: true
+          ingressClassName: nginx
+          annotations:
+            nginx.ingress.kubernetes.io/proxy-body-size: 1024m
+      - insecure:
+          oidcIdpInsecure: true
+          ocisHttpApiInsecure: true
+      - features:
+          externalUserManagement:
+            # -- Enables external user management (and disables internal user management).
+            # Needs an external OpenID Connect Identity Provider and an external LDAP server.
+            enabled: true
+            # -- UUID of the inital admin user.
+            # If the given value matches a user's value from `features.externalUserManagement.oidc.userIDClaim`, the admin role will be assigned.
+            # Consider that the UUID can be encoded in some LDAP deployment configurations like in .ldif files. These need to be decoded beforehand.
+            # Note: Enabling `roleAssignment` will disable `adminUUID`.
+            adminUUID: "ddc2004c-0977-11eb-9d3f-a793888cd0f8"
+            # OpenID Connect Identity provider related settings.
+            oidc:
+              # -- Issuer URI of the OpenID Connect Identity Provider.
+              # If the IDP doesn't have valid / trusted SSL certificates, certificate validation can be disabled with the `insecure.oidcIdpInsecure` option.
+              issuerURI: https://keycloak.kube.owncloud.test/realms/oCIS
+
+              # -- Specify the client ID which the web frontend will use
+              webClientID: web
+              # -- Claim to take an unique user identifier from. It will be used to look up the user on the LDAP server.
+              userIDClaim: ocis.user.uuid
+              # -- Attribute mapping of for the userIDClaim.
+              # Set to `userid` if the claim specified in `...oidc.userIDClaim` holds the value of the ldap user attribute specified in `...ldap.user.schema.id`.
+              # Set to `mail` if the claim specified in `...oidc.userIDClaim` holds the value of the ldap user attribute specified in  `...ldap.user.schema.mail`.
+              # Set to `username` if the claim specified in `...oidc.userIDClaim` holds the value of the ldap user attribute specified in `...ldap.user.schema.userName`.
+              userIDClaimAttributeMapping: userid
+
+            ldap:
+              writeable: true
+              uri: ldap://openldap.openldap.svc.cluster.local:389
+              insecure: true
+              bindDN: cn=admin,dc=owncloud,dc=com
+              user:
+                schema:
+                  id: ownCloudUUID
+              group:
+                schema:
+                  id: ownCloudUUID
+
+      - services:
+          nats:
+            persistence:
+              enabled: true
+              chownInitContainer: true
+              accessModes:
+                - ReadWriteOnce
+
+          search:
+            persistence:
+              enabled: true
+              chownInitContainer: true
+              accessModes:
+                - ReadWriteOnce
+
+          storagesystem:
+            persistence:
+              enabled: true
+              chownInitContainer: true
+              accessModes:
+                - ReadWriteOnce
+
+          storageusers:
+            persistence:
+              enabled: true
+              chownInitContainer: true
+              accessModes:
+                - ReadWriteOnce
+          store:
+            persistence:
+              enabled: true
+              chownInitContainer: true
+              accessModes:
+                - ReadWriteOnce
+
+          thumbnails:
+            persistence:
+              enabled: true
+              chownInitContainer: true
+              accessModes:
+                - ReadWriteOnce
+
+      - extraResources:
+          - |
+            apiVersion: v1
+            kind: Secret
+            metadata:
+              name: jwt-secret
+            type: Opaque
+            data:
+              jwt-secret: {{ randAlphaNum 30 | b64enc | quote }}
+          - |
+            apiVersion: v1
+            kind: Secret
+            metadata:
+              name: machine-auth-api-key
+            type: Opaque
+            data:
+              machine-auth-api-key: {{ randAlphaNum 30 | b64enc | quote }}
+          - |
+            apiVersion: v1
+            kind: Secret
+            metadata:
+              name: storage-system-jwt-secret
+            type: Opaque
+            data:
+              storage-system-jwt-secret: {{ randAlphaNum 30 | b64enc | quote }}
+          - |
+            apiVersion: v1
+            kind: Secret
+            metadata:
+              name: storage-system
+            type: Opaque
+            data:
+              api-key: {{ randAlphaNum 30 | b64enc | quote }}
+              user-id: {{ uuidv4 | b64enc | quote }}
+          - |
+            apiVersion: v1
+            kind: Secret
+            metadata:
+              name: transfer-secret
+            type: Opaque
+            data:
+              transfer-secret: {{ randAlphaNum 30 | b64enc | quote }}
+          - |
+            apiVersion: v1
+            kind: Secret
+            metadata:
+              name: thumbnails-transfer-secret
+            type: Opaque
+            data:
+              thumbnails-transfer-secret: {{ randAlphaNum 30 | b64enc | quote }}
+
+          - |
+            apiVersion: v1
+            kind: Secret
+            metadata:
+              name: ldap-bind-secrets
+            type: Opaque
+            data:
+              reva-ldap-bind-password: YWRtaW4=
+
+          - |
+            apiVersion: v1
+            kind: ConfigMap
+            metadata:
+              name: storage-users
+            data:
+              storage-uuid: 1284d238-aa92-42ce-bdc4-0b0000009157
+
+          - |
+            apiVersion: v1
+            kind: ConfigMap
+            metadata:
+              name: graph
+            data:
+              application-id: 6daae694-6fc4-4421-82a5-7a9c7d7e58b4
