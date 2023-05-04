@@ -74,6 +74,10 @@ spec:
 
           resources: {{ toYaml .resources | nindent 12 }}
 
+          ports:
+            - name: metrics-debug
+              containerPort: 9229
+
           volumeMounts:
             - name: ocis-config-tmp
               mountPath: /etc/ocis # we mount that volume only to apply fsGroup to that path
