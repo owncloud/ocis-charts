@@ -10,7 +10,7 @@ maintainers:
     url: https://owncloud.com
 type: application
 version: 0.2.0
-appVersion: 3.0.0-rc.1
+appVersion: 3.0.0-rc.2
 # supported Kubernetes versions
 # should only contain non EOL versions from https://kubernetes.io/releases/patch-releases/#non-active-branch-history
 # if this changes, also kubernetesVersions in .drone.star needs to be changed
