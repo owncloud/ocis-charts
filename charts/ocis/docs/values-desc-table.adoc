@@ -1798,7 +1798,7 @@ see detailed service configuration options below
 a| [subs=-attributes]
 +object+
 a| [subs=-attributes]
-`{"cleanUpOldThumbnails":{"deleteBefore":30,"enabled":false,"schedule":"* * * * *"}}`
+`{"cleanUpOldThumbnails":{"deleteBefore":30,"enabled":false,"method":"atime","schedule":"* * * * *"}}`
 | Maintenance configuration for cleanup jobs.
 | services.thumbnails.maintenance.cleanUpOldThumbnails.deleteBefore
 a| [subs=-attributes]
@@ -1812,6 +1812,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `false`
 | Enables a job, that cleans up old thumbnails. Requires persistence to be enabled.
+| services.thumbnails.maintenance.cleanUpOldThumbnails.method
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"atime"`
+| Method to use with BusyBox "find" for finding old thumbnails. Can be mtime, atime or ctime.
 | services.thumbnails.maintenance.cleanUpOldThumbnails.schedule
 a| [subs=-attributes]
 +string+

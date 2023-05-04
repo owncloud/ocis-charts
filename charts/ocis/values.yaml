@@ -1140,6 +1140,8 @@ services:
         schedule: "* * * * *"
         # -- Setting that makes the command delete all thumbnails older than the value. The value is a number in days.
         deleteBefore: 30
+        # -- Method to use with BusyBox "find" for finding old thumbnails. Can be mtime, atime or ctime.
+        method: atime
 
   # -- USERLOG service.
   # @default -- see detailed service configuration options below

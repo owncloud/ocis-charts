@@ -24,12 +24,11 @@ spec:
 
         spec:
           restartPolicy: Never
+          {{- include "ocis.securityContextAndtopologySpreadConstraints" . | nindent 10 }}
           containers:
             - name: thumbnails-cleanup
               image: busybox
-              securityContext:
-                runAsNonRoot: false
-                runAsUser: 0
+              {{- include "ocis.containerSecurityContext" . | nindent 14 }}
               command: [ "/script/thumbnails-cleanup-script.sh" ]
               volumeMounts:
               - name: thumbnails-data
@@ -53,6 +52,9 @@ data:
   thumbnails-cleanup-script.sh: |
     #!/bin/sh
 
-    find /var/lib/ocis/thumbnails -atime {{ .Values.services.thumbnails.maintenance.cleanUpOldThumbnails.deleteBefore }} -exec rm -rf {} \;
+    find /var/lib/ocis/thumbnails \
+      -{{ .Values.services.thumbnails.maintenance.cleanUpOldThumbnails.method }} \
+      {{ .Values.services.thumbnails.maintenance.cleanUpOldThumbnails.deleteBefore }} \
+      -exec rm -rf {} \;
     true
 {{ end }}
