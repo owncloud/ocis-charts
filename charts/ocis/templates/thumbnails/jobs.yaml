@@ -29,7 +29,7 @@ spec:
             - name: thumbnails-cleanup
               image: busybox
               {{- include "ocis.containerSecurityContext" . | nindent 14 }}
-              command: [ "/script/thumbnails-cleanup-script.sh" ]
+              command: [ "/bin/sh", "/script/thumbnails-cleanup-script.sh" ]
               volumeMounts:
               - name: thumbnails-data
                 mountPath: /var/lib/ocis
