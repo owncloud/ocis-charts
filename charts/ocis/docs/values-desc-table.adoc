@@ -1794,6 +1794,30 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 see detailed service configuration options below
 | THUMBNAILS service.
+| services.thumbnails.maintenance
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{"cleanUpOldThumbnails":{"deleteBefore":30,"enabled":false,"schedule":"* * * * *"}}`
+| Maintenance configuration for cleanup jobs.
+| services.thumbnails.maintenance.cleanUpOldThumbnails.deleteBefore
+a| [subs=-attributes]
++int+
+a| [subs=-attributes]
+`30`
+| Setting that makes the command delete all thumbnails older than the value. The value is a number in days.
+| services.thumbnails.maintenance.cleanUpOldThumbnails.enabled
+a| [subs=-attributes]
++bool+
+a| [subs=-attributes]
+`false`
+| Enables a job, that cleans up old thumbnails. Requires persistence to be enabled.
+| services.thumbnails.maintenance.cleanUpOldThumbnails.schedule
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"* * * * *"`
+| Cron pattern for the job to be run. Defaults to every minute.
 | services.thumbnails.persistence
 a| [subs=-attributes]
 +object+

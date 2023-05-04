@@ -1131,6 +1131,15 @@ services:
     resources: {}
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
     podDisruptionBudget: {}
+    # -- Maintenance configuration for cleanup jobs.
+    maintenance:
+      cleanUpOldThumbnails:
+        # -- Enables a job, that cleans up old thumbnails. Requires persistence to be enabled.
+        enabled: false
+        # -- Cron pattern for the job to be run. Defaults to every minute.
+        schedule: "* * * * *"
+        # -- Setting that makes the command delete all thumbnails older than the value. The value is a number in days.
+        deleteBefore: 30
 
   # -- USERLOG service.
   # @default -- see detailed service configuration options below

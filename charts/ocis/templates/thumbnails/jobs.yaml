@@ -1,0 +1,58 @@
+{{- if and .Values.services.thumbnails.persistence.enabled .Values.services.thumbnails.maintenance.cleanUpOldThumbnails.enabled }}
+{{- include "ocis.appNames" (dict "scope" . "appName" "appNameThumbnails" "appNameSuffix" "") -}}
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: thumbnails-cleanup
+  namespace: {{ template "ocis.namespace" . }}
+  labels:
+    {{- include "ocis.labels" . | nindent 4 }}
+spec:
+  schedule: "{{ .Values.services.thumbnails.maintenance.cleanUpOldThumbnails.schedule }}"
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 3
+  concurrencyPolicy: Forbid
+  jobTemplate:
+    spec:
+      parallelism: 1
+      template:
+        metadata:
+          labels:
+            app: thumbnails-cleanup
+            {{- include "ocis.labels" . | nindent 12 }}
+
+        spec:
+          restartPolicy: Never
+          containers:
+            - name: thumbnails-cleanup
+              image: busybox
+              securityContext:
+                runAsNonRoot: false
+                runAsUser: 0
+              command: [ "/script/thumbnails-cleanup-script.sh" ]
+              volumeMounts:
+              - name: thumbnails-data
+                mountPath: /var/lib/ocis
+              - name: script
+                mountPath: "/script"
+          volumes:
+            - name: thumbnails-data
+              persistentVolumeClaim:
+                claimName: {{ .appName }}-data
+            - name: script
+              configMap:
+                name: thumbnails-cleanup-script-configmap
+                defaultMode: 0500
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: thumbnails-cleanup-script-configmap
+data:
+  thumbnails-cleanup-script.sh: |
+    #!/bin/sh
+
+    find /var/lib/ocis/thumbnails -atime {{ .Values.services.thumbnails.maintenance.cleanUpOldThumbnails.deleteBefore }} -exec rm -rf {} \;
+    true
+{{ end }}
