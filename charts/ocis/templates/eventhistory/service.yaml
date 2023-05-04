@@ -15,6 +15,6 @@ spec:
     - name: grpc
       port: 8080
       protocol: TCP
-    # - name: metrics-debug
-    #   port: 8081
-    #   protocol: TCP
+    - name: metrics-debug
+      port: 9270
+      protocol: TCP

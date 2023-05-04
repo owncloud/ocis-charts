@@ -43,6 +43,11 @@ spec:
             # - name: AUDIT_TRACING_COLLECTOR
             #   value: {{ .Values.tracing.collector | quote }}
 
+            - name: AUDIT_DEBUG_PPROF
+              value: {{ .Values.debug.profiling | quote }}
+            - name: AUDIT_DEBUG_ADDR
+              value: 0.0.0.0:9229
+
             - name: AUDIT_EVENTS_ENDPOINT
             {{- if not .Values.messagingSystem.external.enabled }}
               value: {{ .appNameNats }}:9233
@@ -65,7 +70,13 @@ spec:
             - name: AUDIT_LOG_TO_CONSOLE
               value: "true"
 
+          {{- include "ocis.livenessProbe" . | nindent 10 }}
+
           resources: {{ toYaml .resources | nindent 12 }}
+
+          ports:
+            - name: metrics-debug
+              containerPort: 9229
 
           volumeMounts:
             - name: ocis-config-tmp

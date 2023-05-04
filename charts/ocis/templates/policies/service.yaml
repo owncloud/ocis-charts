@@ -1,4 +1,5 @@
-{{- include "ocis.appNames" (dict "scope" . "appName" "appNameUserlog" "appNameSuffix" "") -}}
+{{ if .Values.features.policies.enabled }}
+{{- include "ocis.appNames" (dict "scope" . "appName" "appNamePolicies" "appNameSuffix" "") -}}
 apiVersion: v1
 kind: Service
 metadata:
@@ -12,9 +13,7 @@ spec:
   selector:
     app: {{ .appName }}
   ports:
-    - name: http
-      port: 8080
-      protocol: TCP
     - name: metrics-debug
-      port: 9210
+      port: 9129
       protocol: TCP
+{{ end }}

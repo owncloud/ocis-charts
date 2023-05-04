@@ -16,8 +16,7 @@ spec:
     - name: ldaps
       port: 9235
       protocol: TCP
-    # TODO: IDM does not currently provide a debug port, re-enable this once that is implemented
-    # - name: metrics-debug
-    #   port: 9239
-    #   protocol: TCP
+    - name: metrics-debug
+      port: 9239
+      protocol: TCP
 {{- end }}
