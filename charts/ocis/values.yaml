@@ -309,6 +309,14 @@ features:
         filter:
         # -- The object class to use for groups in the default group search filter like `groupOfNames`.
         objectClass: groupOfNames
+      # -- When using external user management, users can be set as disabled by either belonging to a group or using an ldap attribute.
+      disableUsers:
+        # -- Enables disabling users if configured as "attribute" or "group"
+        disableMechanism: none
+        # -- Attribute to use for disabling users.
+        userEnabledAttribute: ownCloudUserEnabled
+        # -- Group that a user can be added to and by that being marked as disabled.
+        disabledUsersGroupDN: "cn=DisabledUsersGroup,ou=groups,o=libregraph-idm"
   # GDPR report related settings.
   gdprReport:
     # -- Enables the GDPR report feature

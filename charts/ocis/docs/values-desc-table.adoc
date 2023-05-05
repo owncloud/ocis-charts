@@ -240,6 +240,30 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `true`
 | Set only to false, if the certificate of your LDAP secure service is not trusted. If set to false, you need to put the CA cert of the LDAP secure server into the secret referenced by "ldapCaRef"
+| features.externalUserManagement.ldap.disableUsers
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{"disableMechanism":"none","disabledUsersGroupDN":"cn=DisabledUsersGroup,ou=groups,o=libregraph-idm","userEnabledAttribute":"ownCloudUserEnabled"}`
+| When using external user management, users can be set as disabled by either belonging to a group or using an ldap attribute.
+| features.externalUserManagement.ldap.disableUsers.disableMechanism
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"none"`
+| Enables disabling users if configured as "attribute" or "group"
+| features.externalUserManagement.ldap.disableUsers.disabledUsersGroupDN
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"cn=DisabledUsersGroup,ou=groups,o=libregraph-idm"`
+| Group that a user can be added to and by that being marked as disabled.
+| features.externalUserManagement.ldap.disableUsers.userEnabledAttribute
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"ownCloudUserEnabled"`
+| Attribute to use for disabling users.
 | features.externalUserManagement.ldap.group.baseDN
 a| [subs=-attributes]
 +string+
