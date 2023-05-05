@@ -126,6 +126,13 @@ spec:
               value: {{ .Values.features.externalUserManagement.ldap.user.schema.userName | quote }}
             - name: LDAP_GROUP_SCHEMA_GROUPNAME
               value: {{ .Values.features.externalUserManagement.ldap.group.schema.groupName | quote }}
+
+            - name: OCIS_LDAP_USER_ENABLED_ATTRIBUTE
+              value: {{ .Values.features.externalUserManagement.ldap.disableUsers.userEnabledAttribute | quote }}
+            - name: OCIS_LDAP_DISABLE_USER_MECHANISM
+              value: {{ .Values.features.externalUserManagement.ldap.disableUsers.disableMechanism | quote }}
+            - name: OCIS_LDAP_DISABLED_USERS_GROUP_DN
+              value: {{ .Values.features.externalUserManagement.ldap.disableUsers.disabledUsersGroupDN | quote }}
             {{ end }}
 
             # cache
