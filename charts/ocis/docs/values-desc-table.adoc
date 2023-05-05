@@ -1565,7 +1565,7 @@ a| [subs=-attributes]
 +int+
 a| [subs=-attributes]
 `86400`
-| Duration in seconds after which uploads will expire.
+| Duration in seconds after which uploads will expire.    WARNING: Setting this to a low number will lead to uploads being cancelled before they are finished and returning a 403 to the user.
 | services.storageusers.maintenance.purgeExpiredTrashBinItems.enabled
 a| [subs=-attributes]
 +bool+
