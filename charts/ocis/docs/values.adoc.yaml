@@ -1014,6 +1014,7 @@ services:
         # -- Cron pattern for the job to be run. Defaults to every minute.
         schedule: "* * * * *"
         # -- Duration in seconds after which uploads will expire.
+        #    WARNING: Setting this to a low number will lead to uploads being cancelled before they are finished and returning a 403 to the user.
         uploadExpiration: 86400
       # Expired trash bin items can be cleaned up automatically by enabling the purge exired trash bin items job.
       purgeExpiredTrashBinItems:
