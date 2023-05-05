@@ -270,6 +270,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `"ou=groups,dc=owncloud,dc=com"`
 | Search base DN for looking up LDAP groups.
+| features.externalUserManagement.ldap.group.createBaseDN
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| BaseDN where new groups are created and are considered as editable. All existing groups with a DN outside the `features.externalUserManagement.ldap.group.editBaseDN` will be treated as read-only groups. Defaults to the value `features.externalUserManagement.ldap.group.baseDN`. Only applicable if `features.externalUserManagement.ldap.writeable` is set to `true`
 | features.externalUserManagement.ldap.group.filter
 a| [subs=-attributes]
 +string+
