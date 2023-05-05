@@ -1,2 +1,3 @@
 {{- include "ocis.appNames" (dict "scope" . "appName" "appNameSharing" "appNameSuffix" "") -}}
+{{- $_ := set . "autoscaling" (default (default (dict) .Values.autoscaling) .Values.services.sharing.autoscaling) -}}
 {{ include "ocis.pdb" . }}

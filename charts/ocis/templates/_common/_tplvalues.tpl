@@ -113,7 +113,7 @@ spec:
 {{- end -}}
 
 {{- define "ocis.hpa" -}}
-{{- if .Values.autoscaling.enabled }}
+{{- if .autoscaling.enabled }}
 apiVersion: {{ template "common.apiversion.hpa" . }}
 kind: HorizontalPodAutoscaler
 {{ include "ocis.metadata" . }}
@@ -122,10 +122,10 @@ spec:
     apiVersion: apps/v1
     kind: Deployment
     name: {{ .appName }}
-  minReplicas: {{ .Values.autoscaling.minReplicas }}
-  maxReplicas: {{ .Values.autoscaling.maxReplicas }}
+  minReplicas: {{ .autoscaling.minReplicas }}
+  maxReplicas: {{ .autoscaling.maxReplicas }}
   metrics:
-{{ toYaml .Values.autoscaling.metrics | indent 4 }}
+{{ toYaml .autoscaling.metrics | indent 4 }}
 {{- end }}
 {{- end -}}
 
