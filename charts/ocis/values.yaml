@@ -304,7 +304,7 @@ features:
         # -- Search base DN for looking up LDAP groups.
         baseDN: ou=groups,dc=owncloud,dc=com
         # -- BaseDN where new groups are created and are considered as editable.
-        # All existing groups with a DN outside the `features.externalUserManagement.ldap.group.editBaseDN` will be treated as read-only groups.
+        # All existing groups with a DN outside the `features.externalUserManagement.ldap.group.createBaseDN` will be treated as read-only groups.
         # Defaults to the value `features.externalUserManagement.ldap.group.baseDN`.
         # Only applicable if `features.externalUserManagement.ldap.writeable` is set to `true`
         createBaseDN: ""
