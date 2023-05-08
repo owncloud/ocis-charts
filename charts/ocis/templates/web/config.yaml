@@ -19,9 +19,9 @@ data:
         scripts:
           {{- toYaml .Values.services.web.config.scripts | nindent 10 }}
         {{- end }}
-        {{- if gt (len .Values.services.web.config.translations) 0 }}
+        {{- if gt (len .Values.services.web.config.customTranslations) 0 }}
         custom_translations:
-          {{- toYaml .Values.services.web.config.translations | nindent 10 }}
+          {{- toYaml .Values.services.web.config.customTranslations | nindent 10 }}
         {{- end }}
         {{- if gt (len .Values.services.web.config.apps) 0 }}
         apps:
@@ -36,7 +36,6 @@ data:
           {{- toYaml .Values.services.web.config.applications | nindent 10 }}
         {{- end }}
         options:
-
           disableFeedbackLink: {{ not .Values.services.web.config.feedbackLink.enabled }}
           {{- if .Values.services.web.config.feedbackLink.enabled }}
           {{- if (or .Values.services.web.config.feedbackLink.href .Values.services.web.config.feedbackLink.ariaLabel .Values.services.web.config.feedbackLink.description) }}
@@ -52,7 +51,6 @@ data:
             {{- end }}
           {{- end }}
           {{- end }}
-
           {{- if gt (len .Values.services.web.config.previewFileMimeTypes) 0 }}
           previewFileMimeTypes:
             {{- toYaml .Values.services.web.config.previewFileMimeTypes | nindent 12 }}

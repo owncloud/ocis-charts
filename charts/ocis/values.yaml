@@ -204,10 +204,11 @@ features:
       # -- Issuer URI of the OpenID Connect Identity Provider.
       # If the IDP doesn't have valid / trusted SSL certificates, certificate validation can be disabled with the `insecure.oidcIdpInsecure` option.
       issuerURI: https://idp.owncloud.test/realms/ocis
-      # -- Link to the OIDC provider's user accessible session management. This will to the user on the personal account page.
+      # -- Link to the OIDC provider's user accessible session management. This will be shown to the user on the personal account page.
       # When using Keycloak with the a realm named "ocis" this could point to eg. https://keycloak.owncloud.test/realms/ocis/account/
       sessionManagementLink: ""
-
+      # -- Link to the OIDC provider's user accessible account editing page. This will be shown to the user on the personal account page.
+      # When using Keycloak with the a realm named "ocis" this could point to eg. https://keycloak.owncloud.test/realms/ocis/account/
       editAccountLink: ""
       # -- Specify the client ID which the web frontend will use
       webClientID: web
@@ -1247,7 +1248,6 @@ services:
       contextHelpersReadMore:
         # -- Specifies whether the “Read more” link should be displayed or not.
         enabled: true
-
       feedbackLink:
         # -- Enables the feedback link in the Web UI.
         enabled: true
@@ -1255,9 +1255,11 @@ services:
         href: ""
         # -- Screen reader accessible label for the feedback link.
         ariaLabel: ""
+        # -- Description to be shown for the feedback link.
         description: ""
-
-      previewFileMimeTypes: []
+      # -- Specifies which mimeTypes will be previewed in the UI.
+      previewFileMimeTypes:
+        []
         # - image/gif
         # - image/png
         # - image/jpeg
@@ -1265,19 +1267,19 @@ services:
         # - image/tiff
         # - image/bmp
         # - image/x-ms-bmp
-
       # -- Configure the {"styles": []} section in the Web config.json.
-      styles: []
+      styles:
+        []
         # - href: /theme/foo.css
       # -- Configure the {"styles": []} section in the Web config.json.
-      scripts: []
+      scripts:
+        []
         # - src: /theme/foo.js
         #   async: true
-      # -- COnfigure custom translations
-      translations: []
-        # - url: https://foo.bar
-      # -- Configure the {"custom_translations": []} section in the Web config.json.
-      custom_translations: []
+      # -- Configure custom translations
+      customTranslations:
+        []
+        # - url: https://ocis.kube.owncloud.test/custom_translations.json
       # -- Configure the {"apps": []} section in the Web config.json.
       apps:
         []
@@ -1311,12 +1313,12 @@ services:
         #       - image/x-ms-bmp
         # - id: settings
         #   path: /settings.js
+      # Theme settings
       theme:
         # -- URL to load themes from. Will be prepended to the theme path. Defaults to the value of "externalDomain".
         server: ""
         # -- URL path to load themes from. The theme server will be prepended. Defaults to the ownCloud Web default theme.
         path: ""
-
 
     # -- Persistence settings.
     # @default -- see detailed persistence configuration options below
