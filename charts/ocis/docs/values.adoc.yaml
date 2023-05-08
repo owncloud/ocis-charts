@@ -944,8 +944,6 @@ services:
     resources: {}
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
     podDisruptionBudget: {}
-    # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
-    autoscaling: {}
 
   # -- STORAGE-PUBLICLINK service.
   # @default -- see detailed service configuration options below

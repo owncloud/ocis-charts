@@ -1518,12 +1518,6 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 see detailed service configuration options below
 | SHARING service.
-| services.sharing.autoscaling
-a| [subs=-attributes]
-+object+
-a| [subs=-attributes]
-`{}`
-| Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
 | services.sharing.podDisruptionBudget
 a| [subs=-attributes]
 +object+
