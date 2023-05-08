@@ -484,6 +484,8 @@ features:
     #         current := collection[_]
     #         endswith(source, current)
     #     }
+  # -- Edition of ownCloud Infinite Scale.
+  edition: "Community"
 # Ingress for oCIS.
 ingress:
   # -- Enables the Ingress.

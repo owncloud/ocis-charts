@@ -180,6 +180,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `false`
 | Create demo users on the first startup. Not recommended for production installations.
+| features.edition
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"Community"`
+| Edition of ownCloud Infinite Scale.
 | features.emailNotifications.enabled
 a| [subs=-attributes]
 +bool+

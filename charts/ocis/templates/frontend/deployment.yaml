@@ -86,6 +86,9 @@ spec:
               value: {{ join "," .Values.cache.nodes | quote }}
             {{- end }}
 
+            - name: OCIS_EDITION
+              value: {{ .Values.features.edition | quote }}
+
             - name: FRONTEND_MACHINE_AUTH_API_KEY
               valueFrom:
                 secretKeyRef:
