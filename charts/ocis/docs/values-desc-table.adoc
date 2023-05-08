@@ -59,13 +59,13 @@ a| [subs=-attributes]
 +string+
 a| [subs=-attributes]
 `""`
-| Optional reference to an existing web theme assets config. Will be mounted to /var/lib/ocis/web/assets/themes/owncloud/assets for Web.
+| Optional reference to an existing web theme assets config. Will be mounted to /var/lib/ocis/web/assets/themes/owncloud/assets for Web. Hint: if you set this, you'll no longer be able to change the instance logo via the Web UI.
 | configRefs.webThemeConfigRef
 a| [subs=-attributes]
 +string+
 a| [subs=-attributes]
 `""`
-| Optional reference to an existing web theme config. Will be mounted to /var/lib/ocis/web/assets/themes/owncloud for Web.
+| Optional reference to an existing web theme config. Will be mounted to /var/lib/ocis/web/assets/themes/owncloud for Web. Hint: if you set this, you'll no longer be able to change the instance logo via the Web UI.
 | debug.profiling
 a| [subs=-attributes]
 +bool+

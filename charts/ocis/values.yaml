@@ -515,9 +515,13 @@ configRefs:
   storageusersConfigRef: "storage-users"
   # -- Reference to an existing graph config.
   graphConfigRef: "graph"
-  # -- Optional reference to an existing web theme config. Will be mounted to /var/lib/ocis/web/assets/themes/owncloud for Web.
+  # -- Optional reference to an existing web theme config.
+  # Will be mounted to /var/lib/ocis/web/assets/themes/owncloud for Web.
+  # Hint: if you set this, you'll no longer be able to change the instance logo via the Web UI.
   webThemeConfigRef: ""
-  # -- Optional reference to an existing web theme assets config. Will be mounted to /var/lib/ocis/web/assets/themes/owncloud/assets for Web.
+  # -- Optional reference to an existing web theme assets config.
+  # Will be mounted to /var/lib/ocis/web/assets/themes/owncloud/assets for Web.
+  # Hint: if you set this, you'll no longer be able to change the instance logo via the Web UI.
   webThemeAssetsConfigRef: ""
 
 # References to secrets.
