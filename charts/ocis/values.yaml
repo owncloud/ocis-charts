@@ -515,6 +515,10 @@ configRefs:
   storageusersConfigRef: "storage-users"
   # -- Reference to an existing graph config.
   graphConfigRef: "graph"
+  # -- Optional reference to an existing web theme config. Will be mounted to /var/lib/ocis/web/assets/themes/owncloud for Web.
+  webThemeConfigRef: ""
+  # -- Optional reference to an existing web theme assets config. Will be mounted to /var/lib/ocis/web/assets/themes/owncloud/assets for Web.
+  webThemeAssetsConfigRef: ""
 
 # References to secrets.
 # The secrets need to be manually created.

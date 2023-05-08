@@ -54,6 +54,18 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `"storage-users"`
 | Reference to an existing storage-users config.
+| configRefs.webThemeAssetsConfigRef
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Optional reference to an existing web theme assets config. Will be mounted to /var/lib/ocis/web/assets/themes/owncloud/assets for Web.
+| configRefs.webThemeConfigRef
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Optional reference to an existing web theme config. Will be mounted to /var/lib/ocis/web/assets/themes/owncloud for Web.
 | debug.profiling
 a| [subs=-attributes]
 +bool+

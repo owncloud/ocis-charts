@@ -109,6 +109,14 @@ spec:
           volumeMounts:
             - name: configs
               mountPath: /etc/ocis
+            {{- if .Values.configRefs.webThemeConfigRef }}
+            - name: theme
+              mountPath: /var/lib/ocis/web/assets/themes/owncloud
+            {{- end }}
+            {{- if .Values.configRefs.webThemeAssetsConfigRef }}
+            - name: theme-assets
+              mountPath: /var/lib/ocis/web/assets/themes/owncloud/assets
+            {{- end }}
             - name: web-data
               mountPath: /var/lib/ocis
 
@@ -117,6 +125,16 @@ spec:
         - name: configs
           configMap:
             name: {{ .appName }}-config
+        {{- if .Values.configRefs.webThemeConfigRef }}
+        - name: theme
+          configMap:
+            name: {{ .Values.configRefs.webThemeConfigRef | quote }}
+        {{- end }}
+        {{- if .Values.configRefs.webThemeAssetsConfigRef }}
+        - name: theme-assets
+          configMap:
+            name: {{ .Values.configRefs.webThemeAssetsConfigRef | quote }}
+        {{- end }}
         - name: web-data
           {{ if .Values.services.web.persistence.enabled }}
           persistentVolumeClaim:
