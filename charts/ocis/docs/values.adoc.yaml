@@ -670,6 +670,8 @@ services:
     resources: {}
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
     podDisruptionBudget: {}
+    # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
+    autoscaling: {}
 
   # -- AUTH BASIC service. Not used if `features.externalUserManagement.enabled` equals `true`.
   # @default -- see detailed service configuration options below
@@ -678,6 +680,8 @@ services:
     resources: {}
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
     podDisruptionBudget: {}
+    # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
+    autoscaling: {}
 
   # -- AUTH MACHINE service.
   # @default -- see detailed service configuration options below
@@ -686,6 +690,8 @@ services:
     resources: {}
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
     podDisruptionBudget: {}
+    # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
+    autoscaling: {}
 
   # -- ANTIVIRUS service. Not used if `features.virusscan.enabled` equals `false`.
   # @default -- see detailed service configuration options below
@@ -694,6 +700,8 @@ services:
     resources: {}
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
     podDisruptionBudget: {}
+    # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
+    autoscaling: {}
 
   # -- EVENT HISTORY service.
   # @default -- see detailed service configuration options below
@@ -712,6 +720,8 @@ services:
       # - "{{ .appNameNats }}:9233"
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
     podDisruptionBudget: {}
+    # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
+    autoscaling: {}
 
   # -- FRONTEND service.
   # @default -- see detailed service configuration options below
@@ -720,6 +730,8 @@ services:
     resources: {}
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
     podDisruptionBudget: {}
+    # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
+    autoscaling: {}
 
   # -- GATEWAY service.
   # @default -- see detailed service configuration options below
@@ -728,6 +740,8 @@ services:
     resources: {}
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
     podDisruptionBudget: {}
+    # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
+    autoscaling: {}
 
   # -- GRAPH service.
   # @default -- see detailed service configuration options below
@@ -736,6 +750,8 @@ services:
     resources: {}
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
     podDisruptionBudget: {}
+    # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
+    autoscaling: {}
 
   # -- GROUPS service.
   # @default -- see detailed service configuration options below
@@ -744,6 +760,8 @@ services:
     resources: {}
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
     podDisruptionBudget: {}
+    # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
+    autoscaling: {}
 
   # -- IDM service. Not used if `features.externalUserManagement.enabled` equals `true`.
   # @default -- see detailed service configuration options below
@@ -828,6 +846,8 @@ services:
     resources: {}
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
     podDisruptionBudget: {}
+    # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
+    autoscaling: {}
 
   # -- OCDAV service.
   # @default -- see detailed service configuration options below
@@ -836,6 +856,8 @@ services:
     resources: {}
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
     podDisruptionBudget: {}
+    # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
+    autoscaling: {}
 
   # -- OCS service.
   # @default -- see detailed service configuration options below
@@ -844,12 +866,22 @@ services:
     resources: {}
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
     podDisruptionBudget: {}
+    # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
+    autoscaling: {}
+
+  # -- POLICIES service.
+  # @default -- see detailed service configuration options below
+  policies:
+    # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
+    autoscaling: {}
 
   # -- POSTPROCESSING service.
   # @default -- see detailed service configuration options below
   postprocessing:
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
+    # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
+    autoscaling: {}
 
   # -- PROXY service.
   # @default -- see detailed service configuration options below
@@ -858,6 +890,8 @@ services:
     resources: {}
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
     podDisruptionBudget: {}
+    # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
+    autoscaling: {}
 
   # -- SEARCH service.
   # @default -- see detailed service configuration options below
@@ -913,6 +947,8 @@ services:
     resources: {}
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
     podDisruptionBudget: {}
+    # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
+    autoscaling: {}
 
   # -- SHARING service.
   # @default -- see detailed service configuration options below
@@ -929,6 +965,8 @@ services:
     resources: {}
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
     podDisruptionBudget: {}
+    # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
+    autoscaling: {}
 
   # -- STORAGE-SHARES service.
   # @default -- see detailed service configuration options below
@@ -937,6 +975,8 @@ services:
     resources: {}
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
     podDisruptionBudget: {}
+    # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
+    autoscaling: {}
 
   # -- STORAGE-SYSTEM service.
   # @default -- see detailed service configuration options below
@@ -974,6 +1014,8 @@ services:
     resources: {}
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
     podDisruptionBudget: {}
+    # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
+    autoscaling: {}
 
   # -- STORAGE-USERS service.
   # @default -- see detailed service configuration options below
@@ -1075,6 +1117,8 @@ services:
     resources: {}
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
     podDisruptionBudget: {}
+    # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
+    autoscaling: {}
 
   # -- STORE service.
   # @default -- see detailed service configuration options below
@@ -1157,6 +1201,8 @@ services:
         deleteBefore: 30
         # -- Method to use with BusyBox "find" for finding old thumbnails. Can be mtime, atime or ctime.
         method: atime
+    # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
+    autoscaling: {}
 
   # -- USERLOG service.
   # @default -- see detailed service configuration options below
@@ -1175,6 +1221,8 @@ services:
       # - "{{ .appNameNats }}:9233"
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
     podDisruptionBudget: {}
+    # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
+    autoscaling: {}
 
   # -- USERS service.
   # @default -- see detailed service configuration options below
@@ -1183,6 +1231,8 @@ services:
     resources: {}
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
     podDisruptionBudget: {}
+    # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
+    autoscaling: {}
 
   # -- ownCloud WEB service.
   # @default -- see detailed service configuration options below
@@ -1262,6 +1312,8 @@ services:
     resources: {}
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
     podDisruptionBudget: {}
+    # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
+    autoscaling: {}
 
   # -- WEBDAV service.
   # @default -- see detailed service configuration options below
@@ -1270,7 +1322,8 @@ services:
     resources: {}
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
     podDisruptionBudget: {}
-
+    # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
+    autoscaling: {}
 
 # -- Service monitoring configuration. Requires the monitoring.coreos.com/v1 CRDs to be installed.
 monitoring:

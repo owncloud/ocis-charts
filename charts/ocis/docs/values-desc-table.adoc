@@ -900,6 +900,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 see detailed service configuration options below
 | ANTIVIRUS service. Not used if `features.virusscan.enabled` equals `false`.
+| services.antivirus.autoscaling
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
 | services.antivirus.podDisruptionBudget
 a| [subs=-attributes]
 +object+
@@ -942,6 +948,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 see detailed service configuration options below
 | AUDIT service.
+| services.audit.autoscaling
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
 | services.audit.podDisruptionBudget
 a| [subs=-attributes]
 +object+
@@ -960,6 +972,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 see detailed service configuration options below
 | AUTH BASIC service. Not used if `features.externalUserManagement.enabled` equals `true`.
+| services.authbasic.autoscaling
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
 | services.authbasic.podDisruptionBudget
 a| [subs=-attributes]
 +object+
@@ -978,6 +996,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 see detailed service configuration options below
 | AUTH MACHINE service.
+| services.authmachine.autoscaling
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
 | services.authmachine.podDisruptionBudget
 a| [subs=-attributes]
 +object+
@@ -996,6 +1020,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 see detailed service configuration options below
 | EVENT HISTORY service.
+| services.eventhistory.autoscaling
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
 | services.eventhistory.podDisruptionBudget
 a| [subs=-attributes]
 +object+
@@ -1020,6 +1050,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 see detailed service configuration options below
 | FRONTEND service.
+| services.frontend.autoscaling
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
 | services.frontend.podDisruptionBudget
 a| [subs=-attributes]
 +object+
@@ -1038,6 +1074,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 see detailed service configuration options below
 | GATEWAY service.
+| services.gateway.autoscaling
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
 | services.gateway.podDisruptionBudget
 a| [subs=-attributes]
 +object+
@@ -1056,6 +1098,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 see detailed service configuration options below
 | GRAPH service.
+| services.graph.autoscaling
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
 | services.graph.podDisruptionBudget
 a| [subs=-attributes]
 +object+
@@ -1074,6 +1122,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 see detailed service configuration options below
 | GROUPS service.
+| services.groups.autoscaling
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
 | services.groups.podDisruptionBudget
 a| [subs=-attributes]
 +object+
@@ -1248,6 +1302,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 see detailed service configuration options below
 | NOTIFICATIONS service. Not used if `features.emailNotifications.enabled` equals `true`.
+| services.notifications.autoscaling
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
 | services.notifications.podDisruptionBudget
 a| [subs=-attributes]
 +object+
@@ -1266,6 +1326,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 see detailed service configuration options below
 | OCDAV service.
+| services.ocdav.autoscaling
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
 | services.ocdav.podDisruptionBudget
 a| [subs=-attributes]
 +object+
@@ -1284,6 +1350,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 see detailed service configuration options below
 | OCS service.
+| services.ocs.autoscaling
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
 | services.ocs.podDisruptionBudget
 a| [subs=-attributes]
 +object+
@@ -1296,12 +1368,30 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service resources configuration. Overrides the default setting from `resources` if set.
+| services.policies
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+see detailed service configuration options below
+| POLICIES service.
+| services.policies.autoscaling
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
 | services.postprocessing
 a| [subs=-attributes]
 +object+
 a| [subs=-attributes]
 see detailed service configuration options below
 | POSTPROCESSING service.
+| services.postprocessing.autoscaling
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
 | services.postprocessing.resources
 a| [subs=-attributes]
 +object+
@@ -1314,6 +1404,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 see detailed service configuration options below
 | PROXY service.
+| services.proxy.autoscaling
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
 | services.proxy.podDisruptionBudget
 a| [subs=-attributes]
 +object+
@@ -1428,6 +1524,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 see detailed service configuration options below
 | SETTINGS service.
+| services.settings.autoscaling
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
 | services.settings.podDisruptionBudget
 a| [subs=-attributes]
 +object+
@@ -1464,6 +1566,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 see detailed service configuration options below
 | STORAGE-PUBLICLINK service.
+| services.storagepubliclink.autoscaling
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
 | services.storagepubliclink.podDisruptionBudget
 a| [subs=-attributes]
 +object+
@@ -1482,6 +1590,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 see detailed service configuration options below
 | STORAGE-SHARES service.
+| services.storageshares.autoscaling
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
 | services.storageshares.podDisruptionBudget
 a| [subs=-attributes]
 +object+
@@ -1500,6 +1614,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 see detailed service configuration options below
 | STORAGE-SYSTEM service.
+| services.storagesystem.autoscaling
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
 | services.storagesystem.persistence
 a| [subs=-attributes]
 +object+
@@ -1578,6 +1698,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 see detailed service configuration options below
 | STORAGE-USERS service.
+| services.storageusers.autoscaling
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
 | services.storageusers.maintenance.cleanUpExpiredUploads.enabled
 a| [subs=-attributes]
 +bool+
@@ -1824,6 +1950,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 see detailed service configuration options below
 | THUMBNAILS service.
+| services.thumbnails.autoscaling
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
 | services.thumbnails.maintenance
 a| [subs=-attributes]
 +object+
@@ -1932,6 +2064,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 see detailed service configuration options below
 | USERLOG service.
+| services.userlog.autoscaling
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
 | services.userlog.podDisruptionBudget
 a| [subs=-attributes]
 +object+
@@ -1956,6 +2094,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 see detailed service configuration options below
 | USERS service.
+| services.users.autoscaling
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
 | services.users.podDisruptionBudget
 a| [subs=-attributes]
 +object+
@@ -1974,6 +2118,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 see detailed service configuration options below
 | ownCloud WEB service.
+| services.web.autoscaling
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
 | services.web.config.applications
 a| [subs=-attributes]
 +list+
@@ -2088,6 +2238,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 see detailed service configuration options below
 | WEBDAV service.
+| services.webdav.autoscaling
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
 | services.webdav.podDisruptionBudget
 a| [subs=-attributes]
 +object+

@@ -1,2 +1,3 @@
 {{- include "ocis.appNames" (dict "scope" . "appName" "appNameWebdav" "appNameSuffix" "") -}}
+{{- $_ := set . "autoscaling" (default (default (dict) .Values.autoscaling) .Values.services.webdav.autoscaling) -}}
 {{ include "ocis.hpa" . }}

@@ -1,4 +1,5 @@
 {{ if .Values.features.virusscan.enabled }}
 {{- include "ocis.appNames" (dict "scope" . "appName" "appNameAntivirus" "appNameSuffix" "") -}}
+{{- $_ := set . "autoscaling" (default (default (dict) .Values.autoscaling) .Values.services.antivirus.autoscaling) -}}
 {{ include "ocis.hpa" . }}
 {{- end }}
