@@ -1260,11 +1260,11 @@ services:
       feedbackLink:
         # -- Enables the feedback link in the Web UI.
         enabled: true
-        # -- URI where the feedback link points.
+        # -- URI where the feedback link points. Uses the ownCloud default href if empty.
         href: ""
-        # -- Screen reader accessible label for the feedback link.
+        # -- Screen reader accessible label for the feedback link. Uses the ownCloud default ldable if empty.
         ariaLabel: ""
-        # -- Description to be shown for the feedback link.
+        # -- Description to be shown for the feedback link. Uses the ownCloud default description if empty.
         description: ""
       # -- Specifies which mimeTypes will be previewed in the UI.
       previewFileMimeTypes:

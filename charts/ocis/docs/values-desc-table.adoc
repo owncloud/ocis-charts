@@ -2189,13 +2189,13 @@ a| [subs=-attributes]
 +string+
 a| [subs=-attributes]
 `""`
-| Screen reader accessible label for the feedback link.
+| Screen reader accessible label for the feedback link. Uses the ownCloud default ldable if empty.
 | services.web.config.feedbackLink.description
 a| [subs=-attributes]
 +string+
 a| [subs=-attributes]
 `""`
-| Description to be shown for the feedback link.
+| Description to be shown for the feedback link. Uses the ownCloud default description if empty.
 | services.web.config.feedbackLink.enabled
 a| [subs=-attributes]
 +bool+
@@ -2207,7 +2207,7 @@ a| [subs=-attributes]
 +string+
 a| [subs=-attributes]
 `""`
-| URI where the feedback link points.
+| URI where the feedback link points. Uses the ownCloud default href if empty.
 | services.web.config.previewFileMimeTypes
 a| [subs=-attributes]
 +list+
