@@ -11,17 +11,47 @@ data:
     ---
     web:
       config:
-{{- if gt (len .Values.services.web.config.apps) 0 }}
+        {{- with .Values.services.web.config.styles }}
+        styles:
+          {{- toYaml . | nindent 10 }}
+        {{- end }}
+        {{- with .Values.services.web.config.scripts }}
+        scripts:
+          {{- toYaml . | nindent 10 }}
+        {{- end }}
+        {{- with .Values.services.web.config.customTranslations }}
+        custom_translations:
+          {{- toYaml . | nindent 10 }}
+        {{- end }}
+        {{- with .Values.services.web.config.apps }}
         apps:
-{{- toYaml .Values.services.web.config.apps | nindent 10 }}
-{{- end }}
-{{- if gt (len .Values.services.web.config.externalApplications) 0 }}
+          {{- toYaml . | nindent 10 }}
+        {{- end }}
+        {{- with .Values.services.web.config.externalApplications }}
         external_apps:
-{{- toYaml .Values.services.web.config.externalApplications | nindent 10 }}
-{{- end }}
-{{- if gt (len .Values.services.web.config.applications) 0 }}
+          {{- toYaml . | nindent 10 }}
+        {{- end }}
+        {{- with .Values.services.web.config.applications }}
         applications:
-{{- toYaml .Values.services.web.config.applications | nindent 10 }}
-{{- end }}
+          {{- toYaml . | nindent 10 }}
+        {{- end }}
         options:
-          disableFeedbackLink: {{ .Values.services.web.config.disableFeedbackLink }}
+          disableFeedbackLink: {{ not .Values.services.web.config.feedbackLink.enabled }}
+          {{- if .Values.services.web.config.feedbackLink.enabled }}
+          {{- if (or .Values.services.web.config.feedbackLink.href .Values.services.web.config.feedbackLink.ariaLabel .Values.services.web.config.feedbackLink.description) }}
+          feedbackLink:
+            {{- with .Values.services.web.config.feedbackLink.href  }}
+            href: {{ . | quote }}
+            {{- end }}
+            {{- with .Values.services.web.config.feedbackLink.ariaLabel  }}
+            ariaLabel: {{ . | quote }}
+            {{- end }}
+            {{- with .Values.services.web.config.feedbackLink.description }}
+            description: {{ . | quote }}
+            {{- end }}
+          {{- end }}
+          {{- end }}
+          {{- with .Values.services.web.config.previewFileMimeTypes }}
+          previewFileMimeTypes:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}

@@ -54,6 +54,18 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `"storage-users"`
 | Reference to an existing storage-users config.
+| configRefs.webThemeAssetsConfigRef
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Optional reference to an existing web theme assets config. Will be mounted to /var/lib/ocis/web/assets/themes/owncloud/assets for Web. Hint: if you set this, you'll no longer be able to change the instance logo via the Web UI.
+| configRefs.webThemeConfigRef
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Optional reference to an existing web theme config. Will be mounted to /var/lib/ocis/web/assets/themes/owncloud for Web. Hint: if you set this, you'll no longer be able to change the instance logo via the Web UI.
 | debug.profiling
 a| [subs=-attributes]
 +bool+
@@ -432,6 +444,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `"jwt"`
 | OIDC Acces Token Verify Method Set to "jwt" or "none"
+| features.externalUserManagement.oidc.editAccountLink
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Link to the OIDC provider's user accessible account editing page. This will be shown to the user on the personal account page. When using Keycloak with the a realm named "ocis" this could point to eg. https://keycloak.owncloud.test/realms/ocis/account/
 | features.externalUserManagement.oidc.issuerURI
 a| [subs=-attributes]
 +string+
@@ -456,6 +474,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `[{"claim_value":"ocisAdmin","role_name":"admin"},{"claim_value":"ocisSpaceAdmin","role_name":"spaceadmin"},{"claim_value":"ocisUser","role_name":"user"},{"claim_value":"ocisGuest","role_name":"guest"}]`
 | Configure the mapping for the role assignment
+| features.externalUserManagement.oidc.sessionManagementLink
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Link to the OIDC provider's user accessible session management. This will be shown to the user on the personal account page. When using Keycloak with the a realm named "ocis" this could point to eg. https://keycloak.owncloud.test/realms/ocis/account/
 | features.externalUserManagement.oidc.userIDClaim
 a| [subs=-attributes]
 +string+
@@ -2148,18 +2172,66 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `[]`
 | Configure the {"apps": []} section in the Web config.json.
-| services.web.config.disableFeedbackLink
+| services.web.config.contextHelpersReadMore.enabled
 a| [subs=-attributes]
 +bool+
 a| [subs=-attributes]
-`false`
-| Disables the feedback link in the Web UI.
+`true`
+| Specifies whether the “Read more” link should be displayed or not.
+| services.web.config.customTranslations
+a| [subs=-attributes]
++list+
+a| [subs=-attributes]
+`[]`
+| Configure custom translations
 | services.web.config.externalApplications
 a| [subs=-attributes]
 +list+
 a| [subs=-attributes]
 `[]`
 | Configure the {"external_apps": []} section in the Web config.json.
+| services.web.config.feedbackLink.ariaLabel
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Screen reader accessible label for the feedback link. Uses the ownCloud default label if empty.
+| services.web.config.feedbackLink.description
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Description to be shown for the feedback link. Uses the ownCloud default description if empty.
+| services.web.config.feedbackLink.enabled
+a| [subs=-attributes]
++bool+
+a| [subs=-attributes]
+`true`
+| Enables the feedback link in the Web UI.
+| services.web.config.feedbackLink.href
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| URI where the feedback link points. Uses the ownCloud default href if empty.
+| services.web.config.previewFileMimeTypes
+a| [subs=-attributes]
++list+
+a| [subs=-attributes]
+`[]`
+| Specifies which mimeTypes will be previewed in the UI.
+| services.web.config.scripts
+a| [subs=-attributes]
++list+
+a| [subs=-attributes]
+`[]`
+| Configure the {"styles": []} section in the Web config.json.
+| services.web.config.styles
+a| [subs=-attributes]
++list+
+a| [subs=-attributes]
+`[]`
+| Configure the {"styles": []} section in the Web config.json.
 | services.web.config.theme.path
 a| [subs=-attributes]
 +string+

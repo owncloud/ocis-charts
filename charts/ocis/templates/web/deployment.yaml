@@ -74,6 +74,19 @@ spec:
             - name: WEB_UI_CONFIG_SERVER
               value: "https://{{ .Values.externalDomain }}"
 
+            - name: WEB_OPTION_CONTEXTHELPERS_READ_MORE
+              value: {{ .Values.services.web.config.contextHelpersReadMore.enabled | quote }}
+
+            {{- with .Values.features.externalUserManagement.oidc.sessionManagementLink }}
+            - name: WEB_OPTION_LOGOUT_URL
+              value: {{ . | quote }}
+            {{- end }}
+
+            {{- with .Values.features.externalUserManagement.oidc.editAccountLink }}
+            - name: WEB_OPTION_ACCOUNT_EDIT_LINK_HREF
+              value: {{ . | quote }}
+            {{- end }}
+
             - name: WEB_GATEWAY_GRPC_ADDR #TODO: does not support fallback to REVA_GATEWAY as of oCIS 3.0.0-rc.1
               value: {{ .appNameGateway }}:9142
 
@@ -96,6 +109,14 @@ spec:
           volumeMounts:
             - name: configs
               mountPath: /etc/ocis
+            {{- if .Values.configRefs.webThemeConfigRef }}
+            - name: theme
+              mountPath: /var/lib/ocis/web/assets/themes/owncloud
+            {{- end }}
+            {{- if .Values.configRefs.webThemeAssetsConfigRef }}
+            - name: theme-assets
+              mountPath: /var/lib/ocis/web/assets/themes/owncloud/assets
+            {{- end }}
             - name: web-data
               mountPath: /var/lib/ocis
 
@@ -104,6 +125,16 @@ spec:
         - name: configs
           configMap:
             name: {{ .appName }}-config
+        {{- with .Values.configRefs.webThemeConfigRef }}
+        - name: theme
+          configMap:
+            name: {{ . | quote }}
+        {{- end }}
+        {{- with .Values.configRefs.webThemeAssetsConfigRef }}
+        - name: theme-assets
+          configMap:
+            name: {{ . | quote }}
+        {{- end }}
         - name: web-data
           {{ if .Values.services.web.persistence.enabled }}
           persistentVolumeClaim:
