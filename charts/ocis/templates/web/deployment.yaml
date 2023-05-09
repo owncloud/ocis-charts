@@ -77,14 +77,14 @@ spec:
             - name: WEB_OPTION_CONTEXTHELPERS_READ_MORE
               value: {{ .Values.services.web.config.contextHelpersReadMore.enabled | quote }}
 
-            {{- if .Values.features.externalUserManagement.oidc.sessionManagementLink }}
+            {{- with .Values.features.externalUserManagement.oidc.sessionManagementLink }}
             - name: WEB_OPTION_LOGOUT_URL
-              value: {{ .Values.features.externalUserManagement.oidc.sessionManagementLink | quote }}
+              value: {{ . | quote }}
             {{- end }}
 
-            {{- if .Values.features.externalUserManagement.oidc.editAccountLink }}
+            {{- with .Values.features.externalUserManagement.oidc.editAccountLink }}
             - name: WEB_OPTION_ACCOUNT_EDIT_LINK_HREF
-              value: {{ .Values.features.externalUserManagement.oidc.editAccountLink | quote }}
+              value: {{ . | quote }}
             {{- end }}
 
             - name: WEB_GATEWAY_GRPC_ADDR #TODO: does not support fallback to REVA_GATEWAY as of oCIS 3.0.0-rc.1
@@ -125,15 +125,15 @@ spec:
         - name: configs
           configMap:
             name: {{ .appName }}-config
-        {{- if .Values.configRefs.webThemeConfigRef }}
+        {{- with .Values.configRefs.webThemeConfigRef }}
         - name: theme
           configMap:
-            name: {{ .Values.configRefs.webThemeConfigRef | quote }}
+            name: {{ . | quote }}
         {{- end }}
-        {{- if .Values.configRefs.webThemeAssetsConfigRef }}
+        {{- with .Values.configRefs.webThemeAssetsConfigRef }}
         - name: theme-assets
           configMap:
-            name: {{ .Values.configRefs.webThemeAssetsConfigRef | quote }}
+            name: {{ . | quote }}
         {{- end }}
         - name: web-data
           {{ if .Values.services.web.persistence.enabled }}
