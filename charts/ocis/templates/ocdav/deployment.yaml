@@ -53,6 +53,9 @@ spec:
             - name: OCDAV_PUBLIC_URL
               value: "https://{{ .Values.externalDomain }}"
 
+            - name: OCIS_EDITION
+              value: {{ .Values.features.edition | quote }}
+
             - name: REVA_GATEWAY
               value: {{ .appNameGateway }}:9142
 
