@@ -92,7 +92,11 @@ spec:
             - name: LDAP_GROUP_BASE_DN
               value: {{ .Values.features.externalUserManagement.ldap.group.baseDN | quote }}
             - name: GRAPH_LDAP_GROUP_CREATE_BASE_DN
+            {{- if .Values.features.externalUserManagement.ldap.group.createBaseDN }}
               value: {{ .Values.features.externalUserManagement.ldap.group.createBaseDN | quote }}
+            {{- else }}
+              value: {{ .Values.features.externalUserManagement.ldap.group.baseDN | quote }}
+            {{- end }}
 
             - name: LDAP_USER_SCOPE
               value: {{ .Values.features.externalUserManagement.ldap.user.scope | quote }}
