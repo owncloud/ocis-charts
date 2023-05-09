@@ -78,6 +78,9 @@ spec:
             - name: FRONTEND_SEARCH_MIN_LENGTH
               value: {{ .Values.features.sharing.users.search.minLengthLimit | quote }}
 
+            - name: FRONTEND_ENABLE_RESHARING
+              value: {{ .Values.features.sharing.users.resharing | quote }}
+
             # cache
             - name: FRONTEND_OCS_RESOURCE_INFO_CACHE_STORE
               value: {{ .Values.cache.type | quote }}
