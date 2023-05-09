@@ -60,7 +60,7 @@ def linting(ctx):
                 "name": "helm template",
                 "image": "owncloudci/alpine:latest",
                 "commands": [
-                    "helm template charts/ocis -f 'charts/ocis/ci/values_<1.25.0.yaml' > charts/ocis/ci/templated.yaml",
+                    "helm template charts/ocis -f 'charts/ocis/ci/values_pre_1.25.0.yaml' > charts/ocis/ci/templated.yaml",
                 ],
             },
             {
