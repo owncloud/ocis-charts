@@ -1,4 +1,3 @@
-
 ---
 # Image for oCIS services
 image:
@@ -883,13 +882,10 @@ services:
   postprocessing:
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
-<<<<<<< HEAD
-=======
     # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
     autoscaling: {}
     # -- Affinity settings for the postprocessing service. See the documentation of this setting in approvider for examples.
     affinity: {}
->>>>>>> 972638c (Allow affinity settings to be set per service)
 
   # -- PROXY service.
   # @default -- see detailed service configuration options below
@@ -1403,4 +1399,3 @@ monitoring:
   interval: 60s
   # -- Scrape timeout.
   scrapeTimeout: 60s
-
