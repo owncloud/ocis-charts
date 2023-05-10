@@ -74,7 +74,7 @@ spec:
             - name: THUMBNAILS_CS3SOURCE_INSECURE
               value: {{ .Values.insecure.ocisHttpApiInsecure | quote }}
 
-            - name: REVA_GATEWAY
+            - name: OCIS_REVA_GATEWAY
               value: {{ .appNameGateway }}:9142
 
             - name: THUMBNAILS_TRANSFER_TOKEN

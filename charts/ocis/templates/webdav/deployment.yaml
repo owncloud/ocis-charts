@@ -53,7 +53,7 @@ spec:
 
             - name: OCIS_PUBLIC_URL
               value: "https://{{ .Values.externalDomain }}"
-            - name: REVA_GATEWAY
+            - name: OCIS_REVA_GATEWAY
               value: {{ .appNameGateway }}:9142
 
           {{- include "ocis.livenessProbe" . | nindent 10 }}

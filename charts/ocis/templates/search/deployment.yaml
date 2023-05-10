@@ -51,7 +51,7 @@ spec:
             - name: SEARCH_DEBUG_ADDR
               value: 0.0.0.0:9224
 
-            - name: REVA_GATEWAY
+            - name: OCIS_REVA_GATEWAY
               value: {{ .appNameGateway }}:9142
             - name: SEARCH_EVENTS_ENDPOINT
             {{- if not .Values.messagingSystem.external.enabled }}

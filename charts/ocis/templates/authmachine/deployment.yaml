@@ -51,7 +51,7 @@ spec:
             - name: AUTH_MACHINE_DEBUG_ADDR
               value: 0.0.0.0:9167
 
-            - name: REVA_GATEWAY
+            - name: OCIS_REVA_GATEWAY
               value: {{ .appNameGateway }}:9142
 
             - name: AUTH_MACHINE_JWT_SECRET

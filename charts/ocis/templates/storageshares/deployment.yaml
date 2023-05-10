@@ -54,7 +54,7 @@ spec:
             - name: STORAGE_SHARES_USER_SHARE_PROVIDER_ENDPOINT
               value: {{ .appNameSharing }}:9150
 
-            - name: REVA_GATEWAY
+            - name: OCIS_REVA_GATEWAY
               value: {{ .appNameGateway }}:9142
 
             - name: STORAGE_SHARES_JWT_SECRET

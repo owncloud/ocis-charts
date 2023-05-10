@@ -57,7 +57,7 @@ spec:
             - name: OCIS_EDITION
               value: {{ .Values.features.edition | quote }}
 
-            - name: REVA_GATEWAY
+            - name: OCIS_REVA_GATEWAY
               value: {{ .appNameGateway }}:9142
 
             - name: OCDAV_INSECURE

@@ -51,7 +51,7 @@ spec:
             - name: SHARING_DEBUG_ADDR
               value: 0.0.0.0:9151
 
-            - name: REVA_GATEWAY
+            - name: OCIS_REVA_GATEWAY
               value: {{ .appNameGateway }}:9142
             - name: SHARING_EVENTS_ENDPOINT
             {{- if not .Values.messagingSystem.external.enabled }}
