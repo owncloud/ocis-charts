@@ -63,11 +63,40 @@ spec:
                   name: {{ .Values.secretRefs.ldapSecretRef }}
                   key: idp-ldap-bind-password
 
+            - name: IDP_LDAP_BIND_DN
+              value: {{ .Values.features.externalUserManagement.ldap.bindDN | quote }}
+
             - name: IDP_SIGNING_PRIVATE_KEY_FILES
               value: /etc/ocis/idp/private-key.pem
 
             - name: IDP_ENCRYPTION_SECRET_FILE
               value: /etc/ocis/idp/encryption.key
+
+            - name: IDP_INSECURE
+              value: {{ .Values.features.externalUserManagement.ldap.insecure | quote }}
+
+            - name: IDP_LDAP_LOGIN_ATTRIBUTE
+              value: {{ .Values.features.externalUserManagement.ldap.user.userName | quote }}
+            - name: IDP_LDAP_BASE_DN
+              value: {{ .Values.features.externalUserManagement.ldap.user.baseDN | quote }}
+            - name: IDP_LDAP_FILTER
+              value: {{ .Values.features.externalUserManagement.ldap.user.filter | quote }}
+            - name: IDP_LDAP_OBJECTCLASS
+              value: {{ .Values.features.externalUserManagement.ldap.user.objectClass | quote }}
+            - name: IDP_LDAP_UUID_ATTRIBUTE
+              value: {{ .Values.features.externalUserManagement.ldap.user.schema.id | quote }}
+            - name: IDP_LDAP_EMAIL_ATTRIBUTE
+              value: {{ .Values.features.externalUserManagement.ldap.user.schema.mail | quote }}
+            - name: IDP_LDAP_NAME_ATTRIBUTE
+              value: {{ .Values.features.externalUserManagement.ldap.user.schema.userName | quote }}
+            - name: IDP_LDAP_SCOPE
+              value: {{ .Values.features.externalUserManagement.ldap.user.scope | quote }}
+
+            - name: IDP_USER_ENABLED_ATTRIBUTE
+              value: {{ .Values.features.externalUserManagement.ldap.disableUsers.userEnabledAttribute | quote }}
+
+            - name: IDP_LDAP_UUID_ATTRIBUTE_TYPE
+              value: {{ .Values.features.externalUserManagement.ldap.uuidAttributeType | quote }}
 
           {{- include "ocis.livenessProbe" . | nindent 10 }}
 
