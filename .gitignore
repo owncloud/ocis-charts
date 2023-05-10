@@ -7,3 +7,4 @@
 /helmfile.yaml
 .drone.yml
 **/ci/templated.yaml
+ownconfigs/*
