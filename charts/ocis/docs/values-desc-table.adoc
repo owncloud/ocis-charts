@@ -936,6 +936,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 see detailed service configuration options below
 | ANTIVIRUS service. Not used if `features.virusscan.enabled` equals `false`.
+| services.antivirus.affinity
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Affinity settings for the antivirus service. See the documentation of this setting in approvider for examples.
 | services.antivirus.autoscaling
 a| [subs=-attributes]
 +object+
@@ -960,6 +966,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 see detailed service configuration options below
 | APP PROVIDER service. Not used if `features.appsIntegration.enabled` equals `false`.
+| services.appprovider.affinity
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Affinity settings for the approvider service.
 | services.appprovider.resources
 a| [subs=-attributes]
 +object+
@@ -972,6 +984,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 see detailed service configuration options below
 | APP REGISTRY service. Not used if `features.appsIntegration.enabled` equals `false`.
+| services.appregistry.affinity
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Affinity settings for the appregistry service. See the documentation of this setting in approvider for examples.
 | services.appregistry.resources
 a| [subs=-attributes]
 +object+
@@ -984,6 +1002,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 see detailed service configuration options below
 | AUDIT service.
+| services.audit.affinity
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Affinity settings for the audit service. See the documentation of this setting in approvider for examples.
 | services.audit.autoscaling
 a| [subs=-attributes]
 +object+
@@ -1008,6 +1032,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 see detailed service configuration options below
 | AUTH BASIC service. Not used if `features.externalUserManagement.enabled` equals `true`.
+| services.authbasic.affinity
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Affinity settings for the authbasic service. See the documentation of this setting in approvider for examples.
 | services.authbasic.autoscaling
 a| [subs=-attributes]
 +object+
@@ -1032,6 +1062,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 see detailed service configuration options below
 | AUTH MACHINE service.
+| services.authmachine.affinity
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Affinity settings for the authmachine service. See the documentation of this setting in approvider for examples.
 | services.authmachine.autoscaling
 a| [subs=-attributes]
 +object+
@@ -1056,6 +1092,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 see detailed service configuration options below
 | EVENT HISTORY service.
+| services.eventhistory.affinity
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Affinity settings for the eventhistory service. See the documentation of this setting in approvider for examples.
 | services.eventhistory.autoscaling
 a| [subs=-attributes]
 +object+
@@ -1086,6 +1128,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 see detailed service configuration options below
 | FRONTEND service.
+| services.frontend.affinity
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Affinity settings for the frontend service. See the documentation of this setting in approvider for examples.
 | services.frontend.autoscaling
 a| [subs=-attributes]
 +object+
@@ -1110,6 +1158,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 see detailed service configuration options below
 | GATEWAY service.
+| services.gateway.affinity
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Affinity settings for the gateway service. See the documentation of this setting in approvider for examples.
 | services.gateway.autoscaling
 a| [subs=-attributes]
 +object+
@@ -1134,6 +1188,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 see detailed service configuration options below
 | GRAPH service.
+| services.graph.affinity
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Affinity settings for the graph service. See the documentation of this setting in approvider for examples.
 | services.graph.autoscaling
 a| [subs=-attributes]
 +object+
@@ -1158,6 +1218,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 see detailed service configuration options below
 | GROUPS service.
+| services.groups.affinity
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Affinity settings for the groups service. See the documentation of this setting in approvider for examples.
 | services.groups.autoscaling
 a| [subs=-attributes]
 +object+
@@ -1182,6 +1248,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 see detailed service configuration options below
 | IDM service. Not used if `features.externalUserManagement.enabled` equals `true`.
+| services.idm.affinity
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Affinity settings for the idm service. See the documentation of this setting in approvider for examples.
 | services.idm.persistence
 a| [subs=-attributes]
 +object+
@@ -1254,6 +1326,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 see detailed service configuration options below
 | IDP service. Not used if `features.externalUserManagement.enabled` equals `true`.
+| services.idp.affinity
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Affinity settings for the idp service. See the documentation of this setting in approvider for examples.
 | services.idp.resources
 a| [subs=-attributes]
 +object+
@@ -1266,6 +1344,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 see detailed service configuration options below
 | NATS service. Not used if `messagingSystem.external.enabled` equals `true`.
+| services.nats.affinity
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Affinity settings for the nats service. See the documentation of this setting in approvider for examples.
 | services.nats.persistence
 a| [subs=-attributes]
 +object+
@@ -1338,6 +1422,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 see detailed service configuration options below
 | NOTIFICATIONS service. Not used if `features.emailNotifications.enabled` equals `true`.
+| services.notifications.affinity
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Affinity settings for the notifications service. See the documentation of this setting in approvider for examples.
 | services.notifications.autoscaling
 a| [subs=-attributes]
 +object+
@@ -1362,6 +1452,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 see detailed service configuration options below
 | OCDAV service.
+| services.ocdav.affinity
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Affinity settings for the ocdav service. See the documentation of this setting in approvider for examples.
 | services.ocdav.autoscaling
 a| [subs=-attributes]
 +object+
@@ -1386,6 +1482,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 see detailed service configuration options below
 | OCS service.
+| services.ocs.affinity
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Affinity settings for the ocs service. See the documentation of this setting in approvider for examples.
 | services.ocs.autoscaling
 a| [subs=-attributes]
 +object+
@@ -1410,6 +1512,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 see detailed service configuration options below
 | POLICIES service.
+| services.policies.affinity
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Affinity settings for the policies service. See the documentation of this setting in approvider for examples.
 | services.policies.autoscaling
 a| [subs=-attributes]
 +object+
@@ -1422,6 +1530,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 see detailed service configuration options below
 | POSTPROCESSING service.
+| services.postprocessing.affinity
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Affinity settings for the postprocessing service. See the documentation of this setting in approvider for examples.
 | services.postprocessing.resources
 a| [subs=-attributes]
 +object+
@@ -1434,6 +1548,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 see detailed service configuration options below
 | PROXY service.
+| services.proxy.affinity
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Affinity settings for the proxy service. See the documentation of this setting in approvider for examples.
 | services.proxy.autoscaling
 a| [subs=-attributes]
 +object+
@@ -1458,6 +1578,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 see detailed service configuration options below
 | SEARCH service.
+| services.search.affinity
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Affinity settings for the search service. See the documentation of this setting in approvider for examples.
 | services.search.extractor
 a| [subs=-attributes]
 +object+
@@ -1554,6 +1680,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 see detailed service configuration options below
 | SETTINGS service.
+| services.settings.affinity
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Affinity settings for the settings service. See the documentation of this setting in approvider for examples.
 | services.settings.autoscaling
 a| [subs=-attributes]
 +object+
@@ -1578,6 +1710,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 see detailed service configuration options below
 | SHARING service.
+| services.sharing.affinity
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Affinity settings for the sharing service. See the documentation of this setting in approvider for examples.
 | services.sharing.podDisruptionBudget
 a| [subs=-attributes]
 +object+
@@ -1596,6 +1734,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 see detailed service configuration options below
 | STORAGE-PUBLICLINK service.
+| services.storagepubliclink.affinity
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Affinity settings for the storagepubliclink service. See the documentation of this setting in approvider for examples.
 | services.storagepubliclink.autoscaling
 a| [subs=-attributes]
 +object+
@@ -1620,6 +1764,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 see detailed service configuration options below
 | STORAGE-SHARES service.
+| services.storageshares.affinity
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Affinity settings for the storageshares service. See the documentation of this setting in approvider for examples.
 | services.storageshares.autoscaling
 a| [subs=-attributes]
 +object+
@@ -1644,6 +1794,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 see detailed service configuration options below
 | STORAGE-SYSTEM service.
+| services.storagesystem.affinity
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Affinity settings for the storagesystem service. See the documentation of this setting in approvider for examples.
 | services.storagesystem.autoscaling
 a| [subs=-attributes]
 +object+
@@ -1728,6 +1884,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 see detailed service configuration options below
 | STORAGE-USERS service.
+| services.storageusers.affinity
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Affinity settings for the storageusers service. See the documentation of this setting in approvider for examples.
 | services.storageusers.autoscaling
 a| [subs=-attributes]
 +object+
@@ -1908,6 +2070,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 see detailed service configuration options below
 | STORE service.
+| services.store.affinity
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Affinity settings for the store service. See the documentation of this setting in approvider for examples.
 | services.store.persistence
 a| [subs=-attributes]
 +object+
@@ -1980,6 +2148,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 see detailed service configuration options below
 | THUMBNAILS service.
+| services.thumbnails.affinity
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Affinity settings for the thumbnails service. See the documentation of this setting in approvider for examples.
 | services.thumbnails.autoscaling
 a| [subs=-attributes]
 +object+
@@ -2094,6 +2268,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 see detailed service configuration options below
 | USERLOG service.
+| services.userlog.affinity
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Affinity settings for the userlog service. See the documentation of this setting in approvider for examples.
 | services.userlog.autoscaling
 a| [subs=-attributes]
 +object+
@@ -2124,6 +2304,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 see detailed service configuration options below
 | USERS service.
+| services.users.affinity
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Affinity settings for the users service. See the documentation of this setting in approvider for examples.
 | services.users.autoscaling
 a| [subs=-attributes]
 +object+
@@ -2148,6 +2334,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 see detailed service configuration options below
 | ownCloud WEB service.
+| services.web.affinity
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Affinity settings for the web service. See the documentation of this setting in approvider for examples.
 | services.web.autoscaling
 a| [subs=-attributes]
 +object+
@@ -2316,6 +2508,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 see detailed service configuration options below
 | WEBDAV service.
+| services.webdav.affinity
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Affinity settings for the webdav service. See the documentation of this setting in approvider for examples.
 | services.webdav.autoscaling
 a| [subs=-attributes]
 +object+

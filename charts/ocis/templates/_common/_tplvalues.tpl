@@ -129,6 +129,15 @@ spec:
 {{- end }}
 {{- end -}}
 
+{{- define "ocis.affinity" -}}
+{{- if .affinity }}
+affinity:
+  {{- toYaml .affinity | nindent 2 }}
+{{- end }}
+{{- end -}}
+
+{{/*
+
 {{/*
 oCIS security Context template
 
