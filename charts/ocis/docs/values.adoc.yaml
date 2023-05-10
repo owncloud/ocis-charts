@@ -273,6 +273,10 @@ features:
       bindDN: uid=ocis,ou=system-users,dc=owncloud,dc=test
       # -- Signals that the LDAP server has the refint plugin enabled, which makes some actions not needed.
       refintEnabled: false
+      # -- Use the Password Modify Extended Operation for updating user passwords.
+      passwordModifyExOpEnabled: false
+      # -- If set to true, rely on the LDAP Server to generate a unique ID for users and groups, like when using 'entryUUID' as the user ID attribute.
+      useServerUUID: false
       user:
         schema:
           # -- LDAP Attribute to use as the unique id for users. This should be a stable globally unique id like a UUID.
@@ -285,6 +289,8 @@ features:
           displayName: displayname
           # -- LDAP Attribute to use for username of users.
           userName: uid
+          # -- LDAP Attribute to distinguish between 'Member' and 'Guest' users. Default is 'ownCloudUserType'.
+          userType: ownCloudUserType
         # -- Search base DN for looking up LDAP users.
         baseDN: ou=users,dc=owncloud,dc=com
         # -- LDAP search scope to use when looking up users. Supported values are `base`, `one` and `sub`.
@@ -295,6 +301,10 @@ features:
         filter:
         # -- The object class to use for users in the default user search filter like `inetOrgPerson`.
         objectClass: inetOrgPerson
+        # -- The user object attributes, that can be used for login. This is a comma separated list of LDAP attributes.
+        loginAttributes: uid
+        # -- LDAP User uuid attribute type like 'text'."
+        uuidAttributeType: text
       group:
         schema:
           # -- LDAP Attribute to use as the unique ID for groups. This should be a stable globally unique ID like a UUID.
@@ -330,6 +340,25 @@ features:
         userEnabledAttribute: ownCloudUserEnabled
         # -- Group that a user can be added to and by that being marked as disabled.
         disabledUsersGroupDN: "cn=DisabledUsersGroup,ou=groups,o=libregraph-idm"
+      # -- Configuration for managing education related resources.
+      education:
+        # -- Enable LDAP support for managing education related resources.
+        educationResourcesEnabled: true
+        # -- Search base DN for looking up LDAP schools.
+        schoolBaseDN: ""
+        # -- LDAP search scope to use when looking up schools. Supported scopes are 'base', 'one' and 'sub'.
+        schoolSearchScope: ""
+        # -- LDAP filter to add to the default filters for school searches.
+        schoolFilter: ""
+        # -- The object class to use for schools in the default school search filter.
+        schoolObjectClass: ""
+        # -- LDAP Attribute to use for the name of a school.
+        schoolNameAttribute: ""
+        # -- LDAP Attribute to use for the number of a school.
+        schoolNumberAttribute: ""
+        # -- LDAP Attribute to use as the unique id for schools. This should be a stable globally unique ID like a UUID.
+        schoolIdAttribute: ""
+
   # GDPR report related settings.
   gdprReport:
     # -- Enables the GDPR report feature
