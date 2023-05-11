@@ -1422,12 +1422,6 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 see detailed service configuration options below
 | POSTPROCESSING service.
-| services.postprocessing.autoscaling
-a| [subs=-attributes]
-+object+
-a| [subs=-attributes]
-`{}`
-| Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
 | services.postprocessing.resources
 a| [subs=-attributes]
 +object+

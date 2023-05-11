@@ -5,9 +5,7 @@ kind: Deployment
 {{ include "ocis.metadata" . }}
 spec:
   {{- include "ocis.selector" . | nindent 2 }}
-  {{- if and (not .Values.autoscaling.enabled) (.Values.replicas) }}
-  replicas: {{ .Values.replicas }}
-  {{- end }}
+  replicas: 1 #TODO: https://github.com/owncloud/ocis-charts/issues/15
   template:
     {{- include "ocis.templateMetadata" (dict "scope" $ "configCheck" false) | nindent 4 }}
     spec:

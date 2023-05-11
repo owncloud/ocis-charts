@@ -819,8 +819,6 @@ services:
   postprocessing:
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
-    # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
-    autoscaling: {}
 
   # -- PROXY service.
   # @default -- see detailed service configuration options below
