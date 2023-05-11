@@ -12,7 +12,7 @@ spec:
   replicas: 1 #TODO: https://github.com/owncloud/ocis-charts/issues/48
   {{- if $.Values.deploymentStrategy }}
   strategy: {{ toYaml $.Values.deploymentStrategy | nindent 4 }}
-  {{ end }}
+  {{- end }}
   template:
     {{- include "ocis.templateMetadata" (dict "scope" $ "configCheck" false) | nindent 4 }}
     spec:
