@@ -82,10 +82,10 @@ spec:
               value: {{ .Values.features.sharing.users.resharing | quote }}
 
             # cache
-            - name: FRONTEND_OCS_RESOURCE_INFO_CACHE_STORE
+            - name: FRONTEND_OCS_STAT_CACHE_STORE
               value: {{ .Values.cache.type | quote }}
             {{- if ne .Values.cache.type "noop" }}
-            - name: FRONTEND_OCS_RESOURCE_INFO_CACHE_STORE_NODES
+            - name: FRONTEND_OCS_STAT_CACHE_STORE_NODES
               value: {{ join "," .Values.cache.nodes | quote }}
             {{- end }}
 

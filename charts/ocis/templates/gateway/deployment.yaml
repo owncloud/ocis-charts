@@ -86,8 +86,14 @@ spec:
 
             # cache
             # the stat cache is disabled for now for performance reasons, see https://github.com/owncloud/ocis-charts/issues/214
-            - name: GATEWAY_CACHE_STORE
+            - name: GATEWAY_STAT_CACHE_STORE
               value: noop
+            # provider cache in kubernetes defaults to noop because we might have regularily changing ip addresses
+            - name: GATEWAY_PROVIDER_CACHE_STORE
+              value: noop
+            # create home cache defaults to memory so we don't put too much load on our shared cache
+            - name: GATEWAY_CREATE_HOME_CACHE_STORE
+              value: memory
 
             - name: GATEWAY_STORAGE_USERS_MOUNT_ID
               valueFrom:
