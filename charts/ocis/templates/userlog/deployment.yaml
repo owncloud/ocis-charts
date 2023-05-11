@@ -90,6 +90,7 @@ spec:
                 secretKeyRef:
                   name: {{ .Values.secretRefs.jwtSecretRef }}
                   key: jwt-secret
+            {{- include "ocis.cors" . |nindent 12 }}
 
           {{- include "ocis.livenessProbe" . | nindent 10 }}
 

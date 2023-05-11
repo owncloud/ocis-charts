@@ -219,6 +219,8 @@ spec:
               value: {{ .Values.features.gdprReport.integrations.keycloak.insecure | quote }}
             {{- end }}
 
+            {{- include "ocis.cors" . |nindent 12 }}
+
 
           {{- include "ocis.livenessProbe" . | nindent 10 }}
 
