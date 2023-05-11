@@ -20,7 +20,7 @@ clean:
 lint: $(KUBE_LINTER)
 	# TODO: use helm from bingo
 	helm lint charts/ocis
-	helm template charts/ocis -f 'charts/ocis/ci/values_pre_1.25.0.yaml' > charts/ocis/ci/templated.yaml
+	helm template --kube-version 1.26.0 charts/ocis -f 'charts/ocis/ci/values_pre_1.25.0.yaml' > charts/ocis/ci/templated.yaml
 	$(KUBE_LINTER) lint charts/ocis/ci/templated.yaml
 
 
