@@ -13,6 +13,9 @@ spec:
   selector:
     app: {{ .appName }}
   ports:
+    - name: grpc
+      port: 9125
+      protocol: TCP
     - name: metrics-debug
       port: 9129
       protocol: TCP
