@@ -148,23 +148,6 @@ spec:
             - name: OCIS_LDAP_DISABLED_USERS_GROUP_DN
               value: {{ .Values.features.externalUserManagement.ldap.disableUsers.disabledUsersGroupDN | quote }}
 
-            - name: GRAPH_LDAP_EDUCATION_RESOURCES_ENABLED
-              value: {{ .Values.features.externalUserManagement.ldap.education.educationResourcesEnabled | quote }}
-            - name: GRAPH_LDAP_SCHOOL_BASE_DN
-              value: {{ .Values.features.externalUserManagement.ldap.education.schoolBaseDN | quote }}
-            - name: GRAPH_LDAP_SCHOOL_SEARCH_SCOPE
-              value: {{ .Values.features.externalUserManagement.ldap.education.schoolSearchScope | quote }}
-            - name: GRAPH_LDAP_SCHOOL_FILTER
-              value: {{ .Values.features.externalUserManagement.ldap.education.schoolFilter | quote }}
-            - name: GRAPH_LDAP_SCHOOL_OBJECTCLASS
-              value: {{ .Values.features.externalUserManagement.ldap.education.schoolObjectClass | quote }}
-            - name: GRAPH_LDAP_SCHOOL_NAME_ATTRIBUTE
-              value: {{ .Values.features.externalUserManagement.ldap.education.schoolNameAttribute | quote }}
-            - name: GRAPH_LDAP_SCHOOL_NUMBER_ATTRIBUTE
-              value: {{ .Values.features.externalUserManagement.ldap.education.schoolNumberAttribute | quote }}
-            - name: GRAPH_LDAP_SCHOOL_ID_ATTRIBUTE
-              value: {{ .Values.features.externalUserManagement.ldap.education.schoolIDAttribute | quote }}
-
             {{ end }}
 
             # cache

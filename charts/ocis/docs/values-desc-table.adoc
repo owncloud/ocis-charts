@@ -282,60 +282,6 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `"ownCloudUserEnabled"`
 | Attribute to use for disabling users.
-| features.externalUserManagement.ldap.education
-a| [subs=-attributes]
-+object+
-a| [subs=-attributes]
-`{"educationResourcesEnabled":true,"schoolBaseDN":"","schoolFilter":"","schoolIdAttribute":"","schoolNameAttribute":"","schoolNumberAttribute":"","schoolObjectClass":"","schoolSearchScope":""}`
-| Configuration for managing education related resources.
-| features.externalUserManagement.ldap.education.educationResourcesEnabled
-a| [subs=-attributes]
-+bool+
-a| [subs=-attributes]
-`true`
-| Enable LDAP support for managing education related resources.
-| features.externalUserManagement.ldap.education.schoolBaseDN
-a| [subs=-attributes]
-+string+
-a| [subs=-attributes]
-`""`
-| Search base DN for looking up LDAP schools.
-| features.externalUserManagement.ldap.education.schoolFilter
-a| [subs=-attributes]
-+string+
-a| [subs=-attributes]
-`""`
-| LDAP filter to add to the default filters for school searches.
-| features.externalUserManagement.ldap.education.schoolIdAttribute
-a| [subs=-attributes]
-+string+
-a| [subs=-attributes]
-`""`
-| LDAP Attribute to use as the unique id for schools. This should be a stable globally unique ID like a UUID.
-| features.externalUserManagement.ldap.education.schoolNameAttribute
-a| [subs=-attributes]
-+string+
-a| [subs=-attributes]
-`""`
-| LDAP Attribute to use for the name of a school.
-| features.externalUserManagement.ldap.education.schoolNumberAttribute
-a| [subs=-attributes]
-+string+
-a| [subs=-attributes]
-`""`
-| LDAP Attribute to use for the number of a school.
-| features.externalUserManagement.ldap.education.schoolObjectClass
-a| [subs=-attributes]
-+string+
-a| [subs=-attributes]
-`""`
-| The object class to use for schools in the default school search filter.
-| features.externalUserManagement.ldap.education.schoolSearchScope
-a| [subs=-attributes]
-+string+
-a| [subs=-attributes]
-`""`
-| LDAP search scope to use when looking up schools. Supported scopes are 'base', 'one' and 'sub'.
 | features.externalUserManagement.ldap.group.baseDN
 a| [subs=-attributes]
 +string+

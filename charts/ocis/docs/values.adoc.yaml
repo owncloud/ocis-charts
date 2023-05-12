@@ -340,24 +340,6 @@ features:
         userEnabledAttribute: ownCloudUserEnabled
         # -- Group that a user can be added to and by that being marked as disabled.
         disabledUsersGroupDN: "cn=DisabledUsersGroup,ou=groups,o=libregraph-idm"
-      # -- Configuration for managing education related resources.
-      education:
-        # -- Enable LDAP support for managing education related resources.
-        educationResourcesEnabled: true
-        # -- Search base DN for looking up LDAP schools.
-        schoolBaseDN: ""
-        # -- LDAP search scope to use when looking up schools. Supported scopes are 'base', 'one' and 'sub'.
-        schoolSearchScope: ""
-        # -- LDAP filter to add to the default filters for school searches.
-        schoolFilter: ""
-        # -- The object class to use for schools in the default school search filter.
-        schoolObjectClass: ""
-        # -- LDAP Attribute to use for the name of a school.
-        schoolNameAttribute: ""
-        # -- LDAP Attribute to use for the number of a school.
-        schoolNumberAttribute: ""
-        # -- LDAP Attribute to use as the unique id for schools. This should be a stable globally unique ID like a UUID.
-        schoolIdAttribute: ""
 
   # GDPR report related settings.
   gdprReport:
