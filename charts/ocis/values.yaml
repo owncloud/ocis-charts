@@ -624,6 +624,8 @@ services:
     #       topologyKey: "kubernetes.io/hostname"
     #
     # Do note that the value will be different for each service.
+    # -- Per-service custom labels
+    extraLabels: {}
 
   # -- APP REGISTRY service. Not used if `features.appsIntegration.enabled` equals `false`.
   # @default -- see detailed service configuration options below
@@ -632,6 +634,8 @@ services:
     resources: {}
     # -- Affinity settings for the appregistry service. See the documentation of this setting in approvider for examples.
     affinity: {}
+    # -- Per-service custom labels
+    extraLabels: {}
 
   # -- AUDIT service.
   # @default -- see detailed service configuration options below
@@ -644,6 +648,8 @@ services:
     autoscaling: {}
     # -- Affinity settings for the audit service. See the documentation of this setting in approvider for examples.
     affinity: {}
+    # -- Per-service custom labels
+    extraLabels: {}
 
   # -- AUTH BASIC service. Not used if `features.externalUserManagement.enabled` equals `true`.
   # @default -- see detailed service configuration options below
@@ -656,6 +662,8 @@ services:
     autoscaling: {}
     # -- Affinity settings for the authbasic service. See the documentation of this setting in approvider for examples.
     affinity: {}
+    # -- Per-service custom labels
+    extraLabels: {}
 
   # -- AUTH MACHINE service.
   # @default -- see detailed service configuration options below
@@ -668,6 +676,8 @@ services:
     autoscaling: {}
     # -- Affinity settings for the authmachine service. See the documentation of this setting in approvider for examples.
     affinity: {}
+    # -- Per-service custom labels
+    extraLabels: {}
 
   # -- ANTIVIRUS service. Not used if `features.virusscan.enabled` equals `false`.
   # @default -- see detailed service configuration options below
@@ -680,6 +690,8 @@ services:
     autoscaling: {}
     # -- Affinity settings for the antivirus service. See the documentation of this setting in approvider for examples.
     affinity: {}
+    # -- Per-service custom labels
+    extraLabels: {}
 
   # -- EVENT HISTORY service.
   # @default -- see detailed service configuration options below
@@ -702,6 +714,8 @@ services:
     autoscaling: {}
     # -- Affinity settings for the eventhistory service. See the documentation of this setting in approvider for examples.
     affinity: {}
+    # -- Per-service custom labels
+    extraLabels: {}
 
   # -- FRONTEND service.
   # @default -- see detailed service configuration options below
@@ -714,6 +728,8 @@ services:
     autoscaling: {}
     # -- Affinity settings for the frontend service. See the documentation of this setting in approvider for examples.
     affinity: {}
+    # -- Per-service custom labels
+    extraLabels: {}
 
   # -- GATEWAY service.
   # @default -- see detailed service configuration options below
@@ -726,6 +742,8 @@ services:
     autoscaling: {}
     # -- Affinity settings for the gateway service. See the documentation of this setting in approvider for examples.
     affinity: {}
+    # -- Per-service custom labels
+    extraLabels: {}
 
   # -- GRAPH service.
   # @default -- see detailed service configuration options below
@@ -738,6 +756,8 @@ services:
     autoscaling: {}
     # -- Affinity settings for the graph service. See the documentation of this setting in approvider for examples.
     affinity: {}
+    # -- Per-service custom labels
+    extraLabels: {}
 
   # -- GROUPS service.
   # @default -- see detailed service configuration options below
@@ -750,6 +770,8 @@ services:
     autoscaling: {}
     # -- Affinity settings for the groups service. See the documentation of this setting in approvider for examples.
     affinity: {}
+    # -- Per-service custom labels
+    extraLabels: {}
 
   # -- IDM service. Not used if `features.externalUserManagement.enabled` equals `true`.
   # @default -- see detailed service configuration options below
@@ -787,6 +809,8 @@ services:
     resources: {}
     # -- Affinity settings for the idm service. See the documentation of this setting in approvider for examples.
     affinity: {}
+    # -- Per-service custom labels
+    extraLabels: {}
 
   # -- IDP service. Not used if `features.externalUserManagement.enabled` equals `true`.
   # @default -- see detailed service configuration options below
@@ -795,6 +819,8 @@ services:
     resources: {}
     # -- Affinity settings for the idp service. See the documentation of this setting in approvider for examples.
     affinity: {}
+    # -- Per-service custom labels
+    extraLabels: {}
 
   # -- NATS service. Not used if `messagingSystem.external.enabled` equals `true`.
   # @default -- see detailed service configuration options below
@@ -832,6 +858,8 @@ services:
     resources: {}
     # -- Affinity settings for the nats service. See the documentation of this setting in approvider for examples.
     affinity: {}
+    # -- Per-service custom labels
+    extraLabels: {}
 
   # -- NOTIFICATIONS service. Not used if `features.emailNotifications.enabled` equals `true`.
   # @default -- see detailed service configuration options below
@@ -844,6 +872,8 @@ services:
     autoscaling: {}
     # -- Affinity settings for the notifications service. See the documentation of this setting in approvider for examples.
     affinity: {}
+    # -- Per-service custom labels
+    extraLabels: {}
 
   # -- OCDAV service.
   # @default -- see detailed service configuration options below
@@ -856,6 +886,8 @@ services:
     autoscaling: {}
     # -- Affinity settings for the ocdav service. See the documentation of this setting in approvider for examples.
     affinity: {}
+    # -- Per-service custom labels
+    extraLabels: {}
 
   # -- OCS service.
   # @default -- see detailed service configuration options below
@@ -868,6 +900,8 @@ services:
     autoscaling: {}
     # -- Affinity settings for the ocs service. See the documentation of this setting in approvider for examples.
     affinity: {}
+    # -- Per-service custom labels
+    extraLabels: {}
 
   # -- POLICIES service.
   # @default -- see detailed service configuration options below
@@ -876,6 +910,8 @@ services:
     autoscaling: {}
     # -- Affinity settings for the policies service. See the documentation of this setting in approvider for examples.
     affinity: {}
+    # -- Per-service custom labels
+    extraLabels: {}
 
   # -- POSTPROCESSING service.
   # @default -- see detailed service configuration options below
@@ -884,6 +920,8 @@ services:
     resources: {}
     # -- Affinity settings for the postprocessing service. See the documentation of this setting in approvider for examples.
     affinity: {}
+    # -- Per-service custom labels
+    extraLabels: {}
 
   # -- PROXY service.
   # @default -- see detailed service configuration options below
@@ -896,6 +934,8 @@ services:
     autoscaling: {}
     # -- Affinity settings for the proxy service. See the documentation of this setting in approvider for examples.
     affinity: {}
+    # -- Per-service custom labels
+    extraLabels: {}
 
   # -- SEARCH service.
   # @default -- see detailed service configuration options below
@@ -945,6 +985,8 @@ services:
     podDisruptionBudget: {}
     # -- Affinity settings for the search service. See the documentation of this setting in approvider for examples.
     affinity: {}
+    # -- Per-service custom labels
+    extraLabels: {}
 
   # -- SETTINGS service.
   # @default -- see detailed service configuration options below
@@ -957,6 +999,8 @@ services:
     autoscaling: {}
     # -- Affinity settings for the settings service. See the documentation of this setting in approvider for examples.
     affinity: {}
+    # -- Per-service custom labels
+    extraLabels: {}
 
   # -- SHARING service.
   # @default -- see detailed service configuration options below
@@ -967,6 +1011,8 @@ services:
     podDisruptionBudget: {}
     # -- Affinity settings for the sharing service. See the documentation of this setting in approvider for examples.
     affinity: {}
+    # -- Per-service custom labels
+    extraLabels: {}
 
   # -- STORAGE-PUBLICLINK service.
   # @default -- see detailed service configuration options below
@@ -979,6 +1025,8 @@ services:
     autoscaling: {}
     # -- Affinity settings for the storagepubliclink service. See the documentation of this setting in approvider for examples.
     affinity: {}
+    # -- Per-service custom labels
+    extraLabels: {}
 
   # -- STORAGE-SHARES service.
   # @default -- see detailed service configuration options below
@@ -991,6 +1039,8 @@ services:
     autoscaling: {}
     # -- Affinity settings for the storageshares service. See the documentation of this setting in approvider for examples.
     affinity: {}
+    # -- Per-service custom labels
+    extraLabels: {}
 
   # -- STORAGE-SYSTEM service.
   # @default -- see detailed service configuration options below
@@ -1032,6 +1082,8 @@ services:
     autoscaling: {}
     # -- Affinity settings for the storagesystem service. See the documentation of this setting in approvider for examples.
     affinity: {}
+    # -- Per-service custom labels
+    extraLabels: {}
 
   # -- STORAGE-USERS service.
   # @default -- see detailed service configuration options below
@@ -1137,6 +1189,8 @@ services:
     autoscaling: {}
     # -- Affinity settings for the storageusers service. See the documentation of this setting in approvider for examples.
     affinity: {}
+    # -- Per-service custom labels
+    extraLabels: {}
 
   # -- STORE service.
   # @default -- see detailed service configuration options below
@@ -1174,6 +1228,8 @@ services:
     resources: {}
     # -- Affinity settings for the store service. See the documentation of this setting in approvider for examples.
     affinity: {}
+    # -- Per-service custom labels
+    extraLabels: {}
 
   # -- THUMBNAILS service.
   # @default -- see detailed service configuration options below
@@ -1225,6 +1281,8 @@ services:
     autoscaling: {}
     # -- Affinity settings for the thumbnails service. See the documentation of this setting in approvider for examples.
     affinity: {}
+    # -- Per-service custom labels
+    extraLabels: {}
 
   # -- USERLOG service.
   # @default -- see detailed service configuration options below
@@ -1247,6 +1305,8 @@ services:
     autoscaling: {}
     # -- Affinity settings for the userlog service. See the documentation of this setting in approvider for examples.
     affinity: {}
+    # -- Per-service custom labels
+    extraLabels: {}
 
   # -- USERS service.
   # @default -- see detailed service configuration options below
@@ -1259,6 +1319,8 @@ services:
     autoscaling: {}
     # -- Affinity settings for the users service. See the documentation of this setting in approvider for examples.
     affinity: {}
+    # -- Per-service custom labels
+    extraLabels: {}
 
   # -- ownCloud WEB service.
   # @default -- see detailed service configuration options below
@@ -1376,6 +1438,8 @@ services:
     autoscaling: {}
     # -- Affinity settings for the web service. See the documentation of this setting in approvider for examples.
     affinity: {}
+    # -- Per-service custom labels
+    extraLabels: {}
 
   # -- WEBDAV service.
   # @default -- see detailed service configuration options below
@@ -1388,6 +1452,8 @@ services:
     autoscaling: {}
     # -- Affinity settings for the webdav service. See the documentation of this setting in approvider for examples.
     affinity: {}
+    # -- Per-service custom labels
+    extraLabels: {}
 
 # -- Service monitoring configuration. Requires the monitoring.coreos.com/v1 CRDs to be installed.
 monitoring:

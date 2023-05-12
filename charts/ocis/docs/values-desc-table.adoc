@@ -948,6 +948,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
+| services.antivirus.extraLabels
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service custom labels
 | services.antivirus.podDisruptionBudget
 a| [subs=-attributes]
 +object+
@@ -972,6 +978,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Affinity settings for the approvider service.
+| services.appprovider.extraLabels
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service custom labels
 | services.appprovider.resources
 a| [subs=-attributes]
 +object+
@@ -990,6 +1002,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Affinity settings for the appregistry service. See the documentation of this setting in approvider for examples.
+| services.appregistry.extraLabels
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service custom labels
 | services.appregistry.resources
 a| [subs=-attributes]
 +object+
@@ -1014,6 +1032,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
+| services.audit.extraLabels
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service custom labels
 | services.audit.podDisruptionBudget
 a| [subs=-attributes]
 +object+
@@ -1044,6 +1068,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
+| services.authbasic.extraLabels
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service custom labels
 | services.authbasic.podDisruptionBudget
 a| [subs=-attributes]
 +object+
@@ -1074,6 +1104,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
+| services.authmachine.extraLabels
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service custom labels
 | services.authmachine.podDisruptionBudget
 a| [subs=-attributes]
 +object+
@@ -1104,6 +1140,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
+| services.eventhistory.extraLabels
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service custom labels
 | services.eventhistory.podDisruptionBudget
 a| [subs=-attributes]
 +object+
@@ -1140,6 +1182,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
+| services.frontend.extraLabels
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service custom labels
 | services.frontend.podDisruptionBudget
 a| [subs=-attributes]
 +object+
@@ -1170,6 +1218,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
+| services.gateway.extraLabels
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service custom labels
 | services.gateway.podDisruptionBudget
 a| [subs=-attributes]
 +object+
@@ -1200,6 +1254,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
+| services.graph.extraLabels
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service custom labels
 | services.graph.podDisruptionBudget
 a| [subs=-attributes]
 +object+
@@ -1230,6 +1290,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
+| services.groups.extraLabels
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service custom labels
 | services.groups.podDisruptionBudget
 a| [subs=-attributes]
 +object+
@@ -1254,6 +1320,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Affinity settings for the idm service. See the documentation of this setting in approvider for examples.
+| services.idm.extraLabels
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service custom labels
 | services.idm.persistence
 a| [subs=-attributes]
 +object+
@@ -1332,6 +1404,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Affinity settings for the idp service. See the documentation of this setting in approvider for examples.
+| services.idp.extraLabels
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service custom labels
 | services.idp.resources
 a| [subs=-attributes]
 +object+
@@ -1350,6 +1428,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Affinity settings for the nats service. See the documentation of this setting in approvider for examples.
+| services.nats.extraLabels
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service custom labels
 | services.nats.persistence
 a| [subs=-attributes]
 +object+
@@ -1434,6 +1518,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
+| services.notifications.extraLabels
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service custom labels
 | services.notifications.podDisruptionBudget
 a| [subs=-attributes]
 +object+
@@ -1464,6 +1554,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
+| services.ocdav.extraLabels
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service custom labels
 | services.ocdav.podDisruptionBudget
 a| [subs=-attributes]
 +object+
@@ -1494,6 +1590,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
+| services.ocs.extraLabels
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service custom labels
 | services.ocs.podDisruptionBudget
 a| [subs=-attributes]
 +object+
@@ -1524,6 +1626,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
+| services.policies.extraLabels
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service custom labels
 | services.postprocessing
 a| [subs=-attributes]
 +object+
@@ -1536,6 +1644,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Affinity settings for the postprocessing service. See the documentation of this setting in approvider for examples.
+| services.postprocessing.extraLabels
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service custom labels
 | services.postprocessing.resources
 a| [subs=-attributes]
 +object+
@@ -1560,6 +1674,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
+| services.proxy.extraLabels
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service custom labels
 | services.proxy.podDisruptionBudget
 a| [subs=-attributes]
 +object+
@@ -1584,6 +1704,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Affinity settings for the search service. See the documentation of this setting in approvider for examples.
+| services.search.extraLabels
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service custom labels
 | services.search.extractor
 a| [subs=-attributes]
 +object+
@@ -1692,6 +1818,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
+| services.settings.extraLabels
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service custom labels
 | services.settings.podDisruptionBudget
 a| [subs=-attributes]
 +object+
@@ -1716,6 +1848,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Affinity settings for the sharing service. See the documentation of this setting in approvider for examples.
+| services.sharing.extraLabels
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service custom labels
 | services.sharing.podDisruptionBudget
 a| [subs=-attributes]
 +object+
@@ -1746,6 +1884,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
+| services.storagepubliclink.extraLabels
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service custom labels
 | services.storagepubliclink.podDisruptionBudget
 a| [subs=-attributes]
 +object+
@@ -1776,6 +1920,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
+| services.storageshares.extraLabels
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service custom labels
 | services.storageshares.podDisruptionBudget
 a| [subs=-attributes]
 +object+
@@ -1806,6 +1956,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
+| services.storagesystem.extraLabels
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service custom labels
 | services.storagesystem.persistence
 a| [subs=-attributes]
 +object+
@@ -1896,6 +2052,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
+| services.storageusers.extraLabels
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service custom labels
 | services.storageusers.maintenance.cleanUpExpiredUploads.enabled
 a| [subs=-attributes]
 +bool+
@@ -2076,6 +2238,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Affinity settings for the store service. See the documentation of this setting in approvider for examples.
+| services.store.extraLabels
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service custom labels
 | services.store.persistence
 a| [subs=-attributes]
 +object+
@@ -2160,6 +2328,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
+| services.thumbnails.extraLabels
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service custom labels
 | services.thumbnails.maintenance
 a| [subs=-attributes]
 +object+
@@ -2280,6 +2454,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
+| services.userlog.extraLabels
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service custom labels
 | services.userlog.podDisruptionBudget
 a| [subs=-attributes]
 +object+
@@ -2316,6 +2496,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
+| services.users.extraLabels
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service custom labels
 | services.users.podDisruptionBudget
 a| [subs=-attributes]
 +object+
@@ -2430,6 +2616,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `""`
 | URL to load themes from. Will be prepended to the theme path. Defaults to the value of "externalDomain".
+| services.web.extraLabels
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service custom labels
 | services.web.persistence
 a| [subs=-attributes]
 +object+
@@ -2520,6 +2712,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
+| services.webdav.extraLabels
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service custom labels
 | services.webdav.podDisruptionBudget
 a| [subs=-attributes]
 +object+

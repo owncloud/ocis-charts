@@ -25,6 +25,11 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{- if .Values.extraLabels }}
 {{ toYaml .Values.extraLabels }}
 {{- end }}
+
+{{- with and .appSpecificConfig .appSpecificConfig.extraLabels }}
+{{ toYaml . }}
+{{- end }}
+
 {{- end -}}
 
 {{/*
