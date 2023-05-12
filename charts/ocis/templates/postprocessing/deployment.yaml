@@ -75,6 +75,14 @@ spec:
               value: "" # no cert needed
               {{- end }}
             {{- end }}
+            
+            # cache
+            - name: POSTPROCESSING_STORE_TYPE
+              value: {{ .Values.cache.type | quote }}
+            {{- if ne .Values.cache.type "noop" }}
+            - name: POSTPROCESSING_STORE_NODES
+              value: {{ join "," .Values.cache.nodes | quote }}
+            {{- end }}
 
           {{- include "ocis.livenessProbe" . | nindent 10 }}
 
