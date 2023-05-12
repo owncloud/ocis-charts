@@ -26,6 +26,7 @@ spec:
       annotations:
         checksum/config: {{ include (print $.Template.BasePath "/policies/config.yaml") . | sha256sum }}
     spec:
+      {{- include "ocis.affinity" .Values.services.policies | nindent 6 }}
       securityContext:
           fsGroup: {{ .Values.securityContext.fsGroup }}
           fsGroupChangePolicy: {{ .Values.securityContext.fsGroupChangePolicy }}
