@@ -596,12 +596,43 @@ services:
   appprovider:
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
+    # -- Affinity settings for the approvider service.
+    affinity: {}
+    # -- Configuration for the appprovider service, every other service will have the same configuration.
+    # The value of this key will be passed to the affinity setting of the pod as documented here:
+    # https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#affinity-and-anti-affinity
+    # This example will ensure that the pods will only be scheduled on nodes with the label `topology.kubernetes.io/zone`
+    # set to `eu-west-1` or `eu-east-1`.
+    # nodeAffinity:
+    #   requiredDuringSchedulingIgnoredDuringExecution:
+    #     nodeSelectorTerms:
+    #     - matchExpressions:
+    #       - key: topology.kubernetes.io/zone
+    #         operator: In
+    #         values:
+    #         - eu-east-1
+    #         - eu-west-1
+    #
+    # The following example will make sure that these pods will never be scheduled on the same node.
+    # podAntiAffinity:
+    #   requiredDuringSchedulingIgnoredDuringExecution:
+    #     - labelSelector:
+    #         matchExpressions:
+    #           - key: app
+    #             operator: In
+    #             values:
+    #               - appprovider
+    #       topologyKey: "kubernetes.io/hostname"
+    #
+    # Do note that the value will be different for each service.
 
   # -- APP REGISTRY service. Not used if `features.appsIntegration.enabled` equals `false`.
   # @default -- see detailed service configuration options below
   appregistry:
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
+    # -- Affinity settings for the appregistry service. See the documentation of this setting in approvider for examples.
+    affinity: {}
 
   # -- AUDIT service.
   # @default -- see detailed service configuration options below
@@ -612,6 +643,8 @@ services:
     podDisruptionBudget: {}
     # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
     autoscaling: {}
+    # -- Affinity settings for the audit service. See the documentation of this setting in approvider for examples.
+    affinity: {}
 
   # -- AUTH BASIC service. Not used if `features.externalUserManagement.enabled` equals `true`.
   # @default -- see detailed service configuration options below
@@ -622,6 +655,8 @@ services:
     podDisruptionBudget: {}
     # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
     autoscaling: {}
+    # -- Affinity settings for the authbasic service. See the documentation of this setting in approvider for examples.
+    affinity: {}
 
   # -- AUTH MACHINE service.
   # @default -- see detailed service configuration options below
@@ -632,6 +667,8 @@ services:
     podDisruptionBudget: {}
     # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
     autoscaling: {}
+    # -- Affinity settings for the authmachine service. See the documentation of this setting in approvider for examples.
+    affinity: {}
 
   # -- ANTIVIRUS service. Not used if `features.virusscan.enabled` equals `false`.
   # @default -- see detailed service configuration options below
@@ -642,6 +679,8 @@ services:
     podDisruptionBudget: {}
     # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
     autoscaling: {}
+    # -- Affinity settings for the antivirus service. See the documentation of this setting in approvider for examples.
+    affinity: {}
 
   # -- EVENT HISTORY service.
   # @default -- see detailed service configuration options below
@@ -662,6 +701,8 @@ services:
     podDisruptionBudget: {}
     # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
     autoscaling: {}
+    # -- Affinity settings for the eventhistory service. See the documentation of this setting in approvider for examples.
+    affinity: {}
 
   # -- FRONTEND service.
   # @default -- see detailed service configuration options below
@@ -672,6 +713,8 @@ services:
     podDisruptionBudget: {}
     # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
     autoscaling: {}
+    # -- Affinity settings for the frontend service. See the documentation of this setting in approvider for examples.
+    affinity: {}
 
   # -- GATEWAY service.
   # @default -- see detailed service configuration options below
@@ -682,6 +725,8 @@ services:
     podDisruptionBudget: {}
     # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
     autoscaling: {}
+    # -- Affinity settings for the gateway service. See the documentation of this setting in approvider for examples.
+    affinity: {}
 
   # -- GRAPH service.
   # @default -- see detailed service configuration options below
@@ -692,6 +737,8 @@ services:
     podDisruptionBudget: {}
     # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
     autoscaling: {}
+    # -- Affinity settings for the graph service. See the documentation of this setting in approvider for examples.
+    affinity: {}
 
   # -- GROUPS service.
   # @default -- see detailed service configuration options below
@@ -702,6 +749,8 @@ services:
     podDisruptionBudget: {}
     # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
     autoscaling: {}
+    # -- Affinity settings for the groups service. See the documentation of this setting in approvider for examples.
+    affinity: {}
 
   # -- IDM service. Not used if `features.externalUserManagement.enabled` equals `true`.
   # @default -- see detailed service configuration options below
@@ -737,12 +786,16 @@ services:
       existingClaim:
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
+    # -- Affinity settings for the idm service. See the documentation of this setting in approvider for examples.
+    affinity: {}
 
   # -- IDP service. Not used if `features.externalUserManagement.enabled` equals `true`.
   # @default -- see detailed service configuration options below
   idp:
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
+    # -- Affinity settings for the idp service. See the documentation of this setting in approvider for examples.
+    affinity: {}
 
   # -- NATS service. Not used if `messagingSystem.external.enabled` equals `true`.
   # @default -- see detailed service configuration options below
@@ -778,6 +831,8 @@ services:
       existingClaim:
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
+    # -- Affinity settings for the nats service. See the documentation of this setting in approvider for examples.
+    affinity: {}
 
   # -- NOTIFICATIONS service. Not used if `features.emailNotifications.enabled` equals `true`.
   # @default -- see detailed service configuration options below
@@ -788,6 +843,8 @@ services:
     podDisruptionBudget: {}
     # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
     autoscaling: {}
+    # -- Affinity settings for the notifications service. See the documentation of this setting in approvider for examples.
+    affinity: {}
 
   # -- OCDAV service.
   # @default -- see detailed service configuration options below
@@ -798,6 +855,8 @@ services:
     podDisruptionBudget: {}
     # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
     autoscaling: {}
+    # -- Affinity settings for the ocdav service. See the documentation of this setting in approvider for examples.
+    affinity: {}
 
   # -- OCS service.
   # @default -- see detailed service configuration options below
@@ -808,18 +867,24 @@ services:
     podDisruptionBudget: {}
     # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
     autoscaling: {}
+    # -- Affinity settings for the ocs service. See the documentation of this setting in approvider for examples.
+    affinity: {}
 
   # -- POLICIES service.
   # @default -- see detailed service configuration options below
   policies:
     # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
     autoscaling: {}
+    # -- Affinity settings for the policies service. See the documentation of this setting in approvider for examples.
+    affinity: {}
 
   # -- POSTPROCESSING service.
   # @default -- see detailed service configuration options below
   postprocessing:
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
+    # -- Affinity settings for the postprocessing service. See the documentation of this setting in approvider for examples.
+    affinity: {}
 
   # -- PROXY service.
   # @default -- see detailed service configuration options below
@@ -830,6 +895,8 @@ services:
     podDisruptionBudget: {}
     # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
     autoscaling: {}
+    # -- Affinity settings for the proxy service. See the documentation of this setting in approvider for examples.
+    affinity: {}
 
   # -- SEARCH service.
   # @default -- see detailed service configuration options below
@@ -877,6 +944,8 @@ services:
     resources: {}
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
     podDisruptionBudget: {}
+    # -- Affinity settings for the search service. See the documentation of this setting in approvider for examples.
+    affinity: {}
 
   # -- SETTINGS service.
   # @default -- see detailed service configuration options below
@@ -887,6 +956,8 @@ services:
     podDisruptionBudget: {}
     # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
     autoscaling: {}
+    # -- Affinity settings for the settings service. See the documentation of this setting in approvider for examples.
+    affinity: {}
 
   # -- SHARING service.
   # @default -- see detailed service configuration options below
@@ -895,6 +966,8 @@ services:
     resources: {}
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
     podDisruptionBudget: {}
+    # -- Affinity settings for the sharing service. See the documentation of this setting in approvider for examples.
+    affinity: {}
 
   # -- STORAGE-PUBLICLINK service.
   # @default -- see detailed service configuration options below
@@ -905,6 +978,8 @@ services:
     podDisruptionBudget: {}
     # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
     autoscaling: {}
+    # -- Affinity settings for the storagepubliclink service. See the documentation of this setting in approvider for examples.
+    affinity: {}
 
   # -- STORAGE-SHARES service.
   # @default -- see detailed service configuration options below
@@ -915,6 +990,8 @@ services:
     podDisruptionBudget: {}
     # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
     autoscaling: {}
+    # -- Affinity settings for the storageshares service. See the documentation of this setting in approvider for examples.
+    affinity: {}
 
   # -- STORAGE-SYSTEM service.
   # @default -- see detailed service configuration options below
@@ -954,6 +1031,8 @@ services:
     podDisruptionBudget: {}
     # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
     autoscaling: {}
+    # -- Affinity settings for the storagesystem service. See the documentation of this setting in approvider for examples.
+    affinity: {}
 
   # -- STORAGE-USERS service.
   # @default -- see detailed service configuration options below
@@ -1057,6 +1136,8 @@ services:
     podDisruptionBudget: {}
     # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
     autoscaling: {}
+    # -- Affinity settings for the storageusers service. See the documentation of this setting in approvider for examples.
+    affinity: {}
 
   # -- STORE service.
   # @default -- see detailed service configuration options below
@@ -1092,6 +1173,8 @@ services:
       existingClaim:
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
+    # -- Affinity settings for the store service. See the documentation of this setting in approvider for examples.
+    affinity: {}
 
   # -- THUMBNAILS service.
   # @default -- see detailed service configuration options below
@@ -1141,6 +1224,8 @@ services:
         method: atime
     # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
     autoscaling: {}
+    # -- Affinity settings for the thumbnails service. See the documentation of this setting in approvider for examples.
+    affinity: {}
 
   # -- USERLOG service.
   # @default -- see detailed service configuration options below
@@ -1161,6 +1246,8 @@ services:
     podDisruptionBudget: {}
     # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
     autoscaling: {}
+    # -- Affinity settings for the userlog service. See the documentation of this setting in approvider for examples.
+    affinity: {}
 
   # -- USERS service.
   # @default -- see detailed service configuration options below
@@ -1171,6 +1258,8 @@ services:
     podDisruptionBudget: {}
     # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
     autoscaling: {}
+    # -- Affinity settings for the users service. See the documentation of this setting in approvider for examples.
+    affinity: {}
 
   # -- ownCloud WEB service.
   # @default -- see detailed service configuration options below
@@ -1286,6 +1375,8 @@ services:
     podDisruptionBudget: {}
     # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
     autoscaling: {}
+    # -- Affinity settings for the web service. See the documentation of this setting in approvider for examples.
+    affinity: {}
 
   # -- WEBDAV service.
   # @default -- see detailed service configuration options below
@@ -1296,6 +1387,8 @@ services:
     podDisruptionBudget: {}
     # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
     autoscaling: {}
+    # -- Affinity settings for the webdav service. See the documentation of this setting in approvider for examples.
+    affinity: {}
 
 # -- Service monitoring configuration. Requires the monitoring.coreos.com/v1 CRDs to be installed.
 monitoring:

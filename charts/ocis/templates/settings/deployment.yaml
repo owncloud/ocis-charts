@@ -15,6 +15,7 @@ spec:
     {{- include "ocis.templateMetadata" (dict "scope" $ "configCheck" true) | nindent 4 }}
 
     spec:
+      {{- include "ocis.affinity" .Values.services.settings | nindent 6 }}
       {{- include "ocis.securityContextAndtopologySpreadConstraints" . | nindent 6 }}
       containers:
         - name: {{ .appName }}
