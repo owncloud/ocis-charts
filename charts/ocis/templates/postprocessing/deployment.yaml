@@ -1,5 +1,6 @@
 {{- include "ocis.appNames" (dict "scope" . "appName" "appNamePostprocessing" "appNameSuffix" "") -}}
 {{- $_ := set . "resources" (default (default (dict) .Values.resources) .Values.services.postprocessing.resources) -}}
+{{- $_ := set . "store" (default (default (dict) .Values.store) .Values.services.postprocessing.store) -}}
 apiVersion: apps/v1
 kind: Deployment
 {{ include "ocis.metadata" . }}
@@ -75,14 +76,11 @@ spec:
               value: "" # no cert needed
               {{- end }}
             {{- end }}
-            
-            # cache
+
             - name: POSTPROCESSING_STORE_TYPE
-              value: {{ .Values.cache.type | quote }}
-            {{- if ne .Values.cache.type "noop" }}
+              value: {{ .store.type | quote }}
             - name: POSTPROCESSING_STORE_NODES
-              value: {{ join "," .Values.cache.nodes | quote }}
-            {{- end }}
+              value: {{ tpl (join "," .store.nodes) . | quote }}
 
           {{- include "ocis.livenessProbe" . | nindent 10 }}
 

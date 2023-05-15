@@ -1656,6 +1656,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service resources configuration. Overrides the default setting from `resources` if set.
+| services.postprocessing.store
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service store configuration for the eventhistory service. Overrides the default setting from `store` if set.
 | services.proxy
 a| [subs=-attributes]
 +object+
