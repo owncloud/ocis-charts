@@ -59,9 +59,6 @@ spec:
               value: {{ .Values.features.externalUserManagement.ldap.insecure | quote }}
 
             - name: AUTH_BASIC_LDAP_USER_BASE_DN
-              value: {{ .Values.features.externalUserManagement.ldap.loginAttributes | quote }}
-
-            - name: AUTH_BASIC_LDAP_USER_BASE_DN
               value: {{ .Values.features.externalUserManagement.ldap.user.baseDN | quote }}
             - name: AUTH_BASIC_LDAP_GROUP_BASE_DN
               value: {{ .Values.features.externalUserManagement.ldap.group.baseDN | quote }}
