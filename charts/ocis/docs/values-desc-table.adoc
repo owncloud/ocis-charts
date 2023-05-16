@@ -2194,8 +2194,8 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 +string+
 a| [subs=-attributes]
-`"lorem-ipsum"`
-| S3 access key to use for the S3NG driver. Only used if driver is set to "s3ng".
+`""`
+| S3 access key to use for the S3NG driver. Only used if driver is set to "s3ng". DEPRECATION WARNING: These values will be removed in the future. Predefine `secretRefs.s3CredentialsSecretRef` instead.
 | services.storageusers.storageBackend.driverConfig.s3ng.bucket
 a| [subs=-attributes]
 +string+
@@ -2224,8 +2224,8 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 +string+
 a| [subs=-attributes]
-`"lorem-ipsum"`
-| S3 secret key to use for the S3NG driver. Only used if driver is set to "s3ng".
+`""`
+| S3 secret key to use for the S3NG driver. Only used if driver is set to "s3ng". DEPRECATION WARNING: These values will be removed in the future. Predefine `secretRefs.s3CredentialsSecretRef` instead.
 | services.store
 a| [subs=-attributes]
 +object+
