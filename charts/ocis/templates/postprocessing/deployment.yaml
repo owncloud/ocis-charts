@@ -6,9 +6,7 @@ kind: Deployment
 spec:
   {{- include "ocis.selector" . | nindent 2 }}
   replicas: 1 #TODO: https://github.com/owncloud/ocis-charts/issues/15
-  {{- if .Values.deploymentStrategy }}
-  strategy: {{ toYaml .Values.deploymentStrategy | nindent 4 }}
-  {{- end }}
+  {{- include "ocis.deploymentStrategy" . | nindent 2 }}
   template:
     {{- include "ocis.templateMetadata" (dict "scope" $ "configCheck" false) | nindent 4 }}
     spec:
