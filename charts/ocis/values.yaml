@@ -272,6 +272,10 @@ features:
       bindDN: uid=ocis,ou=system-users,dc=owncloud,dc=test
       # -- Signals that the LDAP server has the refint plugin enabled, which makes some actions not needed.
       refintEnabled: false
+      # -- Use the Password Modify Extended Operation for updating user passwords.
+      passwordModifyExOpEnabled: false
+      # -- If set to true, rely on the LDAP Server to generate a unique ID for users and groups, like when using 'entryUUID' as the user ID attribute.
+      useServerUUID: false
       user:
         schema:
           # -- LDAP Attribute to use as the unique id for users. This should be a stable globally unique id like a UUID.
@@ -284,6 +288,8 @@ features:
           displayName: displayname
           # -- LDAP Attribute to use for username of users.
           userName: uid
+          # -- LDAP Attribute to distinguish between 'Member' and 'Guest' users. Default is 'ownCloudUserType'.
+          userType: ownCloudUserType
         # -- Search base DN for looking up LDAP users.
         baseDN: ou=users,dc=owncloud,dc=com
         # -- LDAP search scope to use when looking up users. Supported values are `base`, `one` and `sub`.
@@ -329,6 +335,7 @@ features:
         userEnabledAttribute: ownCloudUserEnabled
         # -- Group that a user can be added to and by that being marked as disabled.
         disabledUsersGroupDN: "cn=DisabledUsersGroup,ou=groups,o=libregraph-idm"
+
   # GDPR report related settings.
   gdprReport:
     # -- Enables the GDPR report feature

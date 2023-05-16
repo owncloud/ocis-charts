@@ -149,6 +149,13 @@ spec:
                   name: {{ .Values.secretRefs.jwtSecretRef }}
                   key: jwt-secret
 
+            - name: AUTH_BASIC_LDAP_USER_ENABLED_ATTRIBUTE
+              value: {{ .Values.features.externalUserManagement.ldap.disableUsers.userEnabledAttribute | quote }}
+            - name: AUTH_BASIC_DISABLE_USER_MECHANISM
+              value: {{ .Values.features.externalUserManagement.ldap.disableUsers.disableMechanism | quote }}
+            - name: AUTH_BASIC_DISABLED_USERS_GROUP_DN
+              value: {{ .Values.features.externalUserManagement.ldap.disableUsers.disabledUsersGroupDN | quote }}
+
           {{- include "ocis.livenessProbe" . | nindent 10 }}
 
           resources: {{ toYaml .resources | nindent 12 }}

@@ -65,32 +65,36 @@ spec:
                   name: {{ .Values.secretRefs.ldapSecretRef }}
                   key: graph-ldap-bind-password
             {{ else }}
-            - name: LDAP_URI
+            - name: OCIS_LDAP_URI
               value: {{ .Values.features.externalUserManagement.ldap.uri | quote }}
-            - name: LDAP_BIND_DN
+            - name: OCIS_LDAP_BIND_DN
               value: {{ .Values.features.externalUserManagement.ldap.bindDN | quote }}
-            - name: LDAP_BIND_PASSWORD
+            - name: OCIS_LDAP_BIND_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: {{ .Values.secretRefs.ldapSecretRef }}
                   key: reva-ldap-bind-password
             - name: GRAPH_LDAP_SERVER_WRITE_ENABLED
               value: {{ .Values.features.externalUserManagement.ldap.writeable | quote }}
-            - name: LDAP_CACERT
+            - name: OCIS_LDAP_CACERT
               {{ if or (not .Values.features.externalUserManagement.enabled) (not .Values.features.externalUserManagement.ldap.certTrusted) }}
               value: /etc/ocis/ldap-ca/ldap-ca.crt
               {{ else }}
               value: "" # no cert needed
               {{ end }}
-            - name: LDAP_INSECURE
+            - name: OCIS_LDAP_INSECURE
               value: {{ .Values.features.externalUserManagement.ldap.insecure | quote }}
+            - name: GRAPH_LDAP_SERVER_UUID
+              value: {{ .Values.features.externalUserManagement.ldap.useServerUUID | quote }}
+            - name: GRAPH_LDAP_SERVER_USE_PASSWORD_MODIFY_EXOP
+              value: {{ .Values.features.externalUserManagement.ldap.passwordModifyExOpEnabled | quote }}
 
             - name: GRAPH_LDAP_REFINT_ENABLED
               value: {{ .Values.features.externalUserManagement.ldap.refintEnabled | quote }}
 
-            - name: LDAP_USER_BASE_DN
+            - name: OCIS_LDAP_USER_BASE_DN
               value: {{ .Values.features.externalUserManagement.ldap.user.baseDN | quote }}
-            - name: LDAP_GROUP_BASE_DN
+            - name: OCIS_LDAP_GROUP_BASE_DN
               value: {{ .Values.features.externalUserManagement.ldap.group.baseDN | quote }}
             - name: GRAPH_LDAP_GROUP_CREATE_BASE_DN
             {{- if .Values.features.externalUserManagement.ldap.group.createBaseDN }}
@@ -99,40 +103,44 @@ spec:
               value: {{ .Values.features.externalUserManagement.ldap.group.baseDN | quote }}
             {{- end }}
 
-            - name: LDAP_USER_SCOPE
+            - name: GRAPH_LDAP_USER_DISPLAYNAME_ATTRIBUTE
+              value: {{ .Values.features.externalUserManagement.ldap.user.displayName | quote }}
+            - name: OCIS_LDAP_USER_SCOPE
               value: {{ .Values.features.externalUserManagement.ldap.user.scope | quote }}
-            - name: LDAP_GROUP_SCOPE
+            - name: OCIS_LDAP_GROUP_SCOPE
               value: {{ .Values.features.externalUserManagement.ldap.group.scope | quote }}
 
-            - name: LDAP_USER_FILTER
+            - name: OCIS_LDAP_USER_FILTER
               value: {{ .Values.features.externalUserManagement.ldap.user.filter | quote }}
-            - name: LDAP_GROUP_FILTER
+            - name: OCIS_LDAP_GROUP_FILTER
               value: {{ .Values.features.externalUserManagement.ldap.group.filter | quote }}
 
-            - name: LDAP_USER_OBJECTCLASS
+            - name: OCIS_LDAP_USER_OBJECTCLASS
               value: {{ .Values.features.externalUserManagement.ldap.user.objectClass | quote }}
-            - name: LDAP_GROUP_OBJECTCLASS
+            - name: OCIS_LDAP_GROUP_OBJECTCLASS
               value: {{ .Values.features.externalUserManagement.ldap.group.objectClass | quote }}
 
-            - name: LDAP_USER_SCHEMA_ID
+            - name: OCIS_LDAP_USER_SCHEMA_ID
               value: {{ .Values.features.externalUserManagement.ldap.user.schema.id | quote }}
-            - name: LDAP_GROUP_SCHEMA_ID
+            - name: OCIS_LDAP_GROUP_SCHEMA_ID
               value: {{ .Values.features.externalUserManagement.ldap.group.schema.id | quote }}
 
-            - name: LDAP_USER_SCHEMA_MAIL
+            - name: OCIS_LDAP_USER_SCHEMA_MAIL
               value: {{ .Values.features.externalUserManagement.ldap.user.schema.mail | quote }}
-            - name: LDAP_GROUP_SCHEMA_MAIL
-              value: {{ .Values.features.externalUserManagement.ldap.group.schema.mail | quote }}
 
-            - name: LDAP_USER_SCHEMA_DISPLAYNAME
+            - name: OCIS_LDAP_USER_SCHEMA_DISPLAYNAME
               value: {{ .Values.features.externalUserManagement.ldap.user.schema.displayName | quote }}
-            - name: LDAP_GROUP_SCHEMA_DISPLAYNAME
-              value: {{ .Values.features.externalUserManagement.ldap.group.schema.displayName | quote }}
-
-            - name: LDAP_USER_SCHEMA_USERNAME
+            - name: OCIS_LDAP_USER_SCHEMA_USERNAME
               value: {{ .Values.features.externalUserManagement.ldap.user.schema.userName | quote }}
-            - name: LDAP_GROUP_SCHEMA_GROUPNAME
+            - name: OCIS_LDAP_USER_SCHEMA_USER_TYPE
+              value: {{ .Values.features.externalUserManagement.ldap.user.schema.userType | quote }}
+            - name: OCIS_LDAP_GROUP_SCHEMA_GROUPNAME
               value: {{ .Values.features.externalUserManagement.ldap.group.schema.groupName | quote }}
+
+            - name: OCIS_LDAP_USER_SCHEMA_ID_IS_OCTETSTRING
+              value: {{ .Values.features.externalUserManagement.ldap.user.schema.idIsOctetString | quote }}
+            - name: OCIS_LDAP_GROUP_SCHEMA_ID_IS_OCTETSTRING
+              value: {{ .Values.features.externalUserManagement.ldap.group.schema.idIsOctetString | quote }}
 
             - name: OCIS_LDAP_USER_ENABLED_ATTRIBUTE
               value: {{ .Values.features.externalUserManagement.ldap.disableUsers.userEnabledAttribute | quote }}
@@ -140,6 +148,7 @@ spec:
               value: {{ .Values.features.externalUserManagement.ldap.disableUsers.disableMechanism | quote }}
             - name: OCIS_LDAP_DISABLED_USERS_GROUP_DN
               value: {{ .Values.features.externalUserManagement.ldap.disableUsers.disabledUsersGroupDN | quote }}
+
             {{ end }}
 
             # cache
