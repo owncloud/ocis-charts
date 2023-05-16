@@ -301,10 +301,6 @@ features:
         filter:
         # -- The object class to use for users in the default user search filter like `inetOrgPerson`.
         objectClass: inetOrgPerson
-        # -- The user object attributes, that can be used for login. This is a comma separated list of LDAP attributes.
-        loginAttributes: uid
-        # -- LDAP User uuid attribute type like 'text'."
-        uuidAttributeType: text
       group:
         schema:
           # -- LDAP Attribute to use as the unique ID for groups. This should be a stable globally unique ID like a UUID.

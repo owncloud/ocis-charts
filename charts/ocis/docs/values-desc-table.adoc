@@ -396,12 +396,6 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `nil`
 | LDAP filter to add to the default filters for user search like `(objectclass=ownCloud)`.
-| features.externalUserManagement.ldap.user.loginAttributes
-a| [subs=-attributes]
-+string+
-a| [subs=-attributes]
-`"uid"`
-| The user object attributes, that can be used for login. This is a comma separated list of LDAP attributes.
 | features.externalUserManagement.ldap.user.objectClass
 a| [subs=-attributes]
 +string+
@@ -456,12 +450,6 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `"any"`
 | Type of substring search filter to use for substring searches for users. Possible values: `initial` for doing prefix only searches, `final` for doing suffix only searches or `any` for doing full substring searches
-| features.externalUserManagement.ldap.user.uuidAttributeType
-a| [subs=-attributes]
-+string+
-a| [subs=-attributes]
-`"text"`
-| LDAP User uuid attribute type like 'text'."
 | features.externalUserManagement.ldap.writeable
 a| [subs=-attributes]
 +bool+
