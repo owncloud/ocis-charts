@@ -55,6 +55,9 @@ spec:
             - name: OCIS_REVA_GATEWAY
               value: {{ .appNameGateway }}:9142
 
+            - name: OCIS_LDAP_SERVER_WRITE_ENABLED
+              value: {{ .Values.features.externalUserManagement.ldap.writeable | quote }}
+
             {{- if .Values.features.externalUserManagement.enabled }}
             - name: FRONTEND_READONLY_USER_ATTRIBUTES
               value: {{ tpl (join "," .Values.features.externalUserManagement.ldap.readOnlyAttributes) . | quote }}
