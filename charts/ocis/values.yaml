@@ -488,6 +488,8 @@ secretRefs:
   thumbnailsSecretRef: "thumbnails-transfer-secret"
   # -- Reference to an existing transfer secret (see ref:Secrets#secrets)
   transferSecretSecretRef: "transfer-secret"
+  # -- Reference to an existing s3 secret (see ref:Secrets#secrets)
+  s3CredentialsSecretRef: "s3-credentials-secret"
 
 # Security context options.
 securityContext:
@@ -1133,9 +1135,12 @@ services:
           # -- S3 bucket to use for the S3NG driver. Only used if driver is set to "s3ng".
           bucket: example-bucket
           # -- S3 access key to use for the S3NG driver. Only used if driver is set to "s3ng".
-          accessKey: lorem-ipsum
+          # DEPRECATION WARNING: These values will be removed in the future. Predefine `secretRefs.s3CredentialsSecretRef` instead.
+          accessKey: ""
           # -- S3 secret key to use for the S3NG driver. Only used if driver is set to "s3ng".
-          secretKey: lorem-ipsum
+          # DEPRECATION WARNING: These values will be removed in the future. Predefine `secretRefs.s3CredentialsSecretRef` instead.
+          secretKey: ""
+
     maintenance:
       # Expired uploads can be cleaned up automatically by enabling the clean up job.
       cleanUpExpiredUploads:
