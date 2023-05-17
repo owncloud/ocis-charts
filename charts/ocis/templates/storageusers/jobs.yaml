@@ -21,8 +21,8 @@ spec:
           labels:
             app: storage-users-clean-expired-uploads
             {{- include "ocis.labels" . | nindent 12 }}
-
         spec:
+          {{- include "ocis.serviceAccount" . | nindent 10 }}
           restartPolicy: Never
           containers:
             - name: storage-users-clean-expired-uploads
@@ -134,6 +134,7 @@ spec:
             {{- include "ocis.labels" . | nindent 12 }}
 
         spec:
+          {{- include "ocis.serviceAccount" . | nindent 10 }}
           restartPolicy: Never
           containers:
             - name: storage-users-purge-expired-trash-bin-items
