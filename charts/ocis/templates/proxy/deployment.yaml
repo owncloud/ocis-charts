@@ -80,7 +80,7 @@ spec:
             - name: PROXY_TLS
               value: "false"
 
-            - name: REVA_GATEWAY
+            - name: OCIS_REVA_GATEWAY
               value: {{ .appNameGateway }}:9142
 
             - name: PROXY_OIDC_INSECURE

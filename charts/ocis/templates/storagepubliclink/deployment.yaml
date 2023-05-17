@@ -51,7 +51,7 @@ spec:
             - name: STORAGE_PUBLICLINK_DEBUG_ADDR
               value: 0.0.0.0:9179
 
-            - name: REVA_GATEWAY
+            - name: OCIS_REVA_GATEWAY
               value: {{ .appNameGateway }}:9142
 
             - name: STORAGE_PUBLICLINK_JWT_SECRET

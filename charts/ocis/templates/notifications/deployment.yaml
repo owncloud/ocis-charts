@@ -78,7 +78,7 @@ spec:
             - name: NOTIFICATIONS_WEB_UI_URL
               value: "https://{{ .Values.externalDomain }}"
 
-            - name: REVA_GATEWAY
+            - name: OCIS_REVA_GATEWAY
               value: {{ .appNameGateway }}:9142
             - name: NOTIFICATIONS_EVENTS_ENDPOINT
             {{- if not .Values.messagingSystem.external.enabled }}

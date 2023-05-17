@@ -49,7 +49,7 @@ spec:
             - name: APP_REGISTRY_DEBUG_ADDR
               value: 0.0.0.0:9243
 
-            - name: REVA_GATEWAY
+            - name: OCIS_REVA_GATEWAY
               value: {{ .appNameGateway }}:9142
 
             - name: APP_REGISTRY_JWT_SECRET

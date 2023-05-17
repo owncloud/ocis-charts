@@ -58,7 +58,7 @@ spec:
               value: {{ .Values.features.externalUserManagement.oidc.issuerURI | quote }}
             {{ end }}
 
-            - name: REVA_GATEWAY
+            - name: OCIS_REVA_GATEWAY
               value: {{ .appNameGateway }}:9142
 
             - name: OCS_JWT_SECRET

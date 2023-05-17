@@ -71,7 +71,7 @@ spec:
             - name: APP_PROVIDER_WOPI_FOLDER_URL_BASE_URL
               value: {{ tpl $.Values.features.appsIntegration.wopiIntegration.wopiFolderURI $ | quote }}
 
-            - name: REVA_GATEWAY
+            - name: OCIS_REVA_GATEWAY
               value: {{ $.appNameGateway }}:9142
 
             - name: APP_PROVIDER_JWT_SECRET

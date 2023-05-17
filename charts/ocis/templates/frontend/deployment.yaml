@@ -54,7 +54,7 @@ spec:
             - name: FRONTEND_PUBLIC_URL
               value: "https://{{ .Values.externalDomain }}"
 
-            - name: REVA_GATEWAY
+            - name: OCIS_REVA_GATEWAY
               value: {{ .appNameGateway }}:9142
 
             {{- if .Values.features.externalUserManagement.enabled }}
@@ -96,7 +96,7 @@ spec:
                   name: {{ .Values.secretRefs.machineAuthApiKeySecretRef }}
                   key: machine-auth-api-key
 
-            - name: STORAGE_TRANSFER_SECRET
+            - name: OCIS_TRANSFER_SECRET
               valueFrom:
                 secretKeyRef:
                   name: {{ .Values.secretRefs.transferSecretSecretRef }}

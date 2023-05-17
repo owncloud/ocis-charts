@@ -78,7 +78,7 @@ spec:
               {{- end }}
             {{- end }}
 
-            - name: REVA_GATEWAY
+            - name: OCIS_REVA_GATEWAY
               value: {{ .appNameGateway }}:9142
 
             - name: USERLOG_MACHINE_AUTH_API_KEY

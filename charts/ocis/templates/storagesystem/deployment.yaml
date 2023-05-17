@@ -71,7 +71,7 @@ spec:
             - name: STORAGE_SYSTEM_DATA_SERVER_URL
               value: http://{{ .appName }}:9216/data
 
-            - name: REVA_GATEWAY
+            - name: OCIS_REVA_GATEWAY
               value: {{ .appNameGateway }}:9142
 
             - name: STORAGE_SYSTEM_DRIVER
