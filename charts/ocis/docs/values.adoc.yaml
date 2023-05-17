@@ -482,6 +482,8 @@ secretRefs:
   thumbnailsSecretRef: "thumbnails-transfer-secret"
   # -- Reference to an existing transfer secret (see xref:{secrets}[Secrets])
   transferSecretSecretRef: "transfer-secret"
+  # -- Reference to an existing s3 secret (see xref:{secrets}[Secrets])
+  s3CredentialsSecretRef: "s3-credentials-secret"
 
 # Security context options.
 securityContext:

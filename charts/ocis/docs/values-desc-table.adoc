@@ -882,6 +882,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `"notifications-smtp-secret"`
 | Reference to an existing SMTP email server settings secret (see xref:{secrets}[Secrets]). Not used if `features.emailNotifications.enabled` equals `false`.
+| secretRefs.s3CredentialsSecretRef
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"s3-credentials-secret"`
+| Reference to an existing s3 secret (see xref:{secrets}[Secrets])
 | secretRefs.storagesystemJwtSecretRef
 a| [subs=-attributes]
 +string+
