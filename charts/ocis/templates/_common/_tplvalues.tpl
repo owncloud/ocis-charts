@@ -221,3 +221,13 @@ livenessProbe:
   periodSeconds: 20
   failureThreshold: 3
 {{- end -}}
+
+{{/*
+oCIS deployment strategy
+*/}}
+{{- define "ocis.deploymentStrategy" -}}
+  {{- with $.Values.deploymentStrategy }}
+strategy:
+  {{- toYaml . | nindent 2 }}
+  {{- end }}
+{{- end -}}
