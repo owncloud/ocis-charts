@@ -54,6 +54,8 @@ spec:
             - name: OCIS_REVA_GATEWAY
               value: {{ .appNameGateway }}:9142
 
+            {{- include "ocis.cors" . |nindent 12 }}
+
           {{- include "ocis.livenessProbe" . | nindent 10 }}
 
           resources: {{ toYaml .resources | nindent 12 }}

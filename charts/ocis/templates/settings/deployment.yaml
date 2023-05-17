@@ -90,6 +90,8 @@ spec:
                   name: {{ .Values.secretRefs.storagesystemSecretRef }}
                   key: user-id
 
+            {{- include "ocis.cors" . |nindent 12 }}
+
           {{- include "ocis.livenessProbe" . | nindent 10 }}
 
           resources: {{ toYaml .resources | nindent 12 }}

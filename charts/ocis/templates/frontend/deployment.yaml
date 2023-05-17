@@ -105,6 +105,8 @@ spec:
               value: {{ .Values.features.quotas.max | quote }}
             {{- end }}
 
+            {{- include "ocis.cors" . |nindent 12 }}
+
           {{- include "ocis.livenessProbe" . | nindent 10 }}
 
           resources: {{ toYaml .resources | nindent 12 }}

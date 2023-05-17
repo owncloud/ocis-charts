@@ -231,3 +231,14 @@ strategy:
   {{- toYaml . | nindent 2 }}
   {{- end }}
 {{- end -}}
+
+{{/*
+oCIS deployment CORS template
+
+*/}}
+{{- define "ocis.cors" -}}
+{{- if .Values.http.cors.allow_origins }}
+- name: OCIS_CORS_ALLOW_ORIGINS
+  value: {{ .Values.http.cors.allow_origins | join "," | quote }}
+{{- end }}
+{{- end -}}
