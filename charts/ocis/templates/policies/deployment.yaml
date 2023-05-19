@@ -17,6 +17,7 @@ spec:
   template:
     {{- include "ocis.templateMetadata" (dict "scope" $ "configCheck" true) | nindent 4 }}
     spec:
+      {{- include "ocis.serviceAccount" . | nindent 6 }}
       {{- include "ocis.affinity" .Values.services.policies | nindent 6 }}
       securityContext:
           fsGroup: {{ .Values.securityContext.fsGroup }}

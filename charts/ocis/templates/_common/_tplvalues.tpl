@@ -242,3 +242,10 @@ oCIS deployment CORS template
   value: {{ .Values.http.cors.allow_origins | join "," | quote }}
 {{- end }}
 {{- end -}}
+
+{{/*
+oCIS serviceAccount settings
+*/}}
+{{- define "ocis.serviceAccount" -}}
+automountServiceAccountToken: true
+{{- end -}}
