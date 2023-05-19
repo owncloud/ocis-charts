@@ -1,7 +1,7 @@
 {{ if .Values.features.appsIntegration.enabled }}
 {{- range $officeSuite := .Values.features.appsIntegration.wopiIntegration.officeSuites }}
 {{ if $officeSuite.enabled }}
-{{- include "ocis.appNames" (dict "scope" $ "appName" "appNameAppProvider" "appNameSuffix" (regexReplaceAll "\\W+" (lower $officeSuite.name) "_")) -}}
+{{- include "ocis.appNames" (dict "scope" $ "appName" "appNameAppProvider" "appNameSuffix" (regexReplaceAll "\\W+" (lower $officeSuite.name) "-")) -}}
 {{- $_ := set $ "resources" (default (default (dict) $.Values.resources) $.Values.services.appprovider.resources) -}}
 ---
 apiVersion: apps/v1
