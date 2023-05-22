@@ -131,9 +131,6 @@ def documentation(ctx):
             {
                 "name": "gomplate-values-adoc",
                 "image": "hairyhenderson/gomplate:v3.10.0-alpine",
-                "enviornment": {
-                    "ASSUME_NO_MOVING_GC_UNSAFE_RISK_IT_WITH": "go1.18",
-                },
                 "entrypoint": [
                     "/bin/gomplate",
                     "--file=charts/ocis/docs/templates/values.adoc.yaml.gotmpl",
