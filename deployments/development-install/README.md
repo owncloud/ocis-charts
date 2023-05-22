@@ -26,7 +26,7 @@ may want to add these to your `/etc/hosts` file pointing to your ingress control
 
 - https://ocis.kube.owncloud.test
 
-Note that if you want to use your own host, you will have to change the `externalDomain` value.
+Note that if you want to use your own hostname and domain, you will have to change the `externalDomain` value.
 
 ### Deploying
 
