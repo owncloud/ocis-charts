@@ -167,17 +167,16 @@ releases:
             metadata:
               name: idp-secrets
             type: Opaque
-            {{ $privKey := genPrivateKey "rsa" }}
             data:
               encryption.key: {{ randAscii 32 | b64enc | quote }}
-              private-key.pem: {{ $privKey | b64enc | quote }}
+              private-key.pem: {{ genPrivateKey "rsa" | b64enc | quote }}
           - |
             apiVersion: v1
             kind: ConfigMap
             metadata:
               name: storage-users
             data:
-              storage-uuid: 1284d238-aa92-42ce-bdc4-0b0000009157
+              storage-uuid: {{ uuidv4 | quote }}
 
           - |
             apiVersion: v1
@@ -185,4 +184,4 @@ releases:
             metadata:
               name: graph
             data:
-              application-id: 6daae694-6fc4-4421-82a5-7a9c7d7e58b4
+              application-id: {{ uuidv4 | quote }}
