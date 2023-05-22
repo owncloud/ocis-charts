@@ -84,13 +84,13 @@ spec:
               value: {{ .appNameNats }}:9233
             {{- else }}
               value: {{ .Values.messagingSystem.external.endpoint | quote }}
-            - name: NOTIFICIATIONS_EVENTS_CLUSTER
+            - name: NOTIFICATIONS_EVENTS_CLUSTER
               value: {{ .Values.messagingSystem.external.cluster | quote }}
-            - name: NOTIFICIATIONS_EVENTS_ENABLE_TLS
+            - name: NOTIFICATIONS_EVENTS_ENABLE_TLS
               value: {{ .Values.messagingSystem.external.tls.enabled | quote }}
-            - name: NOTIFICIATIONS_EVENTS_TLS_INSECURE
+            - name: NOTIFICATIONS_EVENTS_TLS_INSECURE
               value: {{ .Values.messagingSystem.external.tls.insecure | quote }}
-            - name: NOTIFICIATIONS_EVENTS_TLS_ROOT_CA_CERTIFICATE
+            - name: NOTIFICATIONS_EVENTS_TLS_ROOT_CA_CERTIFICATE
               {{- if not .Values.messagingSystem.external.tls.certTrusted }}
               value: /etc/ocis/messaging-system-ca/messaging-system-ca.crt
               {{- else }}
