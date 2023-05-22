@@ -1,0 +1,49 @@
+# oCIS development deployment example
+
+## Introduction
+
+This example will deploy a mostly default oCIS setup to kubernetes. The intent is that this will
+work "out of the box" after a `helmfile sync`.
+
+***Note***: This example is not intended for production use. It is intended to get a working oCIS
+development running in kubernetes as quickly as possible. It is not hardened in any way.
+
+## Getting started
+
+### Prerequisites
+
+This example requires the following things to be installed:
+
+- [Kubernetes](https://kubernetes.io/) cluster, with an ingress controller installed.
+- [Helm](https://helm.sh/) v3
+- [Helm diff](https://github.com/databus23/helm-diff)
+- [Helmfile](https://github.com/roboll/helmfile)
+
+### End result
+
+After following the steps in this guide, you should be able to access the following endpoint, you 
+may want to add these to your `/etc/hosts` file pointing to your ingress controller IP:
+
+- https://ocis.kube.owncloud.test
+
+Note that if you want to use your own host, you will have to change the `externalDomain` value.
+
+### Deploying
+
+In this directory, run the following commands:
+
+```bash
+$ helmfile sync
+```
+
+This will deploy all the needed steps.
+
+### Logging in
+
+You can get the admin password with the following command: 
+
+```bash
+$ kubectl -n ocis get secret admin-user -o go-template --template="{{.data.password | base64decode }}"
+```
+
+You can use this password to login with the user `admin`.
