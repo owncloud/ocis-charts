@@ -22,7 +22,7 @@ image:
 initContainerImage:
   # -- Image repository
   repository: busybox
-  # -- Image tag. Defaults to the chart's appVersion.
+  # -- Image tag.
   tag: "stable"
   # -- Image sha / digest (optional).
   sha: ""

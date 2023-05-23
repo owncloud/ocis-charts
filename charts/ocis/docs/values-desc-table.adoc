@@ -755,7 +755,7 @@ a| [subs=-attributes]
 +string+
 a| [subs=-attributes]
 `"stable"`
-| Image tag. Defaults to the chart's appVersion.
+| Image tag.
 | insecure.ocisHttpApiInsecure
 a| [subs=-attributes]
 +bool+
