@@ -17,7 +17,7 @@ This example requires the following things to be installed:
 - [Kubernetes](https://kubernetes.io/) cluster, with an ingress controller installed.
 - [Helm](https://helm.sh/) v3
 - [Helm diff](https://github.com/databus23/helm-diff)
-- [Helmfile](https://github.com/roboll/helmfile)
+- [Helmfile](https://github.com/helmfile/helmfile)
 
 ### End result
 
