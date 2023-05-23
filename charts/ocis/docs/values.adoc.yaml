@@ -17,6 +17,17 @@ image:
   #   - name: mySecret
   #   - name: mySecret2
 
+# Image for oCIS services
+initContainerImage:
+  # -- Image repository
+  repository: busybox
+  # -- Image tag. Defaults to the chart's appVersion.
+  tag: "stable"
+  # -- Image sha / digest (optional).
+  sha: ""
+  # -- Image pull policy
+  pullPolicy: IfNotPresent
+
 # Logging settings for oCIS services
 logging:
   # -- Log level. Valid values: `panic`, `fatal`, `error`, `warn`, `info`, `debug`, `trace`.

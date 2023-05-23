@@ -732,6 +732,30 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `[]`
 | Ingress TLS configuration.
+| initContainerImage.pullPolicy
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"IfNotPresent"`
+| Image pull policy
+| initContainerImage.repository
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"busybox"`
+| Image repository
+| initContainerImage.sha
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Image sha / digest (optional).
+| initContainerImage.tag
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"stable"`
+| Image tag. Defaults to the chart's appVersion.
 | insecure.ocisHttpApiInsecure
 a| [subs=-attributes]
 +bool+
