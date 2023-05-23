@@ -9,6 +9,10 @@ releases:
           ingressClassName: nginx
           annotations:
             nginx.ingress.kubernetes.io/proxy-body-size: 1024m
+          tls:
+            - secretName: ocis-dev-tls
+              hosts:
+                - ocis.kube.owncloud.test
 
       - logging:
           level: debug
@@ -59,8 +63,6 @@ releases:
               chownInitContainer: true
               accessModes:
                 - ReadWriteOnce
-            extraLabels:
-              foo: bar
 
           thumbnails:
             persistence:
