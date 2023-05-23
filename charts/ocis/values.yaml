@@ -1026,6 +1026,8 @@ services:
     resources: {}
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
     podDisruptionBudget: {}
+    # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
+    autoscaling: {}
     # -- Affinity settings for the sharing service. See the documentation of this setting in approvider for examples.
     affinity: {}
     # -- Per-service custom labels

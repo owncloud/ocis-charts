@@ -1878,6 +1878,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Affinity settings for the sharing service. See the documentation of this setting in approvider for examples.
+| services.sharing.autoscaling
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
 | services.sharing.extraLabels
 a| [subs=-attributes]
 +object+
