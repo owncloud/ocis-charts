@@ -287,3 +287,24 @@ oCIS persistence dataVolume
   emptyDir: {}
   {{- end }}
 {{- end -}}
+
+{{/*
+oCIS secret wrapper
+
+@param .name          The name of the secret.
+@param .params          Dict containing data keys/values (plaintext).
+@para
+*/}}
+{{- define "ocis.secret" -}}
+apiVersion: v1
+kind: Secret
+metadata:
+  name: {{ .name }}
+data:
+  {{- $secretObj := (lookup "v1" "Secret" .scope.Release.Namespace .name) | default dict }}
+  {{- $secretData := (get $secretObj "data") | default dict }}
+  {{- range $key, $value := .params }}
+  {{- $secretValue := (get $secretData $key) | default ($value | b64enc | quote)}}
+  {{ $key }}: {{ $secretValue }}
+  {{- end }}
+{{- end -}}
