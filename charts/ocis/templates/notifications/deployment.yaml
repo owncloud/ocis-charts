@@ -9,12 +9,11 @@ spec:
   {{- if and (not .Values.autoscaling.enabled) (.Values.replicas) }}
   replicas: {{ .Values.replicas }}
   {{- end }}
-  {{- if .Values.deploymentStrategy }}
-  strategy: {{ toYaml .Values.deploymentStrategy | nindent 4 }}
-  {{ end }}
+  {{- include "ocis.deploymentStrategy" . | nindent 2 }}
   template:
     {{- include "ocis.templateMetadata" (dict "scope" $ "configCheck" false) | nindent 4 }}
     spec:
+      {{- include "ocis.serviceAccount" . | nindent 6 }}
       {{- include "ocis.affinity" .Values.services.notifications | nindent 6 }}
       {{- include "ocis.securityContextAndtopologySpreadConstraints" . | nindent 6 }}
       containers:
@@ -78,20 +77,20 @@ spec:
             - name: NOTIFICATIONS_WEB_UI_URL
               value: "https://{{ .Values.externalDomain }}"
 
-            - name: REVA_GATEWAY
+            - name: OCIS_REVA_GATEWAY
               value: {{ .appNameGateway }}:9142
             - name: NOTIFICATIONS_EVENTS_ENDPOINT
             {{- if not .Values.messagingSystem.external.enabled }}
               value: {{ .appNameNats }}:9233
             {{- else }}
               value: {{ .Values.messagingSystem.external.endpoint | quote }}
-            - name: NOTIFICIATIONS_EVENTS_CLUSTER
+            - name: NOTIFICATIONS_EVENTS_CLUSTER
               value: {{ .Values.messagingSystem.external.cluster | quote }}
-            - name: NOTIFICIATIONS_EVENTS_ENABLE_TLS
+            - name: NOTIFICATIONS_EVENTS_ENABLE_TLS
               value: {{ .Values.messagingSystem.external.tls.enabled | quote }}
-            - name: NOTIFICIATIONS_EVENTS_TLS_INSECURE
+            - name: NOTIFICATIONS_EVENTS_TLS_INSECURE
               value: {{ .Values.messagingSystem.external.tls.insecure | quote }}
-            - name: NOTIFICIATIONS_EVENTS_TLS_ROOT_CA_CERTIFICATE
+            - name: NOTIFICATIONS_EVENTS_TLS_ROOT_CA_CERTIFICATE
               {{- if not .Values.messagingSystem.external.tls.certTrusted }}
               value: /etc/ocis/messaging-system-ca/messaging-system-ca.crt
               {{- else }}

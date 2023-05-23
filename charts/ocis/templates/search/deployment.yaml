@@ -11,6 +11,7 @@ spec:
   template:
     {{- include "ocis.templateMetadata" (dict "scope" $ "configCheck" false) | nindent 4 }}
     spec:
+      {{- include "ocis.serviceAccount" . | nindent 6 }}
       {{- include "ocis.affinity" .Values.services.search | nindent 6 }}
       {{- include "ocis.securityContextAndtopologySpreadConstraints" . | nindent 6 }}
       {{- if and $.Values.services.search.persistence.enabled $.Values.services.search.persistence.chownInitContainer }}
@@ -51,7 +52,7 @@ spec:
             - name: SEARCH_DEBUG_ADDR
               value: 0.0.0.0:9224
 
-            - name: REVA_GATEWAY
+            - name: OCIS_REVA_GATEWAY
               value: {{ .appNameGateway }}:9142
             - name: SEARCH_EVENTS_ENDPOINT
             {{- if not .Values.messagingSystem.external.enabled }}

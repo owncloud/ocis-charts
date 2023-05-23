@@ -8,12 +8,11 @@ spec:
   {{- if and (not .Values.autoscaling.enabled) (.Values.replicas) }}
   replicas: {{ .Values.replicas }}
   {{- end }}
-  {{- if .Values.deploymentStrategy }}
-  strategy: {{ toYaml .Values.deploymentStrategy | nindent 4 }}
-  {{ end }}
+  {{- include "ocis.deploymentStrategy" . | nindent 2 }}
   template:
     {{- include "ocis.templateMetadata" (dict "scope" $ "configCheck" false) | nindent 4 }}
     spec:
+      {{- include "ocis.serviceAccount" . | nindent 6 }}
       {{- include "ocis.affinity" .Values.services.storagesystem | nindent 6 }}
       {{- include "ocis.securityContextAndtopologySpreadConstraints" . | nindent 6 }}
       {{- if and $.Values.services.storagesystem.persistence.enabled $.Values.services.storagesystem.persistence.chownInitContainer }}
@@ -71,7 +70,7 @@ spec:
             - name: STORAGE_SYSTEM_DATA_SERVER_URL
               value: http://{{ .appName }}:9216/data
 
-            - name: REVA_GATEWAY
+            - name: OCIS_REVA_GATEWAY
               value: {{ .appNameGateway }}:9142
 
             - name: STORAGE_SYSTEM_DRIVER

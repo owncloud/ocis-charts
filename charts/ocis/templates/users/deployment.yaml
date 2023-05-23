@@ -8,12 +8,11 @@ spec:
   {{- if and (not .Values.autoscaling.enabled) (.Values.replicas) }}
   replicas: {{ .Values.replicas }}
   {{- end }}
-  {{- if .Values.deploymentStrategy }}
-  strategy: {{ toYaml .Values.deploymentStrategy | nindent 4 }}
-  {{ end }}
+  {{- include "ocis.deploymentStrategy" . | nindent 2 }}
   template:
     {{- include "ocis.templateMetadata" (dict "scope" $ "configCheck" false) | nindent 4 }}
     spec:
+      {{- include "ocis.serviceAccount" . | nindent 6 }}
       {{- include "ocis.affinity" .Values.services.users | nindent 6 }}
       {{- include "ocis.securityContextAndtopologySpreadConstraints" . | nindent 6 }}
       containers:
@@ -100,17 +99,19 @@ spec:
 
             - name: USERS_LDAP_USER_SCHEMA_USERNAME
               value: {{ .Values.features.externalUserManagement.ldap.user.schema.userName | quote }}
+            - name: USERS_LDAP_USER_TYPE_ATTRIBUTE
+              value: {{ .Values.features.externalUserManagement.ldap.user.schema.userType | quote }}
             - name: USERS_LDAP_GROUP_SCHEMA_GROUPNAME
               value: {{ .Values.features.externalUserManagement.ldap.group.schema.groupName | quote }}
 
             - name: USERS_LDAP_GROUP_SCHEMA_MEMBER
               value: {{ .Values.features.externalUserManagement.ldap.group.schema.member | quote }}
 
-            - name: OCIS_LDAP_USER_ENABLED_ATTRIBUTE
+            - name: USERS_LDAP_USER_ENABLED_ATTRIBUTE
               value: {{ .Values.features.externalUserManagement.ldap.disableUsers.userEnabledAttribute | quote }}
-            - name: OCIS_LDAP_DISABLE_USER_MECHANISM
+            - name: USERS_LDAP_DISABLE_USER_MECHANISM
               value: {{ .Values.features.externalUserManagement.ldap.disableUsers.disableMechanism | quote }}
-            - name: OCIS_LDAP_DISABLED_USERS_GROUP_DN
+            - name: USERS_LDAP_DISABLED_USERS_GROUP_DN
               value: {{ .Values.features.externalUserManagement.ldap.disableUsers.disabledUsersGroupDN | quote }}
             {{- end }}
 
@@ -145,7 +146,7 @@ spec:
               value: {{ .Values.features.externalUserManagement.oidc.issuerURI | quote }}
             {{ end }}
 
-            - name: REVA_GATEWAY
+            - name: OCIS_REVA_GATEWAY
               value: {{ .appNameGateway }}:9142
 
             - name: USERS_JWT_SECRET

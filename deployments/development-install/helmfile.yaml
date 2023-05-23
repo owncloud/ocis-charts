@@ -1,0 +1,189 @@
+releases:
+  - name: ocis
+    chart: ../../charts/ocis
+    namespace: ocis
+    values:
+      - externalDomain: ocis.kube.owncloud.test
+      - ingress:
+          enabled: true
+          ingressClassName: nginx
+          annotations:
+            nginx.ingress.kubernetes.io/proxy-body-size: 1024m
+          tls:
+            - secretName: ocis-dev-tls
+              hosts:
+                - ocis.kube.owncloud.test
+
+      - logging:
+          level: debug
+
+      - insecure:
+          oidcIdpInsecure: true
+          ocisHttpApiInsecure: true
+
+      - services:
+          idm:
+            persistence:
+              enabled: true
+              chownInitContainer: true
+              accessModes:
+                - ReadWriteOnce
+
+          nats:
+            persistence:
+              enabled: true
+              chownInitContainer: true
+              accessModes:
+                - ReadWriteOnce
+
+          search:
+            persistence:
+              enabled: true
+              chownInitContainer: true
+              accessModes:
+                - ReadWriteOnce
+
+          storagesystem:
+            persistence:
+              enabled: true
+              chownInitContainer: true
+              accessModes:
+                - ReadWriteOnce
+
+          storageusers:
+            persistence:
+              enabled: true
+              chownInitContainer: true
+              accessModes:
+                - ReadWriteOnce
+
+          store:
+            persistence:
+              enabled: true
+              chownInitContainer: true
+              accessModes:
+                - ReadWriteOnce
+
+          thumbnails:
+            persistence:
+              enabled: true
+              chownInitContainer: true
+              accessModes:
+                - ReadWriteOnce
+
+      - extraResources:
+          - |
+            apiVersion: v1
+            kind: Secret
+            metadata:
+              name: jwt-secret
+            type: Opaque
+            data:
+              jwt-secret: {{ randAlphaNum 30 | b64enc | quote }}
+          - |
+            apiVersion: v1
+            kind: Secret
+            metadata:
+              name: machine-auth-api-key
+            type: Opaque
+            data:
+              machine-auth-api-key: {{ randAlphaNum 30 | b64enc | quote }}
+          - |
+            apiVersion: v1
+            kind: Secret
+            metadata:
+              name: storage-system-jwt-secret
+            type: Opaque
+            data:
+              storage-system-jwt-secret: {{ randAlphaNum 30 | b64enc | quote }}
+          - |
+            apiVersion: v1
+            kind: Secret
+            metadata:
+              name: storage-system
+            type: Opaque
+            data:
+              api-key: {{ randAlphaNum 30 | b64enc | quote }}
+              user-id: {{ uuidv4 | b64enc | quote }}
+          - |
+            apiVersion: v1
+            kind: Secret
+            metadata:
+              name: transfer-secret
+            type: Opaque
+            data:
+              transfer-secret: {{ randAlphaNum 30 | b64enc | quote }}
+          - |
+            apiVersion: v1
+            kind: Secret
+            metadata:
+              name: thumbnails-transfer-secret
+            type: Opaque
+            data:
+              thumbnails-transfer-secret: {{ randAlphaNum 30 | b64enc | quote }}
+
+          - |
+            apiVersion: v1
+            kind: Secret
+            metadata:
+              name: ldap-bind-secrets
+            type: Opaque
+            data:
+              reva-ldap-bind-password: {{ randAlphaNum 30 | b64enc | quote }}
+              idp-ldap-bind-password: {{ randAlphaNum 30 | b64enc | quote }}
+              graph-ldap-bind-password: {{ randAlphaNum 30 | b64enc | quote }}
+
+          - |
+            apiVersion: v1
+            kind: Secret
+            metadata:
+              name: ldap-ca
+            type: Opaque
+            {{ $ca := genCA "ldap-ca" 365 -}}
+            data:
+              ldap-ca.crt: {{ $ca.Cert | b64enc | quote }}
+
+          - |
+            apiVersion: v1
+            kind: Secret
+            metadata:
+              name: ldap-cert
+            type: Opaque
+            {{ $lcapCert := genSignedCert "idm" nil (list "idm") 365 $ca -}}
+            data:
+              ldap.key: {{ $lcapCert.Key | b64enc | quote }}
+              ldap.crt: {{ $lcapCert.Cert | b64enc | quote }}
+          - |
+            apiVersion: v1
+            kind: Secret
+            metadata:
+              name: admin-user
+            type: Opaque
+            data:
+              user-id: {{ uuidv4 | b64enc | quote }}
+              password: {{ randAlphaNum 10 | b64enc | quote }}
+
+          - |
+            apiVersion: v1
+            kind: Secret
+            metadata:
+              name: idp-secrets
+            type: Opaque
+            data:
+              encryption.key: {{ randAscii 32 | b64enc | quote }}
+              private-key.pem: {{ genPrivateKey "rsa" | b64enc | quote }}
+          - |
+            apiVersion: v1
+            kind: ConfigMap
+            metadata:
+              name: storage-users
+            data:
+              storage-uuid: {{ uuidv4 | quote }}
+
+          - |
+            apiVersion: v1
+            kind: ConfigMap
+            metadata:
+              name: graph
+            data:
+              application-id: {{ uuidv4 | quote }}

@@ -354,6 +354,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `false`
 | For self signed certificates, consider to put the CA cert of the LDAP secure server into the secret referenced by "ldapCaRef" Not recommended for production installations.
+| features.externalUserManagement.ldap.passwordModifyExOpEnabled
+a| [subs=-attributes]
++bool+
+a| [subs=-attributes]
+`false`
+| Use the Password Modify Extended Operation for updating user passwords.
 | features.externalUserManagement.ldap.readOnlyAttributes
 a| [subs=-attributes]
 +list+
@@ -372,6 +378,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `"ldaps://ldaps.owncloud.test"`
 | URI to connect to the LDAP secure server.
+| features.externalUserManagement.ldap.useServerUUID
+a| [subs=-attributes]
++bool+
+a| [subs=-attributes]
+`false`
+| If set to true, rely on the LDAP Server to generate a unique ID for users and groups, like when using 'entryUUID' as the user ID attribute.
 | features.externalUserManagement.ldap.user.baseDN
 a| [subs=-attributes]
 +string+
@@ -420,6 +432,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `"uid"`
 | LDAP Attribute to use for username of users.
+| features.externalUserManagement.ldap.user.schema.userType
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"ownCloudUserType"`
+| LDAP Attribute to distinguish between 'Member' and 'Guest' users. Default is 'ownCloudUserType'.
 | features.externalUserManagement.ldap.user.scope
 a| [subs=-attributes]
 +string+
@@ -648,6 +666,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `nil`
 | Sets a maximum file size for scans. Only this many bytes of a file will be scanned. 0 means unlimited and is the default. Usable common abbreviations: [KB, KiB, GB, GiB, TB, TiB, PB, PiB, EB, EiB], example: 2GB.
+| http.cors.allow_origins
+a| [subs=-attributes]
++list+
+a| [subs=-attributes]
+`[]`
+|
 | image.pullPolicy
 a| [subs=-attributes]
 +string+
@@ -882,6 +906,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `"notifications-smtp-secret"`
 | Reference to an existing SMTP email server settings secret (see xref:{secrets}[Secrets]). Not used if `features.emailNotifications.enabled` equals `false`.
+| secretRefs.s3CredentialsSecretRef
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"s3-credentials-secret"`
+| Reference to an existing s3 secret (see xref:{secrets}[Secrets])
 | secretRefs.storagesystemJwtSecretRef
 a| [subs=-attributes]
 +string+
@@ -2200,8 +2230,8 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 +string+
 a| [subs=-attributes]
-`"lorem-ipsum"`
-| S3 access key to use for the S3NG driver. Only used if driver is set to "s3ng".
+`""`
+| S3 access key to use for the S3NG driver. Only used if driver is set to "s3ng". DEPRECATION WARNING: These values will be removed in the future. Predefine `secretRefs.s3CredentialsSecretRef` instead.
 | services.storageusers.storageBackend.driverConfig.s3ng.bucket
 a| [subs=-attributes]
 +string+
@@ -2230,8 +2260,8 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 +string+
 a| [subs=-attributes]
-`"lorem-ipsum"`
-| S3 secret key to use for the S3NG driver. Only used if driver is set to "s3ng".
+`""`
+| S3 secret key to use for the S3NG driver. Only used if driver is set to "s3ng". DEPRECATION WARNING: These values will be removed in the future. Predefine `secretRefs.s3CredentialsSecretRef` instead.
 | services.store
 a| [subs=-attributes]
 +object+

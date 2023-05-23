@@ -15,6 +15,7 @@ spec:
   template:
     {{- include "ocis.templateMetadata" (dict "scope" $ "configCheck" false) | nindent 4 }}
     spec:
+      {{- include "ocis.serviceAccount" . | nindent 6 }}
       {{- include "ocis.affinity" .Values.services.postprocessing | nindent 6 }}
       {{- include "ocis.securityContextAndtopologySpreadConstraints" . | nindent 6 }}
       containers:
@@ -59,7 +60,7 @@ spec:
             {{- $_ := set . "postprocessingSteps" (append .postprocessingSteps "virusscan") -}}
             {{- end }}
             {{- if .postprocessingSteps }}
-            - name: POSTPROCESSING_STEPS
+            - name: POSTPROCESSING_VIRUSSCAN
               value: {{ join "," .postprocessingSteps | quote }}
             {{- end }}
 

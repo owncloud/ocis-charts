@@ -8,12 +8,11 @@ spec:
   {{- if and (not .Values.autoscaling.enabled) (.Values.replicas) }}
   replicas: {{ .Values.replicas }}
   {{- end }}
-  {{- if .Values.deploymentStrategy }}
-  strategy: {{ toYaml .Values.deploymentStrategy | nindent 4 }}
-  {{ end }}
+  {{- include "ocis.deploymentStrategy" . | nindent 2 }}
   template:
     {{- include "ocis.templateMetadata" (dict "scope" $ "configCheck" false) | nindent 4 }}
     spec:
+      {{- include "ocis.serviceAccount" . | nindent 6 }}
       {{- include "ocis.affinity" .Values.services.frontend | nindent 6 }}
       {{- include "ocis.securityContextAndtopologySpreadConstraints" . | nindent 6 }}
       containers:
@@ -54,8 +53,11 @@ spec:
             - name: FRONTEND_PUBLIC_URL
               value: "https://{{ .Values.externalDomain }}"
 
-            - name: REVA_GATEWAY
+            - name: OCIS_REVA_GATEWAY
               value: {{ .appNameGateway }}:9142
+
+            - name: OCIS_LDAP_SERVER_WRITE_ENABLED
+              value: {{ .Values.features.externalUserManagement.ldap.writeable | quote }}
 
             {{- if .Values.features.externalUserManagement.enabled }}
             - name: FRONTEND_READONLY_USER_ATTRIBUTES
@@ -83,12 +85,9 @@ spec:
               value: {{ .Values.features.sharing.users.resharing | quote }}
 
             # cache
+            # the stat cache is disabled for now for performance reasons, see https://github.com/owncloud/ocis-charts/issues/214
             - name: FRONTEND_OCS_STAT_CACHE_STORE
-              value: {{ .Values.cache.type | quote }}
-            {{- if ne .Values.cache.type "noop" }}
-            - name: FRONTEND_OCS_STAT_CACHE_STORE_NODES
-              value: {{ join "," .Values.cache.nodes | quote }}
-            {{- end }}
+              value: noop
 
             - name: OCIS_EDITION
               value: {{ .Values.features.edition | quote }}
@@ -99,7 +98,7 @@ spec:
                   name: {{ .Values.secretRefs.machineAuthApiKeySecretRef }}
                   key: machine-auth-api-key
 
-            - name: STORAGE_TRANSFER_SECRET
+            - name: OCIS_TRANSFER_SECRET
               valueFrom:
                 secretKeyRef:
                   name: {{ .Values.secretRefs.transferSecretSecretRef }}
@@ -109,6 +108,8 @@ spec:
             - name: FRONTEND_MAX_QUOTA
               value: {{ .Values.features.quotas.max | quote }}
             {{- end }}
+
+            {{- include "ocis.cors" . |nindent 12 }}
 
           {{- include "ocis.livenessProbe" . | nindent 10 }}
 

@@ -9,12 +9,11 @@ spec:
   {{- if and (not .Values.autoscaling.enabled) (.Values.replicas) }}
   replicas: {{ .Values.replicas }}
   {{- end }}
-  {{- if .Values.deploymentStrategy }}
-  strategy: {{ toYaml .Values.deploymentStrategy | nindent 4 }}
-  {{ end }}
+  {{- include "ocis.deploymentStrategy" . | nindent 2 }}
   template:
     {{- include "ocis.templateMetadata" (dict "scope" $ "configCheck" false) | nindent 4 }}
     spec:
+      {{- include "ocis.serviceAccount" . | nindent 6 }}
       {{- include "ocis.affinity" .Values.services.authbasic | nindent 6 }}
       {{- include "ocis.securityContextAndtopologySpreadConstraints" . | nindent 6 }}
       containers:
@@ -52,7 +51,7 @@ spec:
             - name: AUTH_BASIC_DEBUG_ADDR
               value: 0.0.0.0:9147
 
-            - name: REVA_GATEWAY
+            - name: OCIS_REVA_GATEWAY
               value: {{ .appNameGateway }}:9142
 
             {{- if .Values.features.externalUserManagement.enabled }}
@@ -148,6 +147,13 @@ spec:
                 secretKeyRef:
                   name: {{ .Values.secretRefs.jwtSecretRef }}
                   key: jwt-secret
+
+            - name: AUTH_BASIC_LDAP_USER_ENABLED_ATTRIBUTE
+              value: {{ .Values.features.externalUserManagement.ldap.disableUsers.userEnabledAttribute | quote }}
+            - name: AUTH_BASIC_DISABLE_USER_MECHANISM
+              value: {{ .Values.features.externalUserManagement.ldap.disableUsers.disableMechanism | quote }}
+            - name: AUTH_BASIC_DISABLED_USERS_GROUP_DN
+              value: {{ .Values.features.externalUserManagement.ldap.disableUsers.disabledUsersGroupDN | quote }}
 
           {{- include "ocis.livenessProbe" . | nindent 10 }}
 

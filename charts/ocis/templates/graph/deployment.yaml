@@ -8,12 +8,11 @@ spec:
   {{- if and (not .Values.autoscaling.enabled) (.Values.replicas) }}
   replicas: {{ .Values.replicas }}
   {{- end }}
-  {{- if .Values.deploymentStrategy }}
-  strategy: {{ toYaml .Values.deploymentStrategy | nindent 4 }}
-  {{ end }}
+  {{- include "ocis.deploymentStrategy" . | nindent 2 }}
   template:
     {{- include "ocis.templateMetadata" (dict "scope" $ "configCheck" false) | nindent 4 }}
     spec:
+      {{- include "ocis.serviceAccount" . | nindent 6 }}
       {{- include "ocis.affinity" .Values.services.graph | nindent 6 }}
       {{- include "ocis.securityContextAndtopologySpreadConstraints" . | nindent 6 }}
       containers:
@@ -65,32 +64,36 @@ spec:
                   name: {{ .Values.secretRefs.ldapSecretRef }}
                   key: graph-ldap-bind-password
             {{ else }}
-            - name: LDAP_URI
+            - name: GRAPH_LDAP_URI
               value: {{ .Values.features.externalUserManagement.ldap.uri | quote }}
-            - name: LDAP_BIND_DN
+            - name: GRAPH_LDAP_BIND_DN
               value: {{ .Values.features.externalUserManagement.ldap.bindDN | quote }}
-            - name: LDAP_BIND_PASSWORD
+            - name: GRAPH_LDAP_BIND_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: {{ .Values.secretRefs.ldapSecretRef }}
                   key: reva-ldap-bind-password
             - name: GRAPH_LDAP_SERVER_WRITE_ENABLED
               value: {{ .Values.features.externalUserManagement.ldap.writeable | quote }}
-            - name: LDAP_CACERT
+            - name: GRAPH_LDAP_CACERT
               {{ if or (not .Values.features.externalUserManagement.enabled) (not .Values.features.externalUserManagement.ldap.certTrusted) }}
               value: /etc/ocis/ldap-ca/ldap-ca.crt
               {{ else }}
               value: "" # no cert needed
               {{ end }}
-            - name: LDAP_INSECURE
+            - name: GRAPH_LDAP_INSECURE
               value: {{ .Values.features.externalUserManagement.ldap.insecure | quote }}
+            - name: GRAPH_LDAP_SERVER_UUID
+              value: {{ .Values.features.externalUserManagement.ldap.useServerUUID | quote }}
+            - name: GRAPH_LDAP_SERVER_USE_PASSWORD_MODIFY_EXOP
+              value: {{ .Values.features.externalUserManagement.ldap.passwordModifyExOpEnabled | quote }}
 
             - name: GRAPH_LDAP_REFINT_ENABLED
               value: {{ .Values.features.externalUserManagement.ldap.refintEnabled | quote }}
 
-            - name: LDAP_USER_BASE_DN
+            - name: GRAPH_LDAP_USER_BASE_DN
               value: {{ .Values.features.externalUserManagement.ldap.user.baseDN | quote }}
-            - name: LDAP_GROUP_BASE_DN
+            - name: GRAPH_LDAP_GROUP_BASE_DN
               value: {{ .Values.features.externalUserManagement.ldap.group.baseDN | quote }}
             - name: GRAPH_LDAP_GROUP_CREATE_BASE_DN
             {{- if .Values.features.externalUserManagement.ldap.group.createBaseDN }}
@@ -99,47 +102,50 @@ spec:
               value: {{ .Values.features.externalUserManagement.ldap.group.baseDN | quote }}
             {{- end }}
 
-            - name: LDAP_USER_SCOPE
+            - name: GRAPH_LDAP_USER_SCOPE
               value: {{ .Values.features.externalUserManagement.ldap.user.scope | quote }}
-            - name: LDAP_GROUP_SCOPE
+            - name: GRAPH_LDAP_GROUP_SEARCH_SCOPE
               value: {{ .Values.features.externalUserManagement.ldap.group.scope | quote }}
 
-            - name: LDAP_USER_FILTER
+            - name: GRAPH_LDAP_USER_FILTER
               value: {{ .Values.features.externalUserManagement.ldap.user.filter | quote }}
-            - name: LDAP_GROUP_FILTER
+            - name: GRAPH_LDAP_GROUP_FILTER
               value: {{ .Values.features.externalUserManagement.ldap.group.filter | quote }}
 
-            - name: LDAP_USER_OBJECTCLASS
+            - name: GRAPH_LDAP_USER_OBJECTCLASS
               value: {{ .Values.features.externalUserManagement.ldap.user.objectClass | quote }}
-            - name: LDAP_GROUP_OBJECTCLASS
+            - name: GRAPH_LDAP_GROUP_OBJECTCLASS
               value: {{ .Values.features.externalUserManagement.ldap.group.objectClass | quote }}
 
-            - name: LDAP_USER_SCHEMA_ID
+            - name: GRAPH_LDAP_USER_UID_ATTRIBUTE
               value: {{ .Values.features.externalUserManagement.ldap.user.schema.id | quote }}
-            - name: LDAP_GROUP_SCHEMA_ID
+            - name: GRAPH_LDAP_GROUP_ID_ATTRIBUTE
               value: {{ .Values.features.externalUserManagement.ldap.group.schema.id | quote }}
 
-            - name: LDAP_USER_SCHEMA_MAIL
+            - name: GRAPH_LDAP_USER_EMAIL_ATTRIBUTE
               value: {{ .Values.features.externalUserManagement.ldap.user.schema.mail | quote }}
-            - name: LDAP_GROUP_SCHEMA_MAIL
-              value: {{ .Values.features.externalUserManagement.ldap.group.schema.mail | quote }}
 
-            - name: LDAP_USER_SCHEMA_DISPLAYNAME
+            - name: GRAPH_LDAP_USER_DISPLAYNAME_ATTRIBUTE
               value: {{ .Values.features.externalUserManagement.ldap.user.schema.displayName | quote }}
-            - name: LDAP_GROUP_SCHEMA_DISPLAYNAME
-              value: {{ .Values.features.externalUserManagement.ldap.group.schema.displayName | quote }}
-
-            - name: LDAP_USER_SCHEMA_USERNAME
+            - name: GRAPH_LDAP_USER_NAME_ATTRIBUTE
               value: {{ .Values.features.externalUserManagement.ldap.user.schema.userName | quote }}
-            - name: LDAP_GROUP_SCHEMA_GROUPNAME
+            - name: GRAPH_LDAP_USER_TYPE_ATTRIBUTE
+              value: {{ .Values.features.externalUserManagement.ldap.user.schema.userType | quote }}
+            - name: GRAPH_LDAP_GROUP_NAME_ATTRIBUTE
               value: {{ .Values.features.externalUserManagement.ldap.group.schema.groupName | quote }}
 
-            - name: OCIS_LDAP_USER_ENABLED_ATTRIBUTE
+            - name: GRAPH_LDAP_USER_SCHEMA_ID_IS_OCTETSTRING
+              value: {{ .Values.features.externalUserManagement.ldap.user.schema.idIsOctetString | quote }}
+            - name: GRAPH_LDAP_GROUP_SCHEMA_ID_IS_OCTETSTRING
+              value: {{ .Values.features.externalUserManagement.ldap.group.schema.idIsOctetString | quote }}
+
+            - name: GRAPH_USER_ENABLED_ATTRIBUTE
               value: {{ .Values.features.externalUserManagement.ldap.disableUsers.userEnabledAttribute | quote }}
-            - name: OCIS_LDAP_DISABLE_USER_MECHANISM
+            - name: GRAPH_DISABLE_USER_MECHANISM
               value: {{ .Values.features.externalUserManagement.ldap.disableUsers.disableMechanism | quote }}
-            - name: OCIS_LDAP_DISABLED_USERS_GROUP_DN
+            - name: GRAPH_DISABLED_USERS_GROUP_DN
               value: {{ .Values.features.externalUserManagement.ldap.disableUsers.disabledUsersGroupDN | quote }}
+
             {{ end }}
 
             # cache
@@ -150,7 +156,7 @@ spec:
               value: {{ join "," .Values.cache.nodes | quote }}
             {{- end }}
 
-            - name: REVA_GATEWAY
+            - name: OCIS_REVA_GATEWAY
               value: {{ .appNameGateway }}:9142
             - name: GRAPH_EVENTS_ENDPOINT
             {{- if not .Values.messagingSystem.external.enabled }}
@@ -211,6 +217,8 @@ spec:
             - name: GRAPH_KEYCLOAK_INSECURE_SKIP_VERIFY
               value: {{ .Values.features.gdprReport.integrations.keycloak.insecure | quote }}
             {{- end }}
+
+            {{- include "ocis.cors" . |nindent 12 }}
 
 
           {{- include "ocis.livenessProbe" . | nindent 10 }}

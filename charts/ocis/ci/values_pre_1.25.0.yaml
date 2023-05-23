@@ -45,6 +45,8 @@ features:
         allow_creation: true
   virusscan:
     enabled: true
+  policies:
+    enabled: true
 
 extraLabels:
   extra1: lorem

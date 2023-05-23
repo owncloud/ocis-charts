@@ -8,12 +8,11 @@ spec:
   {{- if and (not .Values.autoscaling.enabled) (.Values.replicas) }}
   replicas: {{ .Values.replicas }}
   {{- end }}
-  {{- if .Values.deploymentStrategy }}
-  strategy: {{ toYaml .Values.deploymentStrategy | nindent 4 }}
-  {{ end }}
+  {{- include "ocis.deploymentStrategy" . | nindent 2 }}
   template:
     {{- include "ocis.templateMetadata" (dict "scope" $ "configCheck" false) | nindent 4 }}
     spec:
+      {{- include "ocis.serviceAccount" . | nindent 6 }}
       {{- include "ocis.affinity" .Values.services.gateway | nindent 6 }}
       {{- include "ocis.securityContextAndtopologySpreadConstraints" . | nindent 6 }}
       containers:
@@ -51,7 +50,7 @@ spec:
             - name: GATEWAY_DEBUG_ADDR
               value: 0.0.0.0:9143
 
-            - name: REVA_GATEWAY
+            - name: OCIS_REVA_GATEWAY
               # we also could have gateway:9142 here, but some
               # Kubernetes distributions as minikube do not support
               # resolving a container's hostname in the container.
@@ -108,7 +107,7 @@ spec:
                   name: {{ .Values.secretRefs.jwtSecretRef }}
                   key: jwt-secret
 
-            - name: STORAGE_TRANSFER_SECRET
+            - name: OCIS_TRANSFER_SECRET
               valueFrom:
                 secretKeyRef:
                   name: {{ .Values.secretRefs.transferSecretSecretRef }}

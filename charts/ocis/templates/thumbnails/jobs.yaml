@@ -21,9 +21,9 @@ spec:
           labels:
             app: thumbnails-cleanup
             {{- include "ocis.labels" . | nindent 12 }}
-
         spec:
           restartPolicy: Never
+          {{- include "ocis.serviceAccount" . | nindent 10 }}
           {{- include "ocis.securityContextAndtopologySpreadConstraints" . | nindent 10 }}
           containers:
             - name: thumbnails-cleanup

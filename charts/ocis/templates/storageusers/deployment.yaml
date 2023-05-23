@@ -8,12 +8,11 @@ spec:
   {{- if and (not .Values.autoscaling.enabled) (.Values.replicas) }}
   replicas: {{ .Values.replicas }}
   {{- end }}
-  {{- if .Values.deploymentStrategy }}
-  strategy: {{ toYaml .Values.deploymentStrategy | nindent 4 }}
-  {{ end }}
+  {{- include "ocis.deploymentStrategy" . | nindent 2 }}
   template:
     {{- include "ocis.templateMetadata" (dict "scope" $ "configCheck" false) | nindent 4 }}
     spec:
+      {{- include "ocis.serviceAccount" . | nindent 6 }}
       {{- include "ocis.affinity" .Values.services.storageusers | nindent 6 }}
       {{- include "ocis.securityContextAndtopologySpreadConstraints" . | nindent 6 }}
       {{- if and $.Values.services.storageusers.persistence.enabled $.Values.services.storageusers.persistence.chownInitContainer }}
@@ -93,9 +92,15 @@ spec:
             - name: STORAGE_USERS_S3NG_REGION
               value: {{ .Values.services.storageusers.storageBackend.driverConfig.s3ng.region | quote }}
             - name: STORAGE_USERS_S3NG_ACCESS_KEY
-              value: {{ .Values.services.storageusers.storageBackend.driverConfig.s3ng.accessKey | quote }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.secretRefs.s3CredentialsSecretRef }}
+                  key: accessKey
             - name: STORAGE_USERS_S3NG_SECRET_KEY
-              value: {{ .Values.services.storageusers.storageBackend.driverConfig.s3ng.secretKey | quote }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.secretRefs.s3CredentialsSecretRef }}
+                  key: secretKey
             - name: STORAGE_USERS_S3NG_BUCKET
               value: {{ .Values.services.storageusers.storageBackend.driverConfig.s3ng.bucket | quote }}
             {{- end }}
@@ -140,7 +145,7 @@ spec:
                   name: {{ .Values.secretRefs.machineAuthApiKeySecretRef }}
                   key: machine-auth-api-key
 
-            - name: REVA_GATEWAY
+            - name: OCIS_REVA_GATEWAY
               value: {{ .appNameGateway }}:9142
 
             # cache
@@ -167,7 +172,7 @@ spec:
                   name: {{ .Values.secretRefs.jwtSecretRef }}
                   key: jwt-secret
 
-            - name: STORAGE_TRANSFER_SECRET
+            - name: OCIS_TRANSFER_SECRET
               valueFrom:
                 secretKeyRef:
                   name: {{ .Values.secretRefs.transferSecretSecretRef }}
