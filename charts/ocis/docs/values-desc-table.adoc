@@ -1674,6 +1674,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Affinity settings for the postprocessing service. See the documentation of this setting in approvider for examples.
+| services.postprocessing.autoscaling
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
 | services.postprocessing.extraLabels
 a| [subs=-attributes]
 +object+
@@ -1686,6 +1692,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service resources configuration. Overrides the default setting from `resources` if set.
+| services.postprocessing.store
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service store configuration for the eventhistory service. Overrides the default setting from `store` if set.
 | services.proxy
 a| [subs=-attributes]
 +object+

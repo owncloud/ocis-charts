@@ -1,12 +1,17 @@
 {{- include "ocis.appNames" (dict "scope" . "appName" "appNamePostprocessing" "appNameSuffix" "") -}}
 {{- $_ := set . "resources" (default (default (dict) .Values.resources) .Values.services.postprocessing.resources) -}}
+{{- $_ := set . "store" (default (default (dict) .Values.store) .Values.services.postprocessing.store) -}}
 apiVersion: apps/v1
 kind: Deployment
 {{ include "ocis.metadata" . }}
 spec:
   {{- include "ocis.selector" . | nindent 2 }}
-  replicas: 1 #TODO: https://github.com/owncloud/ocis-charts/issues/15
-  {{- include "ocis.deploymentStrategy" . | nindent 2 }}
+  {{- if and (not .Values.autoscaling.enabled) (.Values.replicas) }}
+  replicas: {{ .Values.replicas }}
+  {{- end }}
+  {{- if .Values.deploymentStrategy }}
+  strategy: {{ toYaml .Values.deploymentStrategy | nindent 4 }}
+  {{ end }}
   template:
     {{- include "ocis.templateMetadata" (dict "scope" $ "configCheck" false) | nindent 4 }}
     spec:
@@ -77,6 +82,11 @@ spec:
               value: "" # no cert needed
               {{- end }}
             {{- end }}
+
+            - name: POSTPROCESSING_STORE_TYPE
+              value: {{ .store.type | quote }}
+            - name: POSTPROCESSING_STORE_NODES
+              value: {{ tpl (join "," .store.nodes) . | quote }}
 
           {{- include "ocis.livenessProbe" . | nindent 10 }}
 
