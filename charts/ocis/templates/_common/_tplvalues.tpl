@@ -48,6 +48,18 @@ imagePullSecrets:
 {{- end -}}
 
 {{/*
+initContainer image logic
+*/}}
+{{- define "ocis.initContainerImage" -}}
+  {{- $tag := default .Chart.AppVersion .Values.initContainerImage.tag -}}
+  {{- if $.Values.image.sha -}}
+"{{ $.Values.initContainerImage.repository }}:{{ $tag }}@sha256:{{ $.Values.initContainerImage.sha }}"
+  {{- else -}}
+"{{ $.Values.initContainerImage.repository }}:{{ $tag }}"
+  {{- end -}}
+{{- end -}}
+
+{{/*
 Adds the app names to the scope and set the name of the app based on the input parameters
 
 @param .scope          The current scope

@@ -683,7 +683,7 @@ a| [subs=-attributes]
 +list+
 a| [subs=-attributes]
 `[]`
-| Name of the secret containing the credentials to pull an image from the registry. More information how a secret can be defined at https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
+| Names of the secret containing the credentials to pull an image from the registry. More information how a secret can be defined at https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/  *Note:* These secrets also apply to initContainers, so you need to provide secrets for the initContainer image here as well.
 | image.repository
 a| [subs=-attributes]
 +string+
@@ -732,6 +732,30 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `[]`
 | Ingress TLS configuration.
+| initContainerImage.pullPolicy
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"IfNotPresent"`
+| Image pull policy
+| initContainerImage.repository
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"busybox"`
+| Image repository
+| initContainerImage.sha
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Image sha / digest (optional).
+| initContainerImage.tag
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"stable"`
+| Image tag.
 | insecure.ocisHttpApiInsecure
 a| [subs=-attributes]
 +bool+

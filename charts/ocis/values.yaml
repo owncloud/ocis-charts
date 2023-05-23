@@ -9,12 +9,25 @@ image:
   sha: ""
   # -- Image pull policy
   pullPolicy: IfNotPresent
-  # -- Name of the secret containing the credentials to pull an image from the registry. More
+  # -- Names of the secret containing the credentials to pull an image from the registry. More
   # information how a secret can be defined at https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
+  #
+  # *Note:* These secrets also apply to initContainers, so you need to provide secrets for the initContainer image here as well.
   pullSecrets: []
   # pullSecrets:
   #   - name: mySecret
   #   - name: mySecret2
+
+# Image for oCIS services
+initContainerImage:
+  # -- Image repository
+  repository: busybox
+  # -- Image tag.
+  tag: "stable"
+  # -- Image sha / digest (optional).
+  sha: ""
+  # -- Image pull policy
+  pullPolicy: IfNotPresent
 
 # Logging settings for oCIS services
 logging:
