@@ -939,6 +939,8 @@ services:
     # -- Per-service store configuration for the eventhistory service. Overrides the default setting from `store` if set.
     store:
       {}
+    # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
+    autoscaling: {}
     # -- Affinity settings for the postprocessing service. See the documentation of this setting in approvider for examples.
     affinity: {}
     # -- Per-service custom labels
