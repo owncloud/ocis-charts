@@ -18,7 +18,8 @@ spec:
       {{- if and $.Values.services.storageusers.persistence.enabled $.Values.services.storageusers.persistence.chownInitContainer }}
       initContainers:
         - name: init-chown-data
-          image: busybox
+          image: {{ template "ocis.initContainerImage" $ }}
+          imagePullPolicy: {{ .Values.initContainerImage.pullPolicy }}
           securityContext:
             runAsNonRoot: false
             runAsUser: 0
