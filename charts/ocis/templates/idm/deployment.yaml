@@ -75,12 +75,12 @@ spec:
             - name: IDM_ADMIN_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.secretRefs.adminUserSecretRef }}
+                  name: {{ include "secrets.adminUser" . }}
                   key: password
             - name: IDM_ADMIN_USER_ID
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.secretRefs.adminUserSecretRef }}
+                  name: {{ include "secrets.adminUser" . }}
                   key: user-id
 
             - name: IDM_SVC_PASSWORD

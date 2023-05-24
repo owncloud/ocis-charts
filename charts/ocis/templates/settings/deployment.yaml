@@ -63,7 +63,7 @@ spec:
             {{- else }}
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.secretRefs.adminUserSecretRef }}
+                  name: {{ include "secrets.adminUser" . }}
                   key: user-id
             {{- end }}
             {{- end }}
