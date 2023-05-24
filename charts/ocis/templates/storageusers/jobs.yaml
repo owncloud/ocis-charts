@@ -26,8 +26,7 @@ spec:
           restartPolicy: Never
           containers:
             - name: storage-users-clean-expired-uploads
-              image: {{ template "ocis.image" $ }}
-              imagePullPolicy: {{ .Values.image.pullPolicy }}
+              {{- include "ocis.image" $ | nindent 14 }}
               command: ["ocis"]
               args: ["storage-users", "uploads", "clean"]
               securityContext:
@@ -140,8 +139,7 @@ spec:
           restartPolicy: Never
           containers:
             - name: storage-users-purge-expired-trash-bin-items
-              image: {{ template "ocis.image" $ }}
-              imagePullPolicy: {{ .Values.image.pullPolicy }}
+              {{- include "ocis.image" $ | nindent 14 }}
               command: ["ocis"]
               args: ["storage-users", "trash-bin", "purge-expired"]
               securityContext:

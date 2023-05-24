@@ -18,8 +18,7 @@ spec:
       initContainers:
       {{- if and $.Values.services.idm.persistence.enabled $.Values.services.idm.persistence.chownInitContainer }}
         - name: init-chown-data
-          image: {{ template "ocis.initContainerImage" $ }}
-          imagePullPolicy: {{ .Values.initContainerImage.pullPolicy }}
+          {{- include "ocis.initContainerImage" $ | nindent 10 }}
           securityContext:
             runAsNonRoot: false
             runAsUser: 0
@@ -29,8 +28,7 @@ spec:
             mountPath: /var/lib/ocis
       {{ end }}
         - name: init-dir #TODO: that should not be needed, needs fix in the idm service
-          image: {{ template "ocis.initContainerImage" $ }}
-          imagePullPolicy: {{ .Values.initContainerImage.pullPolicy }}
+          {{- include "ocis.initContainerImage" $ | nindent 10 }}
           {{- include "ocis.containerSecurityContext" . | nindent 10 }}
           command: ["mkdir", "-p", "/var/lib/ocis/idm"]
           resources: {{ toYaml .resources | nindent 12 }}
@@ -39,8 +37,7 @@ spec:
             mountPath: /var/lib/ocis
       containers:
         - name: {{ .appName }}
-          image: {{ template "ocis.image" $ }}
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          {{- include "ocis.image" $ | nindent 10 }}
           command: ["ocis"]
           args: ["idm", "server"]
           {{- include "ocis.containerSecurityContext" . | nindent 10 }}

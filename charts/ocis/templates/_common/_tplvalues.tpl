@@ -29,12 +29,13 @@ See also https://github.com/helm/helm/issues/5465
 oCIS image logic
 */}}
 {{- define "ocis.image" -}}
-  {{- $tag := default .Chart.AppVersion .Values.image.tag -}}
-  {{- if $.Values.image.sha -}}
-"{{ $.Values.image.repository }}:{{ $tag }}@sha256:{{ $.Values.image.sha }}"
-  {{- else -}}
-"{{ $.Values.image.repository }}:{{ $tag }}"
-  {{- end -}}
+  {{ $tag := default .Chart.AppVersion .Values.image.tag -}}
+  {{ if $.Values.image.sha -}}
+image: "{{ $.Values.image.repository }}:{{ $tag }}@sha256:{{ $.Values.image.sha }}"
+  {{ else -}}
+image: "{{ $.Values.image.repository }}:{{ $tag }}"
+  {{- end }}
+imagePullPolicy: {{ $.Values.image.pullPolicy }}
 {{- end -}}
 
 {{/*
@@ -52,11 +53,8 @@ initContainer image logic
 */}}
 {{- define "ocis.initContainerImage" -}}
   {{- $tag := default .Chart.AppVersion .Values.initContainerImage.tag -}}
-  {{- if $.Values.image.sha -}}
-"{{ $.Values.initContainerImage.repository }}:{{ $tag }}@sha256:{{ $.Values.initContainerImage.sha }}"
-  {{- else -}}
-"{{ $.Values.initContainerImage.repository }}:{{ $tag }}"
-  {{- end -}}
+image: "{{ $.Values.initContainerImage.repository }}:{{ $tag }}" 
+imagePullPolicy: {{ .Values.initContainerImage.pullPolicy }}
 {{- end -}}
 
 {{/*

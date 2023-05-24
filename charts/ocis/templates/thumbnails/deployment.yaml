@@ -18,8 +18,7 @@ spec:
       {{- if and $.Values.services.thumbnails.persistence.enabled $.Values.services.thumbnails.persistence.chownInitContainer }}
       initContainers:
         - name: init-chown-data
-          image: {{ template "ocis.initContainerImage" $ }}
-          imagePullPolicy: {{ .Values.initContainerImage.pullPolicy }}
+          {{- include "ocis.initContainerImage" $ | nindent 10 }}
           securityContext:
             runAsNonRoot: false
             runAsUser: 0
@@ -30,8 +29,7 @@ spec:
       {{ end }}
       containers:
         - name: {{ .appName }}
-          image: {{ template "ocis.image" $ }}
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          {{- include "ocis.image" $ | nindent 10 }}
           command: ["ocis"]
           args: ["thumbnails", "server"]
           {{- include "ocis.containerSecurityContext" . | nindent 10 }}

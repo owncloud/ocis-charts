@@ -17,8 +17,7 @@ spec:
       {{- include "ocis.securityContextAndtopologySpreadConstraints" . | nindent 6 }}
       containers:
         - name: {{ .appName }}
-          image: {{ template "ocis.image" $ }}
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          {{- include "ocis.image" $ | nindent 10 }}
           command: ["ocis"]
           args: ["storage-shares", "server"]
           {{- include "ocis.containerSecurityContext" . | nindent 10 }}
