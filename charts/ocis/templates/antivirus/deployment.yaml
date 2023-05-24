@@ -19,8 +19,7 @@ spec:
 
       containers:
         - name: {{ .appName }}
-          image: {{ template "ocis.image" $ }}
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          {{- include "ocis.image" $ | nindent 10 }}
           command: ["ocis"]
           args: ["antivirus", "server"]
           {{- include "ocis.containerSecurityContext" . | nindent 10 }}
