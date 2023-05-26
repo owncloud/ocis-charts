@@ -81,7 +81,7 @@ spec:
         - name: nats-data
           {{ if .Values.services.nats.persistence.enabled }}
           persistentVolumeClaim:
-            claimName: {{ .appName }}-data
+            claimName: {{ .Values.services.nats.persistence.existingClaim | default ( printf "%s-data" .appName ) }}
           {{ else }}
           emptyDir: {}
           {{ end }}

@@ -102,7 +102,7 @@ spec:
         - name: thumbnails-data
           {{ if .Values.services.thumbnails.persistence.enabled }}
           persistentVolumeClaim:
-            claimName: {{ .appName }}-data
+            claimName: {{ .Values.services.thumbnails.persistence.existingClaim | default ( printf "%s-data" .appName ) }}
           {{ else }}
           emptyDir: {}
           {{ end }}

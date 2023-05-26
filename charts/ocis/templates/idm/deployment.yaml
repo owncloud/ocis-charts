@@ -136,7 +136,7 @@ spec:
         - name: idm-data
           {{ if .Values.services.idm.persistence.enabled }}
           persistentVolumeClaim:
-            claimName: {{ .appName }}-data
+            claimName: {{ .Values.services.idm.persistence.existingClaim | default ( printf "%s-data" .appName ) }}
           {{ else }}
           emptyDir: {}
           {{ end }}

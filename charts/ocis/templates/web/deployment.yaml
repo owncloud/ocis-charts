@@ -137,7 +137,7 @@ spec:
         - name: web-data
           {{ if .Values.services.web.persistence.enabled }}
           persistentVolumeClaim:
-            claimName: {{ .appName }}-data
+            claimName: {{ .Values.services.web.persistence.existingClaim | default ( printf "%s-data" .appName ) }}
           {{ else }}
           emptyDir: {}
           {{ end }}
