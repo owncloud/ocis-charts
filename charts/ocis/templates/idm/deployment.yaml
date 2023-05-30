@@ -86,19 +86,19 @@ spec:
             - name: IDM_SVC_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.secretRefs.ldapSecretRef }}
+                  name: {{ include "secrets.ldapBindSecret" . }}
                   key: graph-ldap-bind-password
 
             - name: IDM_REVASVC_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.secretRefs.ldapSecretRef }}
+                  name: {{ include "secrets.ldapBindSecret" . }}
                   key: reva-ldap-bind-password
 
             - name: IDM_IDPSVC_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.secretRefs.ldapSecretRef }}
+                  name: {{ include "secrets.ldapBindSecret" . }}
                   key: idp-ldap-bind-password
 
             - name: IDM_LDAPS_CERT
@@ -132,6 +132,6 @@ spec:
           emptyDir: {}
         - name: ldap-cert
           secret:
-            secretName: {{ .Values.secretRefs.ldapCertRef }}
+            secretName: {{ include "secrets.ldapCertSecret" . }}
         {{- include "ocis.persistence.dataVolume" . | nindent 8 }}
 {{- end }}

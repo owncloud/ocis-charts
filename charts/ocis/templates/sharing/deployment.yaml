@@ -73,7 +73,7 @@ spec:
             - name: SHARING_JWT_SECRET
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.secretRefs.jwtSecretRef }}
+                  name: {{ include "secrets.jwtSecret" . }}
                   key: jwt-secret
 
             - name: SHARING_PUBLIC_WRITEABLE_SHARE_MUST_HAVE_PASSWORD
@@ -87,12 +87,12 @@ spec:
             - name: SHARING_USER_JSONCS3_SYSTEM_USER_API_KEY
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.secretRefs.storagesystemSecretRef }}
+                  name: {{ include "secrets.storageSystemSecret" . }}
                   key: api-key
             - name: SHARING_USER_JSONCS3_SYSTEM_USER_ID
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.secretRefs.storagesystemSecretRef }}
+                  name: {{ include "secrets.storageSystemSecret" . }}
                   key: user-id
 
             # public sharing
@@ -103,12 +103,12 @@ spec:
             - name: SHARING_PUBLIC_JSONCS3_SYSTEM_USER_API_KEY
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.secretRefs.storagesystemSecretRef }}
+                  name: {{ include "secrets.storageSystemSecret" . }}
                   key: api-key
             - name: SHARING_PUBLIC_JSONCS3_SYSTEM_USER_ID
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.secretRefs.storagesystemSecretRef }}
+                  name: {{ include "secrets.storageSystemSecret" . }}
                   key: user-id
 
           {{- include "ocis.livenessProbe" . | nindent 10 }}
@@ -139,7 +139,7 @@ spec:
         - name: messaging-system-ca
           {{ if and (.Values.messagingSystem.external.enabled) (not .Values.messagingSystem.external.tls.certTrusted) }}
           secret:
-            secretName: {{ .Values.secretRefs.messagingSystemCaRef }}
+            secretName: {{ include "secrets.messagingSystemCASecret" . }}
           {{ else }}
           emptyDir: {}
           {{ end }}

@@ -88,19 +88,19 @@ spec:
             - name: STORAGE_SYSTEM_JWT_SECRET
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.secretRefs.storagesystemJwtSecretRef }}
+                  name: {{ include "secrets.storageSystemJWTSecret" . }}
                   key: storage-system-jwt-secret
 
             - name: OCIS_SYSTEM_USER_API_KEY
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.secretRefs.storagesystemSecretRef }}
+                  name: {{ include "secrets.storageSystemSecret" . }}
                   key: api-key
 
             - name: OCIS_SYSTEM_USER_ID
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.secretRefs.storagesystemSecretRef }}
+                  name: {{ include "secrets.storageSystemSecret" . }}
                   key: user-id
 
           {{- include "ocis.livenessProbe" . | nindent 10 }}

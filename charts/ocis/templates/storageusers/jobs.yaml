@@ -79,13 +79,13 @@ spec:
                 - name: STORAGE_USERS_JWT_SECRET
                   valueFrom:
                     secretKeyRef:
-                      name: {{ .Values.secretRefs.jwtSecretRef }}
+                      name: {{ include "secrets.jwtSecret" . }}
                       key: jwt-secret
 
                 - name: OCIS_TRANSFER_SECRET
                   valueFrom:
                     secretKeyRef:
-                      name: {{ .Values.secretRefs.transferSecretSecretRef }}
+                      name: {{ include "secrets.transferSecret" . }}
                       key: transfer-secret
 
                 - name: STORAGE_USERS_MOUNT_ID
@@ -160,13 +160,13 @@ spec:
                 - name: STORAGE_USERS_JWT_SECRET
                   valueFrom:
                     secretKeyRef:
-                      name: {{ .Values.secretRefs.jwtSecretRef }}
+                      name: {{ include "secrets.jwtSecret" . }}
                       key: jwt-secret
 
                 - name: OCIS_TRANSFER_SECRET
                   valueFrom:
                     secretKeyRef:
-                      name: {{ .Values.secretRefs.transferSecretSecretRef }}
+                      name: {{ include "secrets.transferSecret" . }}
                       key: transfer-secret
 
                 - name: STORAGE_USERS_MOUNT_ID

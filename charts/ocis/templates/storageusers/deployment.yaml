@@ -141,7 +141,7 @@ spec:
             - name: OCIS_MACHINE_AUTH_API_KEY
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.secretRefs.machineAuthApiKeySecretRef }}
+                  name: {{ include "secrets.machineAuthAPIKeySecret" . }}
                   key: machine-auth-api-key
 
             - name: OCIS_REVA_GATEWAY
@@ -168,13 +168,13 @@ spec:
             - name: STORAGE_USERS_JWT_SECRET
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.secretRefs.jwtSecretRef }}
+                  name: {{ include "secrets.jwtSecret" . }}
                   key: jwt-secret
 
             - name: OCIS_TRANSFER_SECRET
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.secretRefs.transferSecretSecretRef }}
+                  name: {{ include "secrets.transferSecret" . }}
                   key: transfer-secret
 
             {{- if .Values.features.quotas.max }}
@@ -220,7 +220,7 @@ spec:
         - name: messaging-system-ca
           {{ if and (.Values.messagingSystem.external.enabled) (not .Values.messagingSystem.external.tls.certTrusted) }}
           secret:
-            secretName: {{ .Values.secretRefs.messagingSystemCaRef }}
+            secretName: {{ include "secrets.messagingSystemCASecret" . }}
           {{ else }}
           emptyDir: {}
           {{ end }}

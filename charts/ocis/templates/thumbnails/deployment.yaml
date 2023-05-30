@@ -78,7 +78,7 @@ spec:
             - name: THUMBNAILS_TRANSFER_TOKEN
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.secretRefs.thumbnailsSecretRef }}
+                  name: {{ include "secrets.thumbnailsSecret" . }}
                   key: thumbnails-transfer-secret
 
           {{- include "ocis.livenessProbe" . | nindent 10 }}
