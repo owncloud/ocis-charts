@@ -162,7 +162,7 @@ spec:
             - name: STORAGE_USERS_MOUNT_ID
               valueFrom:
                 configMapKeyRef:
-                  name: {{ .Values.configRefs.storageusersConfigRef }}
+                  name: {{ include "config.storageUsers" . }}
                   key: storage-uuid
 
             - name: STORAGE_USERS_JWT_SECRET

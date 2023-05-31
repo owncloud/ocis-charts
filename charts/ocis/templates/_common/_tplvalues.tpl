@@ -292,8 +292,8 @@ oCIS persistence dataVolume
 oCIS secret wrapper
 
 @param .name          The name of the secret.
-@param .params          Dict containing data keys/values (plaintext).
-@para
+@param .params        Dict containing data keys/values (plaintext).
+@param .scope         The current scope
 */}}
 {{- define "ocis.secret" -}}
 apiVersion: v1
@@ -306,5 +306,26 @@ data:
   {{- range $key, $value := .params }}
   {{- $secretValue := (get $secretData $key) | default ($value | b64enc | quote)}}
   {{ $key }}: {{ $secretValue }}
+  {{- end }}
+{{- end -}}
+
+{{/*
+oCIS secret wrapper
+
+@param .name          The name of the secret.
+@param .params        Dict containing data keys/values (plaintext).
+@param .scope         The current scope
+*/}}
+{{- define "ocis.configMap" -}}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .name }}
+data:
+  {{- $configObj := (lookup "v1" "ConfigMap" .scope.Release.Namespace .name) | default dict }}
+  {{- $configData := (get $configObj "data") | default dict }}
+  {{- range $key, $value := .params }}
+  {{- $configValue := (get $configData $key) | default ($value | quote)}}
+  {{ $key }}: {{ $configValue }}
   {{- end }}
 {{- end -}}

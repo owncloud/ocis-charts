@@ -91,7 +91,7 @@ spec:
                 - name: STORAGE_USERS_MOUNT_ID
                   valueFrom:
                     configMapKeyRef:
-                      name: {{ .Values.configRefs.storageusersConfigRef }}
+                      name: {{ include "config.storageUsers" . }}
                       key: storage-uuid
 
               resources: {{ toYaml .Values.resources | nindent 16 }}
@@ -172,7 +172,7 @@ spec:
                 - name: STORAGE_USERS_MOUNT_ID
                   valueFrom:
                     configMapKeyRef:
-                      name: {{ .Values.configRefs.storageusersConfigRef }}
+                      name: {{ include "config.storageUsers" . }}
                       key: storage-uuid
 
                 # events

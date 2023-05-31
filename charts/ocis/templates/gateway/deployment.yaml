@@ -97,7 +97,7 @@ spec:
             - name: GATEWAY_STORAGE_USERS_MOUNT_ID
               valueFrom:
                 configMapKeyRef:
-                  name: {{ .Values.configRefs.storageusersConfigRef }}
+                  name: {{ include "config.storageUsers" . }}
                   key: storage-uuid
 
             - name: GATEWAY_JWT_SECRET

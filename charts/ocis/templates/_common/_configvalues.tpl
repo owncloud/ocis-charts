@@ -1,6 +1,6 @@
 {{/* vim: set filetype=mustache: */}}
 {{/*
-Simple secret name definitions.
+Simple secret and configmap name definitions.
 
 All take the scope as the first and only parameter.
 */}}
@@ -58,4 +58,12 @@ All take the scope as the first and only parameter.
 
 {{- define "secrets.transferSecret" -}}
 {{ .Values.secretRefs.transferSecretSecretRef | default "transfer-secret" | quote}}
+{{- end -}}
+
+{{- define "config.storageUsers" -}}
+{{ .Values.configRefs.storageusersConfigRef | default "storage-users" | quote}}
+{{- end -}}
+
+{{- define "config.graph" -}}
+{{ .Values.configRefs.graphConfigRef | default "graph" | quote}}
 {{- end -}}
