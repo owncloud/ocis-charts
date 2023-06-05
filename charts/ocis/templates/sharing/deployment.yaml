@@ -51,7 +51,7 @@ spec:
               value: 0.0.0.0:9151
 
             - name: OCIS_REVA_GATEWAY
-              value: {{ .appNameGateway }}:9142
+              value: com.owncloud.api.gateway
             - name: SHARING_EVENTS_ENDPOINT
             {{- if not .Values.messagingSystem.external.enabled }}
               value: {{ .appNameNats }}:9233
@@ -84,7 +84,7 @@ spec:
             - name: SHARING_USER_DRIVER
               value: jsoncs3
             - name: SHARING_USER_JSONCS3_PROVIDER_ADDR
-              value: {{ .appNameStorageSystem }}:9215
+              value: com.owncloud.api.storage-system
             - name: SHARING_USER_JSONCS3_SYSTEM_USER_API_KEY
               valueFrom:
                 secretKeyRef:
@@ -100,7 +100,7 @@ spec:
             - name: SHARING_PUBLIC_DRIVER
               value: jsoncs3
             - name: SHARING_PUBLIC_JSONCS3_PROVIDER_ADDR
-              value: {{ .appNameStorageSystem }}:9215
+              value: com.owncloud.api.storage-system
             - name: SHARING_PUBLIC_JSONCS3_SYSTEM_USER_API_KEY
               valueFrom:
                 secretKeyRef:

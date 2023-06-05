@@ -52,7 +52,7 @@ spec:
               value: 0.0.0.0:9147
 
             - name: OCIS_REVA_GATEWAY
-              value: {{ .appNameGateway }}:9142
+              value: com.owncloud.api.gateway
 
             {{- if .Values.features.externalUserManagement.enabled }}
             - name: AUTH_BASIC_LDAP_INSECURE

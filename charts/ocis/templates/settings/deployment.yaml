@@ -53,9 +53,9 @@ spec:
               value: 0.0.0.0:9194
 
             - name: STORAGE_GATEWAY_GRPC_ADDR
-              value: {{ .appNameStorageSystem }}:9215
+              value: com.owncloud.api.storage-system
             - name: STORAGE_GRPC_ADDR
-              value: {{ .appNameStorageSystem }}:9215
+              value: com.owncloud.api.storage-system
 
             {{- if not .Values.features.externalUserManagement.oidc.roleAssignment.enabled }}
             - name: SETTINGS_ADMIN_USER_ID

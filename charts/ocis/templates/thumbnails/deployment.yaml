@@ -74,7 +74,7 @@ spec:
               value: {{ .Values.insecure.ocisHttpApiInsecure | quote }}
 
             - name: OCIS_REVA_GATEWAY
-              value: {{ .appNameGateway }}:9142
+              value: com.owncloud.api.gateway
 
             - name: THUMBNAILS_TRANSFER_TOKEN
               valueFrom:

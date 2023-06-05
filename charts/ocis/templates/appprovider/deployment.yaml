@@ -71,7 +71,7 @@ spec:
               value: {{ tpl $.Values.features.appsIntegration.wopiIntegration.wopiFolderURI $ | quote }}
 
             - name: OCIS_REVA_GATEWAY
-              value: {{ $.appNameGateway }}:9142
+              value: com.owncloud.api.gateway
 
             - name: APP_PROVIDER_JWT_SECRET
               valueFrom:
