@@ -93,12 +93,12 @@ spec:
             - name: STORAGE_USERS_S3NG_ACCESS_KEY
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.secretRefs.s3CredentialsSecretRef }}
+                  name: {{ include "secrets.s3CredentialsSecret" . }}
                   key: accessKey
             - name: STORAGE_USERS_S3NG_SECRET_KEY
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.secretRefs.s3CredentialsSecretRef }}
+                  name: {{ include "secrets.s3CredentialsSecret" . }}
                   key: secretKey
             - name: STORAGE_USERS_S3NG_BUCKET
               value: {{ .Values.services.storageusers.storageBackend.driverConfig.s3ng.bucket | quote }}

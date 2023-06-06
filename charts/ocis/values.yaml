@@ -521,9 +521,8 @@ secretRefs:
   # -- Reference to an existing transfer secret (see ref:Secrets#secrets)
   transferSecretSecretRef: ""
   # -- Reference to an existing s3 secret (see ref:Secrets#secrets)
-  # This secret needs to remain filled in, as the s3 credentials secret can be filled in via the settings
-  # for backwards compatibility reasons.
-  s3CredentialsSecretRef: "s3-credentials-secret"
+  # If not filled in, will attempt to to use values in `.storageusers.storageBackend.s3.driverConfig.s3ng` instead.
+  s3CredentialsSecretRef: ""
 
 # Security context options.
 securityContext:

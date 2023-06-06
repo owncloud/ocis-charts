@@ -60,6 +60,10 @@ All take the scope as the first and only parameter.
 {{ .Values.secretRefs.transferSecretSecretRef | default "transfer-secret" | quote }}
 {{- end -}}
 
+{{- define "secrets.s3CredentialsSecret" -}}
+{{ .Values.secretRefs.s3CredentialsSecretRef | default "s3-credentials-secret" | quote }}
+{{- end -}}
+
 {{- define "config.storageUsers" -}}
 {{ .Values.configRefs.storageusersConfigRef | default "storage-users" | quote }}
 {{- end -}}
