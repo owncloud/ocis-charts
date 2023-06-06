@@ -31,14 +31,12 @@ spec:
               {{- include "ocis.containerSecurityContext" . | nindent 14 }}
               command: [ "/bin/sh", "/script/thumbnails-cleanup-script.sh" ]
               volumeMounts:
-              - name: thumbnails-data
+              - name: {{ include "ocis.persistence.dataVolumeName" . }}
                 mountPath: /var/lib/ocis
               - name: script
                 mountPath: "/script"
           volumes:
-            - name: thumbnails-data
-              persistentVolumeClaim:
-                claimName: {{ .appName }}-data
+            {{- include "ocis.persistence.dataVolume" . | nindent 12 }}
             - name: script
               configMap:
                 name: thumbnails-cleanup-script-configmap

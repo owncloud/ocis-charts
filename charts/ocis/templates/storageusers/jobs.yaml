@@ -99,16 +99,14 @@ spec:
               volumeMounts:
                 - name: tmp-volume
                   mountPath: /tmp
-                - name: storage-users-data
+                - name: {{ include "ocis.persistence.dataVolumeName" . }}
                   mountPath: /var/lib/ocis
 
           {{- include "ocis.imagePullSecrets" $ | nindent 10 }}
           volumes:
             - name: tmp-volume
               emptyDir: {}
-            - name: storage-users-data
-              persistentVolumeClaim:
-                claimName: {{ .appName }}-data
+            {{- include "ocis.persistence.dataVolume" . | nindent 12 }}
 {{ end }}
 {{- if and .Values.services.storageusers.persistence.enabled .Values.services.storageusers.maintenance.purgeExpiredTrashBinItems.enabled }}
 {{- include "ocis.appNames" (dict "scope" . "appName" "appNameStorageUsers" "appNameSuffix" "") -}}
@@ -202,14 +200,12 @@ spec:
               volumeMounts:
                 - name: tmp-volume
                   mountPath: /tmp
-                - name: storage-users-data
+                - name: {{ include "ocis.persistence.dataVolumeName" . }}
                   mountPath: /var/lib/ocis
 
           {{- include "ocis.imagePullSecrets" $ | nindent 10 }}
           volumes:
             - name: tmp-volume
               emptyDir: {}
-            - name: storage-users-data
-              persistentVolumeClaim:
-                claimName: {{ .appName }}-data
+            {{- include "ocis.persistence.dataVolume" . | nindent 12 }}
 {{ end }}

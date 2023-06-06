@@ -24,7 +24,7 @@ spec:
             runAsUser: 0
           command: ["chown", "-R", "{{ .Values.securityContext.runAsUser }}:{{ .Values.securityContext.runAsGroup }}", "/var/lib/ocis"]
           volumeMounts:
-          - name: nats-data
+          - name: {{ include "ocis.persistence.dataVolumeName" . }}
             mountPath: /var/lib/ocis
       {{ end }}
       containers:
@@ -73,16 +73,10 @@ spec:
               containerPort: 9234
 
           volumeMounts:
-            - name: nats-data
+            - name: {{ include "ocis.persistence.dataVolumeName" . }}
               mountPath: /var/lib/ocis
 
       {{- include "ocis.imagePullSecrets" $ | nindent 6 }}
       volumes:
-        - name: nats-data
-          {{ if .Values.services.nats.persistence.enabled }}
-          persistentVolumeClaim:
-            claimName: {{ .Values.services.nats.persistence.existingClaim | default ( printf "%s-data" .appName ) }}
-          {{ else }}
-          emptyDir: {}
-          {{ end }}
+        {{- include "ocis.persistence.dataVolume" . | nindent 8 }}
 {{- end }}

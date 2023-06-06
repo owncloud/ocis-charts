@@ -24,7 +24,7 @@ spec:
             runAsUser: 0
           command: ["chown", "-R", "{{ .Values.securityContext.runAsUser }}:{{ .Values.securityContext.runAsGroup }}", "/var/lib/ocis"]
           volumeMounts:
-          - name: thumbnails-data
+          - name: {{ include "ocis.persistence.dataVolumeName" . }}
             mountPath: /var/lib/ocis
       {{ end }}
       containers:
@@ -94,15 +94,9 @@ spec:
               containerPort: 9189
 
           volumeMounts:
-            - name: thumbnails-data
+            - name: {{ include "ocis.persistence.dataVolumeName" . }}
               mountPath: /var/lib/ocis
 
       {{- include "ocis.imagePullSecrets" $ | nindent 6 }}
       volumes:
-        - name: thumbnails-data
-          {{ if .Values.services.thumbnails.persistence.enabled }}
-          persistentVolumeClaim:
-            claimName: {{ .Values.services.thumbnails.persistence.existingClaim | default ( printf "%s-data" .appName ) }}
-          {{ else }}
-          emptyDir: {}
-          {{ end }}
+        {{- include "ocis.persistence.dataVolume" . | nindent 8 }}
