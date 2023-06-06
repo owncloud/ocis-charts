@@ -304,7 +304,7 @@ data:
   {{- $secretObj := (lookup "v1" "Secret" .scope.Release.Namespace .name) | default dict }}
   {{- $secretData := (get $secretObj "data") | default dict }}
   {{- range $key, $value := .params }}
-  {{- $secretValue := (get $secretData $key) | default ($value | b64enc | quote)}}
+  {{- $secretValue := (get $secretData $key | quote) | default ($value | b64enc | quote)}}
   {{ $key }}: {{ $secretValue }}
   {{- end }}
 {{- end -}}
@@ -325,7 +325,7 @@ data:
   {{- $configObj := (lookup "v1" "ConfigMap" .scope.Release.Namespace .name) | default dict }}
   {{- $configData := (get $configObj "data") | default dict }}
   {{- range $key, $value := .params }}
-  {{- $configValue := (get $configData $key) | default ($value | quote)}}
+  {{- $configValue := (get $configData $key | quote) | default ($value | quote)}}
   {{ $key }}: {{ $configValue }}
   {{- end }}
 {{- end -}}
