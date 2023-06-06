@@ -24,7 +24,7 @@ spec:
             runAsUser: 0
           command: ["chown", "-R", "{{ .Values.securityContext.runAsUser }}:{{ .Values.securityContext.runAsGroup }}", "/var/lib/ocis"]
           volumeMounts:
-          - name: idm-data
+          - name: {{ include "ocis.persistence.dataVolumeName" . }}
             mountPath: /var/lib/ocis
       {{ end }}
         - name: init-dir #TODO: that should not be needed, needs fix in the idm service
@@ -33,7 +33,7 @@ spec:
           command: ["mkdir", "-p", "/var/lib/ocis/idm"]
           resources: {{ toYaml .resources | nindent 12 }}
           volumeMounts:
-          - name: idm-data
+          - name: {{ include "ocis.persistence.dataVolumeName" . }}
             mountPath: /var/lib/ocis
       containers:
         - name: {{ .appName }}
@@ -123,7 +123,7 @@ spec:
             - name: ldap-cert
               mountPath: /etc/ocis/ldap-cert
               readOnly: true
-            - name: idm-data
+            - name: {{ include "ocis.persistence.dataVolumeName" . }}
               mountPath: /var/lib/ocis
 
       {{- include "ocis.imagePullSecrets" $ | nindent 6 }}
@@ -133,11 +133,5 @@ spec:
         - name: ldap-cert
           secret:
             secretName: {{ .Values.secretRefs.ldapCertRef }}
-        - name: idm-data
-          {{ if .Values.services.idm.persistence.enabled }}
-          persistentVolumeClaim:
-            claimName: {{ .appName }}-data
-          {{ else }}
-          emptyDir: {}
-          {{ end }}
+        {{- include "ocis.persistence.dataVolume" . | nindent 8 }}
 {{- end }}

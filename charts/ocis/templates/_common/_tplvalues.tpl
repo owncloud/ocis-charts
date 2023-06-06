@@ -53,7 +53,7 @@ initContainer image logic
 */}}
 {{- define "ocis.initContainerImage" -}}
   {{- $tag := default .Chart.AppVersion .Values.initContainerImage.tag -}}
-image: "{{ $.Values.initContainerImage.repository }}:{{ $tag }}" 
+image: "{{ $.Values.initContainerImage.repository }}:{{ $tag }}"
 imagePullPolicy: {{ .Values.initContainerImage.pullPolicy }}
 {{- end -}}
 
@@ -258,4 +258,32 @@ oCIS serviceAccount settings
 */}}
 {{- define "ocis.serviceAccount" -}}
 automountServiceAccountToken: true
+{{- end -}}
+
+{{/*
+oCIS persistence dataVolumeName
+TODO: remove the extra cases for storageusers and storagesystem, see https://github.com/owncloud/ocis-charts/issues/302
+*/}}
+{{- define "ocis.persistence.dataVolumeName" -}}
+{{ $appName := .appName -}}
+{{- if eq $appName "storageusers" -}}
+{{ $appName = "storage-users" -}}
+{{- end -}}
+{{- if eq $appName "storagesystem" -}}
+{{ $appName = "storage-system" -}}
+{{- end -}}
+{{ printf "%s-data" $appName }}
+{{- end -}}
+
+{{/*
+oCIS persistence dataVolume
+*/}}
+{{- define "ocis.persistence.dataVolume" -}}
+- name: {{ include "ocis.persistence.dataVolumeName" . }}
+  {{- if (index .Values.services .appName).persistence.enabled }}
+  persistentVolumeClaim:
+    claimName: {{ (index .Values.services .appName).persistence.existingClaim | default ( printf "%s-data" .appName ) }}
+  {{- else }}
+  emptyDir: {}
+  {{- end }}
 {{- end -}}
