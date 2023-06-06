@@ -262,9 +262,17 @@ automountServiceAccountToken: true
 
 {{/*
 oCIS persistence dataVolumeName
+TODO: remove the extra cases for storageusers and storagesystem, see https://github.com/owncloud/ocis-charts/issues/302
 */}}
 {{- define "ocis.persistence.dataVolumeName" -}}
-{{ printf "%s-data" .appName }}
+{{ $appName := .appName -}}
+{{- if eq $appName "storageusers" -}}
+{{ $appName = "storage-users" -}}
+{{- end -}}
+{{- if eq $appName "storagesystem" -}}
+{{ $appName = "storage-system" -}}
+{{- end -}}
+{{ printf "%s-data" $appName }}
 {{- end -}}
 
 {{/*
