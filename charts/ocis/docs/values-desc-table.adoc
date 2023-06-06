@@ -180,6 +180,18 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `"https://wopiserver.owncloud.test"`
 | URL of the https://github.com/cs3org/wopiserver[cs3org/wopiserver]. Can be deployed https://artifacthub.io/packages/helm/cs3org/wopiserver[with this Chart].
+| features.archiver.maxNumFiles
+a| [subs=-attributes]
++int+
+a| [subs=-attributes]
+`10000`
+| Max number of files that can be packed into an archive.
+| features.archiver.maxSize
+a| [subs=-attributes]
++int+
+a| [subs=-attributes]
+`1073741824`
+| Max size in bytes of the zip archive the archiver can create.
 | features.basicAuthentication
 a| [subs=-attributes]
 +bool+

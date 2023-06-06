@@ -444,6 +444,12 @@ features:
     #
   # -- Edition of ownCloud Infinite Scale.
   edition: "Community"
+  # Archiver settings
+  archiver:
+    # -- Max size in bytes of the zip archive the archiver can create.
+    maxSize: 1073741824
+    # -- Max number of files that can be packed into an archive.
+    maxNumFiles: 10000
 # Ingress for oCIS.
 ingress:
   # -- Enables the Ingress.
