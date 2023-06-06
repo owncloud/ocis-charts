@@ -310,9 +310,9 @@ data:
 {{- end -}}
 
 {{/*
-oCIS secret wrapper
+oCIS ConfigMap wrapper
 
-@param .name          The name of the secret.
+@param .name          The name of the ConfigMap.
 @param .params        Dict containing data keys/values (plaintext).
 @param .scope         The current scope
 */}}

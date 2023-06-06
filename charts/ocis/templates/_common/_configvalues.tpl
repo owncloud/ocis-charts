@@ -5,7 +5,7 @@ Simple secret and configmap name definitions.
 All take the scope as the first and only parameter.
 */}}
 {{- define "secrets.adminUser" -}}
-{{ .Values.secretRefs.adminUserSecretRef | default "admin-user" | quote}}
+{{ .Values.secretRefs.adminUserSecretRef | default "admin-user" | quote }}
 {{- end -}}
 
 {{- define "secrets.idpSecret" -}}

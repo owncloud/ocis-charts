@@ -1,4 +1,4 @@
-{{- if or (not .Values.configRefs.storageusersConfigRef) }}
+{{- if not .Values.configRefs.storageusersConfigRef }}
 {{- $params := (dict)}}
 {{- $_ := set $params "storage-uuid" (uuidv4) }}
 {{- include "ocis.configMap" (dict "scope" . "name" "storage-users" "params" $params)}}
