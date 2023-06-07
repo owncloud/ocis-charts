@@ -934,8 +934,8 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 +string+
 a| [subs=-attributes]
-`"s3-credentials-secret"`
-| Reference to an existing s3 secret (see xref:{secrets}[Secrets]) This secret needs to remain filled in, as the s3 credentials secret can be filled in via the settings for backwards compatibility reasons.
+`""`
+| Reference to an existing s3 secret (see xref:{secrets}[Secrets]) If not filled in, will attempt to to use values in `.storageusers.storageBackend.s3.driverConfig.s3ng` instead.
 | secretRefs.storagesystemJwtSecretRef
 a| [subs=-attributes]
 +string+
