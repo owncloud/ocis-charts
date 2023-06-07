@@ -522,7 +522,7 @@ secretRefs:
   # -- Reference to an existing transfer secret (see xref:{secrets}[Secrets])
   transferSecretSecretRef: ""
   # -- Reference to an existing s3 secret (see xref:{secrets}[Secrets])
-  # If not filled in, will attempt to to use values in `.storageusers.storageBackend.s3.driverConfig.s3ng` instead.
+  # If not filled in, will attempt to use values in `.storageusers.storageBackend.s3.driverConfig.s3ng` instead.
   s3CredentialsSecretRef: ""
 
 # Security context options.
