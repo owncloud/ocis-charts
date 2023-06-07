@@ -1404,6 +1404,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `false`
 | Enables a initContainer to chown the volume. The initContainer is run as root. This is not needed if the driver applies the fsGroup from the securityContext.
+| services.idm.persistence.claimName
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Use a custom name for the PVC instead of the default one.
 | services.idm.persistence.enabled
 a| [subs=-attributes]
 +bool+
@@ -1512,6 +1518,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `false`
 | Enables a initContainer to chown the volume. The initContainer is run as root. This is not needed if the driver applies the fsGroup from the securityContext.
+| services.nats.persistence.claimName
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Use a custom name for the PVC instead of the default one.
 | services.nats.persistence.enabled
 a| [subs=-attributes]
 +bool+
@@ -1818,6 +1830,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `false`
 | Enables a initContainer to chown the volume. The initContainer is run as root. This is not needed if the driver applies the fsGroup from the securityContext.
+| services.search.persistence.claimName
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Use a custom name for the PVC instead of the default one.
 | services.search.persistence.enabled
 a| [subs=-attributes]
 +bool+
@@ -2058,6 +2076,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `false`
 | Enables a initContainer to chown the volume. The initContainer is run as root. This is not needed if the driver applies the fsGroup from the securityContext.
+| services.storagesystem.persistence.claimName
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Use a custom name for the PVC instead of the default one.
 | services.storagesystem.persistence.enabled
 a| [subs=-attributes]
 +bool+
@@ -2202,6 +2226,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `false`
 | Enables a initContainer to chown the volume. The initContainer is run as root. This is not needed if the driver applies the fsGroup from the securityContext.
+| services.storageusers.persistence.claimName
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Use a custom name for the PVC instead of the default one.
 | services.storageusers.persistence.enabled
 a| [subs=-attributes]
 +bool+
@@ -2340,6 +2370,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `false`
 | Enables a initContainer to chown the volume. The initContainer is run as root. This is not needed if the driver applies the fsGroup from the securityContext.
+| services.store.persistence.claimName
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Use a custom name for the PVC instead of the default one.
 | services.store.persistence.enabled
 a| [subs=-attributes]
 +bool+
@@ -2460,6 +2496,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `false`
 | Enables a initContainer to chown the volume. The initContainer is run as root. This is not needed if the driver applies the fsGroup from the securityContext.
+| services.thumbnails.persistence.claimName
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Use a custom name for the PVC instead of the default one.
 | services.thumbnails.persistence.enabled
 a| [subs=-attributes]
 +bool+
@@ -2718,6 +2760,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `false`
 | Enables a initContainer to chown the volume. The initContainer is run as root. This is not needed if the driver applies the fsGroup from the securityContext.
+| services.web.persistence.claimName
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Use a custom name for the PVC instead of the default one.
 | services.web.persistence.enabled
 a| [subs=-attributes]
 +bool+

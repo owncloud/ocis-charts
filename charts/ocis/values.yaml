@@ -833,6 +833,8 @@ services:
         - kubernetes.io/pvc-protection
       # -- Persistent volume selector labels.
       selectorLabels: {}
+      # -- Use a custom name for the PVC instead of the default one.
+      claimName: ""
       # -- Use an existing PersistentVolumeClaim for persistence.
       existingClaim:
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
@@ -882,6 +884,8 @@ services:
         - kubernetes.io/pvc-protection
       # -- Persistent volume selector labels.
       selectorLabels: {}
+      # -- Use a custom name for the PVC instead of the default one.
+      claimName: ""
       # -- Use an existing PersistentVolumeClaim for persistence.
       existingClaim:
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
@@ -1011,6 +1015,8 @@ services:
         - kubernetes.io/pvc-protection
       # -- Persistent volume selector labels.
       selectorLabels: {}
+      # -- Use a custom name for the PVC instead of the default one.
+      claimName: ""
       # -- Use an existing PersistentVolumeClaim for persistence.
       existingClaim:
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
@@ -1108,6 +1114,8 @@ services:
         - kubernetes.io/pvc-protection
       # -- Persistent volume selector labels.
       selectorLabels: {}
+      # -- Use a custom name for the PVC instead of the default one.
+      claimName: ""
       # -- Use an existing PersistentVolumeClaim for persistence.
       existingClaim:
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
@@ -1218,6 +1226,8 @@ services:
         - kubernetes.io/pvc-protection
       # -- Persistent volume selector labels.
       selectorLabels: {}
+      # -- Use a custom name for the PVC instead of the default one.
+      claimName: ""
       # -- Use an existing PersistentVolumeClaim for persistence.
       existingClaim:
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
@@ -1261,6 +1271,8 @@ services:
         - kubernetes.io/pvc-protection
       # -- Persistent volume selector labels.
       selectorLabels: {}
+      # -- Use a custom name for the PVC instead of the default one.
+      claimName: ""
       # -- Use an existing PersistentVolumeClaim for persistence.
       existingClaim:
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
@@ -1299,6 +1311,8 @@ services:
       finalizers: []
       # -- Persistent volume selector labels.
       selectorLabels: {}
+      # -- Use a custom name for the PVC instead of the default one.
+      claimName: ""
       # -- Use an existing PersistentVolumeClaim for persistence.
       existingClaim:
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
@@ -1467,6 +1481,8 @@ services:
       finalizers: []
       # -- Persistent volume selector labels.
       selectorLabels: {}
+      # -- Use a custom name for the PVC instead of the default one.
+      claimName: ""
       # -- Use an existing PersistentVolumeClaim for persistence.
       existingClaim:
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
