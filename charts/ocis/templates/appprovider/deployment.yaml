@@ -51,8 +51,10 @@ spec:
             - name: APP_PROVIDER_DEBUG_ADDR
               value: 0.0.0.0:9165
 
+            - name: APP_PROVIDER_SERVICE_NAME
+              value: "com.owncloud.api.app-provider-{{ $.appName }}"
             - name: APP_PROVIDER_EXTERNAL_ADDR
-              value: "{{ $.appName }}:9164"
+              value: "com.owncloud.api.app-provider-{{ $.appName }}"
 
             - name: APP_PROVIDER_DRIVER
               value: wopi
@@ -70,7 +72,7 @@ spec:
               value: {{ tpl $.Values.features.appsIntegration.wopiIntegration.wopiFolderURI $ | quote }}
 
             - name: OCIS_REVA_GATEWAY
-              value: {{ $.appNameGateway }}:9142
+              value: com.owncloud.api.gateway
 
             - name: APP_PROVIDER_JWT_SECRET
               valueFrom:

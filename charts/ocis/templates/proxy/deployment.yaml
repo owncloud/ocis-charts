@@ -79,7 +79,7 @@ spec:
               value: "false"
 
             - name: OCIS_REVA_GATEWAY
-              value: {{ .appNameGateway }}:9142
+              value: com.owncloud.api.gateway
 
             - name: PROXY_OIDC_INSECURE
               value: {{ .Values.insecure.oidcIdpInsecure | quote }}

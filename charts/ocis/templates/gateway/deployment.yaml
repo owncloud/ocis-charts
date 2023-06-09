@@ -53,35 +53,35 @@ spec:
               # we also could have gateway:9142 here, but some
               # Kubernetes distributions as minikube do not support
               # resolving a container's hostname in the container.
-              value: 127.0.0.1:9142
+              value: com.owncloud.api.gateway
 
             - name: GATEWAY_FRONTEND_PUBLIC_URL
               value: "https://{{ .Values.externalDomain }}"
 
             - name: GATEWAY_USERS_ENDPOINT
-              value: {{ .appNameUsers }}:9144
+              value: com.owncloud.api.users
             - name: GATEWAY_GROUPS_ENDPOINT
-              value: {{ .appNameGroups }}:9160
+              value: com.owncloud.api.groups
 
             - name: GATEWAY_AUTH_BASIC_ENDPOINT
-              value: {{ .appNameAuthBasic }}:9146
+              value: com.owncloud.api.auth-basic
             - name: GATEWAY_AUTH_MACHINE_ENDPOINT
-              value: {{ .appNameAuthMachine }}:9166
+              value: com.owncloud.api.auth-machine
 
             - name: GATEWAY_PERMISSIONS_ENDPOINT
-              value: {{ .appNameSettings }}:9191
+              value: com.owncloud.api.settings
 
             - name: GATEWAY_SHARING_ENDPOINT
-              value: {{ .appNameSharing }}:9150
+              value: com.owncloud.api.sharing
             - name: GATEWAY_STORAGE_PUBLIC_LINK_ENDPOINT
-              value: {{ .appNameStoragePubliclink }}:9178
+              value: com.owncloud.api.storage-publiclink
             - name: GATEWAY_STORAGE_USERS_ENDPOINT
-              value: {{ .appNameStorageUsers }}:9157
+              value: com.owncloud.api.storage-users
             - name: GATEWAY_STORAGE_SHARES_ENDPOINT
-              value: {{ .appNameStorageShares }}:9154
+              value: com.owncloud.api.storage-shares
 
             - name: GATEWAY_APP_REGISTRY_ENDPOINT
-              value: {{ .appNameAppRegistry }}:9242
+              value: com.owncloud.api.app-registry
 
             # cache
             # the stat cache is disabled for now for performance reasons, see https://github.com/owncloud/ocis-charts/issues/214

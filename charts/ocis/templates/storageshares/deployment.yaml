@@ -50,10 +50,10 @@ spec:
               value: 0.0.0.0:9156
 
             - name: STORAGE_SHARES_USER_SHARE_PROVIDER_ENDPOINT
-              value: {{ .appNameSharing }}:9150
+              value: com.owncloud.api.sharing
 
             - name: OCIS_REVA_GATEWAY
-              value: {{ .appNameGateway }}:9142
+              value: com.owncloud.api.gateway
 
             - name: STORAGE_SHARES_JWT_SECRET
               valueFrom:

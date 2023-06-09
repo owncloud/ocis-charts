@@ -57,7 +57,7 @@ spec:
             {{ end }}
 
             - name: OCIS_REVA_GATEWAY
-              value: {{ .appNameGateway }}:9142
+              value: com.owncloud.api.gateway
 
             - name: OCS_JWT_SECRET
               valueFrom:

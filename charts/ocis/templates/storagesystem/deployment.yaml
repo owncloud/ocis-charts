@@ -70,7 +70,7 @@ spec:
               value: http://{{ .appName }}:9216/data
 
             - name: OCIS_REVA_GATEWAY
-              value: {{ .appNameGateway }}:9142
+              value: com.owncloud.api.gateway
 
             - name: STORAGE_SYSTEM_DRIVER
               value: ocis

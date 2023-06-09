@@ -70,7 +70,7 @@ spec:
               {{- end }}
             {{- end }}
             - name: OCIS_REVA_GATEWAY
-              value: {{ .appNameGateway }}:9142
+              value: com.owncloud.api.gateway
             - name: POLICIES_JWT_SECRET
               valueFrom:
                 secretKeyRef:

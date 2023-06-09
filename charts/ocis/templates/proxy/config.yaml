@@ -34,75 +34,75 @@ data:
     - name: ocis
       routes:
       - endpoint: /
-        backend: http://{{ .appNameWeb }}:9100
+        service: com.owncloud.web.web
         unprotected: true
       - endpoint: /.well-known/openid-configuration
-        backend: http://{{ .appNameIdp }}:9130
+        service: com.owncloud.web.idp
         unprotected: true
       - endpoint: /branding/logo
-        backend: http://{{ .appNameWeb }}:9100
+        service: com.owncloud.web.web
       - endpoint: /konnect/
-        backend: http://{{ .appNameIdp }}:9130
+        service: com.owncloud.web.idp
         unprotected: true
       - endpoint: /signin/
-        backend: http://{{ .appNameIdp }}:9130
+        service: com.owncloud.web.idp
         unprotected: true
       - endpoint: /archiver
-        backend: http://{{ .appNameFrontend }}:9140
+        service: com.owncloud.web.frontend
       - endpoint: /ocs/v2.php/apps/notifications/api/v1/notifications
-        backend: http://{{ .appNameUserlog }}:8080
+        service: com.owncloud.userlog.userlog
       - type: regex
         endpoint: /ocs/v[12].php/cloud/user/signing-key
-        backend: http://{{ .appNameOcs }}:9110
+        service: com.owncloud.web.ocs
       - type: regex
         endpoint: /ocs/v[12].php/config
-        backend: http://{{ .appNameFrontend }}:9140
+        service: com.owncloud.web.frontend
         unprotected: true
       - endpoint: /ocs/
-        backend: http://{{ .appNameFrontend }}:9140
+        service: com.owncloud.web.frontend
       - type: query
         endpoint: /remote.php/?preview=1
-        backend: http://{{ .appNameWebdav }}:9115
+        service: com.owncloud.web.webdav
       - method: REPORT
         endpoint: /remote.php/dav/
-        backend: http://{{ .appNameWebdav }}:9115
+        service: com.owncloud.web.webdav
       - method: REPORT
         endpoint: /remote.php/webdav
-        backend: http://{{ .appNameWebdav }}:9115
+        service: com.owncloud.web.webdav
       - method: REPORT
         endpoint: /dav/spaces
-        backend: http://{{ .appNameWebdav }}:9115
+        service: com.owncloud.web.webdav
       - type: query
         endpoint: /dav/?preview=1
-        backend: http://{{ .appNameWebdav }}:9115
+        service: com.owncloud.web.webdav
       - type: query
         endpoint: /webdav/?preview=1
-        backend: http://{{ .appNameWebdav }}:9115
+        service: com.owncloud.web.webdav
       - endpoint: /remote.php/
-        backend: http://{{ .appNameOcdav }}:8080
+        service: com.owncloud.web.ocdav
       - endpoint: /dav/
-        backend: http://{{ .appNameOcdav }}:8080
+        service: com.owncloud.web.ocdav
       - endpoint: /webdav/
-        backend: http://{{ .appNameOcdav }}:8080
+        service: com.owncloud.web.ocdav
       - endpoint: /status
-        backend: http://{{ .appNameOcdav }}:8080
+        service: com.owncloud.web.ocdav
         unprotected: true
       - endpoint: /status.php
-        backend: http://{{ .appNameOcdav }}:8080
+        service: com.owncloud.web.ocdav
         unprotected: true
       - endpoint: /index.php/
-        backend: http://{{ .appNameOcdav }}:8080
+        service: com.owncloud.web.ocdav
       - endpoint: /apps/
-        backend: http://{{ .appNameOcdav }}:8080
+        service: com.owncloud.web.ocdav
       - endpoint: /data
-        backend: http://{{ .appNameFrontend }}:9140
+        service: com.owncloud.web.frontend
         unprotected: true
       - endpoint: /app/list
-        backend: http://{{ .appNameFrontend }}:9140
+        service: com.owncloud.web.frontend
         unprotected: true
       - endpoint: /app/
-        backend: http://{{ .appNameFrontend }}:9140
+        service: com.owncloud.web.frontend
       - endpoint: /graph/
-        backend: http://{{ .appNameGraph }}:9120
+        service: com.owncloud.graph.graph
       - endpoint: /api/v0/settings
-        backend: http://{{ .appNameSettings }}:9190
+        service: com.owncloud.web.settings

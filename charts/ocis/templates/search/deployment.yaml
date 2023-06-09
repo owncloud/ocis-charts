@@ -52,7 +52,7 @@ spec:
               value: 0.0.0.0:9224
 
             - name: OCIS_REVA_GATEWAY
-              value: {{ .appNameGateway }}:9142
+              value: com.owncloud.api.gateway
             - name: SEARCH_EVENTS_ENDPOINT
             {{- if not .Values.messagingSystem.external.enabled }}
               value: {{ .appNameNats }}:9233
