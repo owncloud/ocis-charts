@@ -59,7 +59,7 @@ spec:
             {{- $_ := set . "postprocessingSteps" (append .postprocessingSteps "virusscan") -}}
             {{- end }}
             {{- if .postprocessingSteps }}
-            - name: POSTPROCESSING_VIRUSSCAN
+            - name: POSTPROCESSING_STEPS
               value: {{ join "," .postprocessingSteps | quote }}
             {{- end }}
 
