@@ -264,7 +264,7 @@ automountServiceAccountToken: true
 oCIS persistence dataVolumeName
 */}}
 {{- define "ocis.persistence.dataVolumeName" -}}
-{{ printf "%s-data" .appName }}
+{{ (index .Values.services .appName).persistence.claimName | default ( printf "%s-data" .appName ) }}
 {{- end -}}
 
 {{/*
