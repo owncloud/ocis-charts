@@ -82,7 +82,7 @@ spec:
               {{- end }}
             {{- end }}
 
-            - name: POSTPROCESSING_STORE_TYPE
+            - name: POSTPROCESSING_STORE
               value: {{ .store.type | quote }}
             - name: POSTPROCESSING_STORE_NODES
               value: {{ tpl (join "," .store.nodes) . | quote }}
