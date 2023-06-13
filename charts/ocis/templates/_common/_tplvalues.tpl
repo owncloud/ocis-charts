@@ -262,17 +262,9 @@ automountServiceAccountToken: true
 
 {{/*
 oCIS persistence dataVolumeName
-TODO: remove the extra cases for storageusers and storagesystem, see https://github.com/owncloud/ocis-charts/issues/302
 */}}
 {{- define "ocis.persistence.dataVolumeName" -}}
-{{ $appName := .appName -}}
-{{- if eq $appName "storageusers" -}}
-{{ $appName = "storage-users" -}}
-{{- end -}}
-{{- if eq $appName "storagesystem" -}}
-{{ $appName = "storage-system" -}}
-{{- end -}}
-{{ printf "%s-data" $appName }}
+{{ printf "%s-data" .appName }}
 {{- end -}}
 
 {{/*
@@ -282,7 +274,7 @@ oCIS persistence dataVolume
 - name: {{ include "ocis.persistence.dataVolumeName" . }}
   {{- if (index .Values.services .appName).persistence.enabled }}
   persistentVolumeClaim:
-    claimName: {{ (index .Values.services .appName).persistence.existingClaim | default ( printf "%s-data" .appName ) }}
+    claimName: {{ (index .Values.services .appName).persistence.existingClaim | default ( include "ocis.persistence.dataVolumeName" . ) }}
   {{- else }}
   emptyDir: {}
   {{- end }}
