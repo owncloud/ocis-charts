@@ -97,19 +97,19 @@ spec:
             - name: GATEWAY_STORAGE_USERS_MOUNT_ID
               valueFrom:
                 configMapKeyRef:
-                  name: {{ .Values.configRefs.storageusersConfigRef }}
+                  name: {{ include "config.storageUsers" . }}
                   key: storage-uuid
 
             - name: GATEWAY_JWT_SECRET
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.secretRefs.jwtSecretRef }}
+                  name: {{ include "secrets.jwtSecret" . }}
                   key: jwt-secret
 
             - name: OCIS_TRANSFER_SECRET
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.secretRefs.transferSecretSecretRef }}
+                  name: {{ include "secrets.transferSecret" . }}
                   key: transfer-secret
 
           {{- include "ocis.livenessProbe" . | nindent 10 }}

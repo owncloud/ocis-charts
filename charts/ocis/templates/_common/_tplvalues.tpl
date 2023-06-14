@@ -279,3 +279,45 @@ oCIS persistence dataVolume
   emptyDir: {}
   {{- end }}
 {{- end -}}
+
+{{/*
+oCIS secret wrapper
+
+@param .name          The name of the secret.
+@param .params        Dict containing data keys/values (plaintext).
+@param .scope         The current scope
+*/}}
+{{- define "ocis.secret" -}}
+apiVersion: v1
+kind: Secret
+metadata:
+  name: {{ .name }}
+data:
+  {{- $secretObj := (lookup "v1" "Secret" .scope.Release.Namespace .name) | default dict }}
+  {{- $secretData := (get $secretObj "data") | default dict }}
+  {{- range $key, $value := .params }}
+  {{- $secretValue := (get $secretData $key) | default ($value | b64enc)}}
+  {{ $key }}: {{ $secretValue | quote }}
+  {{- end }}
+{{- end -}}
+
+{{/*
+oCIS ConfigMap wrapper
+
+@param .name          The name of the ConfigMap.
+@param .params        Dict containing data keys/values (plaintext).
+@param .scope         The current scope
+*/}}
+{{- define "ocis.configMap" -}}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .name }}
+data:
+  {{- $configObj := (lookup "v1" "ConfigMap" .scope.Release.Namespace .name) | default dict }}
+  {{- $configData := (get $configObj "data") | default dict }}
+  {{- range $key, $value := .params }}
+  {{- $configValue := (get $configData $key) | default ($value)}}
+  {{ $key }}: {{ $configValue | quote }}
+  {{- end }}
+{{- end -}}

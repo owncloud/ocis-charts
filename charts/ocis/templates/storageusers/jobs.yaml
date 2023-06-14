@@ -65,12 +65,12 @@ spec:
                 - name: STORAGE_USERS_S3NG_ACCESS_KEY
                   valueFrom:
                     secretKeyRef:
-                      name: {{ .Values.secretRefs.s3CredentialsSecretRef }}
+                      name: {{ include "secrets.s3CredentialsSecret" . }}
                       key: accessKey
                 - name: STORAGE_USERS_S3NG_SECRET_KEY
                   valueFrom:
                     secretKeyRef:
-                      name: {{ .Values.secretRefs.s3CredentialsSecretRef }}
+                      name: {{ include "secrets.s3CredentialsSecret" . }}
                       key: secretKey
                 - name: STORAGE_USERS_S3NG_BUCKET
                   value: {{ .Values.services.storageusers.storageBackend.driverConfig.s3ng.bucket | quote }}
@@ -79,19 +79,19 @@ spec:
                 - name: STORAGE_USERS_JWT_SECRET
                   valueFrom:
                     secretKeyRef:
-                      name: {{ .Values.secretRefs.jwtSecretRef }}
+                      name: {{ include "secrets.jwtSecret" . }}
                       key: jwt-secret
 
                 - name: OCIS_TRANSFER_SECRET
                   valueFrom:
                     secretKeyRef:
-                      name: {{ .Values.secretRefs.transferSecretSecretRef }}
+                      name: {{ include "secrets.transferSecret" . }}
                       key: transfer-secret
 
                 - name: STORAGE_USERS_MOUNT_ID
                   valueFrom:
                     configMapKeyRef:
-                      name: {{ .Values.configRefs.storageusersConfigRef }}
+                      name: {{ include "config.storageUsers" . }}
                       key: storage-uuid
 
               resources: {{ toYaml .Values.resources | nindent 16 }}
@@ -160,19 +160,19 @@ spec:
                 - name: STORAGE_USERS_JWT_SECRET
                   valueFrom:
                     secretKeyRef:
-                      name: {{ .Values.secretRefs.jwtSecretRef }}
+                      name: {{ include "secrets.jwtSecret" . }}
                       key: jwt-secret
 
                 - name: OCIS_TRANSFER_SECRET
                   valueFrom:
                     secretKeyRef:
-                      name: {{ .Values.secretRefs.transferSecretSecretRef }}
+                      name: {{ include "secrets.transferSecret" . }}
                       key: transfer-secret
 
                 - name: STORAGE_USERS_MOUNT_ID
                   valueFrom:
                     configMapKeyRef:
-                      name: {{ .Values.configRefs.storageusersConfigRef }}
+                      name: {{ include "config.storageUsers" . }}
                       key: storage-uuid
 
                 # events

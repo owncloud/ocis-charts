@@ -91,7 +91,7 @@ spec:
             - name: SEARCH_MACHINE_AUTH_API_KEY
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.secretRefs.machineAuthApiKeySecretRef }}
+                  name: {{ include "secrets.machineAuthAPIKeySecret" . }}
                   key: machine-auth-api-key
 
             - name: OCIS_ASYNC_UPLOADS
@@ -123,7 +123,7 @@ spec:
         - name: messaging-system-ca
           {{ if and (.Values.messagingSystem.external.enabled) (not .Values.messagingSystem.external.tls.certTrusted) }}
           secret:
-            secretName: {{ .Values.secretRefs.messagingSystemCaRef }}
+            secretName: {{ include "secrets.messagingSystemCASecret" . }}
           {{ else }}
           emptyDir: {}
           {{ end }}

@@ -60,13 +60,13 @@ spec:
             - name: NOTIFICATIONS_SMTP_USERNAME
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.secretRefs.notificationsSmtpSecretRef }}
+                  name: {{ include "secrets.notificationsSMTPSecret" . }}
                   key: smtp-username
 
             - name: NOTIFICATIONS_SMTP_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.secretRefs.notificationsSmtpSecretRef }}
+                  name: {{ include "secrets.notificationsSMTPSecret" . }}
                   key: smtp-password
 
             #TODO: remove OCIS_URL in favor of NOTIFICATIONS_WEB_UI_URL
@@ -100,7 +100,7 @@ spec:
             - name: NOTIFICATIONS_MACHINE_AUTH_API_KEY
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.secretRefs.machineAuthApiKeySecretRef }}
+                  name: {{ include "secrets.machineAuthAPIKeySecret" . }}
                   key: machine-auth-api-key
 
           {{- include "ocis.livenessProbe" . | nindent 10 }}
@@ -124,7 +124,7 @@ spec:
         - name: messaging-system-ca
           {{ if and (.Values.messagingSystem.external.enabled) (not .Values.messagingSystem.external.tls.certTrusted) }}
           secret:
-            secretName: {{ .Values.secretRefs.messagingSystemCaRef }}
+            secretName: {{ include "secrets.messagingSystemCASecret" . }}
           {{ else }}
           emptyDir: {}
           {{ end }}

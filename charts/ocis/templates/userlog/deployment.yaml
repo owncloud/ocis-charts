@@ -82,13 +82,13 @@ spec:
             - name: USERLOG_MACHINE_AUTH_API_KEY
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.secretRefs.machineAuthApiKeySecretRef }}
+                  name: {{ include "secrets.machineAuthAPIKeySecret" . }}
                   key: machine-auth-api-key
 
             - name: USERLOG_JWT_SECRET
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.secretRefs.jwtSecretRef }}
+                  name: {{ include "secrets.jwtSecret" . }}
                   key: jwt-secret
             {{- include "ocis.cors" . |nindent 12 }}
 
@@ -116,7 +116,7 @@ spec:
         - name: messaging-system-ca
           {{ if and (.Values.messagingSystem.external.enabled) (not .Values.messagingSystem.external.tls.certTrusted) }}
           secret:
-            secretName: {{ .Values.secretRefs.messagingSystemCaRef }}
+            secretName: {{ include "secrets.messagingSystemCASecret" . }}
           {{ else }}
           emptyDir: {}
           {{ end }}

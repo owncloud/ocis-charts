@@ -126,7 +126,7 @@ spec:
             - name: GROUPS_LDAP_BIND_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.secretRefs.ldapSecretRef }}
+                  name: {{ include "secrets.ldapBindSecret" . }}
                   key: reva-ldap-bind-password
 
             - name: GROUPS_IDP_URL
@@ -142,7 +142,7 @@ spec:
             - name: GROUPS_JWT_SECRET
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.secretRefs.jwtSecretRef }}
+                  name: {{ include "secrets.jwtSecret" . }}
                   key: jwt-secret
 
           {{- include "ocis.livenessProbe" . | nindent 10 }}
@@ -173,7 +173,7 @@ spec:
         - name: ldap-ca
           {{ if or (not .Values.features.externalUserManagement.enabled) ( not .Values.features.externalUserManagement.ldap.certTrusted) }}
           secret:
-            secretName: {{ .Values.secretRefs.ldapCaRef }}
+            secretName: {{ include "secrets.ldapCASecret" . }}
           {{ else }}
           emptyDir: {}
           {{ end }}
