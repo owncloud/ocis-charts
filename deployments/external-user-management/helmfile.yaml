@@ -425,73 +425,7 @@ releases:
             apiVersion: v1
             kind: Secret
             metadata:
-              name: jwt-secret
-            type: Opaque
-            data:
-              jwt-secret: {{ randAlphaNum 30 | b64enc | quote }}
-          - |
-            apiVersion: v1
-            kind: Secret
-            metadata:
-              name: machine-auth-api-key
-            type: Opaque
-            data:
-              machine-auth-api-key: {{ randAlphaNum 30 | b64enc | quote }}
-          - |
-            apiVersion: v1
-            kind: Secret
-            metadata:
-              name: storage-system-jwt-secret
-            type: Opaque
-            data:
-              storage-system-jwt-secret: {{ randAlphaNum 30 | b64enc | quote }}
-          - |
-            apiVersion: v1
-            kind: Secret
-            metadata:
-              name: storage-system
-            type: Opaque
-            data:
-              api-key: {{ randAlphaNum 30 | b64enc | quote }}
-              user-id: {{ uuidv4 | b64enc | quote }}
-          - |
-            apiVersion: v1
-            kind: Secret
-            metadata:
-              name: transfer-secret
-            type: Opaque
-            data:
-              transfer-secret: {{ randAlphaNum 30 | b64enc | quote }}
-          - |
-            apiVersion: v1
-            kind: Secret
-            metadata:
-              name: thumbnails-transfer-secret
-            type: Opaque
-            data:
-              thumbnails-transfer-secret: {{ randAlphaNum 30 | b64enc | quote }}
-
-          - |
-            apiVersion: v1
-            kind: Secret
-            metadata:
               name: ldap-bind-secrets
             type: Opaque
             data:
               reva-ldap-bind-password: YWRtaW4=
-
-          - |
-            apiVersion: v1
-            kind: ConfigMap
-            metadata:
-              name: storage-users
-            data:
-              storage-uuid: 1284d238-aa92-42ce-bdc4-0b0000009157
-
-          - |
-            apiVersion: v1
-            kind: ConfigMap
-            metadata:
-              name: graph
-            data:
-              application-id: 6daae694-6fc4-4421-82a5-7a9c7d7e58b4
