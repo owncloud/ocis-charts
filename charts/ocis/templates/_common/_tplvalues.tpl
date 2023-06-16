@@ -272,5 +272,5 @@ oCIS service registry
 oCIS chown init data command
 */}}
 {{- define "ocis.initChownDataCommand" -}}
-command: ["chown", {{ ne .Values.securityContext.fsGroupChangePolicy "OnRootMismatch" | ternary "-R ," "" }}"{{ .Values.securityContext.runAsUser }}:{{ .Values.securityContext.runAsGroup }}", "/var/lib/ocis"]
+command: ["chown", {{ ne .Values.securityContext.fsGroupChangePolicy "OnRootMismatch" | ternary "\"-R\", " "" }}"{{ .Values.securityContext.runAsUser }}:{{ .Values.securityContext.runAsGroup }}", "/var/lib/ocis"]
 {{- end -}}
