@@ -135,9 +135,6 @@ spec:
               value: {{ .Values.features.externalUserManagement.oidc.issuerURI | quote }}
             {{ end }}
 
-            - name: OCIS_REVA_GATEWAY
-              value: com.owncloud.api.gateway
-
             - name: GROUPS_JWT_SECRET
               valueFrom:
                 secretKeyRef:

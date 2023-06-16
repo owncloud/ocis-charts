@@ -71,9 +71,6 @@ spec:
             - name: THUMBNAILS_CS3SOURCE_INSECURE
               value: {{ .Values.insecure.ocisHttpApiInsecure | quote }}
 
-            - name: OCIS_REVA_GATEWAY
-              value: com.owncloud.api.gateway
-
             - name: THUMBNAILS_TRANSFER_TOKEN
               valueFrom:
                 secretKeyRef:

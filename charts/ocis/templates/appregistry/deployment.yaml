@@ -46,9 +46,6 @@ spec:
             - name: APP_REGISTRY_DEBUG_ADDR
               value: 0.0.0.0:9243
 
-            - name: OCIS_REVA_GATEWAY
-              value: com.owncloud.api.gateway
-
             - name: APP_REGISTRY_JWT_SECRET
               valueFrom:
                 secretKeyRef:

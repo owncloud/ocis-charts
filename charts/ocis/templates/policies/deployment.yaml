@@ -69,8 +69,6 @@ spec:
               value: "" # no cert needed
               {{- end }}
             {{- end }}
-            - name: OCIS_REVA_GATEWAY
-              value: com.owncloud.api.gateway
             - name: POLICIES_JWT_SECRET
               valueFrom:
                 secretKeyRef:

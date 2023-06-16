@@ -48,39 +48,8 @@ spec:
             - name: GATEWAY_DEBUG_ADDR
               value: 0.0.0.0:9143
 
-            - name: OCIS_REVA_GATEWAY
-              # we also could have gateway:9142 here, but some
-              # Kubernetes distributions as minikube do not support
-              # resolving a container's hostname in the container.
-              value: com.owncloud.api.gateway
-
             - name: GATEWAY_FRONTEND_PUBLIC_URL
               value: "https://{{ .Values.externalDomain }}"
-
-            - name: GATEWAY_USERS_ENDPOINT
-              value: com.owncloud.api.users
-            - name: GATEWAY_GROUPS_ENDPOINT
-              value: com.owncloud.api.groups
-
-            - name: GATEWAY_AUTH_BASIC_ENDPOINT
-              value: com.owncloud.api.auth-basic
-            - name: GATEWAY_AUTH_MACHINE_ENDPOINT
-              value: com.owncloud.api.auth-machine
-
-            - name: GATEWAY_PERMISSIONS_ENDPOINT
-              value: com.owncloud.api.settings
-
-            - name: GATEWAY_SHARING_ENDPOINT
-              value: com.owncloud.api.sharing
-            - name: GATEWAY_STORAGE_PUBLIC_LINK_ENDPOINT
-              value: com.owncloud.api.storage-publiclink
-            - name: GATEWAY_STORAGE_USERS_ENDPOINT
-              value: com.owncloud.api.storage-users
-            - name: GATEWAY_STORAGE_SHARES_ENDPOINT
-              value: com.owncloud.api.storage-shares
-
-            - name: GATEWAY_APP_REGISTRY_ENDPOINT
-              value: com.owncloud.api.app-registry
 
             # cache
             # the stat cache is disabled for now for performance reasons, see https://github.com/owncloud/ocis-charts/issues/214

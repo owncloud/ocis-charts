@@ -75,9 +75,6 @@ spec:
               {{- end }}
             {{- end }}
 
-            - name: OCIS_REVA_GATEWAY
-              value: com.owncloud.api.gateway
-
             - name: USERLOG_MACHINE_AUTH_API_KEY
               valueFrom:
                 secretKeyRef:

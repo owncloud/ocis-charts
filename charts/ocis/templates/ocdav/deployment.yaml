@@ -54,9 +54,6 @@ spec:
             - name: OCIS_EDITION
               value: {{ .Values.features.edition | quote }}
 
-            - name: OCIS_REVA_GATEWAY
-              value: com.owncloud.api.gateway
-
             - name: OCDAV_INSECURE
               value: {{ .Values.insecure.ocisHttpApiInsecure | quote }}
 

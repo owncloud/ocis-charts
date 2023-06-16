@@ -85,9 +85,6 @@ spec:
               value: {{ . | quote }}
             {{- end }}
 
-            - name: WEB_GATEWAY_GRPC_ADDR #TODO: does not support fallback to REVA_GATEWAY as of oCIS 3.0.0-rc.1
-              value: com.owncloud.api.gateway
-
             - name: WEB_JWT_SECRET
               valueFrom:
                 secretKeyRef:
