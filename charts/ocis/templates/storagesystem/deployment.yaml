@@ -34,8 +34,7 @@ spec:
           args: ["storage-system", "server"]
           {{- include "ocis.containerSecurityContext" . | nindent 10 }}
           env:
-            - name: MICRO_REGISTRY
-              value: kubernetes
+            {{- include "ocis.serviceRegistry" . | nindent 12 }}
 
             # logging
             - name: STORAGE_SYSTEM_LOG_COLOR

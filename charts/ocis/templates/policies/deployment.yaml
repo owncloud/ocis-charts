@@ -37,8 +37,8 @@ spec:
             runAsGroup: {{ .Values.securityContext.runAsGroup }}
             readOnlyRootFilesystem: true
           env:
-            - name: MICRO_REGISTRY
-              value: kubernetes
+            {{- include "ocis.serviceRegistry" . | nindent 12 }}
+
             - name: POLICIES_LOG_COLOR
               value: {{ .Values.logging.color | quote }}
             - name: POLICIES_LOG_LEVEL

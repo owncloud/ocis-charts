@@ -260,6 +260,13 @@ oCIS serviceAccount settings
 automountServiceAccountToken: true
 {{- end -}}
 
+{{/*
+oCIS service registry
+*/}}
+{{- define "ocis.serviceRegistry" -}}
+- name: MICRO_REGISTRY
+  value: kubernetes
+{{- end -}}
 
 {{/*
 oCIS chown init data command

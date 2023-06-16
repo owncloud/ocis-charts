@@ -22,8 +22,7 @@ spec:
           args: ["storage-shares", "server"]
           {{- include "ocis.containerSecurityContext" . | nindent 10 }}
           env:
-            - name: MICRO_REGISTRY
-              value: kubernetes
+            {{- include "ocis.serviceRegistry" . | nindent 12 }}
 
             - name: STORAGE_SHARES_LOG_COLOR
               value: {{ .Values.logging.color | quote }}
