@@ -53,7 +53,7 @@ initContainer image logic
 */}}
 {{- define "ocis.initContainerImage" -}}
   {{- $tag := default .Chart.AppVersion .Values.initContainerImage.tag -}}
-image: "{{ $.Values.initContainerImage.repository }}:{{ $tag }}" 
+image: "{{ $.Values.initContainerImage.repository }}:{{ $tag }}"
 imagePullPolicy: {{ .Values.initContainerImage.pullPolicy }}
 {{- end -}}
 
@@ -258,4 +258,12 @@ oCIS serviceAccount settings
 */}}
 {{- define "ocis.serviceAccount" -}}
 automountServiceAccountToken: true
+{{- end -}}
+
+{{/*
+oCIS service registry
+*/}}
+{{- define "ocis.serviceRegistry" -}}
+- name: MICRO_REGISTRY
+  value: kubernetes
 {{- end -}}
