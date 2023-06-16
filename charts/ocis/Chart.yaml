@@ -9,7 +9,7 @@ maintainers:
     email: devops@owncloud.com
     url: https://owncloud.com
 type: application
-version: 0.3.0
+version: 0.4.0
 appVersion: 3.0.0
 # supported Kubernetes versions
 # should only contain non EOL versions from https://kubernetes.io/releases/patch-releases/#non-active-branch-history
