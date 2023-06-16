@@ -64,7 +64,7 @@ spec:
             - name: FRONTEND_JWT_SECRET
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.secretRefs.jwtSecretRef }}
+                  name: {{ include "secrets.jwtSecret" . }}
                   key: jwt-secret
 
             - name: FRONTEND_APP_HANDLER_INSECURE
@@ -82,6 +82,12 @@ spec:
             - name: FRONTEND_ENABLE_RESHARING
               value: {{ .Values.features.sharing.users.resharing | quote }}
 
+            - name: FRONTEND_ARCHIVER_MAX_SIZE
+              value: {{ .Values.features.archiver.maxSize | quote }}
+
+            - name: FRONTEND_ARCHIVER_MAX_NUM_FILES
+              value: {{ .Values.features.archiver.maxNumFiles | quote }}
+
             # cache
             # the stat cache is disabled for now for performance reasons, see https://github.com/owncloud/ocis-charts/issues/214
             - name: FRONTEND_OCS_STAT_CACHE_STORE
@@ -93,13 +99,13 @@ spec:
             - name: FRONTEND_MACHINE_AUTH_API_KEY
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.secretRefs.machineAuthApiKeySecretRef }}
+                  name: {{ include "secrets.machineAuthAPIKeySecret" . }}
                   key: machine-auth-api-key
 
             - name: OCIS_TRANSFER_SECRET
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.secretRefs.transferSecretSecretRef }}
+                  name: {{ include "secrets.transferSecret" . }}
                   key: transfer-secret
 
             {{- if .Values.features.quotas.max  }}

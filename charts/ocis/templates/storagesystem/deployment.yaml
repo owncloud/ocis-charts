@@ -24,7 +24,7 @@ spec:
             runAsUser: 0
           {{- include "ocis.initChownDataCommand" $ | nindent 10 }}
           volumeMounts:
-          - name: storage-system-data
+          - name: {{ include "ocis.persistence.dataVolumeName" . }}
             mountPath: /var/lib/ocis
       {{ end }}
       containers:
@@ -87,19 +87,19 @@ spec:
             - name: STORAGE_SYSTEM_JWT_SECRET
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.secretRefs.storagesystemJwtSecretRef }}
+                  name: {{ include "secrets.storageSystemJWTSecret" . }}
                   key: storage-system-jwt-secret
 
             - name: OCIS_SYSTEM_USER_API_KEY
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.secretRefs.storagesystemSecretRef }}
+                  name: {{ include "secrets.storageSystemSecret" . }}
                   key: api-key
 
             - name: OCIS_SYSTEM_USER_ID
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.secretRefs.storagesystemSecretRef }}
+                  name: {{ include "secrets.storageSystemSecret" . }}
                   key: user-id
 
           {{- include "ocis.livenessProbe" . | nindent 10 }}
@@ -117,17 +117,11 @@ spec:
           volumeMounts:
             - name: tmp-volume
               mountPath: /tmp
-            - name: storage-system-data
+            - name: {{ include "ocis.persistence.dataVolumeName" . }}
               mountPath: /var/lib/ocis
 
       {{- include "ocis.imagePullSecrets" $ | nindent 6 }}
       volumes:
         - name: tmp-volume
           emptyDir: {}
-        - name: storage-system-data
-          {{ if .Values.services.storagesystem.persistence.enabled }}
-          persistentVolumeClaim:
-            claimName: {{ .appName }}-data
-          {{ else }}
-          emptyDir: {}
-          {{ end }}
+        {{- include "ocis.persistence.dataVolume" . | nindent 8 }}

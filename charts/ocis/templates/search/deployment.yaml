@@ -23,7 +23,7 @@ spec:
             runAsUser: 0
           {{- include "ocis.initChownDataCommand" $ | nindent 10 }}
           volumeMounts:
-          - name: search-data
+          - name: {{ include "ocis.persistence.dataVolumeName" . }}
             mountPath: /var/lib/ocis
       {{ end }}
       containers:
@@ -90,7 +90,7 @@ spec:
             - name: SEARCH_MACHINE_AUTH_API_KEY
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.secretRefs.machineAuthApiKeySecretRef }}
+                  name: {{ include "secrets.machineAuthAPIKeySecret" . }}
                   key: machine-auth-api-key
 
             - name: OCIS_ASYNC_UPLOADS
@@ -112,7 +112,7 @@ spec:
             - name: messaging-system-ca
               mountPath: /etc/ocis/messaging-system-ca
               readOnly: true
-            - name: search-data
+            - name: {{ include "ocis.persistence.dataVolumeName" . }}
               mountPath: /var/lib/ocis
 
       {{- include "ocis.imagePullSecrets" $ | nindent 6 }}
@@ -122,14 +122,8 @@ spec:
         - name: messaging-system-ca
           {{ if and (.Values.messagingSystem.external.enabled) (not .Values.messagingSystem.external.tls.certTrusted) }}
           secret:
-            secretName: {{ .Values.secretRefs.messagingSystemCaRef }}
+            secretName: {{ include "secrets.messagingSystemCASecret" . }}
           {{ else }}
           emptyDir: {}
           {{ end }}
-        - name: search-data
-          {{ if .Values.services.search.persistence.enabled }}
-          persistentVolumeClaim:
-            claimName: {{ .appName }}-data
-          {{ else }}
-          emptyDir: {}
-          {{ end }}
+        {{- include "ocis.persistence.dataVolume" . | nindent 8 }}

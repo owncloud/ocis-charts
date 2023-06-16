@@ -24,7 +24,7 @@ spec:
             runAsUser: 0
           {{- include "ocis.initChownDataCommand" $ | nindent 10 }}
           volumeMounts:
-          - name: storage-users-data
+          - name: {{ include "ocis.persistence.dataVolumeName" . }}
             mountPath: /var/lib/ocis
       {{ end }}
       containers:
@@ -92,12 +92,12 @@ spec:
             - name: STORAGE_USERS_S3NG_ACCESS_KEY
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.secretRefs.s3CredentialsSecretRef }}
+                  name: {{ include "secrets.s3CredentialsSecret" . }}
                   key: accessKey
             - name: STORAGE_USERS_S3NG_SECRET_KEY
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.secretRefs.s3CredentialsSecretRef }}
+                  name: {{ include "secrets.s3CredentialsSecret" . }}
                   key: secretKey
             - name: STORAGE_USERS_S3NG_BUCKET
               value: {{ .Values.services.storageusers.storageBackend.driverConfig.s3ng.bucket | quote }}
@@ -140,7 +140,7 @@ spec:
             - name: OCIS_MACHINE_AUTH_API_KEY
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.secretRefs.machineAuthApiKeySecretRef }}
+                  name: {{ include "secrets.machineAuthAPIKeySecret" . }}
                   key: machine-auth-api-key
 
             - name: OCIS_REVA_GATEWAY
@@ -168,19 +168,19 @@ spec:
             - name: STORAGE_USERS_MOUNT_ID
               valueFrom:
                 configMapKeyRef:
-                  name: {{ .Values.configRefs.storageusersConfigRef }}
+                  name: {{ include "config.storageUsers" . }}
                   key: storage-uuid
 
             - name: STORAGE_USERS_JWT_SECRET
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.secretRefs.jwtSecretRef }}
+                  name: {{ include "secrets.jwtSecret" . }}
                   key: jwt-secret
 
             - name: OCIS_TRANSFER_SECRET
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.secretRefs.transferSecretSecretRef }}
+                  name: {{ include "secrets.transferSecret" . }}
                   key: transfer-secret
 
             {{- if .Values.features.quotas.max }}
@@ -214,7 +214,7 @@ spec:
             - name: messaging-system-ca
               mountPath: /etc/ocis/messaging-system-ca
               readOnly: true
-            - name: storage-users-data
+            - name: {{ include "ocis.persistence.dataVolumeName" . }}
               mountPath: /var/lib/ocis
 
       {{- include "ocis.imagePullSecrets" $ | nindent 6 }}
@@ -226,14 +226,8 @@ spec:
         - name: messaging-system-ca
           {{ if and (.Values.messagingSystem.external.enabled) (not .Values.messagingSystem.external.tls.certTrusted) }}
           secret:
-            secretName: {{ .Values.secretRefs.messagingSystemCaRef }}
+            secretName: {{ include "secrets.messagingSystemCASecret" . }}
           {{ else }}
           emptyDir: {}
           {{ end }}
-        - name: storage-users-data
-          {{ if .Values.services.storageusers.persistence.enabled }}
-          persistentVolumeClaim:
-            claimName: {{ .appName }}-data
-          {{ else }}
-          emptyDir: {}
-          {{ end }}
+        {{- include "ocis.persistence.dataVolume" . | nindent 8 }}

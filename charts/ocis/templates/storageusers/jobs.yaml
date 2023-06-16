@@ -63,12 +63,12 @@ spec:
                 - name: STORAGE_USERS_S3NG_ACCESS_KEY
                   valueFrom:
                     secretKeyRef:
-                      name: {{ .Values.secretRefs.s3CredentialsSecretRef }}
+                      name: {{ include "secrets.s3CredentialsSecret" . }}
                       key: accessKey
                 - name: STORAGE_USERS_S3NG_SECRET_KEY
                   valueFrom:
                     secretKeyRef:
-                      name: {{ .Values.secretRefs.s3CredentialsSecretRef }}
+                      name: {{ include "secrets.s3CredentialsSecret" . }}
                       key: secretKey
                 - name: STORAGE_USERS_S3NG_BUCKET
                   value: {{ .Values.services.storageusers.storageBackend.driverConfig.s3ng.bucket | quote }}
@@ -77,19 +77,19 @@ spec:
                 - name: STORAGE_USERS_JWT_SECRET
                   valueFrom:
                     secretKeyRef:
-                      name: {{ .Values.secretRefs.jwtSecretRef }}
+                      name: {{ include "secrets.jwtSecret" . }}
                       key: jwt-secret
 
                 - name: OCIS_TRANSFER_SECRET
                   valueFrom:
                     secretKeyRef:
-                      name: {{ .Values.secretRefs.transferSecretSecretRef }}
+                      name: {{ include "secrets.transferSecret" . }}
                       key: transfer-secret
 
                 - name: STORAGE_USERS_MOUNT_ID
                   valueFrom:
                     configMapKeyRef:
-                      name: {{ .Values.configRefs.storageusersConfigRef }}
+                      name: {{ include "config.storageUsers" . }}
                       key: storage-uuid
 
               resources: {{ toYaml .Values.resources | nindent 16 }}
@@ -97,16 +97,14 @@ spec:
               volumeMounts:
                 - name: tmp-volume
                   mountPath: /tmp
-                - name: storage-users-data
+                - name: {{ include "ocis.persistence.dataVolumeName" . }}
                   mountPath: /var/lib/ocis
 
           {{- include "ocis.imagePullSecrets" $ | nindent 10 }}
           volumes:
             - name: tmp-volume
               emptyDir: {}
-            - name: storage-users-data
-              persistentVolumeClaim:
-                claimName: {{ .appName }}-data
+            {{- include "ocis.persistence.dataVolume" . | nindent 12 }}
 {{ end }}
 {{- if and .Values.services.storageusers.persistence.enabled .Values.services.storageusers.maintenance.purgeExpiredTrashBinItems.enabled }}
 {{- include "ocis.appNames" (dict "scope" . "appName" "appNameStorageUsers" "appNameSuffix" "") -}}
@@ -159,19 +157,19 @@ spec:
                 - name: STORAGE_USERS_JWT_SECRET
                   valueFrom:
                     secretKeyRef:
-                      name: {{ .Values.secretRefs.jwtSecretRef }}
+                      name: {{ include "secrets.jwtSecret" . }}
                       key: jwt-secret
 
                 - name: OCIS_TRANSFER_SECRET
                   valueFrom:
                     secretKeyRef:
-                      name: {{ .Values.secretRefs.transferSecretSecretRef }}
+                      name: {{ include "secrets.transferSecret" . }}
                       key: transfer-secret
 
                 - name: STORAGE_USERS_MOUNT_ID
                   valueFrom:
                     configMapKeyRef:
-                      name: {{ .Values.configRefs.storageusersConfigRef }}
+                      name: {{ include "config.storageUsers" . }}
                       key: storage-uuid
 
                 # events
@@ -199,14 +197,12 @@ spec:
               volumeMounts:
                 - name: tmp-volume
                   mountPath: /tmp
-                - name: storage-users-data
+                - name: {{ include "ocis.persistence.dataVolumeName" . }}
                   mountPath: /var/lib/ocis
 
           {{- include "ocis.imagePullSecrets" $ | nindent 10 }}
           volumes:
             - name: tmp-volume
               emptyDir: {}
-            - name: storage-users-data
-              persistentVolumeClaim:
-                claimName: {{ .appName }}-data
+            {{- include "ocis.persistence.dataVolume" . | nindent 12 }}
 {{ end }}

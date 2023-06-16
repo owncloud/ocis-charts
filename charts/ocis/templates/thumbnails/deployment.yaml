@@ -24,7 +24,7 @@ spec:
             runAsUser: 0
           {{- include "ocis.initChownDataCommand" $ | nindent 10 }}
           volumeMounts:
-          - name: thumbnails-data
+          - name: {{ include "ocis.persistence.dataVolumeName" . }}
             mountPath: /var/lib/ocis
       {{ end }}
       containers:
@@ -77,7 +77,7 @@ spec:
             - name: THUMBNAILS_TRANSFER_TOKEN
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.secretRefs.thumbnailsSecretRef }}
+                  name: {{ include "secrets.thumbnailsSecret" . }}
                   key: thumbnails-transfer-secret
 
           {{- include "ocis.livenessProbe" . | nindent 10 }}
@@ -93,15 +93,9 @@ spec:
               containerPort: 9189
 
           volumeMounts:
-            - name: thumbnails-data
+            - name: {{ include "ocis.persistence.dataVolumeName" . }}
               mountPath: /var/lib/ocis
 
       {{- include "ocis.imagePullSecrets" $ | nindent 6 }}
       volumes:
-        - name: thumbnails-data
-          {{ if .Values.services.thumbnails.persistence.enabled }}
-          persistentVolumeClaim:
-            claimName: {{ .appName }}-data
-          {{ else }}
-          emptyDir: {}
-          {{ end }}
+        {{- include "ocis.persistence.dataVolume" . | nindent 8 }}

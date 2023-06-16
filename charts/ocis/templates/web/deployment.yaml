@@ -91,7 +91,7 @@ spec:
             - name: WEB_JWT_SECRET
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.secretRefs.jwtSecretRef }}
+                  name: {{ include "secrets.jwtSecret" . }}
                   key: jwt-secret
 
           {{- include "ocis.livenessProbe" . | nindent 10 }}
@@ -115,7 +115,7 @@ spec:
             - name: theme-assets
               mountPath: /var/lib/ocis/web/assets/themes/owncloud/assets
             {{- end }}
-            - name: web-data
+            - name: {{ include "ocis.persistence.dataVolumeName" . }}
               mountPath: /var/lib/ocis
 
       {{- include "ocis.imagePullSecrets" $ | nindent 6 }}
@@ -133,10 +133,4 @@ spec:
           configMap:
             name: {{ . | quote }}
         {{- end }}
-        - name: web-data
-          {{ if .Values.services.web.persistence.enabled }}
-          persistentVolumeClaim:
-            claimName: {{ .appName }}-data
-          {{ else }}
-          emptyDir: {}
-          {{ end }}
+        {{- include "ocis.persistence.dataVolume" . | nindent 8 }}

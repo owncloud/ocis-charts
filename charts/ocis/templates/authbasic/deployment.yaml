@@ -130,7 +130,7 @@ spec:
             - name: AUTH_BASIC_LDAP_BIND_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.secretRefs.ldapSecretRef }}
+                  name: {{ include "secrets.ldapBindSecret" . }}
                   key: reva-ldap-bind-password
 
             - name: AUTH_BASIC_IDP_URL
@@ -143,7 +143,7 @@ spec:
             - name: AUTH_BASIC_JWT_SECRET
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.secretRefs.jwtSecretRef }}
+                  name: {{ include "secrets.jwtSecret" . }}
                   key: jwt-secret
 
             - name: AUTH_BASIC_LDAP_USER_ENABLED_ATTRIBUTE
@@ -181,7 +181,7 @@ spec:
         - name: ldap-ca
           {{ if or (not .Values.features.externalUserManagement.enabled) ( not .Values.features.externalUserManagement.ldap.certTrusted) }}
           secret:
-            secretName: {{ .Values.secretRefs.ldapCaRef }}
+            secretName: {{ include "secrets.ldapCASecret" . }}
           {{ else }}
           emptyDir: {}
           {{ end }}

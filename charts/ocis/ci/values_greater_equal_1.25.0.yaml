@@ -1,5 +1,4 @@
 ---
-
 ingress:
   enabled: true
   ingressClassName: some-ingress
@@ -137,3 +136,6 @@ services:
       finalizers: []
       selectorLabels:
         selector1: foobar
+
+secretRefs:
+  notificationsSmtpSecretRef: "smtp-secret"

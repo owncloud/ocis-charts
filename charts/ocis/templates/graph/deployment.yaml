@@ -59,7 +59,7 @@ spec:
             - name: GRAPH_LDAP_BIND_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.secretRefs.ldapSecretRef }}
+                  name: {{ include "secrets.ldapBindSecret" . }}
                   key: graph-ldap-bind-password
             {{ else }}
             - name: GRAPH_LDAP_URI
@@ -69,7 +69,7 @@ spec:
             - name: GRAPH_LDAP_BIND_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.secretRefs.ldapSecretRef }}
+                  name: {{ include "secrets.ldapBindSecret" . }}
                   key: reva-ldap-bind-password
             - name: GRAPH_LDAP_SERVER_WRITE_ENABLED
               value: {{ .Values.features.externalUserManagement.ldap.writeable | quote }}
@@ -178,13 +178,13 @@ spec:
             - name: GRAPH_APPLICATION_ID
               valueFrom:
                 configMapKeyRef:
-                  name: {{ .Values.configRefs.graphConfigRef }}
+                  name: {{ include "config.graph" . }}
                   key: application-id
 
             - name: GRAPH_JWT_SECRET
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.secretRefs.jwtSecretRef }}
+                  name: {{ include "secrets.jwtSecret" . }}
                   key: jwt-secret
 
             {{- if .Values.features.quotas.default }}
@@ -195,7 +195,7 @@ spec:
             - name: USERLOG_MACHINE_AUTH_API_KEY
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.secretRefs.machineAuthApiKeySecretRef }}
+                  name: {{ include "secrets.machineAuthAPIKeySecret" . }}
                   key: machine-auth-api-key
 
             {{- if .Values.features.gdprReport.integrations.keycloak.enabled }}
@@ -206,7 +206,7 @@ spec:
             - name: GRAPH_KEYCLOAK_CLIENT_SECRET
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.secretRefs.gdprExportClientSecretRef }}
+                  name: {{ include "secrets.gdprExportClientSecret" . }}
                   key: oidc-secret
             - name: GRAPH_KEYCLOAK_CLIENT_REALM
               value: {{ .Values.features.gdprReport.integrations.keycloak.clientRealm | quote }}
@@ -246,14 +246,14 @@ spec:
         - name: messaging-system-ca
           {{ if and (.Values.messagingSystem.external.enabled) (not .Values.messagingSystem.external.tls.certTrusted) }}
           secret:
-            secretName: {{ .Values.secretRefs.messagingSystemCaRef }}
+            secretName: {{ include "secrets.messagingSystemCASecret" . }}
           {{ else }}
           emptyDir: {}
           {{ end }}
         - name: ldap-ca
           {{ if not .Values.features.externalUserManagement.enabled }}
           secret:
-            secretName: {{ .Values.secretRefs.ldapCaRef }}
+            secretName: {{ include "secrets.ldapCASecret" . }}
           {{ else }}
           emptyDir: {}
           {{ end }}
