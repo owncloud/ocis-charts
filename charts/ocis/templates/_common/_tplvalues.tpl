@@ -267,3 +267,10 @@ oCIS service registry
 - name: MICRO_REGISTRY
   value: kubernetes
 {{- end -}}
+
+{{/*
+oCIS chown init data command
+*/}}
+{{- define "ocis.initChownDataCommand" -}}
+command: ["chown", {{ ne .Values.securityContext.fsGroupChangePolicy "OnRootMismatch" | ternary "\"-R\", " "" }}"{{ .Values.securityContext.runAsUser }}:{{ .Values.securityContext.runAsGroup }}", "/var/lib/ocis"]
+{{- end -}}

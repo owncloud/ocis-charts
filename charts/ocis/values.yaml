@@ -518,6 +518,7 @@ securityContext:
   fsGroup: 1000
   # -- File system group change policy for all volumes.
   # Possible values "Always" and "OnRootMismatch".
+  # This will also apply to all services' chownInitContainer.
   fsGroupChangePolicy: "OnRootMismatch"
   # -- User ID that all processes within any containers will run with.
   runAsUser: 1000
