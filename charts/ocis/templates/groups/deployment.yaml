@@ -22,8 +22,7 @@ spec:
           args: ["groups", "server"]
           {{- include "ocis.containerSecurityContext" . | nindent 10 }}
           env:
-            - name: MICRO_REGISTRY
-              value: kubernetes
+            {{- include "ocis.serviceRegistry" . | nindent 12 }}
 
             - name: GROUPS_LOG_COLOR
               value: {{ .Values.logging.color | quote }}

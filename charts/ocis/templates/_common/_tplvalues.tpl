@@ -321,3 +321,11 @@ data:
   {{ $key }}: {{ $configValue | quote }}
   {{- end }}
 {{- end -}}
+
+{{/*
+oCIS service registry
+*/}}
+{{- define "ocis.serviceRegistry" -}}
+- name: MICRO_REGISTRY
+  value: kubernetes
+{{- end -}}
