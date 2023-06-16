@@ -138,6 +138,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `"https://collabora.owncloud.test"`
 | URI of the office suite.
+| features.appsIntegration.wopiIntegration.officeSuites[1].disableChat
+a| [subs=-attributes]
++bool+
+a| [subs=-attributes]
+`true`
+| Disables Chat functionality of onlyoffice
 | features.appsIntegration.wopiIntegration.officeSuites[1].enabled
 a| [subs=-attributes]
 +bool+
