@@ -34,8 +34,7 @@ spec:
           args: ["storage-users", "server"]
           {{- include "ocis.containerSecurityContext" . | nindent 10 }}
           env:
-            - name: MICRO_REGISTRY
-              value: kubernetes
+            {{- include "ocis.serviceRegistry" . | nindent 12 }}
 
             # logging
             - name: STORAGE_USERS_LOG_COLOR
@@ -152,6 +151,13 @@ spec:
               value: {{ .Values.cache.type | quote }}
             {{- if ne .Values.cache.type "noop" }}
             - name: STORAGE_USERS_FILEMETADATA_CACHE_STORE_NODES
+              value: {{ join "," .Values.cache.nodes | quote }}
+            {{- end }}
+
+            - name: STORAGE_USERS_ID_CACHE_STORE
+              value: {{ .Values.cache.type | quote }}
+            {{- if ne .Values.cache.type "noop" }}
+            - name: STORAGE_USERS_ID_CACHE_STORE_NODES
               value: {{ join "," .Values.cache.nodes | quote }}
             {{- end }}
 
