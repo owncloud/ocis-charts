@@ -1,12 +1,12 @@
-# oCIS development deployment example
+# oCIS with Redis deployment example
 
 ## Introduction
 
-This example will deploy a mostly default oCIS setup to Kubernetes. The intent is that this will
-work "out of the box" after a `helmfile sync`.
+This example shows how to deploy oCIS with Redis as cache and store.
+It will deploy an oCIS instance and Redis, preconfigured to work together.
 
 ***Note***: This example is not intended for production use. It is intended to get a working oCIS
-development running in Kubernetes as quickly as possible. It is not hardened in any way.
+with Redis running in Kubernetes as quickly as possible. It is not hardened in any way.
 
 ## Getting started
 
@@ -35,7 +35,7 @@ In this directory, run the following commands:
 $ helmfile sync
 ```
 
-This will deploy all the needed steps.
+This will deploy oCIS and Redis.
 
 ### Logging in
 
@@ -46,9 +46,3 @@ $ kubectl -n ocis get secret admin-user -o go-template --template="{{.data.passw
 ```
 
 You can use this password to login with the user `admin`.
-
-### Limitations
-
-As this is deployed with a `ReadWriteOnce` storage access mode, the deployments persistence will be limited to
-a single pod. If you want to scale the pods, you will need to change the storage access mode to `ReadWriteMany`.
-If you do this, please check if your storage provider supports this access mode.
