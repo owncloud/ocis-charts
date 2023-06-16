@@ -109,6 +109,11 @@ services:
       finalizers:
         - kubernetes.io/pvc-protection
       selectorLabels: {}
+    maintenance:
+      cleanUpExpiredUploads:
+        enabled: true
+      purgeExpiredTrashBinItems:
+        enaboled: true
 
   store:
     persistence:
@@ -136,6 +141,9 @@ services:
       finalizers: []
       selectorLabels:
         selector1: foobar
+    maintenance:
+      cleanUpOldThumbnails:
+        enabled: true
 
 secretRefs:
   notificationsSmtpSecretRef: "smtp-secret"
