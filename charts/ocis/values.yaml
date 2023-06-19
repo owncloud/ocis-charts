@@ -200,8 +200,8 @@ features:
           # -- Disables SSL certificate checking for connections to the office suites http api.
           # Not recommended for production installations.
           insecure: false
-          # -- Disables Chat functionality of onlyoffice
-          disableChat: true
+          # -- Disables Chat functionality of OnlyOffice
+          disableChat: false
     # -- Mimetype configuration.
     # Let's you configure a mimetypes' default application, if it is allowed to create a new file and more.
     # @default -- default configuration of oCIS, see https://doc.owncloud.com/ocis/next/deployment/services/s-list/app-registry.html#yaml-example[doc.owncloud.com]

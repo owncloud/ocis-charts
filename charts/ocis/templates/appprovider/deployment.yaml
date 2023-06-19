@@ -63,8 +63,10 @@ spec:
               value: {{ $officeSuite.uri | quote }}
             - name: APP_PROVIDER_WOPI_INSECURE
               value: {{ $officeSuite.insecure | quote }}
+            {{- with $officeSuite.disableChat }}
             - name: APP_PROVIDER_WOPI_DISABLE_CHAT
               value: {{ $officeSuite.disableChat | quote }}
+            {{- end }}
             - name: APP_PROVIDER_WOPI_WOPI_SERVER_EXTERNAL_URL
               value: {{ $.Values.features.appsIntegration.wopiIntegration.wopiServerURI | quote }}
             - name: APP_PROVIDER_WOPI_FOLDER_URL_BASE_URL

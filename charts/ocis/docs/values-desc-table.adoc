@@ -142,8 +142,8 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 +bool+
 a| [subs=-attributes]
-`true`
-| Disables Chat functionality of onlyoffice
+`false`
+| Disables Chat functionality of OnlyOffice
 | features.appsIntegration.wopiIntegration.officeSuites[1].enabled
 a| [subs=-attributes]
 +bool+
