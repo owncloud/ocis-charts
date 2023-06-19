@@ -80,10 +80,10 @@ spec:
               value: {{ .Values.features.sharing.users.resharing | quote }}
 
             - name: FRONTEND_ARCHIVER_MAX_SIZE
-              value: {{ .Values.features.archiver.maxSize | quote }}
+              value: {{ int64 .Values.features.archiver.maxSize | quote }}
 
             - name: FRONTEND_ARCHIVER_MAX_NUM_FILES
-              value: {{ .Values.features.archiver.maxNumFiles | quote }}
+              value: {{ int64 .Values.features.archiver.maxNumFiles | quote }}
 
             # cache
             # the stat cache is disabled for now for performance reasons, see https://github.com/owncloud/ocis-charts/issues/214
