@@ -1,6 +1,6 @@
 {{ if .Values.features.virusscan.enabled }}
 {{- include "ocis.appNames" (dict "scope" . "appName" "appNameAntivirus" "appNameSuffix" "") -}}
-{{- $_ := set . "resources" (default (default (dict) .Values.resources) .Values.services.audit.resources) -}}
+{{- $_ := set . "resources" (default (default (dict) .Values.resources) .Values.services.antivirus.resources) -}}
 apiVersion: apps/v1
 kind: Deployment
 {{ include "ocis.metadata" . }}

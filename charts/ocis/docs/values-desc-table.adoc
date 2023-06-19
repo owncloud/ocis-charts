@@ -1716,6 +1716,18 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service custom labels
+| services.policies.podDisruptionBudget
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
+| services.policies.resources
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service resources configuration. Overrides the default setting from `resources` if set.
 | services.postprocessing
 a| [subs=-attributes]
 +object+
@@ -1740,6 +1752,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service custom labels
+| services.postprocessing.podDisruptionBudget
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
 | services.postprocessing.resources
 a| [subs=-attributes]
 +object+
