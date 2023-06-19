@@ -22,7 +22,7 @@ spec:
           securityContext:
             runAsNonRoot: false
             runAsUser: 0
-          command: ["chown", "-R", "{{ .Values.securityContext.runAsUser }}:{{ .Values.securityContext.runAsGroup }}", "/var/lib/ocis"]
+          {{- include "ocis.initChownDataCommand" $ | nindent 10 }}
           volumeMounts:
           - name: {{ include "ocis.persistence.dataVolumeName" . }}
             mountPath: /var/lib/ocis
@@ -67,9 +67,6 @@ spec:
               value: 0.0.0.0:9216
             - name: STORAGE_SYSTEM_DATA_SERVER_URL
               value: http://{{ .appName }}:9216/data
-
-            - name: OCIS_REVA_GATEWAY
-              value: {{ .appNameGateway }}:9142
 
             - name: STORAGE_SYSTEM_DRIVER
               value: ocis

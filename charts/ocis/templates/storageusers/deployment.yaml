@@ -22,7 +22,7 @@ spec:
           securityContext:
             runAsNonRoot: false
             runAsUser: 0
-          command: ["chown", "-R", "{{ .Values.securityContext.runAsUser }}:{{ .Values.securityContext.runAsGroup }}", "/var/lib/ocis"]
+          {{- include "ocis.initChownDataCommand" $ | nindent 10 }}
           volumeMounts:
           - name: {{ include "ocis.persistence.dataVolumeName" . }}
             mountPath: /var/lib/ocis
@@ -67,9 +67,6 @@ spec:
               value: 0.0.0.0:9158
             - name: STORAGE_USERS_DATA_SERVER_URL
               value: "http://{{ .appName }}:9158/data"
-
-            - name: STORAGE_USERS_PERMISSION_ENDPOINT
-              value: {{ .appNameSettings }}:9191
 
             # oCIS storage driver (decomposed filesystem)
             {{- if  eq .Values.services.storageusers.storageBackend.driver "ocis" }}
@@ -142,9 +139,6 @@ spec:
                 secretKeyRef:
                   name: {{ include "secrets.machineAuthAPIKeySecret" . }}
                   key: machine-auth-api-key
-
-            - name: OCIS_REVA_GATEWAY
-              value: {{ .appNameGateway }}:9142
 
             # cache
             - name: STORAGE_USERS_FILEMETADATA_CACHE_STORE

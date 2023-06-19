@@ -49,9 +49,6 @@ spec:
             - name: AUTH_BASIC_DEBUG_ADDR
               value: 0.0.0.0:9147
 
-            - name: OCIS_REVA_GATEWAY
-              value: {{ .appNameGateway }}:9142
-
             {{- if .Values.features.externalUserManagement.enabled }}
             - name: AUTH_BASIC_LDAP_INSECURE
               value: {{ .Values.features.externalUserManagement.ldap.insecure | quote }}

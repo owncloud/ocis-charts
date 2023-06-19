@@ -48,12 +48,6 @@ spec:
             - name: STORAGE_SHARES_DEBUG_ADDR
               value: 0.0.0.0:9156
 
-            - name: STORAGE_SHARES_USER_SHARE_PROVIDER_ENDPOINT
-              value: {{ .appNameSharing }}:9150
-
-            - name: OCIS_REVA_GATEWAY
-              value: {{ .appNameGateway }}:9142
-
             - name: STORAGE_SHARES_JWT_SECRET
               valueFrom:
                 secretKeyRef:

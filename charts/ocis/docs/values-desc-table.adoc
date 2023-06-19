@@ -983,7 +983,7 @@ a| [subs=-attributes]
 +string+
 a| [subs=-attributes]
 `"OnRootMismatch"`
-| File system group change policy for all volumes. Possible values "Always" and "OnRootMismatch".
+| File system group change policy for all volumes. Possible values "Always" and "OnRootMismatch". This will also apply to all services' chownInitContainer.
 | securityContext.runAsGroup
 a| [subs=-attributes]
 +int+

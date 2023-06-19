@@ -50,11 +50,6 @@ spec:
             - name: SETTINGS_DEBUG_ADDR
               value: 0.0.0.0:9194
 
-            - name: STORAGE_GATEWAY_GRPC_ADDR
-              value: {{ .appNameStorageSystem }}:9215
-            - name: STORAGE_GRPC_ADDR
-              value: {{ .appNameStorageSystem }}:9215
-
             {{- if not .Values.features.externalUserManagement.oidc.roleAssignment.enabled }}
             - name: SETTINGS_ADMIN_USER_ID
             {{- if .Values.features.externalUserManagement.enabled }}

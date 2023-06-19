@@ -50,8 +50,6 @@ spec:
 
             - name: OCIS_PUBLIC_URL
               value: "https://{{ .Values.externalDomain }}"
-            - name: OCIS_REVA_GATEWAY
-              value: {{ .appNameGateway }}:9142
 
             {{- include "ocis.cors" . |nindent 12 }}
 
