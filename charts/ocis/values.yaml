@@ -961,6 +961,10 @@ services:
   # -- POLICIES service.
   # @default -- see detailed service configuration options below
   policies:
+    # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
+    resources: {}
+    # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
+    podDisruptionBudget: {}
     # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
     autoscaling: {}
     # -- Affinity settings for the policies service. See the documentation of this setting in approvider for examples.
@@ -973,6 +977,8 @@ services:
   postprocessing:
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
+    # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
+    podDisruptionBudget: {}
     # -- Per-service store configuration for the eventhistory service. Overrides the default setting from `store` if set.
     store: {}
     # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.

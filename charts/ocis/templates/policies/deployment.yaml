@@ -1,6 +1,6 @@
 {{ if .Values.features.policies.enabled }}
 {{- include "ocis.appNames" (dict "scope" . "appName" "appNamePolicies" "appNameSuffix" "") -}}
-{{- $_ := set . "resources" (default (default (dict) .Values.resources) .Values.services.audit.resources) -}}
+{{- $_ := set . "resources" (default (default (dict) .Values.resources) .Values.services.policies.resources) -}}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
