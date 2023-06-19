@@ -34,6 +34,7 @@ features:
           uri: https://onlyoffice.owncloud.test
           iconURI: https://onlyoffice.owncloud.test/web-apps/apps/documenteditor/main/resources/img/favicon.ico
           insecure: false
+          disableChat: true
     mimetypes:
       - mime_type: application/vnd.oasis.opendocument.text
         extension: odt
