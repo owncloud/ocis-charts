@@ -1,0 +1,81 @@
+repositories:
+  - name: bitnami
+    url: https://charts.bitnami.com/bitnami
+
+releases:
+
+  - name: redis
+    namespace: ocis-redis
+    chart: bitnami/redis
+    values:
+      - metrics:
+          enabled: false
+      - auth:
+          enabled: false
+      - architecture: replication
+      - sentinel:
+         enabled: true
+
+  - name: ocis
+    chart: ../../charts/ocis
+    namespace: ocis
+    values:
+      - externalDomain: ocis.kube.owncloud.test
+      - ingress:
+          enabled: true
+          ingressClassName: nginx
+          annotations:
+            nginx.ingress.kubernetes.io/proxy-body-size: 1024m
+          tls:
+            - secretName: ocis-dev-tls
+              hosts:
+                - ocis.kube.owncloud.test
+
+      - insecure:
+          oidcIdpInsecure: true
+          ocisHttpApiInsecure: true
+
+      - replicas: 2
+
+      - cache:
+          type: "redis-sentinel"
+          nodes:
+            - redis.ocis-redis.svc.cluster.local:26379/mymaster
+
+      - store:
+          type: "redis-sentinel"
+          nodes:
+            - redis.ocis-redis.svc.cluster.local:26379/mymaster
+
+      - services:
+          idm:
+            persistence:
+              enabled: true
+
+          nats:
+            persistence:
+              enabled: true
+
+          search:
+            persistence:
+              enabled: true
+
+          storagesystem:
+            persistence:
+              enabled: true
+
+          storageusers:
+            persistence:
+              enabled: true
+
+          store:
+            persistence:
+              enabled: true
+
+          thumbnails:
+            persistence:
+              enabled: true
+
+          web:
+            persistence:
+              enabled: true
