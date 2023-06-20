@@ -59,6 +59,7 @@ spec:
             - name: NOTIFICATIONS_SMTP_ENCRYPTION
               value: {{ .Values.features.emailNotifications.smtp.encryption | quote }}
 
+            {{- if ne .Values.features.emailNotifications.smtp.authentication "none" }}
             - name: NOTIFICATIONS_SMTP_USERNAME
               valueFrom:
                 secretKeyRef:
@@ -70,6 +71,7 @@ spec:
                 secretKeyRef:
                   name: {{ include "secrets.notificationsSMTPSecret" . }}
                   key: smtp-password
+            {{- end }}
 
             #TODO: remove OCIS_URL in favor of NOTIFICATIONS_WEB_UI_URL
             # after https://github.com/owncloud/ocis/pull/4998 was released

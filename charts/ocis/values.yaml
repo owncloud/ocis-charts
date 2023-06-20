@@ -138,7 +138,6 @@ features:
   demoUsers: false
   emailNotifications:
     # -- Enables email notifications.
-    # This features needs the secret from notificationsSmtpSecretRef present.
     enabled: false
     smtp:
       # -- SMTP host to connect to.
@@ -148,6 +147,7 @@ features:
       # -- Sender address of emails that will be sent. Example: 'ownCloud <noreply@example.com>'
       sender:
       # -- Authentication method for the SMTP communication. Possible values are ‘login’, ‘plain’, ‘crammd5’, ‘none’
+      # If set to another value than `none`, a secret referenced by `notificationsSmtpSecretRef` needs to be present.
       authentication: none
       # -- Encryption method for the SMTP communication. Possible values are ‘starttls’, ‘ssl’, ‘ssltls’, ‘tls’ and ‘none’.
       encryption: none
@@ -518,7 +518,9 @@ secretRefs:
   machineAuthApiKeySecretRef: ""
   # -- Reference to an existing messaging system certificate authority secret (see ref:Secrets#secrets)
   messagingSystemCaRef: ""
-  # -- Reference to an existing SMTP email server settings secret (see ref:Secrets#secrets). Not used if `features.emailNotifications.enabled` equals `false`.
+  # -- Reference to an existing SMTP email server settings secret (see ref:Secrets#secrets).
+  # Not used if `features.emailNotifications.enabled` equals `false`.
+  # Not used if `features.emailNotifications.smtp.authentication` equals `none`.
   notificationsSmtpSecretRef: ""
   # -- Reference to an existing storage-system JWT secret (see ref:Secrets#secrets)
   storagesystemJwtSecretRef: ""

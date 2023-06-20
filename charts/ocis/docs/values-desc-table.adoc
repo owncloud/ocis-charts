@@ -221,13 +221,13 @@ a| [subs=-attributes]
 +bool+
 a| [subs=-attributes]
 `false`
-| Enables email notifications. This features needs the secret from notificationsSmtpSecretRef present.
+| Enables email notifications.
 | features.emailNotifications.smtp.authentication
 a| [subs=-attributes]
 +string+
 a| [subs=-attributes]
 `"none"`
-| Authentication method for the SMTP communication. Possible values are ‘login’, ‘plain’, ‘crammd5’, ‘none’
+| Authentication method for the SMTP communication. Possible values are ‘login’, ‘plain’, ‘crammd5’, ‘none’ If set to another value than `none`, a secret referenced by `notificationsSmtpSecretRef` needs to be present.
 | features.emailNotifications.smtp.encryption
 a| [subs=-attributes]
 +string+
@@ -947,7 +947,7 @@ a| [subs=-attributes]
 +string+
 a| [subs=-attributes]
 `""`
-| Reference to an existing SMTP email server settings secret (see xref:{secrets}[Secrets]). Not used if `features.emailNotifications.enabled` equals `false`.
+| Reference to an existing SMTP email server settings secret (see xref:{secrets}[Secrets]). Not used if `features.emailNotifications.enabled` equals `false`. Not used if `features.emailNotifications.smtp.authentication` equals `none`.
 | secretRefs.s3CredentialsSecretRef
 a| [subs=-attributes]
 +string+
