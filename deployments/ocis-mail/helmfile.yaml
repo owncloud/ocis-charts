@@ -20,7 +20,7 @@ releases:
                 - inbucket.kube.owncloud.test
 
   - name: ocis
-    chart: /home/kloucek/Projects/github.com/owncloud/ocis-charts/charts/ocis
+    chart: ../../charts/ocis
     namespace: ocis
     values:
       - externalDomain: ocis.kube.owncloud.test

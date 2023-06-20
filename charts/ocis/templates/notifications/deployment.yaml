@@ -101,6 +101,10 @@ spec:
                   name: {{ include "secrets.machineAuthAPIKeySecret" . }}
                   key: machine-auth-api-key
 
+            # Mail theming
+            - name: NOTIFICATIONS_EMAIL_TEMPLATE_PATH
+              value: /etc/ocis/notifications
+
           {{- include "ocis.livenessProbe" . | nindent 10 }}
 
           resources: {{ toYaml .resources | nindent 12 }}
@@ -114,6 +118,12 @@ spec:
             - name: messaging-system-ca
               mountPath: /etc/ocis/messaging-system-ca
               readOnly: true
+            - name: text-mail-templates
+              mountPath: /etc/ocis/notifications/templates/text
+            - name: html-mail-templates
+              mountPath: /etc/ocis/notifications/templates/html
+            - name: html-mail-images
+              mountPath: /etc/ocis/notifications/templates/html/img
 
       {{- include "ocis.imagePullSecrets" $ | nindent 6 }}
       volumes:
@@ -126,4 +136,13 @@ spec:
           {{ else }}
           emptyDir: {}
           {{ end }}
+        - name: text-mail-templates
+          configMap:
+            name: text-mail-templates
+        - name: html-mail-templates
+          configMap:
+            name: html-mail-templates
+        - name: html-mail-images
+          configMap:
+            name: html-mail-images
 {{- end }}
