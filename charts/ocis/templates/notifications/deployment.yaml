@@ -73,10 +73,6 @@ spec:
                   key: smtp-password
             {{- end }}
 
-            #TODO: remove OCIS_URL in favor of NOTIFICATIONS_WEB_UI_URL
-            # after https://github.com/owncloud/ocis/pull/4998 was released
-            - name: OCIS_URL
-              value: "https://{{ .Values.externalDomain }}"
             - name: NOTIFICATIONS_WEB_UI_URL
               value: "https://{{ .Values.externalDomain }}"
 
