@@ -1,6 +1,5 @@
 {{- if .Values.features.emailNotifications.enabled }}
 {{- include "ocis.appNames" (dict "scope" . "appName" "appNameNotifications" "appNameSuffix" "") -}}
-{{- $_ := set . "resources" (default (default (dict) .Values.resources) .Values.services.notifications.resources) -}}
 apiVersion: apps/v1
 kind: Deployment
 {{ include "ocis.metadata" . }}

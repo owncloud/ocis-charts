@@ -1,5 +1,4 @@
 {{- include "ocis.appNames" (dict "scope" . "appName" "appNameEventhistory" "appNameSuffix" "") -}}
-{{- $_ := set . "resources" (default (default (dict) .Values.resources) .Values.services.eventhistory.resources) -}}
 {{- $_ := set . "store" (default (default (dict) .Values.store) .Values.services.eventhistory.store) -}}
 apiVersion: apps/v1
 kind: Deployment

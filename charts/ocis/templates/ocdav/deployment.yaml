@@ -1,5 +1,4 @@
 {{- include "ocis.appNames" (dict "scope" . "appName" "appNameOcdav" "appNameSuffix" "") -}}
-{{- $_ := set . "resources" (default (default (dict) .Values.resources) .Values.services.ocdav.resources) -}}
 apiVersion: apps/v1
 kind: Deployment
 {{ include "ocis.metadata" . }}

@@ -1,6 +1,5 @@
 {{- if not .Values.messagingSystem.external.enabled }}
 {{- include "ocis.appNames" (dict "scope" . "appName" "appNameNats" "appNameSuffix" "") -}}
-{{- $_ := set . "resources" (default (default (dict) .Values.resources) .Values.services.nats.resources) -}}
 apiVersion: apps/v1
 kind: Deployment
 {{ include "ocis.metadata" . }}

@@ -108,6 +108,8 @@ Adds the app names to the scope and set the name of the app based on the input p
   {{- if (index .scope.Values.services (index .scope .appName)) -}}
   {{- $_ := set .scope "appSpecificConfig" (index .scope.Values.services (index .scope .appName)) -}}
   {{- end -}}
+
+  {{- $_ := set .scope "resources" (default (default (dict) .scope.Values.resources) .scope.appSpecificConfig.resources) -}}
 {{- end -}}
 
 {{/*
