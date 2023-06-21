@@ -52,8 +52,12 @@ imagePullSecrets:
 initContainer image logic
 */}}
 {{- define "ocis.initContainerImage" -}}
-  {{- $tag := default .Chart.AppVersion .Values.initContainerImage.tag -}}
+{{- $tag := default "latest" .Values.initContainerImage.tag -}}
+  {{ if $.Values.initContainerImage.sha -}}
+image: "{{ $.Values.initContainerImage.repository }}:{{ $tag }}@sha256:{{ $.Values.initContainerImage.sha }}"
+  {{ else -}}
 image: "{{ $.Values.initContainerImage.repository }}:{{ $tag }}"
+  {{- end }}
 imagePullPolicy: {{ .Values.initContainerImage.pullPolicy }}
 {{- end -}}
 
