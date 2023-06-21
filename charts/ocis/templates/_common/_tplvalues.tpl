@@ -58,6 +58,19 @@ imagePullPolicy: {{ .Values.initContainerImage.pullPolicy }}
 {{- end -}}
 
 {{/*
+jobContainer image logic
+*/}}
+{{- define "ocis.jobContainerImage" -}}
+{{- $tag := default "latest" .Values.jobContainerImage.tag -}}
+  {{ if $.Values.jobContainerImage.sha -}}
+image: "{{ $.Values.jobContainerImage.repository }}:{{ $tag }}@sha256:{{ $.Values.jobContainerImage.sha }}"
+  {{ else -}}
+image: "{{ $.Values.jobContainerImage.repository }}:{{ $tag }}"
+  {{- end }}
+imagePullPolicy: {{ .Values.jobContainerImage.pullPolicy }}
+{{- end -}}
+
+{{/*
 Adds the app names to the scope and set the name of the app based on the input parameters
 
 @param .scope          The current scope
