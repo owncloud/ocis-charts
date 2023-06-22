@@ -26,7 +26,7 @@ spec:
           restartPolicy: Never
           containers:
             - name: storage-users-clean-expired-uploads
-              {{- include "ocis.image" $ | nindent 14 }}
+              {{- include "ocis.jobContainerImage" . | nindent 14 }}
               command: ["ocis"]
               args: ["storage-users", "uploads", "clean"]
               securityContext:

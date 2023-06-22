@@ -27,7 +27,7 @@ spec:
           {{- include "ocis.securityContextAndtopologySpreadConstraints" . | nindent 10 }}
           containers:
             - name: thumbnails-cleanup
-              {{- include "ocis.jobContainerImage" $ | nindent 14 }}
+              {{- include "ocis.jobContainerImage" . | nindent 14 }}
               {{- include "ocis.containerSecurityContext" . | nindent 14 }}
               command: [ "/bin/sh", "/script/thumbnails-cleanup-script.sh" ]
               volumeMounts:

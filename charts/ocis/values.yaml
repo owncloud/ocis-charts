@@ -29,17 +29,6 @@ initContainerImage:
   # -- Image pull policy
   pullPolicy: IfNotPresent
 
-# Image for oCIS jobs
-jobContainerImage:
-  # -- Image repository
-  repository: busybox
-  # -- Image tag.
-  tag: "stable"
-  # -- Image sha / digest (optional).
-  sha: ""
-  # -- Image pull policy
-  pullPolicy: IfNotPresent
-
 # Logging settings for oCIS services
 logging:
   # -- Log level. Valid values: `panic`, `fatal`, `error`, `warn`, `info`, `debug`, `trace`.
@@ -1236,6 +1225,16 @@ services:
         personalDeleteBefore: 30d
         # -- Setting that makes the command delete all trashed project files older than the value. The value is a number and a unit "d", "h", "m", "s".
         projectDeleteBefore: 30d
+      # Image for oCIS maintenance job
+      image:
+        # -- Image repository
+        repository: ""
+        # -- Image tag.
+        tag: ""
+        # -- Image sha / digest (optional).
+        sha: ""
+        # -- Image pull policy
+        pullPolicy: 
 
     # -- Persistence settings.
     # @default -- see detailed persistence configuration options below
@@ -1368,6 +1367,16 @@ services:
         deleteBefore: 30
         # -- Method to use with BusyBox "find" for finding old thumbnails. Can be mtime, atime or ctime.
         method: atime
+      # Image for oCIS maintenance job
+      image:
+        # -- Image repository
+        repository: busybox
+        # -- Image tag.
+        tag: "stable"
+        # -- Image sha / digest (optional).
+        sha: ""
+        # -- Image pull policy
+        pullPolicy:
     # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
     autoscaling: {}
     # -- Affinity settings for the thumbnails service. See the documentation of this setting in approvider for examples.

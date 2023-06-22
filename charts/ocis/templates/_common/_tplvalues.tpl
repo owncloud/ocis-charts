@@ -65,13 +65,15 @@ imagePullPolicy: {{ .Values.initContainerImage.pullPolicy }}
 jobContainer image logic
 */}}
 {{- define "ocis.jobContainerImage" -}}
-{{- $tag := default "latest" .Values.jobContainerImage.tag -}}
-  {{ if $.Values.jobContainerImage.sha -}}
-image: "{{ $.Values.jobContainerImage.repository }}:{{ $tag }}@sha256:{{ $.Values.jobContainerImage.sha }}"
+{{- $tag := default (default "latest" .Values.image.tag) .appSpecificConfig.maintenance.image.tag -}}
+{{- $sha := default .Values.image.sha .appSpecificConfig.maintenance.image.sha -}}
+{{- $repo := default .Values.image.repository .appSpecificConfig.maintenance.image.repository -}}
+  {{ if $sha -}}
+image: "{{ $repo }}:{{ $tag }}@sha256:{{ $sha }}"
   {{ else -}}
-image: "{{ $.Values.jobContainerImage.repository }}:{{ $tag }}"
+image: "{{ $repo }}:{{ $tag }}"
   {{- end }}
-imagePullPolicy: {{ .Values.jobContainerImage.pullPolicy }}
+imagePullPolicy: {{ default .Values.image.pullPolicy .appSpecificConfig.maintenance.image.pullPolicy }}
 {{- end -}}
 
 {{/*

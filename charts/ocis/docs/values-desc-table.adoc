@@ -786,30 +786,6 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `false`
 | Disables SSL certificate checking for connections to the openID connect identity provider. Not recommended for production installations.
-| jobContainerImage.pullPolicy
-a| [subs=-attributes]
-+string+
-a| [subs=-attributes]
-`"IfNotPresent"`
-| Image pull policy
-| jobContainerImage.repository
-a| [subs=-attributes]
-+string+
-a| [subs=-attributes]
-`"busybox"`
-| Image repository
-| jobContainerImage.sha
-a| [subs=-attributes]
-+string+
-a| [subs=-attributes]
-`""`
-| Image sha / digest (optional).
-| jobContainerImage.tag
-a| [subs=-attributes]
-+string+
-a| [subs=-attributes]
-`"stable"`
-| Image tag.
 | logging.color
 a| [subs=-attributes]
 +string+
@@ -2232,6 +2208,30 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `86400`
 | Duration in seconds after which uploads will expire.    WARNING: Setting this to a low number will lead to uploads being cancelled before they are finished and returning a 403 to the user.
+| services.storageusers.maintenance.image.pullPolicy
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`nil`
+| Image pull policy
+| services.storageusers.maintenance.image.repository
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Image repository
+| services.storageusers.maintenance.image.sha
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Image sha / digest (optional).
+| services.storageusers.maintenance.image.tag
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Image tag.
 | services.storageusers.maintenance.purgeExpiredTrashBinItems.enabled
 a| [subs=-attributes]
 +bool+
@@ -2506,7 +2506,7 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 +object+
 a| [subs=-attributes]
-`{"cleanUpOldThumbnails":{"deleteBefore":30,"enabled":false,"method":"atime","schedule":"* * * * *"}}`
+`{"cleanUpOldThumbnails":{"deleteBefore":30,"enabled":false,"method":"atime","schedule":"* * * * *"},"image":{"pullPolicy":null,"repository":"busybox","sha":"","tag":"stable"}}`
 | Maintenance configuration for cleanup jobs.
 | services.thumbnails.maintenance.cleanUpOldThumbnails.deleteBefore
 a| [subs=-attributes]
@@ -2532,6 +2532,30 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `"* * * * *"`
 | Cron pattern for the job to be run. Defaults to every minute.
+| services.thumbnails.maintenance.image.pullPolicy
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`nil`
+| Image pull policy
+| services.thumbnails.maintenance.image.repository
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"busybox"`
+| Image repository
+| services.thumbnails.maintenance.image.sha
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Image sha / digest (optional).
+| services.thumbnails.maintenance.image.tag
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"stable"`
+| Image tag.
 | services.thumbnails.persistence
 a| [subs=-attributes]
 +object+
