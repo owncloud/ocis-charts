@@ -110,6 +110,7 @@ Adds the app names to the scope and set the name of the app based on the input p
   {{- end -}}
 
   {{- $_ := set .scope "resources" (default (default (dict) .scope.Values.resources) .scope.appSpecificConfig.resources) -}}
+  {{- $_ := set .scope "jobResources" (default (default (dict) .scope.Values.jobResources) .scope.appSpecificConfig.jobResources) -}}
 {{- end -}}
 
 {{/*

@@ -35,6 +35,9 @@ spec:
                 mountPath: /var/lib/ocis
               - name: script
                 mountPath: "/script"
+
+              resources: {{ toYaml .jobResources | nindent 16 }}
+
           volumes:
             {{- include "ocis.persistence.dataVolume" . | nindent 12 }}
             - name: script
