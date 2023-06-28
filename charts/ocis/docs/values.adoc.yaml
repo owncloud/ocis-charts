@@ -1482,6 +1482,8 @@ services:
         server: ""
         # -- URL path to load themes from. The theme server will be prepended. Defaults to the ownCloud Web default theme.
         path: ""
+      # URI where to redirect the user after a logout was performed. Defaults to the URI of the login page.
+      postLogoutRedirectURI: ""
 
     # -- Persistence settings.
     # @default -- see detailed persistence configuration options below
