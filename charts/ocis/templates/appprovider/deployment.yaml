@@ -24,7 +24,7 @@ spec:
           args: ["app-provider", "server"]
           {{- include "ocis.containerSecurityContext" $ | nindent 10 }}
           env:
-            {{- include "ocis.serviceRegistry" . | nindent 12 }}
+            {{- include "ocis.serviceRegistry" $ | nindent 12 }}
 
             - name: APP_PROVIDER_LOG_COLOR
               value: {{ $.Values.logging.color | quote }}
