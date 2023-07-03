@@ -89,7 +89,7 @@ insecure:
 
 cache:
   # -- Type of the cache to use. To disable the cache, set to "noop".
-  # Can be set to "redis", then the address of Redis nodes needs to be set to `cache.nodes`.
+  # Can be set to "redis", "redis-sentinel" or "etcd", then the address of Redis (Sentinel) / etcd nodes needs to be set to `cache.nodes`.
   type: noop
   # -- Nodes of the cache to use.
   nodes: []
@@ -98,12 +98,23 @@ cache:
   #   - redis-master-2.ocis-redis.svc.cluster.local:6379
 
 store:
-  # -- Configure the store type. Might be `memory`, `ocmem`, `etcd`, `redis`, `redis-sentinel`, `nats-js` or `noop`
+  # -- Configure the store type. To disable the cache, set to "noop".
+  # Defaults to "nats-js". Therefore `store.nodes` defaults to the address of the builtin NATS.
+  # Can be set to "redis", "redis-sentinel" or "etcd", then the address of Redis (Sentinel) / etcd nodes needs to be set to `cache.nodes`.
   type: nats-js
-  # -- Provide a list of comma-separated addresses of `etcd`, `redis`, `redis-sentinel` or `nats-js` servers here
-  # if the proper store is selected
+  # -- Nodes of the store to use.
   nodes:
     - "{{ .appNameNats }}:9233"
+
+registry:
+  # -- Configure the service registry type.
+  # Defaults to "kubernetes".
+  # Can be set to "etcd", then the address of etcd nodes needs to be set to `registry.nodes`.
+  type: kubernetes
+  # -- Nodes of the service registry to use.
+  nodes: []
+  # nodes:
+  #   - etcd.ocis-etcd.svc.cluster.local:2379
 
 messagingSystem:
   external:
