@@ -89,7 +89,7 @@ insecure:
 
 cache:
   # -- Type of the cache to use. To disable the cache, set to "noop".
-  # Can be set to "redis", "redis-sentinel" or "etcd", then the address of Redis (Sentinel) / etcd nodes needs to be set to `cache.nodes`.
+  # Can be set to "redis", "redis-sentinel" or "etcd", then the address of Redis (Sentinel) / etcd node(s) needs to be set to `cache.nodes`.
   type: noop
   # -- Nodes of the cache to use.
   nodes: []
@@ -100,7 +100,7 @@ cache:
 store:
   # -- Configure the store type. To disable the cache, set to "noop".
   # Defaults to "nats-js". Therefore `store.nodes` defaults to the address of the builtin NATS.
-  # Can be set to "redis", "redis-sentinel" or "etcd", then the address of Redis (Sentinel) / etcd nodes needs to be set to `cache.nodes`.
+  # Can be set to "redis", "redis-sentinel" or "etcd", then the address of Redis (Sentinel) / etcd node(s) needs to be set to `cache.nodes`.
   type: nats-js
   # -- Nodes of the store to use.
   nodes:
@@ -109,7 +109,7 @@ store:
 registry:
   # -- Configure the service registry type.
   # Defaults to "kubernetes".
-  # Can be set to "etcd", then the address of etcd nodes needs to be set to `registry.nodes`.
+  # Can be set to "etcd", then the address of etcd node(s) needs to be set to `registry.nodes`.
   type: kubernetes
   # -- Nodes of the service registry to use.
   nodes: []
