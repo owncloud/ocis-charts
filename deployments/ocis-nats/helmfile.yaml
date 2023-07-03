@@ -1,0 +1,79 @@
+repositories:
+  - name: nats
+    url: https://nats-io.github.io/k8s/helm/charts
+
+releases:
+  - name: nats
+    chart: nats/nats
+    namespace: ocis-nats
+    values:
+      - cluster:
+          enabled: true
+          name: "ocis-cluster"
+      - nats:
+          jetstream:
+            enabled: true
+
+  - name: ocis
+    chart: ../../charts/ocis
+    namespace: ocis
+    values:
+      - externalDomain: ocis.kube.owncloud.test
+      - ingress:
+          enabled: true
+          ingressClassName: nginx
+          annotations:
+            nginx.ingress.kubernetes.io/proxy-body-size: 1024m
+          tls:
+            - secretName: ocis-dev-tls
+              hosts:
+                - ocis.kube.owncloud.test
+
+      - insecure:
+          oidcIdpInsecure: true
+          ocisHttpApiInsecure: true
+
+      - messagingSystem:
+          external:
+            enabled: true
+            endpoint: nats.ocis-nats.svc.cluster.local:4222
+            tls:
+              enabled: false
+
+      - store:
+          type: nats-js
+          nodes:
+            - nats.ocis-nats.svc.cluster.local:4222
+
+      - services:
+          idm:
+            persistence:
+              enabled: true
+
+          nats:
+            persistence:
+              enabled: true
+
+          search:
+            persistence:
+              enabled: true
+
+          storagesystem:
+            persistence:
+              enabled: true
+
+          storageusers:
+            persistence:
+              enabled: true
+
+          store:
+            persistence:
+              enabled: true
+
+          thumbnails:
+            persistence:
+              enabled: true
+
+          web:
+            persistence:
+              enabled: true
