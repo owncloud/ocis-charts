@@ -330,7 +330,9 @@ oCIS service registry
 */}}
 {{- define "ocis.serviceRegistry" -}}
 - name: MICRO_REGISTRY
-  value: kubernetes
+  value: {{ .Values.registry.type | quote }}
+- name: MICRO_REGISTRY_ADDRESS
+  value: {{ join "," .Values.registry.nodes | quote }}
 {{- end -}}
 
 {{/*

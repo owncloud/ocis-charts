@@ -84,6 +84,11 @@ spec:
               value: {{ . | quote }}
             {{- end }}
 
+            {{- with .Values.services.web.config.postLogoutRedirectURI }}
+            - name: WEB_OIDC_POST_LOGOUT_REDIRECT_URI
+              value: {{ . | quote }}
+            {{- end }}
+
             - name: WEB_JWT_SECRET
               valueFrom:
                 secretKeyRef:
