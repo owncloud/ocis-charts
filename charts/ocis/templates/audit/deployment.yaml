@@ -1,4 +1,4 @@
-{{- include "ocis.appNames" (dict "scope" . "appName" "appNameAudit" "appNameSuffix" "") -}}
+{{- include "ocis.basicServiceTemplates" (dict "scope" . "appName" "appNameAudit" "appNameSuffix" "") -}}
 apiVersion: apps/v1
 kind: Deployment
 {{ include "ocis.metadata" . }}

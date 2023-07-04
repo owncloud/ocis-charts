@@ -1,5 +1,5 @@
 {{ if .Values.features.policies.enabled }}
-{{- include "ocis.appNames" (dict "scope" . "appName" "appNamePolicies" "appNameSuffix" "") -}}
+{{- include "ocis.basicServiceTemplates" (dict "scope" . "appName" "appNamePolicies" "appNameSuffix" "") -}}
 {{- $_ := set . "autoscaling" (default (default (dict) .Values.autoscaling) .Values.services.policies.autoscaling) -}}
 {{ include "ocis.hpa" . }}
 {{ end }}

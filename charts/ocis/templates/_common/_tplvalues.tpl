@@ -64,7 +64,7 @@ Adds the app names to the scope and set the name of the app based on the input p
 @param .appName        The name of the current app
 @param .appNameSuffix  The suffix to be added to the appName (if needed)
 */}}
-{{- define "ocis.appNames" -}}
+{{- define "ocis.basicServiceTemplates" -}}
   {{- $_ := set .scope "appNameAppProvider" "appprovider" -}}
   {{- $_ := set .scope "appNameAppRegistry" "appregistry" -}}
   {{- $_ := set .scope "appNameAudit" "audit" -}}
