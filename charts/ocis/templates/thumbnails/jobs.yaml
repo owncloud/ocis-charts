@@ -38,6 +38,7 @@ spec:
 
               resources: {{ toYaml .jobResources | nindent 16 }}
 
+          {{- include "ocis.imagePullSecrets" $ | nindent 10 }}
           volumes:
             {{- include "ocis.persistence.dataVolume" . | nindent 12 }}
             - name: script
