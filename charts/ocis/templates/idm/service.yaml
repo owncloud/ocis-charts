@@ -1,5 +1,5 @@
 {{- if not .Values.features.externalUserManagement.enabled }}
-{{- include "ocis.appNames" (dict "scope" . "appName" "appNameIdm" "appNameSuffix" "") -}}
+{{- include "ocis.basicServiceTemplates" (dict "scope" . "appName" "appNameIdm" "appNameSuffix" "") -}}
 apiVersion: v1
 kind: Service
 metadata:

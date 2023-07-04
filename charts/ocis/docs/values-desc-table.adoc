@@ -786,6 +786,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `false`
 | Disables SSL certificate checking for connections to the openID connect identity provider. Not recommended for production installations.
+| jobResources
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Default resources to apply to all jobs in services, except per-service resources configuration in `services.<service-name>.jobResources` is set. Best practice is to: - set memory request == memory limit (compare to https://home.robusta.dev/blog/kubernetes-memory-limit) - set cpu request and omit cpu limit (compare to https://home.robusta.dev/blog/stop-using-cpu-limits)
 | logging.color
 a| [subs=-attributes]
 +string+
@@ -2202,6 +2208,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service custom labels
+| services.storageusers.jobResources
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service jobResources configuration. Overrides the default setting from `jobResources` if set.
 | services.storageusers.maintenance.cleanUpExpiredUploads.enabled
 a| [subs=-attributes]
 +bool+
@@ -2490,6 +2502,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service custom labels
+| services.thumbnails.jobResources
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service jobResources configuration. Overrides the default setting from `jobResources` if set.
 | services.thumbnails.maintenance
 a| [subs=-attributes]
 +object+

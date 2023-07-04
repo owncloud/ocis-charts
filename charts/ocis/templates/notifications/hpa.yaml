@@ -1,5 +1,5 @@
 {{- if .Values.features.emailNotifications.enabled }}
-{{- include "ocis.appNames" (dict "scope" . "appName" "appNameNotifications" "appNameSuffix" "") -}}
+{{- include "ocis.basicServiceTemplates" (dict "scope" . "appName" "appNameNotifications" "appNameSuffix" "") -}}
 {{ include "ocis.hpa" . }}
 {{- end }}
 {{- $_ := set . "autoscaling" (default (default (dict) .Values.autoscaling) .Values.services.notifications.autoscaling) -}}

@@ -1,2 +1,2 @@
-{{- include "ocis.appNames" (dict "scope" . "appName" "appNameStorageSystem" "appNameSuffix" "") -}}
+{{- include "ocis.basicServiceTemplates" (dict "scope" . "appName" "appNameStorageSystem" "appNameSuffix" "") -}}
 {{ include "ocis.pdb" . }}
