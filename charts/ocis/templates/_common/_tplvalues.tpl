@@ -83,7 +83,7 @@ Adds the app names to the scope and set the name of the app based on the input p
 @param .appName        The name of the current app
 @param .appNameSuffix  The suffix to be added to the appName (if needed)
 */}}
-{{- define "ocis.appNames" -}}
+{{- define "ocis.basicServiceTemplates" -}}
   {{- $_ := set .scope "appNameAppProvider" "appprovider" -}}
   {{- $_ := set .scope "appNameAppRegistry" "appregistry" -}}
   {{- $_ := set .scope "appNameAudit" "audit" -}}
@@ -127,6 +127,9 @@ Adds the app names to the scope and set the name of the app based on the input p
   {{- if (index .scope.Values.services (index .scope .appName)) -}}
   {{- $_ := set .scope "appSpecificConfig" (index .scope.Values.services (index .scope .appName)) -}}
   {{- end -}}
+
+  {{- $_ := set .scope "resources" (default (default (dict) .scope.Values.resources) .scope.appSpecificConfig.resources) -}}
+  {{- $_ := set .scope "jobResources" (default (default (dict) .scope.Values.jobResources) .scope.appSpecificConfig.jobResources) -}}
 {{- end -}}
 
 {{/*
@@ -346,7 +349,9 @@ oCIS service registry
 */}}
 {{- define "ocis.serviceRegistry" -}}
 - name: MICRO_REGISTRY
-  value: kubernetes
+  value: {{ .Values.registry.type | quote }}
+- name: MICRO_REGISTRY_ADDRESS
+  value: {{ join "," .Values.registry.nodes | quote }}
 {{- end -}}
 
 {{/*

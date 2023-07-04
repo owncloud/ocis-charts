@@ -1,8 +1,7 @@
 {{ if .Values.features.appsIntegration.enabled }}
 {{- range $officeSuite := .Values.features.appsIntegration.wopiIntegration.officeSuites }}
 {{ if $officeSuite.enabled }}
-{{- include "ocis.appNames" (dict "scope" $ "appName" "appNameAppProvider" "appNameSuffix" (regexReplaceAll "\\W+" (lower $officeSuite.name) "-")) -}}
-{{- $_ := set $ "resources" (default (default (dict) $.Values.resources) $.Values.services.appprovider.resources) -}}
+{{- include "ocis.basicServiceTemplates" (dict "scope" $ "appName" "appNameAppProvider" "appNameSuffix" (regexReplaceAll "\\W+" (lower $officeSuite.name) "-")) -}}
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -24,7 +23,7 @@ spec:
           args: ["app-provider", "server"]
           {{- include "ocis.containerSecurityContext" $ | nindent 10 }}
           env:
-            {{- include "ocis.serviceRegistry" . | nindent 12 }}
+            {{- include "ocis.serviceRegistry" $ | nindent 12 }}
 
             - name: APP_PROVIDER_LOG_COLOR
               value: {{ $.Values.logging.color | quote }}

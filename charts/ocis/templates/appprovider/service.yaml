@@ -1,7 +1,7 @@
 {{ if .Values.features.appsIntegration.enabled }}
 {{- range $officeSuite := .Values.features.appsIntegration.wopiIntegration.officeSuites }}
 {{ if $officeSuite.enabled }}
-{{- include "ocis.appNames" (dict "scope" $ "appName" "appNameAppProvider" "appNameSuffix" (regexReplaceAll "\\W+" (lower $officeSuite.name) "-")) -}}
+{{- include "ocis.basicServiceTemplates" (dict "scope" $ "appName" "appNameAppProvider" "appNameSuffix" (regexReplaceAll "\\W+" (lower $officeSuite.name) "-")) -}}
 ---
 apiVersion: v1
 kind: Service
