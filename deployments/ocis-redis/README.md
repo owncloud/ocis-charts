@@ -42,7 +42,7 @@ This will deploy oCIS and Redis.
 You can get the admin password with the following command:
 
 ```bash
-$ kubectl -n ocis get secret admin-user -o go-template --template="{{.data.password | base64decode }}"
+$ kubectl -n ocis get secrets/admin-user --template='{{.data.password | base64decode | printf "%s\n" }}'
 ```
 
 You can use this password to login with the user `admin`.
