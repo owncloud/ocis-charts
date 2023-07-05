@@ -16,7 +16,7 @@ You're now running
 
 You can get the initial "admin" administrator user password by running:
 
-kubectl -n {{ .Release.Namespace }} get secrets/admin-user --template='{{"{{"}}.data.password | base64decode{{"}}"}}'
+kubectl -n {{ .Release.Namespace }} get secrets/admin-user --template='{{"{{"}}.data.password | base64decode{{"}}"}}' ; echo
 
 {{ $noExternalUserManagement := not .Values.features.externalUserManagement.enabled -}}
 {{- $noopCache := eq .Values.cache.type "noop" -}}
