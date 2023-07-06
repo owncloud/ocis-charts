@@ -40,6 +40,11 @@ releases:
             tls:
               enabled: false
 
+      - registry:
+          type: nats
+          nodes:
+            - nats.ocis-nats.svc.cluster.local:4222
+
       - store:
           type: nats-js
           nodes:
