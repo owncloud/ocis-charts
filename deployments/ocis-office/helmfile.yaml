@@ -4,8 +4,64 @@ repositories:
     url: https://cs3org.github.io/charts/
   - name: collabora
     url: https://collaboraonline.github.io/online/
+  - name: bitnami
+    url: https://charts.bitnami.com/bitnami
+  - name: onlyoffice
+    url: https://download.onlyoffice.com/charts/stable
 
 releases:
+
+  - name: addons-onlyoffice
+    chart: addons/onlyoffice
+    namespace: onlyoffice
+
+  - name: rabbitmq
+    namespace: onlyoffice
+    chart: bitnami/rabbitmq
+
+  - name: redis
+    namespace: onlyoffice
+    chart: bitnami/redis
+
+  - name: postgresql
+    namespace: onlyoffice
+    chart: bitnami/postgresql
+
+  - name: onlyoffice
+    namespace: onlyoffice
+    chart: onlyoffice/docs
+    needs:
+      - onlyoffice/addons-onlyoffice
+      - onlyoffice/rabbitmq
+      - onlyoffice/redis
+      - onlyoffice/postgresql
+    values:
+      - wopi:
+          enabled: true
+      - ingress:
+          enabled: true
+          host: onlyoffice.kube.owncloud.test
+          ssl:
+            enabled: true
+            secret: onlyoffice-tls
+      - connections:
+          dbHost: postgresql
+          redisHost: redis-master
+          amqpHost: rabbitmq
+      - persistence:
+          existingClaim: ds-files
+    jsonPatches:
+      # patch https://github.com/ONLYOFFICE/Kubernetes-Docs/blob/master/templates/jobs/pre-install.yaml#L11 to a higher number
+      # without this, OnlyOffice installation fails on the first time
+      - target:
+          version: batch/v1
+          kind: Job
+          namespace: onlyoffice
+          name: pre-install
+        patch:
+          - op: replace
+            path: /spec/backoffLimit
+            value: 20
 
   - name: collabora
     namespace: collabora
@@ -72,6 +128,12 @@ releases:
                   enabled: true
                   uri: "https://collabora.kube.owncloud.test"
                   insecure: true
+                  iconURI: https://collabora.kube.owncloud.test/favicon.ico
+                - name: OnlyOffice
+                  enabled: true
+                  uri: "https://onlyoffice.kube.owncloud.test"
+                  insecure: true
+                  iconURI: https://onlyoffice.kube.owncloud.test/web-apps/apps/documenteditor/main/resources/img/favicon.ico
             mimetypes:
               # mimetypes for creation
               - mime_type: application/vnd.oasis.opendocument.text
@@ -94,6 +156,27 @@ releases:
                 description: OpenDocument presentation document
                 icon: image-edit
                 default_app: "Collabora"
+                allow_creation: true
+              - mime_type: application/vnd.openxmlformats-officedocument.wordprocessingml.document
+                extension: docx
+                name: Text document
+                description: Text document
+                icon: image-edit
+                default_app: "OnlyOffice"
+                allow_creation: true
+              - mime_type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
+                extension: xlsx
+                name: Spreadsheet
+                description: Spreadsheet
+                icon: image-edit
+                default_app: "OnlyOffice"
+                allow_creation: true
+              - mime_type: application/vnd.openxmlformats-officedocument.presentationml.presentation
+                extension: pptx
+                name: Presentation
+                description: Presentation
+                icon: image-edit
+                default_app: "OnlyOffice"
                 allow_creation: true
 
       - services:

@@ -2,11 +2,11 @@
 
 ## Introduction
 
-This example shows how to deploy oCIS with Collabora as Office.
-It will deploy an oCIS instance and Collabora, preconfigured to work together.
+This example shows how to deploy oCIS with Collabora and OnlyOffice as Office.
+It will deploy an oCIS instance, Collabora and OnlyOffice, preconfigured to work together.
 
 ***Note***: This example is not intended for production use. It is intended to get a working oCIS
-with Collabora running in Kubernetes as quickly as possible. It is not hardened in any way.
+with Collabora and OnlyOffice running in Kubernetes as quickly as possible. It is not hardened in any way.
 
 ## Getting started
 
@@ -25,6 +25,7 @@ may want to add these to your `/etc/hosts` file pointing to your ingress control
 
 - https://ocis.kube.owncloud.test
 - https://collabora.kube.owncloud.test
+- https://onlyoffice.kube.owncloud.test
 
 Note that if you want to use your own hostname and domain, you will have to change the `externalDomain` value.
 
@@ -36,7 +37,7 @@ In this directory, run the following commands:
 $ helmfile sync
 ```
 
-This will deploy oCIS, the WOPI server and Collabora.
+This will deploy oCIS, the WOPI server, Collabora and OnlyOffice.
 
 ### Logging in
 
