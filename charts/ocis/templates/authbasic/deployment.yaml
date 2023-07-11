@@ -1,6 +1,5 @@
 {{ if .Values.features.basicAuthentication }}
-{{- include "ocis.appNames" (dict "scope" . "appName" "appNameAuthBasic" "appNameSuffix" "") -}}
-{{- $_ := set . "resources" (default (default (dict) .Values.resources) .Values.services.authbasic.resources) -}}
+{{- include "ocis.basicServiceTemplates" (dict "scope" . "appName" "appNameAuthBasic" "appNameSuffix" "") -}}
 apiVersion: apps/v1
 kind: Deployment
 {{ include "ocis.metadata" . }}
@@ -23,8 +22,7 @@ spec:
           args: ["auth-basic", "server"]
           {{- include "ocis.containerSecurityContext" . | nindent 10 }}
           env:
-            - name: MICRO_REGISTRY
-              value: kubernetes
+            {{- include "ocis.serviceRegistry" . | nindent 12 }}
 
             - name: AUTH_BASIC_LOG_COLOR
               value: {{ .Values.logging.color | quote }}
@@ -49,9 +47,6 @@ spec:
               value: 0.0.0.0:9146
             - name: AUTH_BASIC_DEBUG_ADDR
               value: 0.0.0.0:9147
-
-            - name: OCIS_REVA_GATEWAY
-              value: {{ .appNameGateway }}:9142
 
             {{- if .Values.features.externalUserManagement.enabled }}
             - name: AUTH_BASIC_LDAP_INSECURE

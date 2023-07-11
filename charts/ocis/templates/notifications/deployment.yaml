@@ -1,6 +1,5 @@
 {{- if .Values.features.emailNotifications.enabled }}
-{{- include "ocis.appNames" (dict "scope" . "appName" "appNameNotifications" "appNameSuffix" "") -}}
-{{- $_ := set . "resources" (default (default (dict) .Values.resources) .Values.services.notifications.resources) -}}
+{{- include "ocis.basicServiceTemplates" (dict "scope" . "appName" "appNameNotifications" "appNameSuffix" "") -}}
 apiVersion: apps/v1
 kind: Deployment
 {{ include "ocis.metadata" . }}
@@ -23,6 +22,8 @@ spec:
           args: ["notifications", "server"]
           {{- include "ocis.containerSecurityContext" . | nindent 10 }}
           env:
+            {{- include "ocis.serviceRegistry" . | nindent 12 }}
+
             - name: NOTIFICATIONS_LOG_COLOR
               value: {{ .Values.logging.color | quote }}
             - name: NOTIFICATIONS_LOG_LEVEL
@@ -76,8 +77,6 @@ spec:
             - name: NOTIFICATIONS_WEB_UI_URL
               value: "https://{{ .Values.externalDomain }}"
 
-            - name: OCIS_REVA_GATEWAY
-              value: {{ .appNameGateway }}:9142
             - name: NOTIFICATIONS_EVENTS_ENDPOINT
             {{- if not .Values.messagingSystem.external.enabled }}
               value: {{ .appNameNats }}:9233

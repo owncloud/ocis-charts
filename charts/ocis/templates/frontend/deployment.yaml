@@ -1,5 +1,4 @@
-{{- include "ocis.appNames" (dict "scope" . "appName" "appNameFrontend" "appNameSuffix" "") -}}
-{{- $_ := set . "resources" (default (default (dict) .Values.resources) .Values.services.frontend.resources) -}}
+{{- include "ocis.basicServiceTemplates" (dict "scope" . "appName" "appNameFrontend" "appNameSuffix" "") -}}
 apiVersion: apps/v1
 kind: Deployment
 {{ include "ocis.metadata" . }}
@@ -22,8 +21,7 @@ spec:
           args: ["frontend", "server"]
           {{- include "ocis.containerSecurityContext" . | nindent 10 }}
           env:
-            - name: MICRO_REGISTRY
-              value: kubernetes
+            {{- include "ocis.serviceRegistry" . | nindent 12 }}
 
             - name: FRONTEND_LOG_COLOR
               value: {{ .Values.logging.color | quote }}
@@ -51,9 +49,6 @@ spec:
 
             - name: FRONTEND_PUBLIC_URL
               value: "https://{{ .Values.externalDomain }}"
-
-            - name: OCIS_REVA_GATEWAY
-              value: {{ .appNameGateway }}:9142
 
             - name: OCIS_LDAP_SERVER_WRITE_ENABLED
               value: {{ .Values.features.externalUserManagement.ldap.writeable | quote }}
@@ -84,10 +79,10 @@ spec:
               value: {{ .Values.features.sharing.users.resharing | quote }}
 
             - name: FRONTEND_ARCHIVER_MAX_SIZE
-              value: {{ .Values.features.archiver.maxSize | quote }}
+              value: {{ int64 .Values.features.archiver.maxSize | quote }}
 
             - name: FRONTEND_ARCHIVER_MAX_NUM_FILES
-              value: {{ .Values.features.archiver.maxNumFiles | quote }}
+              value: {{ int64 .Values.features.archiver.maxNumFiles | quote }}
 
             # cache
             # the stat cache is disabled for now for performance reasons, see https://github.com/owncloud/ocis-charts/issues/214

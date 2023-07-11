@@ -1,5 +1,4 @@
-{{- include "ocis.appNames" (dict "scope" . "appName" "appNameAppRegistry" "appNameSuffix" "") -}}
-{{- $_ := set . "resources" (default (default (dict) .Values.resources) .Values.services.appregistry.resources) -}}
+{{- include "ocis.basicServiceTemplates" (dict "scope" . "appName" "appNameAppRegistry" "appNameSuffix" "") -}}
 apiVersion: apps/v1
 kind: Deployment
 {{ include "ocis.metadata" . }}
@@ -20,8 +19,7 @@ spec:
           args: ["app-registry", "server"]
           {{- include "ocis.containerSecurityContext" . | nindent 10 }}
           env:
-            - name: MICRO_REGISTRY
-              value: kubernetes
+            {{- include "ocis.serviceRegistry" . | nindent 12 }}
 
             - name: APP_REGISTRY_LOG_COLOR
               value: {{ .Values.logging.color | quote }}
@@ -46,9 +44,6 @@ spec:
               value: 0.0.0.0:9242
             - name: APP_REGISTRY_DEBUG_ADDR
               value: 0.0.0.0:9243
-
-            - name: OCIS_REVA_GATEWAY
-              value: {{ .appNameGateway }}:9142
 
             - name: APP_REGISTRY_JWT_SECRET
               valueFrom:

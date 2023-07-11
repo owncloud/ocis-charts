@@ -1,5 +1,5 @@
 {{- if and .Values.services.storageusers.persistence.enabled .Values.services.storageusers.maintenance.cleanUpExpiredUploads.enabled }}
-{{- include "ocis.appNames" (dict "scope" . "appName" "appNameStorageUsers" "appNameSuffix" "") -}}
+{{- include "ocis.basicServiceTemplates" (dict "scope" . "appName" "appNameStorageUsers" "appNameSuffix" "") -}}
 ---
 apiVersion: batch/v1
 kind: CronJob
@@ -35,9 +35,7 @@ spec:
                 runAsGroup: {{ .Values.securityContext.runAsGroup }}
                 readOnlyRootFilesystem: true
               env:
-                - name: MICRO_REGISTRY
-                  value: kubernetes
-
+                {{- include "ocis.serviceRegistry" . | nindent 16 }}
                 # logging
                 - name: STORAGE_USERS_LOG_COLOR
                   value: {{ .Values.logging.color | quote }}
@@ -94,7 +92,7 @@ spec:
                       name: {{ include "config.storageUsers" . }}
                       key: storage-uuid
 
-              resources: {{ toYaml .Values.resources | nindent 16 }}
+              resources: {{ toYaml .jobResources | nindent 16 }}
 
               volumeMounts:
                 - name: tmp-volume
@@ -109,7 +107,7 @@ spec:
             {{- include "ocis.persistence.dataVolume" . | nindent 12 }}
 {{ end }}
 {{- if and .Values.services.storageusers.persistence.enabled .Values.services.storageusers.maintenance.purgeExpiredTrashBinItems.enabled }}
-{{- include "ocis.appNames" (dict "scope" . "appName" "appNameStorageUsers" "appNameSuffix" "") -}}
+{{- include "ocis.basicServiceTemplates" (dict "scope" . "appName" "appNameStorageUsers" "appNameSuffix" "") -}}
 ---
 apiVersion: batch/v1
 kind: CronJob
@@ -146,8 +144,7 @@ spec:
                 runAsGroup: {{ .Values.securityContext.runAsGroup }}
                 readOnlyRootFilesystem: true
               env:
-                - name: MICRO_REGISTRY
-                  value: kubernetes
+                {{- include "ocis.serviceRegistry" . | nindent 16 }}
 
                 # logging
                 - name: STORAGE_USERS_LOG_COLOR
@@ -195,7 +192,7 @@ spec:
                   {{- end }}
                 {{- end }}
 
-              resources: {{ toYaml .Values.resources | nindent 16 }}
+              resources: {{ toYaml .jobResources| nindent 16 }}
 
               volumeMounts:
                 - name: tmp-volume

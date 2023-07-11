@@ -340,6 +340,8 @@ releases:
       - insecure:
           oidcIdpInsecure: true
           ocisHttpApiInsecure: true
+      - secretRefs:
+          ldapSecretRef: ldap-bind-secrets # we provide the ldap bind password of the ldap server in the extraResources section as secret
       - features:
           externalUserManagement:
             # -- Enables external user management (and disables internal user management).

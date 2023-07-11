@@ -2,11 +2,11 @@
 
 ## Introduction
 
-This example will deploy a mostly default oCIS setup to kubernetes. The intent is that this will
+This example will deploy a mostly default oCIS setup to Kubernetes. The intent is that this will
 work "out of the box" after a `helmfile sync`.
 
 ***Note***: This example is not intended for production use. It is intended to get a working oCIS
-development running in kubernetes as quickly as possible. It is not hardened in any way.
+development running in Kubernetes as quickly as possible. It is not hardened in any way.
 
 ## Getting started
 
@@ -20,7 +20,7 @@ This example requires the following things to be installed:
 
 ### End result
 
-After following the steps in this guide, you should be able to access the following endpoint, you 
+After following the steps in this guide, you should be able to access the following endpoint, you
 may want to add these to your `/etc/hosts` file pointing to your ingress controller IP:
 
 - https://ocis.kube.owncloud.test
@@ -39,10 +39,10 @@ This will deploy all the needed steps.
 
 ### Logging in
 
-You can get the admin password with the following command: 
+You can get the admin password with the following command:
 
 ```bash
-$ kubectl -n ocis get secret admin-user -o go-template --template="{{.data.password | base64decode }}"
+$ kubectl -n ocis get secrets/admin-user --template='{{.data.password | base64decode | printf "%s\n" }}'
 ```
 
 You can use this password to login with the user `admin`.

@@ -1,12 +1,12 @@
-{{- include "ocis.appNames" (dict "scope" . "appName" "appNameStore" "appNameSuffix" "") -}}
-{{- $_ := set . "resources" (default (default (dict) .Values.resources) .Values.services.store.resources) -}}
+{{- include "ocis.basicServiceTemplates" (dict "scope" . "appName" "appNameStore" "appNameSuffix" "") -}}
 apiVersion: apps/v1
 kind: Deployment
 {{ include "ocis.metadata" . }}
 spec:
   {{- include "ocis.selector" . | nindent 2 }}
   replicas: 1 #TODO: https://github.com/owncloud/ocis-charts/issues/113
-  {{- include "ocis.deploymentStrategy" . | nindent 2 }}
+  strategy:
+    type: Recreate
   template:
     {{- include "ocis.templateMetadata" (dict "scope" $ "configCheck" false) | nindent 4 }}
     spec:
@@ -20,7 +20,7 @@ spec:
           securityContext:
             runAsNonRoot: false
             runAsUser: 0
-          command: ["chown", "-R", "{{ .Values.securityContext.runAsUser }}:{{ .Values.securityContext.runAsGroup }}", "/var/lib/ocis"]
+          {{- include "ocis.initChownDataCommand" $ | nindent 10 }}
           volumeMounts:
           - name: {{ include "ocis.persistence.dataVolumeName" . }}
             mountPath: /var/lib/ocis
@@ -32,8 +32,7 @@ spec:
           args: ["store", "server"]
           {{- include "ocis.containerSecurityContext" . | nindent 10 }}
           env:
-            - name: MICRO_REGISTRY
-              value: kubernetes
+            {{- include "ocis.serviceRegistry" . | nindent 12 }}
 
             - name: STORE_LOG_COLOR
               value: {{ .Values.logging.color | quote }}

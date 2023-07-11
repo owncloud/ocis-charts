@@ -1,5 +1,4 @@
-{{- include "ocis.appNames" (dict "scope" . "appName" "appNameWeb" "appNameSuffix" "") -}}
-{{- $_ := set . "resources" (default (default (dict) .Values.resources) .Values.services.web.resources) -}}
+{{- include "ocis.basicServiceTemplates" (dict "scope" . "appName" "appNameWeb" "appNameSuffix" "") -}}
 apiVersion: apps/v1
 kind: Deployment
 {{ include "ocis.metadata" . }}
@@ -22,8 +21,7 @@ spec:
           args: ["web", "server"]
           {{- include "ocis.containerSecurityContext" . | nindent 10 }}
           env:
-            - name: MICRO_REGISTRY
-              value: kubernetes
+            {{- include "ocis.serviceRegistry" . | nindent 12 }}
 
             - name: WEB_LOG_COLOR
               value: {{ .Values.logging.color | quote }}
@@ -86,8 +84,10 @@ spec:
               value: {{ . | quote }}
             {{- end }}
 
-            - name: WEB_GATEWAY_GRPC_ADDR #TODO: does not support fallback to REVA_GATEWAY as of oCIS 3.0.0-rc.1
-              value: {{ .appNameGateway }}:9142
+            {{- with .Values.services.web.config.postLogoutRedirectURI }}
+            - name: WEB_OIDC_POST_LOGOUT_REDIRECT_URI
+              value: {{ . | quote }}
+            {{- end }}
 
             - name: WEB_JWT_SECRET
               valueFrom:

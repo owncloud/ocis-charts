@@ -1,5 +1,4 @@
-{{- include "ocis.appNames" (dict "scope" . "appName" "appNameStorageSystem" "appNameSuffix" "") -}}
-{{- $_ := set . "resources" (default (default (dict) .Values.resources) .Values.services.storagesystem.resources) -}}
+{{- include "ocis.basicServiceTemplates" (dict "scope" . "appName" "appNameStorageSystem" "appNameSuffix" "") -}}
 apiVersion: apps/v1
 kind: Deployment
 {{ include "ocis.metadata" . }}
@@ -22,7 +21,7 @@ spec:
           securityContext:
             runAsNonRoot: false
             runAsUser: 0
-          command: ["chown", "-R", "{{ .Values.securityContext.runAsUser }}:{{ .Values.securityContext.runAsGroup }}", "/var/lib/ocis"]
+          {{- include "ocis.initChownDataCommand" $ | nindent 10 }}
           volumeMounts:
           - name: {{ include "ocis.persistence.dataVolumeName" . }}
             mountPath: /var/lib/ocis
@@ -34,8 +33,7 @@ spec:
           args: ["storage-system", "server"]
           {{- include "ocis.containerSecurityContext" . | nindent 10 }}
           env:
-            - name: MICRO_REGISTRY
-              value: kubernetes
+            {{- include "ocis.serviceRegistry" . | nindent 12 }}
 
             # logging
             - name: STORAGE_SYSTEM_LOG_COLOR
@@ -68,9 +66,6 @@ spec:
               value: 0.0.0.0:9216
             - name: STORAGE_SYSTEM_DATA_SERVER_URL
               value: http://{{ .appName }}:9216/data
-
-            - name: OCIS_REVA_GATEWAY
-              value: {{ .appNameGateway }}:9142
 
             - name: STORAGE_SYSTEM_DRIVER
               value: ocis

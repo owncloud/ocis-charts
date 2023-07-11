@@ -16,7 +16,7 @@ You're now running
 
 You can get the initial "admin" administrator user password by running:
 
-kubectl -n {{ .Release.Namespace }} get secrets/admin-user --template='{{"{{"}}.data.password | base64decode{{"}}"}}'
+kubectl -n {{ .Release.Namespace }} get secrets/admin-user --template='{{"{{"}}.data.password | base64decode | printf "%s\n" {{"}}"}}'
 
 {{ $noExternalUserManagement := not .Values.features.externalUserManagement.enabled -}}
 {{- $noopCache := eq .Values.cache.type "noop" -}}
@@ -108,24 +108,7 @@ kubectl -n {{ .Release.Namespace }} get secrets/admin-user --template='{{"{{"}}.
 {{- end }}
 
 #################################################################################
-######   WARNING: Breaking change.                                          #####
-######   Version 0.2.0 introduces some changes to the value names to align  #####
-######   the service/app names at various places (values file, YAML files,  #####
-######   directories) The following changes have been done in detail        #####
-######   between 0.1.0 and 0.2.0:                                           #####
-######                                                                      #####
-######   configRefs:                                                        #####
-######      storageUsersConfigRef     -> storageusersConfigRef              #####
-######   secretRefs:                                                        #####
-######      storageSystemJwtSecretRef -> storagesystemJwtSecretRef          #####
-######      storageSystemSecretRef    -> storagesystemSecretRef             #####
-######   services:                                                          #####
-######      appProvider               -> appprovider                        #####
-######      appRegistry               -> appregistry                        #####
-######      authBasic                 -> authbasic                          #####
-######      authMachine               -> authmachine                        #####
-######      storagePublicLink         -> storagepubliclink                  #####
-######      storageShares             -> storageshares                      #####
-######      storageSystem             -> storagesystem                      #####
-######      storageUsers              -> storageusers                       #####
+######   WARNING: Breaking changes may impact your deployment.              #####
 #################################################################################
+Please check the documentation for breaking changes by version:
+https://doc.owncloud.com/ocis/next/deployment/container/orchestration/tab-pages/breaking-changes.html

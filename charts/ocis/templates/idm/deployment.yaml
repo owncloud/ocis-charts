@@ -1,6 +1,5 @@
 {{- if not .Values.features.externalUserManagement.enabled }}
-{{- include "ocis.appNames" (dict "scope" . "appName" "appNameIdm" "appNameSuffix" "") -}}
-{{- $_ := set . "resources" (default (default (dict) .Values.resources) .Values.services.idm.resources) -}}
+{{- include "ocis.basicServiceTemplates" (dict "scope" . "appName" "appNameIdm" "appNameSuffix" "") -}}
 apiVersion: apps/v1
 kind: Deployment
 {{ include "ocis.metadata" . }}
@@ -22,7 +21,7 @@ spec:
           securityContext:
             runAsNonRoot: false
             runAsUser: 0
-          command: ["chown", "-R", "{{ .Values.securityContext.runAsUser }}:{{ .Values.securityContext.runAsGroup }}", "/var/lib/ocis"]
+          {{- include "ocis.initChownDataCommand" $ | nindent 10 }}
           volumeMounts:
           - name: {{ include "ocis.persistence.dataVolumeName" . }}
             mountPath: /var/lib/ocis
@@ -42,8 +41,7 @@ spec:
           args: ["idm", "server"]
           {{- include "ocis.containerSecurityContext" . | nindent 10 }}
           env:
-            - name: MICRO_REGISTRY
-              value: kubernetes
+            {{- include "ocis.serviceRegistry" . | nindent 12 }}
 
             - name: IDM_LOG_COLOR
               value: {{ .Values.logging.color | quote }}

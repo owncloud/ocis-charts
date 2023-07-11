@@ -1,5 +1,4 @@
-{{- include "ocis.appNames" (dict "scope" . "appName" "appNameUsers" "appNameSuffix" "") -}}
-{{- $_ := set . "resources" (default (default (dict) .Values.resources) .Values.services.users.resources) -}}
+{{- include "ocis.basicServiceTemplates" (dict "scope" . "appName" "appNameUsers" "appNameSuffix" "") -}}
 apiVersion: apps/v1
 kind: Deployment
 {{ include "ocis.metadata" . }}
@@ -22,8 +21,7 @@ spec:
           args: ["users", "server"]
           {{- include "ocis.containerSecurityContext" . | nindent 10 }}
           env:
-            - name: MICRO_REGISTRY
-              value: kubernetes
+            {{- include "ocis.serviceRegistry" . | nindent 12 }}
 
             - name: USERS_LOG_COLOR
               value: {{ .Values.logging.color | quote }}
@@ -144,9 +142,6 @@ spec:
             {{ else }}
               value: {{ .Values.features.externalUserManagement.oidc.issuerURI | quote }}
             {{ end }}
-
-            - name: OCIS_REVA_GATEWAY
-              value: {{ .appNameGateway }}:9142
 
             - name: USERS_JWT_SECRET
               valueFrom:

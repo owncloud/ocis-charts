@@ -1,5 +1,4 @@
-{{- include "ocis.appNames" (dict "scope" . "appName" "appNamePostprocessing" "appNameSuffix" "") -}}
-{{- $_ := set . "resources" (default (default (dict) .Values.resources) .Values.services.postprocessing.resources) -}}
+{{- include "ocis.basicServiceTemplates" (dict "scope" . "appName" "appNamePostprocessing" "appNameSuffix" "") -}}
 {{- $_ := set . "store" (default (default (dict) .Values.store) .Values.services.postprocessing.store) -}}
 apiVersion: apps/v1
 kind: Deployment
@@ -25,8 +24,7 @@ spec:
           args: ["postprocessing", "server"]
           {{- include "ocis.containerSecurityContext" . | nindent 10 }}
           env:
-            - name: MICRO_REGISTRY
-              value: kubernetes
+            {{- include "ocis.serviceRegistry" . | nindent 12 }}
 
             - name: POSTPROCESSING_LOG_COLOR
               value: {{ .Values.logging.color | quote }}

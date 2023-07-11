@@ -1,5 +1,4 @@
-{{- include "ocis.appNames" (dict "scope" . "appName" "appNameStorageUsers" "appNameSuffix" "") -}}
-{{- $_ := set . "resources" (default (default (dict) .Values.resources) .Values.services.storageusers.resources) -}}
+{{- include "ocis.basicServiceTemplates" (dict "scope" . "appName" "appNameStorageUsers" "appNameSuffix" "") -}}
 apiVersion: apps/v1
 kind: Deployment
 {{ include "ocis.metadata" . }}
@@ -22,7 +21,7 @@ spec:
           securityContext:
             runAsNonRoot: false
             runAsUser: 0
-          command: ["chown", "-R", "{{ .Values.securityContext.runAsUser }}:{{ .Values.securityContext.runAsGroup }}", "/var/lib/ocis"]
+          {{- include "ocis.initChownDataCommand" $ | nindent 10 }}
           volumeMounts:
           - name: {{ include "ocis.persistence.dataVolumeName" . }}
             mountPath: /var/lib/ocis
@@ -34,8 +33,7 @@ spec:
           args: ["storage-users", "server"]
           {{- include "ocis.containerSecurityContext" . | nindent 10 }}
           env:
-            - name: MICRO_REGISTRY
-              value: kubernetes
+            {{- include "ocis.serviceRegistry" . | nindent 12 }}
 
             # logging
             - name: STORAGE_USERS_LOG_COLOR
@@ -68,9 +66,6 @@ spec:
               value: 0.0.0.0:9158
             - name: STORAGE_USERS_DATA_SERVER_URL
               value: "http://{{ .appName }}:9158/data"
-
-            - name: STORAGE_USERS_PERMISSION_ENDPOINT
-              value: {{ .appNameSettings }}:9191
 
             # oCIS storage driver (decomposed filesystem)
             {{- if  eq .Values.services.storageusers.storageBackend.driver "ocis" }}
@@ -144,14 +139,18 @@ spec:
                   name: {{ include "secrets.machineAuthAPIKeySecret" . }}
                   key: machine-auth-api-key
 
-            - name: OCIS_REVA_GATEWAY
-              value: {{ .appNameGateway }}:9142
-
             # cache
             - name: STORAGE_USERS_FILEMETADATA_CACHE_STORE
               value: {{ .Values.cache.type | quote }}
             {{- if ne .Values.cache.type "noop" }}
             - name: STORAGE_USERS_FILEMETADATA_CACHE_STORE_NODES
+              value: {{ join "," .Values.cache.nodes | quote }}
+            {{- end }}
+
+            - name: STORAGE_USERS_ID_CACHE_STORE
+              value: {{ .Values.cache.type | quote }}
+            {{- if ne .Values.cache.type "noop" }}
+            - name: STORAGE_USERS_ID_CACHE_STORE_NODES
               value: {{ join "," .Values.cache.nodes | quote }}
             {{- end }}
 

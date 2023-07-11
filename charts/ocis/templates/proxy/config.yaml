@@ -1,4 +1,4 @@
-{{- include "ocis.appNames" (dict "scope" . "appName" "appNameProxy" "appNameSuffix" "") -}}
+{{- include "ocis.basicServiceTemplates" (dict "scope" . "appName" "appNameProxy" "appNameSuffix" "") -}}
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -30,79 +30,3 @@ data:
         {{- end }}
       {{- end }}
     {{- end }}
-    policies:
-    - name: ocis
-      routes:
-      - endpoint: /
-        backend: http://{{ .appNameWeb }}:9100
-        unprotected: true
-      - endpoint: /.well-known/openid-configuration
-        backend: http://{{ .appNameIdp }}:9130
-        unprotected: true
-      - endpoint: /branding/logo
-        backend: http://{{ .appNameWeb }}:9100
-      - endpoint: /konnect/
-        backend: http://{{ .appNameIdp }}:9130
-        unprotected: true
-      - endpoint: /signin/
-        backend: http://{{ .appNameIdp }}:9130
-        unprotected: true
-      - endpoint: /archiver
-        backend: http://{{ .appNameFrontend }}:9140
-      - endpoint: /ocs/v2.php/apps/notifications/api/v1/notifications
-        backend: http://{{ .appNameUserlog }}:8080
-      - type: regex
-        endpoint: /ocs/v[12].php/cloud/user/signing-key
-        backend: http://{{ .appNameOcs }}:9110
-      - type: regex
-        endpoint: /ocs/v[12].php/config
-        backend: http://{{ .appNameFrontend }}:9140
-        unprotected: true
-      - endpoint: /ocs/
-        backend: http://{{ .appNameFrontend }}:9140
-      - type: query
-        endpoint: /remote.php/?preview=1
-        backend: http://{{ .appNameWebdav }}:9115
-      - method: REPORT
-        endpoint: /remote.php/dav/
-        backend: http://{{ .appNameWebdav }}:9115
-      - method: REPORT
-        endpoint: /remote.php/webdav
-        backend: http://{{ .appNameWebdav }}:9115
-      - method: REPORT
-        endpoint: /dav/spaces
-        backend: http://{{ .appNameWebdav }}:9115
-      - type: query
-        endpoint: /dav/?preview=1
-        backend: http://{{ .appNameWebdav }}:9115
-      - type: query
-        endpoint: /webdav/?preview=1
-        backend: http://{{ .appNameWebdav }}:9115
-      - endpoint: /remote.php/
-        backend: http://{{ .appNameOcdav }}:8080
-      - endpoint: /dav/
-        backend: http://{{ .appNameOcdav }}:8080
-      - endpoint: /webdav/
-        backend: http://{{ .appNameOcdav }}:8080
-      - endpoint: /status
-        backend: http://{{ .appNameOcdav }}:8080
-        unprotected: true
-      - endpoint: /status.php
-        backend: http://{{ .appNameOcdav }}:8080
-        unprotected: true
-      - endpoint: /index.php/
-        backend: http://{{ .appNameOcdav }}:8080
-      - endpoint: /apps/
-        backend: http://{{ .appNameOcdav }}:8080
-      - endpoint: /data
-        backend: http://{{ .appNameFrontend }}:9140
-        unprotected: true
-      - endpoint: /app/list
-        backend: http://{{ .appNameFrontend }}:9140
-        unprotected: true
-      - endpoint: /app/
-        backend: http://{{ .appNameFrontend }}:9140
-      - endpoint: /graph/
-        backend: http://{{ .appNameGraph }}:9120
-      - endpoint: /api/v0/settings
-        backend: http://{{ .appNameSettings }}:9190

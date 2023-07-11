@@ -1,5 +1,4 @@
-{{- include "ocis.appNames" (dict "scope" . "appName" "appNameSharing" "appNameSuffix" "") -}}
-{{- $_ := set . "resources" (default (default (dict) .Values.resources) .Values.services.sharing.resources) -}}
+{{- include "ocis.basicServiceTemplates" (dict "scope" . "appName" "appNameSharing" "appNameSuffix" "") -}}
 apiVersion: apps/v1
 kind: Deployment
 {{ include "ocis.metadata" . }}
@@ -22,8 +21,7 @@ spec:
           args: ["sharing", "server"]
           {{- include "ocis.containerSecurityContext" . | nindent 10 }}
           env:
-            - name: MICRO_REGISTRY
-              value: kubernetes
+            {{- include "ocis.serviceRegistry" . | nindent 12 }}
 
             - name: SHARING_LOG_COLOR
               value: {{ .Values.logging.color | quote }}
@@ -49,8 +47,6 @@ spec:
             - name: SHARING_DEBUG_ADDR
               value: 0.0.0.0:9151
 
-            - name: OCIS_REVA_GATEWAY
-              value: {{ .appNameGateway }}:9142
             - name: SHARING_EVENTS_ENDPOINT
             {{- if not .Values.messagingSystem.external.enabled }}
               value: {{ .appNameNats }}:9233
@@ -82,8 +78,6 @@ spec:
             # user sharing
             - name: SHARING_USER_DRIVER
               value: jsoncs3
-            - name: SHARING_USER_JSONCS3_PROVIDER_ADDR
-              value: {{ .appNameStorageSystem }}:9215
             - name: SHARING_USER_JSONCS3_SYSTEM_USER_API_KEY
               valueFrom:
                 secretKeyRef:
@@ -98,8 +92,6 @@ spec:
             # public sharing
             - name: SHARING_PUBLIC_DRIVER
               value: jsoncs3
-            - name: SHARING_PUBLIC_JSONCS3_PROVIDER_ADDR
-              value: {{ .appNameStorageSystem }}:9215
             - name: SHARING_PUBLIC_JSONCS3_SYSTEM_USER_API_KEY
               valueFrom:
                 secretKeyRef:

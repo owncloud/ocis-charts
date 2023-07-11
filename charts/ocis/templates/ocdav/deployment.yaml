@@ -1,5 +1,4 @@
-{{- include "ocis.appNames" (dict "scope" . "appName" "appNameOcdav" "appNameSuffix" "") -}}
-{{- $_ := set . "resources" (default (default (dict) .Values.resources) .Values.services.ocdav.resources) -}}
+{{- include "ocis.basicServiceTemplates" (dict "scope" . "appName" "appNameOcdav" "appNameSuffix" "") -}}
 apiVersion: apps/v1
 kind: Deployment
 {{ include "ocis.metadata" . }}
@@ -22,8 +21,7 @@ spec:
           args: ["ocdav", "server"]
           {{- include "ocis.containerSecurityContext" . | nindent 10 }}
           env:
-            - name: MICRO_REGISTRY
-              value: kubernetes
+            {{- include "ocis.serviceRegistry" . | nindent 12 }}
 
             - name: OCDAV_LOG_COLOR
               value: {{ .Values.logging.color | quote }}
@@ -54,9 +52,6 @@ spec:
 
             - name: OCIS_EDITION
               value: {{ .Values.features.edition | quote }}
-
-            - name: OCIS_REVA_GATEWAY
-              value: {{ .appNameGateway }}:9142
 
             - name: OCDAV_INSECURE
               value: {{ .Values.insecure.ocisHttpApiInsecure | quote }}
