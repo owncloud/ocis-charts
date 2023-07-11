@@ -50,9 +50,6 @@ releases:
           amqpHost: rabbitmq
       - persistence:
           existingClaim: ds-files
-      - extraConf:
-          configMap: local-config
-          filename: local.json
     jsonPatches:
       # patch https://github.com/ONLYOFFICE/Kubernetes-Docs/blob/master/templates/jobs/pre-install.yaml#L11 to a higher number
       # without this, OnlyOffice installation fails on the first time
