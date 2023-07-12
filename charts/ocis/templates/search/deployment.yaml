@@ -68,8 +68,6 @@ spec:
               {{- end }}
             {{- end }}
 
-
-
             {{- if  eq .Values.services.search.extractor.type "tika" }}
             - name: SEARCH_EXTRACTOR_TYPE
               value: tika
@@ -83,6 +81,12 @@ spec:
 
             - name: SEARCH_EXTRACTOR_CS3SOURCE_INSECURE
               value: {{ .Values.insecure.ocisHttpApiInsecure | quote }}
+
+            - name: SEARCH_JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "secrets.jwtSecret" . }}
+                  key: jwt-secret
 
             - name: SEARCH_MACHINE_AUTH_API_KEY
               valueFrom:
