@@ -45,7 +45,7 @@ spec:
             # cache
             - name: SETTINGS_CACHE_STORE
               value: {{ default "memory" .Values.cache.type | quote }}
-            {{- if ne (default "memory" .Values.cache.type) "noop" }}
+            {{- if not (has (default "memory" .Values.cache.type) (list "noop" "memory")) }}
             - name: SETTINGS_CACHE_STORE_NODES
               value: {{ join "," .Values.cache.nodes | quote }}
             {{- end }}
