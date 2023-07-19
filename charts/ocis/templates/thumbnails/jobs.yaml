@@ -1,5 +1,5 @@
 {{- if and .Values.services.thumbnails.persistence.enabled .Values.services.thumbnails.maintenance.cleanUpOldThumbnails.enabled }}
-{{- include "ocis.appNames" (dict "scope" . "appName" "appNameThumbnails" "appNameSuffix" "") -}}
+{{- include "ocis.basicServiceTemplates" (dict "scope" . "appName" "appNameThumbnails" "appNameSuffix" "") -}}
 ---
 apiVersion: batch/v1
 kind: CronJob
@@ -8,6 +8,8 @@ metadata:
   namespace: {{ template "ocis.namespace" . }}
   labels:
     {{- include "ocis.labels" . | nindent 4 }}
+  annotations:
+    ignore-check.kube-linter.io/latest-tag: "using the stable tag on this busybox image is better than having an outdated image"
 spec:
   schedule: "{{ .Values.services.thumbnails.maintenance.cleanUpOldThumbnails.schedule }}"
   successfulJobsHistoryLimit: 3
@@ -35,6 +37,9 @@ spec:
                 mountPath: /var/lib/ocis
               - name: script
                 mountPath: "/script"
+
+              resources: {{ toYaml .jobResources | nindent 16 }}
+
           volumes:
             {{- include "ocis.persistence.dataVolume" . | nindent 12 }}
             - name: script

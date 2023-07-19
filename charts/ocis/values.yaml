@@ -87,9 +87,10 @@ insecure:
   ocisHttpApiInsecure: false
 
 cache:
-  # -- Type of the cache to use. To disable the cache, set to "noop".
-  # Can be set to "redis", then the address of Redis nodes needs to be set to `cache.nodes`.
-  type: noop
+  # -- Type of the cache to use. It defaults to no cache or a in memory cache depending on the service.
+  # To disable the cache, set to "noop".
+  # Can be set to "redis", "redis-sentinel" or "etcd", then the address of Redis (Sentinel) / etcd node(s) needs to be set to `cache.nodes`.
+  type: ""
   # -- Nodes of the cache to use.
   nodes: []
   # nodes:
@@ -97,12 +98,23 @@ cache:
   #   - redis-master-2.ocis-redis.svc.cluster.local:6379
 
 store:
-  # -- Configure the store type. Might be `memory`, `ocmem`, `etcd`, `redis`, `redis-sentinel`, `nats-js` or `noop`
+  # -- Configure the store type. To disable the cache, set to "noop".
+  # Defaults to "nats-js". Therefore `store.nodes` defaults to the address of the builtin NATS.
+  # Can be set to "redis", "redis-sentinel" or "etcd", then the address of Redis (Sentinel) / etcd node(s) needs to be set to `cache.nodes`.
   type: nats-js
-  # -- Provide a list of comma-separated addresses of `etcd`, `redis`, `redis-sentinel` or `nats-js` servers here
-  # if the proper store is selected
+  # -- Nodes of the store to use.
   nodes:
     - "{{ .appNameNats }}:9233"
+
+registry:
+  # -- Configure the service registry type.
+  # Defaults to "kubernetes".
+  # Can be set to "etcd" or "nats", then the address of etcd / nats node(s) needs to be set to `registry.nodes`.
+  type: kubernetes
+  # -- Nodes of the service registry to use.
+  nodes: []
+  # nodes:
+  #   - etcd.ocis-etcd.svc.cluster.local:2379
 
 messagingSystem:
   external:
@@ -613,11 +625,26 @@ autoscaling:
 resources:
   {}
   # limits:
-  # cpu: 100m
+  #   cpu: 100m
   #   memory: 128Mi
   # requests:
   #   cpu: 100m
   #   memory: 128Mi
+
+# -- Default resources to apply to all jobs in services, except per-service resources configuration in `services.<service-name>.jobResources` is set.
+# Best practice is to:
+# - set memory request == memory limit (compare to https://home.robusta.dev/blog/kubernetes-memory-limit)
+# - set cpu request and omit cpu limit (compare to https://home.robusta.dev/blog/stop-using-cpu-limits)
+jobResources:
+  {}
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+
 
 # Include arbitrary resources, eg. config maps or a cert-manager issuer (see example below)
 # -- Extra resources to be included.
@@ -1259,6 +1286,8 @@ services:
       existingClaim:
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
+    # -- Per-service jobResources configuration. Overrides the default setting from `jobResources` if set.
+    jobResources: {}
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
     podDisruptionBudget: {}
     # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
@@ -1344,6 +1373,8 @@ services:
       existingClaim:
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
+    # -- Per-service jobResources configuration. Overrides the default setting from `jobResources` if set.
+    jobResources: {}
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
     podDisruptionBudget: {}
     # -- Maintenance configuration for cleanup jobs.

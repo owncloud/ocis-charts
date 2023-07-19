@@ -1,11 +1,10 @@
 {{- if not .Values.features.externalUserManagement.enabled }}
-{{- include "ocis.appNames" (dict "scope" . "appName" "appNameIdp" "appNameSuffix" "") -}}
-{{- $_ := set . "resources" (default (default (dict) .Values.resources) .Values.services.idp.resources) -}}
+{{- include "ocis.basicServiceTemplates" (dict "scope" . "appName" "appNameIdp" "appNameSuffix" "") -}}
 apiVersion: apps/v1
 kind: Deployment
 {{ include "ocis.metadata" . }}
   annotations:
-    ignore-check.kube-linter.io/env-var-secret : "IDP_ENCRYPTION_SECRET_FILE is no secret, it's the file path to the secret"
+    ignore-check.kube-linter.io/env-var-secret: "IDP_ENCRYPTION_SECRET_FILE is no secret, it's the file path to the secret"
 spec:
   {{- include "ocis.selector" . | nindent 2 }}
   replicas: 1

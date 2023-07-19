@@ -1,0 +1,213 @@
+repositories:
+
+  - name: cs3org
+    url: https://cs3org.github.io/charts/
+  - name: collabora
+    url: https://collaboraonline.github.io/online/
+  - name: bitnami
+    url: https://charts.bitnami.com/bitnami
+  - name: onlyoffice
+    url: https://download.onlyoffice.com/charts/stable
+
+releases:
+
+  - name: addons-onlyoffice
+    chart: addons/onlyoffice
+    namespace: onlyoffice
+
+  - name: rabbitmq
+    namespace: onlyoffice
+    chart: bitnami/rabbitmq
+
+  - name: redis
+    namespace: onlyoffice
+    chart: bitnami/redis
+
+  - name: postgresql
+    namespace: onlyoffice
+    chart: bitnami/postgresql
+
+  - name: onlyoffice
+    namespace: onlyoffice
+    chart: onlyoffice/docs
+    needs:
+      - onlyoffice/addons-onlyoffice
+      - onlyoffice/rabbitmq
+      - onlyoffice/redis
+      - onlyoffice/postgresql
+    values:
+      - wopi:
+          enabled: true
+      - ingress:
+          enabled: true
+          host: onlyoffice.kube.owncloud.test
+          ssl:
+            enabled: true
+            secret: onlyoffice-tls
+      - connections:
+          dbHost: postgresql
+          redisHost: redis-master
+          amqpHost: rabbitmq
+      - persistence:
+          existingClaim: ds-files
+    jsonPatches:
+      # patch https://github.com/ONLYOFFICE/Kubernetes-Docs/blob/master/templates/jobs/pre-install.yaml#L11 to a higher number
+      # without this, OnlyOffice installation fails on the first time
+      - target:
+          version: batch/v1
+          kind: Job
+          namespace: onlyoffice
+          name: pre-install
+        patch:
+          - op: replace
+            path: /spec/backoffLimit
+            value: 20
+
+  - name: collabora
+    namespace: collabora
+    chart: collabora/collabora-online
+    values:
+      - collabora:
+          aliasgroups:
+            - host: "http://wopiserver.wopiserver.svc.cluster.local:8880"
+          extra_params: --o:ssl.enable=false --o:ssl.termination=true --o:net.frame_ancestors=ocis.kube.owncloud.test
+      - ingress:
+          enabled: true
+          className: "nginx"
+          annotations:
+            nginx.ingress.kubernetes.io/upstream-hash-by: "$arg_WOPISrc"
+            nginx.ingress.kubernetes.io/proxy-body-size: "0"
+            nginx.ingress.kubernetes.io/proxy-read-timeout: "600"
+            nginx.ingress.kubernetes.io/proxy-send-timeout: "600"
+          hosts:
+            - host: collabora.kube.owncloud.test
+              paths:
+                - path: /
+                  pathType: ImplementationSpecific
+          tls:
+            - secretName: collabora-dev-tls
+              hosts:
+                - collabora.kube.owncloud.test
+
+  - name: wopiserver
+    namespace: wopiserver
+    chart: cs3org/wopiserver
+    values:
+      - wopiserverUrl: http://wopiserver.wopiserver.svc.cluster.local:8880
+      - config:
+          cs3:
+            gateway: gateway.ocis.svc.cluster.local:9142
+            sslVerify: False
+
+  - name: ocis
+    chart: ../../charts/ocis
+    namespace: ocis
+    values:
+      - externalDomain: ocis.kube.owncloud.test
+      - ingress:
+          enabled: true
+          ingressClassName: nginx
+          annotations:
+            nginx.ingress.kubernetes.io/proxy-body-size: 1024m
+          tls:
+            - secretName: ocis-dev-tls
+              hosts:
+                - ocis.kube.owncloud.test
+
+      - insecure:
+          oidcIdpInsecure: true
+          ocisHttpApiInsecure: true
+
+      - features:
+          appsIntegration:
+            enabled: true
+            wopiIntegration:
+              wopiServerURI: http://wopiserver.wopiserver.svc.cluster.local:8880
+              officeSuites:
+                - name: Collabora
+                  enabled: true
+                  uri: "https://collabora.kube.owncloud.test"
+                  insecure: true
+                  iconURI: https://collabora.kube.owncloud.test/favicon.ico
+                - name: OnlyOffice
+                  enabled: true
+                  uri: "https://onlyoffice.kube.owncloud.test"
+                  insecure: true
+                  iconURI: https://onlyoffice.kube.owncloud.test/web-apps/apps/documenteditor/main/resources/img/favicon.ico
+            mimetypes:
+              # mimetypes for creation
+              - mime_type: application/vnd.oasis.opendocument.text
+                extension: odt
+                name: OpenDocument
+                description: OpenDocument text document
+                icon: image-edit
+                default_app: "Collabora"
+                allow_creation: true
+              - mime_type: application/vnd.oasis.opendocument.spreadsheet
+                extension: ods
+                name: OpenSpreadsheet
+                description: OpenDocument spreadsheet document
+                icon: image-edit
+                default_app: "Collabora"
+                allow_creation: true
+              - mime_type: application/vnd.oasis.opendocument.presentation
+                extension: odp
+                name: OpenPresentation
+                description: OpenDocument presentation document
+                icon: image-edit
+                default_app: "Collabora"
+                allow_creation: true
+              - mime_type: application/vnd.openxmlformats-officedocument.wordprocessingml.document
+                extension: docx
+                name: Text document
+                description: Text document
+                icon: image-edit
+                default_app: "OnlyOffice"
+                allow_creation: true
+              - mime_type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
+                extension: xlsx
+                name: Spreadsheet
+                description: Spreadsheet
+                icon: image-edit
+                default_app: "OnlyOffice"
+                allow_creation: true
+              - mime_type: application/vnd.openxmlformats-officedocument.presentationml.presentation
+                extension: pptx
+                name: Presentation
+                description: Presentation
+                icon: image-edit
+                default_app: "OnlyOffice"
+                allow_creation: true
+
+      - services:
+          idm:
+            persistence:
+              enabled: true
+
+          nats:
+            persistence:
+              enabled: true
+
+          search:
+            persistence:
+              enabled: true
+
+          storagesystem:
+            persistence:
+              enabled: true
+
+          storageusers:
+            persistence:
+              enabled: true
+
+          store:
+            persistence:
+              enabled: true
+
+          thumbnails:
+            persistence:
+              enabled: true
+
+          web:
+            persistence:
+              enabled: true

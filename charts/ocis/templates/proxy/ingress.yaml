@@ -1,5 +1,5 @@
 {{- if .Values.ingress.enabled -}}
-{{- include "ocis.appNames" (dict "scope" . "appName" "appNameProxy" "appNameSuffix" "") -}}
+{{- include "ocis.basicServiceTemplates" (dict "scope" . "appName" "appNameProxy" "appNameSuffix" "") -}}
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 {{ include "ocis.metadata" . }}
