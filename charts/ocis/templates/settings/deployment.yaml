@@ -42,6 +42,14 @@ spec:
             - name: SETTINGS_DEBUG_PPROF
               value: {{ .Values.debug.profiling | quote }}
 
+            # cache
+            - name: SETTINGS_CACHE_STORE
+              value: {{ default "memory" .Values.cache.type | quote }}
+            {{- if not (has (default "memory" .Values.cache.type) (list "noop" "memory")) }}
+            - name: SETTINGS_CACHE_STORE_NODES
+              value: {{ join "," .Values.cache.nodes | quote }}
+            {{- end }}
+
             - name: SETTINGS_HTTP_ADDR
               value: 0.0.0.0:9190
             - name: SETTINGS_GRPC_ADDR

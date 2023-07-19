@@ -326,16 +326,6 @@ data:
 {{- end -}}
 
 {{/*
-oCIS service registry
-*/}}
-{{- define "ocis.serviceRegistry" -}}
-- name: MICRO_REGISTRY
-  value: {{ .Values.registry.type | quote }}
-- name: MICRO_REGISTRY_ADDRESS
-  value: {{ join "," .Values.registry.nodes | quote }}
-{{- end -}}
-
-{{/*
 oCIS chown init data command
 */}}
 {{- define "ocis.initChownDataCommand" -}}

@@ -1,12 +1,12 @@
-# oCIS with Redis deployment example
+# oCIS with NATS deployment example
 
 ## Introduction
 
-This example shows how to deploy oCIS with Redis as cache and store.
-It will deploy an oCIS instance and Redis, preconfigured to work together.
+This example shows how to deploy NATS with NATS as message bus and store.
+It will deploy an oCIS instance and NATS, preconfigured to work together.
 
 ***Note***: This example is not intended for production use. It is intended to get a working oCIS
-with Redis running in Kubernetes as quickly as possible. It is not hardened in any way.
+with NATS running in Kubernetes as quickly as possible. It is not hardened in any way.
 
 ## Getting started
 
@@ -35,14 +35,14 @@ In this directory, run the following commands:
 $ helmfile sync
 ```
 
-This will deploy oCIS and Redis.
+This will deploy oCIS and NATS.
 
 ### Logging in
 
 You can get the admin password with the following command:
 
 ```bash
-$ kubectl -n ocis get secrets/admin-user --template='{{.data.password | base64decode | printf "%s\n" }}'
+$ kubectl -n ocis get secret admin-user -o go-template --template="{{.data.password | base64decode }}"
 ```
 
 You can use this password to login with the user `admin`.
