@@ -117,12 +117,14 @@ spec:
             - name: messaging-system-ca
               mountPath: /etc/ocis/messaging-system-ca
               readOnly: true
+            {{- if .Values.features.emailNotifications.branding.enabled }}
             - name: text-mail-templates
               mountPath: /etc/ocis/notifications/templates/text
             - name: html-mail-templates
               mountPath: /etc/ocis/notifications/templates/html
             - name: html-mail-images
               mountPath: /etc/ocis/notifications/templates/html/img
+            {{- end }}
 
       {{- include "ocis.imagePullSecrets" $ | nindent 6 }}
       volumes:
@@ -135,13 +137,16 @@ spec:
           {{ else }}
           emptyDir: {}
           {{ end }}
+        {{- if .Values.features.emailNotifications.branding.enabled }}
         - name: text-mail-templates
           configMap:
-            name: text-mail-templates
+            name: {{ .Values.features.emailNotifications.branding.textMailTemplatesConfigRef | quote }}
         - name: html-mail-templates
           configMap:
-            name: html-mail-templates
+            name: {{ .Values.features.emailNotifications.branding.htmlMailTemplatesConfigRef | quote }}
         - name: html-mail-images
           configMap:
-            name: html-mail-images
+            name: {{ .Values.features.emailNotifications.branding.htmlMailImagesConfigRef | quote }}
+            optional: true
+        {{- end }}
 {{- end }}

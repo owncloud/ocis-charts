@@ -64,13 +64,3 @@ data:
     </table>
     </body>
     </html>
-
----
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: html-mail-images
-data:
-  logo-mail.gif: foo
-  logo-mail.png: foo
-  logo-mail.jpeg: foo

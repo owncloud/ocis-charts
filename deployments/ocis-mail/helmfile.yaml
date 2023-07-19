@@ -42,6 +42,8 @@ releases:
               host: inbucket.inbucket.svc.cluster.local
               port: 2500
               sender: "ownCloud <noreply@ocis.kube.owncloud.test>"
+            branding:
+              enabled: false # you can set this to true if you first run `kubectl -n ocis apply -f mail-templates.yaml`
 
       - services:
           idm:
