@@ -463,6 +463,13 @@ features:
     maxSize: 1073741824
     # -- Max number of files that can be packed into an archive.
     maxNumFiles: 10000
+  # Uppy Companion settings (https://uppy.io/docs/companion/)
+  uppyCompanion:
+    # -- Enables the Uppy Companion integration.
+    enabled: false
+    # -- Url of the Uppy Companion instance.
+    companionUrl: https://companion.kube.owncloud.test
+
 # Ingress for oCIS.
 ingress:
   # -- Enables the Ingress.

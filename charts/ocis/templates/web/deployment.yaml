@@ -104,6 +104,11 @@ spec:
               value: {{ . | quote }}
             {{- end }}
 
+            {{- if .Values.features.uppyCompanion.enabled }}
+            - name: WEB_OPTION_UPLOAD_COMPANION_URL
+              value: {{ .Values.features.uppyCompanion.companionUrl | quote }}
+            {{- end }}
+
             - name: WEB_JWT_SECRET
               valueFrom:
                 secretKeyRef:
