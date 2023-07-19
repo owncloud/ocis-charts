@@ -1514,7 +1514,7 @@ services:
         path: ""
       # URI where to redirect the user after a logout was performed. Defaults to the URI of the login page.
       postLogoutRedirectURI: ""
-      # Specifies the target URL valid for the logged out / access denied page.
+      # Specifies the target url valid for the logged out / access denied page.
       accessDeniedHelpURL: ""
       # Specifies the target url for the imprint link in the account menu.
       imprintURL:
