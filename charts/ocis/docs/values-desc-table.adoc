@@ -216,18 +216,42 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `"Community"`
 | Edition of ownCloud Infinite Scale.
+| features.emailNotifications.branding.enabled
+a| [subs=-attributes]
++bool+
+a| [subs=-attributes]
+`false`
+| Enables mail branding. If enabled, you need to provide the text and html template ConfigMap. The image ConfigMap is optional.
+| features.emailNotifications.branding.htmlMailImagesConfigRef
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"html-mail-images"`
+| Reference to a ConfigMap containing images that can be referenced from the html mail template. This ConfigMap is optional and can be omitted when images are not used.
+| features.emailNotifications.branding.htmlMailTemplatesConfigRef
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"html-mail-templates"`
+| Reference to a ConfigMap containing the html mail template. The template file must be named "email.html.tmpl". The default template can be seen here: https://github.com/owncloud/ocis/blob/master/services/notifications/pkg/email/templates/html/email.html.tmpl
+| features.emailNotifications.branding.textMailTemplatesConfigRef
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"text-mail-templates"`
+| Reference to a ConfigMap containing the text mail template. The template file must be named "email.text.tmpl". The default template can be seen here: https://github.com/owncloud/ocis/blob/master/services/notifications/pkg/email/templates/text/email.text.tmpl
 | features.emailNotifications.enabled
 a| [subs=-attributes]
 +bool+
 a| [subs=-attributes]
 `false`
-| Enables email notifications. This features needs the secret from notificationsSmtpSecretRef present.
+| Enables email notifications.
 | features.emailNotifications.smtp.authentication
 a| [subs=-attributes]
 +string+
 a| [subs=-attributes]
 `"none"`
-| Authentication method for the SMTP communication. Possible values are ‘login’, ‘plain’, ‘crammd5’, ‘none’
+| Authentication method for the SMTP communication. Possible values are ‘login’, ‘plain’, ‘crammd5’, ‘none’ If set to another value than `none`, a secret referenced by `notificationsSmtpSecretRef` needs to be present.
 | features.emailNotifications.smtp.encryption
 a| [subs=-attributes]
 +string+
@@ -965,7 +989,7 @@ a| [subs=-attributes]
 +string+
 a| [subs=-attributes]
 `""`
-| Reference to an existing SMTP email server settings secret (see xref:{secrets}[Secrets]). Not used if `features.emailNotifications.enabled` equals `false`.
+| Reference to an existing SMTP email server settings secret (see xref:{secrets}[Secrets]). Not used if `features.emailNotifications.enabled` equals `false`. Not used if `features.emailNotifications.smtp.authentication` equals `none`.
 | secretRefs.s3CredentialsSecretRef
 a| [subs=-attributes]
 +string+

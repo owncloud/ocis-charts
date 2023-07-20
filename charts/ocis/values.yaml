@@ -150,7 +150,6 @@ features:
   demoUsers: false
   emailNotifications:
     # -- Enables email notifications.
-    # This features needs the secret from notificationsSmtpSecretRef present.
     enabled: false
     smtp:
       # -- SMTP host to connect to.
@@ -160,9 +159,25 @@ features:
       # -- Sender address of emails that will be sent. Example: 'ownCloud <noreply@example.com>'
       sender:
       # -- Authentication method for the SMTP communication. Possible values are ‘login’, ‘plain’, ‘crammd5’, ‘none’
+      # If set to another value than `none`, a secret referenced by `notificationsSmtpSecretRef` needs to be present.
       authentication: none
       # -- Encryption method for the SMTP communication. Possible values are ‘starttls’, ‘ssl’, ‘ssltls’, ‘tls’ and ‘none’.
       encryption: none
+    branding:
+      # -- Enables mail branding. If enabled, you need to provide the text and html template ConfigMap.
+      # The image ConfigMap is optional.
+      enabled: false
+      # -- Reference to a ConfigMap containing the text mail template.
+      # The template file must be named "email.text.tmpl".
+      # The default template can be seen here: https://github.com/owncloud/ocis/blob/master/services/notifications/pkg/email/templates/text/email.text.tmpl
+      textMailTemplatesConfigRef: "text-mail-templates"
+      # -- Reference to a ConfigMap containing the html mail template.
+      # The template file must be named "email.html.tmpl".
+      # The default template can be seen here: https://github.com/owncloud/ocis/blob/master/services/notifications/pkg/email/templates/html/email.html.tmpl
+      htmlMailTemplatesConfigRef: "html-mail-templates"
+      # -- Reference to a ConfigMap containing images that can be referenced from the html mail template.
+      # This ConfigMap is optional and can be omitted when images are not used.
+      htmlMailImagesConfigRef: "html-mail-images"
   # Sharing related settings
   sharing:
     # Sharing with users related settings
@@ -530,7 +545,9 @@ secretRefs:
   machineAuthApiKeySecretRef: ""
   # -- Reference to an existing messaging system certificate authority secret (see ref:Secrets#secrets)
   messagingSystemCaRef: ""
-  # -- Reference to an existing SMTP email server settings secret (see ref:Secrets#secrets). Not used if `features.emailNotifications.enabled` equals `false`.
+  # -- Reference to an existing SMTP email server settings secret (see ref:Secrets#secrets).
+  # Not used if `features.emailNotifications.enabled` equals `false`.
+  # Not used if `features.emailNotifications.smtp.authentication` equals `none`.
   notificationsSmtpSecretRef: ""
   # -- Reference to an existing storage-system JWT secret (see ref:Secrets#secrets)
   storagesystemJwtSecretRef: ""

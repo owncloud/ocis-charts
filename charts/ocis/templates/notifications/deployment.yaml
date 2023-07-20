@@ -58,6 +58,7 @@ spec:
             - name: NOTIFICATIONS_SMTP_ENCRYPTION
               value: {{ .Values.features.emailNotifications.smtp.encryption | quote }}
 
+            {{- if ne .Values.features.emailNotifications.smtp.authentication "none" }}
             - name: NOTIFICATIONS_SMTP_USERNAME
               valueFrom:
                 secretKeyRef:
@@ -69,11 +70,8 @@ spec:
                 secretKeyRef:
                   name: {{ include "secrets.notificationsSMTPSecret" . }}
                   key: smtp-password
+            {{- end }}
 
-            #TODO: remove OCIS_URL in favor of NOTIFICATIONS_WEB_UI_URL
-            # after https://github.com/owncloud/ocis/pull/4998 was released
-            - name: OCIS_URL
-              value: "https://{{ .Values.externalDomain }}"
             - name: NOTIFICATIONS_WEB_UI_URL
               value: "https://{{ .Values.externalDomain }}"
 
@@ -102,6 +100,10 @@ spec:
                   name: {{ include "secrets.machineAuthAPIKeySecret" . }}
                   key: machine-auth-api-key
 
+            # Mail theming
+            - name: NOTIFICATIONS_EMAIL_TEMPLATE_PATH
+              value: /etc/ocis/notifications
+
           {{- include "ocis.livenessProbe" . | nindent 10 }}
 
           resources: {{ toYaml .resources | nindent 12 }}
@@ -115,6 +117,14 @@ spec:
             - name: messaging-system-ca
               mountPath: /etc/ocis/messaging-system-ca
               readOnly: true
+            {{- if .Values.features.emailNotifications.branding.enabled }}
+            - name: text-mail-templates
+              mountPath: /etc/ocis/notifications/templates/text
+            - name: html-mail-templates
+              mountPath: /etc/ocis/notifications/templates/html
+            - name: html-mail-images
+              mountPath: /etc/ocis/notifications/templates/html/img
+            {{- end }}
 
       {{- include "ocis.imagePullSecrets" $ | nindent 6 }}
       volumes:
@@ -127,4 +137,16 @@ spec:
           {{ else }}
           emptyDir: {}
           {{ end }}
+        {{- if .Values.features.emailNotifications.branding.enabled }}
+        - name: text-mail-templates
+          configMap:
+            name: {{ .Values.features.emailNotifications.branding.textMailTemplatesConfigRef | quote }}
+        - name: html-mail-templates
+          configMap:
+            name: {{ .Values.features.emailNotifications.branding.htmlMailTemplatesConfigRef | quote }}
+        - name: html-mail-images
+          configMap:
+            name: {{ .Values.features.emailNotifications.branding.htmlMailImagesConfigRef | quote }}
+            optional: true
+        {{- end }}
 {{- end }}
