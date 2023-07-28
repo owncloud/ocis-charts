@@ -2,11 +2,11 @@
 
 ## Introduction
 
-This example shows how to deploy oCIS with Collabora and OnlyOffice as Office.
-It will deploy an oCIS instance, Collabora and OnlyOffice, preconfigured to work together.
+This example shows how to deploy oCIS with Collabora and OnlyOffice as Office. It also brings Tika for fulltext search extraction.
+It will deploy an oCIS instance, Collabora and OnlyOffice and Tika, preconfigured to work together.
 
 ***Note***: This example is not intended for production use. It is intended to get a working oCIS
-with Collabora and OnlyOffice running in Kubernetes as quickly as possible. It is not hardened in any way.
+with Collabora, OnlyOffice and Tika running in Kubernetes as quickly as possible. It is not hardened in any way.
 
 ## Getting started
 
@@ -37,7 +37,7 @@ In this directory, run the following commands:
 $ helmfile sync
 ```
 
-This will deploy oCIS, the WOPI server, Collabora and OnlyOffice.
+This will deploy oCIS, Tika, the WOPI server, Collabora and OnlyOffice.
 
 ### Logging in
 

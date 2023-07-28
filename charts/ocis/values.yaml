@@ -1056,6 +1056,9 @@ services:
       # - `basic`: the default search extractor.
       # - `tika`: the Tika search extractor. If set to this value, additional settings in the `tika` section apply.
       type: basic
+      # -- Configures the maximum file size in bytes that is allowed for content extraction.
+      # For the default value see https://doc.owncloud.com/ocis/next/deployment/services/s-list/search.html
+      sizeLimit:
       tika:
         # -- Set the URL to Tika. Only applicable if `services.search.extractor.type` == `tika`.
         url: http://tika.tika.svc.cluster.local:9998
