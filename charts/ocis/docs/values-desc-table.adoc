@@ -1872,6 +1872,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 see detailed search extractor configuration options below
 | Search Extractor settings.
+| services.search.extractor.sizeLimit
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`nil`
+| Configures the maximum file size in bytes that is allowed for content extraction. For the default value see https://doc.owncloud.com/ocis/next/deployment/services/s-list/search.html
 | services.search.extractor.tika.url
 a| [subs=-attributes]
 +string+

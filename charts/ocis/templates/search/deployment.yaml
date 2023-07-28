@@ -68,6 +68,11 @@ spec:
               {{- end }}
             {{- end }}
 
+            {{- with .Values.services.search.extractor.sizeLimit }}
+            - name: SEARCH_CONTENT_EXTRACTION_SIZE_LIMIT
+              value: {{ int64 . | quote}}
+            {{- end }}
+
             {{- if  eq .Values.services.search.extractor.type "tika" }}
             - name: SEARCH_EXTRACTOR_TYPE
               value: tika

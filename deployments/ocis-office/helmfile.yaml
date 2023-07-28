@@ -1,5 +1,6 @@
 repositories:
-
+  - name: tika
+    url: https://apache.jfrog.io/artifactory/tika
   - name: cs3org
     url: https://cs3org.github.io/charts/
   - name: collabora
@@ -10,6 +11,10 @@ repositories:
     url: https://download.onlyoffice.com/charts/stable
 
 releases:
+
+  - name: tika
+    namespace: tika
+    chart: tika/tika
 
   - name: addons-onlyoffice
     chart: addons/onlyoffice
@@ -191,6 +196,10 @@ releases:
           search:
             persistence:
               enabled: true
+            extractor:
+              type: tika
+              tika:
+                url: http://tika.tika.svc.cluster.local:9998
 
           storagesystem:
             persistence:
