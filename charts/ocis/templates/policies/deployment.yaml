@@ -48,8 +48,10 @@ spec:
               value: 0.0.0.0:9125
             - name: POLICIES_ENGINE_TIMEOUT
               value: {{ .Values.features.policies.engineTimeout | quote }}
-            - name: POLICIES_POSTPROCESSING_QUERY
-              value: "data.postprocessing.granted"
+            # We currently don't support enforcing policies as a postprocessing step.
+            # See https://github.com/owncloud/enterprise/issues/5919
+            # - name: POLICIES_POSTPROCESSING_QUERY
+            #   value: "data.postprocessing.granted"
             - name: POLICIES_EVENTS_ENDPOINT
             {{- if not .Values.messagingSystem.external.enabled }}
               value: {{ .appNameNats }}:9233
