@@ -4,7 +4,7 @@ apiVersion: apps/v1
 kind: Deployment
 {{ include "ocis.metadata" . }}
   annotations:
-    ignore-check.kube-linter.io/env-var-secret : "IDP_ENCRYPTION_SECRET_FILE is no secret, it's the file path to the secret"
+    ignore-check.kube-linter.io/env-var-secret: "IDP_ENCRYPTION_SECRET_FILE is no secret, it's the file path to the secret"
 spec:
   {{- include "ocis.selector" . | nindent 2 }}
   replicas: 1

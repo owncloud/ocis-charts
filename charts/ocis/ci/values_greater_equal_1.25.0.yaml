@@ -110,6 +110,13 @@ services:
       finalizers:
         - kubernetes.io/pvc-protection
       selectorLabels: {}
+    jobResources:
+      limits:
+        cpu: 100m
+        memory: 128Mi
+      requests:
+        cpu: 100m
+        memory: 128Mi
     maintenance:
       cleanUpExpiredUploads:
         enabled: true
@@ -142,6 +149,13 @@ services:
       finalizers: []
       selectorLabels:
         selector1: foobar
+    jobResources:
+      limits:
+        cpu: 100m
+        memory: 128Mi
+      requests:
+        cpu: 100m
+        memory: 128Mi
     maintenance:
       cleanUpOldThumbnails:
         enabled: true

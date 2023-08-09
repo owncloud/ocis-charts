@@ -147,8 +147,8 @@ spec:
 
             # cache
             - name: GRAPH_CACHE_STORE
-              value: {{ .Values.cache.type | quote }}
-            {{- if ne .Values.cache.type "noop" }}
+              value: {{ default "noop" .Values.cache.type | quote }}
+            {{- if ne (default "noop" .Values.cache.type) "noop" }}
             - name: GRAPH_CACHE_STORE_NODES
               value: {{ join "," .Values.cache.nodes | quote }}
             {{- end }}

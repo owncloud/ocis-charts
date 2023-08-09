@@ -50,9 +50,13 @@ spec:
               value: 0.0.0.0:9255
 
             {{- $_ := set . "postprocessingSteps" list -}}
+            {{/*
+            # We currently don't support enforcing policies as a postprocessing step.
+            # See https://github.com/owncloud/enterprise/issues/5919
             {{- if .Values.features.policies.enabled }}
             {{- $_ := set . "postprocessingSteps" (append .postprocessingSteps "policies") -}}
             {{- end }}
+            */}}
             {{- if .Values.features.virusscan.enabled }}
             {{- $_ := set . "postprocessingSteps" (append .postprocessingSteps "virusscan") -}}
             {{- end }}

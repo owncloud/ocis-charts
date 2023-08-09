@@ -8,6 +8,8 @@ metadata:
   namespace: {{ template "ocis.namespace" . }}
   labels:
     {{- include "ocis.labels" . | nindent 4 }}
+  annotations:
+    ignore-check.kube-linter.io/latest-tag: "using the stable tag on this busybox image is better than having an outdated image"
 spec:
   schedule: "{{ .Values.services.thumbnails.maintenance.cleanUpOldThumbnails.schedule }}"
   successfulJobsHistoryLimit: 3
