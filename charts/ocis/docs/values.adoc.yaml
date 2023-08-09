@@ -1275,7 +1275,7 @@ services:
         personalDeleteBefore: 30d
         # -- Setting that makes the command delete all trashed project files older than the value. The value is a number and a unit "d", "h", "m", "s".
         projectDeleteBefore: 30d
-      # -- Image for oCIS maintenance job
+      # -- Image for the storageusers service maintenance jobs
       # Defaults to the same values as `image`
       image:
         # -- Image repository
@@ -1425,7 +1425,7 @@ services:
         deleteBefore: 30
         # -- Method to use with BusyBox "find" for finding old thumbnails. Can be mtime, atime or ctime.
         method: atime
-      # Image for oCIS maintenance job
+      # Image for thumbnails service maintenance jobs
       image:
         # -- Image repository
         repository: busybox

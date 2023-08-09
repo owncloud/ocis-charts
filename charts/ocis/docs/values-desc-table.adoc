@@ -2273,7 +2273,7 @@ a| [subs=-attributes]
 +object+
 a| [subs=-attributes]
 `{"pullPolicy":null,"repository":"","sha":"","tag":""}`
-| Image for oCIS maintenance job Defaults to the same values as `image`
+| Image for the storageusers service maintenance jobs Defaults to the same values as `image`
 | services.storageusers.maintenance.image.pullPolicy
 a| [subs=-attributes]
 +string+
