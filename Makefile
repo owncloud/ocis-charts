@@ -56,3 +56,11 @@ api-1.27.0-template:
 .PHONY: api-1.27.0-kubeconform
 api-1.27.0-kubeconform: $(KUBECONFORM)
 	$(KUBECONFORM) -kubernetes-version 1.27.0 -summary -strict charts/ocis/ci/templated.yaml
+
+.PHONY: tools-update
+tools-update: $(BINGO)
+	$(BINGO) get github.com/bwplotka/bingo@latest
+	$(BINGO) get github.com/hairyhenderson/gomplate/v3/cmd/gomplate@latest
+	$(BINGO) get github.com/norwoodj/helm-docs/cmd/helm-docs@latest
+	$(BINGO) get golang.stackrox.io/kube-linter/cmd/kube-linter@latest
+	$(BINGO) get github.com/yannh/kubeconform/cmd/kubeconform@latest
