@@ -750,6 +750,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `[]`
 | Ingress TLS configuration.
+| initContainerImage
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{"pullPolicy":"IfNotPresent","repository":"busybox","sha":"","tag":"stable"}`
+| InitContainer image used for oCIS services. Only used if `services.xxx.persistence.chownInitContainer.enabled` is set to true for at least one service.
 | initContainerImage.pullPolicy
 a| [subs=-attributes]
 +string+
@@ -1439,7 +1445,7 @@ a| [subs=-attributes]
 +bool+
 a| [subs=-attributes]
 `false`
-| Enables a initContainer to chown the volume. The initContainer is run as root. This is not needed if the driver applies the fsGroup from the securityContext.
+| Enables a initContainer to chown the volume. The initContainer is run as root. This is not needed if the driver applies the fsGroup from the securityContext. The image specified in `initContainerImage` will be  used for this container.
 | services.idm.persistence.claimName
 a| [subs=-attributes]
 +string+
@@ -1553,7 +1559,7 @@ a| [subs=-attributes]
 +bool+
 a| [subs=-attributes]
 `false`
-| Enables a initContainer to chown the volume. The initContainer is run as root. This is not needed if the driver applies the fsGroup from the securityContext.
+| Enables a initContainer to chown the volume. The initContainer is run as root. This is not needed if the driver applies the fsGroup from the securityContext. The image specified in `initContainerImage` will be  used for this container.
 | services.nats.persistence.claimName
 a| [subs=-attributes]
 +string+
@@ -1883,7 +1889,7 @@ a| [subs=-attributes]
 +bool+
 a| [subs=-attributes]
 `false`
-| Enables a initContainer to chown the volume. The initContainer is run as root. This is not needed if the driver applies the fsGroup from the securityContext.
+| Enables a initContainer to chown the volume. The initContainer is run as root. This is not needed if the driver applies the fsGroup from the securityContext. The image specified in `initContainerImage` will be  used for this container.
 | services.search.persistence.claimName
 a| [subs=-attributes]
 +string+
@@ -2129,7 +2135,7 @@ a| [subs=-attributes]
 +bool+
 a| [subs=-attributes]
 `false`
-| Enables a initContainer to chown the volume. The initContainer is run as root. This is not needed if the driver applies the fsGroup from the securityContext.
+| Enables a initContainer to chown the volume. The initContainer is run as root. This is not needed if the driver applies the fsGroup from the securityContext. The image specified in `initContainerImage` will be  used for this container.
 | services.storagesystem.persistence.claimName
 a| [subs=-attributes]
 +string+
@@ -2232,6 +2238,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `86400`
 | Duration in seconds after which uploads will expire.    WARNING: Setting this to a low number will lead to uploads being cancelled before they are finished and returning a 403 to the user.
+| services.storageusers.maintenance.image
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{"pullPolicy":null,"repository":"","sha":"","tag":""}`
+| Image for oCIS maintenance job Defaults to the same values as `image`
 | services.storageusers.maintenance.image.pullPolicy
 a| [subs=-attributes]
 +string+
@@ -2309,7 +2321,7 @@ a| [subs=-attributes]
 +bool+
 a| [subs=-attributes]
 `false`
-| Enables a initContainer to chown the volume. The initContainer is run as root. This is not needed if the driver applies the fsGroup from the securityContext.
+| Enables a initContainer to chown the volume. The initContainer is run as root. This is not needed if the driver applies the fsGroup from the securityContext. The image specified in `initContainerImage` will be  used for this container.
 | services.storageusers.persistence.claimName
 a| [subs=-attributes]
 +string+
@@ -2453,7 +2465,7 @@ a| [subs=-attributes]
 +bool+
 a| [subs=-attributes]
 `false`
-| Enables a initContainer to chown the volume. The initContainer is run as root. This is not needed if the driver applies the fsGroup from the securityContext.
+| Enables a initContainer to chown the volume. The initContainer is run as root. This is not needed if the driver applies the fsGroup from the securityContext. The image specified in `initContainerImage` will be  used for this container.
 | services.store.persistence.claimName
 a| [subs=-attributes]
 +string+
@@ -2609,7 +2621,7 @@ a| [subs=-attributes]
 +bool+
 a| [subs=-attributes]
 `false`
-| Enables a initContainer to chown the volume. The initContainer is run as root. This is not needed if the driver applies the fsGroup from the securityContext.
+| Enables a initContainer to chown the volume. The initContainer is run as root. This is not needed if the driver applies the fsGroup from the securityContext. The image specified in `initContainerImage` will be  used for this container.
 | services.thumbnails.persistence.claimName
 a| [subs=-attributes]
 +string+
@@ -2873,7 +2885,7 @@ a| [subs=-attributes]
 +bool+
 a| [subs=-attributes]
 `false`
-| Enables a initContainer to chown the volume. The initContainer is run as root. This is not needed if the driver applies the fsGroup from the securityContext.
+| Enables a initContainer to chown the volume. The initContainer is run as root. This is not needed if the driver applies the fsGroup from the securityContext. The image specified in `initContainerImage` will be  used for this container.
 | services.web.persistence.claimName
 a| [subs=-attributes]
 +string+

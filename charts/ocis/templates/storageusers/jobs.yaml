@@ -26,7 +26,7 @@ spec:
           restartPolicy: Never
           containers:
             - name: storage-users-clean-expired-uploads
-              {{- include "ocis.jobContainerImage" . | nindent 14 }}
+              {{- include "ocis.jobContainerImageOcis" . | nindent 14 }}
               command: ["ocis"]
               args: ["storage-users", "uploads", "clean"]
               securityContext:
@@ -135,7 +135,7 @@ spec:
           restartPolicy: Never
           containers:
             - name: storage-users-purge-expired-trash-bin-items
-              {{- include "ocis.jobContainerImage" . | nindent 14 }}
+              {{- include "ocis.jobContainerImageOcis" . | nindent 14 }}
               command: ["ocis"]
               args: ["storage-users", "trash-bin", "purge-expired"]
               securityContext:
