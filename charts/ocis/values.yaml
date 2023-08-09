@@ -610,17 +610,6 @@ autoscaling:
   maxReplicas: 10
   # -- Metrics to use for autoscaling
   metrics: []
-# Kubernetes pre 1.25
-#   metrics:
-#   - type: Resource
-#     resource:
-#       name: cpu
-#       targetAverageUtilization: 60
-#   - type: Resource
-#     resource:
-#       name: memory
-#       targetAverageUtilization: 60
-# Kubernetes 1.25+
 #   metrics:
 #   - type: Resource
 #     resource:

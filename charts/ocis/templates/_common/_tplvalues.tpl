@@ -131,7 +131,7 @@ spec:
 
 {{- define "ocis.hpa" -}}
 {{- if .autoscaling.enabled }}
-apiVersion: {{ template "common.apiversion.hpa" . }}
+apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 {{ include "ocis.metadata" . }}
 spec:
