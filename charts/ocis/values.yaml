@@ -877,10 +877,10 @@ services:
       # If not enabled, pod restarts will lead to data loss.
       # Also scaling this service beyond one instance is not possible if the service instances don't share the same storage.
       enabled: false
-      # -- Enables a initContainer to chown the volume.
+      # -- Enables an initContainer to chown the volume.
       # The initContainer is run as root.
       # This is not needed if the driver applies the fsGroup from the securityContext.
-      # The image specified in `initContainerImage` will be  used for this container.
+      # The image specified in `initContainerImage` will be used for this container.
       chownInitContainer: false
       # -- Storage class to use.
       # Uses the default storage class if not set.
@@ -929,10 +929,10 @@ services:
       # If not enabled, pod restarts will lead to data loss.
       # Also scaling this service beyond one instance is not possible if the service instances don't share the same storage.
       enabled: false
-      # -- Enables a initContainer to chown the volume.
+      # -- Enables an initContainer to chown the volume.
       # The initContainer is run as root.
       # This is not needed if the driver applies the fsGroup from the securityContext.
-      # The image specified in `initContainerImage` will be  used for this container.
+      # The image specified in `initContainerImage` will be used for this container.
       chownInitContainer: false
       # -- Storage class to use.
       # Uses the default storage class if not set.
@@ -1070,10 +1070,10 @@ services:
       # If not enabled, pod restarts will lead to data loss.
       # Also scaling this service beyond one instance is not possible if the service instances don't share the same storage.
       enabled: false
-      # -- Enables a initContainer to chown the volume.
+      # -- Enables an initContainer to chown the volume.
       # The initContainer is run as root.
       # This is not needed if the driver applies the fsGroup from the securityContext.
-      # The image specified in `initContainerImage` will be  used for this container.
+      # The image specified in `initContainerImage` will be used for this container.
       chownInitContainer: false
       # -- Storage class to use.
       # Uses the default storage class if not set.
@@ -1170,10 +1170,10 @@ services:
       # If not enabled, pod restarts will lead to data loss.
       # Also scaling this service beyond one instance is not possible if the service instances don't share the same storage.
       enabled: false
-      # -- Enables a initContainer to chown the volume.
+      # -- Enables an initContainer to chown the volume.
       # The initContainer is run as root.
       # This is not needed if the driver applies the fsGroup from the securityContext.
-      # The image specified in `initContainerImage` will be  used for this container.
+      # The image specified in `initContainerImage` will be used for this container.
       chownInitContainer: false
       # -- Storage class to use.
       # Uses the default storage class if not set.
@@ -1294,10 +1294,10 @@ services:
       # If not enabled, pod restarts will lead to data loss.
       # Also scaling this service beyond one instance is not possible if the service instances don't share the same storage.
       enabled: false
-      # -- Enables a initContainer to chown the volume.
+      # -- Enables an initContainer to chown the volume.
       # The initContainer is run as root.
       # This is not needed if the driver applies the fsGroup from the securityContext.
-      # The image specified in `initContainerImage` will be  used for this container.
+      # The image specified in `initContainerImage` will be used for this container.
       chownInitContainer: false
       # -- Storage class to use.
       # Uses the default storage class if not set.
@@ -1342,10 +1342,10 @@ services:
       # If not enabled, pod restarts will lead to data loss.
       # Also scaling this service beyond one instance is not possible if the service instances don't share the same storage.
       enabled: false
-      # -- Enables a initContainer to chown the volume.
+      # -- Enables an initContainer to chown the volume.
       # The initContainer is run as root.
       # This is not needed if the driver applies the fsGroup from the securityContext.
-      # The image specified in `initContainerImage` will be  used for this container.
+      # The image specified in `initContainerImage` will be used for this container.
       chownInitContainer: false
       # -- Storage class to use.
       # Uses the default storage class if not set.
@@ -1384,10 +1384,10 @@ services:
       # If enabled, generated thumbnails are cached on this volume and available across pod restarts and service instances.
       # If not enabled, thumbnail generation might lead to higher CPU usage.
       enabled: false
-      # -- Enables a initContainer to chown the volume.
+      # -- Enables an initContainer to chown the volume.
       # The initContainer is run as root.
       # This is not needed if the driver applies the fsGroup from the securityContext.
-      # The image specified in `initContainerImage` will be  used for this container.
+      # The image specified in `initContainerImage` will be used for this container.
       chownInitContainer: false
       # -- Storage class to use.
       # Uses the default storage class if not set.
@@ -1575,10 +1575,10 @@ services:
       # If enabled, generated thumbnails are cached on this volume and available across pod restarts and service instances.
       # If not enabled, thumbnail generation might lead to higher CPU usage.
       enabled: false
-      # -- Enables a initContainer to chown the volume.
+      # -- Enables an initContainer to chown the volume.
       # The initContainer is run as root.
       # This is not needed if the driver applies the fsGroup from the securityContext.
-      # The image specified in `initContainerImage` will be  used for this container.
+      # The image specified in `initContainerImage` will be used for this container.
       chownInitContainer: false
       # -- Storage class to use.
       # Uses the default storage class if not set.
