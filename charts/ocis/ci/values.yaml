@@ -63,11 +63,15 @@ autoscaling:
     - type: Resource
       resource:
         name: cpu
-        targetAverageUtilization: 60
+        target:
+          type: Utilization
+          averageUtilization: 60
     - type: Resource
       resource:
         name: memory
-        targetAverageUtilization: 60
+        target:
+          type: Utilization
+          averageUtilization: 60
 
 resources:
   limits:
@@ -106,6 +110,18 @@ services:
       finalizers:
         - kubernetes.io/pvc-protection
       selectorLabels: {}
+    jobResources:
+      limits:
+        cpu: 100m
+        memory: 128Mi
+      requests:
+        cpu: 100m
+        memory: 128Mi
+    maintenance:
+      cleanUpExpiredUploads:
+        enabled: true
+      purgeExpiredTrashBinItems:
+        enaboled: true
 
   store:
     persistence:
@@ -133,6 +149,16 @@ services:
       finalizers: []
       selectorLabels:
         selector1: foobar
+    jobResources:
+      limits:
+        cpu: 100m
+        memory: 128Mi
+      requests:
+        cpu: 100m
+        memory: 128Mi
+    maintenance:
+      cleanUpOldThumbnails:
+        enabled: true
 
 secretRefs:
   notificationsSmtpSecretRef: "smtp-secret"

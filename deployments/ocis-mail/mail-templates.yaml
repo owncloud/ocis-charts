@@ -1,0 +1,66 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: text-mail-templates
+data:
+  email.text.tmpl: |
+    {{ .Greeting }}
+
+    {{ .MessageBody }}
+    {{if ne .CallToAction "" }}
+    {{ .CallToAction }}
+    {{end}}
+
+    ---
+    ownCloud-Drive
+    https://drive.owncloud.test
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: html-mail-templates
+data:
+  email.html.tmpl: |
+    <!DOCTYPE html>
+    <html>
+    <body>
+    <table cellspacing="0" cellpadding="0" border="0" width="100%">
+        <tr>
+            <td>
+                <table cellspacing="0" cellpadding="0" border="0" width="600px">
+                    <tr>
+                        <td width="20px">&nbsp;</td>
+                        <td style="font-weight:normal; font-size:0.8em; line-height:1.2em; font-family:verdana,'arial',sans;">
+                            {{ .Greeting }}
+                            <br><br>
+                            {{ .MessageBody }}
+                            {{if ne .CallToAction "" }}<br><br>
+                            {{ .CallToAction }}{{end}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td width="20px">&nbsp;</td>
+                        <td style="font-weight:normal; font-size:0.8em; line-height:1.2em; font-family:verdana,'arial',sans;">
+                            <footer>
+                                <br>
+                                <br>
+                                --- <br>
+                                ownCloud-Drive<br>
+                                <a href="https://drive.owncloud.test">https://drive.owncloud.test</a>
+                            </footer>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">&nbsp;</td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+    </body>
+    </html>

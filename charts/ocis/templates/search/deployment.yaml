@@ -1,5 +1,4 @@
-{{- include "ocis.appNames" (dict "scope" . "appName" "appNameSearch" "appNameSuffix" "") -}}
-{{- $_ := set . "resources" (default (default (dict) .Values.resources) .Values.services.search.resources) -}}
+{{- include "ocis.basicServiceTemplates" (dict "scope" . "appName" "appNameSearch" "appNameSuffix" "") -}}
 apiVersion: apps/v1
 kind: Deployment
 {{ include "ocis.metadata" . }}
@@ -42,6 +41,15 @@ spec:
             - name: SEARCH_LOG_PRETTY
               value: {{ .Values.logging.pretty | quote }}
 
+            - name: SEARCH_TRACING_ENABLED
+              value: "{{ .Values.tracing.enabled }}"
+            - name: SEARCH_TRACING_TYPE
+              value: {{ .Values.tracing.type | quote }}
+            - name: SEARCH_TRACING_ENDPOINT
+              value: {{ .Values.tracing.endpoint | quote }}
+            - name: SEARCH_TRACING_COLLECTOR
+              value: {{ .Values.tracing.collector | quote }}
+
             - name: SEARCH_DEBUG_PPROF
               value: {{ .Values.debug.profiling | quote }}
 
@@ -69,7 +77,10 @@ spec:
               {{- end }}
             {{- end }}
 
-
+            {{- with .Values.services.search.extractor.sizeLimit }}
+            - name: SEARCH_CONTENT_EXTRACTION_SIZE_LIMIT
+              value: {{ int64 . | quote}}
+            {{- end }}
 
             {{- if  eq .Values.services.search.extractor.type "tika" }}
             - name: SEARCH_EXTRACTOR_TYPE
@@ -84,6 +95,12 @@ spec:
 
             - name: SEARCH_EXTRACTOR_CS3SOURCE_INSECURE
               value: {{ .Values.insecure.ocisHttpApiInsecure | quote }}
+
+            - name: SEARCH_JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "secrets.jwtSecret" . }}
+                  key: jwt-secret
 
             - name: SEARCH_MACHINE_AUTH_API_KEY
               valueFrom:

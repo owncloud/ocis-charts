@@ -1,5 +1,4 @@
-{{- include "ocis.appNames" (dict "scope" . "appName" "appNameWeb" "appNameSuffix" "") -}}
-{{- $_ := set . "resources" (default (default (dict) .Values.resources) .Values.services.web.resources) -}}
+{{- include "ocis.basicServiceTemplates" (dict "scope" . "appName" "appNameWeb" "appNameSuffix" "") -}}
 apiVersion: apps/v1
 kind: Deployment
 {{ include "ocis.metadata" . }}
@@ -87,6 +86,21 @@ spec:
 
             {{- with .Values.services.web.config.postLogoutRedirectURI }}
             - name: WEB_OIDC_POST_LOGOUT_REDIRECT_URI
+              value: {{ . | quote }}
+            {{- end }}
+
+            {{- with .Values.services.web.config.accessDeniedHelpURL }}
+            - name: WEB_OPTION_ACCESS_DENIED_HELP_URL
+              value: {{ . | quote }}
+            {{- end }}
+
+            {{- with .Values.services.web.config.imprintURL }}
+            - name: WEB_OPTION_IMPRINT_URL
+              value: {{ . | quote }}
+            {{- end }}
+
+            {{- with .Values.services.web.config.privacyURL }}
+            - name: WEB_OPTION_PRIVACY_URL
               value: {{ . | quote }}
             {{- end }}
 

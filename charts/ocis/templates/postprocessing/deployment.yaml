@@ -1,5 +1,4 @@
-{{- include "ocis.appNames" (dict "scope" . "appName" "appNamePostprocessing" "appNameSuffix" "") -}}
-{{- $_ := set . "resources" (default (default (dict) .Values.resources) .Values.services.postprocessing.resources) -}}
+{{- include "ocis.basicServiceTemplates" (dict "scope" . "appName" "appNamePostprocessing" "appNameSuffix" "") -}}
 {{- $_ := set . "store" (default (default (dict) .Values.store) .Values.services.postprocessing.store) -}}
 apiVersion: apps/v1
 kind: Deployment
@@ -51,9 +50,13 @@ spec:
               value: 0.0.0.0:9255
 
             {{- $_ := set . "postprocessingSteps" list -}}
+            {{/*
+            # We currently don't support enforcing policies as a postprocessing step.
+            # See https://github.com/owncloud/enterprise/issues/5919
             {{- if .Values.features.policies.enabled }}
             {{- $_ := set . "postprocessingSteps" (append .postprocessingSteps "policies") -}}
             {{- end }}
+            */}}
             {{- if .Values.features.virusscan.enabled }}
             {{- $_ := set . "postprocessingSteps" (append .postprocessingSteps "virusscan") -}}
             {{- end }}

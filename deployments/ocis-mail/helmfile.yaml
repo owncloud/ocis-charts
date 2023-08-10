@@ -1,0 +1,85 @@
+repositories:
+  - name: inbucket
+    url: https://inbucket.github.io/inbucket-community
+
+
+releases:
+  - name: inbucket
+    chart: inbucket/inbucket
+    namespace: inbucket
+    values:
+      - ingress:
+          enabled: true
+          hosts:
+            - host: inbucket.kube.owncloud.test
+              paths:
+                - path: /
+          tls:
+            - secretName: inbucket-tls
+              hosts:
+                - inbucket.kube.owncloud.test
+
+  - name: ocis
+    chart: ../../charts/ocis
+    namespace: ocis
+    values:
+      - externalDomain: ocis.kube.owncloud.test
+      - ingress:
+          enabled: true
+          ingressClassName: nginx
+          annotations:
+            nginx.ingress.kubernetes.io/proxy-body-size: 1024m
+
+      - insecure:
+          oidcIdpInsecure: true
+          ocisHttpApiInsecure: true
+
+      - features:
+          demoUsers: true # so that they can share each other files and trigger email notifications
+          emailNotifications:
+            enabled: true
+            smtp:
+              host: inbucket.inbucket.svc.cluster.local
+              port: 2500
+              sender: "ownCloud <noreply@ocis.kube.owncloud.test>"
+            branding:
+              enabled: false # you can set this to true if you first run `kubectl -n ocis apply -f mail-templates.yaml`
+
+      - services:
+          idm:
+            persistence:
+              enabled: true
+              chownInitContainer: true
+          nats:
+            persistence:
+              enabled: true
+              chownInitContainer: true
+
+          search:
+            persistence:
+              enabled: true
+              chownInitContainer: true
+
+          storagesystem:
+            persistence:
+              enabled: true
+              chownInitContainer: true
+
+          storageusers:
+            persistence:
+              enabled: true
+
+          store:
+            persistence:
+              enabled: true
+              chownInitContainer: true
+
+          thumbnails:
+            persistence:
+              enabled: true
+              chownInitContainer: true
+
+          web:
+            persistence:
+              enabled: true
+              chownInitContainer: true

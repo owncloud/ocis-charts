@@ -1,5 +1,5 @@
 {{- if and .Values.services.search.persistence.enabled (not .Values.services.search.persistence.existingClaim)}}
-{{- include "ocis.appNames" (dict "scope" . "appName" "appNameSearch" "appNameSuffix" "") -}}
+{{- include "ocis.basicServiceTemplates" (dict "scope" . "appName" "appNameSearch" "appNameSuffix" "") -}}
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:

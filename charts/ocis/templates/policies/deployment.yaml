@@ -1,6 +1,5 @@
 {{ if .Values.features.policies.enabled }}
-{{- include "ocis.appNames" (dict "scope" . "appName" "appNamePolicies" "appNameSuffix" "") -}}
-{{- $_ := set . "resources" (default (default (dict) .Values.resources) .Values.services.policies.resources) -}}
+{{- include "ocis.basicServiceTemplates" (dict "scope" . "appName" "appNamePolicies" "appNameSuffix" "") -}}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -49,8 +48,10 @@ spec:
               value: 0.0.0.0:9125
             - name: POLICIES_ENGINE_TIMEOUT
               value: {{ .Values.features.policies.engineTimeout | quote }}
-            - name: POLICIES_POSTPROCESSING_QUERY
-              value: "data.postprocessing.granted"
+            # We currently don't support enforcing policies as a postprocessing step.
+            # See https://github.com/owncloud/enterprise/issues/5919
+            # - name: POLICIES_POSTPROCESSING_QUERY
+            #   value: "data.postprocessing.granted"
             - name: POLICIES_EVENTS_ENDPOINT
             {{- if not .Values.messagingSystem.external.enabled }}
               value: {{ .appNameNats }}:9233

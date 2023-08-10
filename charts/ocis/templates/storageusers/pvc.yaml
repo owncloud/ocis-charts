@@ -1,5 +1,5 @@
 {{- if and .Values.services.storageusers.persistence.enabled (not .Values.services.storageusers.persistence.existingClaim)}}
-{{- include "ocis.appNames" (dict "scope" . "appName" "appNameStorageUsers" "appNameSuffix" "") -}}
+{{- include "ocis.basicServiceTemplates" (dict "scope" . "appName" "appNameStorageUsers" "appNameSuffix" "") -}}
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:

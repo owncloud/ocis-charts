@@ -1,6 +1,5 @@
 {{- if .Values.features.emailNotifications.enabled }}
-{{- include "ocis.appNames" (dict "scope" . "appName" "appNameNotifications" "appNameSuffix" "") -}}
-{{- $_ := set . "resources" (default (default (dict) .Values.resources) .Values.services.notifications.resources) -}}
+{{- include "ocis.basicServiceTemplates" (dict "scope" . "appName" "appNameNotifications" "appNameSuffix" "") -}}
 apiVersion: apps/v1
 kind: Deployment
 {{ include "ocis.metadata" . }}
@@ -33,14 +32,14 @@ spec:
               value: {{ .Values.logging.pretty | quote }}
 
             # Tracing not yet implemented: https://github.com/owncloud/ocis/issues/6175
-            # - name: NOTIFICATIONS_TRACING_ENABLED
-            #   value: "{{ .Values.tracing.enabled }}"
-            # - name: NOTIFICATIONS_TRACING_TYPE
-            #   value: {{ .Values.tracing.type | quote }}
-            # - name: NOTIFICATIONS_TRACING_ENDPOINT
-            #   value: {{ .Values.tracing.endpoint | quote }}
-            # - name: NOTIFICATIONS_TRACING_COLLECTOR
-            #   value: {{ .Values.tracing.collector | quote }}
+            - name: NOTIFICATIONS_TRACING_ENABLED
+              value: "{{ .Values.tracing.enabled }}"
+            - name: NOTIFICATIONS_TRACING_TYPE
+              value: {{ .Values.tracing.type | quote }}
+            - name: NOTIFICATIONS_TRACING_ENDPOINT
+              value: {{ .Values.tracing.endpoint | quote }}
+            - name: NOTIFICATIONS_TRACING_COLLECTOR
+              value: {{ .Values.tracing.collector | quote }}
 
             - name: NOTIFICATIONS_DEBUG_PPROF
               value: {{ .Values.debug.profiling | quote }}
@@ -59,6 +58,7 @@ spec:
             - name: NOTIFICATIONS_SMTP_ENCRYPTION
               value: {{ .Values.features.emailNotifications.smtp.encryption | quote }}
 
+            {{- if ne .Values.features.emailNotifications.smtp.authentication "none" }}
             - name: NOTIFICATIONS_SMTP_USERNAME
               valueFrom:
                 secretKeyRef:
@@ -70,11 +70,8 @@ spec:
                 secretKeyRef:
                   name: {{ include "secrets.notificationsSMTPSecret" . }}
                   key: smtp-password
+            {{- end }}
 
-            #TODO: remove OCIS_URL in favor of NOTIFICATIONS_WEB_UI_URL
-            # after https://github.com/owncloud/ocis/pull/4998 was released
-            - name: OCIS_URL
-              value: "https://{{ .Values.externalDomain }}"
             - name: NOTIFICATIONS_WEB_UI_URL
               value: "https://{{ .Values.externalDomain }}"
 
@@ -103,6 +100,12 @@ spec:
                   name: {{ include "secrets.machineAuthAPIKeySecret" . }}
                   key: machine-auth-api-key
 
+            {{- if .Values.features.emailNotifications.branding.enabled }}
+            # Mail theming
+            - name: NOTIFICATIONS_EMAIL_TEMPLATE_PATH
+              value: /etc/ocis/notifications
+            {{- end }}
+
           {{- include "ocis.livenessProbe" . | nindent 10 }}
 
           resources: {{ toYaml .resources | nindent 12 }}
@@ -116,6 +119,14 @@ spec:
             - name: messaging-system-ca
               mountPath: /etc/ocis/messaging-system-ca
               readOnly: true
+            {{- if .Values.features.emailNotifications.branding.enabled }}
+            - name: text-mail-templates
+              mountPath: /etc/ocis/notifications/templates/text
+            - name: html-mail-templates
+              mountPath: /etc/ocis/notifications/templates/html
+            - name: html-mail-images
+              mountPath: /etc/ocis/notifications/templates/html/img
+            {{- end }}
 
       {{- include "ocis.imagePullSecrets" $ | nindent 6 }}
       volumes:
@@ -128,4 +139,16 @@ spec:
           {{ else }}
           emptyDir: {}
           {{ end }}
+        {{- if .Values.features.emailNotifications.branding.enabled }}
+        - name: text-mail-templates
+          configMap:
+            name: {{ .Values.features.emailNotifications.branding.textMailTemplatesConfigRef | quote }}
+        - name: html-mail-templates
+          configMap:
+            name: {{ .Values.features.emailNotifications.branding.htmlMailTemplatesConfigRef | quote }}
+        - name: html-mail-images
+          configMap:
+            name: {{ .Values.features.emailNotifications.branding.htmlMailImagesConfigRef | quote }}
+            optional: true
+        {{- end }}
 {{- end }}

@@ -88,9 +88,10 @@ insecure:
   ocisHttpApiInsecure: false
 
 cache:
-  # -- Type of the cache to use. To disable the cache, set to "noop".
+  # -- Type of the cache to use. It defaults to no cache or a in memory cache depending on the service.
+  # To disable the cache, set to "noop".
   # Can be set to "redis", "redis-sentinel" or "etcd", then the address of Redis (Sentinel) / etcd node(s) needs to be set to `cache.nodes`.
-  type: noop
+  type: ""
   # -- Nodes of the cache to use.
   nodes: []
   # nodes:
@@ -109,7 +110,7 @@ store:
 registry:
   # -- Configure the service registry type.
   # Defaults to "kubernetes".
-  # Can be set to "etcd", then the address of etcd node(s) needs to be set to `registry.nodes`.
+  # Can be set to "etcd" or "nats", then the address of etcd / nats node(s) needs to be set to `registry.nodes`.
   type: kubernetes
   # -- Nodes of the service registry to use.
   nodes: []
@@ -150,7 +151,6 @@ features:
   demoUsers: false
   emailNotifications:
     # -- Enables email notifications.
-    # This features needs the secret from notificationsSmtpSecretRef present.
     enabled: false
     smtp:
       # -- SMTP host to connect to.
@@ -160,9 +160,25 @@ features:
       # -- Sender address of emails that will be sent. Example: 'ownCloud <noreply@example.com>'
       sender:
       # -- Authentication method for the SMTP communication. Possible values are ‘login’, ‘plain’, ‘crammd5’, ‘none’
+      # If set to another value than `none`, a secret referenced by `notificationsSmtpSecretRef` needs to be present.
       authentication: none
       # -- Encryption method for the SMTP communication. Possible values are ‘starttls’, ‘ssl’, ‘ssltls’, ‘tls’ and ‘none’.
       encryption: none
+    branding:
+      # -- Enables mail branding. If enabled, you need to provide the text and html template ConfigMap.
+      # The image ConfigMap is optional.
+      enabled: false
+      # -- Reference to a ConfigMap containing the text mail template.
+      # The template file must be named "email.text.tmpl".
+      # The default template can be seen here: https://github.com/owncloud/ocis/blob/master/services/notifications/pkg/email/templates/text/email.text.tmpl
+      textMailTemplatesConfigRef: "text-mail-templates"
+      # -- Reference to a ConfigMap containing the html mail template.
+      # The template file must be named "email.html.tmpl".
+      # The default template can be seen here: https://github.com/owncloud/ocis/blob/master/services/notifications/pkg/email/templates/html/email.html.tmpl
+      htmlMailTemplatesConfigRef: "html-mail-templates"
+      # -- Reference to a ConfigMap containing images that can be referenced from the html mail template.
+      # This ConfigMap is optional and can be omitted when images are not used.
+      htmlMailImagesConfigRef: "html-mail-images"
   # Sharing related settings
   sharing:
     # Sharing with users related settings
@@ -530,7 +546,9 @@ secretRefs:
   machineAuthApiKeySecretRef: ""
   # -- Reference to an existing messaging system certificate authority secret (see xref:{secrets}[Secrets])
   messagingSystemCaRef: ""
-  # -- Reference to an existing SMTP email server settings secret (see xref:{secrets}[Secrets]). Not used if `features.emailNotifications.enabled` equals `false`.
+  # -- Reference to an existing SMTP email server settings secret (see xref:{secrets}[Secrets]).
+  # Not used if `features.emailNotifications.enabled` equals `false`.
+  # Not used if `features.emailNotifications.smtp.authentication` equals `none`.
   notificationsSmtpSecretRef: ""
   # -- Reference to an existing storage-system JWT secret (see xref:{secrets}[Secrets])
   storagesystemJwtSecretRef: ""
@@ -593,18 +611,6 @@ autoscaling:
   maxReplicas: 10
   # -- Metrics to use for autoscaling
   metrics: []
-# Kubernetes pre 1.25
-#   metrics:
-#   - type: Resource
-#     resource:
-#       name: cpu
-#       targetAverageUtilization: 60
-#   - type: Resource
-#     resource:
-#       name: memory
-#       targetAverageUtilization: 60
-# Kubernetes 1.25+
-#   metrics:
 #   - type: Resource
 #     resource:
 #       name: cpu
@@ -625,7 +631,20 @@ autoscaling:
 resources:
   {}
   # limits:
-  # cpu: 100m
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+# -- Default resources to apply to all jobs in services, except per-service resources configuration in `services.<service-name>.jobResources` is set.
+# Best practice is to:
+# - set memory request == memory limit (compare to https://home.robusta.dev/blog/kubernetes-memory-limit)
+# - set cpu request and omit cpu limit (compare to https://home.robusta.dev/blog/stop-using-cpu-limits)
+jobResources:
+  {}
+  # limits:
+  #   cpu: 100m
   #   memory: 128Mi
   # requests:
   #   cpu: 100m
@@ -1024,6 +1043,9 @@ services:
       # - `basic`: the default search extractor.
       # - `tika`: the Tika search extractor. If set to this value, additional settings in the `tika` section apply.
       type: basic
+      # -- Configures the maximum file size in bytes that is allowed for content extraction.
+      # For the default value see https://doc.owncloud.com/ocis/next/deployment/services/s-list/search.html
+      sizeLimit:
       tika:
         # -- Set the URL to Tika. Only applicable if `services.search.extractor.type` == `tika`.
         url: http://tika.tika.svc.cluster.local:9998
@@ -1271,6 +1293,8 @@ services:
       existingClaim:
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
+    # -- Per-service jobResources configuration. Overrides the default setting from `jobResources` if set.
+    jobResources: {}
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
     podDisruptionBudget: {}
     # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
@@ -1356,6 +1380,8 @@ services:
       existingClaim:
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
+    # -- Per-service jobResources configuration. Overrides the default setting from `jobResources` if set.
+    jobResources: {}
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
     podDisruptionBudget: {}
     # -- Maintenance configuration for cleanup jobs.
@@ -1495,6 +1521,12 @@ services:
         path: ""
       # URI where to redirect the user after a logout was performed. Defaults to the URI of the login page.
       postLogoutRedirectURI: ""
+      # Specifies the target url valid for the logged out / access denied page.
+      accessDeniedHelpURL: ""
+      # Specifies the target url for the imprint link in the account menu.
+      imprintURL:
+      # Specifies the target url for the privacy link in the account menu.
+      privacyURL:
 
     # -- Persistence settings.
     # @default -- see detailed persistence configuration options below
