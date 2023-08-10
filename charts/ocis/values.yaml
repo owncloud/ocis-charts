@@ -1433,7 +1433,7 @@ services:
         # -- Image sha / digest (optional).
         sha: ""
         # -- Image pull policy
-        pullPolicy:
+        pullPolicy: IfNotPresent
     # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
     autoscaling: {}
     # -- Affinity settings for the thumbnails service. See the documentation of this setting in approvider for examples.

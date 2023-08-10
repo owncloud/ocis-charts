@@ -16,6 +16,10 @@ ingress:
 
 externalDomain: ocis.owncloud.test
 
+image:
+  pullSecrets:
+    - some-pull-secret
+
 features:
   emailNotifications:
     enabled: true

@@ -8,17 +8,33 @@ imagePullSecrets:
   {{- end }}
 {{- end -}}
 
+
+{{/*
+image template helper
+
+@param .repo        The image repository
+@param .tag         The image tag
+@param .sha         The image sha checksum
+@param .pullPolicy  The image pullPolicy
+*/}}
+{{- define "ocis.imageTemplateHelper" -}}
+  {{ if .sha -}}
+image: "{{ .repo }}:{{ .tag }}@sha256:{{ .sha }}"
+  {{- else -}}
+image: "{{ .repo }}:{{ .tag }}"
+  {{- end }}
+imagePullPolicy: {{ .pullPolicy }}
+{{- end -}}
+
 {{/*
 oCIS image logic
 */}}
 {{- define "ocis.image" -}}
-  {{ $tag := default .Chart.AppVersion .Values.image.tag -}}
-  {{ if $.Values.image.sha -}}
-image: "{{ $.Values.image.repository }}:{{ $tag }}@sha256:{{ $.Values.image.sha }}"
-  {{- else -}}
-image: "{{ $.Values.image.repository }}:{{ $tag }}"
-  {{- end }}
-imagePullPolicy: {{ $.Values.image.pullPolicy }}
+{{- $repo := $.Values.image.repository -}}
+{{- $tag := default $.Chart.AppVersion $.Values.image.tag -}}
+{{- $sha := $.Values.image.sha -}}
+{{- $pullPolicy := $.Values.image.pullPolicy -}}
+{{ template "ocis.imageTemplateHelper" (dict "repo" $repo "tag" $tag "sha" $sha "pullPolicy" $pullPolicy) }}
 {{- end -}}
 
 
@@ -26,41 +42,31 @@ imagePullPolicy: {{ $.Values.image.pullPolicy }}
 jobContainerOcis image logic for oCIS based containers
 */}}
 {{- define "ocis.jobContainerImageOcis" -}}
-{{- $tag := default (default .Chart.AppVersion .Values.image.tag) .appSpecificConfig.maintenance.image.tag -}}
-{{- $sha := default .Values.image.sha .appSpecificConfig.maintenance.image.sha -}}
-{{- $repo := default .Values.image.repository .appSpecificConfig.maintenance.image.repository -}}
-  {{ if $sha -}}
-image: "{{ $repo }}:{{ $tag }}@sha256:{{ $sha }}"
-  {{- else -}}
-image: "{{ $repo }}:{{ $tag }}"
-  {{- end }}
-imagePullPolicy: {{ default .Values.image.pullPolicy .appSpecificConfig.maintenance.image.pullPolicy }}
+{{- $repo := default $.Values.image.repository .appSpecificConfig.maintenance.image.repository -}}
+{{- $tag := default (default $.Chart.AppVersion $.Values.image.tag) .appSpecificConfig.maintenance.image.tag -}}
+{{- $sha := default $.Values.image.sha .appSpecificConfig.maintenance.image.sha -}}
+{{- $pullPolicy := default $.Values.image.pullPolicy .appSpecificConfig.maintenance.image.pullPolicy -}}
+{{ template "ocis.imageTemplateHelper" (dict "repo" $repo "tag" $tag "sha" $sha "pullPolicy" $pullPolicy) }}
 {{- end -}}
 
 {{/*
 initContainer image logic
 */}}
 {{- define "ocis.initContainerImage" -}}
-{{- $tag := default "latest" .Values.initContainerImage.tag -}}
-  {{ if $.Values.initContainerImage.sha -}}
-image: "{{ $.Values.initContainerImage.repository }}:{{ $tag }}@sha256:{{ $.Values.initContainerImage.sha }}"
-  {{- else -}}
-image: "{{ $.Values.initContainerImage.repository }}:{{ $tag }}"
-  {{- end }}
-imagePullPolicy: {{ .Values.initContainerImage.pullPolicy }}
+{{- $repo := $.Values.initContainerImage.repository -}}
+{{- $tag := default "latest" $.Values.initContainerImage.tag -}}
+{{- $sha := $.Values.initContainerImage.sha -}}
+{{- $pullPolicy := $.Values.initContainerImage.pullPolicy -}}
+{{ template "ocis.imageTemplateHelper" (dict "repo" $repo "tag" $tag "sha" $sha "pullPolicy" $pullPolicy) }}
 {{- end -}}
 
 {{/*
 jobContainer image logic for non oCIS based containers
 */}}
 {{- define "ocis.jobContainerImage" -}}
+{{- $repo := .appSpecificConfig.maintenance.image.repository -}}
 {{- $tag := .appSpecificConfig.maintenance.image.tag -}}
 {{- $sha := .appSpecificConfig.maintenance.image.sha -}}
-{{- $repo := .appSpecificConfig.maintenance.image.repository -}}
-  {{ if $sha -}}
-image: "{{ $repo }}:{{ $tag }}@sha256:{{ $sha }}"
-  {{- else -}}
-image: "{{ $repo }}:{{ $tag }}"
-  {{- end }}
-imagePullPolicy: {{ .appSpecificConfig.maintenance.image.pullPolicy }}
+{{- $pullPolicy := .appSpecificConfig.maintenance.image.pullPolicy -}}
+{{ template "ocis.imageTemplateHelper" (dict "repo" $repo "tag" $tag "sha" $sha "pullPolicy" $pullPolicy) }}
 {{- end -}}
