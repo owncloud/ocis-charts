@@ -10,6 +10,8 @@ github.com/yannh/kubeconform v0.5.0 h1:jWiG96hVRRj0DV1W+Et0TeXen0BuitDUfubOif1pd
 github.com/yannh/kubeconform v0.5.0/go.mod h1:5md2J7KvQFj+sICN5Je5ckhUcgPoPISuntVJr4Hnr08=
 github.com/yannh/kubeconform v0.6.1 h1:zX74YZyQYI4Z0DYZ2vaT14WUCSo52vNrhTyFf12+I/w=
 github.com/yannh/kubeconform v0.6.1/go.mod h1:4E6oaL+lh7KgCG2SaOabeeAFBkyKu5D9ab0OEekGcbs=
+github.com/yannh/kubeconform v0.6.3 h1:lNmb/kphyzitA+GBsOxjBsagCEpjLvt3+qo3XMiEOUA=
+github.com/yannh/kubeconform v0.6.3/go.mod h1:4E6oaL+lh7KgCG2SaOabeeAFBkyKu5D9ab0OEekGcbs=
 gopkg.in/check.v1 v0.0.0-20161208181325-20d25e280405/go.mod h1:Co6ibVJAznAaIkqp8huTwlJQCZ016jof/cbN4VW5Yz0=
 gopkg.in/yaml.v2 v2.2.8/go.mod h1:hI93XBmqTisBFMUTm0b8Fm+jr3Dg1NNxqwp+5A1VGuI=
 gopkg.in/yaml.v2 v2.4.0 h1:D8xgwECY7CYvx+Y2n4sBz93Jn9JRvxdiyyo8CTfuKaY=
