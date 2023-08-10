@@ -14,7 +14,7 @@ appVersion: 3.1.0-rc.1
 # supported Kubernetes versions
 # should only contain non EOL versions from https://kubernetes.io/releases/patch-releases/#non-active-branch-history
 # if this changes, also kubernetesVersions in .drone.star needs to be changed
-kubeVersion: "~1.24.0-0 || ~1.25.0-0 || ~1.26.0-0 || ~1.27.0-0"
+kubeVersion: "~1.25.0-0 || ~1.26.0-0 || ~1.27.0-0"
 sources:
   - https://github.com/owncloud/ocis-charts
   - https://github.com/owncloud/ocis

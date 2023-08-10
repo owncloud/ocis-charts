@@ -4,7 +4,6 @@ config = {
     ],
     # if this changes, also the kubeVersion in the Chart.yaml needs to be changed
     "kubernetesVersions": [
-        "1.24.0",
         "1.25.0",
         "1.26.0",
         "1.27.0",
@@ -61,7 +60,7 @@ def linting(ctx):
                 "name": "helm template",
                 "image": "owncloudci/alpine:latest",
                 "commands": [
-                    "helm template charts/ocis -f 'charts/ocis/ci/values_pre_1.25.0.yaml' > charts/ocis/ci/templated.yaml",
+                    "helm template charts/ocis -f 'charts/ocis/ci/values.yaml' > charts/ocis/ci/templated.yaml",
                 ],
             },
             {
@@ -130,7 +129,7 @@ def documentation(ctx):
             },
             {
                 "name": "gomplate-values-adoc",
-                "image": "hairyhenderson/gomplate:v3.10.0-alpine",
+                "image": "hairyhenderson/gomplate:v3.11.5-alpine",
                 "entrypoint": [
                     "/bin/gomplate",
                     "--file=charts/ocis/docs/templates/values.adoc.yaml.gotmpl",
