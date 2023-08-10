@@ -29,11 +29,11 @@ $(GOMPLATE): $(BINGO_DIR)/gomplate.mod
 	@echo "(re)installing $(GOBIN)/gomplate-v3.11.5"
 	@cd $(BINGO_DIR) && GOWORK=off $(GO) build -mod=mod -modfile=gomplate.mod -o=$(GOBIN)/gomplate-v3.11.5 "github.com/hairyhenderson/gomplate/v3/cmd/gomplate"
 
-HELM_DOCS := $(GOBIN)/helm-docs-v1.11.1
+HELM_DOCS := $(GOBIN)/helm-docs-v1.11.0
 $(HELM_DOCS): $(BINGO_DIR)/helm-docs.mod
 	@# Install binary/ries using Go 1.14+ build command. This is using bwplotka/bingo-controlled, separate go module with pinned dependencies.
-	@echo "(re)installing $(GOBIN)/helm-docs-v1.11.1"
-	@cd $(BINGO_DIR) && GOWORK=off $(GO) build -mod=mod -modfile=helm-docs.mod -o=$(GOBIN)/helm-docs-v1.11.1 "github.com/norwoodj/helm-docs/cmd/helm-docs"
+	@echo "(re)installing $(GOBIN)/helm-docs-v1.11.0"
+	@cd $(BINGO_DIR) && GOWORK=off $(GO) build -mod=mod -modfile=helm-docs.mod -o=$(GOBIN)/helm-docs-v1.11.0 "github.com/norwoodj/helm-docs/cmd/helm-docs"
 
 KUBE_LINTER := $(GOBIN)/kube-linter-v0.6.4
 $(KUBE_LINTER): $(BINGO_DIR)/kube-linter.mod
