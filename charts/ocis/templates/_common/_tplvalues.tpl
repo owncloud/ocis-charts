@@ -26,38 +26,6 @@ See also https://github.com/helm/helm/issues/5465
 
 
 {{/*
-oCIS image logic
-*/}}
-{{- define "ocis.image" -}}
-  {{ $tag := default .Chart.AppVersion .Values.image.tag -}}
-  {{ if $.Values.image.sha -}}
-image: "{{ $.Values.image.repository }}:{{ $tag }}@sha256:{{ $.Values.image.sha }}"
-  {{ else -}}
-image: "{{ $.Values.image.repository }}:{{ $tag }}"
-  {{- end }}
-imagePullPolicy: {{ $.Values.image.pullPolicy }}
-{{- end -}}
-
-{{/*
-imagePullSecrets logic
-*/}}
-{{- define "ocis.imagePullSecrets" -}}
-  {{- with $.Values.image.pullSecrets }}
-imagePullSecrets:
-  {{- toYaml . | nindent 2 }}
-  {{- end }}
-{{- end -}}
-
-{{/*
-initContainer image logic
-*/}}
-{{- define "ocis.initContainerImage" -}}
-  {{- $tag := default .Chart.AppVersion .Values.initContainerImage.tag -}}
-image: "{{ $.Values.initContainerImage.repository }}:{{ $tag }}"
-imagePullPolicy: {{ .Values.initContainerImage.pullPolicy }}
-{{- end -}}
-
-{{/*
 Adds the app names to the scope and set the name of the app based on the input parameters
 
 @param .scope          The current scope
