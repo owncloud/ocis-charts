@@ -16,6 +16,10 @@ ingress:
 
 externalDomain: ocis.owncloud.test
 
+image:
+  pullSecrets:
+    - name: some-pull-secret
+
 features:
   emailNotifications:
     enabled: true
@@ -121,7 +125,7 @@ services:
       cleanUpExpiredUploads:
         enabled: true
       purgeExpiredTrashBinItems:
-        enaboled: true
+        enabled: true
 
   store:
     persistence:

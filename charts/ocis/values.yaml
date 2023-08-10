@@ -18,7 +18,8 @@ image:
   #   - name: mySecret
   #   - name: mySecret2
 
-# Image for oCIS services
+# -- InitContainer image used for oCIS services.
+# Only used if `services.xxx.persistence.chownInitContainer.enabled` is set to true for at least one service.
 initContainerImage:
   # -- Image repository
   repository: busybox
@@ -44,13 +45,10 @@ logging:
 tracing:
   # -- Tracing enables sending traces
   enabled: false
-
   # -- Type of trace provider to use
   type: "jaeger"
-
   # -- Endpoint of the tracing system, jaeger-agent.observability.svc.cluster.local:6831 or similar.
   endpoint: ""
-
   # -- The HTTP endpoint for sending spans directly to a collector, i.e. http://jaeger-collector.observability.svc.cluster.local:14268/api/traces. Only used if the tracing endpoint is unset.
   collector: ""
 
@@ -865,9 +863,10 @@ services:
       # If not enabled, pod restarts will lead to data loss.
       # Also scaling this service beyond one instance is not possible if the service instances don't share the same storage.
       enabled: false
-      # -- Enables a initContainer to chown the volume.
+      # -- Enables an initContainer to chown the volume.
       # The initContainer is run as root.
       # This is not needed if the driver applies the fsGroup from the securityContext.
+      # The image specified in `initContainerImage` will be used for this container.
       chownInitContainer: false
       # -- Storage class to use.
       # Uses the default storage class if not set.
@@ -916,9 +915,10 @@ services:
       # If not enabled, pod restarts will lead to data loss.
       # Also scaling this service beyond one instance is not possible if the service instances don't share the same storage.
       enabled: false
-      # -- Enables a initContainer to chown the volume.
+      # -- Enables an initContainer to chown the volume.
       # The initContainer is run as root.
       # This is not needed if the driver applies the fsGroup from the securityContext.
+      # The image specified in `initContainerImage` will be used for this container.
       chownInitContainer: false
       # -- Storage class to use.
       # Uses the default storage class if not set.
@@ -1056,9 +1056,10 @@ services:
       # If not enabled, pod restarts will lead to data loss.
       # Also scaling this service beyond one instance is not possible if the service instances don't share the same storage.
       enabled: false
-      # -- Enables a initContainer to chown the volume.
+      # -- Enables an initContainer to chown the volume.
       # The initContainer is run as root.
       # This is not needed if the driver applies the fsGroup from the securityContext.
+      # The image specified in `initContainerImage` will be used for this container.
       chownInitContainer: false
       # -- Storage class to use.
       # Uses the default storage class if not set.
@@ -1155,9 +1156,10 @@ services:
       # If not enabled, pod restarts will lead to data loss.
       # Also scaling this service beyond one instance is not possible if the service instances don't share the same storage.
       enabled: false
-      # -- Enables a initContainer to chown the volume.
+      # -- Enables an initContainer to chown the volume.
       # The initContainer is run as root.
       # This is not needed if the driver applies the fsGroup from the securityContext.
+      # The image specified in `initContainerImage` will be used for this container.
       chownInitContainer: false
       # -- Storage class to use.
       # Uses the default storage class if not set.
@@ -1258,6 +1260,17 @@ services:
         personalDeleteBefore: 30d
         # -- Setting that makes the command delete all trashed project files older than the value. The value is a number and a unit "d", "h", "m", "s".
         projectDeleteBefore: 30d
+      # -- Image for the storageusers service maintenance jobs
+      # Defaults to the same values as `image`
+      image:
+        # -- Image repository
+        repository: ""
+        # -- Image tag.
+        tag: ""
+        # -- Image sha / digest (optional).
+        sha: ""
+        # -- Image pull policy
+        pullPolicy:
 
     # -- Persistence settings.
     # @default -- see detailed persistence configuration options below
@@ -1267,9 +1280,10 @@ services:
       # If not enabled, pod restarts will lead to data loss.
       # Also scaling this service beyond one instance is not possible if the service instances don't share the same storage.
       enabled: false
-      # -- Enables a initContainer to chown the volume.
+      # -- Enables an initContainer to chown the volume.
       # The initContainer is run as root.
       # This is not needed if the driver applies the fsGroup from the securityContext.
+      # The image specified in `initContainerImage` will be used for this container.
       chownInitContainer: false
       # -- Storage class to use.
       # Uses the default storage class if not set.
@@ -1314,9 +1328,10 @@ services:
       # If not enabled, pod restarts will lead to data loss.
       # Also scaling this service beyond one instance is not possible if the service instances don't share the same storage.
       enabled: false
-      # -- Enables a initContainer to chown the volume.
+      # -- Enables an initContainer to chown the volume.
       # The initContainer is run as root.
       # This is not needed if the driver applies the fsGroup from the securityContext.
+      # The image specified in `initContainerImage` will be used for this container.
       chownInitContainer: false
       # -- Storage class to use.
       # Uses the default storage class if not set.
@@ -1355,9 +1370,10 @@ services:
       # If enabled, generated thumbnails are cached on this volume and available across pod restarts and service instances.
       # If not enabled, thumbnail generation might lead to higher CPU usage.
       enabled: false
-      # -- Enables a initContainer to chown the volume.
+      # -- Enables an initContainer to chown the volume.
       # The initContainer is run as root.
       # This is not needed if the driver applies the fsGroup from the securityContext.
+      # The image specified in `initContainerImage` will be used for this container.
       chownInitContainer: false
       # -- Storage class to use.
       # Uses the default storage class if not set.
@@ -1394,6 +1410,16 @@ services:
         deleteBefore: 30
         # -- Method to use with BusyBox "find" for finding old thumbnails. Can be mtime, atime or ctime.
         method: atime
+      # Image for thumbnails service maintenance jobs
+      image:
+        # -- Image repository
+        repository: busybox
+        # -- Image tag.
+        tag: "stable"
+        # -- Image sha / digest (optional).
+        sha: ""
+        # -- Image pull policy
+        pullPolicy: IfNotPresent
     # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
     autoscaling: {}
     # -- Affinity settings for the thumbnails service. See the documentation of this setting in approvider for examples.
@@ -1535,9 +1561,10 @@ services:
       # If enabled, generated thumbnails are cached on this volume and available across pod restarts and service instances.
       # If not enabled, thumbnail generation might lead to higher CPU usage.
       enabled: false
-      # -- Enables a initContainer to chown the volume.
+      # -- Enables an initContainer to chown the volume.
       # The initContainer is run as root.
       # This is not needed if the driver applies the fsGroup from the securityContext.
+      # The image specified in `initContainerImage` will be used for this container.
       chownInitContainer: false
       # -- Storage class to use.
       # Uses the default storage class if not set.

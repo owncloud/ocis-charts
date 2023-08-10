@@ -29,7 +29,7 @@ spec:
           {{- include "ocis.securityContextAndtopologySpreadConstraints" . | nindent 10 }}
           containers:
             - name: thumbnails-cleanup
-              image: busybox
+              {{- include "ocis.jobContainerImage" . | nindent 14 }}
               {{- include "ocis.containerSecurityContext" . | nindent 14 }}
               command: [ "/bin/sh", "/script/thumbnails-cleanup-script.sh" ]
               volumeMounts:
@@ -40,6 +40,7 @@ spec:
 
               resources: {{ toYaml .jobResources | nindent 16 }}
 
+          {{- include "ocis.imagePullSecrets" $ | nindent 10 }}
           volumes:
             {{- include "ocis.persistence.dataVolume" . | nindent 12 }}
             - name: script
