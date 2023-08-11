@@ -7,12 +7,44 @@ releases:
     chart: nats/nats
     namespace: ocis-nats
     values:
-      - cluster:
-          enabled: true
-          name: "ocis-cluster"
-      - nats:
+      - config:
+          cluster:
+              enabled: true
+              replicas: 3
+              name: "ocis-cluster"
           jetstream:
             enabled: true
+            memoryStore:
+              enabled: true
+          websocket:
+            enabled: true
+
+      - config:
+          merge:
+            00$include: auth.conf
+
+      - configMap:
+          merge:
+            data:
+              auth.conf: |
+                accounts {
+                  $SYS {
+                    users = [
+                      { user: "nats-root",
+                        pass: "nats-root"
+                      }
+                    ]
+                  }
+                  $OCIS {
+                    jetstream: enabled
+                    users = [
+                      { user: "ocis",
+                        pass: "ocis"
+                      }
+                    ]
+                  }
+                }
+                no_auth_user: ocis
 
   - name: ocis
     chart: ../../charts/ocis
