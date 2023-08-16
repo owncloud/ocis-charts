@@ -97,6 +97,11 @@ releases:
           nodes:
             - nats.ocis-nats.svc.cluster.local:4222
 
+      - cache:
+          type: nats-js
+          nodes:
+            - nats.ocis-nats.svc.cluster.local:4222
+
       - store:
           type: nats-js
           nodes:
