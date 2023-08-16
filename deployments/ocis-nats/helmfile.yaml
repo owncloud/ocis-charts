@@ -14,8 +14,6 @@ releases:
               name: "ocis-cluster"
           jetstream:
             enabled: true
-
-      - config:
           merge:
             00$include: auth.conf
 
