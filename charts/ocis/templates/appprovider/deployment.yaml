@@ -84,7 +84,7 @@ spec:
               command:
               - /bin/sh
               - -c
-              - curl --silent --fail http://frontend:9140/app/list | grep {{ $officeSuite.name }}
+              - curl --silent --fail http://frontend:9140/app/list | grep '"name":"{{ $officeSuite.name }}"'
             timeoutSeconds: 10
             initialDelaySeconds: 60
             periodSeconds: 20
