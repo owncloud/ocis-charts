@@ -22,20 +22,25 @@ releases:
       - configMap:
           merge:
             data:
+              # bcrypted password generated with `nats server passwd`:
+              # nats-sys: O0Z1O5WG2SIisXUToxUPxQUx
+              # ocis-admin: pwnnH3S42D5dZL90paHEsQop
               auth.conf: |
                 accounts {
                   $SYS {
                     users = [
-                      { user: "nats-root",
-                        pass: "nats-root"
+                      { user: "nats-sys",
+                        pass: "$2a$11$5BJO2C7WJLjuOm8FBjGjCugs//lL.Sp9gVIBWzU.fITE5MfCbHCMK"
                       }
                     ]
                   }
                   $OCIS {
                     jetstream: enabled
                     users = [
-                      { user: "ocis",
-                        pass: "ocis"
+                      { user: "ocis"
+                      },
+                      { user: "ocis-admin",
+                        pass: "$2a$11$6SAHUpN.m2TXOMSdSZVWsOjQ69VCQOBUmxD8FZ/aJpdvzSEOfRodC"
                       }
                     ]
                   }
