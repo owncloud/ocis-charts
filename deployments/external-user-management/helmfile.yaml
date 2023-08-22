@@ -384,43 +384,31 @@ releases:
           nats:
             persistence:
               enabled: true
-              chownInitContainer: true
-              accessModes:
-                - ReadWriteOnce
 
           search:
             persistence:
               enabled: true
-              chownInitContainer: true
-              accessModes:
-                - ReadWriteOnce
 
           storagesystem:
             persistence:
               enabled: true
-              chownInitContainer: true
-              accessModes:
-                - ReadWriteOnce
 
           storageusers:
             persistence:
               enabled: true
-              chownInitContainer: true
-              accessModes:
-                - ReadWriteOnce
+
           store:
             persistence:
               enabled: true
-              chownInitContainer: true
-              accessModes:
-                - ReadWriteOnce
 
           thumbnails:
             persistence:
               enabled: true
-              chownInitContainer: true
-              accessModes:
-                - ReadWriteOnce
+
+          web:
+            persistence:
+              enabled: true
+
 
       - extraResources:
           - |
