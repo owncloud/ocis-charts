@@ -17,11 +17,11 @@ GO     ?= $(shell which go)
 #	@echo "Running bingo"
 #	@$(BINGO) <flags/args..>
 #
-BINGO := $(GOBIN)/bingo-v0.8.0
+BINGO := $(GOBIN)/bingo-v0.8.1-0.20230820182247-0568407746a2
 $(BINGO): $(BINGO_DIR)/bingo.mod
 	@# Install binary/ries using Go 1.14+ build command. This is using bwplotka/bingo-controlled, separate go module with pinned dependencies.
-	@echo "(re)installing $(GOBIN)/bingo-v0.8.0"
-	@cd $(BINGO_DIR) && GOWORK=off $(GO) build -mod=mod -modfile=bingo.mod -o=$(GOBIN)/bingo-v0.8.0 "github.com/bwplotka/bingo"
+	@echo "(re)installing $(GOBIN)/bingo-v0.8.1-0.20230820182247-0568407746a2"
+	@cd $(BINGO_DIR) && GOWORK=off $(GO) build -mod=mod -modfile=bingo.mod -o=$(GOBIN)/bingo-v0.8.1-0.20230820182247-0568407746a2 "github.com/bwplotka/bingo"
 
 GOMPLATE := $(GOBIN)/gomplate-v3.11.5
 $(GOMPLATE): $(BINGO_DIR)/gomplate.mod
@@ -46,4 +46,3 @@ $(KUBECONFORM): $(BINGO_DIR)/kubeconform.mod
 	@# Install binary/ries using Go 1.14+ build command. This is using bwplotka/bingo-controlled, separate go module with pinned dependencies.
 	@echo "(re)installing $(GOBIN)/kubeconform-v0.6.3"
 	@cd $(BINGO_DIR) && GOWORK=off $(GO) build -mod=mod -modfile=kubeconform.mod -o=$(GOBIN)/kubeconform-v0.6.3 "github.com/yannh/kubeconform/cmd/kubeconform"
-
