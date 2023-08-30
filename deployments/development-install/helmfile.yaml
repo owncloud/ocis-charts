@@ -3,7 +3,7 @@ releases:
     chart: ../../charts/ocis
     namespace: ocis
     values:
-      - externalDomain: ocis.devdanylo.owncloud.works
+      - externalDomain: ocis.kube.owncloud.test
       - deploymentStrategy:
           type: Recreate
       - ingress:
@@ -14,7 +14,7 @@ releases:
           tls:
             - secretName: ocis-dev-tls
               hosts:
-                - ocis.devdanylo.owncloud.works
+                - ocis.kube.owncloud.test
 
       - logging:
           level: debug
