@@ -19,7 +19,8 @@ externalDomain: ocis.owncloud.test
 image:
   pullSecrets:
     - name: some-pull-secret
-
+nodeSelector: 
+  kubernetes.io/arch: "amd64"
 features:
   emailNotifications:
     enabled: true

@@ -634,6 +634,9 @@ resources:
   # requests:
   #   cpu: 100m
   #   memory: 128Mi
+nodeSelector: 
+  node-name: dev-cpu-pool
+  # node-type: 
 
 # -- Default resources to apply to all jobs in services, except per-service resources configuration in `services.<service-name>.jobResources` is set.
 # Best practice is to:
@@ -675,6 +678,7 @@ services:
   appprovider:
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
+
     # -- Affinity settings for the approvider service.
     affinity: {}
     # -- Configuration for the appprovider service, every other service will have the same configuration.
@@ -1024,6 +1028,9 @@ services:
   proxy:
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
+    # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
+    nodeSelector:
+      node-name: dev-cpu
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
     podDisruptionBudget: {}
     # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.

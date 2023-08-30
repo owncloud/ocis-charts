@@ -34,6 +34,7 @@ spec:
           volumeMounts:
           - name: {{ include "ocis.persistence.dataVolumeName" . }}
             mountPath: /var/lib/ocis
+      nodeSelector: {{ toYaml $.nodeSelector | nindent 8 }}
       containers:
         - name: {{ .appName }}
           {{- include "ocis.image" $ | nindent 10 }}
