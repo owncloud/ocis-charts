@@ -4,8 +4,8 @@ releases:
     namespace: ocis
     values:
       - externalDomain: ocis.kube.owncloud.test
-      - deploymentStrategy:
-          type: Recreate
+      # - deploymentStrategy:
+      #     type: Recreate
       - ingress:
           enabled: true
           ingressClassName: nginx
