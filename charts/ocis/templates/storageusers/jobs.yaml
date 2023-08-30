@@ -24,6 +24,7 @@ spec:
         spec:
           {{- include "ocis.serviceAccount" . | nindent 10 }}
           restartPolicy: Never
+          # nodeSelector: {{ toYaml $.nodeSelector | nindent 8 }}
           containers:
             - name: storage-users-clean-expired-uploads
               {{- include "ocis.jobContainerImageOcis" . | nindent 14 }}
@@ -133,7 +134,8 @@ spec:
         spec:
           {{- include "ocis.serviceAccount" . | nindent 10 }}
           restartPolicy: Never
-          containers:
+          nodeSelector: {{ toYaml $.nodeSelector | nindent 8 }}
+      containers:
             - name: storage-users-purge-expired-trash-bin-items
               {{- include "ocis.jobContainerImageOcis" . | nindent 14 }}
               command: ["ocis"]

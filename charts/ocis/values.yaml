@@ -634,6 +634,12 @@ resources:
   #   cpu: 100m
   #   memory: 128Mi
 
+# -- Default nodeSelector to apply to all services, except per-service nodeSelector configuration in `services.<service-name>.nodeSelector` is set.
+nodeSelector: 
+  {}
+  # kubernetes.io/hostname: node-01
+  # kubernetes.io/arch: "amd64"
+
 # -- Default resources to apply to all jobs in services, except per-service resources configuration in `services.<service-name>.jobResources` is set.
 # Best practice is to:
 # - set memory request == memory limit (compare to https://home.robusta.dev/blog/kubernetes-memory-limit)
@@ -674,6 +680,9 @@ services:
   appprovider:
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
+    # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
+    nodeSelector: {}
+
     # -- Affinity settings for the approvider service.
     affinity: {}
     # -- Configuration for the appprovider service, every other service will have the same configuration.
@@ -711,6 +720,8 @@ services:
   appregistry:
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
+    # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
+    nodeSelector: {}
     # -- Affinity settings for the appregistry service. See the documentation of this setting in approvider for examples.
     affinity: {}
     # -- Per-service custom labels
@@ -721,6 +732,8 @@ services:
   audit:
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
+    # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
+    nodeSelector: {}
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
     podDisruptionBudget: {}
     # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
@@ -735,6 +748,8 @@ services:
   authbasic:
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
+    # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
+    nodeSelector: {}
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
     podDisruptionBudget: {}
     # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
@@ -749,6 +764,8 @@ services:
   authmachine:
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
+    # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
+    nodeSelector: {}
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
     podDisruptionBudget: {}
     # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
@@ -763,6 +780,8 @@ services:
   antivirus:
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
+    # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
+    nodeSelector: {}
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
     podDisruptionBudget: {}
     # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
@@ -777,6 +796,8 @@ services:
   eventhistory:
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
+    # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
+    nodeSelector: {}
     # -- Per-service store configuration for the eventhistory service. Overrides the default setting from `store` if set.
     store:
       {}
@@ -801,6 +822,8 @@ services:
   frontend:
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
+    # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
+    nodeSelector: {}
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
     podDisruptionBudget: {}
     # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
@@ -815,6 +838,8 @@ services:
   gateway:
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
+    # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
+    nodeSelector: {}
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
     podDisruptionBudget: {}
     # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
@@ -829,6 +854,8 @@ services:
   graph:
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
+    # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
+    nodeSelector: {}
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
     podDisruptionBudget: {}
     # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
@@ -843,6 +870,8 @@ services:
   groups:
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
+    # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
+    nodeSelector: {}
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
     podDisruptionBudget: {}
     # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
@@ -889,6 +918,8 @@ services:
       existingClaim:
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
+    # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
+    nodeSelector: {}
     # -- Affinity settings for the idm service. See the documentation of this setting in approvider for examples.
     affinity: {}
     # -- Per-service custom labels
@@ -899,6 +930,8 @@ services:
   idp:
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
+    # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
+    nodeSelector: {}
     # -- Affinity settings for the idp service. See the documentation of this setting in approvider for examples.
     affinity: {}
     # -- Per-service custom labels
@@ -941,6 +974,8 @@ services:
       existingClaim:
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
+    # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
+    nodeSelector: {}
     # -- Affinity settings for the nats service. See the documentation of this setting in approvider for examples.
     affinity: {}
     # -- Per-service custom labels
@@ -951,6 +986,8 @@ services:
   notifications:
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
+    # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
+    nodeSelector: {}
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
     podDisruptionBudget: {}
     # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
@@ -965,6 +1002,8 @@ services:
   ocdav:
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
+    # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
+    nodeSelector: {}
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
     podDisruptionBudget: {}
     # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
@@ -979,6 +1018,8 @@ services:
   ocs:
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
+    # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
+    nodeSelector: {}
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
     podDisruptionBudget: {}
     # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
@@ -993,6 +1034,8 @@ services:
   policies:
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
+    # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
+    nodeSelector: {}
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
     podDisruptionBudget: {}
     # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
@@ -1007,6 +1050,8 @@ services:
   postprocessing:
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
+    # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
+    nodeSelector: {}
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
     podDisruptionBudget: {}
     # -- Per-service store configuration for the eventhistory service. Overrides the default setting from `store` if set.
@@ -1023,6 +1068,10 @@ services:
   proxy:
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
+    # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
+    nodeSelector: {}
+    # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
+    nodeSelector: {}
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
     podDisruptionBudget: {}
     # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
@@ -1082,6 +1131,8 @@ services:
       existingClaim:
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
+    # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
+    nodeSelector: {}
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
     podDisruptionBudget: {}
     # -- Affinity settings for the search service. See the documentation of this setting in approvider for examples.
@@ -1094,6 +1145,8 @@ services:
   settings:
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
+    # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
+    nodeSelector: {}
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
     podDisruptionBudget: {}
     # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
@@ -1108,6 +1161,8 @@ services:
   sharing:
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
+    # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
+    nodeSelector: {}
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
     podDisruptionBudget: {}
     # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
@@ -1122,6 +1177,8 @@ services:
   storagepubliclink:
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
+    # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
+    nodeSelector: {}
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
     podDisruptionBudget: {}
     # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
@@ -1136,6 +1193,8 @@ services:
   storageshares:
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
+    # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
+    nodeSelector: {}
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
     podDisruptionBudget: {}
     # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
@@ -1182,6 +1241,8 @@ services:
       existingClaim:
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
+    # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
+    nodeSelector: {}
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
     podDisruptionBudget: {}
     # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
@@ -1306,6 +1367,8 @@ services:
       existingClaim:
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
+    # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
+    nodeSelector: {}
     # -- Per-service jobResources configuration. Overrides the default setting from `jobResources` if set.
     jobResources: {}
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
@@ -1354,6 +1417,8 @@ services:
       existingClaim:
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
+    # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
+    nodeSelector: {}
     # -- Affinity settings for the store service. See the documentation of this setting in approvider for examples.
     affinity: {}
     # -- Per-service custom labels
@@ -1395,6 +1460,8 @@ services:
       existingClaim:
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
+    # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
+    nodeSelector: {}
     # -- Per-service jobResources configuration. Overrides the default setting from `jobResources` if set.
     jobResources: {}
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
@@ -1432,6 +1499,8 @@ services:
   userlog:
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
+    # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
+    nodeSelector: {}
     # -- Per-service store configuration for the userlog service. Overrides the default setting from `store` if set.
     store:
       {}
@@ -1456,6 +1525,8 @@ services:
   users:
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
+    # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
+    nodeSelector: {}
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
     podDisruptionBudget: {}
     # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
@@ -1586,6 +1657,8 @@ services:
       existingClaim:
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
+    # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
+    nodeSelector: {}
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
     podDisruptionBudget: {}
     # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
@@ -1600,6 +1673,8 @@ services:
   webdav:
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
+    # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
+    nodeSelector: {}
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
     podDisruptionBudget: {}
     # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.

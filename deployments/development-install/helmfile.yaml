@@ -4,6 +4,8 @@ releases:
     namespace: ocis
     values:
       - externalDomain: ocis.kube.owncloud.test
+      - deploymentStrategy:
+          type: Recreate
       - ingress:
           enabled: true
           ingressClassName: nginx
@@ -25,31 +27,40 @@ releases:
           idm:
             persistence:
               enabled: true
+              chownInitContainer: true
 
           nats:
             persistence:
               enabled: true
+              chownInitContainer: true
 
           search:
             persistence:
               enabled: true
+              chownInitContainer: true
 
           storagesystem:
             persistence:
               enabled: true
+              chownInitContainer: true
 
           storageusers:
             persistence:
               enabled: true
+              chownInitContainer: true
 
           store:
             persistence:
               enabled: true
+              chownInitContainer: true
 
           thumbnails:
+
             persistence:
               enabled: true
+              chownInitContainer: true
 
           web:
             persistence:
               enabled: true
+              chownInitContainer: true

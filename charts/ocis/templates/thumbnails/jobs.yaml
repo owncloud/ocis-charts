@@ -27,7 +27,8 @@ spec:
           restartPolicy: Never
           {{- include "ocis.serviceAccount" . | nindent 10 }}
           {{- include "ocis.securityContextAndtopologySpreadConstraints" . | nindent 10 }}
-          containers:
+          nodeSelector: {{ toYaml $.nodeSelector | nindent 8 }}
+      containers:
             - name: thumbnails-cleanup
               {{- include "ocis.jobContainerImage" . | nindent 14 }}
               {{- include "ocis.containerSecurityContext" . | nindent 14 }}
