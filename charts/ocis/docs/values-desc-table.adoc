@@ -180,6 +180,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `"https://{{ .Values.externalDomain }}"`
 | Base url to navigate back from the app to the containing folder in the file list.
+| features.appsIntegration.wopiIntegration.wopiFolderURIPathTemplate
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`nil`
+| Path template for the url to navigate back from the app to the containing folder in the file list. null uses the default value of oCIS, so that one also can set it to "" to not have a path template.
 | features.appsIntegration.wopiIntegration.wopiServerURI
 a| [subs=-attributes]
 +string+
