@@ -906,6 +906,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `nil`
 | Override the deployment namespace of all resources in this Helm chart.
+| nodeSelector
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Default nodeSelector to apply to all services, except per-service nodeSelector configuration in `services.<service-name>.nodeSelector` is set.
 | podDisruptionBudget
 a| [subs=-attributes]
 +object+
@@ -1074,6 +1080,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service custom labels
+| services.antivirus.nodeSelector
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
 | services.antivirus.podDisruptionBudget
 a| [subs=-attributes]
 +object+
@@ -1104,6 +1116,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service custom labels
+| services.appprovider.nodeSelector
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
 | services.appprovider.resources
 a| [subs=-attributes]
 +object+
@@ -1128,6 +1146,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service custom labels
+| services.appregistry.nodeSelector
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
 | services.appregistry.resources
 a| [subs=-attributes]
 +object+
@@ -1158,6 +1182,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service custom labels
+| services.audit.nodeSelector
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
 | services.audit.podDisruptionBudget
 a| [subs=-attributes]
 +object+
@@ -1194,6 +1224,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service custom labels
+| services.authbasic.nodeSelector
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
 | services.authbasic.podDisruptionBudget
 a| [subs=-attributes]
 +object+
@@ -1230,6 +1266,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service custom labels
+| services.authmachine.nodeSelector
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
 | services.authmachine.podDisruptionBudget
 a| [subs=-attributes]
 +object+
@@ -1266,6 +1308,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service custom labels
+| services.eventhistory.nodeSelector
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
 | services.eventhistory.podDisruptionBudget
 a| [subs=-attributes]
 +object+
@@ -1308,6 +1356,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service custom labels
+| services.frontend.nodeSelector
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
 | services.frontend.podDisruptionBudget
 a| [subs=-attributes]
 +object+
@@ -1344,6 +1398,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service custom labels
+| services.gateway.nodeSelector
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
 | services.gateway.podDisruptionBudget
 a| [subs=-attributes]
 +object+
@@ -1380,6 +1440,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service custom labels
+| services.graph.nodeSelector
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
 | services.graph.podDisruptionBudget
 a| [subs=-attributes]
 +object+
@@ -1416,6 +1482,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service custom labels
+| services.groups.nodeSelector
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
 | services.groups.podDisruptionBudget
 a| [subs=-attributes]
 +object+
@@ -1446,6 +1518,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service custom labels
+| services.idm.nodeSelector
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
 | services.idm.persistence
 a| [subs=-attributes]
 +object+
@@ -1536,6 +1614,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service custom labels
+| services.idp.nodeSelector
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
 | services.idp.resources
 a| [subs=-attributes]
 +object+
@@ -1560,6 +1644,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service custom labels
+| services.nats.nodeSelector
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
 | services.nats.persistence
 a| [subs=-attributes]
 +object+
@@ -1656,6 +1746,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service custom labels
+| services.notifications.nodeSelector
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
 | services.notifications.podDisruptionBudget
 a| [subs=-attributes]
 +object+
@@ -1692,6 +1788,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service custom labels
+| services.ocdav.nodeSelector
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
 | services.ocdav.podDisruptionBudget
 a| [subs=-attributes]
 +object+
@@ -1728,6 +1830,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service custom labels
+| services.ocs.nodeSelector
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
 | services.ocs.podDisruptionBudget
 a| [subs=-attributes]
 +object+
@@ -1764,6 +1872,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service custom labels
+| services.policies.nodeSelector
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
 | services.policies.podDisruptionBudget
 a| [subs=-attributes]
 +object+
@@ -1800,6 +1914,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service custom labels
+| services.postprocessing.nodeSelector
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
 | services.postprocessing.podDisruptionBudget
 a| [subs=-attributes]
 +object+
@@ -1842,6 +1962,18 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service custom labels
+| services.proxy.nodeSelector
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
+| services.proxy.nodeSelector
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
 | services.proxy.podDisruptionBudget
 a| [subs=-attributes]
 +object+
@@ -1896,6 +2028,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `"basic"`
 | Configures the search extractor type to be used. Possible extractors: - `basic`: the default search extractor. - `tika`: the Tika search extractor. If set to this value, additional settings in the `tika` section apply.
+| services.search.nodeSelector
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
 | services.search.persistence
 a| [subs=-attributes]
 +object+
@@ -1998,6 +2136,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service custom labels
+| services.settings.nodeSelector
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
 | services.settings.podDisruptionBudget
 a| [subs=-attributes]
 +object+
@@ -2034,6 +2178,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service custom labels
+| services.sharing.nodeSelector
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
 | services.sharing.podDisruptionBudget
 a| [subs=-attributes]
 +object+
@@ -2070,6 +2220,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service custom labels
+| services.storagepubliclink.nodeSelector
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
 | services.storagepubliclink.podDisruptionBudget
 a| [subs=-attributes]
 +object+
@@ -2106,6 +2262,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service custom labels
+| services.storageshares.nodeSelector
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
 | services.storageshares.podDisruptionBudget
 a| [subs=-attributes]
 +object+
@@ -2142,6 +2304,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service custom labels
+| services.storagesystem.nodeSelector
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
 | services.storagesystem.persistence
 a| [subs=-attributes]
 +object+
@@ -2328,6 +2496,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `"* * * * *"`
 | Cron pattern for the job to be run. Defaults to every minute.
+| services.storageusers.nodeSelector
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
 | services.storageusers.persistence
 a| [subs=-attributes]
 +object+
@@ -2472,6 +2646,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service custom labels
+| services.store.nodeSelector
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
 | services.store.persistence
 a| [subs=-attributes]
 +object+
@@ -2628,6 +2808,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `"stable"`
 | Image tag.
+| services.thumbnails.nodeSelector
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
 | services.thumbnails.persistence
 a| [subs=-attributes]
 +object+
@@ -2730,6 +2916,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service custom labels
+| services.userlog.nodeSelector
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
 | services.userlog.podDisruptionBudget
 a| [subs=-attributes]
 +object+
@@ -2772,6 +2964,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service custom labels
+| services.users.nodeSelector
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
 | services.users.podDisruptionBudget
 a| [subs=-attributes]
 +object+
@@ -2892,6 +3090,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service custom labels
+| services.web.nodeSelector
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
 | services.web.persistence
 a| [subs=-attributes]
 +object+
@@ -2994,6 +3198,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service custom labels
+| services.webdav.nodeSelector
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
 | services.webdav.podDisruptionBudget
 a| [subs=-attributes]
 +object+
