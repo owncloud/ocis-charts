@@ -654,6 +654,12 @@ jobResources:
   #   cpu: 100m
   #   memory: 128Mi
 
+# -- Default nodeSelector to apply to all jobs, except per-service job nodeSelector configuration in `services.<service-name>.jobNodeSelector` is set.
+jobNodeSelector:
+  {}
+  # kubernetes.io/hostname: node-01
+  # kubernetes.io/arch: "amd64"
+
 # Include arbitrary resources, eg. config maps or a cert-manager issuer (see example below)
 # -- Extra resources to be included.
 extraResources: []
@@ -1071,8 +1077,6 @@ services:
     resources: {}
     # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
     nodeSelector: {}
-    # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
-    nodeSelector: {}
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
     podDisruptionBudget: {}
     # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
@@ -1372,6 +1376,8 @@ services:
     nodeSelector: {}
     # -- Per-service jobResources configuration. Overrides the default setting from `jobResources` if set.
     jobResources: {}
+    # -- Per-service jobNodeSelector configuration. Overrides the default setting from `jobNodeSelector` if set.
+    jobNodeSelector: {}
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
     podDisruptionBudget: {}
     # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
