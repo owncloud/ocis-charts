@@ -19,7 +19,8 @@ externalDomain: ocis.owncloud.test
 image:
   pullSecrets:
     - name: some-pull-secret
-
+nodeSelector:
+  kubernetes.io/arch: "amd64"
 features:
   emailNotifications:
     enabled: true
@@ -160,6 +161,8 @@ services:
       requests:
         cpu: 100m
         memory: 128Mi
+    jobNodeSelector:
+      kubernetes.io/arch: "arm64"
     maintenance:
       cleanUpOldThumbnails:
         enabled: true
