@@ -2754,6 +2754,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service custom labels
+| services.thumbnails.jobNodeSelector
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service jobNodeSelector configuration. Overrides the default setting from `jobNodeSelector` if set.
 | services.thumbnails.jobResources
 a| [subs=-attributes]
 +object+

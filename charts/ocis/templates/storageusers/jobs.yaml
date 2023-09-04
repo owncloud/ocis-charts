@@ -194,7 +194,7 @@ spec:
                   {{- end }}
                 {{- end }}
 
-              resources: {{ toYaml .jobResources| nindent 16 }}
+              resources: {{ toYaml .jobResources | nindent 16 }}
 
               volumeMounts:
                 - name: tmp-volume
