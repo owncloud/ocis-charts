@@ -1469,8 +1469,6 @@ services:
     resources: {}
     # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
     nodeSelector: {}
-   # -- Per-service jobNodeSelector configuration. Overrides the default setting from `jobNodeSelector` if set.
-    jobNodeSelector: {}
     # -- Per-service jobResources configuration. Overrides the default setting from `jobResources` if set.
     jobResources: {}
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
