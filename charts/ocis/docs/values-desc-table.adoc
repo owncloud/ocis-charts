@@ -816,6 +816,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `false`
 | Disables SSL certificate checking for connections to the openID connect identity provider. Not recommended for production installations.
+| jobNodeSelector
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Default nodeSelector to apply to all jobs, except per-service job nodeSelector configuration in `services.<service-name>.jobNodeSelector` is set.
 | jobResources
 a| [subs=-attributes]
 +object+
@@ -2406,6 +2412,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service custom labels
+| services.storageusers.jobNodeSelector
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service jobNodeSelector configuration. Overrides the default setting from `jobNodeSelector` if set.
 | services.storageusers.jobResources
 a| [subs=-attributes]
 +object+
