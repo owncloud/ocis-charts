@@ -15,6 +15,9 @@ releases:
   - name: tika
     namespace: tika
     chart: tika/tika
+    values:
+      - image:
+          tag: "latest-full" # using "full" tag for OCR func.
 
   - name: addons-onlyoffice
     chart: addons/onlyoffice
