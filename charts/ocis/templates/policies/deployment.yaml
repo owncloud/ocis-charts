@@ -26,6 +26,9 @@ spec:
         {{- tpl . $ | nindent 8 }}
       {{- end }}
       nodeSelector: {{ toYaml $.nodeSelector | nindent 8 }}
+        {{- if .Values.priorityClassName }}
+      priorityClassName: {{ toYaml $.Values.priorityClassName }}
+      {{- end }}
       containers:
         - name: {{ .appName }}
           {{- include "ocis.image" $ | nindent 10 }}
