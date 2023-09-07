@@ -15,6 +15,25 @@ spec:
 apiVersion: jetstream.nats.io/v1beta2
 kind: Stream
 metadata:
+  name: ocis
+spec:
+  name: OBJ_ocis
+  subjects:
+    - $O.ocis.C.>
+    - $O.ocis.M.>
+  replicas: 3
+  storage: file # TODO: default of oCIS is file, see https://github.com/owncloud/ocis/issues/7119
+  retention: limits
+  discard: old
+  duplicateWindow: "2m0s"
+  maxAge: "24m0s"
+  allowRollup: true
+  allowDirect: true
+  account: ocis-nats
+---
+apiVersion: jetstream.nats.io/v1beta2
+kind: Stream
+metadata:
   name: eventhistory
 spec:
   name: OBJ_eventhistory
