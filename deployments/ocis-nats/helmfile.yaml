@@ -16,7 +16,6 @@ releases:
             enabled: true
           merge:
             00$include: auth.conf
-
       - configMap:
           merge:
             data:
@@ -44,6 +43,26 @@ releases:
                   }
                 }
                 no_auth_user: ocis
+
+  - name: nack-crds
+    chart: ./crds
+    namespace: ocis-nack
+
+  - name: nack-streams
+    chart: ./streams
+    namespace: ocis-nats
+    needs:
+      - ocis-nats/nats
+      - ocis-nack/nack-crds
+
+  - name: nack
+    chart: nats/nack
+    namespace: ocis-nack
+    values:
+      - namespaced: false
+      - readOnly: false
+    needs:
+      - ocis-nack/nack-crds
 
   - name: ocis
     chart: ../../charts/ocis
