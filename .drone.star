@@ -2,11 +2,14 @@ config = {
     "branches": [
         "master",
     ],
-    # if this changes, also the kubeVersion in the Chart.yaml needs to be changed
+    # if this changes, also tested versions in need to be changed here:
+    # - Makefile
+    # - charts/ocis/dcs/kube-versions.adoc
     "kubernetesVersions": [
         "1.25.0",
         "1.26.0",
         "1.27.0",
+        "1.28.0",
     ],
 }
 
@@ -116,15 +119,6 @@ def documentation(ctx):
                     "/usr/bin/helm-docs",
                     "--template-files=charts/ocis/docs/templates/values-desc-table.adoc.gotmpl",
                     "--output-file=docs/values-desc-table.adoc",
-                ],
-            },
-            {
-                "name": "helm-docs-kube-versions-adoc",
-                "image": "jnorwood/helm-docs:v1.11.0",
-                "entrypoint": [
-                    "/usr/bin/helm-docs",
-                    "--template-files=charts/ocis/docs/templates/kube-versions.adoc.gotmpl",
-                    "--output-file=kube-versions.adoc",
                 ],
             },
             {

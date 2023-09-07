@@ -1,14 +1,37 @@
 [caption=]
 Supported Kubernetes versions
-[width="100%",cols="~",options="header"]
+
+We only list non EOL versions as of the Chart release date from here https://kubernetes.io/releases/
+
+Some EOL versions still might be API compatible
+
+[width="100%",cols="~,~,~",options="header"]
 |===
 | Version
+| covered by tests
+| tested by developers
 a| [subs=-attributes]
-+~1.28.0-0+
++1.28+
 a| [subs=-attributes]
-+~1.27.0-0+
++yes+
 a| [subs=-attributes]
-+~1.26.0-0+
++yes+
 a| [subs=-attributes]
-+~1.25.0-0+
++1.27+
+a| [subs=-attributes]
++yes+
+a| [subs=-attributes]
++yes+
+a| [subs=-attributes]
++1.26+
+a| [subs=-attributes]
++yes+
+a| [subs=-attributes]
++no+
+a| [subs=-attributes]
++1.25+
+a| [subs=-attributes]
++yes+
+a| [subs=-attributes]
++no+
 |===
