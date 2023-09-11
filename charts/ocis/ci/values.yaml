@@ -21,6 +21,8 @@ image:
     - name: some-pull-secret
 nodeSelector:
   kubernetes.io/arch: "amd64"
+priorityClassName: ocis-middle-priority
+jobPriorityClassName: ocis-job-middle-priority
 features:
   emailNotifications:
     enabled: true
