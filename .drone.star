@@ -4,7 +4,6 @@ config = {
     ],
     # if this changes, also tested versions in need to be changed here:
     # - Makefile
-    # - charts/ocis/dcs/kube-versions.adoc
     "kubernetesVersions": [
         "1.25.0",
         "1.26.0",
