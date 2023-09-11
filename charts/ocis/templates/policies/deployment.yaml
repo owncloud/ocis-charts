@@ -26,8 +26,8 @@ spec:
         {{- tpl . $ | nindent 8 }}
       {{- end }}
       nodeSelector: {{ toYaml $.nodeSelector | nindent 8 }}
-        {{- if .Values.priorityClassName }}
-      priorityClassName: {{ toYaml $.Values.priorityClassName }}
+      {{- if $.priorityClassName }}
+      priorityClassName: {{ toYaml $.priorityClassName }}
       {{- end }}
       containers:
         - name: {{ .appName }}

@@ -16,8 +16,8 @@ spec:
       {{- include "ocis.affinity" .Values.services.authbasic | nindent 6 }}
       {{- include "ocis.securityContextAndtopologySpreadConstraints" . | nindent 6 }}
       nodeSelector: {{ toYaml $.nodeSelector | nindent 8 }}
-        {{- if .Values.priorityClassName }}
-      priorityClassName: {{ toYaml $.Values.priorityClassName }}
+      {{- if $.priorityClassName }}
+      priorityClassName: {{ toYaml $.priorityClassName }}
       {{- end }}
       containers:
         - name: {{ .appName }}
