@@ -3,9 +3,7 @@ releases:
     chart: ../../charts/ocis
     namespace: ocis
     values:
-      - externalDomain: ocis.devdanylo.owncloud.works
-      - deploymentStrategy:
-          type: Recreate
+      - externalDomain: ocis.kube.owncloud.test
       - ingress:
           enabled: true
           ingressClassName: nginx
@@ -14,7 +12,7 @@ releases:
           tls:
             - secretName: ocis-dev-tls
               hosts:
-                - ocis.devdanylo.owncloud.works
+                - ocis.kube.owncloud.test
 
       - logging:
           level: debug
@@ -27,34 +25,31 @@ releases:
           idm:
             persistence:
               enabled: true
-              chownInitContainer: true
+
           nats:
             persistence:
               enabled: true
-              chownInitContainer: true
+
           search:
             persistence:
               enabled: true
-              chownInitContainer: true
+
           storagesystem:
             persistence:
               enabled: true
-              chownInitContainer: true
+
           storageusers:
             persistence:
               enabled: true
-              chownInitContainer: true
+
           store:
             persistence:
               enabled: true
-              chownInitContainer: true
 
           thumbnails:
             persistence:
               enabled: true
-              chownInitContainer: true
+
           web:
             persistence:
               enabled: true
-              chownInitContainer: true
-            priorityClassName: gardener-shoot-system-900

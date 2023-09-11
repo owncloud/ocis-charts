@@ -26,10 +26,8 @@ spec:
           - name: {{ include "ocis.persistence.dataVolumeName" . }}
             mountPath: /var/lib/ocis
       {{ end }}
+      {{- include "ocis.priorityClassName" $.priorityClassName | nindent 6 }}
       nodeSelector: {{ toYaml $.nodeSelector | nindent 8 }}
-      {{- if $.priorityClassName }}
-      priorityClassName: {{ toYaml $.priorityClassName }}
-      {{- end }}
       containers:
         - name: {{ .appName }}
           {{- include "ocis.image" $ | nindent 10 }}
