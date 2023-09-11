@@ -14,10 +14,8 @@ spec:
       {{- include "ocis.serviceAccount" . | nindent 6 }}
       {{- include "ocis.affinity" .Values.services.users | nindent 6 }}
       {{- include "ocis.securityContextAndtopologySpreadConstraints" . | nindent 6 }}
+      {{- include "ocis.priorityClassName" $.priorityClassName | nindent 6 }}
       nodeSelector: {{ toYaml $.nodeSelector | nindent 8 }}
-      {{- if $.priorityClassName }}
-      priorityClassName: {{ toYaml $.priorityClassName }}
-      {{- end }}
       containers:
         - name: {{ .appName }}
           {{- include "ocis.image" $ | nindent 10 }}
