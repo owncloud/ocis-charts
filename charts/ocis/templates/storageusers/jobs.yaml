@@ -24,6 +24,7 @@ spec:
         spec:
           {{- include "ocis.serviceAccount" . | nindent 10 }}
           restartPolicy: Never
+          {{- include "ocis.priorityClassName" $.jobPriorityClassName | nindent 10 }}
           nodeSelector: {{ toYaml $.jobNodeSelector | nindent 12 }}
           containers:
             - name: storage-users-clean-expired-uploads

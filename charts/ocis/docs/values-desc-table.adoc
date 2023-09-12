@@ -828,6 +828,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Default nodeSelector to apply to all jobs, except per-service job nodeSelector configuration in `services.<service-name>.jobNodeSelector` is set.
+| jobPriorityClassName
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Default priorityClassName to apply to all services, except per-service jobPriorityClassName configuration in `services.<service-name>.jobPriorityClassName` is set.
 | jobResources
 a| [subs=-attributes]
 +object+
@@ -930,6 +936,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 |
+| priorityClassName
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Default priorityClassName to apply to all services, except per-service priorityClassName configuration in `services.<service-name>.priorityClassName` is set.
 | registry.nodes
 a| [subs=-attributes]
 +list+
@@ -1104,6 +1116,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
+| services.antivirus.priorityClassName
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
 | services.antivirus.resources
 a| [subs=-attributes]
 +object+
@@ -1134,6 +1152,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
+| services.appprovider.priorityClassName
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
 | services.appprovider.resources
 a| [subs=-attributes]
 +object+
@@ -1164,6 +1188,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
+| services.appregistry.priorityClassName
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
 | services.appregistry.resources
 a| [subs=-attributes]
 +object+
@@ -1206,6 +1236,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
+| services.audit.priorityClassName
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
 | services.audit.resources
 a| [subs=-attributes]
 +object+
@@ -1248,6 +1284,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
+| services.authbasic.priorityClassName
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
 | services.authbasic.resources
 a| [subs=-attributes]
 +object+
@@ -1290,6 +1332,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
+| services.authmachine.priorityClassName
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
 | services.authmachine.resources
 a| [subs=-attributes]
 +object+
@@ -1332,6 +1380,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
+| services.eventhistory.priorityClassName
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
 | services.eventhistory.resources
 a| [subs=-attributes]
 +object+
@@ -1380,6 +1434,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
+| services.frontend.priorityClassName
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
 | services.frontend.resources
 a| [subs=-attributes]
 +object+
@@ -1422,6 +1482,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
+| services.gateway.priorityClassName
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
 | services.gateway.resources
 a| [subs=-attributes]
 +object+
@@ -1464,6 +1530,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
+| services.graph.priorityClassName
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
 | services.graph.resources
 a| [subs=-attributes]
 +object+
@@ -1506,6 +1578,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
+| services.groups.priorityClassName
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
 | services.groups.resources
 a| [subs=-attributes]
 +object+
@@ -1602,6 +1680,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `nil`
 | Storage class to use. Uses the default storage class if not set.
+| services.idm.priorityClassName
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
 | services.idm.resources
 a| [subs=-attributes]
 +object+
@@ -1632,6 +1716,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
+| services.idp.priorityClassName
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
 | services.idp.resources
 a| [subs=-attributes]
 +object+
@@ -1728,6 +1818,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `nil`
 | Storage class to use. Uses the default storage class if not set.
+| services.nats.priorityClassName
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
 | services.nats.resources
 a| [subs=-attributes]
 +object+
@@ -1770,6 +1866,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
+| services.notifications.priorityClassName
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
 | services.notifications.resources
 a| [subs=-attributes]
 +object+
@@ -1812,6 +1914,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
+| services.ocdav.priorityClassName
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
 | services.ocdav.resources
 a| [subs=-attributes]
 +object+
@@ -1854,6 +1962,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
+| services.ocs.priorityClassName
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
 | services.ocs.resources
 a| [subs=-attributes]
 +object+
@@ -1896,6 +2010,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
+| services.policies.priorityClassName
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
 | services.policies.resources
 a| [subs=-attributes]
 +object+
@@ -1938,6 +2058,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
+| services.postprocessing.priorityClassName
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
 | services.postprocessing.resources
 a| [subs=-attributes]
 +object+
@@ -1986,6 +2112,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
+| services.proxy.priorityClassName
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
 | services.proxy.resources
 a| [subs=-attributes]
 +object+
@@ -2112,6 +2244,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
+| services.search.priorityClassName
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
 | services.search.resources
 a| [subs=-attributes]
 +object+
@@ -2154,6 +2292,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
+| services.settings.priorityClassName
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
 | services.settings.resources
 a| [subs=-attributes]
 +object+
@@ -2196,6 +2340,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
+| services.sharing.priorityClassName
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
 | services.sharing.resources
 a| [subs=-attributes]
 +object+
@@ -2238,6 +2388,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
+| services.storagepubliclink.priorityClassName
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
 | services.storagepubliclink.resources
 a| [subs=-attributes]
 +object+
@@ -2280,6 +2436,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
+| services.storageshares.priorityClassName
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
 | services.storageshares.resources
 a| [subs=-attributes]
 +object+
@@ -2388,6 +2550,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
+| services.storagesystem.priorityClassName
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
 | services.storagesystem.resources
 a| [subs=-attributes]
 +object+
@@ -2424,6 +2592,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service jobNodeSelector configuration. Overrides the default setting from `jobNodeSelector` if set.
+| services.storageusers.jobPriorityClassName
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Per-service jobPriorityClassName configuration. Overrides the default setting from `jobPriorityClassName` if set.
 | services.storageusers.jobResources
 a| [subs=-attributes]
 +object+
@@ -2586,6 +2760,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
+| services.storageusers.priorityClassName
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
 | services.storageusers.resources
 a| [subs=-attributes]
 +object+
@@ -2730,6 +2910,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `nil`
 | Storage class to use. Uses the default storage class if not set.
+| services.store.priorityClassName
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
 | services.store.resources
 a| [subs=-attributes]
 +object+
@@ -2766,6 +2952,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service jobNodeSelector configuration. Overrides the default setting from `jobNodeSelector` if set.
+| services.thumbnails.jobPriorityClassName
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Per-service jobPriorityClassName configuration. Overrides the default setting from `jobPriorityClassName` if set.
 | services.thumbnails.jobResources
 a| [subs=-attributes]
 +object+
@@ -2904,6 +3096,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
+| services.thumbnails.priorityClassName
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
 | services.thumbnails.resources
 a| [subs=-attributes]
 +object+
@@ -2946,6 +3144,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
+| services.userlog.priorityClassName
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
 | services.userlog.resources
 a| [subs=-attributes]
 +object+
@@ -2994,6 +3198,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
+| services.users.priorityClassName
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
 | services.users.resources
 a| [subs=-attributes]
 +object+
@@ -3186,6 +3396,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
+| services.web.priorityClassName
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
 | services.web.resources
 a| [subs=-attributes]
 +object+
@@ -3228,6 +3444,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
+| services.webdav.priorityClassName
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
 | services.webdav.resources
 a| [subs=-attributes]
 +object+
