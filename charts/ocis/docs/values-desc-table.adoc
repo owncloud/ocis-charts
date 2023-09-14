@@ -834,12 +834,6 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `""`
 | Default priorityClassName to apply to all services, except per-service jobPriorityClassName configuration in `services.<service-name>.jobPriorityClassName` is set.
-| jobPriorityClassName
-a| [subs=-attributes]
-+string+
-a| [subs=-attributes]
-`""`
-| Default priorityClassName to apply to all services, except per-service jobPriorityClassName configuration in `services.<service-name>.jobPriorityClassName` is set.
 | jobResources
 a| [subs=-attributes]
 +object+
@@ -942,12 +936,6 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 |
-| priorityClassName
-a| [subs=-attributes]
-+string+
-a| [subs=-attributes]
-`""`
-| Default priorityClassName to apply to all services, except per-service priorityClassName configuration in `services.<service-name>.priorityClassName` is set.
 | priorityClassName
 a| [subs=-attributes]
 +string+

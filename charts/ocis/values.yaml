@@ -666,18 +666,6 @@ priorityClassName: ""
 # ocis-medium-priority
 # ocis-high-priority
 
-# -- Default priorityClassName to apply to all services, except per-service jobPriorityClassName configuration in `services.<service-name>.jobPriorityClassName` is set.
-jobPriorityClassName: ""
-# ocis-low-priority
-# ocis-medium-priority
-# ocis-high-priority
-
-# -- Default priorityClassName to apply to all services, except per-service priorityClassName configuration in `services.<service-name>.priorityClassName` is set.
-priorityClassName: ""
-# ocis-low-priority
-# ocis-medium-priority
-# ocis-high-priority
-
 # Include arbitrary resources, eg. config maps or a cert-manager issuer (see example below)
 # -- Extra resources to be included.
 extraResources: []
@@ -740,7 +728,6 @@ services:
     # Do note that the value will be different for each service.
     # -- Per-service custom labels
     extraLabels: {}
-
   # -- APP REGISTRY service. Not used if `features.appsIntegration.enabled` equals `false`.
   # @default -- see detailed service configuration options below
   appregistry:
@@ -907,7 +894,7 @@ services:
     affinity: {}
     # -- Per-service custom labels
     extraLabels: {}
-
+    
   # -- GRAPH service.
   # @default -- see detailed service configuration options below
   graph:
