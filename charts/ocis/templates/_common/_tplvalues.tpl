@@ -78,6 +78,8 @@ Adds the app names to the scope and set the name of the app based on the input p
   {{- end -}}
 
   {{- $_ := set .scope "priorityClassName" (default (default (dict) .scope.Values.priorityClassName) .scope.appSpecificConfig.priorityClassName) -}}
+
+  {{- $_ := set .scope "priorityClassName" (default (default (dict) .scope.Values.priorityClassName) .scope.appSpecificConfig.priorityClassName) -}}
   {{- $_ := set .scope "jobPriorityClassName" (default (default (dict) .scope.Values.jobPriorityClassName) .scope.appSpecificConfig.jobPriorityClassName) -}}
 
   {{- $_ := set .scope "nodeSelector" (default (default (dict) .scope.Values.nodeSelector) .scope.appSpecificConfig.nodeSelector) -}}

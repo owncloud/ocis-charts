@@ -1,5 +1,4 @@
 
----
 # Image for oCIS services
 image:
   # -- Image repository
@@ -103,7 +102,7 @@ store:
   type: nats-js
   # -- Nodes of the store to use.
   nodes:
-    - "{{ .appNameNats }}:9233"
+  - "{{ .appNameNats }}:9233"
 
 registry:
   # -- Configure the service registry type.
@@ -137,6 +136,13 @@ messagingSystem:
       # -- For self signed certificates, consider to put the CA cert of the messaging system secure server into the secret referenced by "messagingSystemCaRef"
       # Not recommended for production installations.
       insecure: false
+
+# provide custom hostnames to every oCIS pods 
+hostAliases: 
+  []
+# - ip: "192.168.49.2"
+#   hostnames:
+#   - "ocis.kube.owncloud.test"
 
 # Feature options.
 # Enable or disable features of oCIS.
@@ -207,42 +213,41 @@ features:
       wopiFolderURIPathTemplate: null
       # List of WOPI compliant office suites.
       officeSuites:
-        - # -- Name of the office suite. Will be displayed to the users.
-          name: Collabora
-          # -- Enables the office suite.
-          enabled: false
-          # -- URI of the office suite.
-          uri: https://collabora.owncloud.test
-          # -- URI for the icon of the office suite. Will be displayed to the users.
-          iconURI: https://collabora.owncloud.test/favicon.ico
-          # -- Disables SSL certificate checking for connections to the office suites http api.
-          # Not recommended for production installations.
-          insecure: false
-        - # -- Name of the office suite. Will be displayed to the users.
-          name: OnlyOffice
-          # -- Enables the office suite.
-          enabled: false
-          # -- URI of the office suite.
-          uri: https://onlyoffice.owncloud.test
-          # -- URI for the icon of the office suite. Will be displayed to the users.
-          iconURI: https://onlyoffice.owncloud.test/web-apps/apps/documenteditor/main/resources/img/favicon.ico
-          # -- Disables SSL certificate checking for connections to the office suites http api.
-          # Not recommended for production installations.
-          insecure: false
-          # -- Disables Chat functionality of OnlyOffice
-          disableChat: false
+      - # -- Name of the office suite. Will be displayed to the users.
+        name: Collabora
+        # -- Enables the office suite.
+        enabled: false
+        # -- URI of the office suite.
+        uri: https://collabora.owncloud.test
+        # -- URI for the icon of the office suite. Will be displayed to the users.
+        iconURI: https://collabora.owncloud.test/favicon.ico
+        # -- Disables SSL certificate checking for connections to the office suites http api.
+        # Not recommended for production installations.
+        insecure: false
+      - # -- Name of the office suite. Will be displayed to the users.
+        name: OnlyOffice
+        # -- Enables the office suite.
+        enabled: false
+        # -- URI of the office suite.
+        uri: https://onlyoffice.owncloud.test
+        # -- URI for the icon of the office suite. Will be displayed to the users.
+        iconURI: https://onlyoffice.owncloud.test/web-apps/apps/documenteditor/main/resources/img/favicon.ico
+        # -- Disables SSL certificate checking for connections to the office suites http api.
+        # Not recommended for production installations.
+        insecure: false
+        # -- Disables Chat functionality of OnlyOffice
+        disableChat: false
     # -- Mimetype configuration.
     # Let's you configure a mimetypes' default application, if it is allowed to create a new file and more.
     # @default -- default configuration of oCIS, see https://doc.owncloud.com/ocis/next/deployment/services/s-list/app-registry.html#yaml-example[doc.owncloud.com]
-    mimetypes:
-      []
-      # - mime_type: application/vnd.oasis.opendocument.text
-      # extension: odt
-      # name: OpenDocument
-      # description: OpenDocument text document
-      # icon: ""
-      # default_app: ""
-      # allow_creation: true
+    mimetypes: []
+    # - mime_type: application/vnd.oasis.opendocument.text
+    # extension: odt
+    # name: OpenDocument
+    # description: OpenDocument text document
+    # icon: ""
+    # default_app: ""
+    # allow_creation: true
   # External user management
   externalUserManagement:
     # -- Enables external user management (and disables internal user management).
@@ -286,29 +291,28 @@ features:
         claim: roles
         # -- Configure the mapping for the role assignment
         mapping:
-          - role_name: admin
-            claim_value: ocisAdmin
-          - role_name: spaceadmin
-            claim_value: ocisSpaceAdmin
-          - role_name: user
-            claim_value: ocisUser
-          - role_name: guest
-            claim_value: ocisGuest
+        - role_name: admin
+          claim_value: ocisAdmin
+        - role_name: spaceadmin
+          claim_value: ocisSpaceAdmin
+        - role_name: user
+          claim_value: ocisUser
+        - role_name: guest
+          claim_value: ocisGuest
     # LDAP related settings.
     ldap:
       # -- Writeable configures if oCIS is allowed to write to the LDAP server, to eg. create or edit users.
       writeable: true
       # -- If the LDAP server is set to writable in general, some user attributes can be restricted to read only in the UI.
       # Note: This only disables editing in the UI. The readonly permissions need to be enforced in the LDAP server itself.
-      readOnlyAttributes:
-        []
-        # - user.onPremisesSamAccountName # username
-        # - user.displayName # display name
-        # - user.mail # mail
-        # - user.passwordProfile # password
-        # - user.appRoleAssignments # role
-        # - user.accountEnabled # login allowed
-        # - drive.quota # quota
+      readOnlyAttributes: []
+      # - user.onPremisesSamAccountName # username
+      # - user.displayName # display name
+      # - user.mail # mail
+      # - user.passwordProfile # password
+      # - user.appRoleAssignments # role
+      # - user.accountEnabled # login allowed
+      # - drive.quota # quota
       # -- URI to connect to the LDAP secure server.
       uri: ldaps://ldaps.owncloud.test
       # -- Set only to false, if the certificate of your LDAP secure service is not trusted.
@@ -597,10 +601,9 @@ namespaceOverride:
 replicas: 1
 
 # Default PodDisruptionBudget to apply to all services, except per-service PodDisruptionBudget configuration in `services.<service-name>.podDisruptionBudget` is set.
-podDisruptionBudget:
-  {}
-  # -- Sets the maxUnavailable or the global PodDisruptionBudget.
-  #maxUnavailable: 1
+podDisruptionBudget: {}
+# -- Sets the maxUnavailable or the global PodDisruptionBudget.
+#maxUnavailable: 1
 
 # Autoscaling settings.
 autoscaling:
@@ -629,51 +632,47 @@ autoscaling:
 # Best practice is to:
 # - set memory request == memory limit (compare to https://home.robusta.dev/blog/kubernetes-memory-limit)
 # - set cpu request and omit cpu limit (compare to https://home.robusta.dev/blog/stop-using-cpu-limits)
-resources:
-  {}
-  # limits:
-  #   cpu: 100m
-  #   memory: 128Mi
-  # requests:
-  #   cpu: 100m
-  #   memory: 128Mi
+resources: {}
+# limits:
+#   cpu: 100m
+#   memory: 128Mi
+# requests:
+#   cpu: 100m
+#   memory: 128Mi
 
 # -- Default nodeSelector to apply to all services, except per-service nodeSelector configuration in `services.<service-name>.nodeSelector` is set.
-nodeSelector:
-  {}
-  # kubernetes.io/hostname: node-01
-  # kubernetes.io/arch: "amd64"
+nodeSelector: {}
+# kubernetes.io/hostname: node-01
+# kubernetes.io/arch: "amd64"
 
 # -- Default resources to apply to all jobs in services, except per-service resources configuration in `services.<service-name>.jobResources` is set.
 # Best practice is to:
 # - set memory request == memory limit (compare to https://home.robusta.dev/blog/kubernetes-memory-limit)
 # - set cpu request and omit cpu limit (compare to https://home.robusta.dev/blog/stop-using-cpu-limits)
-jobResources:
-  {}
-  # limits:
-  #   cpu: 100m
-  #   memory: 128Mi
-  # requests:
-  #   cpu: 100m
-  #   memory: 128Mi
+jobResources: {}
+# limits:
+#   cpu: 100m
+#   memory: 128Mi
+# requests:
+#   cpu: 100m
+#   memory: 128Mi
 
 # -- Default nodeSelector to apply to all jobs, except per-service job nodeSelector configuration in `services.<service-name>.jobNodeSelector` is set.
-jobNodeSelector:
-  {}
-  # kubernetes.io/hostname: node-01
-  # kubernetes.io/arch: "amd64"
+jobNodeSelector: {}
+# kubernetes.io/hostname: node-01
+# kubernetes.io/arch: "amd64"
 
 # -- Default priorityClassName to apply to all services, except per-service jobPriorityClassName configuration in `services.<service-name>.jobPriorityClassName` is set.
 jobPriorityClassName: ""
-  # ocis-low-priority
-  # ocis-medium-priority
-  # ocis-high-priority
+# ocis-low-priority
+# ocis-medium-priority
+# ocis-high-priority
 
 # -- Default priorityClassName to apply to all services, except per-service priorityClassName configuration in `services.<service-name>.priorityClassName` is set.
 priorityClassName: ""
-  # ocis-low-priority
-  # ocis-medium-priority
-  # ocis-high-priority
+# ocis-low-priority
+# ocis-medium-priority
+# ocis-high-priority
 
 # Include arbitrary resources, eg. config maps or a cert-manager issuer (see example below)
 # -- Extra resources to be included.
@@ -834,15 +833,14 @@ services:
     # -- Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
     priorityClassName: ""
     # -- Per-service store configuration for the eventhistory service. Overrides the default setting from `store` if set.
-    store:
-      {}
-      # -- Configure the store type for the eventhistory service. Might be `memory`, `ocmem`, `etcd`, `redis`,
-      # `redis-sentinel`, `nats-js` or `noop`
-      #type:
-      # -- Provide a list of comma-separated addresses of `etcd`, `redis`, `redis-sentinel` or `nats-js` servers here
-      # if the proper store is selected
-      # addresses: []
-      # - "{{ .appNameNats }}:9233"
+    store: {}
+    # -- Configure the store type for the eventhistory service. Might be `memory`, `ocmem`, `etcd`, `redis`,
+    # `redis-sentinel`, `nats-js` or `noop`
+    #type:
+    # -- Provide a list of comma-separated addresses of `etcd`, `redis`, `redis-sentinel` or `nats-js` servers here
+    # if the proper store is selected
+    # addresses: []
+    # - "{{ .appNameNats }}:9233"
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
     podDisruptionBudget: {}
     # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
@@ -888,6 +886,24 @@ services:
     # -- Per-service custom labels
     extraLabels: {}
 
+  # -- WEBFINGER service.
+  # @default -- see detailed service configuration options below
+  webfinger:
+    # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
+    resources: {}
+    # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
+    nodeSelector: {}
+    # -- Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
+    priorityClassName: ""
+    # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
+    podDisruptionBudget: {}
+    # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
+    autoscaling: {}
+    # -- Affinity settings for the webfinger service. See the documentation of this setting in approvider for examples.
+    affinity: {}
+    # -- Per-service custom labels
+    extraLabels: {}
+    
   # -- GRAPH service.
   # @default -- see detailed service configuration options below
   graph:
@@ -945,14 +961,14 @@ services:
       storageClassName:
       # -- Persistent volume access modes. Needs to be `["ReadWriteMany"]` when scaling this service beyond one instance.
       accessModes:
-        - ReadWriteMany
+      - ReadWriteMany
       # -- Size of the persistent volume.
       size: 10Gi
       # -- Persistent volume annotations.
       annotations: {}
       # -- Persistent volume finalizers.
       finalizers:
-        - kubernetes.io/pvc-protection
+      - kubernetes.io/pvc-protection
       # -- Persistent volume selector labels.
       selectorLabels: {}
       # -- Use a custom name for the PVC instead of the default one.
@@ -1005,14 +1021,14 @@ services:
       storageClassName:
       # -- Persistent volume access modes. Needs to be `["ReadWriteMany"]` when scaling this service beyond one instance.
       accessModes:
-        - ReadWriteMany
+      - ReadWriteMany
       # -- Size of the persistent volume.
       size: 10Gi
       # -- Persistent volume annotations.
       annotations: {}
       # -- Persistent volume finalizers.
       finalizers:
-        - kubernetes.io/pvc-protection
+      - kubernetes.io/pvc-protection
       # -- Persistent volume selector labels.
       selectorLabels: {}
       # -- Use a custom name for the PVC instead of the default one.
@@ -1174,14 +1190,14 @@ services:
       storageClassName:
       # -- Persistent volume access modes. Needs to be `["ReadWriteMany"]` when scaling this service beyond one instance.
       accessModes:
-        - ReadWriteMany
+      - ReadWriteMany
       # -- Size of the persistent volume.
       size: 10Gi
       # -- Persistent volume annotations.
       annotations: {}
       # -- Persistent volume finalizers.
       finalizers:
-        - kubernetes.io/pvc-protection
+      - kubernetes.io/pvc-protection
       # -- Persistent volume selector labels.
       selectorLabels: {}
       # -- Use a custom name for the PVC instead of the default one.
@@ -1294,14 +1310,14 @@ services:
       storageClassName:
       # -- Persistent volume access modes. Needs to be `["ReadWriteMany"]` when scaling this service beyond one instance.
       accessModes:
-        - ReadWriteMany
+      - ReadWriteMany
       # -- Size of the persistent volume.
       size: 5Gi
       # -- Persistent volume annotations.
       annotations: {}
       # -- Persistent volume finalizers.
       finalizers:
-        - kubernetes.io/pvc-protection
+      - kubernetes.io/pvc-protection
       # -- Persistent volume selector labels.
       selectorLabels: {}
       # -- Use a custom name for the PVC instead of the default one.
@@ -1422,14 +1438,14 @@ services:
       storageClassName:
       # -- Persistent volume access modes. Needs to be `["ReadWriteMany"]` when scaling this service beyond one instance.
       accessModes:
-        - ReadWriteMany
+      - ReadWriteMany
       # -- Size of the persistent volume.
       size: 50Gi
       # -- Persistent volume annotations.
       annotations: {}
       # -- Persistent volume finalizers.
       finalizers:
-        - kubernetes.io/pvc-protection
+      - kubernetes.io/pvc-protection
       # -- Persistent volume selector labels.
       selectorLabels: {}
       # -- Use a custom name for the PVC instead of the default one.
@@ -1478,14 +1494,14 @@ services:
       storageClassName:
       # -- Persistent volume access modes. Needs to be `["ReadWriteMany"]` when scaling this service beyond one instance.
       accessModes:
-        - ReadWriteMany
+      - ReadWriteMany
       # -- Size of the persistent volume.
       size: 5Gi
       # -- Persistent volume annotations.
       annotations: {}
       # -- Persistent volume finalizers.
       finalizers:
-        - kubernetes.io/pvc-protection
+      - kubernetes.io/pvc-protection
       # -- Persistent volume selector labels.
       selectorLabels: {}
       # -- Use a custom name for the PVC instead of the default one.
@@ -1524,7 +1540,7 @@ services:
       storageClassName:
       # -- Persistent volume access modes. Needs to be `["ReadWriteMany"]` when scaling this service beyond one instance or persistence needs to be disabled.
       accessModes:
-        - ReadWriteMany
+      - ReadWriteMany
       # -- Size of the persistent volume.
       size: 10Gi
       # -- Persistent volume annotations.
@@ -1589,15 +1605,14 @@ services:
     # -- Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
     priorityClassName: ""
     # -- Per-service store configuration for the userlog service. Overrides the default setting from `store` if set.
-    store:
-      {}
-      # -- Configure the store type for the userlog service. Might be `memory`, `ocmem`, `etcd`, `redis`,
-      # `redis-sentinel`, `nats-js` or `noop`
-      # type:
-      # -- Provide a list of comma-separated addresses of `etcd`, `redis`, `redis-sentinel` or `nats-js` servers here
-      # if the proper store is selected
-      # addresses:
-      # - "{{ .appNameNats }}:9233"
+    store: {}
+    # -- Configure the store type for the userlog service. Might be `memory`, `ocmem`, `etcd`, `redis`,
+    # `redis-sentinel`, `nats-js` or `noop`
+    # type:
+    # -- Provide a list of comma-separated addresses of `etcd`, `redis`, `redis-sentinel` or `nats-js` servers here
+    # if the proper store is selected
+    # addresses:
+    # - "{{ .appNameNats }}:9233"
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
     podDisruptionBudget: {}
     # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
@@ -1643,61 +1658,54 @@ services:
         # -- Description to be shown for the feedback link. Uses the ownCloud default description if empty.
         description: ""
       # -- Specifies which mimeTypes will be previewed in the UI.
-      previewFileMimeTypes:
-        []
-        # - image/gif
-        # - image/png
-        # - image/jpeg
-        # - text/plain
-        # - image/tiff
-        # - image/bmp
-        # - image/x-ms-bmp
+      previewFileMimeTypes: []
+      # - image/gif
+      # - image/png
+      # - image/jpeg
+      # - text/plain
+      # - image/tiff
+      # - image/bmp
+      # - image/x-ms-bmp
       # -- Configure the {"styles": []} section in the Web config.json.
-      styles:
-        []
-        # - href: /theme/foo.css
+      styles: []
+      # - href: /theme/foo.css
       # -- Configure the {"styles": []} section in the Web config.json.
-      scripts:
-        []
-        # - src: /theme/foo.js
-        #   async: true
+      scripts: []
+      # - src: /theme/foo.js
+      #   async: true
       # -- Configure custom translations
-      customTranslations:
-        []
-        # - url: https://ocis.kube.owncloud.test/custom_translations.json
+      customTranslations: []
+      # - url: https://ocis.kube.owncloud.test/custom_translations.json
       # -- Configure the {"apps": []} section in the Web config.json.
-      apps:
-        []
-        # default apps, add and remove apps as desired
-        # - files
-        # - search
-        # - text-editor
-        # - pdf-viewer
-        # - external
-        # - user-management
+      apps: []
+      # default apps, add and remove apps as desired
+      # - files
+      # - search
+      # - text-editor
+      # - pdf-viewer
+      # - external
+      # - user-management
       # -- Configure the {"applications": []} section in the Web config.json.
-      applications:
-        []
-        # example for an user manual homepage, that will be linked in the app drawer
-        # - icon: book-read
-        #   url: "https://manual.owncloud.test"
-        #   target: _blank
-        #   title:
-        #     de: Anleitung
-        #     en: Manual
+      applications: []
+      # example for an user manual homepage, that will be linked in the app drawer
+      # - icon: book-read
+      #   url: "https://manual.owncloud.test"
+      #   target: _blank
+      #   title:
+      #     de: Anleitung
+      #     en: Manual
       # -- Configure the {"external_apps": []} section in the Web config.json.
-      externalApplications:
-        []
-        # default external application of Web, add and remove apps as desired
-        # - id: preview
-        #   path: web-app-preview
-        #   config:
-        #     mimeTypes:
-        #       - image/tiff
-        #       - image/bmp
-        #       - image/x-ms-bmp
-        # - id: settings
-        #   path: /settings.js
+      externalApplications: []
+      # default external application of Web, add and remove apps as desired
+      # - id: preview
+      #   path: web-app-preview
+      #   config:
+      #     mimeTypes:
+      #       - image/tiff
+      #       - image/bmp
+      #       - image/x-ms-bmp
+      # - id: settings
+      #   path: /settings.js
       # Theme settings
       theme:
         # -- URL to load themes from. Will be prepended to the theme path. Defaults to the value of "externalDomain".
@@ -1731,7 +1739,7 @@ services:
       storageClassName:
       # -- Persistent volume access modes. Needs to be `["ReadWriteMany"]` when scaling this service beyond one instance or persistence needs to be disabled.
       accessModes:
-        - ReadWriteMany
+      - ReadWriteMany
       # -- Size of the persistent volume.
       size: 1Gi
       # -- Persistent volume annotations.
