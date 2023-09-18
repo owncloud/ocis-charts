@@ -137,7 +137,7 @@ messagingSystem:
       # -- For self signed certificates, consider to put the CA cert of the messaging system secure server into the secret referenced by "messagingSystemCaRef"
       # Not recommended for production installations.
       insecure: false
-      
+
 # provide custom hostnames to every oCIS pods
 hostAliases: []
 # - ip: "192.168.49.2"
@@ -894,24 +894,6 @@ services:
     # -- Per-service custom labels
     extraLabels: {}
 
-  # -- WEBFINGER service.
-  # @default -- see detailed service configuration options below
-  webfinger:
-    # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
-    resources: {}
-    # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
-    nodeSelector: {}
-    # -- Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
-    priorityClassName: ""
-    # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
-    podDisruptionBudget: {}
-    # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
-    autoscaling: {}
-    # -- Affinity settings for the webfinger service. See the documentation of this setting in approvider for examples.
-    affinity: {}
-    # -- Per-service custom labels
-    extraLabels: {}
-    
   # -- GRAPH service.
   # @default -- see detailed service configuration options below
   graph:
@@ -1797,6 +1779,24 @@ services:
     # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
     autoscaling: {}
     # -- Affinity settings for the webdav service. See the documentation of this setting in approvider for examples.
+    affinity: {}
+    # -- Per-service custom labels
+    extraLabels: {}
+
+  # -- WEBFINGER service.
+  # @default -- see detailed service configuration options below
+  webfinger:
+    # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
+    resources: {}
+    # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
+    nodeSelector: {}
+    # -- Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
+    priorityClassName: ""
+    # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
+    podDisruptionBudget: {}
+    # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
+    autoscaling: {}
+    # -- Affinity settings for the webfinger service. See the documentation of this setting in approvider for examples.
     affinity: {}
     # -- Per-service custom labels
     extraLabels: {}
