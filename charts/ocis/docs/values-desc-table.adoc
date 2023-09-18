@@ -3462,54 +3462,6 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service resources configuration. Overrides the default setting from `resources` if set.
-| services.webfinger
-a| [subs=-attributes]
-+object+
-a| [subs=-attributes]
-see detailed service configuration options below
-| WEBFINGER service.
-| services.webfinger.affinity
-a| [subs=-attributes]
-+object+
-a| [subs=-attributes]
-`{}`
-| Affinity settings for the webfinger service. See the documentation of this setting in approvider for examples.
-| services.webfinger.autoscaling
-a| [subs=-attributes]
-+object+
-a| [subs=-attributes]
-`{}`
-| Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
-| services.webfinger.extraLabels
-a| [subs=-attributes]
-+object+
-a| [subs=-attributes]
-`{}`
-| Per-service custom labels
-| services.webfinger.nodeSelector
-a| [subs=-attributes]
-+object+
-a| [subs=-attributes]
-`{}`
-| Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
-| services.webfinger.podDisruptionBudget
-a| [subs=-attributes]
-+object+
-a| [subs=-attributes]
-`{}`
-| Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
-| services.webfinger.priorityClassName
-a| [subs=-attributes]
-+string+
-a| [subs=-attributes]
-`""`
-| Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
-| services.webfinger.resources
-a| [subs=-attributes]
-+object+
-a| [subs=-attributes]
-`{}`
-| Per-service resources configuration. Overrides the default setting from `resources` if set.
 | store.nodes
 a| [subs=-attributes]
 +list+
