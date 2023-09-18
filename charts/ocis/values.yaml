@@ -136,6 +136,12 @@ messagingSystem:
       # -- For self signed certificates, consider to put the CA cert of the messaging system secure server into the secret referenced by "messagingSystemCaRef"
       # Not recommended for production installations.
       insecure: false
+      
+# provide custom hostnames to every oCIS pods
+hostAliases: []
+# - ip: "192.168.49.2"
+#   hostnames:
+#   - "ocis.kube.owncloud.test"
 
 # Feature options.
 # Enable or disable features of oCIS.

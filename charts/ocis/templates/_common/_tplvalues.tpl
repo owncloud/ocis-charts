@@ -244,6 +244,16 @@ automountServiceAccountToken: true
 {{- end -}}
 
 {{/*
+oCIS hostAliases settings
+*/}}
+{{- define "ocis.hostAliases" -}}
+  {{- with $.Values.hostAliases }}
+hostAliases:
+  {{- toYaml . | nindent 2 }}
+  {{- end }}
+{{- end -}}
+
+{{/*
 oCIS persistence dataVolumeName
 */}}
 {{- define "ocis.persistence.dataVolumeName" -}}
