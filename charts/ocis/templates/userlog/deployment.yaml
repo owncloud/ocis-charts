@@ -26,7 +26,8 @@ spec:
           {{- include "ocis.containerSecurityContext" . | nindent 10 }}
           env:
             {{- include "ocis.serviceRegistry" . | nindent 12 }}
-
+            - name: USERLOG_GLOBAL_NOTIFICATIONS_SECRET
+              value: {{ .Values.notificationsSecret | quote }}
             - name: USERLOG_LOG_COLOR
               value: {{ .Values.logging.color | quote }}
             - name: USERLOG_LOG_LEVEL

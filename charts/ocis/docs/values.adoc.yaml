@@ -1604,6 +1604,8 @@ services:
       # if the proper store is selected
       # addresses:
       # - "{{ .appNameNats }}:9233"
+    # -- The secret to secure the global notifications endpoint. Only system admins and users knowing that secret can call the global notifications POST/DELETE endpoints.
+    notificationsSecret: ""
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
     podDisruptionBudget: {}
     # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
