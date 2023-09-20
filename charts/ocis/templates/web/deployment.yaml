@@ -102,6 +102,9 @@ spec:
               value: {{ . | quote }}
             {{- end }}
 
+            - name: WEB_OPTION_TOKEN_STORAGE_LOCAL
+              value: {{ .Values.services.web.config.tokenStorageLocal.enabled | quote }}
+
             {{- with .Values.services.web.config.privacyURL }}
             - name: WEB_OPTION_PRIVACY_URL
               value: {{ . | quote }}

@@ -1714,6 +1714,10 @@ services:
       postLogoutRedirectURI: ""
       # Specifies the target url valid for the logged out / access denied page.
       accessDeniedHelpURL: ""
+      # Specifies whether the access token will be stored in the local storage when set to ’true’ or in the session storage when set to ‘false’’.
+      # If stored in the local storage, login state will be persisted across multiple browser tabs, means no additional logins are required. Defaults to ’true’.
+      tokenStorageLocal:
+        enabled: true
       # Specifies the target url for the imprint link in the account menu.
       imprintURL:
       # Specifies the target url for the privacy link in the account menu.
