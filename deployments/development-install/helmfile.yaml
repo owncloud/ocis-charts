@@ -15,11 +15,14 @@ releases:
                 - ocis.kube.owncloud.test
 
       - logging:
-          level: debug
+          level: info
 
       - insecure:
           oidcIdpInsecure: true
           ocisHttpApiInsecure: true
+
+      - features:
+          demoUsers: true
 
       - services:
           idm:
