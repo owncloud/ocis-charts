@@ -216,6 +216,14 @@ spec:
               value: {{ .Values.features.gdprReport.integrations.keycloak.insecure | quote }}
             {{- end }}
 
+            - name: GRAPH_SERVICE_ACCOUNT_ID
+              value: .Values.features.serviceAccountID
+            - name: GRAPH_SERVICE_ACCOUNT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "secrets.serviceAccountSecret" . }}
+                  key: service-account-secret
+
             {{- include "ocis.cors" . |nindent 12 }}
 
 

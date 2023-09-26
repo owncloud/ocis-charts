@@ -152,6 +152,8 @@ features:
   # -- Create demo users on the first startup.
   # Not recommended for production installations.
   demoUsers: false
+  # ID of the service account
+  serviceAccountID: "7641d020-719c-408d-be9b-dd0c2713fb9c"
   emailNotifications:
     # -- Enables email notifications.
     enabled: false
@@ -567,6 +569,8 @@ secretRefs:
   # -- Reference to an existing s3 secret (see ref:Secrets#secrets)
   # If not filled in, will attempt to use values in `.storageusers.storageBackend.s3.driverConfig.s3ng` instead.
   s3CredentialsSecretRef: ""
+  # -- Reference to an existing service account secret (see ref:Secrets#secrets)
+  serviceAccountSecretRef: ""
 
 # Security context options.
 securityContext:
@@ -807,6 +811,24 @@ services:
     # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
     autoscaling: {}
     # -- Affinity settings for the authmachine service. See the documentation of this setting in approvider for examples.
+    affinity: {}
+    # -- Per-service custom labels
+    extraLabels: {}
+
+  # -- AUTH SERVICE service.
+  # @default -- see detailed service configuration options below
+  authservice:
+    # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
+    resources: {}
+    # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
+    nodeSelector: {}
+    # -- Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
+    priorityClassName: ""
+    # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
+    podDisruptionBudget: {}
+    # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
+    autoscaling: {}
+    # -- Affinity settings for the authservice service. See the documentation of this setting in approvider for examples.
     affinity: {}
     # -- Per-service custom labels
     extraLabels: {}
@@ -1755,6 +1777,8 @@ services:
       imprintURL:
       # Specifies the target url for the privacy link in the account menu.
       privacyURL:
+      # Specifies the login url
+      loginURL: 
 
     # -- Persistence settings.
     # @default -- see detailed persistence configuration options below

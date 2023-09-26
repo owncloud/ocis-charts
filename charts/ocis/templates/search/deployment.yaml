@@ -111,6 +111,14 @@ spec:
                   name: {{ include "secrets.machineAuthAPIKeySecret" . }}
                   key: machine-auth-api-key
 
+            - name: SEARCH_SERVICE_ACCOUNT_ID
+              value: .Values.features.serviceAccountID
+            - name: SEARCH_SERVICE_ACCOUNT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "secrets.serviceAccountSecret" . }}
+                  key: service-account-secret
+
             - name: OCIS_ASYNC_UPLOADS
               value: "true"
 

@@ -83,6 +83,14 @@ spec:
                   name: {{ include "secrets.machineAuthAPIKeySecret" . }}
                   key: machine-auth-api-key
 
+            - name: USERLOG_SERVICE_ACCOUNT_ID
+              value: .Values.features.serviceAccountID
+            - name: USERLOG_SERVICE_ACCOUNT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "secrets.serviceAccountSecret" . }}
+                  key: service-account-secret
+
             - name: USERLOG_JWT_SECRET
               valueFrom:
                 secretKeyRef:

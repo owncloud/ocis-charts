@@ -103,6 +103,14 @@ spec:
                   name: {{ include "secrets.machineAuthAPIKeySecret" . }}
                   key: machine-auth-api-key
 
+            - name: NOTIFICATIONS_SERVICE_ACCOUNT_ID
+              value: .Values.features.serviceAccountID
+            - name: NOTIFICATIONS_SERVICE_ACCOUNT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "secrets.serviceAccountSecret" . }}
+                  key: service-account-secret
+
             {{- if .Values.features.emailNotifications.branding.enabled }}
             # Mail theming
             - name: NOTIFICATIONS_EMAIL_TEMPLATE_PATH

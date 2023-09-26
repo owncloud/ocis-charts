@@ -102,6 +102,11 @@ spec:
               value: {{ . | quote }}
             {{- end }}
 
+            {{- with .Values.services.web.config.loginURL }}
+            - name: WEB_OPTION_LOGIN_URL
+              value: {{ . | quote }}
+            {{- end }}
+
             {{- with .Values.services.web.config.privacyURL }}
             - name: WEB_OPTION_PRIVACY_URL
               value: {{ . | quote }}

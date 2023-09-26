@@ -102,6 +102,14 @@ spec:
                   name: {{ include "secrets.machineAuthAPIKeySecret" . }}
                   key: machine-auth-api-key
 
+            - name: PROXY_SERVICE_ACCOUNT_ID
+              value: .Values.features.serviceAccountID
+            - name: PROXY_SERVICE_ACCOUNT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "secrets.serviceAccountSecret" . }}
+                  key: service-account-secret
+
             {{- if .Values.features.policies.enabled }}
             - name: PROXY_POLICIES_QUERY
               value: data.proxy.granted
