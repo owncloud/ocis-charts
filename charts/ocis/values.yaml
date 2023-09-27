@@ -199,6 +199,8 @@ features:
     publiclink:
       # -- Enforce a password on writable public link shares.
       writeableShareMustHavePassword: false
+    # automatically accept incoming shares
+    autoAcceptShares: true
   # Apps integration
   appsIntegration:
     # -- Enables the apps integration.

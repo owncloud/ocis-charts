@@ -77,12 +77,6 @@ spec:
               {{- end }}
             {{- end }}
 
-            - name: USERLOG_MACHINE_AUTH_API_KEY
-              valueFrom:
-                secretKeyRef:
-                  name: {{ include "secrets.machineAuthAPIKeySecret" . }}
-                  key: machine-auth-api-key
-
             - name: USERLOG_SERVICE_ACCOUNT_ID
               value: .Values.features.serviceAccountID
             - name: USERLOG_SERVICE_ACCOUNT_SECRET
