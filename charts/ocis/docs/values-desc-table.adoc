@@ -984,6 +984,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `""`
 | Reference to an existing keycloak client secret, used for the GDPR export. Only used if features.externalUserManagement.gdprExport.enabled equals true.
+| secretRefs.globalNotificationsSecretRef
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| The secret to secure the global notifications endpoint. Only system admins and users knowing that secret can call the global notifications POST/DELETE endpoints.
 | secretRefs.idpSecretRef
 a| [subs=-attributes]
 +string+
@@ -3144,12 +3150,6 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
-| services.userlog.notificationsSecret
-a| [subs=-attributes]
-+string+
-a| [subs=-attributes]
-`""`
-| The secret to secure the global notifications endpoint. Only system admins and users knowing that secret can call the global notifications POST/DELETE endpoints.
 | services.userlog.podDisruptionBudget
 a| [subs=-attributes]
 +object+

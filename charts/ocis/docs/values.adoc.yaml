@@ -568,6 +568,8 @@ secretRefs:
   # -- Reference to an existing s3 secret (see xref:{secrets}[Secrets])
   # If not filled in, will attempt to use values in `.storageusers.storageBackend.s3.driverConfig.s3ng` instead.
   s3CredentialsSecretRef: ""
+  # -- The secret to secure the global notifications endpoint. Only system admins and users knowing that secret can call the global notifications POST/DELETE endpoints.
+  globalNotificationsSecretRef: ""
 
 # Security context options.
 securityContext:
@@ -1604,8 +1606,6 @@ services:
       # if the proper store is selected
       # addresses:
       # - "{{ .appNameNats }}:9233"
-    # -- The secret to secure the global notifications endpoint. Only system admins and users knowing that secret can call the global notifications POST/DELETE endpoints.
-    notificationsSecret: ""
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
     podDisruptionBudget: {}
     # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
