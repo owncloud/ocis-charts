@@ -147,6 +147,20 @@ spec:
 
             {{- include "ocis.cors" . |nindent 12 }}
 
+            # password policies
+            - name: FRONTEND_PASSWORD_POLICY_MIN_CHARACTERS
+              value: {{ .Values.features.sharing.passwordPolicies.minChars | quote }}
+            - name: FRONTEND_PASSWORD_POLICY_MIN_LOWERCASE_CHARACTERS
+              value: {{ .Values.features.sharing.passwordPolicies.minLowerCharacters | quote }}
+            - name: FRONTEND_PASSWORD_POLICY_MIN_UPPERCASE_CHARACTERS
+              value: {{ .Values.features.sharing.passwordPolicies.minUpperCharacters | quote }}
+            - name: FRONTEND_PASSWORD_POLICY_MIN_DIGITS
+              value: {{ .Values.features.sharing.passwordPolicies.minDigits | quote }}
+            - name: FRONTEND_PASSWORD_POLICY_MIN_SPECIAL_CHARACTERS
+              value: {{ .Values.features.sharing.passwordPolicies.minSpecialCharacters | quote }}
+            - name: FRONTEND_PASSWORD_POLICY_BANNED_PASSWORDS_LIST
+              value: {{ .Values.features.sharing.passwordPolicies.bannedPasswordsList | quote }}
+
           {{- include "ocis.livenessProbe" . | nindent 10 }}
 
           resources: {{ toYaml .resources | nindent 12 }}

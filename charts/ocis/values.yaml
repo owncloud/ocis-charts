@@ -201,6 +201,20 @@ features:
       writeableShareMustHavePassword: false
     # automatically accept incoming shares
     autoAcceptShares: true
+    # password policies for share passwords
+    passwordPolicies:
+      # the minimum amount of characters the password needs to have
+      minCharacters: 0
+      # the minimum amount of lower case characters the password needs to have
+      minLowerCharacters: 0
+      # the minimum amount of upper case characters the password needs to have
+      minUpperCharacters: 0
+      # the minimum amount of special characters the password needs to have
+      minSpecialCharacters: 0
+      # the minimum amount of digits the password needs to have
+      minDigits: 0
+      # the path to the file containing the list of banned passwords
+      bannedPasswordsList: ""
   # Apps integration
   appsIntegration:
     # -- Enables the apps integration.
