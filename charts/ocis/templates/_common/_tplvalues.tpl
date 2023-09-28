@@ -39,6 +39,7 @@ Adds the app names to the scope and set the name of the app based on the input p
   {{- $_ := set .scope "appNameAuthBasic" "authbasic" -}}
   {{- $_ := set .scope "appNameAuthMachine" "authmachine" -}}
   {{- $_ := set .scope "appNameAntivirus" "antivirus" -}}
+  {{- $_ := set .scope "appNameClientlog" "clientlog" -}}
   {{- $_ := set .scope "appNameEventhistory" "eventhistory" -}}
   {{- $_ := set .scope "appNameFrontend" "frontend" -}}
   {{- $_ := set .scope "appNameGateway" "gateway" -}}

@@ -1,0 +1,3 @@
+{{- include "ocis.basicServiceTemplates" (dict "scope" . "appName" "appNameClientlog" "appNameSuffix" "") -}}
+{{- $_ := set . "autoscaling" (default (default (dict) .Values.autoscaling) .Values.services.clientlog.autoscaling) -}}
+{{ include "ocis.hpa" . }}

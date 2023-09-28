@@ -23,6 +23,7 @@ releases:
 
       - features:
           demoUsers: true
+          basicAuthentication: true
 
       - services:
           idm:

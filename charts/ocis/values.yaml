@@ -829,6 +829,24 @@ services:
     # -- Per-service custom labels
     extraLabels: {}
 
+  # -- CLIENTLOG service.
+  # @default -- see detailed service configuration options below
+  clientlog:
+    # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
+    resources: {}
+    # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
+    nodeSelector: {}
+    # -- Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
+    priorityClassName: ""
+    # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
+    podDisruptionBudget: {}
+    # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
+    autoscaling: {}
+    # -- Affinity settings for the clientlog service. See the documentation of this setting in approvider for examples.
+    affinity: {}
+    # -- Per-service custom labels
+    extraLabels: {}
+
   # -- EVENT HISTORY service.
   # @default -- see detailed service configuration options below
   eventhistory:
