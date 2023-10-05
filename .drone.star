@@ -71,7 +71,7 @@ def linting(ctx):
                 "entrypoint": [
                     "/kube-linter",
                     "lint",
-		    "--exclude=latest-tag",
+                    "--exclude=latest-tag",
                     "charts/ocis/ci/templated.yaml",
                 ],
             },

@@ -42,6 +42,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `""`
 | Type of the cache to use. It defaults to no cache or a in memory cache depending on the service. To disable the cache, set to "noop". Can be set to "redis", "redis-sentinel" or "etcd", then the address of Redis (Sentinel) / etcd node(s) needs to be set to `cache.nodes`.
+| configRefs.authServiceConfigRef
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Reference to an existing authservice config.
 | configRefs.graphConfigRef
 a| [subs=-attributes]
 +string+
@@ -654,6 +660,48 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `nil`
 | Define the roles by specifying a name of a ConfigMap which already contains the the role description (might also be defined in the `extraResources` section). The ConfigMap needs to contain a file named `custom-roles.json` which holds the role description in JSON format Please note that you have to restart the settings service manually if you change the content of you ConfigMap.
+| features.sharing.autoAcceptShares
+a| [subs=-attributes]
++bool+
+a| [subs=-attributes]
+`true`
+|
+| features.sharing.passwordPolicies.bannedPasswordsList
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+|
+| features.sharing.passwordPolicies.minCharacters
+a| [subs=-attributes]
++int+
+a| [subs=-attributes]
+`0`
+|
+| features.sharing.passwordPolicies.minDigits
+a| [subs=-attributes]
++int+
+a| [subs=-attributes]
+`0`
+|
+| features.sharing.passwordPolicies.minLowerCharacters
+a| [subs=-attributes]
++int+
+a| [subs=-attributes]
+`0`
+|
+| features.sharing.passwordPolicies.minSpecialCharacters
+a| [subs=-attributes]
++int+
+a| [subs=-attributes]
+`0`
+|
+| features.sharing.passwordPolicies.minUpperCharacters
+a| [subs=-attributes]
++int+
+a| [subs=-attributes]
+`0`
+|
 | features.sharing.publiclink.writeableShareMustHavePassword
 a| [subs=-attributes]
 +bool+
@@ -730,7 +778,7 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 +string+
 a| [subs=-attributes]
-`"IfNotPresent"`
+`"Always"`
 | Image pull policy
 | image.pullSecrets
 a| [subs=-attributes]
@@ -754,7 +802,7 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 +string+
 a| [subs=-attributes]
-`""`
+`"latest"`
 | Image tag. Defaults to the chart's appVersion.
 | ingress.annotations
 a| [subs=-attributes]
@@ -1038,6 +1086,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `""`
 | Reference to an existing s3 secret (see xref:{secrets}[Secrets]) If not filled in, will attempt to use values in `.storageusers.storageBackend.s3.driverConfig.s3ng` instead.
+| secretRefs.serviceAccountSecretRef
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Reference to an existing service account secret (see xref:{secrets}[Secrets])
 | secretRefs.storagesystemJwtSecretRef
 a| [subs=-attributes]
 +string+
@@ -1345,6 +1399,102 @@ a| [subs=-attributes]
 `""`
 | Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
 | services.authmachine.resources
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service resources configuration. Overrides the default setting from `resources` if set.
+| services.authservice
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+see detailed service configuration options below
+| AUTH SERVICE service.
+| services.authservice.affinity
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Affinity settings for the authservice service. See the documentation of this setting in approvider for examples.
+| services.authservice.autoscaling
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
+| services.authservice.extraLabels
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service custom labels
+| services.authservice.nodeSelector
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
+| services.authservice.podDisruptionBudget
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
+| services.authservice.priorityClassName
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
+| services.authservice.resources
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service resources configuration. Overrides the default setting from `resources` if set.
+| services.clientlog
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+see detailed service configuration options below
+| CLIENTLOG service.
+| services.clientlog.affinity
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Affinity settings for the clientlog service. See the documentation of this setting in approvider for examples.
+| services.clientlog.autoscaling
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
+| services.clientlog.extraLabels
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service custom labels
+| services.clientlog.nodeSelector
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
+| services.clientlog.podDisruptionBudget
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
+| services.clientlog.priorityClassName
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
+| services.clientlog.resources
 a| [subs=-attributes]
 +object+
 a| [subs=-attributes]
@@ -2358,6 +2508,60 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service resources configuration. Overrides the default setting from `resources` if set.
+| services.sse
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+see detailed service configuration options below
+| SSE service
+| services.sse.affinity
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Affinity settings for the postprocessing service. See the documentation of this setting in approvider for examples.
+| services.sse.autoscaling
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
+| services.sse.extraLabels
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service custom labels
+| services.sse.nodeSelector
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
+| services.sse.podDisruptionBudget
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
+| services.sse.priorityClassName
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
+| services.sse.resources
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service resources configuration. Overrides the default setting from `resources` if set.
+| services.sse.store
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service store configuration for the eventhistory service. Overrides the default setting from `store` if set.
 | services.storagepubliclink
 a| [subs=-attributes]
 +object+
