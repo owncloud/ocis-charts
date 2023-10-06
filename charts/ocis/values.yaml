@@ -8,7 +8,7 @@ image:
   # -- Image sha / digest (optional).
   sha: ""
   # -- Image pull policy
-  pullPolicy: IfNotPresent
+  pullPolicy: Always
   # -- Names of the secret containing the credentials to pull an image from the registry. More
   # information how a secret can be defined at https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
   #
