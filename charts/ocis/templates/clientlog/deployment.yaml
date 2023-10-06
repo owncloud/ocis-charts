@@ -74,7 +74,10 @@ spec:
             {{- end }}
 
             - name: CLIENTLOG_SERVICE_ACCOUNT_ID
-              value: .Values.features.serviceAccountID
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ include "config.authService" . }}
+                  key: service-account-id
             - name: CLIENTLOG_SERVICE_ACCOUNT_SECRET
               valueFrom:
                 secretKeyRef:

@@ -68,6 +68,10 @@ All take the scope as the first and only parameter.
 {{ .Values.secretRefs.s3CredentialsSecretRef | default "s3-credentials-secret" | quote }}
 {{- end -}}
 
+{{- define "config.authService" -}}
+{{ .Values.configRefs.authServiceConfigRef | default "auth-service" | quote }}
+{{- end -}}
+
 {{- define "config.storageUsers" -}}
 {{ .Values.configRefs.storageusersConfigRef | default "storage-users" | quote }}
 {{- end -}}

@@ -143,7 +143,10 @@ spec:
                   key: machine-auth-api-key
 
             - name: STORAGE_USERS_SERVICE_ACCOUNT_ID
-              value: .Values.features.serviceAccountID
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ include "config.authService" . }}
+                  key: service-account-id
             - name: STORAGE_USERS_SERVICE_ACCOUNT_SECRET
               valueFrom:
                 secretKeyRef:

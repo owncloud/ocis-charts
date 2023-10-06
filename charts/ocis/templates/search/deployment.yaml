@@ -112,7 +112,10 @@ spec:
                   key: machine-auth-api-key
 
             - name: SEARCH_SERVICE_ACCOUNT_ID
-              value: .Values.features.serviceAccountID
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ include "config.authService" . }}
+                  key: service-account-id
             - name: SEARCH_SERVICE_ACCOUNT_SECRET
               valueFrom:
                 secretKeyRef:
