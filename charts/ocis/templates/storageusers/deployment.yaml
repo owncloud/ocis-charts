@@ -142,6 +142,17 @@ spec:
                   name: {{ include "secrets.machineAuthAPIKeySecret" . }}
                   key: machine-auth-api-key
 
+            - name: STORAGE_USERS_SERVICE_ACCOUNT_ID
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ include "config.authService" . }}
+                  key: service-account-id
+            - name: STORAGE_USERS_SERVICE_ACCOUNT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "secrets.serviceAccountSecret" . }}
+                  key: service-account-secret
+
             # cache
             - name: STORAGE_USERS_FILEMETADATA_CACHE_STORE
               value: {{ default "noop" .Values.cache.type | quote }}

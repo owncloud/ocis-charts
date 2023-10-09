@@ -82,6 +82,12 @@ spec:
                   name: {{ include "secrets.jwtSecret" . }}
                   key: jwt-secret
 
+            - name: SETTINGS_SERVICE_ACCOUNT_ID_ADMIN
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ include "config.authService" . }}
+                  key: service-account-id
+
             - name: OCIS_SYSTEM_USER_API_KEY
               valueFrom:
                 secretKeyRef:

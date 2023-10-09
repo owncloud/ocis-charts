@@ -21,6 +21,10 @@ releases:
           oidcIdpInsecure: true
           ocisHttpApiInsecure: true
 
+      - features:
+          demoUsers: true
+          basicAuthentication: true
+
       - services:
           idm:
             persistence:

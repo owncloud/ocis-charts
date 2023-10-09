@@ -52,3 +52,7 @@ You can use this password to login with the user `admin`.
 As this is deployed with a `ReadWriteOnce` storage access mode, the deployments persistence will be limited to
 a single pod. If you want to scale the pods, you will need to change the storage access mode to `ReadWriteMany`.
 If you do this, please check if your storage provider supports this access mode.
+
+### Development
+
+Note this chart is made for development, therefore both `demoUsers` and `basicAuthentication` is set to true. Using this chart in production is not recommended.
