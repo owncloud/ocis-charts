@@ -3,7 +3,9 @@ releases:
     chart: ../../charts/ocis
     namespace: ocis
     values:
-      - externalDomain: ocis.kube.owncloud.test
+      - externalDomain: ocis.devdanylo.owncloud.works
+      - deploymentStrategy:
+          type: Recreate
       - ingress:
           enabled: true
           ingressClassName: nginx
@@ -12,7 +14,7 @@ releases:
           tls:
             - secretName: ocis-dev-tls
               hosts:
-                - ocis.kube.owncloud.test
+                - ocis.devdanylo.owncloud.works
 
       - logging:
           level: debug
@@ -25,31 +27,35 @@ releases:
           idm:
             persistence:
               enabled: true
-
+              chownInitContainer: true
           nats:
             persistence:
               enabled: true
-
+              chownInitContainer: true
           search:
             persistence:
               enabled: true
-
+              chownInitContainer: true
           storagesystem:
             persistence:
               enabled: true
-
+              chownInitContainer: true
           storageusers:
             persistence:
               enabled: true
+              chownInitContainer: true
 
           store:
             persistence:
               enabled: true
+              chownInitContainer: true
 
           thumbnails:
             persistence:
               enabled: true
+              chownInitContainer: true
 
           web:
             persistence:
               enabled: true
+              chownInitContainer: true
