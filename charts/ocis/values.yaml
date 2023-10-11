@@ -152,6 +152,10 @@ features:
   # -- Create demo users on the first startup.
   # Not recommended for production installations.
   demoUsers: false
+  # Language related settings
+  language:
+    # -- The default language. If not defined, English will be used as default. See the documentation for more details.
+    default: "en"
   # Email related settings
   emailNotifications:
     # -- Enables email notifications.
@@ -1795,7 +1799,7 @@ services:
       # Specifies the target url for the privacy link in the account menu.
       privacyURL:
       # Specifies the login url
-      loginURL: 
+      loginURL:
 
     # -- Persistence settings.
     # @default -- see detailed persistence configuration options below
