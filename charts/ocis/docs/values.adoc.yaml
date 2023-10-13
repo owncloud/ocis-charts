@@ -149,10 +149,10 @@ hostAliases: []
 features:
   # -- Enable basic authentication.
   # Not recommended for production installations.
-  basicAuthentication: false
+  basicAuthentication: true
   # -- Create demo users on the first startup.
   # Not recommended for production installations.
-  demoUsers: false
+  demoUsers: true
   emailNotifications:
     # -- Enables email notifications.
     enabled: false
