@@ -148,10 +148,10 @@ hostAliases: []
 features:
   # -- Enable basic authentication.
   # Not recommended for production installations.
-  basicAuthentication: true
+  basicAuthentication: false
   # -- Create demo users on the first startup.
   # Not recommended for production installations.
-  demoUsers: true
+  demoUsers: false
   emailNotifications:
     # -- Enables email notifications.
     enabled: false
@@ -671,13 +671,15 @@ jobNodeSelector:
   # kubernetes.io/arch: "amd64"
 
 # -- Default priorityClassName to apply to all services, except per-service jobPriorityClassName configuration in `services.<service-name>.jobPriorityClassName` is set.
-jobPriorityClassName: ""
+jobPriorityClassName:
+  ""
   # ocis-low-priority
   # ocis-medium-priority
   # ocis-high-priority
 
 # -- Default priorityClassName to apply to all services, except per-service priorityClassName configuration in `services.<service-name>.priorityClassName` is set.
-priorityClassName: ""
+priorityClassName:
+  ""
   # ocis-low-priority
   # ocis-medium-priority
   # ocis-high-priority
