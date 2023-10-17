@@ -26,7 +26,6 @@ spec:
           {{- include "ocis.containerSecurityContext" . | nindent 10 }}
           env:
             {{- include "ocis.serviceRegistry" . | nindent 12 }}
-
             - name: USERLOG_LOG_COLOR
               value: {{ .Values.logging.color | quote }}
             - name: USERLOG_LOG_LEVEL
@@ -82,6 +81,14 @@ spec:
                 secretKeyRef:
                   name: {{ include "secrets.machineAuthAPIKeySecret" . }}
                   key: machine-auth-api-key
+
+            {{- if .Values.secretRefs.globalNotificationsSecretRef }}
+            - name: USERLOG_GLOBAL_NOTIFICATIONS_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "secrets.globalNotificationsSecret" . }}
+                  key: notifications-secret
+            {{- end }}
 
             - name: USERLOG_JWT_SECRET
               valueFrom:

@@ -568,6 +568,8 @@ secretRefs:
   # -- Reference to an existing s3 secret (see xref:{secrets}[Secrets])
   # If not filled in, will attempt to use values in `.storageusers.storageBackend.s3.driverConfig.s3ng` instead.
   s3CredentialsSecretRef: ""
+  # -- The secret to secure the global notifications endpoint. Only system admins and users knowing that secret can call the global notifications POST/DELETE endpoints.
+  globalNotificationsSecretRef: ""
 
 # Security context options.
 securityContext:
@@ -670,13 +672,15 @@ jobNodeSelector:
   # kubernetes.io/arch: "amd64"
 
 # -- Default priorityClassName to apply to all services, except per-service jobPriorityClassName configuration in `services.<service-name>.jobPriorityClassName` is set.
-jobPriorityClassName: ""
+jobPriorityClassName:
+  ""
   # ocis-low-priority
   # ocis-medium-priority
   # ocis-high-priority
 
 # -- Default priorityClassName to apply to all services, except per-service priorityClassName configuration in `services.<service-name>.priorityClassName` is set.
-priorityClassName: ""
+priorityClassName:
+  ""
   # ocis-low-priority
   # ocis-medium-priority
   # ocis-high-priority
