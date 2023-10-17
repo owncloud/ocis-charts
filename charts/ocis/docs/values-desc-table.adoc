@@ -612,6 +612,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `"oCIS"`
 | Realm that the users are in.
+| features.language.default
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"en"`
+| The default language. If not defined, English will be used as default. See the documentation for more details.
 | features.policies.enabled
 a| [subs=-attributes]
 +bool+

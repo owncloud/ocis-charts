@@ -45,6 +45,9 @@ spec:
             - name: SETTINGS_DEBUG_PPROF
               value: {{ .Values.debug.profiling | quote }}
 
+            - name: SETTINGS_DEFAULT_LANGUAGE
+              value: {{ default "en" .Values.features.language.default | quote }}
+
             # cache
             - name: SETTINGS_CACHE_STORE
               value: {{ default "memory" .Values.cache.type | quote }}
