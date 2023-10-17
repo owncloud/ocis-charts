@@ -45,7 +45,7 @@ spec:
             - name: SETTINGS_DEBUG_PPROF
               value: {{ .Values.debug.profiling | quote }}
 
-            - name: OCIS_DEFAULT_LANGUAGE
+            - name: SETTINGS_DEFAULT_LANGUAGE
               value: {{ default "en" .Values.features.language.default | quote }}
 
             # cache
