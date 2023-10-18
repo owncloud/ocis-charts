@@ -26,6 +26,9 @@ spec:
           env:
             {{- include "ocis.serviceRegistry" . | nindent 12 }}
 
+            - name: OCIS_DEFAULT_LANGUAGE
+              value: {{ default "en" .Values.features.language.default | quote }}
+
             - name: SETTINGS_LOG_COLOR
               value: {{ .Values.logging.color | quote }}
             - name: SETTINGS_LOG_LEVEL
@@ -44,9 +47,6 @@ spec:
 
             - name: SETTINGS_DEBUG_PPROF
               value: {{ .Values.debug.profiling | quote }}
-
-            - name: SETTINGS_DEFAULT_LANGUAGE
-              value: {{ default "en" .Values.features.language.default | quote }}
 
             # cache
             - name: SETTINGS_CACHE_STORE
