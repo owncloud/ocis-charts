@@ -45,8 +45,7 @@ spec:
             - name: CLIENTLOG_DEBUG_PPROF
               value: {{ .Values.debug.profiling | quote }}
 
-            # NOTE: change to CLIENTLOG... once fix has landed in master
-            - name: USERLOG_DEBUG_ADDR
+            - name: CLIENTLOG_DEBUG_ADDR
               value: 0.0.0.0:9260
 
             - name: CLIENTLOG_STORE
