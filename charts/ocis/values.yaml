@@ -216,8 +216,10 @@ features:
       minSpecialCharacters: 0
       # the minimum amount of digits the password needs to have
       minDigits: 0
-      # the path to the file containing the list of banned passwords
-      bannedPasswordsList: ""
+      # list of banned passwords
+      bannedPasswords: []
+        # - foo
+        # - bar
   # Apps integration
   appsIntegration:
     # -- Enables the apps integration.
