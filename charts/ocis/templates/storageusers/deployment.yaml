@@ -132,12 +132,6 @@ spec:
             - name: STORAGE_USERS_PURGE_TRASH_BIN_PROJECT_DELETE_BEFORE
               value: {{ .Values.services.storageusers.maintenance.purgeExpiredTrashBinItems.projectDeleteBefore | quote }}
 
-            - name: OCIS_MACHINE_AUTH_API_KEY
-              valueFrom:
-                secretKeyRef:
-                  name: {{ include "secrets.machineAuthAPIKeySecret" . }}
-                  key: machine-auth-api-key
-
             - name: STORAGE_USERS_SERVICE_ACCOUNT_ID
               valueFrom:
                 configMapKeyRef:

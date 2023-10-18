@@ -97,12 +97,6 @@ spec:
               {{- end }}
             {{- end }}
 
-            - name: NOTIFICATIONS_MACHINE_AUTH_API_KEY
-              valueFrom:
-                secretKeyRef:
-                  name: {{ include "secrets.machineAuthAPIKeySecret" . }}
-                  key: machine-auth-api-key
-
             - name: NOTIFICATIONS_SERVICE_ACCOUNT_ID
               valueFrom:
                 configMapKeyRef:

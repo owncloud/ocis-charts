@@ -78,11 +78,6 @@ spec:
                 secretKeyRef:
                   name: {{ include "secrets.jwtSecret" $ }}
                   key: jwt-secret
-            - name: POLICIES_MACHINE_AUTH_API_KEY
-              valueFrom:
-                secretKeyRef:
-                  name: {{ include "secrets.machineAuthAPIKeySecret" . }}
-                  key: machine-auth-api-key
 
             - name: POLICIES_DEBUG_PPROF
               value: {{ .Values.debug.profiling | quote }}
