@@ -672,11 +672,11 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `true`
 |
-| features.sharing.passwordPolicies.bannedPasswordsList
+| features.sharing.passwordPolicies.bannedPasswords
 a| [subs=-attributes]
-+string+
++list+
 a| [subs=-attributes]
-`""`
+`[]`
 |
 | features.sharing.passwordPolicies.minCharacters
 a| [subs=-attributes]
@@ -784,7 +784,7 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 +string+
 a| [subs=-attributes]
-`"Always"`
+`"IfNotPresent"`
 | Image pull policy
 | image.pullSecrets
 a| [subs=-attributes]
@@ -802,7 +802,7 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 +string+
 a| [subs=-attributes]
-`""`
+`"c804f9b7120eebe276ec4d35975760e0d924fa197ba641e243ab22e118cec6ed"`
 | Image sha / digest (optional).
 | image.tag
 a| [subs=-attributes]
@@ -1038,6 +1038,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `""`
 | Reference to an existing keycloak client secret, used for the GDPR export. Only used if features.externalUserManagement.gdprExport.enabled equals true.
+| secretRefs.globalNotificationsSecretRef
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| The secret to secure the global notifications endpoint. Only system admins and users knowing that secret can call the global notifications POST/DELETE endpoints.
 | secretRefs.idpSecretRef
 a| [subs=-attributes]
 +string+

@@ -9,7 +9,7 @@ spec:
   {{- end }}
   {{- include "ocis.deploymentStrategy" . | nindent 2 }}
   template:
-    {{- include "ocis.templateMetadata" (dict "scope" $ "configCheck" false) | nindent 4 }}
+    {{- include "ocis.templateMetadata" (dict "scope" $ "configCheck" true) | nindent 4 }}
     spec:
       {{- include "ocis.serviceAccount" . | nindent 6 }}
       {{- include "ocis.affinity" .Values.services.frontend | nindent 6 }}
@@ -152,7 +152,7 @@ spec:
 
             # password policies
             - name: FRONTEND_PASSWORD_POLICY_MIN_CHARACTERS
-              value: {{ .Values.features.sharing.passwordPolicies.minChars | quote }}
+              value: {{ .Values.features.sharing.passwordPolicies.minCharacters | quote }}
             - name: FRONTEND_PASSWORD_POLICY_MIN_LOWERCASE_CHARACTERS
               value: {{ .Values.features.sharing.passwordPolicies.minLowerCharacters | quote }}
             - name: FRONTEND_PASSWORD_POLICY_MIN_UPPERCASE_CHARACTERS
@@ -162,7 +162,7 @@ spec:
             - name: FRONTEND_PASSWORD_POLICY_MIN_SPECIAL_CHARACTERS
               value: {{ .Values.features.sharing.passwordPolicies.minSpecialCharacters | quote }}
             - name: FRONTEND_PASSWORD_POLICY_BANNED_PASSWORDS_LIST
-              value: {{ .Values.features.sharing.passwordPolicies.bannedPasswordsList | quote }}
+              value: /etc/ocis/sharing-banned-passwords.txt
 
           {{- include "ocis.livenessProbe" . | nindent 10 }}
 
@@ -175,6 +175,8 @@ spec:
               containerPort: 9141
 
           volumeMounts:
+            - name: configs
+              mountPath: /etc/ocis
             - name: tmp-volume
               mountPath: /tmp
 
@@ -182,3 +184,6 @@ spec:
       volumes:
         - name: tmp-volume
           emptyDir: {}
+        - name: configs
+          configMap:
+            name: sharing-banned-passwords
