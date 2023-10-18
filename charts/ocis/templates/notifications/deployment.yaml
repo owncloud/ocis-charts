@@ -26,6 +26,9 @@ spec:
           {{- include "ocis.containerSecurityContext" . | nindent 10 }}
           env:
             {{- include "ocis.serviceRegistry" . | nindent 12 }}
+            
+            - name: OCIS_DEFAULT_LANGUAGE
+              value: {{ default "en" .Values.features.language.default | quote }}
 
             - name: NOTIFICATIONS_LOG_COLOR
               value: {{ .Values.logging.color | quote }}
