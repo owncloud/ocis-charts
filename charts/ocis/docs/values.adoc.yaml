@@ -7,9 +7,9 @@ image:
   # -- Image tag. Defaults to the chart's appVersion.
   tag: "latest"
   # -- Image sha / digest (optional).
-  sha: ""
+  sha: "c804f9b7120eebe276ec4d35975760e0d924fa197ba641e243ab22e118cec6ed" # oCIS as of 18th October 2023
   # -- Image pull policy
-  pullPolicy: Always
+  pullPolicy: IfNotPresent
   # -- Names of the secret containing the credentials to pull an image from the registry. More
   # information how a secret can be defined at https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
   #
@@ -217,8 +217,10 @@ features:
       minSpecialCharacters: 0
       # the minimum amount of digits the password needs to have
       minDigits: 0
-      # the path to the file containing the list of banned passwords
-      bannedPasswordsList: ""
+      # list of banned passwords
+      bannedPasswords: []
+        # - foo
+        # - bar
   # Apps integration
   appsIntegration:
     # -- Enables the apps integration.
