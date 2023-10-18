@@ -63,12 +63,6 @@ spec:
                   name: {{ include "secrets.jwtSecret" . }}
                   key: jwt-secret
 
-            - name: OCS_MACHINE_AUTH_API_KEY
-              valueFrom:
-                secretKeyRef:
-                  name: {{ include "secrets.machineAuthAPIKeySecret" . }}
-                  key: machine-auth-api-key
-
             {{- include "ocis.cors" . |nindent 12 }}
 
           {{- include "ocis.livenessProbe" . | nindent 10 }}

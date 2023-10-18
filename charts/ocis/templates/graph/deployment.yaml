@@ -192,12 +192,6 @@ spec:
               value: {{ .Values.features.quotas.default | quote }}
             {{- end }}
 
-            - name: USERLOG_MACHINE_AUTH_API_KEY
-              valueFrom:
-                secretKeyRef:
-                  name: {{ include "secrets.machineAuthAPIKeySecret" . }}
-                  key: machine-auth-api-key
-
             {{- if .Values.features.gdprReport.integrations.keycloak.enabled }}
             - name: GRAPH_KEYCLOAK_BASE_PATH
               value: {{ .Values.features.gdprReport.integrations.keycloak.basePath | quote }}
