@@ -268,8 +268,8 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 +string+
 a| [subs=-attributes]
-`"none"`
-| Encryption method for the SMTP communication. Possible values are ‘starttls’, ‘ssl’, ‘ssltls’, ‘tls’ and ‘none’.
+`"auto"`
+| Values 'ssl' and 'tls' are deprecated and will be removed in version "6.0.0". Use 'starttls' instead of 'tls' and 'ssltls' instead of 'ssl'.
 | features.emailNotifications.smtp.host
 a| [subs=-attributes]
 +string+

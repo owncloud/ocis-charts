@@ -171,8 +171,9 @@ features:
       # -- Authentication method for the SMTP communication. Possible values are ‘login’, ‘plain’, ‘crammd5’, ‘none’
       # If set to another value than `none`, a secret referenced by `notificationsSmtpSecretRef` needs to be present.
       authentication: none
-      # -- Encryption method for the SMTP communication. Possible values are ‘starttls’, ‘ssl’, ‘ssltls’, ‘tls’ and ‘none’.
-      encryption: none
+      # -- Encryption method for the SMTP communication. Possible values are ‘starttls’, ‘ssltls’, ‘auto’ and ‘none’.
+      # -- Values 'ssl' and 'tls' are deprecated and will be removed in version "6.0.0". Use 'starttls' instead of 'tls' and 'ssltls' instead of 'ssl'.
+      encryption: auto
     branding:
       # -- Enables mail branding. If enabled, you need to provide the text and html template ConfigMap.
       # The image ConfigMap is optional.

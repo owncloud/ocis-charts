@@ -218,8 +218,7 @@ features:
       # the minimum amount of digits the password needs to have
       minDigits: 0
       # list of banned passwords
-      bannedPasswords:
-        []
+      bannedPasswords: []
         # - foo
         # - bar
   # Apps integration
