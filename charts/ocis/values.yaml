@@ -6,9 +6,9 @@ image:
   # -- Image tag. Defaults to the chart's appVersion.
   tag: "latest"
   # -- Image sha / digest (optional).
-  sha: ""
+  sha: "c804f9b7120eebe276ec4d35975760e0d924fa197ba641e243ab22e118cec6ed" # oCIS as of 18th October 2023
   # -- Image pull policy
-  pullPolicy: Always
+  pullPolicy: IfNotPresent
   # -- Names of the secret containing the credentials to pull an image from the registry. More
   # information how a secret can be defined at https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
   #
@@ -170,8 +170,9 @@ features:
       # -- Authentication method for the SMTP communication. Possible values are ‘login’, ‘plain’, ‘crammd5’, ‘none’
       # If set to another value than `none`, a secret referenced by `notificationsSmtpSecretRef` needs to be present.
       authentication: none
-      # -- Encryption method for the SMTP communication. Possible values are ‘starttls’, ‘ssl’, ‘ssltls’, ‘tls’ and ‘none’.
-      encryption: none
+      # -- Encryption method for the SMTP communication. Possible values are ‘starttls’, ‘ssltls’, ‘auto’ and ‘none’.
+      # -- Values 'ssl' and 'tls' are deprecated and will be removed in version "6.0.0". Use 'starttls' instead of 'tls' and 'ssltls' instead of 'ssl'.
+      encryption: auto
     branding:
       # -- Enables mail branding. If enabled, you need to provide the text and html template ConfigMap.
       # The image ConfigMap is optional.
@@ -216,8 +217,11 @@ features:
       minSpecialCharacters: 0
       # the minimum amount of digits the password needs to have
       minDigits: 0
-      # the path to the file containing the list of banned passwords
-      bannedPasswordsList: ""
+      # list of banned passwords
+      bannedPasswords:
+        []
+        # - foo
+        # - bar
   # Apps integration
   appsIntegration:
     # -- Enables the apps integration.
@@ -592,6 +596,8 @@ secretRefs:
   s3CredentialsSecretRef: ""
   # -- Reference to an existing service account secret (see ref:Secrets#secrets)
   serviceAccountSecretRef: ""
+  # -- The secret to secure the global notifications endpoint. Only system admins and users knowing that secret can call the global notifications POST/DELETE endpoints.
+  globalNotificationsSecretRef: ""
 
 # Security context options.
 securityContext:
@@ -694,13 +700,15 @@ jobNodeSelector:
   # kubernetes.io/arch: "amd64"
 
 # -- Default priorityClassName to apply to all services, except per-service jobPriorityClassName configuration in `services.<service-name>.jobPriorityClassName` is set.
-jobPriorityClassName: ""
+jobPriorityClassName:
+  ""
   # ocis-low-priority
   # ocis-medium-priority
   # ocis-high-priority
 
 # -- Default priorityClassName to apply to all services, except per-service priorityClassName configuration in `services.<service-name>.priorityClassName` is set.
-priorityClassName: ""
+priorityClassName:
+  ""
   # ocis-low-priority
   # ocis-medium-priority
   # ocis-high-priority
