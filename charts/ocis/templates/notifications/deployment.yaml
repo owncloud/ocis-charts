@@ -26,7 +26,7 @@ spec:
           {{- include "ocis.containerSecurityContext" . | nindent 10 }}
           env:
             {{- include "ocis.serviceRegistry" . | nindent 12 }}
-            
+
             - name: OCIS_DEFAULT_LANGUAGE
               value: {{ default "en" .Values.features.language.default | quote }}
 
@@ -64,7 +64,7 @@ spec:
             - name: NOTIFICATIONS_SMTP_ENCRYPTION
               value: {{ .Values.features.emailNotifications.smtp.encryption | quote }}
 
-            {{- if ne .Values.features.emailNotifications.smtp.authentication "none" }}
+            {{- if ne .Values.features.emailNotifications.smtp.authentication "auto" }}
             - name: NOTIFICATIONS_SMTP_USERNAME
               valueFrom:
                 secretKeyRef:

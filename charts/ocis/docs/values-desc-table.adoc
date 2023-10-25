@@ -262,14 +262,14 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 +string+
 a| [subs=-attributes]
-`"none"`
-| Authentication method for the SMTP communication. Possible values are ‘login’, ‘plain’, ‘crammd5’, ‘none’ If set to another value than `none`, a secret referenced by `notificationsSmtpSecretRef` needs to be present.
+`"auto"`
+| Authentication method for the SMTP communication. Possible values are ‘login’, ‘plain’, ‘crammd5’, ‘none’, 'auto' If set to another value than `none`, a secret referenced by `notificationsSmtpSecretRef` needs to be present.
 | features.emailNotifications.smtp.encryption
 a| [subs=-attributes]
 +string+
 a| [subs=-attributes]
-`"auto"`
-| Values 'ssl' and 'tls' are deprecated and will be removed in version "6.0.0". Use 'starttls' instead of 'tls' and 'ssltls' instead of 'ssl'.
+`"none"`
+| Values 'ssl' and 'tls' are deprecated and will be removed in oCIS release 6.0.0. Use 'starttls' instead of 'tls' and 'ssltls' instead of 'ssl'.
 | features.emailNotifications.smtp.host
 a| [subs=-attributes]
 +string+
