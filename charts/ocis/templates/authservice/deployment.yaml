@@ -50,7 +50,7 @@ spec:
             - name: AUTH_SERVICE_DEBUG_ADDR
               value: 0.0.0.0:9617
 
-            - name: AUTH_MACHINE_JWT_SECRET
+            - name: AUTH_SERVICE_JWT_SECRET
               valueFrom:
                 secretKeyRef:
                   name: {{ include "secrets.jwtSecret" . }}
