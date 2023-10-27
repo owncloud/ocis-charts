@@ -168,10 +168,11 @@ features:
       port:
       # -- Sender address of emails that will be sent. Example: 'ownCloud <noreply@example.com>'
       sender:
-      # -- Authentication method for the SMTP communication. Possible values are ‘login’, ‘plain’, ‘crammd5’, ‘none’
+      # -- Authentication method for the SMTP communication. Possible values are ‘login’, ‘plain’, ‘crammd5’, ‘none’, 'auto'
       # If set to another value than `none`, a secret referenced by `notificationsSmtpSecretRef` needs to be present.
-      authentication: none
-      # -- Encryption method for the SMTP communication. Possible values are ‘starttls’, ‘ssl’, ‘ssltls’, ‘tls’ and ‘none’.
+      authentication: auto
+      # -- Encryption method for the SMTP communication. Possible values are ‘starttls’, ‘ssltls’ and ‘none’.
+      # -- Values 'ssl' and 'tls' are deprecated and will be removed in oCIS release 6.0.0. Use 'starttls' instead of 'tls' and 'ssltls' instead of 'ssl'.
       encryption: none
     branding:
       # -- Enables mail branding. If enabled, you need to provide the text and html template ConfigMap.
