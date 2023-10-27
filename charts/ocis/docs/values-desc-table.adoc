@@ -802,7 +802,7 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 +string+
 a| [subs=-attributes]
-`"7684100b5c469dbd311a92e2ce99c12f6f6dd390bb2088eb1c6a8b18a849c13e"`
+`"8489c25825bae631c10adf843945291ac2c8da84b3f50826d897b25529dde4bb"`
 | Image sha / digest (optional).
 | image.tag
 a| [subs=-attributes]
