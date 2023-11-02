@@ -6,7 +6,7 @@ image:
   # -- Image tag. Defaults to the chart's appVersion.
   tag: "latest"
   # -- Image sha / digest (optional).
-  sha: "8489c25825bae631c10adf843945291ac2c8da84b3f50826d897b25529dde4bb" # oCIS as of 27th October 2023
+  sha: "7cc907469deb5a2712dba96c3d6985be321a43870fe5502fad1fdfbc27620fed" # oCIS as of 5.0.0-alpha.1
   # -- Image pull policy
   pullPolicy: IfNotPresent
   # -- Names of the secret containing the credentials to pull an image from the registry. More
