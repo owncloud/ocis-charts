@@ -91,6 +91,9 @@ spec:
 
             - name: SEARCH_EXTRACTOR_TIKA_TIKA_URL
               value: {{ .Values.services.search.extractor.tika.url | quote }}
+
+            - name: SEARCH_EXTRACTOR_TIKA_CLEAN_STOP_WORDS
+              value: {{ .Values.services.search.extractor.tika.cleanStopWords | quote }}
             {{- else }}
             - name: SEARCH_EXTRACTOR_TYPE
               value: basic

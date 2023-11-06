@@ -7,7 +7,7 @@ image:
   # -- Image tag. Defaults to the chart's appVersion.
   tag: "latest"
   # -- Image sha / digest (optional).
-  sha: "7684100b5c469dbd311a92e2ce99c12f6f6dd390bb2088eb1c6a8b18a849c13e" # oCIS as of 18th October 2023
+  sha: "7cc907469deb5a2712dba96c3d6985be321a43870fe5502fad1fdfbc27620fed" # oCIS as of 5.0.0-alpha.1
   # -- Image pull policy
   pullPolicy: IfNotPresent
   # -- Names of the secret containing the credentials to pull an image from the registry. More
@@ -202,8 +202,12 @@ features:
         minLengthLimit: 3
     # Sharing per public link related setings
     publiclink:
-      # -- Enforce a password on writable public link shares.
+      # -- Enforce a password on all public link shares.
+      shareMustHavePassword: false
+      # -- Enforce a password only on writable public link shares.
+      # Is already enforced if `features.sharing.publiclink.shareMustHavePassword` option is set to `true``.
       writeableShareMustHavePassword: false
+
     # automatically accept incoming shares
     autoAcceptShares: true
     # password policies for share passwords
@@ -1231,6 +1235,8 @@ services:
       tika:
         # -- Set the URL to Tika. Only applicable if `services.search.extractor.type` == `tika`.
         url: http://tika.tika.svc.cluster.local:9998
+        # -- Defines if stop words should be cleaned or not.
+        cleanStopWords: true
     # -- Persistence settings.
     # @default -- see detailed persistence configuration options below
     persistence:
