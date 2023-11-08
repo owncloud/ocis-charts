@@ -1813,6 +1813,10 @@ services:
       privacyURL:
       # Specifies the login url
       loginURL:
+      # Specifies the mode web is running in. Currently supported values are "embed" and "" (default).
+      mode: ""
+      # Specifies how web is being integrated when running in "embed"-mode. Currently supported values are "location" and "" (default).
+      embedTarget: ""
 
     # -- Persistence settings.
     # @default -- see detailed persistence configuration options below

@@ -71,6 +71,16 @@ spec:
               value: {{ .Values.services.web.config.theme.path | quote }}
             {{- end }}
 
+            {{- if .Values.services.web.config.mode }}
+            - name: WEB_OPTION_MODE
+              value: {{ .Values.services.web.config.mode | quote }}
+            {{- end }}
+
+            {{- if .Values.services.web.config.embedTarget }}
+            - name: WEB_OPTION_EMBED_TARGET
+              value: {{ .Values.services.web.config.embedTarget | quote }}
+            {{- end }}
+
             - name: WEB_UI_CONFIG_SERVER
               value: "https://{{ .Values.externalDomain }}"
 
