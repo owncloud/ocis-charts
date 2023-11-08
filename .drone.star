@@ -24,7 +24,7 @@ def main(ctx):
         pipeline["depends_on"].append(pipeline_linting[0]["name"])
         #pipeline_release[0]["depends_on"].append(pipeline["name"])
 
-    return checkStarlark() + pipeline_docs + pipeline_deployments #+ pipeline_release
+    return checkStarlark() + pipeline_linting + pipeline_deployments + pipeline_docs  #+ pipeline_release
 
 def linting(ctx):
     pipelines = []
