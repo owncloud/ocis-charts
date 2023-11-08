@@ -14,17 +14,16 @@ config = {
 
 def main(ctx):
     pipeline_linting = linting(ctx)
-    #pipeline_release = release(ctx)
+    pipeline_checkstarlark = checkStarlark()
 
     pipeline_docs = documentation(ctx)
-    #pipeline_docs[0]["depends_on"].append(pipeline_starlark[0]["name"])
+    pipeline_docs[0]["depends_on"].append(pipeline_checkstarlark[0]["name"])
 
     pipeline_deployments = deployments(ctx)
     for pipeline in pipeline_deployments:
         pipeline["depends_on"].append(pipeline_linting[0]["name"])
-        #pipeline_release[0]["depends_on"].append(pipeline["name"])
 
-    return checkStarlark() + pipeline_linting + pipeline_deployments + pipeline_docs  #+ pipeline_release
+    return pipeline_checkstarlark + pipeline_linting + pipeline_deployments + pipeline_docs
 
 def linting(ctx):
     pipelines = []
