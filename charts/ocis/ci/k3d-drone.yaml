@@ -1,0 +1,24 @@
+apiVersion: k3d.io/v1alpha4
+kind: Simple
+metadata:
+  name: drone
+servers: 1
+image: rancher/k3s:v1.25.0-k3s1
+options:
+  k3s:
+    extraArgs:
+      - arg: --tls-san=k3d
+        nodeFilters:
+          - server:*
+      - arg: --disable=servicelb
+        nodeFilters:
+          - server:*
+      - arg: --disable=local-storage
+        nodeFilters:
+          - server:*
+      - arg: --disable=metrics-server
+        nodeFilters:
+          - server:*
+      - arg: --disable=traefik
+        nodeFilters:
+          - server:*

@@ -13,7 +13,18 @@ config = {
 }
 
 def main(ctx):
-    return linting(ctx) + documentation(ctx) + checkStarlark()
+    pipeline_linting = linting(ctx)
+    #pipeline_release = release(ctx)
+
+    pipeline_docs = documentation(ctx)
+    #pipeline_docs[0]["depends_on"].append(pipeline_starlark[0]["name"])
+
+    pipeline_deployments = deployments(ctx)
+    for pipeline in pipeline_deployments:
+        pipeline["depends_on"].append(pipeline_linting[0]["name"])
+        #pipeline_release[0]["depends_on"].append(pipeline["name"])
+
+    return checkStarlark() + pipeline_docs + pipeline_deployments #+ pipeline_release
 
 def linting(ctx):
     pipelines = []
@@ -189,3 +200,59 @@ def checkStarlark():
         result["trigger"]["ref"].append("refs/heads/%s" % branch)
 
     return [result]
+
+def deployments(ctx):
+    return [{
+        "kind": "pipeline",
+        "type": "docker",
+        "name": "k3d",
+        "steps": wait(ctx) + install(ctx),
+        "services": [
+            {
+                "name": "k3d",
+                "image": "ghcr.io/k3d-io/k3d:5-dind",
+                "privileged": True,
+                "commands": [
+                    "nohup dockerd-entrypoint.sh &",
+                    "until docker ps 2>&1 > /dev/null; do sleep 1s; done",
+                    "k3d cluster create --config ci/k3d-drone.yaml --api-port k3d:6445",
+                    "until kubectl get deployment coredns -n kube-system -o go-template='{{.status.availableReplicas}}' | grep -v -e '<no value>'; do sleep 1s; done",
+                    "k3d kubeconfig get drone > kubeconfig-$${DRONE_BUILD_NUMBER}.yaml",
+                    "chmod 0600 kubeconfig-$${DRONE_BUILD_NUMBER}.yaml",
+                    "printf '@@@@@@@@@@@@@@@@@@@@@@@\n@@@@ k3d is ready @@@@\n@@@@@@@@@@@@@@@@@@@@@@@\n'",
+                    "kubectl get events -Aw",
+                ],
+            },
+        ],
+        "depends_on": [],
+        "trigger": {
+            "ref": [
+                "refs/heads/main",
+                "refs/tags/**",
+                "refs/pull/**",
+            ],
+        },
+    }]
+
+def install(ctx):
+    return [{
+        "name": "helm-install",
+        "image": "docker.io/owncloudci/alpine",
+        "commands": [
+            "export KUBECONFIG=kubeconfig-$${DRONE_BUILD_NUMBER}.yaml",
+            "helm install --values ci/values.yaml --atomic --timeout 5m0s owncloud charts/owncloud/",
+        ],
+    }]
+
+def wait(config):
+    return [{
+        "name": "wait",
+        "image": "docker.io/bitnami/kubectl:1.25",
+        "user": "root",
+        "commands": [
+            "export KUBECONFIG=kubeconfig-$${DRONE_BUILD_NUMBER}.yaml",
+            "until test -f $${KUBECONFIG}; do sleep 1s; done",
+            "kubectl config view",
+            "kubectl get pods -A",
+        ],
+    }]
