@@ -20,40 +20,48 @@ services:
   idm:
     persistence:
       enabled: true
+      storageClassName: local-path
       accessModes:
         - ReadWriteOnce
   nats:
     persistence:
       enabled: true
+      storageClassName: local-path
       accessModes:
         - ReadWriteOnce
   search:
     persistence:
       enabled: true
+      storageClassName: local-path
       accessModes:
         - ReadWriteOnce
   storagesystem:
     persistence:
       enabled: true
+      storageClassName: local-path
       accessModes:
         - ReadWriteOnce
   storageusers:
     persistence:
       enabled: true
+      storageClassName: local-path
       accessModes:
         - ReadWriteOnce
   store:
     persistence:
       enabled: true
+      storageClassName: local-path
       accessModes:
         - ReadWriteOnce
   thumbnails:
     persistence:
       enabled: true
+      storageClassName: local-path
       accessModes:
         - ReadWriteOnce
   web:
     persistence:
       enabled: true
+      storageClassName: local-path
       accessModes:
         - ReadWriteOnce
