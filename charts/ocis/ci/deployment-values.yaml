@@ -20,24 +20,40 @@ services:
   idm:
     persistence:
       enabled: true
+      accessModes:
+        - ReadWriteOnce
   nats:
     persistence:
       enabled: true
+      accessModes:
+        - ReadWriteOnce
   search:
     persistence:
       enabled: true
+      accessModes:
+        - ReadWriteOnce
   storagesystem:
     persistence:
       enabled: true
+      accessModes:
+        - ReadWriteOnce
   storageusers:
     persistence:
       enabled: true
+      accessModes:
+        - ReadWriteOnce
   store:
     persistence:
       enabled: true
+      accessModes:
+        - ReadWriteOnce
   thumbnails:
     persistence:
       enabled: true
+      accessModes:
+        - ReadWriteOnce
   web:
     persistence:
       enabled: true
+      accessModes:
+        - ReadWriteOnce
