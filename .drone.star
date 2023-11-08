@@ -240,7 +240,7 @@ def install(ctx):
         "image": "docker.io/owncloudci/alpine",
         "commands": [
             "export KUBECONFIG=kubeconfig-$${DRONE_BUILD_NUMBER}.yaml",
-            "helm install --values charts/ocis/ci/values.yaml --atomic --timeout 5m0s ocis charts/ocis/",
+            "helm install --values charts/ocis/ci/deployment-values.yaml --atomic --timeout 5m0s ocis charts/ocis/",
         ],
     }]
 

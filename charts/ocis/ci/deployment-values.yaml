@@ -1,0 +1,43 @@
+---
+ingress:
+  enabled: true
+  ingressClassName: nginx
+  annotations:
+    nginx.ingress.kubernetes.io/proxy-body-size: 1024m
+  tls:
+    - secretName: chart-example-tls
+      hosts:
+        - ocis.owncloud.test
+
+externalDomain: ocis.owncloud.test
+
+logging:
+  level: debug
+insecure:
+  oidcIdpInsecure: true
+  ocisHttpApiInsecure: true
+services:
+  idm:
+    persistence:
+      enabled: true
+  nats:
+    persistence:
+      enabled: true
+  search:
+    persistence:
+      enabled: true
+  storagesystem:
+    persistence:
+      enabled: true
+  storageusers:
+    persistence:
+      enabled: true
+  store:
+    persistence:
+      enabled: true
+  thumbnails:
+    persistence:
+      enabled: true
+  web:
+    persistence:
+      enabled: true
