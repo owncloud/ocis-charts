@@ -258,7 +258,7 @@ def wait(config):
 
 def showPodsAfterInstall(config):
     return [{
-        "name": "wait",
+        "name": "showPodsAfterInstall",
         "image": "docker.io/bitnami/kubectl:1.25",
         "user": "root",
         "commands": [
