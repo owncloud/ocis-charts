@@ -205,7 +205,7 @@ def deployments(ctx):
         "kind": "pipeline",
         "type": "docker",
         "name": "k3d",
-        "steps": wait(ctx) + install(ctx),
+        "steps": wait(ctx) + install(ctx) + showPodsAfterInstall(ctx),
         "services": [
             {
                 "name": "k3d",
@@ -240,7 +240,6 @@ def install(ctx):
         "commands": [
             "export KUBECONFIG=kubeconfig-$${DRONE_BUILD_NUMBER}.yaml",
             "helm install --values charts/ocis/ci/deployment-values.yaml --atomic --timeout 5m0s ocis charts/ocis/",
-            "kubectl get pods -A",
         ],
     }]
 
@@ -255,4 +254,18 @@ def wait(config):
             "kubectl config view",
             "kubectl get pods -A",
         ],
+    }]
+
+def showPodsAfterInstall(config):
+    return [{
+        "name": "wait",
+        "image": "docker.io/bitnami/kubectl:1.25",
+        "user": "root",
+        "commands": [
+            "export KUBECONFIG=kubeconfig-$${DRONE_BUILD_NUMBER}.yaml",
+            "until test -f $${KUBECONFIG}; do sleep 1s; done",
+            "kubectl config view",
+            "kubectl get pods -A",
+        ],
+        "depends_on": [ "install" ],
     }]
