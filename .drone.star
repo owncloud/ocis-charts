@@ -240,6 +240,7 @@ def install(ctx):
         "commands": [
             "export KUBECONFIG=kubeconfig-$${DRONE_BUILD_NUMBER}.yaml",
             "helm install --values charts/ocis/ci/deployment-values.yaml --atomic --timeout 5m0s ocis charts/ocis/",
+            "kubectl get pods -A",
         ],
     }]
 
