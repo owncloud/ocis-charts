@@ -7,13 +7,9 @@ metadata:
   annotations:
     "helm.sh/hook": test
 spec:
-  hostAliases:
-  - ip: "127.0.0.1"
-    hostnames:
-    - "host.k3d.internal"
   containers:
-    - name: wget
-      image: busybox
-      command: ['wget']
-      args: ['https://{{ .Values.externalDomain }}/']
+    - name: curl
+      image: curlimages/curl
+      command: ['curl']
+      args: ['-k','https://{{ .Values.externalDomain }}/']
   restartPolicy: Never
