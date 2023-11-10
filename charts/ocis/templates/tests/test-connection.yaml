@@ -13,4 +13,5 @@ spec:
       command: ['wget']
       args: ['https://{{ .Values.externalDomain }}/']
       {{- include "ocis.containerSecurityContext" . | nindent 6 }}
+      resources: {{ toYaml .jobResources | nindent 8 }}
   restartPolicy: Never
