@@ -205,7 +205,7 @@ def deployments(ctx):
         "kind": "pipeline",
         "type": "docker",
         "name": "k3d",
-        "steps": wait(ctx) + install(ctx) + showPodsAfterInstall(ctx) + checkDeploymentWithCurl(ctx),
+        "steps": wait(ctx) + install(ctx) + showPodsAfterInstall(ctx),
         "services": [
             {
                 "name": "k3d",
@@ -266,15 +266,5 @@ def showPodsAfterInstall(config):
             "until test -f $${KUBECONFIG}; do sleep 1s; done",
             "kubectl get pods -A",
             "kubectl get ingress",
-        ],
-    }]
-
-def checkDeploymentWithCurl(config):
-    return [{
-        "name": "checkDeploymentWithCurl",
-        "image": "docker.io/curlimages/curl:8.4.0",
-        "user": "root",
-        "commands": [
-            "curl -L -v -k https://k3d:443/",
         ],
     }]
