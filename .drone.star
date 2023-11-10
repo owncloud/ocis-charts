@@ -264,7 +264,7 @@ def showPodsAfterInstall(config):
         "commands": [
             "export KUBECONFIG=kubeconfig-$${DRONE_BUILD_NUMBER}.yaml",
             "until test -f $${KUBECONFIG}; do sleep 1s; done",
-            "kubectl config view",
             "kubectl get pods -A",
+            "kubectl get ingress",
         ],
     }]
