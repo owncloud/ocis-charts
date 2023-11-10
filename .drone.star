@@ -205,7 +205,7 @@ def deployments(ctx):
         "kind": "pipeline",
         "type": "docker",
         "name": "k3d",
-        "steps": wait(ctx) + install(ctx) + showPodsAfterInstall(ctx),
+        "steps": wait(ctx) + install(ctx) + showPodsAfterInstall(ctx) + checkDeploymentWithCurl(ctx),
         "services": [
             {
                 "name": "k3d",
