@@ -275,6 +275,6 @@ def helmtest(ctx):
         "image": "docker.io/owncloudci/alpine",
         "commands": [
             "export KUBECONFIG=kubeconfig-$${DRONE_BUILD_NUMBER}.yaml",
-            "helm test --timeout 5m0s ocis",
+            "helm test --timeout 5m0s ocis --logs",
         ],
     }]
