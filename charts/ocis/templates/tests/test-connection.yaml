@@ -8,8 +8,8 @@ metadata:
     "helm.sh/hook": test
 spec:
   containers:
-    - name: curl
-      image: curlimages/curl
-      command: ['curl']
-      args: ['-k','https://{{ .Values.externalDomain }}/']
+    - name: wget
+      image: {{ .Values.initContainerImage.repository }}
+      command: ['wget']
+      args: ['https://{{ .Values.externalDomain }}/']
   restartPolicy: Never
