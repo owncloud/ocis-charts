@@ -275,6 +275,6 @@ def checkDeploymentWithCurl(config):
         "image": "docker.io/curlimages/curl:8.4.0",
         "user": "root",
         "commands": [
-            "-L -v -k https://k3d:443/",
+            "curl -L -v -k https://k3d:443/",
         ],
     }]
