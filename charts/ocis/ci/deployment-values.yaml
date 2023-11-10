@@ -1,15 +1,15 @@
 ---
 ingress:
   enabled: true
-  ingressClassName: nginx
-  annotations:
-    nginx.ingress.kubernetes.io/proxy-body-size: 1024m
+  #ingressClassName: nginx
+  #annotations:
+  #  nginx.ingress.kubernetes.io/proxy-body-size: 1024m
   tls:
     - secretName: chart-example-tls
       hosts:
-        - ocis.owncloud.test
+        - host.k3d.internal
 
-externalDomain: ocis.owncloud.test
+externalDomain: host.k3d.internal
 
 logging:
   level: debug

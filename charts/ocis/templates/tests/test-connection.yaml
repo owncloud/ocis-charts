@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "ocis-test-connection"
+  labels:
+    {{- include "ocis.labels" . | nindent 4 }}
+  annotations:
+    "helm.sh/hook": test
+spec:
+  hostAliases:
+  - ip: "127.0.0.1"
+    hostnames:
+    - "host.k3d.internal"
+  containers:
+    - name: wget
+      image: busybox
+      command: ['wget']
+      args: ['https://{{ .Values.externalDomain }}/']
+  restartPolicy: Never
