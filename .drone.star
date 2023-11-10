@@ -267,5 +267,4 @@ def showPodsAfterInstall(config):
             "kubectl config view",
             "kubectl get pods -A",
         ],
-        "depends_on": [ "install" ],
     }]
