@@ -9,7 +9,8 @@ metadata:
 spec:
   containers:
     - name: wget
-      image: {{ .Values.initContainerImage.repository }}
+      {{- include "ocis.initContainerImage" $ | nindent 6 }}
       command: ['wget']
       args: ['https://{{ .Values.externalDomain }}/']
+      {{- include "ocis.containerSecurityContext" . | nindent 6 }}
   restartPolicy: Never
