@@ -268,3 +268,13 @@ def showPodsAfterInstall(config):
             "kubectl get ingress",
         ],
     }]
+
+def checkDeploymentWithCurl(config):
+    return [{
+        "name": "checkDeploymentWithCurl",
+        "image": "docker.io/curlimages/curl:8.4.0",
+        "user": "root",
+        "commands": [
+            "-L -v -k https://k3d:443/",
+        ],
+    }]
