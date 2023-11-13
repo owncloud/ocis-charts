@@ -8,10 +8,10 @@ metadata:
     "helm.sh/hook": test
 spec:
   containers:
-    - name: wget
-      {{- include "ocis.initContainerImage" $ | nindent 6 }}
-      command: ['wget']
-      args: ['-v','--no-check-certificate','https://{{ .Values.externalDomain }}/']
+    - name: curl
+      image: curlimages/curl:latest
+      command: ['curl']
+      args: ['-v','-k','https://{{ .Values.externalDomain }}/']
       {{- include "ocis.containerSecurityContext" . | nindent 6 }}
       resources: {{ toYaml .jobResources | nindent 8 }}
   restartPolicy: Never
