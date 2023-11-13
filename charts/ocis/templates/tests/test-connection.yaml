@@ -9,7 +9,7 @@ metadata:
 spec:
   containers:
     - name: curl
-      image: curlimages/curl:latest
+      image: curlimages/curl:8.4.0
       command: ['curl']
       args: ['-v','-k','https://{{ .Values.externalDomain }}/']
       {{- include "ocis.containerSecurityContext" . | nindent 6 }}
