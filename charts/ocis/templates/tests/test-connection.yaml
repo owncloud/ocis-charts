@@ -11,7 +11,7 @@ spec:
     - name: wget
       {{- include "ocis.initContainerImage" $ | nindent 6 }}
       command: ['wget']
-      args: ['https://{{ .Values.externalDomain }}/']
+      args: ['--no-check-certificate', 'https://{{ .Values.externalDomain }}/']
       {{- include "ocis.containerSecurityContext" . | nindent 6 }}
       resources: {{ toYaml .jobResources | nindent 8 }}
   restartPolicy: Never
