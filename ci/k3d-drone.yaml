@@ -4,6 +4,10 @@ metadata:
   name: drone
 servers: 1
 image: rancher/k3s:v1.27.4-k3s1
+ports:
+  - port: 443:443
+    nodeFilters:
+      - loadbalancer
 options:
   k3s:
     extraArgs:
