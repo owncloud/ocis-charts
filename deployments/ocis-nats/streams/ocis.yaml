@@ -69,10 +69,29 @@ spec:
   account: ocis-nats
 ---
 apiVersion: jetstream.nats.io/v1beta2
+kind: Stream
+metadata:
+  name: service-registry
+spec:
+  name: OBJ_service-registry
+  subjects:
+    - $O.service-registry.C.>
+    - $O.service-registry.M.>
+  replicas: 3
+  storage: file
+  retention: limits
+  discard: old
+  duplicateWindow: "2m0s"
+  maxAge: "0"
+  allowRollup: true
+  allowDirect: true
+  account: ocis-nats
+---
+apiVersion: jetstream.nats.io/v1beta2
 kind: Account
 metadata:
   name: ocis-nats
 spec:
   name: ocis-nats
   servers:
-  - nats://nats.ocis-nats.svc.cluster.local:4222
+    - nats://nats.ocis-nats.svc.cluster.local:4222
