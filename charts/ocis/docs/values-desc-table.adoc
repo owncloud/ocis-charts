@@ -808,7 +808,7 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 +string+
 a| [subs=-attributes]
-`"0885717d215567b105aaae2fadf687594fd0eef834a6c11e6cc1f55c58abc950"`
+`"5a5138eb7aad0c659a1443d038b924cd2c1cfba75f0e4565fb4375c3411d3267"`
 | Image sha / digest (optional).
 | image.tag
 a| [subs=-attributes]
@@ -1019,7 +1019,7 @@ a| [subs=-attributes]
 +string+
 a| [subs=-attributes]
 `"kubernetes"`
-| Configure the service registry type. Defaults to "kubernetes". Can be set to "etcd" or "nats", then the address of etcd / nats node(s) needs to be set to `registry.nodes`.
+| Configure the service registry type. Defaults to "kubernetes". Can be set to "etcd" or "natsjs", then the address of etcd / nats node(s) needs to be set to `registry.nodes`.
 | replicas
 a| [subs=-attributes]
 +int+

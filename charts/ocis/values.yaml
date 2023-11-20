@@ -6,7 +6,7 @@ image:
   # -- Image tag. Defaults to the chart's appVersion.
   tag: "latest"
   # -- Image sha / digest (optional).
-  sha: "0885717d215567b105aaae2fadf687594fd0eef834a6c11e6cc1f55c58abc950" # oCIS as of 5.0.0-alpha.2
+  sha: "5a5138eb7aad0c659a1443d038b924cd2c1cfba75f0e4565fb4375c3411d3267" # oCIS as of 11/20/2023
   # -- Image pull policy
   pullPolicy: IfNotPresent
   # -- Names of the secret containing the credentials to pull an image from the registry. More
@@ -107,7 +107,7 @@ store:
 registry:
   # -- Configure the service registry type.
   # Defaults to "kubernetes".
-  # Can be set to "etcd" or "nats", then the address of etcd / nats node(s) needs to be set to `registry.nodes`.
+  # Can be set to "etcd" or "natsjs", then the address of etcd / nats node(s) needs to be set to `registry.nodes`.
   type: kubernetes
   # -- Nodes of the service registry to use.
   nodes: []

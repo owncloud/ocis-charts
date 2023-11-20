@@ -9,9 +9,9 @@ releases:
     values:
       - config:
           cluster:
-              enabled: true
-              replicas: 3
-              name: "ocis-cluster"
+            enabled: true
+            replicas: 3
+            name: "ocis-cluster"
           jetstream:
             enabled: true
           merge:
@@ -91,7 +91,7 @@ releases:
               enabled: false
 
       - registry:
-          type: nats
+          type: natsjs
           nodes:
             - nats.ocis-nats.svc.cluster.local:4222
 
