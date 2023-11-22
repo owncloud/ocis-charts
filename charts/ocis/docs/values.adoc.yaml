@@ -7,7 +7,7 @@ image:
   # -- Image tag. Defaults to the chart's appVersion.
   tag: "latest"
   # -- Image sha / digest (optional).
-  sha: "0885717d215567b105aaae2fadf687594fd0eef834a6c11e6cc1f55c58abc950" # oCIS as of 5.0.0-alpha.2
+  sha: "3b056182307344f79544f44d91808dabf9014c200554f9ed17719366b526bf63" # oCIS as of 5.0.0-alpha.3
   # -- Image pull policy
   pullPolicy: IfNotPresent
   # -- Names of the secret containing the credentials to pull an image from the registry. More
@@ -1813,6 +1813,13 @@ services:
       privacyURL:
       # Specifies the login url
       loginURL:
+      embed:
+        # Specifies if web "embed"-mode is enabled. Defaults to not being set (= disabled).
+        enabled: ""
+        # Specifies how web is being integrated when running in "embed"-mode. Currently supported values are "location" and "" (default).
+        target: ""
+        # Specifies a URL under which web can be integrated via iFrame. This needs to be specified when web is running in "embed"-mode.
+        messagesOrigin: ""
 
     # -- Persistence settings.
     # @default -- see detailed persistence configuration options below
