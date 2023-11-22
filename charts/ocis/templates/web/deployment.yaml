@@ -71,14 +71,19 @@ spec:
               value: {{ .Values.services.web.config.theme.path | quote }}
             {{- end }}
 
-            {{- if .Values.services.web.config.mode }}
-            - name: WEB_OPTION_MODE
-              value: {{ .Values.services.web.config.mode | quote }}
+            {{- if .Values.services.web.config.embed.enabled }}
+            - name: WEB_OPTION_EMBED_ENABLED
+              value: {{ .Values.services.web.config.embed.enabled | quote }}
             {{- end }}
 
-            {{- if .Values.services.web.config.embedTarget }}
+            {{- if .Values.services.web.config.embed.target }}
             - name: WEB_OPTION_EMBED_TARGET
-              value: {{ .Values.services.web.config.embedTarget | quote }}
+              value: {{ .Values.services.web.config.embed.target | quote }}
+            {{- end }}
+
+            {{- if .Values.services.web.config.embed.messagesOrigin }}
+            - name: WEB_OPTION_EMBED_MESSAGES_ORIGIN
+              value: {{ .Values.services.web.config.embed.messagesOrigin | quote }}
             {{- end }}
 
             - name: WEB_UI_CONFIG_SERVER

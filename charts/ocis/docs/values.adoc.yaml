@@ -1813,10 +1813,13 @@ services:
       privacyURL:
       # Specifies the login url
       loginURL:
-      # Specifies the mode web is running in. Currently supported values are "embed" and "" (default).
-      mode: ""
-      # Specifies how web is being integrated when running in "embed"-mode. Currently supported values are "location" and "" (default).
-      embedTarget: ""
+      embed:
+        # Specifies if web "embed"-mode is enabled. Defaults to not being set (= disabled).
+        enabled: ""
+        # Specifies how web is being integrated when running in "embed"-mode. Currently supported values are "location" and "" (default).
+        target: ""
+        # Specifies a URL under which web can be integrated via iFrame. This needs to be specified when web is running in "embed"-mode.
+        messagesOrigin: ""
 
     # -- Persistence settings.
     # @default -- see detailed persistence configuration options below
