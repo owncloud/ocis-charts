@@ -1,0 +1,65 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "e2e-tests"
+  labels:
+    {{- include "ocis.labels" . | nindent 4 }}
+  annotations:
+    "helm.sh/hook": test
+spec:
+  initContainers:
+    - name: git-checkout
+      image: owncloudci/nodejs:18
+      workingDir: "/tests"
+      command: ['git']
+      args: ['clone','-b','stable-7.1','--single-branch','--no-tags','https://github.com/owncloud/web.git']
+      volumeMounts:
+        - name: test-dir
+          mountPath: /tests # we mount that volume only to apply fsGroup to that path
+    - name: install-pnpm
+      image: owncloudci/nodejs:18
+      workingDir: "/tests/web"
+      command: ['bash']
+      args: ['-c','pnpm config set store-dir ./.pnpm-store; pnpm install']
+      volumeMounts:
+        - name: test-dir
+          mountPath: /tests # we mount that volume only to apply fsGroup to that path
+    - name: install-chromium
+      image: owncloudci/nodejs:18
+      workingDir: "/tests/web"
+      command: ['bash']
+      args: ['-c','pnpm exec playwright install chromium; pnpm exec playwright install-deps']
+      volumeMounts:
+        - name: test-dir
+          mountPath: /tests # we mount that volume only to apply fsGroup to that path
+
+  containers:
+    - name: e2e-tests
+      image: owncloudci/nodejs:18
+      workingDir: "/tests/web"
+      command: ['pnpm']
+      args: ['test:e2e:cucumber','tests/e2e/cucumber/features/*/*[!.oc10].feature']
+      {{- include "ocis.containerSecurityContext" . | nindent 6 }}
+      resources: {{ toYaml .jobResources | nindent 8 }}
+      env:
+        - name: "BASE_URL_OCIS"
+          value: "host.k3d.internal"
+        - name: "HEADLESS"
+          value: "true"
+        - name: "BROWSER"
+          value: "chromium"
+        - name: "RETRY"
+          value: "1"
+        - name: "WEB_UI_CONFIG_FILE"
+          value: "/drone/src/tests/config/drone/ocis-config.json"
+        - name: "LOCAL_UPLOAD_DIR"
+          value: "/uploads"
+      volumeMounts:
+        - name: test-dir
+          mountPath: /tests # we mount that volume only to apply fsGroup to that path
+
+  restartPolicy: Never
+  volumes:
+    - name: test-dir
+      emptyDir: {}
+  
