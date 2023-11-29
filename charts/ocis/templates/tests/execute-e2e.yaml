@@ -14,6 +14,7 @@ spec:
       command: ['git']
       args: ['clone','-b','stable-7.1','--single-branch','--no-tags','https://github.com/owncloud/web.git']
       {{- include "ocis.containerSecurityContext" . | nindent 6 }}
+      resources: {{ toYaml .jobResources | nindent 8 }}
       volumeMounts:
         - name: test-dir
           mountPath: /tests # we mount that volume only to apply fsGroup to that path
@@ -23,6 +24,7 @@ spec:
       command: ['bash']
       args: ['-c','pnpm config set store-dir ./.pnpm-store; pnpm install']
       {{- include "ocis.containerSecurityContext" . | nindent 6 }}
+      resources: {{ toYaml .jobResources | nindent 8 }}
       volumeMounts:
         - name: test-dir
           mountPath: /tests # we mount that volume only to apply fsGroup to that path
@@ -32,6 +34,7 @@ spec:
       command: ['bash']
       args: ['-c','pnpm exec playwright install chromium; pnpm exec playwright install-deps']
       {{- include "ocis.containerSecurityContext" . | nindent 6 }}
+      resources: {{ toYaml .jobResources | nindent 8 }}
       volumeMounts:
         - name: test-dir
           mountPath: /tests # we mount that volume only to apply fsGroup to that path
