@@ -7,7 +7,7 @@
   "customManagers": [
     {
       "customType": "regex",
-      "fileMatch": ["^charts/ocis/.+Chart\\.ya?ml$"],
+      "fileMatch": ["^charts/.+Chart\\.ya?ml$"],
       "matchStrings": [
         "# renovate: datasource=(?<datasource>\\S+) depName=(?<depName>\\S+)( versioning=(?<versioning>.*?))?\\nappVersion:\\s?\\\"?(?<currentValue>.*?)\"?\\s"
       ]
