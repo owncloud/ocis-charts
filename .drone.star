@@ -193,7 +193,7 @@ def deployments(ctx):
         "kind": "pipeline",
         "type": "docker",
         "name": "k3d",
-        "steps": wait(ctx) + install(ctx) + showPodsAfterInstall(ctx),
+        "steps": wait(ctx) + install(ctx) + showPodsAfterInstall(ctx) + helmtest(ctx),
         "services": [
             {
                 "name": "k3d",
@@ -254,5 +254,15 @@ def showPodsAfterInstall(config):
             "until test -f $${KUBECONFIG}; do sleep 1s; done",
             "kubectl get pods -A",
             "kubectl get ingress",
+        ],
+    }]
+
+def helmtest(ctx):
+    return [{
+        "name": "helm-test",
+        "image": "docker.io/owncloudci/alpine",
+        "commands": [
+            "export KUBECONFIG=kubeconfig-$${DRONE_BUILD_NUMBER}.yaml",
+            "helm test --timeout 5m0s ocis --logs",
         ],
     }]

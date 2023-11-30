@@ -1,21 +1,19 @@
-apiVersion: k3d.io/v1alpha4
+apiVersion: k3d.io/v1alpha5
 kind: Simple
 metadata:
   name: drone
 servers: 1
 image: rancher/k3s:v1.28.3-k3s1
+ports:
+  - port: 443:443
+    nodeFilters:
+      - loadbalancer
 options:
   k3s:
     extraArgs:
       - arg: --tls-san=k3d
         nodeFilters:
           - server:*
-      - arg: --disable=servicelb
-        nodeFilters:
-          - server:*
       - arg: --disable=metrics-server
-        nodeFilters:
-          - server:*
-      - arg: --disable=traefik
         nodeFilters:
           - server:*
