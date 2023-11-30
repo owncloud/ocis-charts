@@ -71,6 +71,31 @@ spec:
               value: {{ .Values.services.web.config.theme.path | quote }}
             {{- end }}
 
+            {{- if .Values.services.web.config.embed.enabled }}
+            - name: WEB_OPTION_EMBED_ENABLED
+              value: {{ .Values.services.web.config.embed.enabled | quote }}
+            {{- end }}
+
+            {{- if .Values.services.web.config.embed.target }}
+            - name: WEB_OPTION_EMBED_TARGET
+              value: {{ .Values.services.web.config.embed.target | quote }}
+            {{- end }}
+
+            {{- if .Values.services.web.config.embed.messagesOrigin }}
+            - name: WEB_OPTION_EMBED_MESSAGES_ORIGIN
+              value: {{ .Values.services.web.config.embed.messagesOrigin | quote }}
+            {{- end }}
+
+            {{- if .Values.services.web.config.embed.delegateAuthentication }}
+            - name: WEB_OPTION_EMBED_DELEGATE_AUTHENTICATION
+              value: {{ .Values.services.web.config.embed.delegateAuthentication | quote }}
+            {{- end }}
+
+            {{- if .Values.services.web.config.embed.delegateAuthenticationOrigin }}
+            - name: WEB_OPTION_EMBED_DELEGATE_AUTHENTICATION_ORIGIN
+              value: {{ .Values.services.web.config.embed.delegateAuthenticationOrigin | quote }}
+            {{- end }}
+
             - name: WEB_UI_CONFIG_SERVER
               value: "https://{{ .Values.externalDomain }}"
 

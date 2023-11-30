@@ -7,7 +7,7 @@ image:
   # -- Image tag. Defaults to the chart's appVersion.
   tag: "latest"
   # -- Image sha / digest (optional).
-  sha: "5a5138eb7aad0c659a1443d038b924cd2c1cfba75f0e4565fb4375c3411d3267" # oCIS as of 11/20/2023
+  sha: "13e5447c5e11de9068fbab07f362a793fbdc32edd8ad14eff0db1d21dfa2a5b8" # oCIS as of 5.0.0-alpha.4
   # -- Image pull policy
   pullPolicy: IfNotPresent
   # -- Names of the secret containing the credentials to pull an image from the registry. More
@@ -1813,6 +1813,17 @@ services:
       privacyURL:
       # Specifies the login url
       loginURL:
+      embed:
+        # Specifies if web "embed"-mode is enabled. Defaults to not being set (= disabled).
+        enabled: ""
+        # Specifies how web is being integrated when running in "embed"-mode. Currently supported values are "location" and "" (default).
+        target: ""
+        # Specifies a URL under which web can be integrated via iFrame. This needs to be specified when web is running in "embed"-mode.
+        messagesOrigin: ""
+        # Specifies if web delegates the authentication to the embedding parent application. Defaults to not being set (= web handles the authentication).
+        delegateAuthentication: ""
+        # Specifies the allowed message origin host when posting access tokens from the embedding parent application to web. Defaults to not being set, which is only recommended for development environments.
+        delegateAuthenticationOrigin: ""
 
     # -- Persistence settings.
     # @default -- see detailed persistence configuration options below
