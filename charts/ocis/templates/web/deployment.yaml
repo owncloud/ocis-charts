@@ -89,12 +89,12 @@ spec:
             {{- if .Values.services.web.config.embed.delegateAuthentication }}
             - name: WEB_OPTION_EMBED_DELEGATE_AUTHENTICATION
               value: {{ .Values.services.web.config.embed.delegateAuthentication | quote }}
-            {{- end}}
+            {{- end }}
 
-            { { - if .Values.services.web.config.embed.delegateAuthenticationOrigin } }
+            {{- if .Values.services.web.config.embed.delegateAuthenticationOrigin }}
             - name: WEB_OPTION_EMBED_DELEGATE_AUTHENTICATION_ORIGIN
-              value: { { .Values.services.web.config.embed.delegateAuthenticationOrigin | quote } }
-            { { - end } }
+              value: {{ .Values.services.web.config.embed.delegateAuthenticationOrigin | quote }}
+            {{- end }}
 
             - name: WEB_UI_CONFIG_SERVER
               value: "https://{{ .Values.externalDomain }}"
