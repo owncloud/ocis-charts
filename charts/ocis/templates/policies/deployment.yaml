@@ -73,11 +73,6 @@ spec:
               value: "" # no cert needed
               {{- end }}
             {{- end }}
-            - name: POLICIES_JWT_SECRET
-              valueFrom:
-                secretKeyRef:
-                  name: {{ include "secrets.jwtSecret" $ }}
-                  key: jwt-secret
 
             - name: POLICIES_DEBUG_PPROF
               value: {{ .Values.debug.profiling | quote }}
