@@ -141,6 +141,8 @@ spec:
             - name: messaging-system-ca
               mountPath: /etc/ocis/messaging-system-ca
               readOnly: true
+            - name: configs
+              mountPath: /etc/ocis
 
       {{- include "ocis.imagePullSecrets" $ | nindent 6 }}
       volumes:
@@ -155,3 +157,6 @@ spec:
           {{ else }}
           emptyDir: {}
           {{ end }}
+        - name: configs
+          configMap:
+            name: sharing-banned-passwords
