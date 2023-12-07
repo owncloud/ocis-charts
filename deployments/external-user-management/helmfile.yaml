@@ -317,7 +317,7 @@ releases:
               MAY ( ownCloudUUID $ ocEducationClassType $ ocEducationExternalId $
                     ocMemberOfSchool $ ocEducationTeacherMember ) )
   - name: keycloak-operator
-    chart: ./charts/keycloak-operator
+    chart: ./charts/keycloak-k8s-resources/kubernetes
     namespace: keycloak
   - name: keycloak
     chart: ./charts/keycloak
