@@ -1445,16 +1445,26 @@ services:
           #     "Version": "2012-10-17",
           #     "Statement": [
           #         {
-          #             "Sid": "ListObjectsInBucket",
+          #             "Sid": "ListBucket",
           #             "Effect": "Allow",
-          #             "Action": ["s3:ListBucket"],
-          #             "Resource": ["arn:aws:s3:::bucket-name"]
+          #             "Action": [
+          #                 "s3:ListBucket"
+          #             ],
+          #             "Resource": [
+          #                 "arn:aws:s3:::bucket-name"
+          #             ]
           #         },
           #         {
-          #             "Sid": "AllObjectActions",
+          #             "Sid": "ActionsInBucketContext",
           #             "Effect": "Allow",
-          #             "Action": "s3:*Object",
-          #             "Resource": ["arn:aws:s3:::bucket-name/*"]
+          #             "Action": [
+          #                 "s3:*Object",
+          #                 "s3:*MultipartUpload",
+          #                 "s3:ListMultipartUploadParts"
+          #             ],
+          #             "Resource": [
+          #                 "arn:aws:s3:::bucket-name/*"
+          #             ]
           #         }
           #     ]
           # }
