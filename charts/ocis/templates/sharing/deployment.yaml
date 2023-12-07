@@ -136,8 +136,6 @@ spec:
           volumeMounts:
             - name: tmp-volume
               mountPath: /tmp
-            - name: ocis-config-tmp
-              mountPath: /etc/ocis # we mount that volume only to apply fsGroup to that path
             - name: messaging-system-ca
               mountPath: /etc/ocis/messaging-system-ca
               readOnly: true
