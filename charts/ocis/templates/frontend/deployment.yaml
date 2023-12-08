@@ -189,4 +189,4 @@ spec:
           emptyDir: {}
         - name: configs
           configMap:
-            name: sharing-banned-passwords
+            name: sharing-banned-passwords-{{ .appName }}
