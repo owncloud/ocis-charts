@@ -1822,6 +1822,9 @@ services:
       privacyURL:
       # Specifies the login url
       loginURL:
+      # Defines whether one ore more filters must be set in order to list users in the Web admin settings.
+      userListRequiresFilter: false
+      # Embed mode settings
       embed:
         # Specifies if web "embed"-mode is enabled. Defaults to not being set (= disabled).
         enabled: ""
