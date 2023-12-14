@@ -1816,12 +1816,6 @@ services:
       # URI where to redirect the user after a logout was performed. Defaults to the URI of the login page.
       postLogoutRedirectURI: ""
       # Specifies the target url valid for the logged out / access denied page.
-      accessDeniedHelpURL: ""
-      # Specifies the target url for the imprint link in the account menu.
-      imprintURL:
-      # Specifies the target url for the privacy link in the account menu.
-      privacyURL:
-      # Specifies the login url
       loginURL:
       # Defines whether one ore more filters must be set in order to list users in the Web admin settings.
       userListRequiresFilter: false
