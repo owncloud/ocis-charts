@@ -11,7 +11,7 @@ maintainers:
 type: application
 version: 0.5.0
 # renovate: datasource=docker depName=owncloud/ocis
-appVersion: 4.0.4
+appVersion: 4.0.5
 kubeVersion: "" # please see https://doc.owncloud.com/ocis/next/deployment/container/orchestration/orchestration.html#get-the-chart for compatible Kubernetes versions
 sources:
   - https://github.com/owncloud/ocis-charts
