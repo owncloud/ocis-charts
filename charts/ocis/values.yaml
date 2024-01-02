@@ -139,6 +139,10 @@ messagingSystem:
       # -- For self signed certificates, consider to put the CA cert of the messaging system secure server into the secret referenced by "messagingSystemCaRef"
       # Not recommended for production installations.
       insecure: false
+      # -- Username used for authentication
+      authusername: ""
+      # -- Password used for authentication
+      authpassword: ""
 
 # provide custom hostnames to every oCIS pods
 hostAliases: []

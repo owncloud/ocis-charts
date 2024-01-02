@@ -29,6 +29,8 @@ spec:
           env:
             {{- include "ocis.serviceRegistry" . | nindent 12 }}
 
+            {{- include "ocis.events" . | nindent 12 }}
+
             - name: POSTPROCESSING_LOG_COLOR
               value: {{ .Values.logging.color | quote }}
             - name: POSTPROCESSING_LOG_LEVEL
@@ -68,30 +70,11 @@ spec:
               value: {{ join "," .postprocessingSteps | quote }}
             {{- end }}
 
-            - name: POSTPROCESSING_EVENTS_ENDPOINT
-            {{- if not .Values.messagingSystem.external.enabled }}
-              value: {{ .appNameNats }}:9233
-            {{- else }}
-              value: {{ .Values.messagingSystem.external.endpoint | quote }}
-            - name: POSTPROCESSING_EVENTS_CLUSTER
-              value: {{ .Values.messagingSystem.external.cluster | quote }}
-            - name: POSTPROCESSING_EVENTS_ENABLE_TLS
-              value: {{ .Values.messagingSystem.external.tls.enabled | quote }}
-            - name: POSTPROCESSING_EVENTS_TLS_INSECURE
-              value: {{ .Values.messagingSystem.external.tls.insecure | quote }}
-            - name: POSTPROCESSING_EVENTS_TLS_ROOT_CA_CERTIFICATE
-              {{- if not .Values.messagingSystem.external.tls.certTrusted }}
-              value: /etc/ocis/messaging-system-ca/messaging-system-ca.crt
-              {{- else }}
-              value: "" # no cert needed
-              {{- end }}
-            {{- end }}
-
             - name: POSTPROCESSING_STORE
               value: {{ .store.type | quote }}
             - name: POSTPROCESSING_STORE_NODES
               value: {{ tpl (join "," .store.nodes) . | quote }}
-
+          
           {{- include "ocis.livenessProbe" . | nindent 10 }}
 
           resources: {{ toYaml .resources | nindent 12 }}

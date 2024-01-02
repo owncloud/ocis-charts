@@ -27,7 +27,8 @@ spec:
           env:
             {{- include "ocis.serviceRegistry" . | nindent 12 }}
             {{- include "ocis.cors" . |nindent 12 }}
-
+            {{- include "ocis.events" . | nindent 12 }}
+            
             - name: OCIS_DEFAULT_LANGUAGE
               value: {{ default "en" .Values.features.language.default | quote }}
 
@@ -61,25 +62,6 @@ spec:
               value: {{ .store.type | quote }}
             - name: USERLOG_STORE_NODES
               value: {{ tpl (join "," .store.nodes) . | quote }}
-
-            - name: USERLOG_EVENTS_ENDPOINT
-            {{- if not .Values.messagingSystem.external.enabled }}
-              value: {{ .appNameNats }}:9233
-            {{- else }}
-              value: {{ .Values.messagingSystem.external.endpoint | quote }}
-            - name: USERLOG_EVENTS_CLUSTER
-              value: {{ .Values.messagingSystem.external.cluster | quote }}
-            - name: USERLOG_EVENTS_ENABLE_TLS
-              value: {{ .Values.messagingSystem.external.tls.enabled | quote }}
-            - name: USERLOG_EVENTS_TLS_INSECURE
-              value: {{ .Values.messagingSystem.external.tls.insecure | quote }}
-            - name: USERLOG_EVENTS_TLS_ROOT_CA_CERTIFICATE
-              {{- if not .Values.messagingSystem.external.tls.certTrusted }}
-              value: /etc/ocis/messaging-system-ca/messaging-system-ca.crt
-              {{- else }}
-              value: "" # no cert needed
-              {{- end }}
-            {{- end }}
 
             - name: USERLOG_SERVICE_ACCOUNT_ID
               valueFrom:

@@ -28,6 +28,7 @@ spec:
           env:
             {{- include "ocis.serviceRegistry" . | nindent 12 }}
             {{- include "ocis.cors" . |nindent 12 }}
+            {{- include "ocis.events" . | nindent 12 }}
 
             - name: SSE_LOG_COLOR
               value: {{ .Values.logging.color | quote }}
@@ -54,25 +55,6 @@ spec:
 
             - name: SSE_HTTP_ADDR
               value: 0.0.0.0:9939
-
-            - name: SSE_EVENTS_ENDPOINT
-            {{- if not .Values.messagingSystem.external.enabled }}
-              value: {{ .appNameNats }}:9233
-            {{- else }}
-              value: {{ .Values.messagingSystem.external.endpoint | quote }}
-            - name: SSE_EVENTS_CLUSTER
-              value: {{ .Values.messagingSystem.external.cluster | quote }}
-            - name: SSE_EVENTS_ENABLE_TLS
-              value: {{ .Values.messagingSystem.external.tls.enabled | quote }}
-            - name: SSE_EVENTS_TLS_INSECURE
-              value: {{ .Values.messagingSystem.external.tls.insecure | quote }}
-            - name: SSE_EVENTS_TLS_ROOT_CA_CERTIFICATE
-              {{- if not .Values.messagingSystem.external.tls.certTrusted }}
-              value: /etc/ocis/messaging-system-ca/messaging-system-ca.crt
-              {{- else }}
-              value: "" # no cert needed
-              {{- end }}
-            {{- end }}
 
             - name: SSE_JWT_SECRET
               valueFrom:
