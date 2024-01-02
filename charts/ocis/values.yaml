@@ -108,11 +108,14 @@ registry:
   # -- Configure the service registry type.
   # Defaults to "kubernetes".
   # Can be set to "etcd" or "natsjs", then the address of etcd / nats node(s) needs to be set to `registry.nodes`.
-  type: kubernetes
+  type: nats-js-kv
   # -- Nodes of the service registry to use.
-  nodes: []
-  # nodes:
-  #   - etcd.ocis-etcd.svc.cluster.local:2379
+  nodes:
+    - nats.ocis-nats.svc.cluster.local:4222
+  # -- Username used for authentication
+  authusername: ""
+  # -- Password used for authentication
+  authpassword: ""
 
 messagingSystem:
   external:
