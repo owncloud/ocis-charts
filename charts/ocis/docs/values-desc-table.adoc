@@ -942,6 +942,18 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `"nats.ocis-nats.svc.cluster.local:4222"`
 | Endpoint of the messaging system.
+| messagingSystem.external.tls.authpassword
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Password used for authentication
+| messagingSystem.external.tls.authusername
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Username used for authentication
 | messagingSystem.external.tls.certTrusted
 a| [subs=-attributes]
 +bool+
@@ -1008,17 +1020,29 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `""`
 | Default priorityClassName to apply to all services, except per-service priorityClassName configuration in `services.<service-name>.priorityClassName` is set.
+| registry.authpassword
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Password used for authentication
+| registry.authusername
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Username used for authentication
 | registry.nodes
 a| [subs=-attributes]
 +list+
 a| [subs=-attributes]
-`[]`
+`["nats.ocis-nats.svc.cluster.local:4222"]`
 | Nodes of the service registry to use.
 | registry.type
 a| [subs=-attributes]
 +string+
 a| [subs=-attributes]
-`"kubernetes"`
+`"nats-js-kv"`
 | Configure the service registry type. Defaults to "kubernetes". Can be set to "etcd" or "natsjs", then the address of etcd / nats node(s) needs to be set to `registry.nodes`.
 | replicas
 a| [subs=-attributes]

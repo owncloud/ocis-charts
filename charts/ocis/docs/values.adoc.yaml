@@ -109,11 +109,14 @@ registry:
   # -- Configure the service registry type.
   # Defaults to "kubernetes".
   # Can be set to "etcd" or "natsjs", then the address of etcd / nats node(s) needs to be set to `registry.nodes`.
-  type: kubernetes
+  type: nats-js-kv
   # -- Nodes of the service registry to use.
-  nodes: []
-  # nodes:
-  #   - etcd.ocis-etcd.svc.cluster.local:2379
+  nodes:
+    - nats.ocis-nats.svc.cluster.local:4222
+  # -- Username used for authentication
+  authusername: ""
+  # -- Password used for authentication
+  authpassword: ""
 
 messagingSystem:
   external:
@@ -137,6 +140,10 @@ messagingSystem:
       # -- For self signed certificates, consider to put the CA cert of the messaging system secure server into the secret referenced by "messagingSystemCaRef"
       # Not recommended for production installations.
       insecure: false
+      # -- Username used for authentication
+      authusername: ""
+      # -- Password used for authentication
+      authpassword: ""
 
 # provide custom hostnames to every oCIS pods
 hostAliases: []
