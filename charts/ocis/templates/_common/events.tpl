@@ -23,10 +23,12 @@ oCIS events configuration
   {{- end }}
 - name: OCIS_EVENTS_AUTH_USERNAME
   value: {{ .Values.messagingSystem.external.authusername | quote }}
+{{- if .Values.messagingSystem.external.authusername }}
 - name: OCIS_EVENTS_AUTH_PASSWORD
   valueFrom:
     secretKeyRef:
       name: {{ include "secrets.natsjskvSecret" . }}
       key: nats-js-kv-secret
+{{- end }}
 {{- end }}
 {{- end -}}

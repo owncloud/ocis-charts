@@ -13,11 +13,13 @@ oCIS store configuration
   value: {{ tpl (join "," .store.nodes) . | quote }}
 - name: OCIS_PERSISTENT_STORE_AUTH_USERNAME
   value: {{ .store.authusername | quote }}
+{{- if .store.authusername }}
 - name: OCIS_PERSISTENT_STORE_AUTH_PASSWORD
   valueFrom:
     secretKeyRef:
       name: {{ include "secrets.natsjskvSecret" . }}
       key: nats-js-kv-secret
+{{- end }}
 {{- end -}}
 
 {{- define "ocis.cacheStore" -}}
@@ -32,11 +34,13 @@ oCIS store configuration
   value: {{ join "," .Values.cache.nodes | quote }}
 - name: OCIS_CACHE_AUTH_USERNAME
   value: {{ .Values.cache.authusername | quote }}
+{{- if .Values.cache.authusername }}
 - name: OCIS_CACHE_AUTH_PASSWORD
   valueFrom:
     secretKeyRef:
       name: {{ include "secrets.natsjskvSecret" . }}
       key: nats-js-kv-secret
+{{- end }}
 - name: OCIS_CACHE_DISABLE_PERSISTENCE
   value: "true"
 {{- end }}
