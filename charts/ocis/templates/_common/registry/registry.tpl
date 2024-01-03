@@ -2,7 +2,7 @@
 oCIS service registry
 */}}
 {{- define "ocis.serviceRegistry" -}}
-{{- $valid := list "kubernetes" "etcd" "nats-js-kv" -}}
+{{- $valid := list "etcd" "nats-js-kv" -}}
 {{- if not (has .Values.registry.type $valid) -}}
 {{- fail "invalid registry.type set" -}}
 {{- end -}}
@@ -13,5 +13,8 @@ oCIS service registry
 - name: MICRO_REGISTRY_AUTH_USERNAME
   value: {{ .Values.registry.authusername | quote }}
 - name: MICRO_REGISTRY_AUTH_PASSWORD
-  value: {{ .Values.registry.authpassword | quote }}
+  valueFrom:
+    secretKeyRef:
+      name: {{ include "secrets.natsjskvSecret" . }}
+      key: nats-js-kv-secret
 {{- end -}}

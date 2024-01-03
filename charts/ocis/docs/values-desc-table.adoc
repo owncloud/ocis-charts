@@ -30,12 +30,6 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `3`
 | Sets minimum replicas for autoscaling.
-| cache.authpassword
-a| [subs=-attributes]
-+string+
-a| [subs=-attributes]
-`""`
-| Password to use for autentication
 | cache.authusername
 a| [subs=-attributes]
 +string+
@@ -46,7 +40,7 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 +list+
 a| [subs=-attributes]
-`["nats.ocis-nats.svc.cluster.local:4222"]`
+`["{{ .appNameNats }}:9233"]`
 | Nodes of the cache to use.
 | cache.type
 a| [subs=-attributes]
@@ -954,12 +948,6 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `"nats.ocis-nats.svc.cluster.local:4222"`
 | Endpoint of the messaging system.
-| messagingSystem.external.tls.authpassword
-a| [subs=-attributes]
-+string+
-a| [subs=-attributes]
-`""`
-| Password used for authentication
 | messagingSystem.external.tls.authusername
 a| [subs=-attributes]
 +string+
@@ -1032,12 +1020,6 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `""`
 | Default priorityClassName to apply to all services, except per-service priorityClassName configuration in `services.<service-name>.priorityClassName` is set.
-| registry.authpassword
-a| [subs=-attributes]
-+string+
-a| [subs=-attributes]
-`""`
-| Password used for authentication
 | registry.authusername
 a| [subs=-attributes]
 +string+
@@ -1048,7 +1030,7 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 +list+
 a| [subs=-attributes]
-`["nats.ocis-nats.svc.cluster.local:4222"]`
+`["{{ .appNameNats }}:9233"]`
 | Nodes of the service registry to use.
 | registry.type
 a| [subs=-attributes]
@@ -1128,6 +1110,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `""`
 | Reference to an existing messaging system certificate authority secret (see xref:{secrets}[Secrets])
+| secretRefs.natsjskvSecretRef
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Reference to an existing nats-js-kv secret (see xref:{secrets}[Secrets])
 | secretRefs.notificationsSmtpSecretRef
 a| [subs=-attributes]
 +string+
@@ -3768,6 +3756,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service resources configuration. Overrides the default setting from `resources` if set.
+| store.authusername
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Username to use for authentication
 | store.nodes
 a| [subs=-attributes]
 +list+
@@ -3778,7 +3772,7 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 +string+
 a| [subs=-attributes]
-`"nats-js"`
+`"nats-js-kv"`
 | Configure the store type. To disable the cache, set to "noop". Defaults to "nats-js". Therefore `store.nodes` defaults to the address of the builtin NATS. Can be set to "redis-sentinel", "etcd" or "nats-js-kv" then the address of Redis (Sentinel) / etcd / nats-js node(s) needs to be set to `cache.nodes`.
 | topologySpreadConstraints
 a| [subs=-attributes]

@@ -92,20 +92,20 @@ cache:
   type: "nats-js-kv"
   # -- Nodes of the cache to use.
   nodes:
-    - nats.ocis-nats.svc.cluster.local:4222
+    - "{{ .appNameNats }}:9233"
   # -- Username to use for authentication
   authusername: ""
-  # -- Password to use for autentication
-  authpassword: ""
 
 store:
   # -- Configure the store type. To disable the cache, set to "noop".
   # Defaults to "nats-js". Therefore `store.nodes` defaults to the address of the builtin NATS.
   # Can be set to "redis-sentinel", "etcd" or "nats-js-kv" then the address of Redis (Sentinel) / etcd / nats-js node(s) needs to be set to `cache.nodes`.
-  type: nats-js
+  type: nats-js-kv
   # -- Nodes of the store to use.
   nodes:
     - "{{ .appNameNats }}:9233"
+  # -- Username to use for authentication
+  authusername: ""
 
 registry:
   # -- Configure the service registry type.
@@ -114,11 +114,9 @@ registry:
   type: nats-js-kv
   # -- Nodes of the service registry to use.
   nodes:
-    - nats.ocis-nats.svc.cluster.local:4222
+    - "{{ .appNameNats }}:9233"
   # -- Username used for authentication
   authusername: ""
-  # -- Password used for authentication
-  authpassword: ""
 
 messagingSystem:
   external:
@@ -144,8 +142,6 @@ messagingSystem:
       insecure: false
       # -- Username used for authentication
       authusername: ""
-      # -- Password used for authentication
-      authpassword: ""
 
 # provide custom hostnames to every oCIS pods
 hostAliases: []
@@ -612,6 +608,8 @@ secretRefs:
   serviceAccountSecretRef: ""
   # -- The secret to secure the global notifications endpoint. Only system admins and users knowing that secret can call the global notifications POST/DELETE endpoints.
   globalNotificationsSecretRef: ""
+  # -- Reference to an existing nats-js-kv secret (see xref:{secrets}[Secrets])
+  natsjskvSecretRef: ""
 
 # Security context options.
 securityContext:
