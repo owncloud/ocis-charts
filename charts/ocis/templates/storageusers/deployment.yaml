@@ -38,6 +38,7 @@ spec:
           env:
             {{- include "ocis.serviceRegistry" . | nindent 12 }}
             {{- include "ocis.events" . | nindent 12 }}
+            {{- include "ocis.cacheStore" . | nindent 12 }}
 
             # logging
             - name: STORAGE_USERS_LOG_COLOR
@@ -123,21 +124,6 @@ spec:
                 secretKeyRef:
                   name: {{ include "secrets.serviceAccountSecret" . }}
                   key: service-account-secret
-
-            # cache
-            - name: STORAGE_USERS_FILEMETADATA_CACHE_STORE
-              value: {{ default "noop" .Values.cache.type | quote }}
-            {{- if ne (default "noop" .Values.cache.type) "noop" }}
-            - name: STORAGE_USERS_FILEMETADATA_CACHE_STORE_NODES
-              value: {{ join "," .Values.cache.nodes | quote }}
-            {{- end }}
-
-            - name: STORAGE_USERS_ID_CACHE_STORE
-              value: {{ default "noop" .Values.cache.type | quote }}
-            {{- if ne (default "noop" .Values.cache.type) "noop" }}
-            - name: STORAGE_USERS_ID_CACHE_STORE_NODES
-              value: {{ join "," .Values.cache.nodes | quote }}
-            {{- end }}
 
             # the stat cache is disabled for now for performance reasons, see https://github.com/owncloud/ocis-charts/issues/214
             - name: STORAGE_USERS_STAT_CACHE_STORE

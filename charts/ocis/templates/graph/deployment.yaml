@@ -27,6 +27,7 @@ spec:
             {{- include "ocis.serviceRegistry" . | nindent 12 }}
             {{- include "ocis.cors" . |nindent 12 }}
             {{- include "ocis.events" . | nindent 12 }}
+            {{- include "ocis.cacheStore" . | nindent 12 }}
 
             - name: GRAPH_LOG_COLOR
               value: {{ .Values.logging.color | quote }}
@@ -149,14 +150,6 @@ spec:
               value: {{ .Values.features.externalUserManagement.ldap.disableUsers.disabledUsersGroupDN | quote }}
 
             {{ end }}
-
-            # cache
-            - name: GRAPH_CACHE_STORE
-              value: {{ default "noop" .Values.cache.type | quote }}
-            {{- if ne (default "noop" .Values.cache.type) "noop" }}
-            - name: GRAPH_CACHE_STORE_NODES
-              value: {{ join "," .Values.cache.nodes | quote }}
-            {{- end }}
 
             - name: GRAPH_APPLICATION_ID
               valueFrom:

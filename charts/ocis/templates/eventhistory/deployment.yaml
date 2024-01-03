@@ -27,6 +27,7 @@ spec:
           env:
             {{- include "ocis.serviceRegistry" . | nindent 12 }}
             {{- include "ocis.events" . | nindent 12 }}
+            {{- include "ocis.persistentStore" . | nindent 12 }}
 
             - name: EVENTHISTORY_LOG_COLOR
               value: {{ .Values.logging.color | quote }}
@@ -53,11 +54,6 @@ spec:
 
             - name: EVENTHISTORY_DEBUG_ADDR
               value: 0.0.0.0:9270
-
-            - name: EVENTHISTORY_STORE
-              value: {{ .store.type | quote }}
-            - name: EVENTHISTORY_STORE_NODES
-              value: {{ tpl (join "," .store.nodes) . | quote }}
 
           {{- include "ocis.livenessProbe" . | nindent 10 }}
 

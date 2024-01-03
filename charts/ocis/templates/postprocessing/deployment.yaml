@@ -28,8 +28,8 @@ spec:
           {{- include "ocis.containerSecurityContext" . | nindent 10 }}
           env:
             {{- include "ocis.serviceRegistry" . | nindent 12 }}
-
             {{- include "ocis.events" . | nindent 12 }}
+            {{- include "ocis.persistentStore" . | nindent 12 }}
 
             - name: POSTPROCESSING_LOG_COLOR
               value: {{ .Values.logging.color | quote }}
@@ -70,11 +70,6 @@ spec:
               value: {{ join "," .postprocessingSteps | quote }}
             {{- end }}
 
-            - name: POSTPROCESSING_STORE
-              value: {{ .store.type | quote }}
-            - name: POSTPROCESSING_STORE_NODES
-              value: {{ tpl (join "," .store.nodes) . | quote }}
-          
           {{- include "ocis.livenessProbe" . | nindent 10 }}
 
           resources: {{ toYaml .resources | nindent 12 }}

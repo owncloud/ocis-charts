@@ -28,6 +28,7 @@ spec:
             {{- include "ocis.serviceRegistry" . | nindent 12 }}
             {{- include "ocis.cors" . |nindent 12 }}
             {{- include "ocis.events" . | nindent 12 }}
+            {{- include "ocis.persistentStore" . | nindent 12 }}
             
             - name: OCIS_DEFAULT_LANGUAGE
               value: {{ default "en" .Values.features.language.default | quote }}
@@ -57,11 +58,6 @@ spec:
 
             - name: USERLOG_DEBUG_ADDR
               value: 0.0.0.0:9210
-
-            - name: USERLOG_STORE
-              value: {{ .store.type | quote }}
-            - name: USERLOG_STORE_NODES
-              value: {{ tpl (join "," .store.nodes) . | quote }}
 
             - name: USERLOG_SERVICE_ACCOUNT_ID
               valueFrom:

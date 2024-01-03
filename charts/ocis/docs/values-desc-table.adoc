@@ -30,18 +30,30 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `3`
 | Sets minimum replicas for autoscaling.
+| cache.authpassword
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Password to use for autentication
+| cache.authusername
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Username to use for authentication
 | cache.nodes
 a| [subs=-attributes]
 +list+
 a| [subs=-attributes]
-`[]`
+`["nats.ocis-nats.svc.cluster.local:4222"]`
 | Nodes of the cache to use.
 | cache.type
 a| [subs=-attributes]
 +string+
 a| [subs=-attributes]
-`""`
-| Type of the cache to use. It defaults to no cache or a in memory cache depending on the service. To disable the cache, set to "noop". Can be set to "redis", "redis-sentinel" or "etcd", then the address of Redis (Sentinel) / etcd node(s) needs to be set to `cache.nodes`.
+`"nats-js-kv"`
+| Type of the cache to use. It defaults to no cache. To disable the cache, set to "noop". Can be set to "redis-sentinel", "etcd" or "nats-js-kv" then the address of Redis (Sentinel) / etcd / nats-js node(s) needs to be set to `cache.nodes`.
 | configRefs.authServiceConfigRef
 a| [subs=-attributes]
 +string+
@@ -3767,7 +3779,7 @@ a| [subs=-attributes]
 +string+
 a| [subs=-attributes]
 `"nats-js"`
-| Configure the store type. To disable the cache, set to "noop". Defaults to "nats-js". Therefore `store.nodes` defaults to the address of the builtin NATS. Can be set to "redis", "redis-sentinel" or "etcd", then the address of Redis (Sentinel) / etcd node(s) needs to be set to `cache.nodes`.
+| Configure the store type. To disable the cache, set to "noop". Defaults to "nats-js". Therefore `store.nodes` defaults to the address of the builtin NATS. Can be set to "redis-sentinel", "etcd" or "nats-js-kv" then the address of Redis (Sentinel) / etcd / nats-js node(s) needs to be set to `cache.nodes`.
 | topologySpreadConstraints
 a| [subs=-attributes]
 +string+

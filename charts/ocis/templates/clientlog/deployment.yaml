@@ -49,11 +49,6 @@ spec:
             - name: CLIENTLOG_DEBUG_ADDR
               value: 0.0.0.0:9260
 
-            - name: CLIENTLOG_STORE
-              value: {{ .store.type | quote }}
-            - name: CLIENTLOG_STORE_NODES
-              value: {{ tpl (join "," .store.nodes) . | quote }}
-
             - name: CLIENTLOG_SERVICE_ACCOUNT_ID
               valueFrom:
                 configMapKeyRef:
