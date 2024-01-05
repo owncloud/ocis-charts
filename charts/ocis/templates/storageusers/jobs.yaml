@@ -22,7 +22,6 @@ spec:
             app: storage-users-clean-expired-uploads
             {{- include "ocis.labels" . | nindent 12 }}
         spec:
-          {{- include "ocis.serviceAccount" . | nindent 10 }}
           restartPolicy: Never
           {{- include "ocis.priorityClassName" $.jobPriorityClassName | nindent 10 }}
           {{- include "ocis.hostAliases" $ | nindent 10 }}
@@ -134,7 +133,6 @@ spec:
             {{- include "ocis.labels" . | nindent 12 }}
 
         spec:
-          {{- include "ocis.serviceAccount" . | nindent 10 }}
           restartPolicy: Never
           {{- include "ocis.hostAliases" $ | nindent 10 }}
           nodeSelector: {{ toYaml $.jobNodeSelector | nindent 12 }}

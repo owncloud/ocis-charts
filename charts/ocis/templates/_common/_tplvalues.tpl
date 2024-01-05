@@ -241,13 +241,6 @@ oCIS deployment CORS template
 {{- end -}}
 
 {{/*
-oCIS serviceAccount settings
-*/}}
-{{- define "ocis.serviceAccount" -}}
-automountServiceAccountToken: true
-{{- end -}}
-
-{{/*
 oCIS hostAliases settings
 */}}
 {{- define "ocis.hostAliases" -}}

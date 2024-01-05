@@ -108,8 +108,7 @@ store:
 
 registry:
   # -- Configure the service registry type.
-  # Defaults to "kubernetes".
-  # Can be set to "etcd" or "natsjs", then the address of etcd / nats node(s) needs to be set to `registry.nodes`.
+  # When set to "nats-js-kv", then the address of node(s) needs to be set to `registry.nodes`.
   type: nats-js-kv
   # -- Nodes of the service registry to use.
   nodes:

@@ -25,7 +25,6 @@ spec:
             {{- include "ocis.labels" . | nindent 12 }}
         spec:
           restartPolicy: Never
-          {{- include "ocis.serviceAccount" . | nindent 10 }}
           {{- include "ocis.securityContextAndtopologySpreadConstraints" . | nindent 10 }}
           {{- include "ocis.priorityClassName" $.jobPriorityClassName | nindent 10 }}
           {{- include "ocis.hostAliases" $ | nindent 10 }}
