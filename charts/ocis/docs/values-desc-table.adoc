@@ -30,12 +30,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `3`
 | Sets minimum replicas for autoscaling.
-| cache.authusername
+| cache.authentication
 a| [subs=-attributes]
-+string+
++bool+
 a| [subs=-attributes]
-`""`
-| Username to use for authentication
+`false`
+| Enable authentication. Requires natsjsSecretRef to be set
 | cache.nodes
 a| [subs=-attributes]
 +list+
@@ -930,6 +930,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `"false"`
 | Activates pretty log output. Not recommended for production installations.
+| messagingSystem.external.authentication
+a| [subs=-attributes]
++bool+
+a| [subs=-attributes]
+`false`
+| Enable authentication. Requires natsjsSecretRef to be set
 | messagingSystem.external.cluster
 a| [subs=-attributes]
 +string+
@@ -948,12 +954,6 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `"nats.ocis-nats.svc.cluster.local:4222"`
 | Endpoint of the messaging system.
-| messagingSystem.external.tls.authusername
-a| [subs=-attributes]
-+string+
-a| [subs=-attributes]
-`""`
-| Username used for authentication
 | messagingSystem.external.tls.certTrusted
 a| [subs=-attributes]
 +bool+
@@ -1020,12 +1020,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `""`
 | Default priorityClassName to apply to all services, except per-service priorityClassName configuration in `services.<service-name>.priorityClassName` is set.
-| registry.authusername
+| registry.authentication
 a| [subs=-attributes]
-+string+
++bool+
 a| [subs=-attributes]
-`""`
-| Username used for authentication
+`false`
+| Enable authentication. Requires natsjsSecretRef to be set
 | registry.nodes
 a| [subs=-attributes]
 +list+
@@ -1110,12 +1110,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `""`
 | Reference to an existing messaging system certificate authority secret (see xref:{secrets}[Secrets])
-| secretRefs.natsjskvSecretRef
+| secretRefs.natsjsSecretRef
 a| [subs=-attributes]
 +string+
 a| [subs=-attributes]
 `""`
-| Reference to an existing nats-js-kv secret (see xref:{secrets}[Secrets])
+| Reference to an existing nats-js secret (see xref:{secrets}[Secrets]) needs to include both `nats-js-user` and `nats-js-password` keys Not used if `cache.authentication` AND `store.authentication` AND `registry.authentication` AND `messagingSystem.external.authentication` are set to false.
 | secretRefs.notificationsSmtpSecretRef
 a| [subs=-attributes]
 +string+
@@ -3756,12 +3756,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service resources configuration. Overrides the default setting from `resources` if set.
-| store.authusername
+| store.authentication
 a| [subs=-attributes]
-+string+
++bool+
 a| [subs=-attributes]
-`""`
-| Username to use for authentication
+`false`
+| Enable authentication. Requires natsjsSecretRef to be set
 | store.nodes
 a| [subs=-attributes]
 +list+

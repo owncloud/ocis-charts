@@ -21,14 +21,17 @@ oCIS events configuration
   {{- else }}
   value: "" # no cert needed
   {{- end }}
+{{- if .Values.messagingSystem.external.authentication }}
 - name: OCIS_EVENTS_AUTH_USERNAME
-  value: {{ .Values.messagingSystem.external.authusername | quote }}
-{{- if .Values.messagingSystem.external.authusername }}
+  valueFrom:
+    secretKeyRef:
+      name: {{ include "secrets.natsjsSecret" . }}
+      key: nats-js-user
 - name: OCIS_EVENTS_AUTH_PASSWORD
   valueFrom:
     secretKeyRef:
-      name: {{ include "secrets.natsjskvSecret" . }}
-      key: nats-js-kv-secret
+      name: {{ include "secrets.natsjsSecret" . }}
+      key: nats-js-password
 {{- end }}
 {{- end }}
 {{- end -}}

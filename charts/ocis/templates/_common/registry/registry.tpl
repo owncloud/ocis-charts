@@ -10,13 +10,16 @@ oCIS service registry
   value: {{ .Values.registry.type | quote }}
 - name: MICRO_REGISTRY_ADDRESS
   value: {{ join "," .Values.registry.nodes | quote }}
+{{- if .Values.registry.authentication }}
 - name: MICRO_REGISTRY_AUTH_USERNAME
-  value: {{ .Values.registry.authusername | quote }}
-{{- if .Values.registry.authusername }}
+  valueFrom:
+    secretKeyRef:
+      name: {{ include "secrets.natsjsSecret" . }}
+      key: nats-js-user
 - name: MICRO_REGISTRY_AUTH_PASSWORD
   valueFrom:
     secretKeyRef:
-      name: {{ include "secrets.natsjskvSecret" . }}
-      key: nats-js-kv-secret
+      name: {{ include "secrets.natsjsSecret" . }}
+      key: nats-js-password
 {{- end }}
 {{- end -}}

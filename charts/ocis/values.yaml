@@ -92,8 +92,8 @@ cache:
   # -- Nodes of the cache to use.
   nodes:
     - "{{ .appNameNats }}:9233"
-  # -- Username to use for authentication
-  authusername: ""
+  # -- Enable authentication. Requires natsjsSecretRef to be set
+  authentication: false
 
 store:
   # -- Configure the store type. To disable the cache, set to "noop".
@@ -103,8 +103,8 @@ store:
   # -- Nodes of the store to use.
   nodes:
     - "{{ .appNameNats }}:9233"
-  # -- Username to use for authentication
-  authusername: ""
+  # -- Enable authentication. Requires natsjsSecretRef to be set
+  authentication: false
 
 registry:
   # -- Configure the service registry type.
@@ -113,8 +113,8 @@ registry:
   # -- Nodes of the service registry to use.
   nodes:
     - "{{ .appNameNats }}:9233"
-  # -- Username used for authentication
-  authusername: ""
+  # -- Enable authentication. Requires natsjsSecretRef to be set
+  authentication: false
 
 messagingSystem:
   external:
@@ -127,6 +127,8 @@ messagingSystem:
     endpoint: "nats.ocis-nats.svc.cluster.local:4222"
     # -- Cluster name to use with the messaging system.
     cluster: "ocis-cluster"
+    # -- Enable authentication. Requires natsjsSecretRef to be set
+    authentication: false
     tls:
       # -- Enables TLS encrypted communication with the messaging system.
       # Recommended for production installations.
@@ -138,8 +140,6 @@ messagingSystem:
       # -- For self signed certificates, consider to put the CA cert of the messaging system secure server into the secret referenced by "messagingSystemCaRef"
       # Not recommended for production installations.
       insecure: false
-      # -- Username used for authentication
-      authusername: ""
 
 # provide custom hostnames to every oCIS pods
 hostAliases: []
@@ -606,8 +606,10 @@ secretRefs:
   serviceAccountSecretRef: ""
   # -- The secret to secure the global notifications endpoint. Only system admins and users knowing that secret can call the global notifications POST/DELETE endpoints.
   globalNotificationsSecretRef: ""
-  # -- Reference to an existing nats-js-kv secret (see ref:Secrets#secrets)
-  natsjskvSecretRef: ""
+  # -- Reference to an existing nats-js secret (see ref:Secrets#secrets)
+  # needs to include both `nats-js-user` and `nats-js-password` keys
+  # Not used if `cache.authentication` AND `store.authentication` AND `registry.authentication` AND `messagingSystem.external.authentication` are set to false.
+  natsjsSecretRef: ""
 
 # Security context options.
 securityContext:

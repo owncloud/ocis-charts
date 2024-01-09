@@ -11,14 +11,17 @@ oCIS store configuration
   value: {{ .store.type | quote }}
 - name: OCIS_PERSISTENT_STORE_NODES
   value: {{ tpl (join "," .store.nodes) . | quote }}
+{{- if.store.authentication }}
 - name: OCIS_PERSISTENT_STORE_AUTH_USERNAME
-  value: {{ .store.authusername | quote }}
-{{- if .store.authusername }}
+  valueFrom:
+    secretKeyRef:
+      name: {{ include "secrets.natsjsSecret" . }}
+      key: nats-js-user
 - name: OCIS_PERSISTENT_STORE_AUTH_PASSWORD
   valueFrom:
     secretKeyRef:
-      name: {{ include "secrets.natsjskvSecret" . }}
-      key: nats-js-kv-secret
+      name: {{ include "secrets.natsjsSecret" . }}
+      key: nats-js-password
 {{- end }}
 {{- end -}}
 
@@ -32,16 +35,19 @@ oCIS store configuration
 {{- if ne .Values.cache.type "noop" }}
 - name: OCIS_CACHE_STORE_NODES
   value: {{ join "," .Values.cache.nodes | quote }}
+- name: OCIS_CACHE_DISABLE_PERSISTENCE
+  value: "true"
+{{- if .Values.cache.authentication }}
 - name: OCIS_CACHE_AUTH_USERNAME
-  value: {{ .Values.cache.authusername | quote }}
-{{- if .Values.cache.authusername }}
+  valueFrom:
+    secretKeyRef:
+      name: {{ include "secrets.natsjsSecret" . }}
+      key: nats-js-user
 - name: OCIS_CACHE_AUTH_PASSWORD
   valueFrom:
     secretKeyRef:
-      name: {{ include "secrets.natsjskvSecret" . }}
-      key: nats-js-kv-secret
+      name: {{ include "secrets.natsjsSecret" . }}
+      key: nats-js-password
 {{- end }}
-- name: OCIS_CACHE_DISABLE_PERSISTENCE
-  value: "true"
 {{- end }}
 {{- end -}}
