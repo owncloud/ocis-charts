@@ -15,6 +15,9 @@ releases:
             name: "ocis-cluster"
           jetstream:
             enabled: true
+            memoryStore:
+              enabled: true
+              maxSize: 2Gi
           merge:
             00$include: auth.conf
       - configMap:
