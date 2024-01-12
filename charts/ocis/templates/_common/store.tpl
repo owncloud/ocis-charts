@@ -34,7 +34,7 @@ oCIS store configuration
   value: {{ .Values.cache.type | quote }}
 {{- if ne .Values.cache.type "noop" }}
 - name: OCIS_CACHE_STORE_NODES
-  value: {{ join "," .Values.cache.nodes | quote }}
+  value: {{ tpl (join "," .Values.cache.nodes) . | quote }}
 - name: OCIS_CACHE_DISABLE_PERSISTENCE
   value: "true"
 {{- if .Values.cache.authentication }}
