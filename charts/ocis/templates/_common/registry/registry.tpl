@@ -9,7 +9,7 @@ oCIS service registry
 - name: MICRO_REGISTRY
   value: {{ .Values.registry.type | quote }}
 - name: MICRO_REGISTRY_ADDRESS
-  value: {{ join "," .Values.registry.nodes | quote }}
+  value: {{ tpl (join "," .Values.registry.nodes) . | quote }}
 {{- if .Values.registry.authentication }}
 - name: MICRO_REGISTRY_AUTH_USERNAME
   valueFrom:
