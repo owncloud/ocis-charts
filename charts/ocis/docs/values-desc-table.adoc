@@ -47,7 +47,7 @@ a| [subs=-attributes]
 +string+
 a| [subs=-attributes]
 `"nats-js-kv"`
-| Type of the cache to use. It defaults to no cache. To disable the cache, set to "noop". Can be set to "redis-sentinel", "etcd" or "nats-js-kv" then the address of Redis (Sentinel) / etcd / nats-js node(s) needs to be set to `cache.nodes`.
+| Type of the cache to use. To disable the cache, set to "noop". Can be set to "redis-sentinel", "noop", "nats-js-kv" or "memory" (only for testing) then the address of Redis (Sentinel) / etcd / nats-js node(s) needs to be set to `cache.nodes`.
 | configRefs.authServiceConfigRef
 a| [subs=-attributes]
 +string+
@@ -3773,7 +3773,7 @@ a| [subs=-attributes]
 +string+
 a| [subs=-attributes]
 `"nats-js-kv"`
-| Configure the store type. To disable the cache, set to "noop". Defaults to "nats-js". Therefore `store.nodes` defaults to the address of the builtin NATS. Can be set to "redis-sentinel", "etcd" or "nats-js-kv" then the address of Redis (Sentinel) / etcd / nats-js node(s) needs to be set to `cache.nodes`.
+| Configure the store type. Defaults to "nats-js-kv ". Therefore `store.nodes` defaults to the address of the builtin NATS. Can be set to "redis-sentinel", "nats-js-kv" then the address of Redis (Sentinel) / etcd / nats-js node(s) needs to be set to `cache.nodes`.
 | topologySpreadConstraints
 a| [subs=-attributes]
 +string+

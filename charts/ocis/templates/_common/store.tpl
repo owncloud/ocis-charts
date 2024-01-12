@@ -3,7 +3,7 @@ oCIS store configuration
 */}}
 
 {{- define "ocis.persistentStore" -}}
-{{- $valid := list "etcd" "nats-js-kv" -}}
+{{- $valid := list "memory" "redis-sentinel" "nats-js-kv" -}}
 {{- if not (has .store.type $valid) -}}
 {{- fail "invalid store.type set" -}}
 {{- end -}}
@@ -26,7 +26,7 @@ oCIS store configuration
 {{- end -}}
 
 {{- define "ocis.cacheStore" -}}
-{{- $valid := list "noop" "etcd" "nats-js-kv" -}}
+{{- $valid := list "noop" "memory" "nats-js-kv" "resis-sentinel" -}}
 {{- if not (has .Values.cache.type $valid) -}}
 {{- fail "invalid cache.type set" -}}
 {{- end -}}

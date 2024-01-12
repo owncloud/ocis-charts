@@ -2,7 +2,7 @@
 oCIS service registry
 */}}
 {{- define "ocis.serviceRegistry" -}}
-{{- $valid := list "etcd" "nats-js-kv" -}}
+{{- $valid := list "nats-js-kv" -}}
 {{- if not (has .Values.registry.type $valid) -}}
 {{- fail "invalid registry.type set" -}}
 {{- end -}}

@@ -93,12 +93,17 @@ releases:
               enabled: false
 
       - registry:
-          type: natsjs
+          type: nats-js-kv
           nodes:
             - nats.ocis-nats.svc.cluster.local:4222
 
       - store:
-          type: nats-js
+          type: nats-js-kv
+          nodes:
+            - nats.ocis-nats.svc.cluster.local:4222
+
+      - cache:
+          type: nats-js-kv
           nodes:
             - nats.ocis-nats.svc.cluster.local:4222
 
