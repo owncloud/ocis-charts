@@ -814,13 +814,13 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 +string+
 a| [subs=-attributes]
-`""`
+`"0caac628158dc8681bc25df4ce41931a21466abd035fe05ed24f1745ebbbdc13"`
 | Image sha / digest (optional).
 | image.tag
 a| [subs=-attributes]
 +string+
 a| [subs=-attributes]
-`""`
+`"latest"`
 | Image tag. Defaults to the chart's appVersion.
 | ingress.annotations
 a| [subs=-attributes]

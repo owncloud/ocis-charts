@@ -5,9 +5,9 @@ image:
   # -- Image repository
   repository: owncloud/ocis
   # -- Image tag. Defaults to the chart's appVersion.
-  tag: ""
+  tag: "latest"
   # -- Image sha / digest (optional).
-  sha: ""
+  sha: "0caac628158dc8681bc25df4ce41931a21466abd035fe05ed24f1745ebbbdc13"
   # -- Image pull policy
   pullPolicy: IfNotPresent
   # -- Names of the secret containing the credentials to pull an image from the registry. More
