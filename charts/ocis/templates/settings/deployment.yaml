@@ -11,7 +11,6 @@ spec:
   template:
     {{- include "ocis.templateMetadata" (dict "scope" $ "configCheck" true) | nindent 4 }}
     spec:
-      {{- include "ocis.serviceAccount" . | nindent 6 }}
       {{- include "ocis.affinity" .Values.services.settings | nindent 6 }}
       {{- include "ocis.securityContextAndtopologySpreadConstraints" . | nindent 6 }}
       {{- include "ocis.priorityClassName" $.priorityClassName | nindent 6 }}
@@ -26,6 +25,7 @@ spec:
           env:
             {{- include "ocis.serviceRegistry" . | nindent 12 }}
             {{- include "ocis.cors" . |nindent 12 }}
+            {{- include "ocis.cacheStore" . | nindent 12 }}
 
             - name: OCIS_DEFAULT_LANGUAGE
               value: {{ default "en" .Values.features.language.default | quote }}
@@ -48,14 +48,6 @@ spec:
 
             - name: SETTINGS_DEBUG_PPROF
               value: {{ .Values.debug.profiling | quote }}
-
-            # cache
-            - name: SETTINGS_CACHE_STORE
-              value: {{ default "memory" .Values.cache.type | quote }}
-            {{- if not (has (default "memory" .Values.cache.type) (list "noop" "memory")) }}
-            - name: SETTINGS_CACHE_STORE_NODES
-              value: {{ join "," .Values.cache.nodes | quote }}
-            {{- end }}
 
             - name: SETTINGS_HTTP_ADDR
               value: 0.0.0.0:9190
@@ -86,7 +78,8 @@ spec:
                   name: {{ include "secrets.jwtSecret" . }}
                   key: jwt-secret
 
-            - name: SETTINGS_SERVICE_ACCOUNT_ID_ADMIN
+            # TODO: use SETTINGS_SERVICE_ACCOUNT_IDS once we have multiple to configure
+            - name: OCIS_SERVICE_ACCOUNT_ID
               valueFrom:
                 configMapKeyRef:
                   name: {{ include "config.authService" . }}

@@ -11,7 +11,6 @@ spec:
   template:
     {{- include "ocis.templateMetadata" (dict "scope" $ "configCheck" false) | nindent 4 }}
     spec:
-      {{- include "ocis.serviceAccount" . | nindent 6 }}
       {{- include "ocis.affinity" .Values.services.graph | nindent 6 }}
       {{- include "ocis.securityContextAndtopologySpreadConstraints" . | nindent 6 }}
       {{- include "ocis.priorityClassName" $.priorityClassName | nindent 6 }}
@@ -26,6 +25,8 @@ spec:
           env:
             {{- include "ocis.serviceRegistry" . | nindent 12 }}
             {{- include "ocis.cors" . |nindent 12 }}
+            {{- include "ocis.events" . | nindent 12 }}
+            {{- include "ocis.cacheStore" . | nindent 12 }}
 
             - name: GRAPH_LOG_COLOR
               value: {{ .Values.logging.color | quote }}
@@ -148,33 +149,6 @@ spec:
               value: {{ .Values.features.externalUserManagement.ldap.disableUsers.disabledUsersGroupDN | quote }}
 
             {{ end }}
-
-            # cache
-            - name: GRAPH_CACHE_STORE
-              value: {{ default "noop" .Values.cache.type | quote }}
-            {{- if ne (default "noop" .Values.cache.type) "noop" }}
-            - name: GRAPH_CACHE_STORE_NODES
-              value: {{ join "," .Values.cache.nodes | quote }}
-            {{- end }}
-
-            - name: GRAPH_EVENTS_ENDPOINT
-            {{- if not .Values.messagingSystem.external.enabled }}
-              value: {{ .appNameNats }}:9233
-            {{- else }}
-              value: {{ .Values.messagingSystem.external.endpoint | quote }}
-            - name: GRAPH_EVENTS_CLUSTER
-              value: {{ .Values.messagingSystem.external.cluster | quote }}
-            - name: GRAPH_EVENTS_ENABLE_TLS
-              value: {{ .Values.messagingSystem.external.tls.enabled | quote }}
-            - name: GRAPH_EVENTS_TLS_INSECURE
-              value: {{ .Values.messagingSystem.external.tls.insecure | quote }}
-            - name: GRAPH_EVENTS_TLS_ROOT_CA_CERTIFICATE
-              {{- if not .Values.messagingSystem.external.tls.certTrusted }}
-              value: /etc/ocis/messaging-system-ca/messaging-system-ca.crt
-              {{- else }}
-              value: "" # no cert needed
-              {{- end }}
-            {{- end }}
 
             - name: GRAPH_APPLICATION_ID
               valueFrom:

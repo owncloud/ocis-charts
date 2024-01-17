@@ -11,7 +11,6 @@ spec:
   template:
     {{- include "ocis.templateMetadata" (dict "scope" $ "configCheck" false) | nindent 4 }}
     spec:
-      {{- include "ocis.serviceAccount" . | nindent 6 }}
       {{- include "ocis.affinity" .Values.services.storageusers | nindent 6 }}
       {{- include "ocis.securityContextAndtopologySpreadConstraints" . | nindent 6 }}
       {{- if and $.Values.services.storageusers.persistence.enabled $.Values.services.storageusers.persistence.chownInitContainer }}
@@ -37,6 +36,8 @@ spec:
           {{- include "ocis.containerSecurityContext" . | nindent 10 }}
           env:
             {{- include "ocis.serviceRegistry" . | nindent 12 }}
+            {{- include "ocis.events" . | nindent 12 }}
+            {{- include "ocis.cacheStore" . | nindent 12 }}
 
             # logging
             - name: STORAGE_USERS_LOG_COLOR
@@ -102,26 +103,6 @@ spec:
               value: {{ .Values.services.storageusers.storageBackend.driverConfig.s3ng.bucket | quote }}
             {{- end }}
 
-            # events
-            - name: STORAGE_USERS_EVENTS_ENDPOINT
-            {{- if not .Values.messagingSystem.external.enabled }}
-              value: {{ .appNameNats }}:9233
-            {{- else }}
-              value: {{ .Values.messagingSystem.external.endpoint | quote }}
-            - name: STORAGE_USERS_EVENTS_CLUSTER
-              value: {{ .Values.messagingSystem.external.cluster | quote }}
-            - name: STORAGE_USERS_EVENTS_ENABLE_TLS
-              value: {{ .Values.messagingSystem.external.tls.enabled | quote }}
-            - name: STORAGE_USERS_EVENTS_TLS_INSECURE
-              value: {{ .Values.messagingSystem.external.tls.insecure | quote }}
-            - name: STORAGE_USERS_EVENTS_TLS_ROOT_CA_CERTIFICATE
-              {{- if not .Values.messagingSystem.external.tls.certTrusted }}
-              value: /etc/ocis/messaging-system-ca/messaging-system-ca.crt
-              {{- else }}
-              value: "" # no cert needed
-              {{- end }}
-            {{- end }}
-
             # Duration in seconds after which uploads will expire.
             - name: STORAGE_USERS_UPLOAD_EXPIRATION
               value: {{ .Values.services.storageusers.maintenance.cleanUpExpiredUploads.uploadExpiration | quote }}
@@ -142,21 +123,6 @@ spec:
                 secretKeyRef:
                   name: {{ include "secrets.serviceAccountSecret" . }}
                   key: service-account-secret
-
-            # cache
-            - name: STORAGE_USERS_FILEMETADATA_CACHE_STORE
-              value: {{ default "noop" .Values.cache.type | quote }}
-            {{- if ne (default "noop" .Values.cache.type) "noop" }}
-            - name: STORAGE_USERS_FILEMETADATA_CACHE_STORE_NODES
-              value: {{ join "," .Values.cache.nodes | quote }}
-            {{- end }}
-
-            - name: STORAGE_USERS_ID_CACHE_STORE
-              value: {{ default "noop" .Values.cache.type | quote }}
-            {{- if ne (default "noop" .Values.cache.type) "noop" }}
-            - name: STORAGE_USERS_ID_CACHE_STORE_NODES
-              value: {{ join "," .Values.cache.nodes | quote }}
-            {{- end }}
 
             # the stat cache is disabled for now for performance reasons, see https://github.com/owncloud/ocis-charts/issues/214
             - name: STORAGE_USERS_STAT_CACHE_STORE

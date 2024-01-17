@@ -22,7 +22,6 @@ spec:
             app: storage-users-clean-expired-uploads
             {{- include "ocis.labels" . | nindent 12 }}
         spec:
-          {{- include "ocis.serviceAccount" . | nindent 10 }}
           restartPolicy: Never
           {{- include "ocis.priorityClassName" $.jobPriorityClassName | nindent 10 }}
           {{- include "ocis.hostAliases" $ | nindent 10 }}
@@ -134,7 +133,6 @@ spec:
             {{- include "ocis.labels" . | nindent 12 }}
 
         spec:
-          {{- include "ocis.serviceAccount" . | nindent 10 }}
           restartPolicy: Never
           {{- include "ocis.hostAliases" $ | nindent 10 }}
           nodeSelector: {{ toYaml $.jobNodeSelector | nindent 12 }}
@@ -150,6 +148,7 @@ spec:
                 readOnlyRootFilesystem: true
               env:
                 {{- include "ocis.serviceRegistry" . | nindent 16 }}
+                {{- include "ocis.events" . | nindent 16 }}
 
                 # logging
                 - name: STORAGE_USERS_LOG_COLOR
@@ -176,26 +175,6 @@ spec:
                     configMapKeyRef:
                       name: {{ include "config.storageUsers" . }}
                       key: storage-uuid
-
-                # events
-                - name: STORAGE_USERS_EVENTS_ENDPOINT
-                {{- if not .Values.messagingSystem.external.enabled }}
-                  value: {{ .appNameNats }}:9233
-                {{- else }}
-                  value: {{ .Values.messagingSystem.external.endpoint | quote }}
-                - name: STORAGE_USERS_EVENTS_CLUSTER
-                  value: {{ .Values.messagingSystem.external.cluster | quote }}
-                - name: STORAGE_USERS_EVENTS_ENABLE_TLS
-                  value: {{ .Values.messagingSystem.external.tls.enabled | quote }}
-                - name: STORAGE_USERS_EVENTS_TLS_INSECURE
-                  value: {{ .Values.messagingSystem.external.tls.insecure | quote }}
-                - name: STORAGE_USERS_EVENTS_TLS_ROOT_CA_CERTIFICATE
-                  {{- if not .Values.messagingSystem.external.tls.certTrusted }}
-                  value: /etc/ocis/messaging-system-ca/messaging-system-ca.crt
-                  {{- else }}
-                  value: "" # no cert needed
-                  {{- end }}
-                {{- end }}
 
               resources: {{ toYaml .jobResources | nindent 16 }}
 
