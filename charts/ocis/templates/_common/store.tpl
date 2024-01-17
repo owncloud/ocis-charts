@@ -11,18 +11,6 @@ oCIS store configuration
   value: {{ .store.type | quote }}
 - name: OCIS_PERSISTENT_STORE_NODES
   value: {{ tpl (join "," .store.nodes) . | quote }}
-{{- if.store.authentication }}
-- name: OCIS_PERSISTENT_STORE_AUTH_USERNAME
-  valueFrom:
-    secretKeyRef:
-      name: {{ include "secrets.natsjsSecret" . }}
-      key: nats-js-user
-- name: OCIS_PERSISTENT_STORE_AUTH_PASSWORD
-  valueFrom:
-    secretKeyRef:
-      name: {{ include "secrets.natsjsSecret" . }}
-      key: nats-js-password
-{{- end }}
 {{- end -}}
 
 {{- define "ocis.cacheStore" -}}
@@ -37,17 +25,5 @@ oCIS store configuration
   value: {{ tpl (join "," .Values.cache.nodes) . | quote }}
 - name: OCIS_CACHE_DISABLE_PERSISTENCE
   value: "true"
-{{- if .Values.cache.authentication }}
-- name: OCIS_CACHE_AUTH_USERNAME
-  valueFrom:
-    secretKeyRef:
-      name: {{ include "secrets.natsjsSecret" . }}
-      key: nats-js-user
-- name: OCIS_CACHE_AUTH_PASSWORD
-  valueFrom:
-    secretKeyRef:
-      name: {{ include "secrets.natsjsSecret" . }}
-      key: nats-js-password
-{{- end }}
 {{- end }}
 {{- end -}}

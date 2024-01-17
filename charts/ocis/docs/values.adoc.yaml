@@ -104,8 +104,6 @@ store:
   # -- Nodes of the store to use.
   nodes:
     - "{{ .appNameNats }}:9233"
-  # -- Enable authentication. Requires natsjsSecretRef to be set
-  authentication: false
 
 registry:
   # -- Configure the service registry type.
@@ -114,8 +112,6 @@ registry:
   # -- Nodes of the service registry to use.
   nodes:
     - "{{ .appNameNats }}:9233"
-  # -- Enable authentication. Requires natsjsSecretRef to be set
-  authentication: false
 
 messagingSystem:
   external:
@@ -128,8 +124,6 @@ messagingSystem:
     endpoint: "nats.ocis-nats.svc.cluster.local:4222"
     # -- Cluster name to use with the messaging system.
     cluster: "ocis-cluster"
-    # -- Enable authentication. Requires natsjsSecretRef to be set
-    authentication: false
     tls:
       # -- Enables TLS encrypted communication with the messaging system.
       # Recommended for production installations.
@@ -607,10 +601,6 @@ secretRefs:
   serviceAccountSecretRef: ""
   # -- The secret to secure the global notifications endpoint. Only system admins and users knowing that secret can call the global notifications POST/DELETE endpoints.
   globalNotificationsSecretRef: ""
-  # -- Reference to an existing nats-js secret (see xref:{secrets}[Secrets])
-  # needs to include both `nats-js-user` and `nats-js-password` keys
-  # Not used if `cache.authentication` AND `store.authentication` AND `registry.authentication` AND `messagingSystem.external.authentication` are set to false.
-  natsjsSecretRef: ""
 
 # Security context options.
 securityContext:
