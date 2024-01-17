@@ -25,6 +25,7 @@ spec:
           {{- include "ocis.containerSecurityContext" . | nindent 10 }}
           env:
             {{- include "ocis.serviceRegistry" . | nindent 12 }}
+            {{- include "ocis.cors" . |nindent 12 }}
 
             - name: FRONTEND_LOG_COLOR
               value: {{ .Values.logging.color | quote }}
@@ -150,8 +151,6 @@ spec:
 
             - name: FRONTEND_AUTO_ACCEPT_SHARES
               value: {{ .Values.features.sharing.autoAcceptShares | quote }}
-
-            {{- include "ocis.cors" . |nindent 12 }}
 
             # password policies
             - name: FRONTEND_PASSWORD_POLICY_MIN_CHARACTERS

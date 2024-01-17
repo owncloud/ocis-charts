@@ -25,6 +25,7 @@ spec:
           {{- include "ocis.containerSecurityContext" . | nindent 10 }}
           env:
             {{- include "ocis.serviceRegistry" . | nindent 12 }}
+            {{- include "ocis.cors" . |nindent 12 }}
 
             - name: WEBFINGER_LOG_COLOR
               value: {{ .Values.logging.color | quote }}
@@ -48,7 +49,6 @@ spec:
               value: 0.0.0.0:8080
             - name: WEBFINGER_DEBUG_ADDR
               value: 0.0.0.0:8081
-            {{- include "ocis.cors" . |nindent 12 }}
             - name: WEBFINGER_OIDC_ISSUER
             {{- if not .Values.features.externalUserManagement.enabled }}
               value: "https://{{ .Values.externalDomain }}"
