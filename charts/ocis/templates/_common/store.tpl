@@ -14,7 +14,7 @@ oCIS store configuration
 {{- end -}}
 
 {{- define "ocis.cacheStore" -}}
-{{- $valid := list "noop" "memory" "nats-js-kv" "resis-sentinel" -}}
+{{- $valid := list "noop" "memory" "nats-js-kv" "redis-sentinel" -}}
 {{- if not (has .Values.cache.type $valid) -}}
 {{- fail "invalid cache.type set" -}}
 {{- end -}}
