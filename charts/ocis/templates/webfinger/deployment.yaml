@@ -32,22 +32,25 @@ spec:
               value: {{ .Values.logging.level | quote }}
             - name: WEBFINGER_LOG_PRETTY
               value: {{ .Values.logging.pretty | quote }}
+
             - name: WEBFINGER_TRACING_ENABLED
               value: "{{ .Values.tracing.enabled }}"
             - name: WEBFINGER_TRACING_TYPE
               value: {{ .Values.tracing.type | quote }}
             - name: WEBFINGER_TRACING_ENDPOINT
               value: {{ .Values.tracing.endpoint | quote }}
+
             - name: WEBFINGER_TRACING_COLLECTOR
               value: {{ .Values.tracing.collector | quote }}
+
             - name: WEBFINGER_DEBUG_PPROF
-              value: "{{ .Values.debug.enabled }}"
-            - name: WEBFINGER_DEBUG_ZPAGES
-              value: "{{ .Values.debug.enabled }}"
+              value: {{ .Values.debug.profiling | quote }}
+
             - name: WEBFINGER_HTTP_ADDR
               value: 0.0.0.0:8080
             - name: WEBFINGER_DEBUG_ADDR
               value: 0.0.0.0:8081
+
             - name: WEBFINGER_OIDC_ISSUER
             {{- if not .Values.features.externalUserManagement.enabled }}
               value: "https://{{ .Values.externalDomain }}"
