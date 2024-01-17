@@ -40,6 +40,7 @@ spec:
               value: {{ .Values.tracing.type | quote }}
             - name: WEBDAV_TRACING_ENDPOINT
               value: {{ .Values.tracing.endpoint | quote }}
+
             - name: WEBDAV_TRACING_COLLECTOR
               value: {{ .Values.tracing.collector | quote }}
 
