@@ -25,6 +25,7 @@ spec:
           {{- include "ocis.containerSecurityContext" . | nindent 10 }}
           env:
             {{- include "ocis.serviceRegistry" . | nindent 12 }}
+            {{- include "ocis.cors" . |nindent 12 }}
 
             - name: GRAPH_LOG_COLOR
               value: {{ .Values.logging.color | quote }}
@@ -220,9 +221,6 @@ spec:
                 secretKeyRef:
                   name: {{ include "secrets.serviceAccountSecret" . }}
                   key: service-account-secret
-
-            {{- include "ocis.cors" . |nindent 12 }}
-
 
           {{- include "ocis.livenessProbe" . | nindent 10 }}
 
