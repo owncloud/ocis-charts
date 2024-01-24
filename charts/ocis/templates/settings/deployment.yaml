@@ -78,8 +78,7 @@ spec:
                   name: {{ include "secrets.jwtSecret" . }}
                   key: jwt-secret
 
-            # TODO: use SETTINGS_SERVICE_ACCOUNT_IDS once we have multiple to configure
-            - name: OCIS_SERVICE_ACCOUNT_ID
+            - name: SETTINGS_SERVICE_ACCOUNT_IDS
               valueFrom:
                 configMapKeyRef:
                   name: {{ include "config.authService" . }}
