@@ -87,7 +87,7 @@ insecure:
 
 cache:
   # -- Type of the cache to use.
-  # Can be set to "nats-js-kv" or "redis-sentinel". There are also the not recommended options "memory" and "noop".
+  # Can be set to "nats-js-kv" or "redis-sentinel". There are also the non-recommended options "memory" and "noop".
   # The address of NATS / Redis Sentinel node(s) needs to be set to `cache.nodes`.
   type: "nats-js-kv"
   # -- Nodes of the cache to use.
@@ -96,7 +96,7 @@ cache:
 
 store:
   # -- Configure the store type.
-  # Can be set to "nats-js-kv" or "redis-sentinel". There is also the not recommended option "memory".
+  # Can be set to "nats-js-kv" or "redis-sentinel". There is also the non-recommended option "memory".
   # The address of NATS / Redis Sentinel node(s) needs to be set to `cache.nodes`.
   type: nats-js-kv
   # -- Nodes of the store to use.

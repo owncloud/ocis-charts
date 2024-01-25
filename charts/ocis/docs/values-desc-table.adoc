@@ -41,7 +41,7 @@ a| [subs=-attributes]
 +string+
 a| [subs=-attributes]
 `"nats-js-kv"`
-| Type of the cache to use. Can be set to "nats-js-kv" or "redis-sentinel". There are also the not recommended options "memory" and "noop". The address of NATS / Redis Sentinel node(s) needs to be set to `cache.nodes`.
+| Type of the cache to use. Can be set to "nats-js-kv" or "redis-sentinel". There are also the non-recommended options "memory" and "noop". The address of NATS / Redis Sentinel node(s) needs to be set to `cache.nodes`.
 | configRefs.authServiceConfigRef
 a| [subs=-attributes]
 +string+
@@ -3743,7 +3743,7 @@ a| [subs=-attributes]
 +string+
 a| [subs=-attributes]
 `"nats-js-kv"`
-| Configure the store type. Can be set to "nats-js-kv" or "redis-sentinel". There is also the not recommended option "memory". The address of NATS / Redis Sentinel node(s) needs to be set to `cache.nodes`.
+| Configure the store type. Can be set to "nats-js-kv" or "redis-sentinel". There is also the non-recommended option "memory". The address of NATS / Redis Sentinel node(s) needs to be set to `cache.nodes`.
 | topologySpreadConstraints
 a| [subs=-attributes]
 +string+
