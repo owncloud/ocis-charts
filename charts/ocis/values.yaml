@@ -86,8 +86,8 @@ insecure:
 
 cache:
   # -- Type of the cache to use.
-  # To disable the cache, set to "noop".
-  # Can be set to "redis-sentinel", "noop", "nats-js-kv" or "memory" (only for testing) then the address of Redis (Sentinel) / etcd / nats-js node(s) needs to be set to `cache.nodes`.
+  # Can be set to "nats-js-kv" or "redis-sentinel". There are also the non-recommended options "memory" and "noop".
+  # The address of NATS / Redis Sentinel node(s) needs to be set to `cache.nodes`.
   type: "nats-js-kv"
   # -- Nodes of the cache to use.
   nodes:
@@ -95,8 +95,8 @@ cache:
 
 store:
   # -- Configure the store type.
-  # Defaults to "nats-js-kv ". Therefore `store.nodes` defaults to the address of the builtin NATS.
-  # Can be set to "redis-sentinel", "nats-js-kv" then the address of Redis (Sentinel) / etcd / nats-js node(s) needs to be set to `cache.nodes`.
+  # Can be set to "nats-js-kv" or "redis-sentinel". There is also the non-recommended option "memory".
+  # The address of NATS / Redis Sentinel node(s) needs to be set to `cache.nodes`.
   type: nats-js-kv
   # -- Nodes of the store to use.
   nodes:
@@ -104,7 +104,8 @@ store:
 
 registry:
   # -- Configure the service registry type.
-  # When set to "nats-js-kv", then the address of node(s) needs to be set to `registry.nodes`.
+  # Can be set to "nats-js-kv".
+  # The address of NATS node(s) needs to be set to `cache.nodes`.
   type: nats-js-kv
   # -- Nodes of the service registry to use.
   nodes:
