@@ -220,7 +220,7 @@ spec:
   description: oCIS service registry
   denyDelete: true
   discard: new
-  duplicateWindow: "2m0s"
+  duplicateWindow: "60s"
   maxAge: "60s"
   maxBytes: -1
   maxConsumers: -1
