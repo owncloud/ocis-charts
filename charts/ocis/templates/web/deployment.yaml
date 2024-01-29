@@ -96,6 +96,26 @@ spec:
               value: {{ .Values.services.web.config.embed.delegateAuthenticationOrigin | quote }}
             {{- end }}
 
+            {{- if .Values.services.web.config.concurrency.resourceBatchActionRequests }}
+            - name: WEB_OPTION_CONCURRENT_REQUESTS_RESOURCE_BATCH_ACTIONS
+              value: {{ .Values.services.web.config.concurrency.resourceBatchActionRequests | quote }}
+            {{- end }}
+
+            {{- if .Values.services.web.config.concurrency.sseRequests }}
+            - name: WEB_OPTION_CONCURRENT_REQUESTS_SSE
+              value: {{ .Values.services.web.config.concurrency.sseRequests | quote }}
+            {{- end }}
+
+            {{- if .Values.services.web.config.concurrency.shareCreateRequests }}
+            - name: WEB_OPTION_CONCURRENT_REQUESTS_SHARES_CREATE
+              value: {{ .Values.services.web.config.concurrency.shareCreateRequests | quote }}
+            {{- end }}
+
+            {{- if .Values.services.web.config.concurrency.sseRequests }}
+            - name: WEB_OPTION_CONCURRENT_REQUESTS_SHARES_LIST
+              value: {{ .Values.services.web.config.concurrency.sseRequests | quote }}
+            {{- end }}
+
             - name: WEB_UI_CONFIG_SERVER
               value: "https://{{ .Values.externalDomain }}"
 
