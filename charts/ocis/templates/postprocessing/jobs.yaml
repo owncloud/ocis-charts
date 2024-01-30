@@ -9,7 +9,7 @@ metadata:
   labels:
     {{- include "ocis.labels" . | nindent 4 }}
 spec:
-  schedule: "{{ .Values.services.storageusers.maintenance.restartPostprocessingFinished.schedule }}"
+  schedule: "{{ .Values.services.postprocessing.maintenance.restartPostprocessingFinished.schedule }}"
   successfulJobsHistoryLimit: 3
   failedJobsHistoryLimit: 3
   concurrencyPolicy: Forbid
@@ -65,7 +65,7 @@ metadata:
   labels:
     {{- include "ocis.labels" . | nindent 4 }}
 spec:
-  schedule: "{{ .Values.services.storageusers.maintenance.restartPostprocessingVirusscan.schedule }}"
+  schedule: "{{ .Values.services.postprocessing.maintenance.restartPostprocessingVirusscan.schedule }}"
   successfulJobsHistoryLimit: 3
   failedJobsHistoryLimit: 3
   concurrencyPolicy: Forbid
