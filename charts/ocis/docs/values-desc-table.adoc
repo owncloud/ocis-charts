@@ -570,12 +570,6 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `"web"`
 | Specify the client ID which the web frontend will use
-| features.gdprReport.integrations
-a| [subs=-attributes]
-+object+
-a| [subs=-attributes]
-`{"keycloak":{"basePath":"https://keycloak.owncloud.test","clientID":"gdpr-exporter","clientRealm":"master","enabled":false,"insecure":false,"userRealm":"oCIS"}}`
-| Controls the separate GDPR integrations
 | features.gdprReport.integrations.keycloak.basePath
 a| [subs=-attributes]
 +string+
@@ -671,43 +665,43 @@ a| [subs=-attributes]
 +bool+
 a| [subs=-attributes]
 `true`
-|
+| automatically accept incoming shares
 | features.sharing.passwordPolicies.bannedPasswords
 a| [subs=-attributes]
 +list+
 a| [subs=-attributes]
 `[]`
-|
+| list of banned passwords
 | features.sharing.passwordPolicies.minCharacters
 a| [subs=-attributes]
 +int+
 a| [subs=-attributes]
 `0`
-|
+| the minimum amount of characters the password needs to have
 | features.sharing.passwordPolicies.minDigits
 a| [subs=-attributes]
 +int+
 a| [subs=-attributes]
 `0`
-|
+| the minimum amount of digits the password needs to have
 | features.sharing.passwordPolicies.minLowerCharacters
 a| [subs=-attributes]
 +int+
 a| [subs=-attributes]
 `0`
-|
+| the minimum amount of lower case characters the password needs to have
 | features.sharing.passwordPolicies.minSpecialCharacters
 a| [subs=-attributes]
 +int+
 a| [subs=-attributes]
 `0`
-|
+| the minimum amount of special characters the password needs to have
 | features.sharing.passwordPolicies.minUpperCharacters
 a| [subs=-attributes]
 +int+
 a| [subs=-attributes]
 `0`
-|
+| the minimum amount of upper case characters the password needs to have
 | features.sharing.publiclink.shareMustHavePassword
 a| [subs=-attributes]
 +bool+
@@ -779,13 +773,13 @@ a| [subs=-attributes]
 +list+
 a| [subs=-attributes]
 `[]`
-|
-| http.cors.allow_origins
+| provide custom hostnames to every oCIS pods
+| http.cors
 a| [subs=-attributes]
-+list+
++object+
 a| [subs=-attributes]
-`[]`
-|
+`{"allow_origins":[]}`
+| CORS settings for oCIS services.
 | image.pullPolicy
 a| [subs=-attributes]
 +string+
@@ -1001,7 +995,7 @@ a| [subs=-attributes]
 +object+
 a| [subs=-attributes]
 `{}`
-|
+| Default PodDisruptionBudget to apply to all services, except per-service PodDisruptionBudget configuration in `services.<service-name>.podDisruptionBudget` is set.
 | priorityClassName
 a| [subs=-attributes]
 +string+
@@ -2220,6 +2214,72 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service custom labels
+| services.postprocessing.maintenance.image
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{"pullPolicy":null,"repository":"","sha":"","tag":""}`
+| Image for the storageusers service maintenance jobs Defaults to the same values as `image`
+| services.postprocessing.maintenance.image.pullPolicy
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`nil`
+| Image pull policy
+| services.postprocessing.maintenance.image.repository
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Image repository
+| services.postprocessing.maintenance.image.sha
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Image sha / digest (optional).
+| services.postprocessing.maintenance.image.tag
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Image tag.
+| services.postprocessing.maintenance.restartPostprocessingFinished
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{"enabled":false,"schedule":"* * * * *"}`
+| Restart postprocessing for uploads where final storage move is not done.
+| services.postprocessing.maintenance.restartPostprocessingFinished.enabled
+a| [subs=-attributes]
++bool+
+a| [subs=-attributes]
+`false`
+| Enables a job, that cleans up expired uploads. Requires persistence to be enabled and RWX storage.
+| services.postprocessing.maintenance.restartPostprocessingFinished.schedule
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"* * * * *"`
+| Cron pattern for the job to be run. Defaults to every minute.
+| services.postprocessing.maintenance.restartPostprocessingVirusscan
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{"enabled":false,"schedule":"* * * * *"}`
+| Restart postprocessing for uploads hwich are currenlty in the virusscan step. Only applicable when `.Values.features.virusscan.enabled` is set to `true`.
+| services.postprocessing.maintenance.restartPostprocessingVirusscan.enabled
+a| [subs=-attributes]
++bool+
+a| [subs=-attributes]
+`false`
+| Enables a job, that purges expired trash bin items. Requires persistence to be enabled.
+| services.postprocessing.maintenance.restartPostprocessingVirusscan.schedule
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"* * * * *"`
+| Cron pattern for the job to be run. Defaults to every minute.
 | services.postprocessing.nodeSelector
 a| [subs=-attributes]
 +object+

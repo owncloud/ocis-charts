@@ -54,7 +54,7 @@ tracing:
 
 # HTTP settings for oCIS services.
 http:
-  #-- CORS settings for oCIS services.
+  # -- CORS settings for oCIS services.
   cors:
     #-- allow_origins is a list of origins a cross-domain request can be executed from.
     # If the special "*" value is present in the list, all origins will be allowed.
@@ -134,7 +134,7 @@ messagingSystem:
       # Not recommended for production installations.
       insecure: false
 
-# provide custom hostnames to every oCIS pods
+# -- provide custom hostnames to every oCIS pods
 hostAliases: []
 # - ip: "192.168.49.2"
 #   hostnames:
@@ -204,21 +204,21 @@ features:
       # Is already enforced if `features.sharing.publiclink.shareMustHavePassword` option is set to `true``.
       writeableShareMustHavePassword: false
 
-    # automatically accept incoming shares
+    # -- automatically accept incoming shares
     autoAcceptShares: true
     # password policies for share passwords
     passwordPolicies:
-      # the minimum amount of characters the password needs to have
+      # -- the minimum amount of characters the password needs to have
       minCharacters: 0
-      # the minimum amount of lower case characters the password needs to have
+      # -- the minimum amount of lower case characters the password needs to have
       minLowerCharacters: 0
-      # the minimum amount of upper case characters the password needs to have
+      # -- the minimum amount of upper case characters the password needs to have
       minUpperCharacters: 0
-      # the minimum amount of special characters the password needs to have
+      # -- the minimum amount of special characters the password needs to have
       minSpecialCharacters: 0
-      # the minimum amount of digits the password needs to have
+      # -- the minimum amount of digits the password needs to have
       minDigits: 0
-      # list of banned passwords
+      # -- list of banned passwords
       bannedPasswords:
         []
         # - foo
@@ -421,8 +421,8 @@ features:
 
   # GDPR report related settings.
   gdprReport:
-    # -- Enables the GDPR report feature
-    # -- Controls the separate GDPR integrations
+    # Enables the GDPR report feature
+    # Controls the separate GDPR integrations
     integrations:
       keycloak:
         # -- Enable keycloak data export.
@@ -633,7 +633,7 @@ namespaceOverride:
 # -- Number of replicas for each scalable service. Has no effect when `autoscaling.enabled` is set to `true`.
 replicas: 1
 
-# Default PodDisruptionBudget to apply to all services, except per-service PodDisruptionBudget configuration in `services.<service-name>.podDisruptionBudget` is set.
+# -- Default PodDisruptionBudget to apply to all services, except per-service PodDisruptionBudget configuration in `services.<service-name>.podDisruptionBudget` is set.
 podDisruptionBudget:
   {}
   # -- Sets the maxUnavailable or the global PodDisruptionBudget.
@@ -1195,6 +1195,31 @@ services:
     affinity: {}
     # -- Per-service custom labels
     extraLabels: {}
+    maintenance:
+      # -- Restart postprocessing for uploads where final storage move is not done.
+      restartPostprocessingFinished:
+        # -- Enables a job, that cleans up expired uploads. Requires persistence to be enabled and RWX storage.
+        enabled: false
+        # -- Cron pattern for the job to be run. Defaults to every minute.
+        schedule: "* * * * *"
+      # -- Restart postprocessing for uploads hwich are currenlty in the virusscan step.
+      # Only applicable when `.Values.features.virusscan.enabled` is set to `true`.
+      restartPostprocessingVirusscan:
+        # -- Enables a job, that purges expired trash bin items. Requires persistence to be enabled.
+        enabled: false
+        # -- Cron pattern for the job to be run. Defaults to every minute.
+        schedule: "* * * * *"
+      # -- Image for the storageusers service maintenance jobs
+      # Defaults to the same values as `image`
+      image:
+        # -- Image repository
+        repository: ""
+        # -- Image tag.
+        tag: ""
+        # -- Image sha / digest (optional).
+        sha: ""
+        # -- Image pull policy
+        pullPolicy:
 
   # -- PROXY service.
   # @default -- see detailed service configuration options below
@@ -1825,6 +1850,15 @@ services:
         delegateAuthentication: ""
         # Specifies the allowed message origin host when posting access tokens from the embedding parent application to web. Defaults to not being set, which is only recommended for development environments.
         delegateAuthenticationOrigin: ""
+      concurrency:
+        # Defines the maximum number of concurrent requests per file/folder/space batch action. If uset, the default of ownCloud Web will be used.
+        resourceBatchActionRequests:
+        # Defines the maximum number of concurrent requests in SSE event handlers. If uset, the default of ownCloud Web will be used.
+        sseRequests:
+        # Defines the maximum number of concurrent requests per sharing invite batch. If uset, the default of ownCloud Web will be used.
+        shareCreateRequests:
+        # Defines the maximum number of concurrent requests when loading individual share information inside listings. If uset, the default of ownCloud Web will be used.
+        shareListRequests:
 
     # -- Persistence settings.
     # @default -- see detailed persistence configuration options below
