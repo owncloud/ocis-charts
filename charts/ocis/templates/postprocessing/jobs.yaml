@@ -37,9 +37,7 @@ spec:
                 runAsGroup: {{ .Values.securityContext.runAsGroup }}
                 readOnlyRootFilesystem: true
               env:
-                {{- include "ocis.serviceRegistry" . | nindent 16 }}
                 {{- include "ocis.events" . | nindent 16 }}
-                {{- include "ocis.persistentStore" . | nindent 16 }}
 
                 # logging
                 - name: POSTPROCESSING_LOG_COLOR
@@ -93,9 +91,7 @@ spec:
                 runAsGroup: {{ .Values.securityContext.runAsGroup }}
                 readOnlyRootFilesystem: true
               env:
-                {{- include "ocis.serviceRegistry" . | nindent 16 }}
                 {{- include "ocis.events" . | nindent 16 }}
-                {{- include "ocis.persistentStore" . | nindent 16 }}
 
                 # logging
                 - name: POSTPROCESSING_LOG_COLOR
