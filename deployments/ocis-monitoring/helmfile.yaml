@@ -1,0 +1,404 @@
+environments: 
+  default:
+    values:
+      - mimirHost: mimir.kube.owncloud.test
+      - mimir:
+          username: mimir-admin
+          password: changeme
+      - tempoHost: tempo.kube.owncloud.test
+      - tempo:
+          username: tempo-admin
+          password: changeme
+      - lokiHost: loki.kube.owncloud.test
+      - loki:
+          username: loki-admin
+          password: changeme
+      - s3:
+          accessKey: loki-minio-admin
+          secretKey: changeme1234
+
+---
+repositories:
+  - name: grafana
+    url: https://grafana.github.io/helm-charts
+  - name: prometheus-community
+    url: https://prometheus-community.github.io/helm-charts/
+  - name: minio
+    url: https://charts.min.io/
+
+releases:
+
+############
+# Monitoring receiver
+
+  - name: grafana
+    namespace: grafana
+    chart: grafana/grafana
+    version: 6.59.4
+    values:
+      - replicas: 1
+      - ingress:
+          enabled: true
+          hosts:
+            - grafana.kube.owncloud.test
+          tls:
+            - secretName: fallback-to-default-cert
+              hosts:
+                - grafana.kube.owncloud.test
+      # Enables Grafana to search for dashboard and datasources in all namespaces
+      - sidecar:
+          dashboards:
+            enabled: true
+            searchNamespace: ALL
+          datasources:
+            enabled: true
+            logLevel: DEBUG
+            watchMethod: SLEEP
+            env:
+              ENABLE_5XX: "true"
+
+  - name: mimir-distributed
+    namespace: mimir-distributed
+    chart: grafana/mimir-distributed
+    version: 5.1.0
+    values:
+
+      # architecture: https://grafana.com/docs/mimir/latest/operators-guide/architecture/about-grafana-mimir-architecture/
+      # modes: https://grafana.com/docs/mimir/latest/operators-guide/architecture/deployment-modes/
+      # capacity planning: https://grafana.com/docs/mimir/latest/operators-guide/run-production-environment/planning-capacity/
+      # production tips: https://grafana.com/docs/mimir/latest/operators-guide/run-production-environment/production-tips/
+
+      - minio:
+          enabled: true
+      - configStorageType: Secret
+
+      - gateway:
+          enabledNonEnterprise: true
+          ingress:
+            enabled: true
+            hosts:
+              - host: {{ .Values.mimirHost }}
+                paths:
+                  - path: /
+                    pathType: Prefix
+            tls:
+              - secretName: fallback-to-default-cert
+                hosts:
+                  - {{ .Values.mimirHost }}
+          nginx:
+            basicAuth:
+              enabled: true
+              username: {{ .Values.mimir.username }}
+              password: {{ .Values.mimir.password }}
+
+      - ruler:
+          extraArgs:
+            ruler.max-rules-per-rule-group: 40
+      - ingester:
+          persistentVolume:
+            size: 2Gi
+      - metaMonitoring:
+          dashboards:
+            enabled: true
+
+  - name: tempo-distributed
+    namespace: tempo-distributed
+    chart: grafana/tempo-distributed
+    version: 1.6.4
+    values:
+      - minio:
+          enabled: true
+      # See https://grafana.com/docs/tempo/latest/configuration/
+      # - global:
+      #     clusterDomain: 'cluster.local'
+      - configStorageType: Secret
+      - gateway:
+          enabled: true
+          ingress:
+            enabled: true
+            hosts:
+              - host: {{ .Values.tempoHost }}
+                paths:
+                  - path: /
+                    pathType: Prefix
+            tls:
+              - secretName: fallback-to-default-cert
+                hosts:
+                  - {{ .Values.tempoHost }}
+          basicAuth:
+            enabled: true
+            username: {{ .Values.tempo.username }}
+            password: {{ .Values.tempo.password }}
+      - traces:
+          otlp:
+            http:
+              enabled: true
+            grpc:
+              enabled: true
+      - distributor:
+          affinity: []
+          config:
+            log_received_spans:
+              enabled: true
+
+  - name: loki-distributed
+    namespace: loki-distributed
+    chart: grafana/loki-distributed
+    version: 0.74.3
+    values:
+      - configStorageType: Secret
+
+      # architecture: https://grafana.com/docs/loki/latest/fundamentals/architecture/
+      # modes: https://grafana.com/docs/loki/latest/fundamentals/architecture/deployment-modes/
+
+      # storage:
+        # - https://grafana.com/docs/loki/latest/storage/
+        # - https://grafana.com/docs/loki/latest/operations/storage/boltdb-shipper/
+      - loki:
+          structuredConfig:
+            ingester:
+              # Disable chunk transfer which is not possible with statefulsets
+              # and unnecessary for boltdb-shipper
+              max_transfer_retries: 0
+              chunk_idle_period: 1h
+              chunk_target_size: 1536000
+              max_chunk_age: 1h
+            storage_config:
+              aws:
+                endpoint: http://minio.minio:9000
+                s3: null
+                insecure: true
+                region: null
+                bucketnames: "loki-mirr"
+                access_key_id: {{ .Values.s3.accessKey }}
+                secret_access_key: {{ .Values.s3.secretKey }}
+                s3forcepathstyle: true
+              tsdb_shipper:
+                active_index_directory: /var/loki/index
+                cache_location: /var/loki/cache
+                # index_gateway_client:
+                #   # only applicable if using microservices where index-gateways are independently deployed.
+                #   # This example is using kubernetes-style naming.
+                #   server_address: dns:///loki-loki-distributed-index-gateway:9095
+                shared_store: s3
+            schema_config:
+              configs:
+                - from: "2023-04-01" # <---- A date in the future
+                  store: tsdb
+                  schema: v12
+                  index:
+                    period: 24h
+                    prefix: index_
+                  object_store: aws
+
+      - gateway:
+          replicas: 1
+          ingress:
+            enabled: true
+            hosts:
+              - host: {{ .Values.lokiHost }}
+                paths:
+                  - path: /
+                    pathType: Prefix
+            tls:
+              - secretName: fallback-to-default-cert
+                hosts:
+                  - {{ .Values.lokiHost }}
+          basicAuth:
+            enabled: true
+            username: {{ .Values.loki.username }}
+            password: {{ .Values.loki.password }}
+
+      - indexGateway:
+          # -- Specifies whether the index-gateway should be enabled
+          enabled: false
+
+      - ingester:
+          replicas: 1
+      - distributor:
+          replicas: 1
+      - querier:
+          replicas: 1
+      - queryFrontend:
+          replicas: 1
+
+  - name: loki-minio
+    namespace: loki-distributed
+    chart: minio/minio
+    version: 5.0.7
+    values:
+      - mode: standalone
+      - rootUser: {{ .Values.s3.accessKey }}
+      - buckets:
+          - name: chunks
+            policy: none
+            purge: false
+          - name: ruler
+            policy: none
+            purge: false
+          - name: admin
+            policy: none
+            purge: false
+      - persistence:
+          size: 5Gi
+      - resources:
+          requests:
+            cpu: 100m
+            memory: 128Mi
+      - rootPassword: {{ .Values.s3.secretKey }}
+      # Changed the mc config path to '/tmp' from '/etc' as '/etc' is only writable by root and OpenShift will not permit this.
+      - configPathmc: "/tmp/minio/mc/"
+
+  # This is only used to get some default dashboards from the chart
+  - name: prometheus-community
+    namespace: prometheus-community
+    chart: prometheus-community/kube-prometheus-stack
+    version: 51.1.0
+    values:
+      - kubeStateMetrics:
+          enabled: false
+      - nodeExporter:
+          enabled: false
+      - grafana:
+          enabled: false
+          sidecar:
+            dashboards:
+              multicluster:
+                global:
+                  enabled: true
+          forceDeployDashboards: true
+      - alertmanager:
+          enabled: false
+      - coreDns:
+          enabled: false
+      - kubeControllerManager:
+          enabled: false
+      - kubeEtcd:
+          enabled: false
+      - kubeProxy:
+          enabled: false
+      - kubeScheduler:
+          enabled: false
+      - prometheusOperator:
+          enabled: false
+      - prometheus:
+          enabled: false
+      - defaultRules:
+          create: false
+
+  - name: dashboards-and-datasources
+    chart: monitoring
+    namespace: grafana
+
+############
+# Monitoring sender, in big environments this will be on different clusters than the monitoring itself.
+
+  - name: grafana-agent-operator
+    namespace: grafana-agent-operator
+    chart: grafana/grafana-agent-operator
+    version: 0.2.18
+    values:
+      []
+
+  - name: grafana-agent
+    namespace: grafana-agent
+    chart: grafana/grafana-agent
+    version: 0.18.0
+    values:
+      - clusterName: mycluster
+      - remoteLokiHost: {{ .Values.lokiHost }}
+      - remoteMimirHost: {{ .Values.mimirHost }}
+
+  # This time the same chart as above is used but here we use it for actually collecting the metrics and exporting it
+  - name: agent-prometheus-stack
+    namespace: agent-prometheus-stack
+    chart: prometheus-community/kube-prometheus-stack
+    version: 48.2.1
+    values:
+      - kubeStateMetrics:
+          enabled: true
+      - nodeExporter:
+          enabled: true
+      - grafana:
+          enabled: false
+          sidecar:
+            dashboards:
+              multicluster:
+                global:
+                  enabled: true
+          forceDeployDashboards: true
+      - alertmanager:
+          enabled: false
+      - coreDns:
+          enabled: true
+      - kubeControllerManager:
+          enabled: true
+      - kubeEtcd:
+          enabled: true
+      - kubeProxy:
+          enabled: true
+      - kubeScheduler:
+          enabled: true
+      - prometheusOperator:
+          enabled: false
+      - prometheus:
+          enabled: false
+      - defaultRules:
+          create: true
+      - kubelet:
+          enabled: true
+          namespace: default
+
+  - name: ocis
+    chart: ../../charts/ocis
+    namespace: ocis
+    values:
+      - externalDomain: ocis.kube.owncloud.test
+      - ingress:
+          enabled: true
+          ingressClassName: nginx
+          annotations:
+            nginx.ingress.kubernetes.io/proxy-body-size: 1024m
+          tls:
+            - secretName: ocis-dev-tls
+              hosts:
+                - ocis.kube.owncloud.test
+
+      - insecure:
+          oidcIdpInsecure: true
+          ocisHttpApiInsecure: true
+
+      - replicas: 1
+
+      - services:
+          idm:
+            persistence:
+              enabled: true
+
+          nats:
+            persistence:
+              enabled: true
+
+          search:
+            persistence:
+              enabled: true
+
+          storagesystem:
+            persistence:
+              enabled: true
+
+          storageusers:
+            persistence:
+              enabled: true
+
+          store:
+            persistence:
+              enabled: true
+
+          thumbnails:
+            persistence:
+              enabled: true
+
+          web:
+            persistence:
+              enabled: true
