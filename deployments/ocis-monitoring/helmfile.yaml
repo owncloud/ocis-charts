@@ -430,6 +430,13 @@ releases:
               hosts:
                 - ocis.kube.owncloud.test
 
+      - monitoring:
+          enabled: true
+
+      - tracing:
+          enabled: true
+          collector: "http://grafana-agent-rules.grafana-agent-rules.svc:14268/api/traces"
+
       - insecure:
           oidcIdpInsecure: true
           ocisHttpApiInsecure: true
