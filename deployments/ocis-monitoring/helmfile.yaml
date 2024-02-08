@@ -3,14 +3,20 @@ environments:
     values:
       - mimirHost: mimir.kube.owncloud.test
       - mimir:
+          name: mimir-distributed
+          namespace: mimir-distributed
           username: mimir-admin
           password: changeme
       - tempoHost: tempo.kube.owncloud.test
       - tempo:
+          name: tempo-distributed
+          namespace: tempo-distributed
           username: tempo-admin
           password: changeme
       - lokiHost: loki.kube.owncloud.test
       - loki:
+          name: loki-distributed
+          namespace: loki-distributed
           username: loki-admin
           password: changeme
       - s3:
@@ -57,8 +63,8 @@ releases:
             env:
               ENABLE_5XX: "true"
 
-  - name: mimir-distributed
-    namespace: mimir-distributed
+  - name: "{{ .Values.mimir.name }}"
+    namespace: "{{ .Values.mimir.namespace }}"
     chart: grafana/mimir-distributed
     version: 5.1.0
     values:
@@ -101,8 +107,8 @@ releases:
           dashboards:
             enabled: true
 
-  - name: tempo-distributed
-    namespace: tempo-distributed
+  - name: "{{ .Values.tempo.name }}"
+    namespace: "{{ .Values.tempo.namespace }}"
     chart: grafana/tempo-distributed
     version: 1.6.4
     values:
@@ -141,8 +147,8 @@ releases:
             log_received_spans:
               enabled: true
 
-  - name: loki-distributed
-    namespace: loki-distributed
+  - name: "{{ .Values.loki.name }}"
+    namespace: "{{ .Values.loki.namespace }}"
     chart: grafana/loki-distributed
     version: 0.74.3
     values:
@@ -165,7 +171,7 @@ releases:
               max_chunk_age: 1h
             storage_config:
               aws:
-                endpoint: http://minio.minio:9000
+                endpoint: http://loki-minio:9000
                 s3: null
                 insecure: true
                 region: null
@@ -176,10 +182,6 @@ releases:
               tsdb_shipper:
                 active_index_directory: /var/loki/index
                 cache_location: /var/loki/cache
-                # index_gateway_client:
-                #   # only applicable if using microservices where index-gateways are independently deployed.
-                #   # This example is using kubernetes-style naming.
-                #   server_address: dns:///loki-loki-distributed-index-gateway:9095
                 shared_store: s3
             schema_config:
               configs:
@@ -223,13 +225,16 @@ releases:
           replicas: 1
 
   - name: loki-minio
-    namespace: loki-distributed
+    namespace: "{{ .Values.loki.namespace }}"
     chart: minio/minio
     version: 5.0.7
     values:
       - mode: standalone
       - rootUser: {{ .Values.s3.accessKey }}
       - buckets:
+          - name: "loki-mirr"
+            policy: none
+            purge: false
           - name: chunks
             policy: none
             purge: false
@@ -289,6 +294,8 @@ releases:
   - name: dashboards-and-datasources
     chart: monitoring
     namespace: grafana
+    values:
+    - {{ toYaml .Values | nindent 6 }}
 
 ############
 # Monitoring sender, in big environments this will be on different clusters than the monitoring itself.
@@ -300,14 +307,73 @@ releases:
     values:
       []
 
-  - name: grafana-agent
-    namespace: grafana-agent
+  - name: grafana-agent-rules
+    namespace: grafana-agent-rules
     chart: grafana/grafana-agent
+    needs:
+      - grafana-agent-operator/grafana-agent-operator
     version: 0.18.0
     values:
-      - clusterName: mycluster
-      - remoteLokiHost: {{ .Values.lokiHost }}
-      - remoteMimirHost: {{ .Values.mimirHost }}
+      - agent:
+          extraPorts:
+            - name: jaeger-thrift
+              port: 14268
+              targetPort: 14268
+          enableReporting: false
+          configMap:
+            content: |
+              logging {
+                level  = "debug"
+                format = "logfmt"
+              }
+              mimir.rules.kubernetes "mimir" {
+                address = "http://{{ .Values.mimirHost }}"
+                tenant_id = "monitoring-dev"
+                basic_auth {
+                  username = {{ .Values.mimir.username | quote }}
+                  password = {{ .Values.mimir.password | quote }}
+                }
+              }
+              otelcol.receiver.jaeger "tempo" {
+                protocols {
+                  thrift_http {}
+                }
+                output {
+                  metrics = [otelcol.processor.batch.tempo.input]
+                  logs    = [otelcol.processor.batch.tempo.input]
+                  traces  = [otelcol.processor.batch.tempo.input]
+                }
+              }
+              otelcol.processor.batch "tempo" {
+                output {
+                  metrics = [otelcol.exporter.otlphttp.tempo.input]
+                  logs    = [otelcol.exporter.otlphttp.tempo.input]
+                  traces  = [otelcol.exporter.otlphttp.tempo.input]
+                }
+              }
+              otelcol.exporter.otlphttp "tempo" {
+                client {
+                  endpoint = "http://{{ .Values.tempoHost }}/otlp"
+                  auth = otelcol.auth.basic.tempo.handler
+                }
+              }
+              otelcol.auth.basic "tempo" {
+                username = {{ .Values.tempo.username | quote }}
+                password = {{ .Values.tempo.password | quote }}
+              }
+
+  - name: grafana-agent
+    namespace: grafana-agent
+    chart: grafana-agent
+    # Needed to ensure the CRDs (which are part of the operator chart) are installed to this chart can use them
+    needs:
+      - grafana-agent-operator/grafana-agent-operator
+    disableValidationOnInstall: true
+    values:
+    - clusterName: mycluster
+    - remoteLokiHost: {{ .Values.lokiHost }}
+    - remoteMimirHost: {{ .Values.mimirHost }}
+    - {{ toYaml .Values | nindent 6 }}
 
   # This time the same chart as above is used but here we use it for actually collecting the metrics and exporting it
   - name: agent-prometheus-stack

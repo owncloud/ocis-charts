@@ -1,4 +1,4 @@
 apiVersion: v2
-name: monitoring
+name: grafana-agent
 type: application
 version: 0.0.0

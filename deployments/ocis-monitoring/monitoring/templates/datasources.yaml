@@ -10,7 +10,7 @@ stringData:
     datasources:
       - name: prometheus
         type: prometheus
-        url: http://mimir-gateway.mimir.svc:80/prometheus/
+        url: http://{{ .Values.mimir.name }}-gateway.{{ .Values.mimir.namespace }}.svc:80/prometheus/
         basicAuth: true
         basicAuthUser: {{ .Values.mimir.username | quote }}
         secureJsonData:
@@ -25,7 +25,7 @@ stringData:
     datasources:
       - name: loki
         type: loki
-        url: http://loki-loki-distributed-gateway.loki.svc:80
+        url: http://{{ .Values.loki.name }}-gateway.{{ .Values.loki.namespace }}.svc:80
         basicAuth: true
         basicAuthUser: {{ .Values.loki.username | quote }}
         jsonData:
@@ -41,7 +41,7 @@ stringData:
     datasources:
       - name: Tempo
         type: tempo
-        url: http://tempo-gateway.tempo.svc:80
+        url: http://{{ .Values.tempo.name }}-gateway.{{ .Values.tempo.namespace }}.svc:80
         basicAuth: true
         basicAuthUser: {{ .Values.tempo.username | quote }}
         jsonData:

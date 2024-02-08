@@ -1,0 +1,28 @@
+apiVersion: monitoring.grafana.com/v1alpha1
+kind: LogsInstance
+metadata:
+  name: primary
+  labels:
+    agent: grafana-agent-logs
+spec:
+  clients:
+    - url: http://{{ .Values.remoteLokiHost }}/loki/api/v1/push
+      basicAuth:
+        username:
+          name: primary-credentials-logs
+          key: username
+        password:
+          name: primary-credentials-logs
+          key: password
+      headers:
+        ## TODO template to have the same value in grafana datasources.yaml
+        X-Scope-OrgID: monitoring-dev
+      externalLabels:
+        cluster: {{ .Values.clusterName }}
+
+  # Supply an empty namespace selector to look in all namespaces. Remove
+  # this to only look in the same namespace as the LogsInstance CR
+  podLogsNamespaceSelector: {}
+  podLogsSelector:
+    matchLabels:
+      instance: primary

@@ -5,7 +5,7 @@
 This example shows how to deploy oCIS with monitoring, in this case Grafana.
 
 ***Note***: This example is not intended for production use. It is intended to get a working oCIS
-with Grafana running in Kubernetes as quickly as possible. It is not hardened in any way.
+with Grafana running in Kubernetes as quickly as possible. It is not hardened in any way. This also applies to password and http usage, so the password for Grafana at the beginning of the `helmfile` should be changed. This example uses unencypted HTTP between the Grafana-Agent and mimir/loki/tempo.
 
 ## Getting started
 
