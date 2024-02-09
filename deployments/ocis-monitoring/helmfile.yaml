@@ -235,15 +235,6 @@ releases:
           - name: "loki-mirr"
             policy: none
             purge: false
-          - name: chunks
-            policy: none
-            purge: false
-          - name: ruler
-            policy: none
-            purge: false
-          - name: admin
-            policy: none
-            purge: false
       - persistence:
           size: 5Gi
       - resources:
