@@ -356,7 +356,7 @@ releases:
   - name: grafana-agent
     namespace: grafana-agent
     chart: grafana-agent
-    # Needed to ensure the CRDs (which are part of the operator chart) are installed to this chart can use them
+    # Needed to ensure the CRDs (which are part of the operator chart) are installed so this chart can use them
     needs:
       - grafana-agent-operator/grafana-agent-operator
     disableValidationOnInstall: true
