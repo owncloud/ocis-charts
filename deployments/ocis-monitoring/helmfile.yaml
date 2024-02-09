@@ -105,7 +105,7 @@ releases:
             size: 2Gi
       - metaMonitoring:
           dashboards:
-            enabled: true
+            enabled: false
 
   - name: "{{ .Values.tempo.name }}"
     namespace: "{{ .Values.tempo.namespace }}"
