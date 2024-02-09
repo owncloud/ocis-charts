@@ -57,7 +57,7 @@
             "uid": "loki"
           },
           "editorMode": "builder",
-          "expr": "{namespace=\"ingress-nginx\", container=\"controller\"}",
+          "expr": "{container=\"proxy\"}",
           "key": "Q-e5b0295f-4b1e-429d-8b1a-325cb772f1d0-0",
           "queryType": "range",
           "refId": "A"
