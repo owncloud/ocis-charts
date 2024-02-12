@@ -3066,6 +3066,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `"ocis"`
 | Configures the storage driver. Possible values are "ocis" and "s3ng". The oCIS driver stores all data in the persistent volume if persistence is enabled. The S3NG driver stores all metadata in the persistent volume and uploads blobs to s3 if persistence is enabled.
+| services.storageusers.storageBackend.driverConfig.ocis.maxConcurrency
+a| [subs=-attributes]
++int+
+a| [subs=-attributes]
+`100`
+| Maximum number of concurrent go-routines. Higher values can potentially get work done faster but will also cause more load on the system.
 | services.storageusers.storageBackend.driverConfig.ocis.metadataBackend
 a| [subs=-attributes]
 +string+
@@ -3090,6 +3096,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `"https://localhost:1234"`
 | S3 endpoint to use for the S3NG driver. Only used if driver is set to "s3ng".
+| services.storageusers.storageBackend.driverConfig.s3ng.maxConcurrency
+a| [subs=-attributes]
++int+
+a| [subs=-attributes]
+`100`
+| Maximum number of concurrent go-routines. Higher values can potentially get work done faster but will also cause more load on the system.
 | services.storageusers.storageBackend.driverConfig.s3ng.metadataBackend
 a| [subs=-attributes]
 +string+
