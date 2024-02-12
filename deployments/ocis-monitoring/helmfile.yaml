@@ -99,6 +99,7 @@ releases:
 
       - ruler:
           extraArgs:
+            # default is 20 and should be increased
             ruler.max-rules-per-rule-group: 40
       - ingester:
           persistentVolume:
