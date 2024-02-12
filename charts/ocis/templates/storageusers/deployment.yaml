@@ -75,6 +75,8 @@ spec:
             {{- if  eq .Values.services.storageusers.storageBackend.driver "ocis" }}
             - name: STORAGE_USERS_DRIVER
               value: ocis
+            - name: STORAGE_USERS_OCIS_MAX_CONCURRENCY
+              value: {{ .Values.services.storageusers.storageBackend.driverConfig.ocis.maxConcurrency | quote }}
             - name: STORAGE_USERS_OCIS_METADATA_BACKEND
               value: {{ .Values.services.storageusers.storageBackend.driverConfig.ocis.metadataBackend | quote }}
             {{- end }}
@@ -83,6 +85,8 @@ spec:
             {{- if  eq .Values.services.storageusers.storageBackend.driver "s3ng" }}
             - name: STORAGE_USERS_DRIVER
               value: s3ng
+            - name: STORAGE_USERS_S3NG_MAX_CONCURRENCY
+              value: {{ .Values.services.storageusers.storageBackend.driverConfig.s3ng.maxConcurrency | quote }}
             - name: STORAGE_USERS_S3NG_METADATA_BACKEND
               value: {{ .Values.services.storageusers.storageBackend.driverConfig.s3ng.metadataBackend | quote }}
             - name: STORAGE_USERS_S3NG_ENDPOINT
