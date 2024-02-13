@@ -111,7 +111,7 @@ releases:
   - name: "{{ .Values.tempo.name }}"
     namespace: "{{ .Values.tempo.namespace }}"
     chart: grafana/tempo-distributed
-    version: 1.6.4
+    version: 1.8.3
     values:
       - minio:
           enabled: true
@@ -136,6 +136,15 @@ releases:
             enabled: true
             username: {{ .Values.tempo.username }}
             password: {{ .Values.tempo.password }}
+      - storage:
+          trace:
+            backend: s3
+            s3:
+              access_key: 'grafana-tempo'
+              secret_key: 'supersecret'
+              bucket: 'tempo-traces'
+              endpoint: 'tempo-distributed-minio:9000'
+              insecure: true
       - traces:
           otlp:
             http:
@@ -143,6 +152,7 @@ releases:
             grpc:
               enabled: true
       - distributor:
+          # Added as the default sets some proper anti-affinity rules which cannot be fulfilled with a single-node setup
           affinity: []
           config:
             log_received_spans:
@@ -345,7 +355,7 @@ releases:
               }
               otelcol.exporter.otlphttp "tempo" {
                 client {
-                  endpoint = "http://{{ .Values.tempoHost }}/otlp"
+                  endpoint = "http://{{ .Values.tempoHost }}"
                   auth = otelcol.auth.basic.tempo.handler
                 }
               }
