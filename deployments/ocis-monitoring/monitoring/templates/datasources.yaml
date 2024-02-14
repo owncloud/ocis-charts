@@ -25,11 +25,20 @@ stringData:
     datasources:
       - name: loki
         type: loki
+        uid: loki
         url: http://{{ .Values.loki.name }}-gateway.{{ .Values.loki.namespace }}.svc:80
         basicAuth: true
         basicAuthUser: {{ .Values.loki.username | quote }}
         jsonData:
           httpHeaderName1: X-Scope-OrgID
+          derivedFields:
+            - datasourceUid: tempo
+              matcherRegex: '"traceid":"([^"]*)"'
+              name: TraceID
+              # url will be interpreted as query for the datasource
+              url: '$${__value.raw}'
+              # optional for URL Label to set a custom display label for the link.
+              urlDisplayLabel: 'View Trace'
         secureJsonData:
           basicAuthPassword: {{ .Values.loki.password | quote }}
           httpHeaderValue1: monitoring-dev
@@ -41,6 +50,7 @@ stringData:
     datasources:
       - name: Tempo
         type: tempo
+        uid: tempo
         url: http://{{ .Values.tempo.name }}-gateway.{{ .Values.tempo.namespace }}.svc:80
         basicAuth: true
         basicAuthUser: {{ .Values.tempo.username | quote }}
