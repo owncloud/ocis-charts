@@ -40,7 +40,7 @@ releases:
   - name: grafana
     namespace: grafana
     chart: grafana/grafana
-    version: 6.59.4
+    version: 7.3.0
     values:
       - replicas: 1
       - ingress:
@@ -148,8 +148,6 @@ releases:
       - traces:
           otlp:
             http:
-              enabled: true
-            grpc:
               enabled: true
       - distributor:
           # Added as the default sets some proper anti-affinity rules which cannot be fulfilled with a single-node setup
@@ -314,7 +312,7 @@ releases:
     chart: grafana/grafana-agent
     needs:
       - grafana-agent-operator/grafana-agent-operator
-    version: 0.18.0
+    version: 0.31.1
     values:
       - agent:
           extraPorts:
@@ -341,12 +339,12 @@ releases:
                   thrift_http {}
                 }
                 output {
-                  metrics = [otelcol.processor.batch.tempo.input]
-                  logs    = [otelcol.processor.batch.tempo.input]
-                  traces  = [otelcol.processor.batch.tempo.input]
+                  metrics = [otelcol.processor.k8sattributes.default.input]
+                  logs    = [otelcol.processor.k8sattributes.default.input]
+                  traces  = [otelcol.processor.k8sattributes.default.input]
                 }
               }
-              otelcol.processor.batch "tempo" {
+              otelcol.processor.k8sattributes "default" {
                 output {
                   metrics = [otelcol.exporter.otlphttp.tempo.input]
                   logs    = [otelcol.exporter.otlphttp.tempo.input]
