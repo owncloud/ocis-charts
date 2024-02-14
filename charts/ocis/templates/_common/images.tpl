@@ -30,13 +30,12 @@ imagePullPolicy: {{ .pullPolicy }}
 oCIS image logic
 */}}
 {{- define "ocis.image" -}}
-{{- $repo := $.Values.image.repository -}}
-{{- $tag := default $.Chart.AppVersion $.Values.image.tag -}}
-{{- $sha := $.Values.image.sha -}}
-{{- $pullPolicy := $.Values.image.pullPolicy -}}
+{{- $repo := default $.Values.image.repository .appSpecificConfig.image.repository -}}
+{{- $tag := default (default $.Chart.AppVersion $.Values.image.tag) .appSpecificConfig.image.tag -}}
+{{- $sha := default $.Values.image.sha .appSpecificConfig.image.sha -}}
+{{- $pullPolicy := default $.Values.image.pullPolicy .appSpecificConfig.image.pullPolicy -}}
 {{ template "ocis.imageTemplateHelper" (dict "repo" $repo "tag" $tag "sha" $sha "pullPolicy" $pullPolicy) }}
 {{- end -}}
-
 
 {{/*
 jobContainerOcis image logic for oCIS based containers

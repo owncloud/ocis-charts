@@ -1116,6 +1116,36 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service custom labels
+| services.antivirus.image
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{"pullPolicy":null,"repository":"","sha":"","tag":""}`
+| Per-service image configuration. Overrides the default setting from `image` if set.
+| services.antivirus.image.pullPolicy
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`nil`
+| Image pull policy
+| services.antivirus.image.repository
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Image repository
+| services.antivirus.image.sha
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Image sha / digest (optional).
+| services.antivirus.image.tag
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Image tag.
 | services.antivirus.nodeSelector
 a| [subs=-attributes]
 +object+
@@ -1158,6 +1188,36 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service custom labels
+| services.appprovider.image
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{"pullPolicy":null,"repository":"","sha":"","tag":""}`
+| Per-service image configuration. Overrides the default setting from `image` if set.
+| services.appprovider.image.pullPolicy
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`nil`
+| Image pull policy
+| services.appprovider.image.repository
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Image repository
+| services.appprovider.image.sha
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Image sha / digest (optional).
+| services.appprovider.image.tag
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Image tag.
 | services.appprovider.nodeSelector
 a| [subs=-attributes]
 +object+
@@ -1194,6 +1254,36 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service custom labels
+| services.appregistry.image
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{"pullPolicy":null,"repository":"","sha":"","tag":""}`
+| Per-service image configuration. Overrides the default setting from `image` if set.
+| services.appregistry.image.pullPolicy
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`nil`
+| Image pull policy
+| services.appregistry.image.repository
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Image repository
+| services.appregistry.image.sha
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Image sha / digest (optional).
+| services.appregistry.image.tag
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Image tag.
 | services.appregistry.nodeSelector
 a| [subs=-attributes]
 +object+
@@ -1236,6 +1326,36 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service custom labels
+| services.audit.image
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{"pullPolicy":null,"repository":"","sha":"","tag":""}`
+| Per-service image configuration. Overrides the default setting from `image` if set.
+| services.audit.image.pullPolicy
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`nil`
+| Image pull policy
+| services.audit.image.repository
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Image repository
+| services.audit.image.sha
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Image sha / digest (optional).
+| services.audit.image.tag
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Image tag.
 | services.audit.nodeSelector
 a| [subs=-attributes]
 +object+
@@ -1284,6 +1404,36 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service custom labels
+| services.authbasic.image
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{"pullPolicy":null,"repository":"","sha":"","tag":""}`
+| Per-service image configuration. Overrides the default setting from `image` if set.
+| services.authbasic.image.pullPolicy
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`nil`
+| Image pull policy
+| services.authbasic.image.repository
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Image repository
+| services.authbasic.image.sha
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Image sha / digest (optional).
+| services.authbasic.image.tag
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Image tag.
 | services.authbasic.nodeSelector
 a| [subs=-attributes]
 +object+
@@ -1332,6 +1482,36 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service custom labels
+| services.authmachine.image
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{"pullPolicy":null,"repository":"","sha":"","tag":""}`
+| Per-service image configuration. Overrides the default setting from `image` if set.
+| services.authmachine.image.pullPolicy
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`nil`
+| Image pull policy
+| services.authmachine.image.repository
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Image repository
+| services.authmachine.image.sha
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Image sha / digest (optional).
+| services.authmachine.image.tag
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Image tag.
 | services.authmachine.nodeSelector
 a| [subs=-attributes]
 +object+
@@ -1380,6 +1560,36 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service custom labels
+| services.eventhistory.image
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{"pullPolicy":null,"repository":"","sha":"","tag":""}`
+| Per-service image configuration. Overrides the default setting from `image` if set.
+| services.eventhistory.image.pullPolicy
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`nil`
+| Image pull policy
+| services.eventhistory.image.repository
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Image repository
+| services.eventhistory.image.sha
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Image sha / digest (optional).
+| services.eventhistory.image.tag
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Image tag.
 | services.eventhistory.nodeSelector
 a| [subs=-attributes]
 +object+
@@ -1434,6 +1644,36 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service custom labels
+| services.frontend.image
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{"pullPolicy":null,"repository":"","sha":"","tag":""}`
+| Per-service image configuration. Overrides the default setting from `image` if set.
+| services.frontend.image.pullPolicy
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`nil`
+| Image pull policy
+| services.frontend.image.repository
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Image repository
+| services.frontend.image.sha
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Image sha / digest (optional).
+| services.frontend.image.tag
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Image tag.
 | services.frontend.nodeSelector
 a| [subs=-attributes]
 +object+
@@ -1482,6 +1722,36 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service custom labels
+| services.gateway.image
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{"pullPolicy":null,"repository":"","sha":"","tag":""}`
+| Per-service image configuration. Overrides the default setting from `image` if set.
+| services.gateway.image.pullPolicy
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`nil`
+| Image pull policy
+| services.gateway.image.repository
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Image repository
+| services.gateway.image.sha
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Image sha / digest (optional).
+| services.gateway.image.tag
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Image tag.
 | services.gateway.nodeSelector
 a| [subs=-attributes]
 +object+
@@ -1530,6 +1800,36 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service custom labels
+| services.graph.image
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{"pullPolicy":null,"repository":"","sha":"","tag":""}`
+| Per-service image configuration. Overrides the default setting from `image` if set.
+| services.graph.image.pullPolicy
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`nil`
+| Image pull policy
+| services.graph.image.repository
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Image repository
+| services.graph.image.sha
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Image sha / digest (optional).
+| services.graph.image.tag
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Image tag.
 | services.graph.nodeSelector
 a| [subs=-attributes]
 +object+
@@ -1578,6 +1878,36 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service custom labels
+| services.groups.image
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{"pullPolicy":null,"repository":"","sha":"","tag":""}`
+| Per-service image configuration. Overrides the default setting from `image` if set.
+| services.groups.image.pullPolicy
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`nil`
+| Image pull policy
+| services.groups.image.repository
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Image repository
+| services.groups.image.sha
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Image sha / digest (optional).
+| services.groups.image.tag
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Image tag.
 | services.groups.nodeSelector
 a| [subs=-attributes]
 +object+
@@ -1620,6 +1950,36 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service custom labels
+| services.idm.image
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{"pullPolicy":null,"repository":"","sha":"","tag":""}`
+| Per-service image configuration. Overrides the default setting from `image` if set.
+| services.idm.image.pullPolicy
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`nil`
+| Image pull policy
+| services.idm.image.repository
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Image repository
+| services.idm.image.sha
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Image sha / digest (optional).
+| services.idm.image.tag
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Image tag.
 | services.idm.nodeSelector
 a| [subs=-attributes]
 +object+
@@ -1722,6 +2082,36 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service custom labels
+| services.idp.image
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{"pullPolicy":null,"repository":"","sha":"","tag":""}`
+| Per-service image configuration. Overrides the default setting from `image` if set.
+| services.idp.image.pullPolicy
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`nil`
+| Image pull policy
+| services.idp.image.repository
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Image repository
+| services.idp.image.sha
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Image sha / digest (optional).
+| services.idp.image.tag
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Image tag.
 | services.idp.nodeSelector
 a| [subs=-attributes]
 +object+
@@ -1758,6 +2148,36 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service custom labels
+| services.nats.image
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{"pullPolicy":null,"repository":"","sha":"","tag":""}`
+| Per-service image configuration. Overrides the default setting from `image` if set.
+| services.nats.image.pullPolicy
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`nil`
+| Image pull policy
+| services.nats.image.repository
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Image repository
+| services.nats.image.sha
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Image sha / digest (optional).
+| services.nats.image.tag
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Image tag.
 | services.nats.nodeSelector
 a| [subs=-attributes]
 +object+
@@ -1866,6 +2286,36 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service custom labels
+| services.notifications.image
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{"pullPolicy":null,"repository":"","sha":"","tag":""}`
+| Per-service image configuration. Overrides the default setting from `image` if set.
+| services.notifications.image.pullPolicy
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`nil`
+| Image pull policy
+| services.notifications.image.repository
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Image repository
+| services.notifications.image.sha
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Image sha / digest (optional).
+| services.notifications.image.tag
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Image tag.
 | services.notifications.nodeSelector
 a| [subs=-attributes]
 +object+
@@ -1914,6 +2364,36 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service custom labels
+| services.ocdav.image
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{"pullPolicy":null,"repository":"","sha":"","tag":""}`
+| Per-service image configuration. Overrides the default setting from `image` if set.
+| services.ocdav.image.pullPolicy
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`nil`
+| Image pull policy
+| services.ocdav.image.repository
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Image repository
+| services.ocdav.image.sha
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Image sha / digest (optional).
+| services.ocdav.image.tag
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Image tag.
 | services.ocdav.nodeSelector
 a| [subs=-attributes]
 +object+
@@ -1962,6 +2442,36 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service custom labels
+| services.ocs.image
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{"pullPolicy":null,"repository":"","sha":"","tag":""}`
+| Per-service image configuration. Overrides the default setting from `image` if set.
+| services.ocs.image.pullPolicy
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`nil`
+| Image pull policy
+| services.ocs.image.repository
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Image repository
+| services.ocs.image.sha
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Image sha / digest (optional).
+| services.ocs.image.tag
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Image tag.
 | services.ocs.nodeSelector
 a| [subs=-attributes]
 +object+
@@ -2010,6 +2520,36 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service custom labels
+| services.policies.image
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{"pullPolicy":null,"repository":"","sha":"","tag":""}`
+| Per-service image configuration. Overrides the default setting from `image` if set.
+| services.policies.image.pullPolicy
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`nil`
+| Image pull policy
+| services.policies.image.repository
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Image repository
+| services.policies.image.sha
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Image sha / digest (optional).
+| services.policies.image.tag
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Image tag.
 | services.policies.nodeSelector
 a| [subs=-attributes]
 +object+
@@ -2058,6 +2598,36 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service custom labels
+| services.postprocessing.image
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{"pullPolicy":null,"repository":"","sha":"","tag":""}`
+| Per-service image configuration. Overrides the default setting from `image` if set.
+| services.postprocessing.image.pullPolicy
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`nil`
+| Image pull policy
+| services.postprocessing.image.repository
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Image repository
+| services.postprocessing.image.sha
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Image sha / digest (optional).
+| services.postprocessing.image.tag
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Image tag.
 | services.postprocessing.nodeSelector
 a| [subs=-attributes]
 +object+
@@ -2112,6 +2682,36 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service custom labels
+| services.proxy.image
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{"pullPolicy":null,"repository":"","sha":"","tag":""}`
+| Per-service image configuration. Overrides the default setting from `image` if set.
+| services.proxy.image.pullPolicy
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`nil`
+| Image pull policy
+| services.proxy.image.repository
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Image repository
+| services.proxy.image.sha
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Image sha / digest (optional).
+| services.proxy.image.tag
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Image tag.
 | services.proxy.nodeSelector
 a| [subs=-attributes]
 +object+
@@ -2178,6 +2778,36 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `"basic"`
 | Configures the search extractor type to be used. Possible extractors: - `basic`: the default search extractor. - `tika`: the Tika search extractor. If set to this value, additional settings in the `tika` section apply.
+| services.search.image
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{"pullPolicy":null,"repository":"","sha":"","tag":""}`
+| Per-service image configuration. Overrides the default setting from `image` if set.
+| services.search.image.pullPolicy
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`nil`
+| Image pull policy
+| services.search.image.repository
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Image repository
+| services.search.image.sha
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Image sha / digest (optional).
+| services.search.image.tag
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Image tag.
 | services.search.nodeSelector
 a| [subs=-attributes]
 +object+
@@ -2292,6 +2922,36 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service custom labels
+| services.settings.image
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{"pullPolicy":null,"repository":"","sha":"","tag":""}`
+| Per-service image configuration. Overrides the default setting from `image` if set.
+| services.settings.image.pullPolicy
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`nil`
+| Image pull policy
+| services.settings.image.repository
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Image repository
+| services.settings.image.sha
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Image sha / digest (optional).
+| services.settings.image.tag
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Image tag.
 | services.settings.nodeSelector
 a| [subs=-attributes]
 +object+
@@ -2340,6 +3000,36 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service custom labels
+| services.sharing.image
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{"pullPolicy":null,"repository":"","sha":"","tag":""}`
+| Per-service image configuration. Overrides the default setting from `image` if set.
+| services.sharing.image.pullPolicy
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`nil`
+| Image pull policy
+| services.sharing.image.repository
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Image repository
+| services.sharing.image.sha
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Image sha / digest (optional).
+| services.sharing.image.tag
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Image tag.
 | services.sharing.nodeSelector
 a| [subs=-attributes]
 +object+
@@ -2388,6 +3078,36 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service custom labels
+| services.storagepubliclink.image
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{"pullPolicy":null,"repository":"","sha":"","tag":""}`
+| Per-service image configuration. Overrides the default setting from `image` if set.
+| services.storagepubliclink.image.pullPolicy
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`nil`
+| Image pull policy
+| services.storagepubliclink.image.repository
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Image repository
+| services.storagepubliclink.image.sha
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Image sha / digest (optional).
+| services.storagepubliclink.image.tag
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Image tag.
 | services.storagepubliclink.nodeSelector
 a| [subs=-attributes]
 +object+
@@ -2436,6 +3156,36 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service custom labels
+| services.storageshares.image
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{"pullPolicy":null,"repository":"","sha":"","tag":""}`
+| Per-service image configuration. Overrides the default setting from `image` if set.
+| services.storageshares.image.pullPolicy
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`nil`
+| Image pull policy
+| services.storageshares.image.repository
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Image repository
+| services.storageshares.image.sha
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Image sha / digest (optional).
+| services.storageshares.image.tag
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Image tag.
 | services.storageshares.nodeSelector
 a| [subs=-attributes]
 +object+
@@ -2484,6 +3234,36 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service custom labels
+| services.storagesystem.image
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{"pullPolicy":null,"repository":"","sha":"","tag":""}`
+| Per-service image configuration. Overrides the default setting from `image` if set.
+| services.storagesystem.image.pullPolicy
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`nil`
+| Image pull policy
+| services.storagesystem.image.repository
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Image repository
+| services.storagesystem.image.sha
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Image sha / digest (optional).
+| services.storagesystem.image.tag
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Image tag.
 | services.storagesystem.nodeSelector
 a| [subs=-attributes]
 +object+
@@ -2598,6 +3378,36 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service custom labels
+| services.storageusers.image
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{"pullPolicy":null,"repository":"","sha":"","tag":""}`
+| Per-service image configuration. Overrides the default setting from `image` if set.
+| services.storageusers.image.pullPolicy
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`nil`
+| Image pull policy
+| services.storageusers.image.repository
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Image repository
+| services.storageusers.image.sha
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Image sha / digest (optional).
+| services.storageusers.image.tag
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Image tag.
 | services.storageusers.jobNodeSelector
 a| [subs=-attributes]
 +object+
@@ -2850,6 +3660,36 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service custom labels
+| services.store.image
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{"pullPolicy":null,"repository":"","sha":"","tag":""}`
+| Per-service image configuration. Overrides the default setting from `image` if set.
+| services.store.image.pullPolicy
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`nil`
+| Image pull policy
+| services.store.image.repository
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Image repository
+| services.store.image.sha
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Image sha / digest (optional).
+| services.store.image.tag
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Image tag.
 | services.store.nodeSelector
 a| [subs=-attributes]
 +object+
@@ -2958,6 +3798,36 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service custom labels
+| services.thumbnails.image
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{"pullPolicy":null,"repository":"","sha":"","tag":""}`
+| Per-service image configuration. Overrides the default setting from `image` if set.
+| services.thumbnails.image.pullPolicy
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`nil`
+| Image pull policy
+| services.thumbnails.image.repository
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Image repository
+| services.thumbnails.image.sha
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Image sha / digest (optional).
+| services.thumbnails.image.tag
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Image tag.
 | services.thumbnails.jobNodeSelector
 a| [subs=-attributes]
 +object+
@@ -3144,6 +4014,36 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service custom labels
+| services.userlog.image
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{"pullPolicy":null,"repository":"","sha":"","tag":""}`
+| Per-service image configuration. Overrides the default setting from `image` if set.
+| services.userlog.image.pullPolicy
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`nil`
+| Image pull policy
+| services.userlog.image.repository
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Image repository
+| services.userlog.image.sha
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Image sha / digest (optional).
+| services.userlog.image.tag
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Image tag.
 | services.userlog.nodeSelector
 a| [subs=-attributes]
 +object+
@@ -3198,6 +4098,36 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service custom labels
+| services.users.image
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{"pullPolicy":null,"repository":"","sha":"","tag":""}`
+| Per-service image configuration. Overrides the default setting from `image` if set.
+| services.users.image.pullPolicy
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`nil`
+| Image pull policy
+| services.users.image.repository
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Image repository
+| services.users.image.sha
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Image sha / digest (optional).
+| services.users.image.tag
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Image tag.
 | services.users.nodeSelector
 a| [subs=-attributes]
 +object+
@@ -3330,6 +4260,36 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service custom labels
+| services.web.image
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{"pullPolicy":null,"repository":"","sha":"","tag":""}`
+| Per-service image configuration. Overrides the default setting from `image` if set.
+| services.web.image.pullPolicy
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`nil`
+| Image pull policy
+| services.web.image.repository
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Image repository
+| services.web.image.sha
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Image sha / digest (optional).
+| services.web.image.tag
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Image tag.
 | services.web.nodeSelector
 a| [subs=-attributes]
 +object+
@@ -3444,6 +4404,36 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service custom labels
+| services.webdav.image
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{"pullPolicy":null,"repository":"","sha":"","tag":""}`
+| Per-service image configuration. Overrides the default setting from `image` if set.
+| services.webdav.image.pullPolicy
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`nil`
+| Image pull policy
+| services.webdav.image.repository
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Image repository
+| services.webdav.image.sha
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Image sha / digest (optional).
+| services.webdav.image.tag
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Image tag.
 | services.webdav.nodeSelector
 a| [subs=-attributes]
 +object+
@@ -3492,6 +4482,36 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service custom labels
+| services.webfinger.image
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{"pullPolicy":null,"repository":"","sha":"","tag":""}`
+| Per-service image configuration. Overrides the default setting from `image` if set.
+| services.webfinger.image.pullPolicy
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`nil`
+| Image pull policy
+| services.webfinger.image.repository
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Image repository
+| services.webfinger.image.sha
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Image sha / digest (optional).
+| services.webfinger.image.tag
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Image tag.
 | services.webfinger.nodeSelector
 a| [subs=-attributes]
 +object+
