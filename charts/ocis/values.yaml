@@ -776,6 +776,16 @@ services:
     # Do note that the value will be different for each service.
     # -- Per-service custom labels
     extraLabels: {}
+    # -- Per-service image configuration. Overrides the default setting from `image` if set.
+    image:
+      # -- Image repository
+      repository: ""
+      # -- Image tag.
+      tag: ""
+      # -- Image sha / digest (optional).
+      sha: ""
+      # -- Image pull policy
+      pullPolicy:
 
   # -- APP REGISTRY service. Not used if `features.appsIntegration.enabled` equals `false`.
   # @default -- see detailed service configuration options below
@@ -790,6 +800,16 @@ services:
     affinity: {}
     # -- Per-service custom labels
     extraLabels: {}
+    # -- Per-service image configuration. Overrides the default setting from `image` if set.
+    image:
+      # -- Image repository
+      repository: ""
+      # -- Image tag.
+      tag: ""
+      # -- Image sha / digest (optional).
+      sha: ""
+      # -- Image pull policy
+      pullPolicy:
 
   # -- AUDIT service.
   # @default -- see detailed service configuration options below
@@ -808,6 +828,16 @@ services:
     affinity: {}
     # -- Per-service custom labels
     extraLabels: {}
+    # -- Per-service image configuration. Overrides the default setting from `image` if set.
+    image:
+      # -- Image repository
+      repository: ""
+      # -- Image tag.
+      tag: ""
+      # -- Image sha / digest (optional).
+      sha: ""
+      # -- Image pull policy
+      pullPolicy:
 
   # -- AUTH BASIC service. Not used if `features.externalUserManagement.enabled` equals `true`.
   # @default -- see detailed service configuration options below
@@ -826,6 +856,16 @@ services:
     affinity: {}
     # -- Per-service custom labels
     extraLabels: {}
+    # -- Per-service image configuration. Overrides the default setting from `image` if set.
+    image:
+      # -- Image repository
+      repository: ""
+      # -- Image tag.
+      tag: ""
+      # -- Image sha / digest (optional).
+      sha: ""
+      # -- Image pull policy
+      pullPolicy:
 
   # -- AUTH MACHINE service.
   # @default -- see detailed service configuration options below
@@ -844,6 +884,16 @@ services:
     affinity: {}
     # -- Per-service custom labels
     extraLabels: {}
+    # -- Per-service image configuration. Overrides the default setting from `image` if set.
+    image:
+      # -- Image repository
+      repository: ""
+      # -- Image tag.
+      tag: ""
+      # -- Image sha / digest (optional).
+      sha: ""
+      # -- Image pull policy
+      pullPolicy:
 
   # -- AUTH SERVICE service.
   # @default -- see detailed service configuration options below
@@ -862,6 +912,16 @@ services:
     affinity: {}
     # -- Per-service custom labels
     extraLabels: {}
+    # -- Per-service image configuration. Overrides the default setting from `image` if set.
+    image:
+      # -- Image repository
+      repository: ""
+      # -- Image tag.
+      tag: ""
+      # -- Image sha / digest (optional).
+      sha: ""
+      # -- Image pull policy
+      pullPolicy:
 
   # -- ANTIVIRUS service. Not used if `features.virusscan.enabled` equals `false`.
   # @default -- see detailed service configuration options below
@@ -880,6 +940,16 @@ services:
     affinity: {}
     # -- Per-service custom labels
     extraLabels: {}
+    # -- Per-service image configuration. Overrides the default setting from `image` if set.
+    image:
+      # -- Image repository
+      repository: ""
+      # -- Image tag.
+      tag: ""
+      # -- Image sha / digest (optional).
+      sha: ""
+      # -- Image pull policy
+      pullPolicy:
 
   # -- CLIENTLOG service.
   # @default -- see detailed service configuration options below
@@ -898,6 +968,16 @@ services:
     affinity: {}
     # -- Per-service custom labels
     extraLabels: {}
+    # -- Per-service image configuration. Overrides the default setting from `image` if set.
+    image:
+      # -- Image repository
+      repository: ""
+      # -- Image tag.
+      tag: ""
+      # -- Image sha / digest (optional).
+      sha: ""
+      # -- Image pull policy
+      pullPolicy:
 
   # -- EVENT HISTORY service.
   # @default -- see detailed service configuration options below
@@ -925,6 +1005,16 @@ services:
     affinity: {}
     # -- Per-service custom labels
     extraLabels: {}
+    # -- Per-service image configuration. Overrides the default setting from `image` if set.
+    image:
+      # -- Image repository
+      repository: ""
+      # -- Image tag.
+      tag: ""
+      # -- Image sha / digest (optional).
+      sha: ""
+      # -- Image pull policy
+      pullPolicy:
 
   # -- FRONTEND service.
   # @default -- see detailed service configuration options below
@@ -943,6 +1033,16 @@ services:
     affinity: {}
     # -- Per-service custom labels
     extraLabels: {}
+    # -- Per-service image configuration. Overrides the default setting from `image` if set.
+    image:
+      # -- Image repository
+      repository: ""
+      # -- Image tag.
+      tag: ""
+      # -- Image sha / digest (optional).
+      sha: ""
+      # -- Image pull policy
+      pullPolicy:
 
   # -- GATEWAY service.
   # @default -- see detailed service configuration options below
@@ -961,6 +1061,16 @@ services:
     affinity: {}
     # -- Per-service custom labels
     extraLabels: {}
+    # -- Per-service image configuration. Overrides the default setting from `image` if set.
+    image:
+      # -- Image repository
+      repository: ""
+      # -- Image tag.
+      tag: ""
+      # -- Image sha / digest (optional).
+      sha: ""
+      # -- Image pull policy
+      pullPolicy:
 
   # -- GRAPH service.
   # @default -- see detailed service configuration options below
@@ -979,6 +1089,16 @@ services:
     affinity: {}
     # -- Per-service custom labels
     extraLabels: {}
+    # -- Per-service image configuration. Overrides the default setting from `image` if set.
+    image:
+      # -- Image repository
+      repository: ""
+      # -- Image tag.
+      tag: ""
+      # -- Image sha / digest (optional).
+      sha: ""
+      # -- Image pull policy
+      pullPolicy:
 
   # -- GROUPS service.
   # @default -- see detailed service configuration options below
@@ -997,6 +1117,16 @@ services:
     affinity: {}
     # -- Per-service custom labels
     extraLabels: {}
+    # -- Per-service image configuration. Overrides the default setting from `image` if set.
+    image:
+      # -- Image repository
+      repository: ""
+      # -- Image tag.
+      tag: ""
+      # -- Image sha / digest (optional).
+      sha: ""
+      # -- Image pull policy
+      pullPolicy:
 
   # -- IDM service. Not used if `features.externalUserManagement.enabled` equals `true`.
   # @default -- see detailed service configuration options below
@@ -1043,6 +1173,16 @@ services:
     affinity: {}
     # -- Per-service custom labels
     extraLabels: {}
+    # -- Per-service image configuration. Overrides the default setting from `image` if set.
+    image:
+      # -- Image repository
+      repository: ""
+      # -- Image tag.
+      tag: ""
+      # -- Image sha / digest (optional).
+      sha: ""
+      # -- Image pull policy
+      pullPolicy:
 
   # -- IDP service. Not used if `features.externalUserManagement.enabled` equals `true`.
   # @default -- see detailed service configuration options below
@@ -1057,6 +1197,16 @@ services:
     affinity: {}
     # -- Per-service custom labels
     extraLabels: {}
+    # -- Per-service image configuration. Overrides the default setting from `image` if set.
+    image:
+      # -- Image repository
+      repository: ""
+      # -- Image tag.
+      tag: ""
+      # -- Image sha / digest (optional).
+      sha: ""
+      # -- Image pull policy
+      pullPolicy:
 
   # -- NATS service. Not used if `messagingSystem.external.enabled` equals `true`.
   # @default -- see detailed service configuration options below
@@ -1103,6 +1253,16 @@ services:
     affinity: {}
     # -- Per-service custom labels
     extraLabels: {}
+    # -- Per-service image configuration. Overrides the default setting from `image` if set.
+    image:
+      # -- Image repository
+      repository: ""
+      # -- Image tag.
+      tag: ""
+      # -- Image sha / digest (optional).
+      sha: ""
+      # -- Image pull policy
+      pullPolicy:
 
   # -- NOTIFICATIONS service. Not used if `features.emailNotifications.enabled` equals `true`.
   # @default -- see detailed service configuration options below
@@ -1121,6 +1281,16 @@ services:
     affinity: {}
     # -- Per-service custom labels
     extraLabels: {}
+    # -- Per-service image configuration. Overrides the default setting from `image` if set.
+    image:
+      # -- Image repository
+      repository: ""
+      # -- Image tag.
+      tag: ""
+      # -- Image sha / digest (optional).
+      sha: ""
+      # -- Image pull policy
+      pullPolicy:
 
   # -- OCDAV service.
   # @default -- see detailed service configuration options below
@@ -1139,6 +1309,16 @@ services:
     affinity: {}
     # -- Per-service custom labels
     extraLabels: {}
+    # -- Per-service image configuration. Overrides the default setting from `image` if set.
+    image:
+      # -- Image repository
+      repository: ""
+      # -- Image tag.
+      tag: ""
+      # -- Image sha / digest (optional).
+      sha: ""
+      # -- Image pull policy
+      pullPolicy:
 
   # -- OCS service.
   # @default -- see detailed service configuration options below
@@ -1157,6 +1337,16 @@ services:
     affinity: {}
     # -- Per-service custom labels
     extraLabels: {}
+    # -- Per-service image configuration. Overrides the default setting from `image` if set.
+    image:
+      # -- Image repository
+      repository: ""
+      # -- Image tag.
+      tag: ""
+      # -- Image sha / digest (optional).
+      sha: ""
+      # -- Image pull policy
+      pullPolicy:
 
   # -- POLICIES service.
   # @default -- see detailed service configuration options below
@@ -1175,6 +1365,16 @@ services:
     affinity: {}
     # -- Per-service custom labels
     extraLabels: {}
+    # -- Per-service image configuration. Overrides the default setting from `image` if set.
+    image:
+      # -- Image repository
+      repository: ""
+      # -- Image tag.
+      tag: ""
+      # -- Image sha / digest (optional).
+      sha: ""
+      # -- Image pull policy
+      pullPolicy:
 
   # -- POSTPROCESSING service.
   # @default -- see detailed service configuration options below
@@ -1195,6 +1395,16 @@ services:
     affinity: {}
     # -- Per-service custom labels
     extraLabels: {}
+    # -- Per-service image configuration. Overrides the default setting from `image` if set.
+    image:
+      # -- Image repository
+      repository: ""
+      # -- Image tag.
+      tag: ""
+      # -- Image sha / digest (optional).
+      sha: ""
+      # -- Image pull policy
+      pullPolicy:
     maintenance:
       # -- Restart postprocessing for uploads where final storage move is not done.
       restartPostprocessingFinished:
@@ -1238,6 +1448,16 @@ services:
     affinity: {}
     # -- Per-service custom labels
     extraLabels: {}
+    # -- Per-service image configuration. Overrides the default setting from `image` if set.
+    image:
+      # -- Image repository
+      repository: ""
+      # -- Image tag.
+      tag: ""
+      # -- Image sha / digest (optional).
+      sha: ""
+      # -- Image pull policy
+      pullPolicy:
 
   # -- SEARCH service.
   # @default -- see detailed service configuration options below
@@ -1301,6 +1521,16 @@ services:
     affinity: {}
     # -- Per-service custom labels
     extraLabels: {}
+    # -- Per-service image configuration. Overrides the default setting from `image` if set.
+    image:
+      # -- Image repository
+      repository: ""
+      # -- Image tag.
+      tag: ""
+      # -- Image sha / digest (optional).
+      sha: ""
+      # -- Image pull policy
+      pullPolicy:
 
   # -- SETTINGS service.
   # @default -- see detailed service configuration options below
@@ -1319,6 +1549,16 @@ services:
     affinity: {}
     # -- Per-service custom labels
     extraLabels: {}
+    # -- Per-service image configuration. Overrides the default setting from `image` if set.
+    image:
+      # -- Image repository
+      repository: ""
+      # -- Image tag.
+      tag: ""
+      # -- Image sha / digest (optional).
+      sha: ""
+      # -- Image pull policy
+      pullPolicy:
 
   # -- SHARING service.
   # @default -- see detailed service configuration options below
@@ -1337,6 +1577,16 @@ services:
     affinity: {}
     # -- Per-service custom labels
     extraLabels: {}
+    # -- Per-service image configuration. Overrides the default setting from `image` if set.
+    image:
+      # -- Image repository
+      repository: ""
+      # -- Image tag.
+      tag: ""
+      # -- Image sha / digest (optional).
+      sha: ""
+      # -- Image pull policy
+      pullPolicy:
 
   # -- SSE service
   # @default -- see detailed service configuration options below
@@ -1357,6 +1607,16 @@ services:
     affinity: {}
     # -- Per-service custom labels
     extraLabels: {}
+    # -- Per-service image configuration. Overrides the default setting from `image` if set.
+    image:
+      # -- Image repository
+      repository: ""
+      # -- Image tag.
+      tag: ""
+      # -- Image sha / digest (optional).
+      sha: ""
+      # -- Image pull policy
+      pullPolicy:
 
   # -- STORAGE-PUBLICLINK service.
   # @default -- see detailed service configuration options below
@@ -1375,6 +1635,16 @@ services:
     affinity: {}
     # -- Per-service custom labels
     extraLabels: {}
+    # -- Per-service image configuration. Overrides the default setting from `image` if set.
+    image:
+      # -- Image repository
+      repository: ""
+      # -- Image tag.
+      tag: ""
+      # -- Image sha / digest (optional).
+      sha: ""
+      # -- Image pull policy
+      pullPolicy:
 
   # -- STORAGE-SHARES service.
   # @default -- see detailed service configuration options below
@@ -1393,6 +1663,16 @@ services:
     affinity: {}
     # -- Per-service custom labels
     extraLabels: {}
+    # -- Per-service image configuration. Overrides the default setting from `image` if set.
+    image:
+      # -- Image repository
+      repository: ""
+      # -- Image tag.
+      tag: ""
+      # -- Image sha / digest (optional).
+      sha: ""
+      # -- Image pull policy
+      pullPolicy:
 
   # -- STORAGE-SYSTEM service.
   # @default -- see detailed service configuration options below
@@ -1443,6 +1723,16 @@ services:
     affinity: {}
     # -- Per-service custom labels
     extraLabels: {}
+    # -- Per-service image configuration. Overrides the default setting from `image` if set.
+    image:
+      # -- Image repository
+      repository: ""
+      # -- Image tag.
+      tag: ""
+      # -- Image sha / digest (optional).
+      sha: ""
+      # -- Image pull policy
+      pullPolicy:
 
   # -- STORAGE-USERS service.
   # @default -- see detailed service configuration options below
@@ -1589,6 +1879,16 @@ services:
     affinity: {}
     # -- Per-service custom labels
     extraLabels: {}
+    # -- Per-service image configuration. Overrides the default setting from `image` if set.
+    image:
+      # -- Image repository
+      repository: ""
+      # -- Image tag.
+      tag: ""
+      # -- Image sha / digest (optional).
+      sha: ""
+      # -- Image pull policy
+      pullPolicy:
 
   # -- STORE service.
   # @default -- see detailed service configuration options below
@@ -1635,6 +1935,16 @@ services:
     affinity: {}
     # -- Per-service custom labels
     extraLabels: {}
+    # -- Per-service image configuration. Overrides the default setting from `image` if set.
+    image:
+      # -- Image repository
+      repository: ""
+      # -- Image tag.
+      tag: ""
+      # -- Image sha / digest (optional).
+      sha: ""
+      # -- Image pull policy
+      pullPolicy:
 
   # -- THUMBNAILS service.
   # @default -- see detailed service configuration options below
@@ -1711,6 +2021,16 @@ services:
     affinity: {}
     # -- Per-service custom labels
     extraLabels: {}
+    # -- Per-service image configuration. Overrides the default setting from `image` if set.
+    image:
+      # -- Image repository
+      repository: ""
+      # -- Image tag.
+      tag: ""
+      # -- Image sha / digest (optional).
+      sha: ""
+      # -- Image pull policy
+      pullPolicy:
 
   # -- USERLOG service.
   # @default -- see detailed service configuration options below
@@ -1738,6 +2058,16 @@ services:
     affinity: {}
     # -- Per-service custom labels
     extraLabels: {}
+    # -- Per-service image configuration. Overrides the default setting from `image` if set.
+    image:
+      # -- Image repository
+      repository: ""
+      # -- Image tag.
+      tag: ""
+      # -- Image sha / digest (optional).
+      sha: ""
+      # -- Image pull policy
+      pullPolicy:
 
   # -- USERS service.
   # @default -- see detailed service configuration options below
@@ -1756,6 +2086,16 @@ services:
     affinity: {}
     # -- Per-service custom labels
     extraLabels: {}
+    # -- Per-service image configuration. Overrides the default setting from `image` if set.
+    image:
+      # -- Image repository
+      repository: ""
+      # -- Image tag.
+      tag: ""
+      # -- Image sha / digest (optional).
+      sha: ""
+      # -- Image pull policy
+      pullPolicy:
 
   # -- ownCloud WEB service.
   # @default -- see detailed service configuration options below
@@ -1909,6 +2249,16 @@ services:
     affinity: {}
     # -- Per-service custom labels
     extraLabels: {}
+    # -- Per-service image configuration. Overrides the default setting from `image` if set.
+    image:
+      # -- Image repository
+      repository: ""
+      # -- Image tag.
+      tag: ""
+      # -- Image sha / digest (optional).
+      sha: ""
+      # -- Image pull policy
+      pullPolicy:
 
   # -- WEBDAV service.
   # @default -- see detailed service configuration options below
@@ -1927,6 +2277,16 @@ services:
     affinity: {}
     # -- Per-service custom labels
     extraLabels: {}
+    # -- Per-service image configuration. Overrides the default setting from `image` if set.
+    image:
+      # -- Image repository
+      repository: ""
+      # -- Image tag.
+      tag: ""
+      # -- Image sha / digest (optional).
+      sha: ""
+      # -- Image pull policy
+      pullPolicy:
 
   # -- WEBFINGER service.
   # @default -- see detailed service configuration options below
@@ -1945,6 +2305,16 @@ services:
     affinity: {}
     # -- Per-service custom labels
     extraLabels: {}
+    # -- Per-service image configuration. Overrides the default setting from `image` if set.
+    image:
+      # -- Image repository
+      repository: ""
+      # -- Image tag.
+      tag: ""
+      # -- Image sha / digest (optional).
+      sha: ""
+      # -- Image pull policy
+      pullPolicy:
 
 # -- Service monitoring configuration. Requires the monitoring.coreos.com/v1 CRDs to be installed.
 monitoring:
