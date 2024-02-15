@@ -23,8 +23,9 @@ After following the steps in this guide, you should be able to access the follow
 may want to add these to your `/etc/hosts` file pointing to your ingress controller IP:
 
 - https://ocis.kube.owncloud.test
+- https://grafana.kube.owncloud.test
 
-Note that if you want to use your own hostname and domain, you will have to change the `externalDomain` value.
+Note that if you want to use your own hostname and domain, you will have to change the `externalDomain` value in oCIS and the Domains for Loki, Mimir and Tempo at the beginning of the `helmfile`. Please also ensure that the hostnames for Loki, Mimir and Tempo can be resolved within the cluster.
 
 ### Deploying
 
