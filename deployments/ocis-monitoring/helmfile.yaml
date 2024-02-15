@@ -62,6 +62,9 @@ releases:
             watchMethod: SLEEP
             env:
               ENABLE_5XX: "true"
+      - grafana.ini:
+          server:
+            root_url: https://grafana.kube.owncloud.test/
 
   - name: "{{ .Values.mimir.name }}"
     namespace: "{{ .Values.mimir.namespace }}"
