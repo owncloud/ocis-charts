@@ -348,28 +348,12 @@ releases:
           ldapSecretRef: ldap-bind-secrets # we provide the ldap bind password of the ldap server in the extraResources section as secret
       - features:
           externalUserManagement:
-            # -- Enables external user management (and disables internal user management).
-            # Needs an external OpenID Connect Identity Provider and an external LDAP server.
             enabled: true
-            # -- UUID of the inital admin user.
-            # If the given value matches a user's value from `features.externalUserManagement.oidc.userIDClaim`, the admin role will be assigned.
-            # Consider that the UUID can be encoded in some LDAP deployment configurations like in .ldif files. These need to be decoded beforehand.
-            # Note: Enabling `roleAssignment` will disable `adminUUID`.
             adminUUID: "ddc2004c-0977-11eb-9d3f-a793888cd0f8"
-            # OpenID Connect Identity provider related settings.
             oidc:
-              # -- Issuer URI of the OpenID Connect Identity Provider.
-              # If the IDP doesn't have valid / trusted SSL certificates, certificate validation can be disabled with the `insecure.oidcIdpInsecure` option.
               issuerURI: https://keycloak.kube.owncloud.test/realms/oCIS
-
-              # -- Specify the client ID which the web frontend will use
               webClientID: web
-              # -- Claim to take an unique user identifier from. It will be used to look up the user on the LDAP server.
               userIDClaim: ocis.user.uuid
-              # -- Attribute mapping of for the userIDClaim.
-              # Set to `userid` if the claim specified in `...oidc.userIDClaim` holds the value of the ldap user attribute specified in `...ldap.user.schema.id`.
-              # Set to `mail` if the claim specified in `...oidc.userIDClaim` holds the value of the ldap user attribute specified in  `...ldap.user.schema.mail`.
-              # Set to `username` if the claim specified in `...oidc.userIDClaim` holds the value of the ldap user attribute specified in `...ldap.user.schema.userName`.
               userIDClaimAttributeMapping: userid
 
             ldap:
