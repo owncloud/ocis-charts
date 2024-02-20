@@ -1,0 +1,16 @@
+apiVersion: "acid.zalan.do/v1"
+kind: postgresql
+metadata:
+  name: "postgres"
+spec:
+  teamId: "postgres"
+  volume:
+    size: "10Gi"
+  numberOfInstances: 3
+  users:
+  databases:
+  postgresql:
+    version: "15"
+    parameters:
+      max_connections: "330"
+  enableConnectionPooler: true
