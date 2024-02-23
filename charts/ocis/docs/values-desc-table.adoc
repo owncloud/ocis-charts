@@ -222,6 +222,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `false`
 | Create demo users on the first startup. Not recommended for production installations.
+| features.disableSse
+a| [subs=-attributes]
++bool+
+a| [subs=-attributes]
+`false`
+| Disables server-sent events (sse). When disabled, clients will no longer receive sse notifications.
 | features.edition
 a| [subs=-attributes]
 +string+

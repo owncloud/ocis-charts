@@ -83,6 +83,9 @@ spec:
                   name: {{ include "secrets.jwtSecret" . }}
                   key: jwt-secret
 
+            - name: OCIS_DISABLE_SSE
+              value: {{ .Values.features.disableSse | quote }}
+
           {{- include "ocis.livenessProbe" . | nindent 10 }}
 
           resources: {{ toYaml .resources | nindent 12 }}
