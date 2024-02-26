@@ -185,6 +185,7 @@ features:
       # -- Reference to a ConfigMap containing images that can be referenced from the html mail template.
       # This ConfigMap is optional and can be omitted when images are not used.
       htmlMailImagesConfigRef: "html-mail-images"
+
   # -- Disables server-sent events (sse). When disabled, clients will no longer receive sse notifications.
   disableSse: false
 
