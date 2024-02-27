@@ -95,7 +95,7 @@ spec:
               value: {{ not (eq .Values.services.search.extractor.type "basic") | quote }}
 
             - name: OCIS_DISABLE_SSE
-              value: {{ .Values.features.disableSse | quote }}
+              value: {{ .Values.features.sse.disabled | quote }}
 
             # cache
             # the stat cache is disabled for now for performance reasons, see https://github.com/owncloud/ocis-charts/issues/214
