@@ -726,6 +726,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `3`
 | Minimum number of characters to enter before a client should start a search for Share receivers. This setting can be used to customize the user experience if e.g too many results are displayed.
+| features.sse.disabled
+a| [subs=-attributes]
++bool+
+a| [subs=-attributes]
+`false`
+| Disables SSE. When disabled, clients will no longer receive sse notifications.
 | features.virusscan.enabled
 a| [subs=-attributes]
 +bool+
