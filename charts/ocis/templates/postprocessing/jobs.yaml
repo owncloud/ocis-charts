@@ -52,7 +52,6 @@ spec:
 
           {{- include "ocis.imagePullSecrets" $ | nindent 10 }}
 {{- if .Values.features.virusscan.enabled }}
-{{- include "ocis.basicServiceTemplates" (dict "scope" . "appName" "appNamePostprocessing" "appNameSuffix" "") -}}
 ---
 apiVersion: batch/v1
 kind: CronJob
