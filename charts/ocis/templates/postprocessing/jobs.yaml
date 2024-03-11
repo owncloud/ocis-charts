@@ -51,7 +51,6 @@ spec:
               resources: {{ toYaml .jobResources | nindent 16 }}
 
           {{- include "ocis.imagePullSecrets" $ | nindent 10 }}
-
 {{- if .Values.features.virusscan.enabled }}
 {{- include "ocis.basicServiceTemplates" (dict "scope" . "appName" "appNamePostprocessing" "appNameSuffix" "") -}}
 ---
