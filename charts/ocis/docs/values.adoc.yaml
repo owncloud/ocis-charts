@@ -1418,14 +1418,18 @@ services:
         # -- Enables a job, that cleans up expired uploads. Requires persistence to be enabled and RWX storage.
         enabled: false
         # -- Cron pattern for the job to be run. Defaults to every minute.
-        schedule: "* * * * *"
+        schedule: "60 * * * *"
+        # Defines the a deadline (in whole seconds) for starting the Job, if that Job misses its scheduled time for any reason.
+        startingDeadlineSeconds: 600
       # -- Restart postprocessing for uploads hwich are currenlty in the virusscan step.
       # Only applicable when `.Values.features.virusscan.enabled` is set to `true`.
       restartPostprocessingVirusscan:
         # -- Enables a job, that purges expired trash bin items. Requires persistence to be enabled.
         enabled: false
         # -- Cron pattern for the job to be run. Defaults to every minute.
-        schedule: "* * * * *"
+        schedule: "60 * * * *"
+        # Defines the a deadline (in whole seconds) for starting the Job, if that Job misses its scheduled time for any reason.
+        startingDeadlineSeconds: 600
       # -- Image for the storageusers service maintenance jobs
       # Defaults to the same values as `image`
       image:
@@ -1808,7 +1812,9 @@ services:
         # -- Enables a job, that cleans up expired uploads. Requires persistence to be enabled and RWX storage.
         enabled: false
         # -- Cron pattern for the job to be run. Defaults to every minute.
-        schedule: "* * * * *"
+        schedule: "60 * * * *"
+        # Defines the a deadline (in whole seconds) for starting the Job, if that Job misses its scheduled time for any reason.
+        startingDeadlineSeconds: 600
         # -- Duration in seconds after which uploads will expire.
         #    WARNING: Setting this to a low number will lead to uploads being cancelled before they are finished and returning a 403 to the user.
         uploadExpiration: 86400
@@ -1817,7 +1823,9 @@ services:
         # -- Enables a job, that purges expired trash bin items. Requires persistence to be enabled.
         enabled: false
         # -- Cron pattern for the job to be run. Defaults to every minute.
-        schedule: "* * * * *"
+        schedule: "60 * * * *"
+        # Defines the a deadline (in whole seconds) for starting the Job, if that Job misses its scheduled time for any reason.
+        startingDeadlineSeconds: 600
         # -- Setting that makes the command delete all trashed personal files older than the value. The value is a number and a unit "d", "h", "m", "s".
         personalDeleteBefore: 30d
         # -- Setting that makes the command delete all trashed project files older than the value. The value is a number and a unit "d", "h", "m", "s".
@@ -2007,7 +2015,9 @@ services:
         # -- Enables a job, that cleans up old thumbnails. Requires persistence to be enabled.
         enabled: false
         # -- Cron pattern for the job to be run. Defaults to every minute.
-        schedule: "* * * * *"
+        schedule: "60 * * * *"
+        # Defines the a deadline (in whole seconds) for starting the Job, if that Job misses its scheduled time for any reason.
+        startingDeadlineSeconds: 600
         # -- Setting that makes the command delete all thumbnails older than the value. The value is a number in days.
         deleteBefore: 30
         # -- Method to use with BusyBox "find" for finding old thumbnails. Can be mtime, atime or ctime.
