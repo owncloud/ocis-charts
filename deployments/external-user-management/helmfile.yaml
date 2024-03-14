@@ -8,7 +8,7 @@ releases:
   - name: postgres
     namespace: postgres
     chart: bitnami/postgresql
-    version: 13.4.3
+    version: 14.3.3
     values:
       - auth:
           postgrePassword: postgres
