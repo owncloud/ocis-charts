@@ -49,6 +49,7 @@ branches:
         teams:
           - ci
           - employees
+
   - name: next
     protection:
       required_pull_request_reviews:
