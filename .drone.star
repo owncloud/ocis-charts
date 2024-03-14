@@ -1,6 +1,7 @@
 config = {
     "branches": [
-        "master",
+        "main",
+        "next",
     ],
     # if this changes, also tested versions in need to be changed here:
     # - Makefile
@@ -189,7 +190,7 @@ def checkStarlark():
     return [result]
 
 def deployments(ctx):
-    return [{
+    result = {
         "kind": "pipeline",
         "type": "docker",
         "name": "k3d",
@@ -214,12 +215,15 @@ def deployments(ctx):
         "depends_on": [],
         "trigger": {
             "ref": [
-                "refs/heads/main",
-                "refs/tags/**",
                 "refs/pull/**",
             ],
         },
-    }]
+    }
+
+    for branch in config["branches"]:
+        result["trigger"]["ref"].append("refs/heads/%s" % branch)
+
+    return [result]
 
 def install(ctx):
     return [{
