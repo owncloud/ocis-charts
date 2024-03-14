@@ -312,12 +312,6 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `true`
 | Set only to false, if the certificate of your LDAP secure service is not trusted. If set to false, you need to put the CA cert of the LDAP secure server into the secret referenced by "ldapCaRef"
-| features.externalUserManagement.ldap.disableUsers
-a| [subs=-attributes]
-+object+
-a| [subs=-attributes]
-`{"disableMechanism":"none","disabledUsersGroupDN":"cn=DisabledUsersGroup,ou=groups,o=libregraph-idm","userEnabledAttribute":"ownCloudUserEnabled"}`
-| When using external user management, users can be set as disabled by either belonging to a group or using an ldap attribute.
 | features.externalUserManagement.ldap.disableUsers.disableMechanism
 a| [subs=-attributes]
 +string+
@@ -528,18 +522,18 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `"https://idp.owncloud.test/realms/ocis"`
 | Issuer URI of the OpenID Connect Identity Provider. If the IDP doesn't have valid / trusted SSL certificates, certificate validation can be disabled with the `insecure.oidcIdpInsecure` option.
-| features.externalUserManagement.oidc.roleAssignment
-a| [subs=-attributes]
-+object+
-a| [subs=-attributes]
-`{"claim":"roles","enabled":false,"mapping":[{"claim_value":"ocisAdmin","role_name":"admin"},{"claim_value":"ocisSpaceAdmin","role_name":"spaceadmin"},{"claim_value":"ocisUser","role_name":"user"},{"claim_value":"ocisGuest","role_name":"guest"}]}`
-| Configure OIDC role assignment. If activated, oCIS will read the role assigment from the OIDC token, see xref:{s-path}/proxy.adoc#automatic-role-assignments[Automatic Role Assignments]
 | features.externalUserManagement.oidc.roleAssignment.claim
 a| [subs=-attributes]
 +string+
 a| [subs=-attributes]
 `"roles"`
 | The name of the OIDC claim holding the role assignment
+| features.externalUserManagement.oidc.roleAssignment.enabled
+a| [subs=-attributes]
++bool+
+a| [subs=-attributes]
+`false`
+| enable OIDC role assignment.
 | features.externalUserManagement.oidc.roleAssignment.mapping
 a| [subs=-attributes]
 +list+
@@ -738,12 +732,6 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `false`
 | Enables virus scanning
-| features.virusscan.icap
-a| [subs=-attributes]
-+object+
-a| [subs=-attributes]
-`{"service":"avscan","timeout":300,"url":"icap://127.0.0.1:1344"}`
-| Define icap parameters
 | features.virusscan.icap.service
 a| [subs=-attributes]
 +string+
@@ -780,12 +768,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `[]`
 | provide custom hostnames to every oCIS pods
-| http.cors
+| http.cors.allow_origins
 a| [subs=-attributes]
-+object+
++list+
 a| [subs=-attributes]
-`{"allow_origins":[]}`
-| CORS settings for oCIS services.
+`[]`
+|
 | image.pullPolicy
 a| [subs=-attributes]
 +string+
@@ -846,12 +834,6 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `[]`
 | Ingress TLS configuration.
-| initContainerImage
-a| [subs=-attributes]
-+object+
-a| [subs=-attributes]
-`{"pullPolicy":"IfNotPresent","repository":"busybox","sha":"","tag":"stable"}`
-| InitContainer image used for oCIS services. Only used if `services.xxx.persistence.chownInitContainer.enabled` is set to true for at least one service.
 | initContainerImage.pullPolicy
 a| [subs=-attributes]
 +string+
@@ -960,12 +942,6 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `false`
 | For self signed certificates, consider to put the CA cert of the messaging system secure server into the secret referenced by "messagingSystemCaRef" Not recommended for production installations.
-| monitoring
-a| [subs=-attributes]
-+object+
-a| [subs=-attributes]
-`{"enabled":false,"interval":"60s","scrapeTimeout":"60s"}`
-| Service monitoring configuration. Requires the monitoring.coreos.com/v1 CRDs to be installed.
 | monitoring.enabled
 a| [subs=-attributes]
 +bool+
@@ -1182,12 +1158,6 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service custom labels
-| services.antivirus.image
-a| [subs=-attributes]
-+object+
-a| [subs=-attributes]
-`{"pullPolicy":null,"repository":"","sha":"","tag":""}`
-| Per-service image configuration. Overrides the default setting from `image` if set.
 | services.antivirus.image.pullPolicy
 a| [subs=-attributes]
 +string+
@@ -1254,12 +1224,6 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service custom labels
-| services.appprovider.image
-a| [subs=-attributes]
-+object+
-a| [subs=-attributes]
-`{"pullPolicy":null,"repository":"","sha":"","tag":""}`
-| Per-service image configuration. Overrides the default setting from `image` if set.
 | services.appprovider.image.pullPolicy
 a| [subs=-attributes]
 +string+
@@ -1320,12 +1284,6 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service custom labels
-| services.appregistry.image
-a| [subs=-attributes]
-+object+
-a| [subs=-attributes]
-`{"pullPolicy":null,"repository":"","sha":"","tag":""}`
-| Per-service image configuration. Overrides the default setting from `image` if set.
 | services.appregistry.image.pullPolicy
 a| [subs=-attributes]
 +string+
@@ -1392,12 +1350,6 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service custom labels
-| services.audit.image
-a| [subs=-attributes]
-+object+
-a| [subs=-attributes]
-`{"pullPolicy":null,"repository":"","sha":"","tag":""}`
-| Per-service image configuration. Overrides the default setting from `image` if set.
 | services.audit.image.pullPolicy
 a| [subs=-attributes]
 +string+
@@ -1470,12 +1422,6 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service custom labels
-| services.authbasic.image
-a| [subs=-attributes]
-+object+
-a| [subs=-attributes]
-`{"pullPolicy":null,"repository":"","sha":"","tag":""}`
-| Per-service image configuration. Overrides the default setting from `image` if set.
 | services.authbasic.image.pullPolicy
 a| [subs=-attributes]
 +string+
@@ -1548,12 +1494,6 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service custom labels
-| services.authmachine.image
-a| [subs=-attributes]
-+object+
-a| [subs=-attributes]
-`{"pullPolicy":null,"repository":"","sha":"","tag":""}`
-| Per-service image configuration. Overrides the default setting from `image` if set.
 | services.authmachine.image.pullPolicy
 a| [subs=-attributes]
 +string+
@@ -1626,12 +1566,6 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service custom labels
-| services.authservice.image
-a| [subs=-attributes]
-+object+
-a| [subs=-attributes]
-`{"pullPolicy":null,"repository":"","sha":"","tag":""}`
-| Per-service image configuration. Overrides the default setting from `image` if set.
 | services.authservice.image.pullPolicy
 a| [subs=-attributes]
 +string+
@@ -1704,12 +1638,6 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service custom labels
-| services.clientlog.image
-a| [subs=-attributes]
-+object+
-a| [subs=-attributes]
-`{"pullPolicy":null,"repository":"","sha":"","tag":""}`
-| Per-service image configuration. Overrides the default setting from `image` if set.
 | services.clientlog.image.pullPolicy
 a| [subs=-attributes]
 +string+
@@ -1782,12 +1710,6 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service custom labels
-| services.eventhistory.image
-a| [subs=-attributes]
-+object+
-a| [subs=-attributes]
-`{"pullPolicy":null,"repository":"","sha":"","tag":""}`
-| Per-service image configuration. Overrides the default setting from `image` if set.
 | services.eventhistory.image.pullPolicy
 a| [subs=-attributes]
 +string+
@@ -1866,12 +1788,6 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service custom labels
-| services.frontend.image
-a| [subs=-attributes]
-+object+
-a| [subs=-attributes]
-`{"pullPolicy":null,"repository":"","sha":"","tag":""}`
-| Per-service image configuration. Overrides the default setting from `image` if set.
 | services.frontend.image.pullPolicy
 a| [subs=-attributes]
 +string+
@@ -1944,12 +1860,6 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service custom labels
-| services.gateway.image
-a| [subs=-attributes]
-+object+
-a| [subs=-attributes]
-`{"pullPolicy":null,"repository":"","sha":"","tag":""}`
-| Per-service image configuration. Overrides the default setting from `image` if set.
 | services.gateway.image.pullPolicy
 a| [subs=-attributes]
 +string+
@@ -2022,12 +1932,6 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service custom labels
-| services.graph.image
-a| [subs=-attributes]
-+object+
-a| [subs=-attributes]
-`{"pullPolicy":null,"repository":"","sha":"","tag":""}`
-| Per-service image configuration. Overrides the default setting from `image` if set.
 | services.graph.image.pullPolicy
 a| [subs=-attributes]
 +string+
@@ -2100,12 +2004,6 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service custom labels
-| services.groups.image
-a| [subs=-attributes]
-+object+
-a| [subs=-attributes]
-`{"pullPolicy":null,"repository":"","sha":"","tag":""}`
-| Per-service image configuration. Overrides the default setting from `image` if set.
 | services.groups.image.pullPolicy
 a| [subs=-attributes]
 +string+
@@ -2172,12 +2070,6 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service custom labels
-| services.idm.image
-a| [subs=-attributes]
-+object+
-a| [subs=-attributes]
-`{"pullPolicy":null,"repository":"","sha":"","tag":""}`
-| Per-service image configuration. Overrides the default setting from `image` if set.
 | services.idm.image.pullPolicy
 a| [subs=-attributes]
 +string+
@@ -2304,12 +2196,6 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service custom labels
-| services.idp.image
-a| [subs=-attributes]
-+object+
-a| [subs=-attributes]
-`{"pullPolicy":null,"repository":"","sha":"","tag":""}`
-| Per-service image configuration. Overrides the default setting from `image` if set.
 | services.idp.image.pullPolicy
 a| [subs=-attributes]
 +string+
@@ -2370,12 +2256,6 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service custom labels
-| services.nats.image
-a| [subs=-attributes]
-+object+
-a| [subs=-attributes]
-`{"pullPolicy":null,"repository":"","sha":"","tag":""}`
-| Per-service image configuration. Overrides the default setting from `image` if set.
 | services.nats.image.pullPolicy
 a| [subs=-attributes]
 +string+
@@ -2508,12 +2388,6 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service custom labels
-| services.notifications.image
-a| [subs=-attributes]
-+object+
-a| [subs=-attributes]
-`{"pullPolicy":null,"repository":"","sha":"","tag":""}`
-| Per-service image configuration. Overrides the default setting from `image` if set.
 | services.notifications.image.pullPolicy
 a| [subs=-attributes]
 +string+
@@ -2586,12 +2460,6 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service custom labels
-| services.ocdav.image
-a| [subs=-attributes]
-+object+
-a| [subs=-attributes]
-`{"pullPolicy":null,"repository":"","sha":"","tag":""}`
-| Per-service image configuration. Overrides the default setting from `image` if set.
 | services.ocdav.image.pullPolicy
 a| [subs=-attributes]
 +string+
@@ -2664,12 +2532,6 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service custom labels
-| services.ocs.image
-a| [subs=-attributes]
-+object+
-a| [subs=-attributes]
-`{"pullPolicy":null,"repository":"","sha":"","tag":""}`
-| Per-service image configuration. Overrides the default setting from `image` if set.
 | services.ocs.image.pullPolicy
 a| [subs=-attributes]
 +string+
@@ -2742,12 +2604,6 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service custom labels
-| services.policies.image
-a| [subs=-attributes]
-+object+
-a| [subs=-attributes]
-`{"pullPolicy":null,"repository":"","sha":"","tag":""}`
-| Per-service image configuration. Overrides the default setting from `image` if set.
 | services.policies.image.pullPolicy
 a| [subs=-attributes]
 +string+
@@ -2820,12 +2676,6 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service custom labels
-| services.postprocessing.image
-a| [subs=-attributes]
-+object+
-a| [subs=-attributes]
-`{"pullPolicy":null,"repository":"","sha":"","tag":""}`
-| Per-service image configuration. Overrides the default setting from `image` if set.
 | services.postprocessing.image.pullPolicy
 a| [subs=-attributes]
 +string+
@@ -2850,12 +2700,6 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `""`
 | Image tag.
-| services.postprocessing.maintenance.image
-a| [subs=-attributes]
-+object+
-a| [subs=-attributes]
-`{"pullPolicy":null,"repository":"","sha":"","tag":""}`
-| Image for the storageusers service maintenance jobs Defaults to the same values as `image`
 | services.postprocessing.maintenance.image.pullPolicy
 a| [subs=-attributes]
 +string+
@@ -2880,42 +2724,42 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `""`
 | Image tag.
-| services.postprocessing.maintenance.restartPostprocessingFinished
-a| [subs=-attributes]
-+object+
-a| [subs=-attributes]
-`{"enabled":false,"schedule":"60 * * * *","startingDeadlineSeconds":600}`
-| Restart postprocessing for uploads where final storage move is not done.
 | services.postprocessing.maintenance.restartPostprocessingFinished.enabled
 a| [subs=-attributes]
 +bool+
 a| [subs=-attributes]
 `false`
-| Enables a job, that cleans up expired uploads. Requires persistence to be enabled and RWX storage.
+| Restart postprocessing for uploads where final storage move is not done.
 | services.postprocessing.maintenance.restartPostprocessingFinished.schedule
 a| [subs=-attributes]
 +string+
 a| [subs=-attributes]
-`"60 * * * *"`
+`"0 * * * *"`
 | Cron pattern for the job to be run. Defaults to every minute.
-| services.postprocessing.maintenance.restartPostprocessingVirusscan
+| services.postprocessing.maintenance.restartPostprocessingFinished.startingDeadlineSeconds
 a| [subs=-attributes]
-+object+
++int+
 a| [subs=-attributes]
-`{"enabled":false,"schedule":"60 * * * *","startingDeadlineSeconds":600}`
-| Restart postprocessing for uploads hwich are currenlty in the virusscan step. Only applicable when `.Values.features.virusscan.enabled` is set to `true`.
+`600`
+| Defines the a deadline (in whole seconds) for starting the Job, if that Job misses its scheduled time for any reason.
 | services.postprocessing.maintenance.restartPostprocessingVirusscan.enabled
 a| [subs=-attributes]
 +bool+
 a| [subs=-attributes]
 `false`
-| Enables a job, that purges expired trash bin items. Requires persistence to be enabled.
+| Restart postprocessing for uploads hwich are currenlty in the virusscan step. Only applicable when `.Values.features.virusscan.enabled` is set to `true`.
 | services.postprocessing.maintenance.restartPostprocessingVirusscan.schedule
 a| [subs=-attributes]
 +string+
 a| [subs=-attributes]
-`"60 * * * *"`
+`"0 * * * *"`
 | Cron pattern for the job to be run. Defaults to every minute.
+| services.postprocessing.maintenance.restartPostprocessingVirusscan.startingDeadlineSeconds
+a| [subs=-attributes]
++int+
+a| [subs=-attributes]
+`600`
+| Defines the a deadline (in whole seconds) for starting the Job, if that Job misses its scheduled time for any reason.
 | services.postprocessing.nodeSelector
 a| [subs=-attributes]
 +object+
@@ -2970,12 +2814,6 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service custom labels
-| services.proxy.image
-a| [subs=-attributes]
-+object+
-a| [subs=-attributes]
-`{"pullPolicy":null,"repository":"","sha":"","tag":""}`
-| Per-service image configuration. Overrides the default setting from `image` if set.
 | services.proxy.image.pullPolicy
 a| [subs=-attributes]
 +string+
@@ -3072,12 +2910,6 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `"basic"`
 | Configures the search extractor type to be used. Possible extractors: - `basic`: the default search extractor. - `tika`: the Tika search extractor. If set to this value, additional settings in the `tika` section apply.
-| services.search.image
-a| [subs=-attributes]
-+object+
-a| [subs=-attributes]
-`{"pullPolicy":null,"repository":"","sha":"","tag":""}`
-| Per-service image configuration. Overrides the default setting from `image` if set.
 | services.search.image.pullPolicy
 a| [subs=-attributes]
 +string+
@@ -3216,12 +3048,6 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service custom labels
-| services.settings.image
-a| [subs=-attributes]
-+object+
-a| [subs=-attributes]
-`{"pullPolicy":null,"repository":"","sha":"","tag":""}`
-| Per-service image configuration. Overrides the default setting from `image` if set.
 | services.settings.image.pullPolicy
 a| [subs=-attributes]
 +string+
@@ -3294,12 +3120,6 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service custom labels
-| services.sharing.image
-a| [subs=-attributes]
-+object+
-a| [subs=-attributes]
-`{"pullPolicy":null,"repository":"","sha":"","tag":""}`
-| Per-service image configuration. Overrides the default setting from `image` if set.
 | services.sharing.image.pullPolicy
 a| [subs=-attributes]
 +string+
@@ -3372,12 +3192,6 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service custom labels
-| services.sse.image
-a| [subs=-attributes]
-+object+
-a| [subs=-attributes]
-`{"pullPolicy":null,"repository":"","sha":"","tag":""}`
-| Per-service image configuration. Overrides the default setting from `image` if set.
 | services.sse.image.pullPolicy
 a| [subs=-attributes]
 +string+
@@ -3456,12 +3270,6 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service custom labels
-| services.storagepubliclink.image
-a| [subs=-attributes]
-+object+
-a| [subs=-attributes]
-`{"pullPolicy":null,"repository":"","sha":"","tag":""}`
-| Per-service image configuration. Overrides the default setting from `image` if set.
 | services.storagepubliclink.image.pullPolicy
 a| [subs=-attributes]
 +string+
@@ -3534,12 +3342,6 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service custom labels
-| services.storageshares.image
-a| [subs=-attributes]
-+object+
-a| [subs=-attributes]
-`{"pullPolicy":null,"repository":"","sha":"","tag":""}`
-| Per-service image configuration. Overrides the default setting from `image` if set.
 | services.storageshares.image.pullPolicy
 a| [subs=-attributes]
 +string+
@@ -3612,12 +3414,6 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service custom labels
-| services.storagesystem.image
-a| [subs=-attributes]
-+object+
-a| [subs=-attributes]
-`{"pullPolicy":null,"repository":"","sha":"","tag":""}`
-| Per-service image configuration. Overrides the default setting from `image` if set.
 | services.storagesystem.image.pullPolicy
 a| [subs=-attributes]
 +string+
@@ -3756,12 +3552,6 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service custom labels
-| services.storageusers.image
-a| [subs=-attributes]
-+object+
-a| [subs=-attributes]
-`{"pullPolicy":null,"repository":"","sha":"","tag":""}`
-| Per-service image configuration. Overrides the default setting from `image` if set.
 | services.storageusers.image.pullPolicy
 a| [subs=-attributes]
 +string+
@@ -3814,20 +3604,20 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 +string+
 a| [subs=-attributes]
-`"60 * * * *"`
+`"0 * * * *"`
 | Cron pattern for the job to be run. Defaults to every minute.
+| services.storageusers.maintenance.cleanUpExpiredUploads.startingDeadlineSeconds
+a| [subs=-attributes]
++int+
+a| [subs=-attributes]
+`600`
+| Defines the a deadline (in whole seconds) for starting the Job, if that Job misses its scheduled time for any reason.
 | services.storageusers.maintenance.cleanUpExpiredUploads.uploadExpiration
 a| [subs=-attributes]
 +int+
 a| [subs=-attributes]
 `86400`
 | Duration in seconds after which uploads will expire.    WARNING: Setting this to a low number will lead to uploads being cancelled before they are finished and returning a 403 to the user.
-| services.storageusers.maintenance.image
-a| [subs=-attributes]
-+object+
-a| [subs=-attributes]
-`{"pullPolicy":null,"repository":"","sha":"","tag":""}`
-| Image for the storageusers service maintenance jobs Defaults to the same values as `image`
 | services.storageusers.maintenance.image.pullPolicy
 a| [subs=-attributes]
 +string+
@@ -3874,8 +3664,14 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 +string+
 a| [subs=-attributes]
-`"60 * * * *"`
+`"0 * * * *"`
 | Cron pattern for the job to be run. Defaults to every minute.
+| services.storageusers.maintenance.purgeExpiredTrashBinItems.startingDeadlineSeconds
+a| [subs=-attributes]
++int+
+a| [subs=-attributes]
+`600`
+| Defines the a deadline (in whole seconds) for starting the Job, if that Job misses its scheduled time for any reason.
 | services.storageusers.nodeSelector
 a| [subs=-attributes]
 +object+
@@ -4044,12 +3840,6 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service custom labels
-| services.store.image
-a| [subs=-attributes]
-+object+
-a| [subs=-attributes]
-`{"pullPolicy":null,"repository":"","sha":"","tag":""}`
-| Per-service image configuration. Overrides the default setting from `image` if set.
 | services.store.image.pullPolicy
 a| [subs=-attributes]
 +string+
@@ -4182,12 +3972,6 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service custom labels
-| services.thumbnails.image
-a| [subs=-attributes]
-+object+
-a| [subs=-attributes]
-`{"pullPolicy":null,"repository":"","sha":"","tag":""}`
-| Per-service image configuration. Overrides the default setting from `image` if set.
 | services.thumbnails.image.pullPolicy
 a| [subs=-attributes]
 +string+
@@ -4230,12 +4014,6 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service jobResources configuration. Overrides the default setting from `jobResources` if set.
-| services.thumbnails.maintenance
-a| [subs=-attributes]
-+object+
-a| [subs=-attributes]
-`{"cleanUpOldThumbnails":{"deleteBefore":30,"enabled":false,"method":"atime","schedule":"60 * * * *","startingDeadlineSeconds":600},"image":{"pullPolicy":"IfNotPresent","repository":"busybox","sha":"","tag":"stable"}}`
-| Maintenance configuration for cleanup jobs.
 | services.thumbnails.maintenance.cleanUpOldThumbnails.deleteBefore
 a| [subs=-attributes]
 +int+
@@ -4258,8 +4036,14 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 +string+
 a| [subs=-attributes]
-`"60 * * * *"`
+`"0 * * * *"`
 | Cron pattern for the job to be run. Defaults to every minute.
+| services.thumbnails.maintenance.cleanUpOldThumbnails.startingDeadlineSeconds
+a| [subs=-attributes]
++int+
+a| [subs=-attributes]
+`600`
+| Defines the a deadline (in whole seconds) for starting the Job, if that Job misses its scheduled time for any reason.
 | services.thumbnails.maintenance.image.pullPolicy
 a| [subs=-attributes]
 +string+
@@ -4398,12 +4182,6 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service custom labels
-| services.userlog.image
-a| [subs=-attributes]
-+object+
-a| [subs=-attributes]
-`{"pullPolicy":null,"repository":"","sha":"","tag":""}`
-| Per-service image configuration. Overrides the default setting from `image` if set.
 | services.userlog.image.pullPolicy
 a| [subs=-attributes]
 +string+
@@ -4482,12 +4260,6 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service custom labels
-| services.users.image
-a| [subs=-attributes]
-+object+
-a| [subs=-attributes]
-`{"pullPolicy":null,"repository":"","sha":"","tag":""}`
-| Per-service image configuration. Overrides the default setting from `image` if set.
 | services.users.image.pullPolicy
 a| [subs=-attributes]
 +string+
@@ -4644,12 +4416,6 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service custom labels
-| services.web.image
-a| [subs=-attributes]
-+object+
-a| [subs=-attributes]
-`{"pullPolicy":null,"repository":"","sha":"","tag":""}`
-| Per-service image configuration. Overrides the default setting from `image` if set.
 | services.web.image.pullPolicy
 a| [subs=-attributes]
 +string+
@@ -4788,12 +4554,6 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service custom labels
-| services.webdav.image
-a| [subs=-attributes]
-+object+
-a| [subs=-attributes]
-`{"pullPolicy":null,"repository":"","sha":"","tag":""}`
-| Per-service image configuration. Overrides the default setting from `image` if set.
 | services.webdav.image.pullPolicy
 a| [subs=-attributes]
 +string+
@@ -4866,12 +4626,6 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service custom labels
-| services.webfinger.image
-a| [subs=-attributes]
-+object+
-a| [subs=-attributes]
-`{"pullPolicy":null,"repository":"","sha":"","tag":""}`
-| Per-service image configuration. Overrides the default setting from `image` if set.
 | services.webfinger.image.pullPolicy
 a| [subs=-attributes]
 +string+
