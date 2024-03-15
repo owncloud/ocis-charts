@@ -17,6 +17,7 @@ This example requires the following things to be installed:
 - [Kubernetes](https://kubernetes.io/) cluster, with an ingress controller installed.
 - [Helm](https://helm.sh/) v3
 - [Helmfile](https://github.com/helmfile/helmfile)
+- [Kustomize](https://kustomize.io)
 
 ### End result
 
