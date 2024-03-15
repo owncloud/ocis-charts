@@ -27,6 +27,10 @@ spec:
             {{- include "ocis.cors" . |nindent 12 }}
             {{- include "ocis.events" . | nindent 12 }}
 
+            # TODO: this is a workaround, remove it after https://github.com/owncloud/ocis/issues/8380 is closed
+            - name: OCIS_CORS_ALLOW_METHODS
+              value: "OPTIONS,HEAD,GET,PUT,POST,PATCH,DELETE,MKCOL,PROPFIND,PROPPATCH,MOVE,COPY,REPORT,SEARCH"
+
             - name: FRONTEND_LOG_COLOR
               value: {{ .Values.logging.color | quote }}
             - name: FRONTEND_LOG_LEVEL
