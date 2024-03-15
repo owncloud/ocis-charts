@@ -25,6 +25,7 @@ spec:
           env:
             {{- include "ocis.serviceRegistry" . | nindent 12 }}
             {{- include "ocis.cors" . |nindent 12 }}
+            {{- include "ocis.cacheStore" . | nindent 12 }}
 
             - name: OCS_LOG_COLOR
               value: {{ .Values.logging.color | quote }}
@@ -62,11 +63,6 @@ spec:
                 secretKeyRef:
                   name: {{ include "secrets.jwtSecret" . }}
                   key: jwt-secret
-
-            - name: OCS_PRESIGNEDURL_SIGNING_KEYS_STORE
-              value: ocisstoreservice
-            - name: OCS_PRESIGNEDURL_SIGNING_KEYS_STORE_NODES
-              value: com.owncloud.api.store
 
           {{- include "ocis.livenessProbe" . | nindent 10 }}
 

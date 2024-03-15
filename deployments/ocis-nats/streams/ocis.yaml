@@ -294,3 +294,87 @@ spec:
   storage: memory
   subjects:
     - $KV.storage-system.>
+---
+apiVersion: jetstream.nats.io/v1beta2
+kind: Stream
+metadata:
+  name: kv-cache-roles
+spec:
+  account: ocis-nats
+  allowRollup: true
+  description: oCIS graph roles cache
+  denyDelete: true
+  discard: new
+  duplicateWindow: "2m0s"
+  maxAge: "24h"
+  maxBytes: -1
+  maxConsumers: -1
+  maxMsgs: -1
+  maxMsgSize: -1
+  maxMsgsPerSubject: 1
+  name: KV_cache-roles
+  noAck: false
+  allowDirect: false
+  preventDelete: false
+  preventUpdate: false
+  replicas: 3
+  retention: limits
+  storage: memory
+  subjects:
+    - $KV.cache-roles.>
+---
+apiVersion: jetstream.nats.io/v1beta2
+kind: Stream
+metadata:
+  name: kv-proxy
+spec:
+  account: ocis-nats
+  allowRollup: true
+  description: oCIS ocs and proxy signing keys
+  denyDelete: true
+  discard: new
+  duplicateWindow: "2m0s"
+  maxAge: "24h"
+  maxBytes: -1
+  maxConsumers: -1
+  maxMsgs: -1
+  maxMsgSize: -1
+  maxMsgsPerSubject: 1
+  name: KV_proxy
+  noAck: false
+  allowDirect: false
+  preventDelete: false
+  preventUpdate: false
+  replicas: 3
+  retention: limits
+  storage: memory
+  subjects:
+    - $KV.proxy.>
+---
+apiVersion: jetstream.nats.io/v1beta2
+kind: Stream
+metadata:
+  name: kv-ocis-pkg
+spec:
+  account: ocis-nats
+  allowRollup: true
+  description: oCIS settings roles cache
+  denyDelete: true
+  discard: new
+  duplicateWindow: "2m0s"
+  maxAge: "24h"
+  maxBytes: -1
+  maxConsumers: -1
+  maxMsgs: -1
+  maxMsgSize: -1
+  maxMsgsPerSubject: 1
+  name: KV_ocis-pkg
+  noAck: false
+  allowDirect: false
+  preventDelete: false
+  preventUpdate: false
+  replicas: 3
+  retention: limits
+  storage: memory
+  subjects:
+    - $KV.ocis-pkg.>

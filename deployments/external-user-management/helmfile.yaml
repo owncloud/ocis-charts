@@ -385,10 +385,6 @@ releases:
             persistence:
               enabled: true
 
-          store:
-            persistence:
-              enabled: true
-
           thumbnails:
             persistence:
               enabled: true

@@ -71,9 +71,8 @@ kubectl -n {{ .Release.Namespace }} get secrets/admin-user --template='{{"{{"}}.
 {{- $storagesystemUnpersisted := not .Values.services.storagesystem.persistence.enabled -}}
 {{- $webUnpersisted := not .Values.services.web.persistence.enabled -}}
 {{- $storageusersUnpersisted := not .Values.services.storageusers.persistence.enabled -}}
-{{- $storeUnpersisted := not .Values.services.store.persistence.enabled -}}
 
-{{ if or $storagesystemUnpersisted $webUnpersisted $storageusersUnpersisted $storeUnpersisted $idmUnpersisted $searchUnpersisted $natsUnpersisted }}
+{{ if or $storagesystemUnpersisted $webUnpersisted $storageusersUnpersisted $idmUnpersisted $searchUnpersisted $natsUnpersisted }}
 #################################################################################
 ######   WARNING: Persistence is disabled for some services.                #####
 ######   You will lose your data when a service's pod is terminated.        #####
@@ -90,9 +89,6 @@ kubectl -n {{ .Release.Namespace }} get secrets/admin-user --template='{{"{{"}}.
 {{- end }}
 {{- if $idmUnpersisted }}
 ######     - idm                                                            #####
-{{- end }}
-{{- if $storeUnpersisted }}
-######     - store                                                          #####
 {{- end }}
 {{- if $searchUnpersisted }}
 ######     - search                                                         #####
