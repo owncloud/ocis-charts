@@ -3792,6 +3792,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `"example-bucket"`
 | S3 bucket to use for the S3NG driver. Only used if driver is set to "s3ng".
+| services.storageusers.storageBackend.driverConfig.s3ng.disableContentSHA256
+a| [subs=-attributes]
++bool+
+a| [subs=-attributes]
+`false`
+| Disable sending content sha256 when copying objects to S3.
 | services.storageusers.storageBackend.driverConfig.s3ng.endpoint
 a| [subs=-attributes]
 +string+
@@ -3810,6 +3816,36 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `"messagepack"`
 | Metadata backend to use for the S3NG storage driver. Valid values are: "messagepack", "xattrs".
+| services.storageusers.storageBackend.driverConfig.s3ng.putObject.concurrentStreamParts
+a| [subs=-attributes]
++bool+
+a| [subs=-attributes]
+`true`
+| Always precreate parts when copying objects to S3.
+| services.storageusers.storageBackend.driverConfig.s3ng.putObject.disableMultipart
+a| [subs=-attributes]
++bool+
+a| [subs=-attributes]
+`false`
+| Disable multipart uploads when copying objects to S3
+| services.storageusers.storageBackend.driverConfig.s3ng.putObject.numThreads
+a| [subs=-attributes]
++int+
+a| [subs=-attributes]
+`4`
+| Number of concurrent uploads to use when copying objects to S3.
+| services.storageusers.storageBackend.driverConfig.s3ng.putObject.partSize
+a| [subs=-attributes]
++int+
+a| [subs=-attributes]
+`0`
+| Part size for concurrent uploads to S3.
+| services.storageusers.storageBackend.driverConfig.s3ng.putObject.sendContentMD5
+a| [subs=-attributes]
++bool+
+a| [subs=-attributes]
+`true`
+| Send a Content-MD5 header when copying objects to S3.
 | services.storageusers.storageBackend.driverConfig.s3ng.region
 a| [subs=-attributes]
 +string+
@@ -3822,132 +3858,6 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `""`
 | S3 secret key to use for the S3NG driver. Only used if driver is set to "s3ng". DEPRECATION WARNING: These values will be removed in the future. Predefine `secretRefs.s3CredentialsSecretRef` instead.
-| services.store
-a| [subs=-attributes]
-+object+
-a| [subs=-attributes]
-see detailed service configuration options below
-| STORE service.
-| services.store.affinity
-a| [subs=-attributes]
-+object+
-a| [subs=-attributes]
-`{}`
-| Affinity settings for the store service. See the documentation of this setting in approvider for examples.
-| services.store.extraLabels
-a| [subs=-attributes]
-+object+
-a| [subs=-attributes]
-`{}`
-| Per-service custom labels
-| services.store.image.pullPolicy
-a| [subs=-attributes]
-+string+
-a| [subs=-attributes]
-`nil`
-| Image pull policy
-| services.store.image.repository
-a| [subs=-attributes]
-+string+
-a| [subs=-attributes]
-`""`
-| Image repository
-| services.store.image.sha
-a| [subs=-attributes]
-+string+
-a| [subs=-attributes]
-`""`
-| Image sha / digest (optional).
-| services.store.image.tag
-a| [subs=-attributes]
-+string+
-a| [subs=-attributes]
-`""`
-| Image tag.
-| services.store.nodeSelector
-a| [subs=-attributes]
-+object+
-a| [subs=-attributes]
-`{}`
-| Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
-| services.store.persistence
-a| [subs=-attributes]
-+object+
-a| [subs=-attributes]
-see detailed persistence configuration options below
-| Persistence settings.
-| services.store.persistence.accessModes
-a| [subs=-attributes]
-+list+
-a| [subs=-attributes]
-`["ReadWriteMany"]`
-| Persistent volume access modes. Needs to be `["ReadWriteMany"]` when scaling this service beyond one instance.
-| services.store.persistence.annotations
-a| [subs=-attributes]
-+object+
-a| [subs=-attributes]
-`{}`
-| Persistent volume annotations.
-| services.store.persistence.chownInitContainer
-a| [subs=-attributes]
-+bool+
-a| [subs=-attributes]
-`false`
-| Enables an initContainer to chown the volume. The initContainer is run as root. This is not needed if the driver applies the fsGroup from the securityContext. The image specified in `initContainerImage` will be used for this container.
-| services.store.persistence.claimName
-a| [subs=-attributes]
-+string+
-a| [subs=-attributes]
-`""`
-| Use a custom name for the PVC instead of the default one.
-| services.store.persistence.enabled
-a| [subs=-attributes]
-+bool+
-a| [subs=-attributes]
-`false`
-| Enables persistence. Needs to be enabled on production installations. If not enabled, pod restarts will lead to data loss. Also scaling this service beyond one instance is not possible if the service instances don't share the same storage.
-| services.store.persistence.existingClaim
-a| [subs=-attributes]
-+string+
-a| [subs=-attributes]
-`nil`
-| Use an existing PersistentVolumeClaim for persistence.
-| services.store.persistence.finalizers
-a| [subs=-attributes]
-+list+
-a| [subs=-attributes]
-`["kubernetes.io/pvc-protection"]`
-| Persistent volume finalizers.
-| services.store.persistence.selectorLabels
-a| [subs=-attributes]
-+object+
-a| [subs=-attributes]
-`{}`
-| Persistent volume selector labels.
-| services.store.persistence.size
-a| [subs=-attributes]
-+string+
-a| [subs=-attributes]
-`"5Gi"`
-| Size of the persistent volume.
-| services.store.persistence.storageClassName
-a| [subs=-attributes]
-+string+
-a| [subs=-attributes]
-`nil`
-| Storage class to use. Uses the default storage class if not set.
-| services.store.priorityClassName
-a| [subs=-attributes]
-+string+
-a| [subs=-attributes]
-`""`
-| Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
-| services.store.resources
-a| [subs=-attributes]
-+object+
-a| [subs=-attributes]
-`{}`
-| Per-service resources configuration. Overrides the default setting from `resources` if set.
 | services.thumbnails
 a| [subs=-attributes]
 +object+
