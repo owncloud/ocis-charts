@@ -44,7 +44,7 @@ spec:
               value: {{ $.Values.tracing.collector | quote }}
 
             - name: APP_PROVIDER_DEBUG_PPROF
-              value: "{{ $.Values.debug.profiling | quote }}"
+              value: "{{ $.Values.debug.profiling }}"
 
             - name: APP_PROVIDER_GRPC_ADDR
               value: 0.0.0.0:9164
