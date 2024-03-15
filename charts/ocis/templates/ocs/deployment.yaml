@@ -63,6 +63,11 @@ spec:
                   name: {{ include "secrets.jwtSecret" . }}
                   key: jwt-secret
 
+            - name: OCS_PRESIGNEDURL_SIGNING_KEYS_STORE
+              value: ocisstoreservice
+            - name: OCS_PRESIGNEDURL_SIGNING_KEYS_STORE_NODES
+              value: com.owncloud.api.store
+
           {{- include "ocis.livenessProbe" . | nindent 10 }}
 
           resources: {{ toYaml .resources | nindent 12 }}
