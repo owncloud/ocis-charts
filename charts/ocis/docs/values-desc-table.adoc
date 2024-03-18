@@ -2884,7 +2884,7 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 +object+
 a| [subs=-attributes]
-`{"enabled":false,"schedule":"60 * * * *","startingDeadlineSeconds":600}`
+`{"enabled":false,"schedule":"59 * * * *","startingDeadlineSeconds":600}`
 | Restart postprocessing for uploads where final storage move is not done.
 | services.postprocessing.maintenance.restartPostprocessingFinished.enabled
 a| [subs=-attributes]
@@ -2896,13 +2896,13 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 +string+
 a| [subs=-attributes]
-`"60 * * * *"`
+`"59 * * * *"`
 | Cron pattern for the job to be run. Defaults to every minute.
 | services.postprocessing.maintenance.restartPostprocessingVirusscan
 a| [subs=-attributes]
 +object+
 a| [subs=-attributes]
-`{"enabled":false,"schedule":"60 * * * *","startingDeadlineSeconds":600}`
+`{"enabled":false,"schedule":"59 * * * *","startingDeadlineSeconds":600}`
 | Restart postprocessing for uploads hwich are currenlty in the virusscan step. Only applicable when `.Values.features.virusscan.enabled` is set to `true`.
 | services.postprocessing.maintenance.restartPostprocessingVirusscan.enabled
 a| [subs=-attributes]
@@ -2914,7 +2914,7 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 +string+
 a| [subs=-attributes]
-`"60 * * * *"`
+`"59 * * * *"`
 | Cron pattern for the job to be run. Defaults to every minute.
 | services.postprocessing.nodeSelector
 a| [subs=-attributes]
@@ -3814,7 +3814,7 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 +string+
 a| [subs=-attributes]
-`"60 * * * *"`
+`"59 * * * *"`
 | Cron pattern for the job to be run. Defaults to every minute.
 | services.storageusers.maintenance.cleanUpExpiredUploads.uploadExpiration
 a| [subs=-attributes]
@@ -3874,7 +3874,7 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 +string+
 a| [subs=-attributes]
-`"60 * * * *"`
+`"59 * * * *"`
 | Cron pattern for the job to be run. Defaults to every minute.
 | services.storageusers.nodeSelector
 a| [subs=-attributes]
@@ -4234,7 +4234,7 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 +object+
 a| [subs=-attributes]
-`{"cleanUpOldThumbnails":{"deleteBefore":30,"enabled":false,"method":"atime","schedule":"60 * * * *","startingDeadlineSeconds":600},"image":{"pullPolicy":"IfNotPresent","repository":"busybox","sha":"","tag":"stable"}}`
+`{"cleanUpOldThumbnails":{"deleteBefore":30,"enabled":false,"method":"atime","schedule":"59 * * * *","startingDeadlineSeconds":600},"image":{"pullPolicy":"IfNotPresent","repository":"busybox","sha":"","tag":"stable"}}`
 | Maintenance configuration for cleanup jobs.
 | services.thumbnails.maintenance.cleanUpOldThumbnails.deleteBefore
 a| [subs=-attributes]
@@ -4258,7 +4258,7 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 +string+
 a| [subs=-attributes]
-`"60 * * * *"`
+`"59 * * * *"`
 | Cron pattern for the job to be run. Defaults to every minute.
 | services.thumbnails.maintenance.image.pullPolicy
 a| [subs=-attributes]
