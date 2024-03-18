@@ -19,7 +19,7 @@ image:
   #   - name: mySecret
   #   - name: mySecret2
 
-# -- InitContainer image used for oCIS services.
+# InitContainer image used for oCIS services.
 # Only used if `services.xxx.persistence.chownInitContainer.enabled` is set to true for at least one service.
 initContainerImage:
   # -- Image repository
@@ -55,7 +55,7 @@ tracing:
 
 # HTTP settings for oCIS services.
 http:
-  # -- CORS settings for oCIS services.
+  # CORS settings for oCIS services.
   cors:
     #-- allow_origins is a list of origins a cross-domain request can be executed from.
     # If the special "*" value is present in the list, all origins will be allowed.
@@ -316,9 +316,10 @@ features:
       # Set to "jwt" or "none"
       accessTokenVerifyMethod: "jwt"
 
-      # -- Configure OIDC role assignment. If activated, oCIS will read the role assigment from the OIDC token, see
+      # Configure OIDC role assignment. If activated, oCIS will read the role assigment from the OIDC token, see
       # xref:{s-path}/proxy.adoc#automatic-role-assignments[Automatic Role Assignments]
       roleAssignment:
+        # -- enable OIDC role assignment.
         enabled: false
         # -- The name of the OIDC claim holding the role assignment
         claim: roles
@@ -417,7 +418,7 @@ features:
         filter:
         # -- The object class to use for groups in the default group search filter like `groupOfNames`.
         objectClass: groupOfNames
-      # -- When using external user management, users can be set as disabled by either belonging to a group or using an ldap attribute.
+      # When using external user management, users can be set as disabled by either belonging to a group or using an ldap attribute.
       disableUsers:
         # -- Enables disabling users if configured as "attribute" or "group"
         disableMechanism: none
@@ -480,7 +481,7 @@ features:
     # -- Sets a maximum file size for scans. Only this many bytes of a file will be scanned. 0 means unlimited and is the default.
     # Usable common abbreviations: [KB, KiB, GB, GiB, TB, TiB, PB, PiB, EB, EiB], example: 2GB.
     maxScanSize:
-    # -- Define icap parameters
+    # Define icap parameters
     icap:
       # -- Sets the timeout for icap scans
       timeout: 300
@@ -783,7 +784,7 @@ services:
     # Do note that the value will be different for each service.
     # -- Per-service custom labels
     extraLabels: {}
-    # -- Per-service image configuration. Overrides the default setting from `image` if set.
+    # Per-service image configuration. Overrides the default setting from `image` if set.
     image:
       # -- Image repository
       repository: ""
@@ -807,7 +808,7 @@ services:
     affinity: {}
     # -- Per-service custom labels
     extraLabels: {}
-    # -- Per-service image configuration. Overrides the default setting from `image` if set.
+    # Per-service image configuration. Overrides the default setting from `image` if set.
     image:
       # -- Image repository
       repository: ""
@@ -835,7 +836,7 @@ services:
     affinity: {}
     # -- Per-service custom labels
     extraLabels: {}
-    # -- Per-service image configuration. Overrides the default setting from `image` if set.
+    # Per-service image configuration. Overrides the default setting from `image` if set.
     image:
       # -- Image repository
       repository: ""
@@ -863,7 +864,7 @@ services:
     affinity: {}
     # -- Per-service custom labels
     extraLabels: {}
-    # -- Per-service image configuration. Overrides the default setting from `image` if set.
+    # Per-service image configuration. Overrides the default setting from `image` if set.
     image:
       # -- Image repository
       repository: ""
@@ -891,7 +892,7 @@ services:
     affinity: {}
     # -- Per-service custom labels
     extraLabels: {}
-    # -- Per-service image configuration. Overrides the default setting from `image` if set.
+    # Per-service image configuration. Overrides the default setting from `image` if set.
     image:
       # -- Image repository
       repository: ""
@@ -919,7 +920,7 @@ services:
     affinity: {}
     # -- Per-service custom labels
     extraLabels: {}
-    # -- Per-service image configuration. Overrides the default setting from `image` if set.
+    # Per-service image configuration. Overrides the default setting from `image` if set.
     image:
       # -- Image repository
       repository: ""
@@ -947,7 +948,7 @@ services:
     affinity: {}
     # -- Per-service custom labels
     extraLabels: {}
-    # -- Per-service image configuration. Overrides the default setting from `image` if set.
+    # Per-service image configuration. Overrides the default setting from `image` if set.
     image:
       # -- Image repository
       repository: ""
@@ -975,7 +976,7 @@ services:
     affinity: {}
     # -- Per-service custom labels
     extraLabels: {}
-    # -- Per-service image configuration. Overrides the default setting from `image` if set.
+    # Per-service image configuration. Overrides the default setting from `image` if set.
     image:
       # -- Image repository
       repository: ""
@@ -1012,7 +1013,7 @@ services:
     affinity: {}
     # -- Per-service custom labels
     extraLabels: {}
-    # -- Per-service image configuration. Overrides the default setting from `image` if set.
+    # Per-service image configuration. Overrides the default setting from `image` if set.
     image:
       # -- Image repository
       repository: ""
@@ -1040,7 +1041,7 @@ services:
     affinity: {}
     # -- Per-service custom labels
     extraLabels: {}
-    # -- Per-service image configuration. Overrides the default setting from `image` if set.
+    # Per-service image configuration. Overrides the default setting from `image` if set.
     image:
       # -- Image repository
       repository: ""
@@ -1068,7 +1069,7 @@ services:
     affinity: {}
     # -- Per-service custom labels
     extraLabels: {}
-    # -- Per-service image configuration. Overrides the default setting from `image` if set.
+    # Per-service image configuration. Overrides the default setting from `image` if set.
     image:
       # -- Image repository
       repository: ""
@@ -1096,7 +1097,7 @@ services:
     affinity: {}
     # -- Per-service custom labels
     extraLabels: {}
-    # -- Per-service image configuration. Overrides the default setting from `image` if set.
+    # Per-service image configuration. Overrides the default setting from `image` if set.
     image:
       # -- Image repository
       repository: ""
@@ -1124,7 +1125,7 @@ services:
     affinity: {}
     # -- Per-service custom labels
     extraLabels: {}
-    # -- Per-service image configuration. Overrides the default setting from `image` if set.
+    # Per-service image configuration. Overrides the default setting from `image` if set.
     image:
       # -- Image repository
       repository: ""
@@ -1180,7 +1181,7 @@ services:
     affinity: {}
     # -- Per-service custom labels
     extraLabels: {}
-    # -- Per-service image configuration. Overrides the default setting from `image` if set.
+    # Per-service image configuration. Overrides the default setting from `image` if set.
     image:
       # -- Image repository
       repository: ""
@@ -1204,7 +1205,7 @@ services:
     affinity: {}
     # -- Per-service custom labels
     extraLabels: {}
-    # -- Per-service image configuration. Overrides the default setting from `image` if set.
+    # Per-service image configuration. Overrides the default setting from `image` if set.
     image:
       # -- Image repository
       repository: ""
@@ -1260,7 +1261,7 @@ services:
     affinity: {}
     # -- Per-service custom labels
     extraLabels: {}
-    # -- Per-service image configuration. Overrides the default setting from `image` if set.
+    # Per-service image configuration. Overrides the default setting from `image` if set.
     image:
       # -- Image repository
       repository: ""
@@ -1288,7 +1289,7 @@ services:
     affinity: {}
     # -- Per-service custom labels
     extraLabels: {}
-    # -- Per-service image configuration. Overrides the default setting from `image` if set.
+    # Per-service image configuration. Overrides the default setting from `image` if set.
     image:
       # -- Image repository
       repository: ""
@@ -1316,7 +1317,7 @@ services:
     affinity: {}
     # -- Per-service custom labels
     extraLabels: {}
-    # -- Per-service image configuration. Overrides the default setting from `image` if set.
+    # Per-service image configuration. Overrides the default setting from `image` if set.
     image:
       # -- Image repository
       repository: ""
@@ -1344,7 +1345,7 @@ services:
     affinity: {}
     # -- Per-service custom labels
     extraLabels: {}
-    # -- Per-service image configuration. Overrides the default setting from `image` if set.
+    # Per-service image configuration. Overrides the default setting from `image` if set.
     image:
       # -- Image repository
       repository: ""
@@ -1372,7 +1373,7 @@ services:
     affinity: {}
     # -- Per-service custom labels
     extraLabels: {}
-    # -- Per-service image configuration. Overrides the default setting from `image` if set.
+    # Per-service image configuration. Overrides the default setting from `image` if set.
     image:
       # -- Image repository
       repository: ""
@@ -1402,7 +1403,7 @@ services:
     affinity: {}
     # -- Per-service custom labels
     extraLabels: {}
-    # -- Per-service image configuration. Overrides the default setting from `image` if set.
+    # Per-service image configuration. Overrides the default setting from `image` if set.
     image:
       # -- Image repository
       repository: ""
@@ -1413,24 +1414,26 @@ services:
       # -- Image pull policy
       pullPolicy:
     maintenance:
-      # -- Restart postprocessing for uploads where final storage move is not done.
       restartPostprocessingFinished:
-        # -- Enables a job, that cleans up expired uploads. Requires persistence to be enabled and RWX storage.
+        # -- Restart postprocessing for uploads where final storage move is not done.
         enabled: false
         # -- Cron pattern for the job to be run. Defaults to every minute.
-        schedule: "59 * * * *"
-        # Defines the a deadline (in whole seconds) for starting the Job, if that Job misses its scheduled time for any reason.
+
+        schedule: "0 * * * *"
+        # -- Defines the a deadline (in whole seconds) for starting the Job, if that Job misses its scheduled time for any reason.
+
         startingDeadlineSeconds: 600
-      # -- Restart postprocessing for uploads hwich are currenlty in the virusscan step.
-      # Only applicable when `.Values.features.virusscan.enabled` is set to `true`.
       restartPostprocessingVirusscan:
-        # -- Enables a job, that purges expired trash bin items. Requires persistence to be enabled.
+        # -- Restart postprocessing for uploads hwich are currenlty in the virusscan step.
+        # Only applicable when `.Values.features.virusscan.enabled` is set to `true`.
         enabled: false
         # -- Cron pattern for the job to be run. Defaults to every minute.
-        schedule: "59 * * * *"
-        # Defines the a deadline (in whole seconds) for starting the Job, if that Job misses its scheduled time for any reason.
+
+        schedule: "0 * * * *"
+        # -- Defines the a deadline (in whole seconds) for starting the Job, if that Job misses its scheduled time for any reason.
+
         startingDeadlineSeconds: 600
-      # -- Image for the storageusers service maintenance jobs
+      # Image for the storageusers service maintenance jobs
       # Defaults to the same values as `image`
       image:
         # -- Image repository
@@ -1459,7 +1462,7 @@ services:
     affinity: {}
     # -- Per-service custom labels
     extraLabels: {}
-    # -- Per-service image configuration. Overrides the default setting from `image` if set.
+    # Per-service image configuration. Overrides the default setting from `image` if set.
     image:
       # -- Image repository
       repository: ""
@@ -1532,7 +1535,7 @@ services:
     affinity: {}
     # -- Per-service custom labels
     extraLabels: {}
-    # -- Per-service image configuration. Overrides the default setting from `image` if set.
+    # Per-service image configuration. Overrides the default setting from `image` if set.
     image:
       # -- Image repository
       repository: ""
@@ -1560,7 +1563,7 @@ services:
     affinity: {}
     # -- Per-service custom labels
     extraLabels: {}
-    # -- Per-service image configuration. Overrides the default setting from `image` if set.
+    # Per-service image configuration. Overrides the default setting from `image` if set.
     image:
       # -- Image repository
       repository: ""
@@ -1588,7 +1591,7 @@ services:
     affinity: {}
     # -- Per-service custom labels
     extraLabels: {}
-    # -- Per-service image configuration. Overrides the default setting from `image` if set.
+    # Per-service image configuration. Overrides the default setting from `image` if set.
     image:
       # -- Image repository
       repository: ""
@@ -1618,7 +1621,7 @@ services:
     affinity: {}
     # -- Per-service custom labels
     extraLabels: {}
-    # -- Per-service image configuration. Overrides the default setting from `image` if set.
+    # Per-service image configuration. Overrides the default setting from `image` if set.
     image:
       # -- Image repository
       repository: ""
@@ -1646,7 +1649,7 @@ services:
     affinity: {}
     # -- Per-service custom labels
     extraLabels: {}
-    # -- Per-service image configuration. Overrides the default setting from `image` if set.
+    # Per-service image configuration. Overrides the default setting from `image` if set.
     image:
       # -- Image repository
       repository: ""
@@ -1674,7 +1677,7 @@ services:
     affinity: {}
     # -- Per-service custom labels
     extraLabels: {}
-    # -- Per-service image configuration. Overrides the default setting from `image` if set.
+    # Per-service image configuration. Overrides the default setting from `image` if set.
     image:
       # -- Image repository
       repository: ""
@@ -1734,7 +1737,7 @@ services:
     affinity: {}
     # -- Per-service custom labels
     extraLabels: {}
-    # -- Per-service image configuration. Overrides the default setting from `image` if set.
+    # Per-service image configuration. Overrides the default setting from `image` if set.
     image:
       # -- Image repository
       repository: ""
@@ -1805,6 +1808,19 @@ services:
           # -- S3 secret key to use for the S3NG driver. Only used if driver is set to "s3ng".
           # DEPRECATION WARNING: These values will be removed in the future. Predefine `secretRefs.s3CredentialsSecretRef` instead.
           secretKey: ""
+          # -- Disable sending content sha256 when copying objects to S3.
+          disableContentSHA256: false
+          putObject:
+            # -- Disable multipart uploads when copying objects to S3
+            disableMultipart: false
+            # -- Send a Content-MD5 header when copying objects to S3.
+            sendContentMD5: true
+            # -- Always precreate parts when copying objects to S3.
+            concurrentStreamParts: true
+            # -- Number of concurrent uploads to use when copying objects to S3.
+            numThreads: 4
+            # -- Part size for concurrent uploads to S3.
+            partSize: 0
 
     maintenance:
       # Expired uploads can be cleaned up automatically by enabling the clean up job.
@@ -1812,8 +1828,9 @@ services:
         # -- Enables a job, that cleans up expired uploads. Requires persistence to be enabled and RWX storage.
         enabled: false
         # -- Cron pattern for the job to be run. Defaults to every minute.
-        schedule: "59 * * * *"
-        # Defines the a deadline (in whole seconds) for starting the Job, if that Job misses its scheduled time for any reason.
+        schedule: "0 * * * *"
+        # -- Defines the a deadline (in whole seconds) for starting the Job, if that Job misses its scheduled time for any reason.
+
         startingDeadlineSeconds: 600
         # -- Duration in seconds after which uploads will expire.
         #    WARNING: Setting this to a low number will lead to uploads being cancelled before they are finished and returning a 403 to the user.
@@ -1823,14 +1840,14 @@ services:
         # -- Enables a job, that purges expired trash bin items. Requires persistence to be enabled.
         enabled: false
         # -- Cron pattern for the job to be run. Defaults to every minute.
-        schedule: "59 * * * *"
-        # Defines the a deadline (in whole seconds) for starting the Job, if that Job misses its scheduled time for any reason.
+        schedule: "0 * * * *"
+        # -- Defines the a deadline (in whole seconds) for starting the Job, if that Job misses its scheduled time for any reason.
         startingDeadlineSeconds: 600
         # -- Setting that makes the command delete all trashed personal files older than the value. The value is a number and a unit "d", "h", "m", "s".
         personalDeleteBefore: 30d
         # -- Setting that makes the command delete all trashed project files older than the value. The value is a number and a unit "d", "h", "m", "s".
         projectDeleteBefore: 30d
-      # -- Image for the storageusers service maintenance jobs
+      # Image for the storageusers service maintenance jobs
       # Defaults to the same values as `image`
       image:
         # -- Image repository
@@ -1894,63 +1911,7 @@ services:
     affinity: {}
     # -- Per-service custom labels
     extraLabels: {}
-    # -- Per-service image configuration. Overrides the default setting from `image` if set.
-    image:
-      # -- Image repository
-      repository: ""
-      # -- Image tag.
-      tag: ""
-      # -- Image sha / digest (optional).
-      sha: ""
-      # -- Image pull policy
-      pullPolicy:
-
-  # -- STORE service.
-  # @default -- see detailed service configuration options below
-  store:
-    # -- Persistence settings.
-    # @default -- see detailed persistence configuration options below
-    persistence:
-      # -- Enables persistence.
-      # Needs to be enabled on production installations.
-      # If not enabled, pod restarts will lead to data loss.
-      # Also scaling this service beyond one instance is not possible if the service instances don't share the same storage.
-      enabled: false
-      # -- Enables an initContainer to chown the volume.
-      # The initContainer is run as root.
-      # This is not needed if the driver applies the fsGroup from the securityContext.
-      # The image specified in `initContainerImage` will be used for this container.
-      chownInitContainer: false
-      # -- Storage class to use.
-      # Uses the default storage class if not set.
-      storageClassName:
-      # -- Persistent volume access modes. Needs to be `["ReadWriteMany"]` when scaling this service beyond one instance.
-      accessModes:
-        - ReadWriteMany
-      # -- Size of the persistent volume.
-      size: 5Gi
-      # -- Persistent volume annotations.
-      annotations: {}
-      # -- Persistent volume finalizers.
-      finalizers:
-        - kubernetes.io/pvc-protection
-      # -- Persistent volume selector labels.
-      selectorLabels: {}
-      # -- Use a custom name for the PVC instead of the default one.
-      claimName: ""
-      # -- Use an existing PersistentVolumeClaim for persistence.
-      existingClaim:
-    # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
-    resources: {}
-    # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
-    nodeSelector: {}
-    # -- Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
-    priorityClassName: ""
-    # -- Affinity settings for the store service. See the documentation of this setting in approvider for examples.
-    affinity: {}
-    # -- Per-service custom labels
-    extraLabels: {}
-    # -- Per-service image configuration. Overrides the default setting from `image` if set.
+    # Per-service image configuration. Overrides the default setting from `image` if set.
     image:
       # -- Image repository
       repository: ""
@@ -2009,14 +1970,16 @@ services:
     jobPriorityClassName: ""
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
     podDisruptionBudget: {}
-    # -- Maintenance configuration for cleanup jobs.
+    # Maintenance configuration for cleanup jobs.
     maintenance:
       cleanUpOldThumbnails:
         # -- Enables a job, that cleans up old thumbnails. Requires persistence to be enabled.
         enabled: false
         # -- Cron pattern for the job to be run. Defaults to every minute.
-        schedule: "59 * * * *"
-        # Defines the a deadline (in whole seconds) for starting the Job, if that Job misses its scheduled time for any reason.
+
+        schedule: "0 * * * *"
+        # -- Defines the a deadline (in whole seconds) for starting the Job, if that Job misses its scheduled time for any reason.
+
         startingDeadlineSeconds: 600
         # -- Setting that makes the command delete all thumbnails older than the value. The value is a number in days.
         deleteBefore: 30
@@ -2038,7 +2001,7 @@ services:
     affinity: {}
     # -- Per-service custom labels
     extraLabels: {}
-    # -- Per-service image configuration. Overrides the default setting from `image` if set.
+    # Per-service image configuration. Overrides the default setting from `image` if set.
     image:
       # -- Image repository
       repository: ""
@@ -2075,7 +2038,7 @@ services:
     affinity: {}
     # -- Per-service custom labels
     extraLabels: {}
-    # -- Per-service image configuration. Overrides the default setting from `image` if set.
+    # Per-service image configuration. Overrides the default setting from `image` if set.
     image:
       # -- Image repository
       repository: ""
@@ -2103,7 +2066,7 @@ services:
     affinity: {}
     # -- Per-service custom labels
     extraLabels: {}
-    # -- Per-service image configuration. Overrides the default setting from `image` if set.
+    # Per-service image configuration. Overrides the default setting from `image` if set.
     image:
       # -- Image repository
       repository: ""
@@ -2266,7 +2229,7 @@ services:
     affinity: {}
     # -- Per-service custom labels
     extraLabels: {}
-    # -- Per-service image configuration. Overrides the default setting from `image` if set.
+    # Per-service image configuration. Overrides the default setting from `image` if set.
     image:
       # -- Image repository
       repository: ""
@@ -2294,7 +2257,7 @@ services:
     affinity: {}
     # -- Per-service custom labels
     extraLabels: {}
-    # -- Per-service image configuration. Overrides the default setting from `image` if set.
+    # Per-service image configuration. Overrides the default setting from `image` if set.
     image:
       # -- Image repository
       repository: ""
@@ -2322,7 +2285,7 @@ services:
     affinity: {}
     # -- Per-service custom labels
     extraLabels: {}
-    # -- Per-service image configuration. Overrides the default setting from `image` if set.
+    # Per-service image configuration. Overrides the default setting from `image` if set.
     image:
       # -- Image repository
       repository: ""
@@ -2333,7 +2296,7 @@ services:
       # -- Image pull policy
       pullPolicy:
 
-# -- Service monitoring configuration. Requires the monitoring.coreos.com/v1 CRDs to be installed.
+# Service monitoring configuration. Requires the monitoring.coreos.com/v1 CRDs to be installed.
 monitoring:
   # -- Enable service monitoring.
   enabled: false

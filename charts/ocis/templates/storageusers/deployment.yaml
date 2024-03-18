@@ -105,6 +105,19 @@ spec:
                   key: secretKey
             - name: STORAGE_USERS_S3NG_BUCKET
               value: {{ .Values.services.storageusers.storageBackend.driverConfig.s3ng.bucket | quote }}
+            - name: STORAGE_USERS_S3NG_PUT_OBJECT_DISABLE_CONTENT_SHA256
+              value: {{ .Values.services.storageusers.storageBackend.driverConfig.s3ng.disableContentSHA256 | quote }}
+            - name: STORAGE_USERS_S3NG_PUT_OBJECT_DISABLE_MULTIPART
+              value: {{ .Values.services.storageusers.storageBackend.driverConfig.s3ng.putObject.disableMultipart | quote }}
+            - name: STORAGE_USERS_S3NG_PUT_OBJECT_SEND_CONTENT_MD5
+              value: {{ .Values.services.storageusers.storageBackend.driverConfig.s3ng.putObject.sendContentMD5 | quote }}
+            - name: STORAGE_USERS_S3NG_PUT_OBJECT_CONCURRENT_STREAM_PARTS
+              value: {{ .Values.services.storageusers.storageBackend.driverConfig.s3ng.putObject.concurrentStreamParts | quote }}
+            - name: STORAGE_USERS_S3NG_PUT_OBJECT_NUM_THREADS
+              value: {{ .Values.services.storageusers.storageBackend.driverConfig.s3ng.putObject.numThreads | quote }}
+            - name: STORAGE_USERS_S3NG_PUT_OBJECT_PART_SIZE
+              value: {{ .Values.services.storageusers.storageBackend.driverConfig.s3ng.putObject.partSize | quote }}
+
             {{- end }}
 
             # Duration in seconds after which uploads will expire.

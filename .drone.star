@@ -5,10 +5,10 @@ config = {
     # if this changes, also tested versions in need to be changed here:
     # - Makefile
     "kubernetesVersions": [
-        "1.25.0",
         "1.26.0",
         "1.27.0",
         "1.28.0",
+        "1.29.0",
     ],
 }
 
@@ -105,7 +105,7 @@ def documentation(ctx):
         "steps": [
             {
                 "name": "helm-docs-readme",
-                "image": "jnorwood/helm-docs:v1.11.0",
+                "image": "jnorwood/helm-docs:v1.13.1",
                 "entrypoint": [
                     "/usr/bin/helm-docs",
                     "--template-files=README.md.gotmpl",
@@ -114,7 +114,7 @@ def documentation(ctx):
             },
             {
                 "name": "helm-docs-values-table-adoc",
-                "image": "jnorwood/helm-docs:v1.11.0",
+                "image": "jnorwood/helm-docs:v1.13.1",
                 "entrypoint": [
                     "/usr/bin/helm-docs",
                     "--template-files=charts/ocis/docs/templates/values-desc-table.adoc.gotmpl",
@@ -123,7 +123,7 @@ def documentation(ctx):
             },
             {
                 "name": "gomplate-values-adoc",
-                "image": "hairyhenderson/gomplate:v3.11.5-alpine",
+                "image": "hairyhenderson/gomplate:v3.11.7-alpine",
                 "entrypoint": [
                     "/bin/gomplate",
                     "--file=charts/ocis/docs/templates/values.adoc.yaml.gotmpl",
