@@ -9,8 +9,8 @@ maintainers:
     email: devops@owncloud.com
     url: https://owncloud.com
 type: application
-version: 0.5.0
-appVersion: 5.0.0-rc.6
+version: 0.6.0
+appVersion: 5.0.0
 kubeVersion: "" # please see https://doc.owncloud.com/ocis/next/deployment/container/orchestration/orchestration.html#get-the-chart for compatible Kubernetes versions
 sources:
   - https://github.com/owncloud/ocis-charts
