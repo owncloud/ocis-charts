@@ -77,6 +77,14 @@ spec:
                   key: notifications-secret
             {{- end }}
 
+            {{- if .Values.secretRefs.globalNotificationsSecretRef }}
+            - name: USERLOG_GLOBAL_NOTIFICATIONS_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "secrets.globalNotificationsSecret" . }}
+                  key: notifications-secret
+            {{- end }}
+
             - name: USERLOG_JWT_SECRET
               valueFrom:
                 secretKeyRef:
