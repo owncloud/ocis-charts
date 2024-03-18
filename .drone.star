@@ -1,7 +1,6 @@
 config = {
     "branches": [
         "main",
-        "next",
     ],
     # if this changes, also tested versions in need to be changed here:
     # - Makefile
