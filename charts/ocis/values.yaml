@@ -1417,7 +1417,7 @@ services:
         # -- Enables a job, that cleans up expired uploads. Requires persistence to be enabled and RWX storage.
         enabled: false
         # -- Cron pattern for the job to be run. Defaults to every minute.
-        schedule: "60 * * * *"
+        schedule: "59 * * * *"
         # Defines the a deadline (in whole seconds) for starting the Job, if that Job misses its scheduled time for any reason.
         startingDeadlineSeconds: 600
       # -- Restart postprocessing for uploads hwich are currenlty in the virusscan step.
@@ -1426,7 +1426,7 @@ services:
         # -- Enables a job, that purges expired trash bin items. Requires persistence to be enabled.
         enabled: false
         # -- Cron pattern for the job to be run. Defaults to every minute.
-        schedule: "60 * * * *"
+        schedule: "59 * * * *"
         # Defines the a deadline (in whole seconds) for starting the Job, if that Job misses its scheduled time for any reason.
         startingDeadlineSeconds: 600
       # -- Image for the storageusers service maintenance jobs
@@ -1811,7 +1811,7 @@ services:
         # -- Enables a job, that cleans up expired uploads. Requires persistence to be enabled and RWX storage.
         enabled: false
         # -- Cron pattern for the job to be run. Defaults to every minute.
-        schedule: "60 * * * *"
+        schedule: "59 * * * *"
         # Defines the a deadline (in whole seconds) for starting the Job, if that Job misses its scheduled time for any reason.
         startingDeadlineSeconds: 600
         # -- Duration in seconds after which uploads will expire.
@@ -1822,7 +1822,7 @@ services:
         # -- Enables a job, that purges expired trash bin items. Requires persistence to be enabled.
         enabled: false
         # -- Cron pattern for the job to be run. Defaults to every minute.
-        schedule: "60 * * * *"
+        schedule: "59 * * * *"
         # Defines the a deadline (in whole seconds) for starting the Job, if that Job misses its scheduled time for any reason.
         startingDeadlineSeconds: 600
         # -- Setting that makes the command delete all trashed personal files older than the value. The value is a number and a unit "d", "h", "m", "s".
@@ -2014,7 +2014,7 @@ services:
         # -- Enables a job, that cleans up old thumbnails. Requires persistence to be enabled.
         enabled: false
         # -- Cron pattern for the job to be run. Defaults to every minute.
-        schedule: "60 * * * *"
+        schedule: "59 * * * *"
         # Defines the a deadline (in whole seconds) for starting the Job, if that Job misses its scheduled time for any reason.
         startingDeadlineSeconds: 600
         # -- Setting that makes the command delete all thumbnails older than the value. The value is a number in days.
