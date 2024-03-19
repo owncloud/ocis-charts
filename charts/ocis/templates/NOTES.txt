@@ -25,7 +25,6 @@ kubectl -n {{ .Release.Namespace }} get secrets/admin-user --template='{{"{{"}}.
 {{- $ocisHttpApiInsecure := .Values.insecure.ocisHttpApiInsecure -}}
 {{- $externalLDAPinsecure := and .Values.features.externalUserManagement.enabled .Values.features.externalUserManagement.ldap.insecure -}}
 {{- $noSMTPencryption := and .Values.features.emailNotifications.enabled (eq .Values.features.emailNotifications.smtp.encryption "none") -}}
-{{- $s3Credentials := or (.Values.services.storageusers.storageBackend.driverConfig.s3ng.accessKey) (.Values.services.storageusers.storageBackend.driverConfig.s3ng.secretKey) -}}
 
 {{ if or $noExternalUserManagement $basicAuth $demoUsers $oidcIdpInsecure $ocisHttpApiInsecure $externalLDAPinsecure $noSMTPencryption }}
 #################################################################################
@@ -56,10 +55,6 @@ kubectl -n {{ .Release.Namespace }} get secrets/admin-user --template='{{"{{"}}.
 {{- if $noSMTPencryption}}
 ######     - `features.emailNotifications.smtp.encryption` should           #####
 ######        not be set to `none`                                          #####
-{{- end }}
-{{- if $s3Credentials }}
-######     - `services.storageusers.storageBackend.driverConfig.s3ng`       #####
-######        should not have `accessKey` or `secretKey` set.               #####
 {{- end }}
 #################################################################################
 {{ end }}
