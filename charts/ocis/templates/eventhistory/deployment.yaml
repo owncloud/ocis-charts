@@ -12,7 +12,6 @@ spec:
   template:
     {{- include "ocis.templateMetadata" (dict "scope" $ "configCheck" false) | nindent 4 }}
     spec:
-      {{- include "ocis.serviceAccount" . | nindent 6 }}
       {{- include "ocis.affinity" .Values.services.eventhistory | nindent 6 }}
       {{- include "ocis.securityContextAndtopologySpreadConstraints" . | nindent 6 }}
       {{- include "ocis.priorityClassName" $.priorityClassName | nindent 6 }}
@@ -26,6 +25,8 @@ spec:
           {{- include "ocis.containerSecurityContext" . | nindent 10 }}
           env:
             {{- include "ocis.serviceRegistry" . | nindent 12 }}
+            {{- include "ocis.events" . | nindent 12 }}
+            {{- include "ocis.persistentStore" . | nindent 12 }}
 
             - name: EVENTHISTORY_LOG_COLOR
               value: {{ .Values.logging.color | quote }}
@@ -52,30 +53,6 @@ spec:
 
             - name: EVENTHISTORY_DEBUG_ADDR
               value: 0.0.0.0:9270
-
-            - name: EVENTHISTORY_STORE
-              value: {{ .store.type | quote }}
-            - name: EVENTHISTORY_STORE_NODES
-              value: {{ tpl (join "," .store.nodes) . | quote }}
-
-            - name: EVENTHISTORY_EVENTS_ENDPOINT
-            {{- if not .Values.messagingSystem.external.enabled }}
-              value: {{ .appNameNats }}:9233
-            {{- else }}
-              value: {{ .Values.messagingSystem.external.endpoint | quote }}
-            - name: EVENTHISTORY_EVENTS_CLUSTER
-              value: {{ .Values.messagingSystem.external.cluster | quote }}
-            - name: EVENTHISTORY_EVENTS_ENABLE_TLS
-              value: {{ .Values.messagingSystem.external.tls.enabled | quote }}
-            - name: EVENTHISTORY_EVENTS_TLS_INSECURE
-              value: {{ .Values.messagingSystem.external.tls.insecure | quote }}
-            - name: EVENTHISTORY_EVENTS_TLS_ROOT_CA_CERTIFICATE
-              {{- if not .Values.messagingSystem.external.tls.certTrusted }}
-              value: /etc/ocis/messaging-system-ca/messaging-system-ca.crt
-              {{- else }}
-              value: "" # no cert needed
-              {{- end }}
-            {{- end }}
 
           {{- include "ocis.livenessProbe" . | nindent 10 }}
 

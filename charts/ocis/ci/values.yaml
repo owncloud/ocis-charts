@@ -21,7 +21,7 @@ image:
     - name: some-pull-secret
 nodeSelector:
   kubernetes.io/arch: "amd64"
-hostAliases: 
+hostAliases:
 - ip: "192.168.4.2"
   hostnames:
   - "example.kube.owncloud.test"
@@ -93,6 +93,20 @@ resources:
     memory: 128Mi
 
 services:
+  postprocessing:
+    jobResources:
+      limits:
+        cpu: 100m
+        memory: 128Mi
+      requests:
+        cpu: 100m
+        memory: 128Mi
+    maintenance:
+      restartPostprocessingFinished:
+        enabled: true
+      restartPostprocessingVirusscan:
+        enabled: true
+
   storagesystem:
     persistence:
       enabled: true
@@ -133,20 +147,6 @@ services:
         enabled: true
       purgeExpiredTrashBinItems:
         enabled: true
-
-  store:
-    persistence:
-      enabled: true
-      storageClassName: default-storage
-      accessModes:
-        - ReadWriteMany
-      size: 5Gi
-      annotations:
-        anno-1: test
-      finalizers:
-        - kubernetes.io/pvc-protection
-      selectorLabels:
-        selector1: foobar
 
   thumbnails:
     persistence:

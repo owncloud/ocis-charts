@@ -1,25 +1,37 @@
 repositories:
   - name: openldap
     url: https://jp-gouin.github.io/helm-openldap/
-  - name: bitnami
-    url: https://charts.bitnami.com/bitnami
+  - name: postgres-operator
+    url: https://opensource.zalando.com/postgres-operator/charts/postgres-operator
 
 releases:
-  - name: postgres
-    namespace: postgres
-    chart: bitnami/postgresql
-    version: 13.4.3
+  - name: postgres-operator
+    namespace: postgres-operator
+    chart: postgres-operator/postgres-operator
+    version: 1.9.0
     values:
-      - auth:
-          postgrePassword: postgres
-          username: "keycloak"
-          password: "keycloak"
-          database: "keycloak"
-      - architecture: standalone
-      - primary:
-          persistence:
-            enabled: true
-            size: 8Gi
+      - configConnectionPooler:
+          connection_pooler_max_db_connections: 300
+          connection_pooler_number_of_instances: 3
+          connection_pooler_mode: "session"
+
+  - name: postgres
+    chart: ./charts/postgresql
+    namespace: keycloak
+    needs:
+      - postgres-operator/postgres-operator
+
+  - name: keycloak-operator
+    chart: ./charts/keycloak-k8s-resources/kubernetes
+    namespace: keycloak
+
+  - name: keycloak
+    chart: ./charts/keycloak
+    namespace: keycloak
+    needs:
+      - keycloak/keycloak-operator
+      - keycloak/postgres
+
   - name: openldap
     namespace: openldap
     chart: openldap/openldap-stack-ha
@@ -31,7 +43,7 @@ releases:
           enabled: true
       - global:
           ldapDomain: "owncloud.com"
-          adminPassword: admin # or existingSecret
+          adminPassword: admin
           configPassword: config
       - customLdifFiles:
           10_owncloud_root.ldif: |-
@@ -316,15 +328,7 @@ releases:
               AUXILIARY
               MAY ( ownCloudUUID $ ocEducationClassType $ ocEducationExternalId $
                     ocMemberOfSchool $ ocEducationTeacherMember ) )
-  - name: keycloak-operator
-    chart: ./charts/keycloak-operator
-    namespace: keycloak
-  - name: keycloak
-    chart: ./charts/keycloak
-    namespace: keycloak
-    needs:
-      - keycloak-operator
-      - postgres/postgres
+
   - name: ocis
     chart: ../../charts/ocis
     namespace: ocis
@@ -344,28 +348,12 @@ releases:
           ldapSecretRef: ldap-bind-secrets # we provide the ldap bind password of the ldap server in the extraResources section as secret
       - features:
           externalUserManagement:
-            # -- Enables external user management (and disables internal user management).
-            # Needs an external OpenID Connect Identity Provider and an external LDAP server.
             enabled: true
-            # -- UUID of the inital admin user.
-            # If the given value matches a user's value from `features.externalUserManagement.oidc.userIDClaim`, the admin role will be assigned.
-            # Consider that the UUID can be encoded in some LDAP deployment configurations like in .ldif files. These need to be decoded beforehand.
-            # Note: Enabling `roleAssignment` will disable `adminUUID`.
             adminUUID: "ddc2004c-0977-11eb-9d3f-a793888cd0f8"
-            # OpenID Connect Identity provider related settings.
             oidc:
-              # -- Issuer URI of the OpenID Connect Identity Provider.
-              # If the IDP doesn't have valid / trusted SSL certificates, certificate validation can be disabled with the `insecure.oidcIdpInsecure` option.
               issuerURI: https://keycloak.kube.owncloud.test/realms/oCIS
-
-              # -- Specify the client ID which the web frontend will use
               webClientID: web
-              # -- Claim to take an unique user identifier from. It will be used to look up the user on the LDAP server.
               userIDClaim: ocis.user.uuid
-              # -- Attribute mapping of for the userIDClaim.
-              # Set to `userid` if the claim specified in `...oidc.userIDClaim` holds the value of the ldap user attribute specified in `...ldap.user.schema.id`.
-              # Set to `mail` if the claim specified in `...oidc.userIDClaim` holds the value of the ldap user attribute specified in  `...ldap.user.schema.mail`.
-              # Set to `username` if the claim specified in `...oidc.userIDClaim` holds the value of the ldap user attribute specified in `...ldap.user.schema.userName`.
               userIDClaimAttributeMapping: userid
 
             ldap:
@@ -397,10 +385,6 @@ releases:
             persistence:
               enabled: true
 
-          store:
-            persistence:
-              enabled: true
-
           thumbnails:
             persistence:
               enabled: true
@@ -408,7 +392,6 @@ releases:
           web:
             persistence:
               enabled: true
-
 
       - extraResources:
           - |

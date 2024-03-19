@@ -10,7 +10,6 @@ spec:
   template:
     {{- include "ocis.templateMetadata" (dict "scope" $ "configCheck" false) | nindent 4 }}
     spec:
-      {{- include "ocis.serviceAccount" . | nindent 6 }}
       {{- include "ocis.affinity" .Values.services.search | nindent 6 }}
       {{- include "ocis.securityContextAndtopologySpreadConstraints" . | nindent 6 }}
       {{- if and $.Values.services.search.persistence.enabled $.Values.services.search.persistence.chownInitContainer }}
@@ -36,6 +35,7 @@ spec:
           {{- include "ocis.containerSecurityContext" . | nindent 10 }}
           env:
             {{- include "ocis.serviceRegistry" . | nindent 12 }}
+            {{- include "ocis.events" . | nindent 12 }}
 
             - name: SEARCH_LOG_COLOR
               value: {{ .Values.logging.color | quote }}
@@ -61,25 +61,6 @@ spec:
             - name: SEARCH_DEBUG_ADDR
               value: 0.0.0.0:9224
 
-            - name: SEARCH_EVENTS_ENDPOINT
-            {{- if not .Values.messagingSystem.external.enabled }}
-              value: {{ .appNameNats }}:9233
-            {{- else }}
-              value: {{ .Values.messagingSystem.external.endpoint }}
-            - name: SEARCH_EVENTS_CLUSTER
-              value: {{ .Values.messagingSystem.external.cluster }}
-            - name: SEARCH_EVENTS_ENABLE_TLS
-              value: {{ .Values.messagingSystem.external.tls.enabled | quote }}
-            - name: SEARCH_EVENTS_TLS_INSECURE
-              value: {{ .Values.messagingSystem.external.tls.insecure | quote }}
-            - name: SEARCH_EVENTS_TLS_ROOT_CA_CERTIFICATE
-              {{- if not .Values.messagingSystem.external.tls.certTrusted }}
-              value: /etc/ocis/messaging-system-ca/messaging-system-ca.crt
-              {{- else }}
-              value: "" # no cert needed
-              {{- end }}
-            {{- end }}
-
             {{- with .Values.services.search.extractor.sizeLimit }}
             - name: SEARCH_CONTENT_EXTRACTION_SIZE_LIMIT
               value: {{ int64 . | quote}}
@@ -91,6 +72,9 @@ spec:
 
             - name: SEARCH_EXTRACTOR_TIKA_TIKA_URL
               value: {{ .Values.services.search.extractor.tika.url | quote }}
+
+            - name: SEARCH_EXTRACTOR_TIKA_CLEAN_STOP_WORDS
+              value: {{ .Values.services.search.extractor.tika.cleanStopWords | quote }}
             {{- else }}
             - name: SEARCH_EXTRACTOR_TYPE
               value: basic
@@ -105,11 +89,16 @@ spec:
                   name: {{ include "secrets.jwtSecret" . }}
                   key: jwt-secret
 
-            - name: SEARCH_MACHINE_AUTH_API_KEY
+            - name: SEARCH_SERVICE_ACCOUNT_ID
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ include "config.authService" . }}
+                  key: service-account-id
+            - name: SEARCH_SERVICE_ACCOUNT_SECRET
               valueFrom:
                 secretKeyRef:
-                  name: {{ include "secrets.machineAuthAPIKeySecret" . }}
-                  key: machine-auth-api-key
+                  name: {{ include "secrets.serviceAccountSecret" . }}
+                  key: service-account-secret
 
             - name: OCIS_ASYNC_UPLOADS
               value: "true"

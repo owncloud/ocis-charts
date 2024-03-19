@@ -12,7 +12,6 @@ spec:
   template:
     {{- include "ocis.templateMetadata" (dict "scope" $ "configCheck" false) | nindent 4 }}
     spec:
-      {{- include "ocis.serviceAccount" . | nindent 6 }}
       {{- include "ocis.affinity" .Values.services.notifications | nindent 6 }}
       {{- include "ocis.securityContextAndtopologySpreadConstraints" . | nindent 6 }}
       {{- include "ocis.priorityClassName" $.priorityClassName | nindent 6 }}
@@ -26,6 +25,10 @@ spec:
           {{- include "ocis.containerSecurityContext" . | nindent 10 }}
           env:
             {{- include "ocis.serviceRegistry" . | nindent 12 }}
+            {{- include "ocis.events" . | nindent 12 }}
+
+            - name: OCIS_DEFAULT_LANGUAGE
+              value: {{ default "en" .Values.features.language.default | quote }}
 
             - name: NOTIFICATIONS_LOG_COLOR
               value: {{ .Values.logging.color | quote }}
@@ -61,7 +64,7 @@ spec:
             - name: NOTIFICATIONS_SMTP_ENCRYPTION
               value: {{ .Values.features.emailNotifications.smtp.encryption | quote }}
 
-            {{- if ne .Values.features.emailNotifications.smtp.authentication "none" }}
+            {{- if ne .Values.features.emailNotifications.smtp.authentication "auto" }}
             - name: NOTIFICATIONS_SMTP_USERNAME
               valueFrom:
                 secretKeyRef:
@@ -78,30 +81,16 @@ spec:
             - name: NOTIFICATIONS_WEB_UI_URL
               value: "https://{{ .Values.externalDomain }}"
 
-            - name: NOTIFICATIONS_EVENTS_ENDPOINT
-            {{- if not .Values.messagingSystem.external.enabled }}
-              value: {{ .appNameNats }}:9233
-            {{- else }}
-              value: {{ .Values.messagingSystem.external.endpoint | quote }}
-            - name: NOTIFICATIONS_EVENTS_CLUSTER
-              value: {{ .Values.messagingSystem.external.cluster | quote }}
-            - name: NOTIFICATIONS_EVENTS_ENABLE_TLS
-              value: {{ .Values.messagingSystem.external.tls.enabled | quote }}
-            - name: NOTIFICATIONS_EVENTS_TLS_INSECURE
-              value: {{ .Values.messagingSystem.external.tls.insecure | quote }}
-            - name: NOTIFICATIONS_EVENTS_TLS_ROOT_CA_CERTIFICATE
-              {{- if not .Values.messagingSystem.external.tls.certTrusted }}
-              value: /etc/ocis/messaging-system-ca/messaging-system-ca.crt
-              {{- else }}
-              value: "" # no cert needed
-              {{- end }}
-            {{- end }}
-
-            - name: NOTIFICATIONS_MACHINE_AUTH_API_KEY
+            - name: NOTIFICATIONS_SERVICE_ACCOUNT_ID
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ include "config.authService" . }}
+                  key: service-account-id
+            - name: NOTIFICATIONS_SERVICE_ACCOUNT_SECRET
               valueFrom:
                 secretKeyRef:
-                  name: {{ include "secrets.machineAuthAPIKeySecret" . }}
-                  key: machine-auth-api-key
+                  name: {{ include "secrets.serviceAccountSecret" . }}
+                  key: service-account-secret
 
             {{- if .Values.features.emailNotifications.branding.enabled }}
             # Mail theming

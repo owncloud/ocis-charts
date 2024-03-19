@@ -1,4 +1,4 @@
-{{- if and .Values.services.thumbnails.persistence.enabled .Values.services.thumbnails.maintenance.cleanUpOldThumbnails.enabled }}
+{{- if .Values.services.thumbnails.persistence.enabled }}
 {{- include "ocis.basicServiceTemplates" (dict "scope" . "appName" "appNameThumbnails" "appNameSuffix" "") -}}
 ---
 apiVersion: batch/v1
@@ -15,6 +15,8 @@ spec:
   successfulJobsHistoryLimit: 3
   failedJobsHistoryLimit: 3
   concurrencyPolicy: Forbid
+  startingDeadlineSeconds: {{ .Values.services.thumbnails.maintenance.cleanUpOldThumbnails.startingDeadlineSeconds }}
+  suspend: {{ not .Values.services.thumbnails.maintenance.cleanUpOldThumbnails.enabled }}
   jobTemplate:
     spec:
       parallelism: 1
@@ -25,7 +27,6 @@ spec:
             {{- include "ocis.labels" . | nindent 12 }}
         spec:
           restartPolicy: Never
-          {{- include "ocis.serviceAccount" . | nindent 10 }}
           {{- include "ocis.securityContextAndtopologySpreadConstraints" . | nindent 10 }}
           {{- include "ocis.priorityClassName" $.jobPriorityClassName | nindent 10 }}
           {{- include "ocis.hostAliases" $ | nindent 10 }}

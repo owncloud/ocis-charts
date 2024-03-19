@@ -1,0 +1,4 @@
+{{ if not .Values.features.sse.disabled }}
+{{- include "ocis.basicServiceTemplates" (dict "scope" . "appName" "appNameSSE" "appNameSuffix" "") -}}
+{{ include "ocis.pdb" . }}
+{{ end }}

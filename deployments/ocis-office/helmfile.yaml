@@ -11,10 +11,10 @@ repositories:
     url: https://download.onlyoffice.com/charts/stable
 
 releases:
-
   - name: tika
     namespace: tika
     chart: tika/tika
+    version: 2.9.0
     values:
       - image:
           tag: "latest-full" # using "full" tag for OCR func.
@@ -26,18 +26,22 @@ releases:
   - name: rabbitmq
     namespace: onlyoffice
     chart: bitnami/rabbitmq
+    version: 12.5.4
 
   - name: redis
     namespace: onlyoffice
     chart: bitnami/redis
+    version: 18.4.0
 
   - name: postgresql
     namespace: onlyoffice
     chart: bitnami/postgresql
+    version: 13.2.21
 
   - name: onlyoffice
     namespace: onlyoffice
     chart: onlyoffice/docs
+    version: 3.5.0
     needs:
       - onlyoffice/addons-onlyoffice
       - onlyoffice/rabbitmq
@@ -74,6 +78,7 @@ releases:
   - name: collabora
     namespace: collabora
     chart: collabora/collabora-online
+    version: 1.1.5
     values:
       - collabora:
           aliasgroups:
@@ -100,6 +105,7 @@ releases:
   - name: wopiserver
     namespace: wopiserver
     chart: cs3org/wopiserver
+    version: 0.9.2
     values:
       - wopiserverUrl: http://wopiserver.wopiserver.svc.cluster.local:8880
       - config:
@@ -186,6 +192,13 @@ releases:
                 icon: image-edit
                 default_app: "OnlyOffice"
                 allow_creation: true
+              - mime_type: application/vnd.openxmlformats-officedocument.wordprocessingml.form
+                extension: docxf
+                name: FormDocument
+                description: Form document
+                icon: image-edit
+                default_app: "OnlyOffice"
+                allow_creation: true
 
       - services:
           idm:
@@ -209,10 +222,6 @@ releases:
               enabled: true
 
           storageusers:
-            persistence:
-              enabled: true
-
-          store:
             persistence:
               enabled: true
 

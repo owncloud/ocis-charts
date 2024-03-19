@@ -11,7 +11,6 @@ spec:
   template:
     {{- include "ocis.templateMetadata" (dict "scope" $ "configCheck" false) | nindent 4 }}
     spec:
-      {{- include "ocis.serviceAccount" . | nindent 6 }}
       {{- include "ocis.affinity" .Values.services.webfinger | nindent 6 }}
       {{- include "ocis.securityContextAndtopologySpreadConstraints" . | nindent 6 }}
       {{- include "ocis.priorityClassName" $.priorityClassName | nindent 6 }}
@@ -25,6 +24,7 @@ spec:
           {{- include "ocis.containerSecurityContext" . | nindent 10 }}
           env:
             {{- include "ocis.serviceRegistry" . | nindent 12 }}
+            {{- include "ocis.cors" . |nindent 12 }}
 
             - name: WEBFINGER_LOG_COLOR
               value: {{ .Values.logging.color | quote }}
@@ -32,23 +32,25 @@ spec:
               value: {{ .Values.logging.level | quote }}
             - name: WEBFINGER_LOG_PRETTY
               value: {{ .Values.logging.pretty | quote }}
+
             - name: WEBFINGER_TRACING_ENABLED
               value: "{{ .Values.tracing.enabled }}"
             - name: WEBFINGER_TRACING_TYPE
               value: {{ .Values.tracing.type | quote }}
             - name: WEBFINGER_TRACING_ENDPOINT
               value: {{ .Values.tracing.endpoint | quote }}
+
             - name: WEBFINGER_TRACING_COLLECTOR
               value: {{ .Values.tracing.collector | quote }}
+
             - name: WEBFINGER_DEBUG_PPROF
-              value: "{{ .Values.debug.enabled }}"
-            - name: WEBFINGER_DEBUG_ZPAGES
-              value: "{{ .Values.debug.enabled }}"
+              value: {{ .Values.debug.profiling | quote }}
+
             - name: WEBFINGER_HTTP_ADDR
               value: 0.0.0.0:8080
             - name: WEBFINGER_DEBUG_ADDR
               value: 0.0.0.0:8081
-            {{- include "ocis.cors" . |nindent 12 }}
+
             - name: WEBFINGER_OIDC_ISSUER
             {{- if not .Values.features.externalUserManagement.enabled }}
               value: "https://{{ .Values.externalDomain }}"

@@ -1,4 +1,4 @@
-{{- include "ocis.basicServiceTemplates" (dict "scope" . "appName" "appNameStore" "appNameSuffix" "") -}}
+{{- include "ocis.basicServiceTemplates" (dict "scope" . "appName" "appNameClientlog" "appNameSuffix" "") -}}
 apiVersion: v1
 kind: Service
 metadata:
@@ -12,9 +12,6 @@ spec:
   selector:
     app: {{ .appName }}
   ports:
-    - name: grpc
-      port: 9460
-      protocol: TCP
     - name: metrics-debug
-      port: 9464
+      port: 9260
       protocol: TCP

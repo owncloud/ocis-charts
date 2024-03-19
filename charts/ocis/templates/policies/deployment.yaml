@@ -16,7 +16,6 @@ spec:
   template:
     {{- include "ocis.templateMetadata" (dict "scope" $ "configCheck" true) | nindent 4 }}
     spec:
-      {{- include "ocis.serviceAccount" . | nindent 6 }}
       {{- include "ocis.affinity" .Values.services.policies | nindent 6 }}
       securityContext:
           fsGroup: {{ .Values.securityContext.fsGroup }}
@@ -40,6 +39,7 @@ spec:
             readOnlyRootFilesystem: true
           env:
             {{- include "ocis.serviceRegistry" . | nindent 12 }}
+            {{- include "ocis.events" . | nindent 12 }}
 
             - name: POLICIES_LOG_COLOR
               value: {{ .Values.logging.color | quote }}
@@ -55,34 +55,6 @@ spec:
             # See https://github.com/owncloud/enterprise/issues/5919
             # - name: POLICIES_POSTPROCESSING_QUERY
             #   value: "data.postprocessing.granted"
-            - name: POLICIES_EVENTS_ENDPOINT
-            {{- if not .Values.messagingSystem.external.enabled }}
-              value: {{ .appNameNats }}:9233
-            {{- else }}
-              value: {{ .Values.messagingSystem.external.endpoint | quote }}
-            - name: POLICIES_EVENTS_CLUSTER
-              value: {{ .Values.messagingSystem.external.cluster | quote }}
-            - name: POLICIES_EVENTS_ENABLE_TLS
-              value: {{ .Values.messagingSystem.external.tls.enabled | quote }}
-            - name: POLICIES_EVENTS_TLS_INSECURE
-              value: {{ .Values.messagingSystem.external.tls.insecure | quote }}
-            - name: POLICIES_EVENTS_TLS_ROOT_CA_CERTIFICATE
-              {{- if not .Values.messagingSystem.external.tls.certTrusted }}
-              value: /etc/ocis/messaging-system-ca/messaging-system-ca.crt
-              {{- else }}
-              value: "" # no cert needed
-              {{- end }}
-            {{- end }}
-            - name: POLICIES_JWT_SECRET
-              valueFrom:
-                secretKeyRef:
-                  name: {{ include "secrets.jwtSecret" $ }}
-                  key: jwt-secret
-            - name: POLICIES_MACHINE_AUTH_API_KEY
-              valueFrom:
-                secretKeyRef:
-                  name: {{ include "secrets.machineAuthAPIKeySecret" . }}
-                  key: machine-auth-api-key
 
             - name: POLICIES_DEBUG_PPROF
               value: {{ .Values.debug.profiling | quote }}

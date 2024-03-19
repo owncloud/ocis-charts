@@ -9,9 +9,8 @@ spec:
   {{- end }}
   {{- include "ocis.deploymentStrategy" . | nindent 2 }}
   template:
-    {{- include "ocis.templateMetadata" (dict "scope" $ "configCheck" false) | nindent 4 }}
+    {{- include "ocis.templateMetadata" (dict "scope" $ "configCheck" true) | nindent 4 }}
     spec:
-      {{- include "ocis.serviceAccount" . | nindent 6 }}
       {{- include "ocis.affinity" .Values.services.frontend | nindent 6 }}
       {{- include "ocis.securityContextAndtopologySpreadConstraints" . | nindent 6 }}
       {{- include "ocis.priorityClassName" $.priorityClassName | nindent 6 }}
@@ -25,6 +24,12 @@ spec:
           {{- include "ocis.containerSecurityContext" . | nindent 10 }}
           env:
             {{- include "ocis.serviceRegistry" . | nindent 12 }}
+            {{- include "ocis.cors" . |nindent 12 }}
+            {{- include "ocis.events" . | nindent 12 }}
+
+            # TODO: this is a workaround, remove it after https://github.com/owncloud/ocis/issues/8380 is closed
+            - name: OCIS_CORS_ALLOW_METHODS
+              value: "OPTIONS,HEAD,GET,PUT,POST,PATCH,DELETE,MKCOL,PROPFIND,PROPPATCH,MOVE,COPY,REPORT,SEARCH"
 
             - name: FRONTEND_LOG_COLOR
               value: {{ .Values.logging.color | quote }}
@@ -75,6 +80,9 @@ spec:
             - name: FRONTEND_OCS_PUBLIC_WRITEABLE_SHARE_MUST_HAVE_PASSWORD
               value: {{ .Values.features.sharing.publiclink.writeableShareMustHavePassword | quote }}
 
+            - name: FRONTEND_OCS_PUBLIC_SHARE_MUST_HAVE_PASSWORD
+              value: {{ .Values.features.sharing.publiclink.shareMustHavePassword | quote }}
+
             - name: FRONTEND_SEARCH_MIN_LENGTH
               value: {{ .Values.features.sharing.users.search.minLengthLimit | quote }}
 
@@ -90,6 +98,9 @@ spec:
             - name: FRONTEND_FULL_TEXT_SEARCH_ENABLED
               value: {{ not (eq .Values.services.search.extractor.type "basic") | quote }}
 
+            - name: OCIS_DISABLE_SSE
+              value: {{ .Values.features.sse.disabled | quote }}
+
             # cache
             # the stat cache is disabled for now for performance reasons, see https://github.com/owncloud/ocis-charts/issues/214
             - name: FRONTEND_OCS_STAT_CACHE_STORE
@@ -104,6 +115,17 @@ spec:
                   name: {{ include "secrets.machineAuthAPIKeySecret" . }}
                   key: machine-auth-api-key
 
+            - name: FRONTEND_SERVICE_ACCOUNT_ID
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ include "config.authService" . }}
+                  key: service-account-id
+            - name: FRONTEND_SERVICE_ACCOUNT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "secrets.serviceAccountSecret" . }}
+                  key: service-account-secret
+
             - name: OCIS_TRANSFER_SECRET
               valueFrom:
                 secretKeyRef:
@@ -115,7 +137,22 @@ spec:
               value: {{ .Values.features.quotas.max | quote }}
             {{- end }}
 
-            {{- include "ocis.cors" . |nindent 12 }}
+            - name: FRONTEND_AUTO_ACCEPT_SHARES
+              value: {{ .Values.features.sharing.autoAcceptShares | quote }}
+
+            # password policies
+            - name: FRONTEND_PASSWORD_POLICY_MIN_CHARACTERS
+              value: {{ .Values.features.sharing.passwordPolicies.minCharacters | quote }}
+            - name: FRONTEND_PASSWORD_POLICY_MIN_LOWERCASE_CHARACTERS
+              value: {{ .Values.features.sharing.passwordPolicies.minLowerCharacters | quote }}
+            - name: FRONTEND_PASSWORD_POLICY_MIN_UPPERCASE_CHARACTERS
+              value: {{ .Values.features.sharing.passwordPolicies.minUpperCharacters | quote }}
+            - name: FRONTEND_PASSWORD_POLICY_MIN_DIGITS
+              value: {{ .Values.features.sharing.passwordPolicies.minDigits | quote }}
+            - name: FRONTEND_PASSWORD_POLICY_MIN_SPECIAL_CHARACTERS
+              value: {{ .Values.features.sharing.passwordPolicies.minSpecialCharacters | quote }}
+            - name: FRONTEND_PASSWORD_POLICY_BANNED_PASSWORDS_LIST
+              value: /etc/ocis/sharing-banned-passwords.txt
 
           {{- include "ocis.livenessProbe" . | nindent 10 }}
 
@@ -128,6 +165,8 @@ spec:
               containerPort: 9141
 
           volumeMounts:
+            - name: configs
+              mountPath: /etc/ocis
             - name: tmp-volume
               mountPath: /tmp
 
@@ -135,3 +174,6 @@ spec:
       volumes:
         - name: tmp-volume
           emptyDir: {}
+        - name: configs
+          configMap:
+            name: sharing-banned-passwords-{{ .appName }}

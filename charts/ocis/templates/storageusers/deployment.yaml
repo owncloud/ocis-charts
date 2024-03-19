@@ -11,7 +11,6 @@ spec:
   template:
     {{- include "ocis.templateMetadata" (dict "scope" $ "configCheck" false) | nindent 4 }}
     spec:
-      {{- include "ocis.serviceAccount" . | nindent 6 }}
       {{- include "ocis.affinity" .Values.services.storageusers | nindent 6 }}
       {{- include "ocis.securityContextAndtopologySpreadConstraints" . | nindent 6 }}
       {{- if and $.Values.services.storageusers.persistence.enabled $.Values.services.storageusers.persistence.chownInitContainer }}
@@ -37,6 +36,8 @@ spec:
           {{- include "ocis.containerSecurityContext" . | nindent 10 }}
           env:
             {{- include "ocis.serviceRegistry" . | nindent 12 }}
+            {{- include "ocis.events" . | nindent 12 }}
+            {{- include "ocis.cacheStore" . | nindent 12 }}
 
             # logging
             - name: STORAGE_USERS_LOG_COLOR
@@ -74,6 +75,8 @@ spec:
             {{- if  eq .Values.services.storageusers.storageBackend.driver "ocis" }}
             - name: STORAGE_USERS_DRIVER
               value: ocis
+            - name: STORAGE_USERS_OCIS_MAX_CONCURRENCY
+              value: {{ .Values.services.storageusers.storageBackend.driverConfig.ocis.maxConcurrency | quote }}
             - name: STORAGE_USERS_OCIS_METADATA_BACKEND
               value: {{ .Values.services.storageusers.storageBackend.driverConfig.ocis.metadataBackend | quote }}
             {{- end }}
@@ -82,6 +85,8 @@ spec:
             {{- if  eq .Values.services.storageusers.storageBackend.driver "s3ng" }}
             - name: STORAGE_USERS_DRIVER
               value: s3ng
+            - name: STORAGE_USERS_S3NG_MAX_CONCURRENCY
+              value: {{ .Values.services.storageusers.storageBackend.driverConfig.s3ng.maxConcurrency | quote }}
             - name: STORAGE_USERS_S3NG_METADATA_BACKEND
               value: {{ .Values.services.storageusers.storageBackend.driverConfig.s3ng.metadataBackend | quote }}
             - name: STORAGE_USERS_S3NG_ENDPOINT
@@ -100,26 +105,19 @@ spec:
                   key: secretKey
             - name: STORAGE_USERS_S3NG_BUCKET
               value: {{ .Values.services.storageusers.storageBackend.driverConfig.s3ng.bucket | quote }}
-            {{- end }}
+            - name: STORAGE_USERS_S3NG_PUT_OBJECT_DISABLE_CONTENT_SHA256
+              value: {{ .Values.services.storageusers.storageBackend.driverConfig.s3ng.disableContentSHA256 | quote }}
+            - name: STORAGE_USERS_S3NG_PUT_OBJECT_DISABLE_MULTIPART
+              value: {{ .Values.services.storageusers.storageBackend.driverConfig.s3ng.putObject.disableMultipart | quote }}
+            - name: STORAGE_USERS_S3NG_PUT_OBJECT_SEND_CONTENT_MD5
+              value: {{ .Values.services.storageusers.storageBackend.driverConfig.s3ng.putObject.sendContentMD5 | quote }}
+            - name: STORAGE_USERS_S3NG_PUT_OBJECT_CONCURRENT_STREAM_PARTS
+              value: {{ .Values.services.storageusers.storageBackend.driverConfig.s3ng.putObject.concurrentStreamParts | quote }}
+            - name: STORAGE_USERS_S3NG_PUT_OBJECT_NUM_THREADS
+              value: {{ .Values.services.storageusers.storageBackend.driverConfig.s3ng.putObject.numThreads | quote }}
+            - name: STORAGE_USERS_S3NG_PUT_OBJECT_PART_SIZE
+              value: {{ .Values.services.storageusers.storageBackend.driverConfig.s3ng.putObject.partSize | quote }}
 
-            # events
-            - name: STORAGE_USERS_EVENTS_ENDPOINT
-            {{- if not .Values.messagingSystem.external.enabled }}
-              value: {{ .appNameNats }}:9233
-            {{- else }}
-              value: {{ .Values.messagingSystem.external.endpoint | quote }}
-            - name: STORAGE_USERS_EVENTS_CLUSTER
-              value: {{ .Values.messagingSystem.external.cluster | quote }}
-            - name: STORAGE_USERS_EVENTS_ENABLE_TLS
-              value: {{ .Values.messagingSystem.external.tls.enabled | quote }}
-            - name: STORAGE_USERS_EVENTS_TLS_INSECURE
-              value: {{ .Values.messagingSystem.external.tls.insecure | quote }}
-            - name: STORAGE_USERS_EVENTS_TLS_ROOT_CA_CERTIFICATE
-              {{- if not .Values.messagingSystem.external.tls.certTrusted }}
-              value: /etc/ocis/messaging-system-ca/messaging-system-ca.crt
-              {{- else }}
-              value: "" # no cert needed
-              {{- end }}
             {{- end }}
 
             # Duration in seconds after which uploads will expire.
@@ -132,30 +130,16 @@ spec:
             - name: STORAGE_USERS_PURGE_TRASH_BIN_PROJECT_DELETE_BEFORE
               value: {{ .Values.services.storageusers.maintenance.purgeExpiredTrashBinItems.projectDeleteBefore | quote }}
 
-            # User ID to use for purging trash bin items
-            - name: STORAGE_USERS_PURGE_TRASH_BIN_USER_ID
-              value: {{ .Values.services.storageusers.maintenance.purgeExpiredTrashBinItems.purgeTrashBinUserID | quote}}
-
-            - name: OCIS_MACHINE_AUTH_API_KEY
+            - name: STORAGE_USERS_SERVICE_ACCOUNT_ID
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ include "config.authService" . }}
+                  key: service-account-id
+            - name: STORAGE_USERS_SERVICE_ACCOUNT_SECRET
               valueFrom:
                 secretKeyRef:
-                  name: {{ include "secrets.machineAuthAPIKeySecret" . }}
-                  key: machine-auth-api-key
-
-            # cache
-            - name: STORAGE_USERS_FILEMETADATA_CACHE_STORE
-              value: {{ default "noop" .Values.cache.type | quote }}
-            {{- if ne (default "noop" .Values.cache.type) "noop" }}
-            - name: STORAGE_USERS_FILEMETADATA_CACHE_STORE_NODES
-              value: {{ join "," .Values.cache.nodes | quote }}
-            {{- end }}
-
-            - name: STORAGE_USERS_ID_CACHE_STORE
-              value: {{ default "noop" .Values.cache.type | quote }}
-            {{- if ne (default "noop" .Values.cache.type) "noop" }}
-            - name: STORAGE_USERS_ID_CACHE_STORE_NODES
-              value: {{ join "," .Values.cache.nodes | quote }}
-            {{- end }}
+                  name: {{ include "secrets.serviceAccountSecret" . }}
+                  key: service-account-secret
 
             # the stat cache is disabled for now for performance reasons, see https://github.com/owncloud/ocis-charts/issues/214
             - name: STORAGE_USERS_STAT_CACHE_STORE

@@ -57,10 +57,6 @@ releases:
               enabled: true
               storageClassName: rook-cephfs
 
-          store:
-            persistence:
-              enabled: true
-
           thumbnails:
             persistence:
               enabled: true
