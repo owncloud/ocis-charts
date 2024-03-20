@@ -1,0 +1,86 @@
+repositories:
+  - name: minio
+    url: https://charts.min.io/
+
+releases:
+  - name: minio
+    chart: minio/minio
+    version: 5.0.7
+    namespace: minio
+    values:
+      - mode: standalone
+      - rootUser: ocis
+      - buckets:
+          - name: ocis-bucket
+            policy: none
+            purge: false
+      - persistence:
+          size: 5Gi
+      - resources:
+          requests:
+            cpu: 100m
+            memory: 128Mi
+      - rootPassword: ocis-secret-key
+
+  - name: ocis
+    chart: ../../charts/ocis
+    namespace: ocis
+    values:
+      - externalDomain: ocis.kube.owncloud.test
+      - ingress:
+          enabled: true
+          ingressClassName: nginx
+          annotations:
+            nginx.ingress.kubernetes.io/proxy-body-size: 1024m
+
+      - insecure:
+          oidcIdpInsecure: true
+          ocisHttpApiInsecure: true
+
+      - secretRefs:
+          s3CredentialsSecretRef: s3secret
+
+      - extraResources:
+          - |
+            apiVersion: v1
+            kind: Secret
+            metadata:
+              name: s3secret
+            data:
+              accessKey: b2Npcw==
+              secretKey: b2Npcy1zZWNyZXQta2V5
+
+      - services:
+          idm:
+            persistence:
+              enabled: true
+
+          nats:
+            persistence:
+              enabled: true
+
+          search:
+            persistence:
+              enabled: true
+
+          storagesystem:
+            persistence:
+              enabled: true
+
+          storageusers:
+            persistence:
+              enabled: true
+            storageBackend:
+              driver: s3ng
+              driverConfig:
+                s3ng:
+                  endpoint: http://minio.minio.svc.cluster.local:9000
+                  bucket: ocis-bucket
+
+          thumbnails:
+            persistence:
+              enabled: true
+
+          web:
+            persistence:
+              enabled: true
