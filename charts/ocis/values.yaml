@@ -2177,9 +2177,7 @@ services:
     # @default -- see detailed persistence configuration options below
     persistence:
       # -- Enables persistence.
-      # Is recommended to be enabled on production installations.
-      # If enabled, generated thumbnails are cached on this volume and available across pod restarts and service instances.
-      # If not enabled, thumbnail generation might lead to higher CPU usage.
+      # Only needed if you want to change the oCIS instance logo via the Web UI.
       enabled: false
       # -- Enables an initContainer to chown the volume.
       # The initContainer is run as root.
