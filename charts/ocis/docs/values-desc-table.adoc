@@ -4300,7 +4300,7 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 +string+
 a| [subs=-attributes]
-`""`
+`"/themes/owncloud/theme.json"`
 | URL path to load themes from. The theme server will be prepended. Defaults to the ownCloud Web default theme.
 | services.web.config.theme.server
 a| [subs=-attributes]
@@ -4308,6 +4308,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `""`
 | URL to load themes from. Will be prepended to the theme path. Defaults to the value of "externalDomain".
+| services.web.config.theme.themeNameConfigRefs
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"owncloud"`
+| Name of the theme you provide via `configRefs.webThemeConfigRef` and `configRefs.webThemeAssetsConfigRef`. If you change this when providing a custom theme, you must also change `theme.path`.
 | services.web.extraLabels
 a| [subs=-attributes]
 +object+

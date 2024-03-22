@@ -168,11 +168,11 @@ spec:
               mountPath: /etc/ocis
             {{- if .Values.configRefs.webThemeConfigRef }}
             - name: theme
-              mountPath: /var/lib/ocis/web/assets/themes/owncloud
+              mountPath: "/var/lib/ocis/web/assets/themes/{{ .Values.services.web.config.theme.themeNameConfigRefs }}"
             {{- end }}
             {{- if .Values.configRefs.webThemeAssetsConfigRef }}
             - name: theme-assets
-              mountPath: /var/lib/ocis/web/assets/themes/owncloud/assets
+              mountPath: "/var/lib/ocis/web/assets/themes/{{ .Values.services.web.config.theme.themeNameConfigRefs }}/assets"
             {{- end }}
             - name: {{ include "ocis.persistence.dataVolumeName" . }}
               mountPath: /var/lib/ocis
