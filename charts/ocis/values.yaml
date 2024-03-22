@@ -2141,7 +2141,10 @@ services:
         # -- URL to load themes from. Will be prepended to the theme path. Defaults to the value of "externalDomain".
         server: ""
         # -- URL path to load themes from. The theme server will be prepended. Defaults to the ownCloud Web default theme.
-        path: ""
+        path: "/themes/owncloud/theme.json"
+        # -- Name of the theme you provide via `configRefs.webThemeConfigRef` and `configRefs.webThemeAssetsConfigRef`.
+        # If you change this when providing a custom theme, you must also change `theme.path`.
+        themeNameConfigRefs: "owncloud"
       # URI where to redirect the user after a logout was performed. Defaults to the URI of the login page.
       postLogoutRedirectURI: ""
       # Specifies the target url valid for the logged out / access denied page.
