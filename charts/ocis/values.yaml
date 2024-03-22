@@ -1155,7 +1155,7 @@ services:
       storageClassName:
       # -- Persistent volume access modes.
       accessModes:
-        - ReadWriteMany
+        - ReadWriteOnce
       # -- Size of the persistent volume.
       size: 10Gi
       # -- Persistent volume annotations.
@@ -1234,7 +1234,7 @@ services:
       storageClassName:
       # -- Persistent volume access modes.
       accessModes:
-        - ReadWriteMany
+        - ReadWriteOnce
       # -- Size of the persistent volume.
       size: 10Gi
       # -- Persistent volume annotations.
@@ -1501,7 +1501,7 @@ services:
       storageClassName:
       # -- Persistent volume access modes.
       accessModes:
-        - ReadWriteMany
+        - ReadWriteOnce
       # -- Size of the persistent volume.
       size: 10Gi
       # -- Persistent volume annotations.
