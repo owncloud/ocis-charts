@@ -2110,8 +2110,8 @@ see detailed persistence configuration options below
 a| [subs=-attributes]
 +list+
 a| [subs=-attributes]
-`["ReadWriteMany"]`
-| Persistent volume access modes. Needs to be `["ReadWriteMany"]` when scaling this service beyond one instance.
+`["ReadWriteOnce"]`
+| Persistent volume access modes.
 | services.idm.persistence.annotations
 a| [subs=-attributes]
 +object+
@@ -2135,7 +2135,7 @@ a| [subs=-attributes]
 +bool+
 a| [subs=-attributes]
 `false`
-| Enables persistence. Needs to be enabled on production installations, except `features.externalUserManagement.enabled` equals `true`. If not enabled, pod restarts will lead to data loss. Also scaling this service beyond one instance is not possible if the service instances don't share the same storage.
+| Enables persistence. Needs to be enabled on production installations, except `features.externalUserManagement.enabled` equals `true`. If not enabled, pod restarts will lead to data loss.
 | services.idm.persistence.existingClaim
 a| [subs=-attributes]
 +string+
@@ -2296,8 +2296,8 @@ see detailed persistence configuration options below
 a| [subs=-attributes]
 +list+
 a| [subs=-attributes]
-`["ReadWriteMany"]`
-| Persistent volume access modes. Needs to be `["ReadWriteMany"]` when scaling this service beyond one instance.
+`["ReadWriteOnce"]`
+| Persistent volume access modes.
 | services.nats.persistence.annotations
 a| [subs=-attributes]
 +object+
@@ -2321,7 +2321,7 @@ a| [subs=-attributes]
 +bool+
 a| [subs=-attributes]
 `false`
-| Enables persistence. Needs to be enabled on production installations, except `messagingSystem.external.enabled` equals `true`. If not enabled, pod restarts will lead to data loss. Also scaling this service beyond one instance is not possible if the service instances don't share the same storage.
+| Enables persistence. Needs to be enabled on production installations, except `messagingSystem.external.enabled` equals `true`. If not enabled, pod restarts will lead to data loss.
 | services.nats.persistence.existingClaim
 a| [subs=-attributes]
 +string+
@@ -2950,8 +2950,8 @@ see detailed persistence configuration options below
 a| [subs=-attributes]
 +list+
 a| [subs=-attributes]
-`["ReadWriteMany"]`
-| Persistent volume access modes. Needs to be `["ReadWriteMany"]` when scaling this service beyond one instance.
+`["ReadWriteOnce"]`
+| Persistent volume access modes.
 | services.search.persistence.annotations
 a| [subs=-attributes]
 +object+
@@ -2975,7 +2975,7 @@ a| [subs=-attributes]
 +bool+
 a| [subs=-attributes]
 `false`
-| Enables persistence. Needs to be enabled on production installations. If not enabled, pod restarts will lead to data loss. Also scaling this service beyond one instance is not possible if the service instances don't share the same storage.
+| Enables persistence. Needs to be enabled on production installations. If not enabled, pod restarts will lead to data loss.
 | services.search.persistence.existingClaim
 a| [subs=-attributes]
 +string+
@@ -3455,7 +3455,7 @@ a| [subs=-attributes]
 +list+
 a| [subs=-attributes]
 `["ReadWriteMany"]`
-| Persistent volume access modes. Needs to be `["ReadWriteMany"]` when scaling this service beyond one instance.
+| Persistent volume access modes. Needs to be `["ReadWriteMany"]` when having more than one replica for this service.
 | services.storagesystem.persistence.annotations
 a| [subs=-attributes]
 +object+
@@ -3479,7 +3479,7 @@ a| [subs=-attributes]
 +bool+
 a| [subs=-attributes]
 `false`
-| Enables persistence. Needs to be enabled on production installations. If not enabled, pod restarts will lead to data loss. Also scaling this service beyond one instance is not possible if the service instances don't share the same storage.
+| Enables persistence. Needs to be enabled on production installations. If not enabled, pod restarts will lead to data loss. Also scaling this service to more than one replica is not possible if the pods don't share the same volume.
 | services.storagesystem.persistence.existingClaim
 a| [subs=-attributes]
 +string+
@@ -3689,7 +3689,7 @@ a| [subs=-attributes]
 +list+
 a| [subs=-attributes]
 `["ReadWriteMany"]`
-| Persistent volume access modes. Needs to be `["ReadWriteMany"]` when scaling this service beyond one instance.
+| Persistent volume access modes. Needs to be `["ReadWriteMany"]` when having more than one replica for this service.
 | services.storageusers.persistence.annotations
 a| [subs=-attributes]
 +object+
@@ -3713,7 +3713,7 @@ a| [subs=-attributes]
 +bool+
 a| [subs=-attributes]
 `false`
-| Enables persistence. Needs to be enabled on production installations. If not enabled, pod restarts will lead to data loss. Also scaling this service beyond one instance is not possible if the service instances don't share the same storage.
+| Enables persistence. Needs to be enabled on production installations. If not enabled, pod restarts will lead to data loss. Also scaling this service to more than one replica is not possible if the pods don't share the same volume.
 | services.storageusers.persistence.existingClaim
 a| [subs=-attributes]
 +string+
@@ -3983,7 +3983,7 @@ a| [subs=-attributes]
 +list+
 a| [subs=-attributes]
 `["ReadWriteMany"]`
-| Persistent volume access modes. Needs to be `["ReadWriteMany"]` when scaling this service beyond one instance or persistence needs to be disabled.
+| Persistent volume access modes. Needs to be `["ReadWriteMany"]` when having more than one replica for this service or persistence needs to be disabled.
 | services.thumbnails.persistence.annotations
 a| [subs=-attributes]
 +object+
@@ -4361,7 +4361,7 @@ a| [subs=-attributes]
 +list+
 a| [subs=-attributes]
 `["ReadWriteMany"]`
-| Persistent volume access modes. Needs to be `["ReadWriteMany"]` when scaling this service beyond one instance or persistence needs to be disabled.
+| Persistent volume access modes. Needs to be `["ReadWriteMany"]` when having more than one replica for this service or persistence needs to be disabled.
 | services.web.persistence.annotations
 a| [subs=-attributes]
 +object+
@@ -4385,7 +4385,7 @@ a| [subs=-attributes]
 +bool+
 a| [subs=-attributes]
 `false`
-| Enables persistence. Is recommended to be enabled on production installations. If enabled, generated thumbnails are cached on this volume and available across pod restarts and service instances. If not enabled, thumbnail generation might lead to higher CPU usage.
+| Enables persistence. Only needed if you want to change the oCIS instance logo via the Web UI.
 | services.web.persistence.existingClaim
 a| [subs=-attributes]
 +string+

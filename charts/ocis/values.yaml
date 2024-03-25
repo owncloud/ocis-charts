@@ -1144,7 +1144,6 @@ services:
       # -- Enables persistence.
       # Needs to be enabled on production installations, except `features.externalUserManagement.enabled` equals `true`.
       # If not enabled, pod restarts will lead to data loss.
-      # Also scaling this service beyond one instance is not possible if the service instances don't share the same storage.
       enabled: false
       # -- Enables an initContainer to chown the volume.
       # The initContainer is run as root.
@@ -1154,9 +1153,9 @@ services:
       # -- Storage class to use.
       # Uses the default storage class if not set.
       storageClassName:
-      # -- Persistent volume access modes. Needs to be `["ReadWriteMany"]` when scaling this service beyond one instance.
+      # -- Persistent volume access modes.
       accessModes:
-        - ReadWriteMany
+        - ReadWriteOnce
       # -- Size of the persistent volume.
       size: 10Gi
       # -- Persistent volume annotations.
@@ -1224,7 +1223,6 @@ services:
       # -- Enables persistence.
       # Needs to be enabled on production installations, except `messagingSystem.external.enabled` equals `true`.
       # If not enabled, pod restarts will lead to data loss.
-      # Also scaling this service beyond one instance is not possible if the service instances don't share the same storage.
       enabled: false
       # -- Enables an initContainer to chown the volume.
       # The initContainer is run as root.
@@ -1234,9 +1232,9 @@ services:
       # -- Storage class to use.
       # Uses the default storage class if not set.
       storageClassName:
-      # -- Persistent volume access modes. Needs to be `["ReadWriteMany"]` when scaling this service beyond one instance.
+      # -- Persistent volume access modes.
       accessModes:
-        - ReadWriteMany
+        - ReadWriteOnce
       # -- Size of the persistent volume.
       size: 10Gi
       # -- Persistent volume annotations.
@@ -1492,7 +1490,6 @@ services:
       # -- Enables persistence.
       # Needs to be enabled on production installations.
       # If not enabled, pod restarts will lead to data loss.
-      # Also scaling this service beyond one instance is not possible if the service instances don't share the same storage.
       enabled: false
       # -- Enables an initContainer to chown the volume.
       # The initContainer is run as root.
@@ -1502,9 +1499,9 @@ services:
       # -- Storage class to use.
       # Uses the default storage class if not set.
       storageClassName:
-      # -- Persistent volume access modes. Needs to be `["ReadWriteMany"]` when scaling this service beyond one instance.
+      # -- Persistent volume access modes.
       accessModes:
-        - ReadWriteMany
+        - ReadWriteOnce
       # -- Size of the persistent volume.
       size: 10Gi
       # -- Persistent volume annotations.
@@ -1692,7 +1689,7 @@ services:
       # -- Enables persistence.
       # Needs to be enabled on production installations.
       # If not enabled, pod restarts will lead to data loss.
-      # Also scaling this service beyond one instance is not possible if the service instances don't share the same storage.
+      # Also scaling this service to more than one replica is not possible if the pods don't share the same volume.
       enabled: false
       # -- Enables an initContainer to chown the volume.
       # The initContainer is run as root.
@@ -1702,7 +1699,7 @@ services:
       # -- Storage class to use.
       # Uses the default storage class if not set.
       storageClassName:
-      # -- Persistent volume access modes. Needs to be `["ReadWriteMany"]` when scaling this service beyond one instance.
+      # -- Persistent volume access modes. Needs to be `["ReadWriteMany"]` when having more than one replica for this service.
       accessModes:
         - ReadWriteMany
       # -- Size of the persistent volume.
@@ -1853,7 +1850,7 @@ services:
       # -- Enables persistence.
       # Needs to be enabled on production installations.
       # If not enabled, pod restarts will lead to data loss.
-      # Also scaling this service beyond one instance is not possible if the service instances don't share the same storage.
+      # Also scaling this service to more than one replica is not possible if the pods don't share the same volume.
       enabled: false
       # -- Enables an initContainer to chown the volume.
       # The initContainer is run as root.
@@ -1863,7 +1860,7 @@ services:
       # -- Storage class to use.
       # Uses the default storage class if not set.
       storageClassName:
-      # -- Persistent volume access modes. Needs to be `["ReadWriteMany"]` when scaling this service beyond one instance.
+      # -- Persistent volume access modes. Needs to be `["ReadWriteMany"]` when having more than one replica for this service.
       accessModes:
         - ReadWriteMany
       # -- Size of the persistent volume.
@@ -1929,7 +1926,7 @@ services:
       # -- Storage class to use.
       # Uses the default storage class if not set.
       storageClassName:
-      # -- Persistent volume access modes. Needs to be `["ReadWriteMany"]` when scaling this service beyond one instance or persistence needs to be disabled.
+      # -- Persistent volume access modes. Needs to be `["ReadWriteMany"]` when having more than one replica for this service or persistence needs to be disabled.
       accessModes:
         - ReadWriteMany
       # -- Size of the persistent volume.
@@ -2177,9 +2174,7 @@ services:
     # @default -- see detailed persistence configuration options below
     persistence:
       # -- Enables persistence.
-      # Is recommended to be enabled on production installations.
-      # If enabled, generated thumbnails are cached on this volume and available across pod restarts and service instances.
-      # If not enabled, thumbnail generation might lead to higher CPU usage.
+      # Only needed if you want to change the oCIS instance logo via the Web UI.
       enabled: false
       # -- Enables an initContainer to chown the volume.
       # The initContainer is run as root.
@@ -2189,7 +2184,7 @@ services:
       # -- Storage class to use.
       # Uses the default storage class if not set.
       storageClassName:
-      # -- Persistent volume access modes. Needs to be `["ReadWriteMany"]` when scaling this service beyond one instance or persistence needs to be disabled.
+      # -- Persistent volume access modes. Needs to be `["ReadWriteMany"]` when having more than one replica for this service or persistence needs to be disabled.
       accessModes:
         - ReadWriteMany
       # -- Size of the persistent volume.
