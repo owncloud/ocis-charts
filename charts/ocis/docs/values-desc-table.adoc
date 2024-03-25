@@ -2110,7 +2110,7 @@ see detailed persistence configuration options below
 a| [subs=-attributes]
 +list+
 a| [subs=-attributes]
-`["ReadWriteMany"]`
+`["ReadWriteOnce"]`
 | Persistent volume access modes.
 | services.idm.persistence.annotations
 a| [subs=-attributes]
@@ -2296,7 +2296,7 @@ see detailed persistence configuration options below
 a| [subs=-attributes]
 +list+
 a| [subs=-attributes]
-`["ReadWriteMany"]`
+`["ReadWriteOnce"]`
 | Persistent volume access modes.
 | services.nats.persistence.annotations
 a| [subs=-attributes]
@@ -2950,7 +2950,7 @@ see detailed persistence configuration options below
 a| [subs=-attributes]
 +list+
 a| [subs=-attributes]
-`["ReadWriteMany"]`
+`["ReadWriteOnce"]`
 | Persistent volume access modes.
 | services.search.persistence.annotations
 a| [subs=-attributes]
@@ -3479,7 +3479,7 @@ a| [subs=-attributes]
 +bool+
 a| [subs=-attributes]
 `false`
-| Enables persistence. Needs to be enabled on production installations. If not enabled, pod restarts will lead to data loss. Also scaling this service to more than one replica is not possible if the pods don't share the same volume don't share the same storage.
+| Enables persistence. Needs to be enabled on production installations. If not enabled, pod restarts will lead to data loss. Also scaling this service to more than one replica is not possible if the pods don't share the same volume.
 | services.storagesystem.persistence.existingClaim
 a| [subs=-attributes]
 +string+
@@ -3713,7 +3713,7 @@ a| [subs=-attributes]
 +bool+
 a| [subs=-attributes]
 `false`
-| Enables persistence. Needs to be enabled on production installations. If not enabled, pod restarts will lead to data loss. Also scaling this service to more than one replica is not possible if the pods don't share the same volume don't share the same storage.
+| Enables persistence. Needs to be enabled on production installations. If not enabled, pod restarts will lead to data loss. Also scaling this service to more than one replica is not possible if the pods don't share the same volume.
 | services.storageusers.persistence.existingClaim
 a| [subs=-attributes]
 +string+
@@ -4391,7 +4391,7 @@ a| [subs=-attributes]
 +bool+
 a| [subs=-attributes]
 `false`
-| Enables persistence. Is recommended to be enabled on production installations. If enabled, generated thumbnails are cached on this volume and available across pod restarts and service instances. If not enabled, thumbnail generation might lead to higher CPU usage.
+| Enables persistence. Only needed if you want to change the oCIS instance logo via the Web UI.
 | services.web.persistence.existingClaim
 a| [subs=-attributes]
 +string+
