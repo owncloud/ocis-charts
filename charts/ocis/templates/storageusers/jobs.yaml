@@ -96,6 +96,17 @@ spec:
                       name: {{ include "config.storageUsers" . }}
                       key: storage-uuid
 
+                - name: STORAGE_USERS_SERVICE_ACCOUNT_ID
+                  valueFrom:
+                    configMapKeyRef:
+                      name: {{ include "config.authService" . }}
+                      key: service-account-id
+                - name: STORAGE_USERS_SERVICE_ACCOUNT_SECRET
+                  valueFrom:
+                    secretKeyRef:
+                      name: {{ include "secrets.serviceAccountSecret" . }}
+                      key: service-account-secret
+
               resources: {{ toYaml .jobResources | nindent 16 }}
 
               volumeMounts:
@@ -179,6 +190,17 @@ spec:
                     configMapKeyRef:
                       name: {{ include "config.storageUsers" . }}
                       key: storage-uuid
+
+                - name: STORAGE_USERS_SERVICE_ACCOUNT_ID
+                  valueFrom:
+                    configMapKeyRef:
+                      name: {{ include "config.authService" . }}
+                      key: service-account-id
+                - name: STORAGE_USERS_SERVICE_ACCOUNT_SECRET
+                  valueFrom:
+                    secretKeyRef:
+                      name: {{ include "secrets.serviceAccountSecret" . }}
+                      key: service-account-secret
 
               resources: {{ toYaml .jobResources | nindent 16 }}
 
