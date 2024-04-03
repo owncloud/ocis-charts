@@ -34,6 +34,15 @@ releases:
             persistence:
               enabled: true
 
+          postprocessing:
+            maintenance:
+              restartPostprocessingFinished:
+                enabled: true
+                schedule: "* * * * *"
+              restartPostprocessingVirusscan:
+                enabled: true
+                schedule: "* * * * *"
+
           search:
             persistence:
               enabled: true
@@ -45,10 +54,21 @@ releases:
           storageusers:
             persistence:
               enabled: true
+            maintenance:
+              cleanUpExpiredUploads:
+                enabled: true
+                schedule: "* * * * *"
+              purgeExpiredTrashBinItems:
+                enabled: true
+                schedule: "* * * * *"
 
           thumbnails:
             persistence:
               enabled: true
+            maintenance:
+              cleanUpOldThumbnails:
+                enabled: true
+                schedule: "* * * * *"
 
           web:
             persistence:
