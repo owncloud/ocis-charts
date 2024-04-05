@@ -2700,66 +2700,6 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `""`
 | Image tag.
-| services.postprocessing.maintenance.image.pullPolicy
-a| [subs=-attributes]
-+string+
-a| [subs=-attributes]
-`nil`
-| Image pull policy
-| services.postprocessing.maintenance.image.repository
-a| [subs=-attributes]
-+string+
-a| [subs=-attributes]
-`""`
-| Image repository
-| services.postprocessing.maintenance.image.sha
-a| [subs=-attributes]
-+string+
-a| [subs=-attributes]
-`""`
-| Image sha / digest (optional).
-| services.postprocessing.maintenance.image.tag
-a| [subs=-attributes]
-+string+
-a| [subs=-attributes]
-`""`
-| Image tag.
-| services.postprocessing.maintenance.restartPostprocessingFinished.enabled
-a| [subs=-attributes]
-+bool+
-a| [subs=-attributes]
-`false`
-| Restart postprocessing for uploads where final storage move is not done.
-| services.postprocessing.maintenance.restartPostprocessingFinished.schedule
-a| [subs=-attributes]
-+string+
-a| [subs=-attributes]
-`"0 * * * *"`
-| Cron pattern for the job to be run. Defaults to every minute.
-| services.postprocessing.maintenance.restartPostprocessingFinished.startingDeadlineSeconds
-a| [subs=-attributes]
-+int+
-a| [subs=-attributes]
-`600`
-| Defines the a deadline (in whole seconds) for starting the Job, if that Job misses its scheduled time for any reason.
-| services.postprocessing.maintenance.restartPostprocessingVirusscan.enabled
-a| [subs=-attributes]
-+bool+
-a| [subs=-attributes]
-`false`
-| Restart postprocessing for uploads hwich are currenlty in the virusscan step. Only applicable when `.Values.features.virusscan.enabled` is set to `true`.
-| services.postprocessing.maintenance.restartPostprocessingVirusscan.schedule
-a| [subs=-attributes]
-+string+
-a| [subs=-attributes]
-`"0 * * * *"`
-| Cron pattern for the job to be run. Defaults to every minute.
-| services.postprocessing.maintenance.restartPostprocessingVirusscan.startingDeadlineSeconds
-a| [subs=-attributes]
-+int+
-a| [subs=-attributes]
-`600`
-| Defines the a deadline (in whole seconds) for starting the Job, if that Job misses its scheduled time for any reason.
 | services.postprocessing.nodeSelector
 a| [subs=-attributes]
 +object+
@@ -3605,7 +3545,7 @@ a| [subs=-attributes]
 +string+
 a| [subs=-attributes]
 `"0 * * * *"`
-| Cron pattern for the job to be run. Defaults to every minute.
+| Cron pattern for the job to be run.
 | services.storageusers.maintenance.cleanUpExpiredUploads.startingDeadlineSeconds
 a| [subs=-attributes]
 +int+
@@ -3665,8 +3605,26 @@ a| [subs=-attributes]
 +string+
 a| [subs=-attributes]
 `"0 * * * *"`
-| Cron pattern for the job to be run. Defaults to every minute.
+| Cron pattern for the job to be run.
 | services.storageusers.maintenance.purgeExpiredTrashBinItems.startingDeadlineSeconds
+a| [subs=-attributes]
++int+
+a| [subs=-attributes]
+`600`
+| Defines the a deadline (in whole seconds) for starting the Job, if that Job misses its scheduled time for any reason.
+| services.storageusers.maintenance.restartPostprocessing.enabled
+a| [subs=-attributes]
++bool+
+a| [subs=-attributes]
+`false`
+| Enables a job, that restarts postprocessing for uploads that are currently in postprocessing state. Requires persistence to be enabled.
+| services.storageusers.maintenance.restartPostprocessing.schedule
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"0 * * * *"`
+| Cron pattern for the job to be run.
+| services.storageusers.maintenance.restartPostprocessing.startingDeadlineSeconds
 a| [subs=-attributes]
 +int+
 a| [subs=-attributes]
@@ -3935,7 +3893,7 @@ a| [subs=-attributes]
 +string+
 a| [subs=-attributes]
 `"0 * * * *"`
-| Cron pattern for the job to be run. Defaults to every minute.
+| Cron pattern for the job to be run.
 | services.thumbnails.maintenance.cleanUpOldThumbnails.startingDeadlineSeconds
 a| [subs=-attributes]
 +int+

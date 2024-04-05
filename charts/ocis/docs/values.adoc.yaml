@@ -1411,33 +1411,6 @@ services:
       sha: ""
       # -- Image pull policy
       pullPolicy:
-    maintenance:
-      restartPostprocessingFinished:
-        # -- Restart postprocessing for uploads where final storage move is not done.
-        enabled: false
-        # -- Cron pattern for the job to be run. Defaults to every minute.
-        schedule: "0 * * * *"
-        # -- Defines the a deadline (in whole seconds) for starting the Job, if that Job misses its scheduled time for any reason.
-        startingDeadlineSeconds: 600
-      restartPostprocessingVirusscan:
-        # -- Restart postprocessing for uploads hwich are currenlty in the virusscan step.
-        # Only applicable when `.Values.features.virusscan.enabled` is set to `true`.
-        enabled: false
-        # -- Cron pattern for the job to be run. Defaults to every minute.
-        schedule: "0 * * * *"
-        # -- Defines the a deadline (in whole seconds) for starting the Job, if that Job misses its scheduled time for any reason.
-        startingDeadlineSeconds: 600
-      # Image for the storageusers service maintenance jobs
-      # Defaults to the same values as `image`
-      image:
-        # -- Image repository
-        repository: ""
-        # -- Image tag.
-        tag: ""
-        # -- Image sha / digest (optional).
-        sha: ""
-        # -- Image pull policy
-        pullPolicy:
 
   # -- PROXY service.
   # @default -- see detailed service configuration options below
@@ -1814,7 +1787,7 @@ services:
       cleanUpExpiredUploads:
         # -- Enables a job, that cleans up expired uploads. Requires persistence to be enabled and RWX storage.
         enabled: false
-        # -- Cron pattern for the job to be run. Defaults to every minute.
+        # -- Cron pattern for the job to be run.
         schedule: "0 * * * *"
         # -- Defines the a deadline (in whole seconds) for starting the Job, if that Job misses its scheduled time for any reason.
         startingDeadlineSeconds: 600
@@ -1825,7 +1798,7 @@ services:
       purgeExpiredTrashBinItems:
         # -- Enables a job, that purges expired trash bin items. Requires persistence to be enabled.
         enabled: false
-        # -- Cron pattern for the job to be run. Defaults to every minute.
+        # -- Cron pattern for the job to be run.
         schedule: "0 * * * *"
         # -- Defines the a deadline (in whole seconds) for starting the Job, if that Job misses its scheduled time for any reason.
         startingDeadlineSeconds: 600
@@ -1833,6 +1806,14 @@ services:
         personalDeleteBefore: 30d
         # -- Setting that makes the command delete all trashed project files older than the value. The value is a number and a unit "d", "h", "m", "s".
         projectDeleteBefore: 30d
+      # Uploads that were not postprocessed can be automatically processed again by enabling the restart job.
+      restartPostprocessing:
+        # -- Enables a job, that restarts postprocessing for uploads that are currently in postprocessing state. Requires persistence to be enabled.
+        enabled: false
+        # -- Cron pattern for the job to be run.
+        schedule: "0 * * * *"
+        # -- Defines the a deadline (in whole seconds) for starting the Job, if that Job misses its scheduled time for any reason.
+        startingDeadlineSeconds: 600
       # Image for the storageusers service maintenance jobs
       # Defaults to the same values as `image`
       image:
@@ -1961,7 +1942,7 @@ services:
       cleanUpOldThumbnails:
         # -- Enables a job, that cleans up old thumbnails. Requires persistence to be enabled.
         enabled: false
-        # -- Cron pattern for the job to be run. Defaults to every minute.
+        # -- Cron pattern for the job to be run.
         schedule: "0 * * * *"
         # -- Defines the a deadline (in whole seconds) for starting the Job, if that Job misses its scheduled time for any reason.
         startingDeadlineSeconds: 600

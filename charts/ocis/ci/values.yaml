@@ -22,9 +22,9 @@ image:
 nodeSelector:
   kubernetes.io/arch: "amd64"
 hostAliases:
-- ip: "192.168.4.2"
-  hostnames:
-  - "example.kube.owncloud.test"
+  - ip: "192.168.4.2"
+    hostnames:
+      - "example.kube.owncloud.test"
 priorityClassName: ocis-middle-priority
 jobPriorityClassName: ocis-job-middle-priority
 features:
@@ -101,11 +101,6 @@ services:
       requests:
         cpu: 100m
         memory: 128Mi
-    maintenance:
-      restartPostprocessingFinished:
-        enabled: true
-      restartPostprocessingVirusscan:
-        enabled: true
 
   storagesystem:
     persistence:
@@ -146,6 +141,8 @@ services:
       cleanUpExpiredUploads:
         enabled: true
       purgeExpiredTrashBinItems:
+        enabled: true
+      restartPostprocessing:
         enabled: true
 
   thumbnails:
