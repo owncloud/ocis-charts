@@ -104,6 +104,9 @@ spec:
               value: data.proxy.granted
             {{- end }}
 
+            - name: PROXY_AUTOPROVISION_ACCOUNTS
+              value: {{ .Values.features.externalUserManagement.autoprovisionAccounts | default "false" | quote }}
+
           {{- include "ocis.livenessProbe" . | nindent 10 }}
 
           resources: {{ toYaml .resources | nindent 12 }}
