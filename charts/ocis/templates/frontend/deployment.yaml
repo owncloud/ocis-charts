@@ -101,6 +101,9 @@ spec:
             - name: OCIS_DISABLE_SSE
               value: {{ .Values.features.sse.disabled | quote }}
 
+            - name: OCIS_SHOW_USER_EMAIL_IN_RESULTS
+              value: {{ .Values.features.sharing.users.search.showUserEmail | quote }}
+
             # cache
             # the stat cache is disabled for now for performance reasons, see https://github.com/owncloud/ocis-charts/issues/214
             - name: FRONTEND_OCS_STAT_CACHE_STORE
