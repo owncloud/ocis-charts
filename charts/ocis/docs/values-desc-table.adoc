@@ -714,18 +714,18 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `true`
 | Allow a share receiver to share the share with a 3rd person.
-| features.sharing.users.search.maskEmailAddresses
-a| [subs=-attributes]
-+bool+
-a| [subs=-attributes]
-`false`
-| Mask user email addresses in responses.
 | features.sharing.users.search.minLengthLimit
 a| [subs=-attributes]
 +int+
 a| [subs=-attributes]
 `3`
 | Minimum number of characters to enter before a client should start a search for Share receivers. This setting can be used to customize the user experience if e.g too many results are displayed.
+| features.sharing.users.search.showUserEmail
+a| [subs=-attributes]
++bool+
+a| [subs=-attributes]
+`true`
+| Show user email when searching for other users to share with.
 | features.sse.disabled
 a| [subs=-attributes]
 +bool+
