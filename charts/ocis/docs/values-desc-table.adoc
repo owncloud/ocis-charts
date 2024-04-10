@@ -714,6 +714,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `true`
 | Allow a share receiver to share the share with a 3rd person.
+| features.sharing.users.search.maskEmailAddresses
+a| [subs=-attributes]
++bool+
+a| [subs=-attributes]
+`false`
+| Mask user email addresses in responses.
 | features.sharing.users.search.minLengthLimit
 a| [subs=-attributes]
 +int+

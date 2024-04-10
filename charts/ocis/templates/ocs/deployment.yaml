@@ -51,6 +51,9 @@ spec:
             - name: OCS_DEBUG_ADDR
               value: 0.0.0.0:9114
 
+            - name: OCIS_SHOW_USER_EMAIL_IN_RESULTS
+              value: {{ not .Values.features.sharing.users.search.maskEmailAddresses | quote }}
+
             - name: OCS_IDM_ADDRESS
             {{ if not .Values.features.externalUserManagement.enabled }}
               value: "https://{{ .Values.externalDomain }}"
