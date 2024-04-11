@@ -34,15 +34,6 @@ releases:
             persistence:
               enabled: true
 
-          postprocessing:
-            maintenance:
-              restartPostprocessingFinished:
-                enabled: true
-                schedule: "* * * * *"
-              restartPostprocessingVirusscan:
-                enabled: true
-                schedule: "* * * * *"
-
           search:
             persistence:
               enabled: true
@@ -59,6 +50,9 @@ releases:
                 enabled: true
                 schedule: "* * * * *"
               purgeExpiredTrashBinItems:
+                enabled: true
+                schedule: "* * * * *"
+              restartPostprocessing:
                 enabled: true
                 schedule: "* * * * *"
 
