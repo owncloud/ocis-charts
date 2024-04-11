@@ -203,6 +203,8 @@ features:
         # -- Minimum number of characters to enter before a client should start a search for Share receivers.
         # This setting can be used to customize the user experience if e.g too many results are displayed.
         minLengthLimit: 3
+        # -- Show user email when searching for other users to share with.
+        showUserEmail: true
     # Sharing per public link related setings
     publiclink:
       # -- Enforce a password on all public link shares.

@@ -720,6 +720,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `3`
 | Minimum number of characters to enter before a client should start a search for Share receivers. This setting can be used to customize the user experience if e.g too many results are displayed.
+| features.sharing.users.search.showUserEmail
+a| [subs=-attributes]
++bool+
+a| [subs=-attributes]
+`true`
+| Show user email when searching for other users to share with.
 | features.sse.disabled
 a| [subs=-attributes]
 +bool+
