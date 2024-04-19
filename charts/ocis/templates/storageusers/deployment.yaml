@@ -39,6 +39,9 @@ spec:
             {{- include "ocis.events" . | nindent 12 }}
             {{- include "ocis.cacheStore" . | nindent 12 }}
 
+            # set the gateway for the CLI tools
+            - name: STORAGE_USERS_GATEWAY_GRPC_ADDR
+              value: {{ .appNameGateway }}:9142
             # logging
             - name: STORAGE_USERS_LOG_COLOR
               value: {{ .Values.logging.color | quote }}
