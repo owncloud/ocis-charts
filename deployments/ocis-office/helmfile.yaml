@@ -26,7 +26,7 @@ releases:
   - name: rabbitmq
     namespace: onlyoffice
     chart: bitnami/rabbitmq
-    version: 12.15.0
+    version: 14.0.1
 
   - name: redis
     namespace: onlyoffice
