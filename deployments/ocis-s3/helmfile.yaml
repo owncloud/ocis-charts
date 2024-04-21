@@ -5,7 +5,7 @@ repositories:
 releases:
   - name: minio
     chart: minio/minio
-    version: 5.0.7
+    version: 5.1.0
     namespace: minio
     values:
       - mode: standalone
