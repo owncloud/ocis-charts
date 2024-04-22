@@ -292,7 +292,9 @@ features:
     # Consider that the UUID can be encoded in some LDAP deployment configurations like in .ldif files. These need to be decoded beforehand.
     # Note: Enabling `roleAssignment` will disable `adminUUID`.
     adminUUID: ""
-    # Enables account auto-provisioning, i.e. creating missing users in ldap storage (e.g. from oidc information).
+    # -- Enables account auto provisioning.
+    # It will create missing users on the LDAP server from OIDC information.
+    # Needs `features.externalUserManagement.ldap.writeable` to be be set to `true`.
     autoprovisionAccounts: false
     # OpenID Connect Identity provider related settings.
     oidc:
