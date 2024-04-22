@@ -287,7 +287,7 @@ a| [subs=-attributes]
 +bool+
 a| [subs=-attributes]
 `false`
-| Enables account auto-provisioning, i.e. creating missing users in ldap storage (e.g. from oidc information).
+|
 | features.externalUserManagement.enabled
 a| [subs=-attributes]
 +bool+
