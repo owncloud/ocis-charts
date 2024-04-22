@@ -11,9 +11,11 @@ spec:
   template:
     {{- include "ocis.templateMetadata" (dict "scope" $ "configCheck" false) | nindent 4 }}
     spec:
-      {{- include "ocis.serviceAccount" . | nindent 6 }}
       {{- include "ocis.affinity" .Values.services.webdav | nindent 6 }}
       {{- include "ocis.securityContextAndtopologySpreadConstraints" . | nindent 6 }}
+      {{- include "ocis.priorityClassName" $.priorityClassName | nindent 6 }}
+      {{- include "ocis.hostAliases" $ | nindent 6 }}
+      nodeSelector: {{ toYaml $.nodeSelector | nindent 8 }}
       containers:
         - name: {{ .appName }}
           {{- include "ocis.image" $ | nindent 10 }}
@@ -22,6 +24,7 @@ spec:
           {{- include "ocis.containerSecurityContext" . | nindent 10 }}
           env:
             {{- include "ocis.serviceRegistry" . | nindent 12 }}
+            {{- include "ocis.cors" . |nindent 12 }}
 
             - name: WEBDAV_LOG_COLOR
               value: {{ .Values.logging.color | quote }}
@@ -36,6 +39,7 @@ spec:
               value: {{ .Values.tracing.type | quote }}
             - name: WEBDAV_TRACING_ENDPOINT
               value: {{ .Values.tracing.endpoint | quote }}
+
             - name: WEBDAV_TRACING_COLLECTOR
               value: {{ .Values.tracing.collector | quote }}
 
@@ -49,8 +53,6 @@ spec:
 
             - name: OCIS_PUBLIC_URL
               value: "https://{{ .Values.externalDomain }}"
-
-            {{- include "ocis.cors" . |nindent 12 }}
 
           {{- include "ocis.livenessProbe" . | nindent 10 }}
 

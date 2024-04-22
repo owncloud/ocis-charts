@@ -3,17 +3,34 @@ kind: Keycloak
 metadata:
   name: ocis-keycloak
 spec:
-  instances: 1
+  instances: 3
   db:
     vendor: postgres
-    host: postgres-postgresql.postgres.svc.cluster.local
+    host: postgres-pooler
     usernameSecret:
-      name: keycloak-db-secret
+      name: keycloak.postgres.credentials.postgresql.acid.zalan.do
       key: username
     passwordSecret:
-      name: keycloak-db-secret
+      name: keycloak.postgres.credentials.postgresql.acid.zalan.do
       key: password
+    poolInitialSize: 100
+    poolMinSize: 100
+    poolMaxSize: 100
   http:
     tlsSecret: keycloak-tls-secret
   hostname:
     hostname: keycloak.kube.owncloud.test
+  unsupported:
+    podTemplate:
+      spec:
+        containers:
+          - name: keycloak
+            env:
+              - name: JAVA_OPTS_APPEND
+                value: -Xms2g -Xmx3g -Djgroups.thread_dumps_threshold=1
+                # Load shedding, see https://www.keycloak.org/high-availability/deploy-keycloak-kubernetes
+              - name: QUARKUS_THREAD_POOL_QUEUE_SIZE
+                value: "1000"
+                # Sum of JGroups threads should not exceed 200 (default) for all pods https://www.keycloak.org/high-availability/concepts-threads#_jgroups_connection_pool
+              - name: QUARKUS_THREAD_POOL_MAX_THREADS
+                value: "66"

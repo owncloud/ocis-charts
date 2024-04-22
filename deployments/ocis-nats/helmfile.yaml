@@ -4,19 +4,74 @@ repositories:
 
 releases:
   - name: nats
-    chart: nats/nats
     namespace: ocis-nats
+    chart: nats/nats
+    version: 1.1.11
     values:
-      - cluster:
-          enabled: true
-          name: "ocis-cluster"
-      - nats:
+      - config:
+          cluster:
+            enabled: true
+            replicas: 3
+            name: "ocis-cluster"
           jetstream:
             enabled: true
+            memoryStore:
+              enabled: true
+              maxSize: 2Gi
+          merge:
+            00$include: auth.conf
+      - configMap:
+          merge:
+            data:
+              # bcrypted password generated with `nats server passwd`:
+              # nats-sys: O0Z1O5WG2SIisXUToxUPxQUx
+              # ocis-admin: pwnnH3S42D5dZL90paHEsQop
+              auth.conf: |
+                accounts {
+                  $SYS {
+                    users = [
+                      { user: "nats-sys",
+                        pass: "$2a$11$5BJO2C7WJLjuOm8FBjGjCugs//lL.Sp9gVIBWzU.fITE5MfCbHCMK"
+                      }
+                    ]
+                  }
+                  $OCIS {
+                    jetstream: enabled
+                    users = [
+                      { user: "ocis"
+                      },
+                      { user: "ocis-admin",
+                        pass: "$2a$11$6SAHUpN.m2TXOMSdSZVWsOjQ69VCQOBUmxD8FZ/aJpdvzSEOfRodC"
+                      }
+                    ]
+                  }
+                }
+                no_auth_user: ocis
+
+  - name: nack-crds
+    namespace: ocis-nack
+    chart: ./crds
+
+  - name: nack-streams
+    namespace: ocis-nats
+    chart: ./streams
+    needs:
+      - ocis-nats/nats
+      - ocis-nack/nack-crds
+
+  - name: nack
+    namespace: ocis-nack
+    chart: nats/nack
+    version: 0.25.2
+    values:
+      - namespaced: false
+      - readOnly: false
+    needs:
+      - ocis-nack/nack-crds
 
   - name: ocis
-    chart: ../../charts/ocis
     namespace: ocis
+    chart: ../../charts/ocis
     values:
       - externalDomain: ocis.kube.owncloud.test
       - ingress:
@@ -41,12 +96,17 @@ releases:
               enabled: false
 
       - registry:
-          type: nats
+          type: nats-js-kv
           nodes:
             - nats.ocis-nats.svc.cluster.local:4222
 
       - store:
-          type: nats-js
+          type: nats-js-kv
+          nodes:
+            - nats.ocis-nats.svc.cluster.local:4222
+
+      - cache:
+          type: nats-js-kv
           nodes:
             - nats.ocis-nats.svc.cluster.local:4222
 
@@ -68,10 +128,6 @@ releases:
               enabled: true
 
           storageusers:
-            persistence:
-              enabled: true
-
-          store:
             persistence:
               enabled: true
 

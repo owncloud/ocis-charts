@@ -26,38 +26,6 @@ See also https://github.com/helm/helm/issues/5465
 
 
 {{/*
-oCIS image logic
-*/}}
-{{- define "ocis.image" -}}
-  {{ $tag := default .Chart.AppVersion .Values.image.tag -}}
-  {{ if $.Values.image.sha -}}
-image: "{{ $.Values.image.repository }}:{{ $tag }}@sha256:{{ $.Values.image.sha }}"
-  {{ else -}}
-image: "{{ $.Values.image.repository }}:{{ $tag }}"
-  {{- end }}
-imagePullPolicy: {{ $.Values.image.pullPolicy }}
-{{- end -}}
-
-{{/*
-imagePullSecrets logic
-*/}}
-{{- define "ocis.imagePullSecrets" -}}
-  {{- with $.Values.image.pullSecrets }}
-imagePullSecrets:
-  {{- toYaml . | nindent 2 }}
-  {{- end }}
-{{- end -}}
-
-{{/*
-initContainer image logic
-*/}}
-{{- define "ocis.initContainerImage" -}}
-  {{- $tag := default .Chart.AppVersion .Values.initContainerImage.tag -}}
-image: "{{ $.Values.initContainerImage.repository }}:{{ $tag }}"
-imagePullPolicy: {{ .Values.initContainerImage.pullPolicy }}
-{{- end -}}
-
-{{/*
 Adds the app names to the scope and set the name of the app based on the input parameters
 
 @param .scope          The current scope
@@ -70,7 +38,9 @@ Adds the app names to the scope and set the name of the app based on the input p
   {{- $_ := set .scope "appNameAudit" "audit" -}}
   {{- $_ := set .scope "appNameAuthBasic" "authbasic" -}}
   {{- $_ := set .scope "appNameAuthMachine" "authmachine" -}}
+  {{- $_ := set .scope "appNameAuthService" "authservice" -}}
   {{- $_ := set .scope "appNameAntivirus" "antivirus" -}}
+  {{- $_ := set .scope "appNameClientlog" "clientlog" -}}
   {{- $_ := set .scope "appNameEventhistory" "eventhistory" -}}
   {{- $_ := set .scope "appNameFrontend" "frontend" -}}
   {{- $_ := set .scope "appNameGateway" "gateway" -}}
@@ -88,6 +58,7 @@ Adds the app names to the scope and set the name of the app based on the input p
   {{- $_ := set .scope "appNameSearch" "search" -}}
   {{- $_ := set .scope "appNameSettings" "settings" -}}
   {{- $_ := set .scope "appNameSharing" "sharing" -}}
+  {{- $_ := set .scope "appNameSSE" "sse" -}}
   {{- $_ := set .scope "appNameStoragePubliclink" "storagepubliclink" -}}
   {{- $_ := set .scope "appNameStorageShares" "storageshares" -}}
   {{- $_ := set .scope "appNameStorageUsers" "storageusers" -}}
@@ -98,6 +69,7 @@ Adds the app names to the scope and set the name of the app based on the input p
   {{- $_ := set .scope "appNameUsers" "users" -}}
   {{- $_ := set .scope "appNameWeb" "web" -}}
   {{- $_ := set .scope "appNameWebdav" "webdav" -}}
+  {{- $_ := set .scope "appNameWebfinger" "webfinger" -}}
 
   {{- if .appNameSuffix -}}
   {{- $_ := set .scope "appName" (print (index .scope .appName) "-" .appNameSuffix) -}}
@@ -109,8 +81,15 @@ Adds the app names to the scope and set the name of the app based on the input p
   {{- $_ := set .scope "appSpecificConfig" (index .scope.Values.services (index .scope .appName)) -}}
   {{- end -}}
 
+  {{- $_ := set .scope "priorityClassName" (default (default (dict) .scope.Values.priorityClassName) .scope.appSpecificConfig.priorityClassName) -}}
+  {{- $_ := set .scope "jobPriorityClassName" (default (default (dict) .scope.Values.jobPriorityClassName) .scope.appSpecificConfig.jobPriorityClassName) -}}
+
+  {{- $_ := set .scope "nodeSelector" (default (default (dict) .scope.Values.nodeSelector) .scope.appSpecificConfig.nodeSelector) -}}
+  {{- $_ := set .scope "jobNodeSelector" (default (default (dict) .scope.Values.jobNodeSelector) .scope.appSpecificConfig.jobNodeSelector) -}}
+
   {{- $_ := set .scope "resources" (default (default (dict) .scope.Values.resources) .scope.appSpecificConfig.resources) -}}
   {{- $_ := set .scope "jobResources" (default (default (dict) .scope.Values.jobResources) .scope.appSpecificConfig.jobResources) -}}
+
 {{- end -}}
 
 {{/*
@@ -131,7 +110,7 @@ spec:
 
 {{- define "ocis.hpa" -}}
 {{- if .autoscaling.enabled }}
-apiVersion: {{ template "common.apiversion.hpa" . }}
+apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 {{ include "ocis.metadata" . }}
 spec:
@@ -153,6 +132,11 @@ affinity:
 {{- end }}
 {{- end -}}
 
+{{- define "ocis.priorityClassName" -}}
+{{- if . }}
+priorityClassName: {{ . | quote }}
+{{- end }}
+{{- end -}}
 {{/*
 
 {{/*
@@ -252,15 +236,18 @@ oCIS deployment CORS template
 {{- define "ocis.cors" -}}
 {{- if .Values.http.cors.allow_origins }}
 - name: OCIS_CORS_ALLOW_ORIGINS
-  value: {{ .Values.http.cors.allow_origins | join "," | quote }}
+  value: {{ without .Values.http.cors.allow_origins "" | join "," | quote }}
 {{- end }}
 {{- end -}}
 
 {{/*
-oCIS serviceAccount settings
+oCIS hostAliases settings
 */}}
-{{- define "ocis.serviceAccount" -}}
-automountServiceAccountToken: true
+{{- define "ocis.hostAliases" -}}
+  {{- with $.Values.hostAliases }}
+hostAliases:
+  {{- toYaml . | nindent 2 }}
+  {{- end }}
 {{- end -}}
 
 {{/*

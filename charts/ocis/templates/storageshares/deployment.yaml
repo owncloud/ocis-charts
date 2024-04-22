@@ -11,9 +11,11 @@ spec:
   template:
     {{- include "ocis.templateMetadata" (dict "scope" $ "configCheck" false) | nindent 4 }}
     spec:
-      {{- include "ocis.serviceAccount" . | nindent 6 }}
       {{- include "ocis.affinity" .Values.services.storageshares | nindent 6 }}
       {{- include "ocis.securityContextAndtopologySpreadConstraints" . | nindent 6 }}
+      {{- include "ocis.priorityClassName" $.priorityClassName | nindent 6 }}
+      {{- include "ocis.hostAliases" $ | nindent 6 }}
+      nodeSelector: {{ toYaml $.nodeSelector | nindent 8 }}
       containers:
         - name: {{ .appName }}
           {{- include "ocis.image" $ | nindent 10 }}

@@ -1,0 +1,3 @@
+[submodule "deployments/external-user-management/charts/keycloak-k8s-resources"]
+	path = deployments/external-user-management/charts/keycloak-k8s-resources
+	url = git@github.com:keycloak/keycloak-k8s-resources.git

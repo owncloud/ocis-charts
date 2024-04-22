@@ -11,7 +11,6 @@ spec:
   template:
     {{- include "ocis.templateMetadata" (dict "scope" $ "configCheck" false) | nindent 4 }}
     spec:
-      {{- include "ocis.serviceAccount" . | nindent 6 }}
       {{- include "ocis.affinity" .Values.services.storagesystem | nindent 6 }}
       {{- include "ocis.securityContextAndtopologySpreadConstraints" . | nindent 6 }}
       {{- if and $.Values.services.storagesystem.persistence.enabled $.Values.services.storagesystem.persistence.chownInitContainer }}
@@ -26,6 +25,9 @@ spec:
           - name: {{ include "ocis.persistence.dataVolumeName" . }}
             mountPath: /var/lib/ocis
       {{ end }}
+      {{- include "ocis.priorityClassName" $.priorityClassName | nindent 6 }}
+      {{- include "ocis.hostAliases" $ | nindent 6 }}
+      nodeSelector: {{ toYaml $.nodeSelector | nindent 8 }}
       containers:
         - name: {{ .appName }}
           {{- include "ocis.image" $ | nindent 10 }}
@@ -34,6 +36,7 @@ spec:
           {{- include "ocis.containerSecurityContext" . | nindent 10 }}
           env:
             {{- include "ocis.serviceRegistry" . | nindent 12 }}
+            {{- include "ocis.cacheStore" . | nindent 12 }}
 
             # logging
             - name: STORAGE_SYSTEM_LOG_COLOR
@@ -71,14 +74,6 @@ spec:
               value: ocis
             - name: STORAGE_SYSTEM_OCIS_METADATA_BACKEND
               value: messagepack
-
-            # cache
-            - name: STORAGE_SYSTEM_CACHE_STORE
-              value: {{ default "noop" .Values.cache.type | quote }}
-            {{- if ne (default "noop" .Values.cache.type) "noop" }}
-            - name: STORAGE_SYSTEM_CACHE_STORE_NODES
-              value: {{ join "," .Values.cache.nodes | quote }}
-            {{- end }}
 
             - name: STORAGE_SYSTEM_JWT_SECRET
               valueFrom:

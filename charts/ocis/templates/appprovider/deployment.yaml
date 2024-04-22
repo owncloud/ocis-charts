@@ -13,9 +13,11 @@ spec:
   template:
     {{- include "ocis.templateMetadata" (dict "scope" $ "configCheck" false) | nindent 4 }}
     spec:
-      {{- include "ocis.serviceAccount" $ | nindent 6 }}
       {{- include "ocis.affinity" $.Values.services.appprovider | nindent 6 }}
       {{- include "ocis.securityContextAndtopologySpreadConstraints" $ | nindent 6 }}
+      {{- include "ocis.priorityClassName" $.priorityClassName | nindent 6 }}
+      {{- include "ocis.hostAliases" $ | nindent 6 }}
+      nodeSelector: {{ toYaml $.nodeSelector | nindent 8 }}
       containers:
         - name: {{ $.appName }}
           {{- include "ocis.image" $ | nindent 10 }}
@@ -72,6 +74,10 @@ spec:
               value: {{ $.Values.features.appsIntegration.wopiIntegration.wopiServerURI | quote }}
             - name: APP_PROVIDER_WOPI_FOLDER_URL_BASE_URL
               value: {{ tpl $.Values.features.appsIntegration.wopiIntegration.wopiFolderURI $ | quote }}
+            {{- if ne $.Values.features.appsIntegration.wopiIntegration.wopiFolderURIPathTemplate nil }}
+            - name: APP_PROVIDER_WOPI_FOLDER_URL_PATH_TEMPLATE
+              value: {{ $.Values.features.appsIntegration.wopiIntegration.wopiFolderURIPathTemplate | quote }}
+            {{- end }}
 
             - name: APP_PROVIDER_JWT_SECRET
               valueFrom:
@@ -84,7 +90,7 @@ spec:
               command:
               - /bin/sh
               - -c
-              - curl --silent --fail http://frontend:9140/app/list | grep {{ $officeSuite.name }}
+              - curl --silent --fail http://frontend:9140/app/list | grep '"name":"{{ $officeSuite.name }}"'
             timeoutSeconds: 10
             initialDelaySeconds: 60
             periodSeconds: 20
