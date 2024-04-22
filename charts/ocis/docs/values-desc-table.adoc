@@ -294,6 +294,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `""`
 | UUID of the inital admin user. If the given value matches a user's value from `features.externalUserManagement.oidc.userIDClaim`, the admin role will be assigned. Consider that the UUID can be encoded in some LDAP deployment configurations like in .ldif files. These need to be decoded beforehand. Note: Enabling `roleAssignment` will disable `adminUUID`.
+| features.externalUserManagement.autoprovisionAccounts
+a| [subs=-attributes]
++bool+
+a| [subs=-attributes]
+`false`
+| Enables account auto provisioning. It will create missing users on the LDAP server from OIDC information. Needs `features.externalUserManagement.ldap.writeable` to be be set to `true`.
 | features.externalUserManagement.enabled
 a| [subs=-attributes]
 +bool+
