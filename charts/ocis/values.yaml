@@ -1722,6 +1722,11 @@ services:
   # -- STORAGE-USERS service.
   # @default -- see detailed service configuration options below
   storageusers:
+    events:
+      consumer:
+        # -- Number of event consumers to be started that concurrently consume events (eg. postprocessing related events)
+        concurrency: 10
+
     storageBackend:
       # -- Configures the storage driver. Possible values are "ocis" and "s3ng".
       # The oCIS driver stores all data in the persistent volume if persistence is enabled.

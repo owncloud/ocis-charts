@@ -173,6 +173,8 @@ spec:
 
             - name: OCIS_ASYNC_UPLOADS
               value: "true"
+            - name: STORAGE_USERS_EVENTS_NUM_CONSUMERS
+              value: {{ .Values.services.storageusers.events.consumer.concurrency | quote }}
 
             - name: STORAGE_USERS_DATA_GATEWAY_URL
               value: "http://{{ .appNameFrontend }}:9140/data/"
