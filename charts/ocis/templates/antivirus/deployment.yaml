@@ -52,7 +52,7 @@ spec:
               value: {{ .Values.features.virusscan.infectedFileHandling | quote }}
             - name: ANTIVIRUS_SCANNER_TYPE
               value: "icap"
-            - name: ANTIVIRUS_ICAP_TIMEOUT
+            - name: ANTIVIRUS_ICAP_SCAN_TIMEOUT
               value: {{ .Values.features.virusscan.icap.timeout | quote }}
             - name: ANTIVIRUS_ICAP_URL
               value: {{ .Values.features.virusscan.icap.url | quote }}
