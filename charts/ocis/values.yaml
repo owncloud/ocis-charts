@@ -548,7 +548,6 @@ ingress:
 # Furthermore, if you already had ConfigMaps at the default locations, they will be NOT be overwritten,
 # but the helm chart will claim ownership of them. If this is a problem, fill in the configRefs below
 # with the names of your existing secrets.
-# See https://doc.owncloud.com/ocis/next/deployment/container/orchestration/orchestration.html#customize-the-generic-setup[doc.owncloud.com] for how to generate them.
 configRefs:
   # -- Reference to an existing storage-users config.
   storageusersConfigRef: ""
@@ -573,7 +572,6 @@ configRefs:
 # Furthermore, if you already had secrets at the default locations, they will be NOT be overwritten,
 # but the helm chart will claim ownership of them. If this is a problem, fill in the secretRefs below
 # with the names of your existing secrets.
-# TODO: Update https://doc.owncloud.com/ocis/next/deployment/container/orchestration/orchestration.html#customize-the-generic-setup[doc.owncloud.com] for how to generate them.
 secretRefs:
   # -- Reference to an existing admin user secret (see ref:Secrets#secrets). Not used if `features.externalUserManagement.enabled` equals `true`.
   adminUserSecretRef: ""

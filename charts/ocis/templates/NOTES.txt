@@ -97,5 +97,3 @@ kubectl -n {{ .Release.Namespace }} get secrets/admin-user --template='{{"{{"}}.
 #################################################################################
 ######   WARNING: Breaking changes may impact your deployment.              #####
 #################################################################################
-Please check the documentation for breaking changes by version:
-https://doc.owncloud.com/ocis/next/deployment/container/orchestration/tab-pages/breaking-changes.html

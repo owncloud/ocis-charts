@@ -9,19 +9,12 @@ The code is provided as-is with no warranties.
 [Helm](https://helm.sh) must be installed to use the charts.
 Please refer to Helm's [documentation](https://helm.sh/docs/) to get started.
 
-
 This chart repository and it's charts are still in an experimental phase, and it has not yet been published.
 For instructions on how to run it anyways the the respective chart's readme.
-
-
 
 <!-- Keep full URL links to repo files because this README syncs from main to gh-pages.  -->
 Chart documentation is available in [oCIS directory](https://github.com/owncloud/ocis-charts/blob/master/charts/ocis/README.md).
 
-## List of breaking changes by version
-
-Please check the documentation for breaking changes by version:
-[doc.owncloud.com](https://doc.owncloud.com/ocis/next/deployment/container/orchestration/tab-pages/breaking-changes.html)
 ## Contributing
 
 <!-- Keep full URL links to repo files because this README syncs from main to gh-pages.  -->
