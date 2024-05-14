@@ -15,9 +15,12 @@ spec:
     - name: grpc
       port: 9215
       protocol: TCP
+      appProtocol: grpc
     - name: http
       port: 9216
       protocol: TCP
+      appProtocol: http
     - name: metrics-debug
       port: 9217
       protocol: TCP
+      appProtocol: http
