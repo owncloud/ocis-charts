@@ -749,9 +749,9 @@ extraResources: []
 
 # per-service configuration.
 services:
-  # -- APP PROVIDER service. Not used if `features.appsIntegration.enabled` equals `false`.
+  # -- COLLABORATION service. Not used if `features.appsIntegration.enabled` equals `false`.
   # @default -- see detailed service configuration options below
-  appprovider:
+  collaboration:
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
     # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
@@ -794,9 +794,9 @@ services:
       # -- Image repository
       repository: ""
       # -- Image tag.
-      tag: ""
+      tag: "latest" #TODO: change me
       # -- Image sha / digest (optional).
-      sha: ""
+      sha: "e499f3222a8b2e5b91a0a09bdea12cb4e810caa183718cd0a4de7891930e1a5d" #TODO: change me
       # -- Image pull policy
       pullPolicy:
 
