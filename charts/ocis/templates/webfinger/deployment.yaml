@@ -58,7 +58,7 @@ spec:
               value: {{ .Values.features.externalUserManagement.oidc.issuerURI | quote }}
             {{- end }}
             - name: WEBFINGER_OWNCLOUD_SERVER_INSTANCE_URL
-              value: "https://{{ .Values.externalDomain }}"
+              value: "https://{{ required "externalDomain needs to be set" .Values.externalDomain }}"
             - name: WEBFINGER_INSECURE
               value: "{{ .Values.insecure.oidcIdpInsecure }}"
 
