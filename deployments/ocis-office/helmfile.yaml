@@ -107,6 +107,8 @@ releases:
     chart: cs3org/wopiserver
     version: 0.9.2
     values:
+      - image:
+          tag: v10.4.0
       - wopiserverUrl: http://wopiserver.wopiserver.svc.cluster.local:8880
       - config:
           cs3:
