@@ -63,7 +63,7 @@ spec:
             - name: APP_PROVIDER_WOPI_APP_ICON_URI
               value: {{ $officeSuite.iconURI | quote }}
             - name: APP_PROVIDER_WOPI_APP_URL
-              value: {{ $officeSuite.uri | quote }}
+              value: {{ required "features.appsIntegration.wopiIntegration.officeSuites.[x].uri must be set when features.appsIntegration.wopiIntegration.officeSuites.[x] is provided" $officeSuite.uri | quote }}
             - name: APP_PROVIDER_WOPI_INSECURE
               value: {{ $officeSuite.insecure | quote }}
             {{- with $officeSuite.disableChat }}
@@ -71,7 +71,7 @@ spec:
               value: {{ $officeSuite.disableChat | quote }}
             {{- end }}
             - name: APP_PROVIDER_WOPI_WOPI_SERVER_EXTERNAL_URL
-              value: {{ $.Values.features.appsIntegration.wopiIntegration.wopiServerURI | quote }}
+              value: {{ required "features.appsIntegration.wopiIntegration.wopiServerURI must be set when features.appsIntegration.enabled is set to true" $.Values.features.appsIntegration.wopiIntegration.wopiServerURI | quote }}
             - name: APP_PROVIDER_WOPI_FOLDER_URL_BASE_URL
               value: {{ tpl $.Values.features.appsIntegration.wopiIntegration.wopiFolderURI $ | quote }}
             {{- if ne $.Values.features.appsIntegration.wopiIntegration.wopiFolderURIPathTemplate nil }}
