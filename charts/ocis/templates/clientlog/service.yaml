@@ -15,4 +15,4 @@ spec:
     - name: metrics-debug
       port: 9260
       protocol: TCP
-      appProtocol: http
+      appProtocol: {{ .Values.service.appProtocol.http | quote}}

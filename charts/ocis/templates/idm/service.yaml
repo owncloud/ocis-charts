@@ -16,9 +16,9 @@ spec:
     - name: ldaps
       port: 9235
       protocol: TCP
-      appProtocol: tcp
+      appProtocol: {{ .Values.service.appProtocol.ldaps | quote}}
     - name: metrics-debug
       port: 9239
       protocol: TCP
-      appProtocol: http
+      appProtocol: {{ .Values.service.appProtocol.http | quote}}
 {{- end }}

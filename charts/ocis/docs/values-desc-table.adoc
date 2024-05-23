@@ -1146,6 +1146,24 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `1000`
 | User ID that all processes within any containers will run with.
+| service.appProtocol.grpc
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"grpc"`
+| appProtocol to be used for service ports that use the grpc protocol.
+| service.appProtocol.http
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"http"`
+| appProtocol to be used for service ports that use the http protocol.
+| service.appProtocol.ldaps
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"tcp"`
+| appProtocol to be used for service ports that use the ldaps protocol. Not used if `features.externalUserManagement.enabled` equals `true`.
 | services.antivirus
 a| [subs=-attributes]
 +object+

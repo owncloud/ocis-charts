@@ -2282,3 +2282,13 @@ monitoring:
   # -- Scrape timeout.
   scrapeTimeout: 60s
 
+# Kubernetes service related settings.
+service:
+  appProtocol:
+    # -- appProtocol to be used for service ports that use the grpc protocol.
+    grpc: grpc
+    # -- appProtocol to be used for service ports that use the http protocol.
+    http: http
+    # -- appProtocol to be used for service ports that use the ldaps protocol. Not used if `features.externalUserManagement.enabled` equals `true`.
+    ldaps: tcp
+
