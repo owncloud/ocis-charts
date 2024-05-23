@@ -2290,3 +2290,5 @@ service:
     http: http
     # -- appProtocol to be used for service ports that use the ldaps protocol. Not used if `features.externalUserManagement.enabled` equals `true`.
     ldaps: tcp
+    # -- appProtocol to be used for service ports that use the nats wire protocol. Not used if `messagingSystem.external.enabled` equals `true`.
+    nats: tcp
