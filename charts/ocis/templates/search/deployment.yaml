@@ -71,7 +71,7 @@ spec:
               value: tika
 
             - name: SEARCH_EXTRACTOR_TIKA_TIKA_URL
-              value: {{ .Values.services.search.extractor.tika.url | quote }}
+              value: {{ required "services.search.extractor.tika.url needs to be set when services.search.extractor.type is set to tika" .Values.services.search.extractor.tika.url | quote }}
 
             - name: SEARCH_EXTRACTOR_TIKA_CLEAN_STOP_WORDS
               value: {{ .Values.services.search.extractor.tika.cleanStopWords | quote }}

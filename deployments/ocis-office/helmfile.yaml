@@ -26,17 +26,17 @@ releases:
   - name: rabbitmq
     namespace: onlyoffice
     chart: bitnami/rabbitmq
-    version: 14.1.3
+    version: 14.3.0
 
   - name: redis
     namespace: onlyoffice
     chart: bitnami/redis
-    version: 19.3.1
+    version: 19.5.0
 
   - name: postgresql
     namespace: onlyoffice
     chart: bitnami/postgresql
-    version: 15.3.1
+    version: 15.4.0
 
   - name: onlyoffice
     namespace: onlyoffice
@@ -107,6 +107,9 @@ releases:
     chart: cs3org/wopiserver
     version: 0.9.2
     values:
+      - image:
+          # renovate: datasource=docker depName=cs3org/wopiserver
+          tag: v10.4.0
       - wopiserverUrl: http://wopiserver.wopiserver.svc.cluster.local:8880
       - config:
           cs3:

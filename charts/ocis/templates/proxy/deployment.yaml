@@ -57,7 +57,7 @@ spec:
             {{- if not .Values.features.externalUserManagement.enabled }}
               value: "https://{{ .Values.externalDomain }}"
             {{- else }}
-              value: {{ .Values.features.externalUserManagement.oidc.issuerURI | quote }}
+              value: {{ required "features.externalUserManagement.oidc.issuerURI must be set when features.externalUserManagement.enabled is set to true" .Values.features.externalUserManagement.oidc.issuerURI | quote }}
             {{- end }}
 
             {{- if .Values.features.externalUserManagement.enabled }}

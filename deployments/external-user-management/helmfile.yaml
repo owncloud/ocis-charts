@@ -35,7 +35,7 @@ releases:
   - name: openldap
     namespace: openldap
     chart: openldap/openldap-stack-ha
-    version: 4.2.2
+    version: 4.2.4
     values:
       - ltb-passwd:
           enabled: false

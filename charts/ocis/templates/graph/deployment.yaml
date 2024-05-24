@@ -169,18 +169,18 @@ spec:
 
             {{- if .Values.features.gdprReport.integrations.keycloak.enabled }}
             - name: GRAPH_KEYCLOAK_BASE_PATH
-              value: {{ .Values.features.gdprReport.integrations.keycloak.basePath | quote }}
+              value: {{ required "features.gdprReport.integrations.keycloak.basePath needs to be configured when features.gdprReport.integrations.keycloak.enabled is set to true" .Values.features.gdprReport.integrations.keycloak.basePath | quote }}
             - name: GRAPH_KEYCLOAK_CLIENT_ID
-              value: {{ .Values.features.gdprReport.integrations.keycloak.clientID | quote }}
+              value: {{ required "features.gdprReport.integrations.keycloak.clientID needs to be configured when features.gdprReport.integrations.keycloak.enabled is set to true" .Values.features.gdprReport.integrations.keycloak.clientID | quote }}
             - name: GRAPH_KEYCLOAK_CLIENT_SECRET
               valueFrom:
                 secretKeyRef:
                   name: {{ include "secrets.gdprExportClientSecret" . }}
                   key: oidc-secret
             - name: GRAPH_KEYCLOAK_CLIENT_REALM
-              value: {{ .Values.features.gdprReport.integrations.keycloak.clientRealm | quote }}
+              value: {{ required "features.gdprReport.integrations.keycloak.clientRealm needs to be configured when features.gdprReport.integrations.keycloak.enabled is set to true" .Values.features.gdprReport.integrations.keycloak.clientRealm | quote }}
             - name: GRAPH_KEYCLOAK_USER_REALM
-              value: {{ .Values.features.gdprReport.integrations.keycloak.userRealm | quote }}
+              value: {{ required "features.gdprReport.integrations.keycloak.userRealm needs to be configured when features.gdprReport.integrations.keycloak.enabled is set to true" .Values.features.gdprReport.integrations.keycloak.userRealm | quote }}
             - name: GRAPH_KEYCLOAK_INSECURE_SKIP_VERIFY
               value: {{ .Values.features.gdprReport.integrations.keycloak.insecure | quote }}
             {{- end }}

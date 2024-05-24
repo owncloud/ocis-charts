@@ -18,6 +18,7 @@ spec:
   jobTemplate:
     spec:
       parallelism: 1
+      ttlSecondsAfterFinished: 86400
       template:
         metadata:
           labels:
@@ -141,6 +142,7 @@ spec:
   jobTemplate:
     spec:
       parallelism: 1
+      ttlSecondsAfterFinished: 86400
       template:
         metadata:
           labels:
@@ -237,6 +239,7 @@ spec:
   jobTemplate:
     spec:
       parallelism: 1
+      ttlSecondsAfterFinished: 86400
       template:
         metadata:
           labels:
