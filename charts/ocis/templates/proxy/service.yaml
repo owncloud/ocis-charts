@@ -14,8 +14,9 @@ spec:
   ports:
     - name: http
       protocol: TCP
+      appProtocol: {{ .Values.service.appProtocol.http | quote}}
       port: 9200
-      targetPort: 9200
     - name: metrics-debug
       port: 9205
       protocol: TCP
+      appProtocol: {{ .Values.service.appProtocol.http | quote}}
