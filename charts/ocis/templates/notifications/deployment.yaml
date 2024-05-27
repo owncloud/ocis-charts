@@ -64,7 +64,7 @@ spec:
             - name: NOTIFICATIONS_SMTP_ENCRYPTION
               value: {{ .Values.features.emailNotifications.smtp.encryption | quote }}
 
-            {{- if ne .Values.features.emailNotifications.smtp.authentication "auto" }}
+            {{- if ne .Values.features.emailNotifications.smtp.authentication "none" }}
             - name: NOTIFICATIONS_SMTP_USERNAME
               valueFrom:
                 secretKeyRef:
