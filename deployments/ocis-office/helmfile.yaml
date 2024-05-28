@@ -36,7 +36,7 @@ releases:
   - name: postgresql
     namespace: onlyoffice
     chart: bitnami/postgresql
-    version: 15.4.0
+    version: 15.4.1
 
   - name: onlyoffice
     namespace: onlyoffice
