@@ -6,7 +6,7 @@ releases:
   - name: nats
     namespace: ocis-nats
     chart: nats/nats
-    version: 1.1.11
+    version: 1.1.12
     values:
       - config:
           cluster:
