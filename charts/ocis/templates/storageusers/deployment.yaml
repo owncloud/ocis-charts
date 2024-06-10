@@ -93,7 +93,7 @@ spec:
             - name: STORAGE_USERS_S3NG_METADATA_BACKEND
               value: {{ .Values.services.storageusers.storageBackend.driverConfig.s3ng.metadataBackend | quote }}
             - name: STORAGE_USERS_S3NG_ENDPOINT
-              value: {{ .Values.services.storageusers.storageBackend.driverConfig.s3ng.endpoint | quote }}
+              value: {{ required "services.storageusers.storageBackend.driverConfig.s3ng.endpoint must be set when services.storageusers.storageBackend.driver is set to s3ng" .Values.services.storageusers.storageBackend.driverConfig.s3ng.endpoint | quote }}
             - name: STORAGE_USERS_S3NG_REGION
               value: {{ .Values.services.storageusers.storageBackend.driverConfig.s3ng.region | quote }}
             - name: STORAGE_USERS_S3NG_ACCESS_KEY
@@ -107,7 +107,7 @@ spec:
                   name: {{ include "secrets.s3CredentialsSecret" . }}
                   key: secretKey
             - name: STORAGE_USERS_S3NG_BUCKET
-              value: {{ .Values.services.storageusers.storageBackend.driverConfig.s3ng.bucket | quote }}
+              value: {{ required "services.storageusers.storageBackend.driverConfig.s3ng.bucket must be set when services.storageusers.storageBackend.driver is set to s3ng" .Values.services.storageusers.storageBackend.driverConfig.s3ng.bucket | quote }}
             - name: STORAGE_USERS_S3NG_PUT_OBJECT_DISABLE_CONTENT_SHA256
               value: {{ .Values.services.storageusers.storageBackend.driverConfig.s3ng.disableContentSHA256 | quote }}
             - name: STORAGE_USERS_S3NG_PUT_OBJECT_DISABLE_MULTIPART

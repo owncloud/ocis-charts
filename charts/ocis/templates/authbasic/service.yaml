@@ -16,7 +16,9 @@ spec:
     - name: grpc
       port: 9146
       protocol: TCP
+      appProtocol: {{ .Values.service.appProtocol.grpc | quote}}
     - name: metrics-debug
       port: 9147
       protocol: TCP
+      appProtocol: {{ .Values.service.appProtocol.http | quote}}
 {{ end }}

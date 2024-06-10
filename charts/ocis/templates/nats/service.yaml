@@ -16,7 +16,9 @@ spec:
     - name: nats
       port: 9233
       protocol: TCP
+      appProtocol: {{ .Values.service.appProtocol.nats | quote}}
     - name: metrics-debug
       port: 9234
       protocol: TCP
+      appProtocol: {{ .Values.service.appProtocol.http | quote}}
 {{- end }}

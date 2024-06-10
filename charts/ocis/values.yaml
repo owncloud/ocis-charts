@@ -72,7 +72,7 @@ deploymentStrategy:
   type: RollingUpdate
 
 # -- Domain where oCIS is reachable for the outside world
-externalDomain: ocis.owncloud.test
+externalDomain: ""
 
 # Insecure options.
 # These are useful for some limited environments like CI or on a test cluster.
@@ -238,7 +238,7 @@ features:
     # WOPI (office suite integration) needs an https://github.com/cs3org/wopiserver[cs3org/wopiserver] and at least one office suite.
     wopiIntegration:
       # -- URL of the https://github.com/cs3org/wopiserver[cs3org/wopiserver]. Can be deployed https://artifacthub.io/packages/helm/cs3org/wopiserver[with this Chart].
-      wopiServerURI: https://wopiserver.owncloud.test
+      wopiServerURI: ""
       # -- Base url to navigate back from the app to the containing folder in the file list.
       wopiFolderURI: https://{{ .Values.externalDomain }}
       # -- Path template for the url to navigate back from the app to the containing folder in the file list.
@@ -251,9 +251,9 @@ features:
           # -- Enables the office suite.
           enabled: false
           # -- URI of the office suite.
-          uri: https://collabora.owncloud.test
+          uri: ""
           # -- URI for the icon of the office suite. Will be displayed to the users.
-          iconURI: https://collabora.owncloud.test/favicon.ico
+          iconURI: ""
           # -- Disables SSL certificate checking for connections to the office suites http api.
           # Not recommended for production installations.
           insecure: false
@@ -262,9 +262,9 @@ features:
           # -- Enables the office suite.
           enabled: false
           # -- URI of the office suite.
-          uri: https://onlyoffice.owncloud.test
+          uri: ""
           # -- URI for the icon of the office suite. Will be displayed to the users.
-          iconURI: https://onlyoffice.owncloud.test/web-apps/apps/documenteditor/main/resources/img/favicon.ico
+          iconURI: ""
           # -- Disables SSL certificate checking for connections to the office suites http api.
           # Not recommended for production installations.
           insecure: false
@@ -300,7 +300,7 @@ features:
     oidc:
       # -- Issuer URI of the OpenID Connect Identity Provider.
       # If the IDP doesn't have valid / trusted SSL certificates, certificate validation can be disabled with the `insecure.oidcIdpInsecure` option.
-      issuerURI: https://idp.owncloud.test/realms/ocis
+      issuerURI: ""
       # -- Link to the OIDC provider's user accessible session management. This will be shown to the user on the personal account page.
       # When using Keycloak with the a realm named "ocis" this could point to eg. https://keycloak.owncloud.test/realms/ocis/account/
       sessionManagementLink: ""
@@ -441,13 +441,13 @@ features:
         # -- Enable keycloak data export.
         enabled: false
         # -- Base URI of keycloak.
-        basePath: https://keycloak.owncloud.test
+        basePath: ""
         # -- Client ID to authenticate against keycloak with.
-        clientID: gdpr-exporter
+        clientID: ""
         # -- Realm that the client ID is configured in, usually master.
-        clientRealm: master
+        clientRealm: ""
         # -- Realm that the users are in.
-        userRealm: oCIS
+        userRealm: ""
         # -- Disables SSL certificate checking for connections to the GDPR export service.
         # Not recommended for production installations.
         insecure: false
@@ -1460,7 +1460,7 @@ services:
       sizeLimit:
       tika:
         # -- Set the URL to Tika. Only applicable if `services.search.extractor.type` == `tika`.
-        url: http://tika.tika.svc.cluster.local:9998
+        url: ""
         # -- Defines if stop words should be cleaned or not.
         cleanStopWords: true
     # -- Persistence settings.
@@ -1773,11 +1773,11 @@ services:
           #     ]
           # }
           # -- S3 endpoint to use for the S3NG driver. Only used if driver is set to "s3ng".
-          endpoint: https://localhost:1234
+          endpoint: ""
           # -- S3 region to use for the S3NG driver. Only used if driver is set to "s3ng".
           region: default
           # -- S3 bucket to use for the S3NG driver. Only used if driver is set to "s3ng".
-          bucket: example-bucket
+          bucket: ""
           # -- Disable sending content sha256 when copying objects to S3.
           disableContentSHA256: false
           putObject:
@@ -2280,3 +2280,15 @@ monitoring:
   interval: 60s
   # -- Scrape timeout.
   scrapeTimeout: 60s
+
+# Kubernetes service related settings.
+service:
+  appProtocol:
+    # -- appProtocol to be used for service ports that use the grpc protocol.
+    grpc: grpc
+    # -- appProtocol to be used for service ports that use the http protocol.
+    http: http
+    # -- appProtocol to be used for service ports that use the ldaps protocol. Not used if `features.externalUserManagement.enabled` equals `true`.
+    ldaps: tcp
+    # -- appProtocol to be used for service ports that use the nats wire protocol. Not used if `messagingSystem.external.enabled` equals `true`.
+    nats: tcp

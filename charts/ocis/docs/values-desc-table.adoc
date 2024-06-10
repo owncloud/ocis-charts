@@ -88,7 +88,7 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 +string+
 a| [subs=-attributes]
-`"ocis.owncloud.test"`
+`""`
 | Domain where oCIS is reachable for the outside world
 | extraLabels
 a| [subs=-attributes]
@@ -124,7 +124,7 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 +string+
 a| [subs=-attributes]
-`"https://collabora.owncloud.test/favicon.ico"`
+`""`
 | URI for the icon of the office suite. Will be displayed to the users.
 | features.appsIntegration.wopiIntegration.officeSuites[0].insecure
 a| [subs=-attributes]
@@ -142,7 +142,7 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 +string+
 a| [subs=-attributes]
-`"https://collabora.owncloud.test"`
+`""`
 | URI of the office suite.
 | features.appsIntegration.wopiIntegration.officeSuites[1].disableChat
 a| [subs=-attributes]
@@ -160,7 +160,7 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 +string+
 a| [subs=-attributes]
-`"https://onlyoffice.owncloud.test/web-apps/apps/documenteditor/main/resources/img/favicon.ico"`
+`""`
 | URI for the icon of the office suite. Will be displayed to the users.
 | features.appsIntegration.wopiIntegration.officeSuites[1].insecure
 a| [subs=-attributes]
@@ -178,7 +178,7 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 +string+
 a| [subs=-attributes]
-`"https://onlyoffice.owncloud.test"`
+`""`
 | URI of the office suite.
 | features.appsIntegration.wopiIntegration.wopiFolderURI
 a| [subs=-attributes]
@@ -196,7 +196,7 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 +string+
 a| [subs=-attributes]
-`"https://wopiserver.owncloud.test"`
+`""`
 | URL of the https://github.com/cs3org/wopiserver[cs3org/wopiserver]. Can be deployed https://artifacthub.io/packages/helm/cs3org/wopiserver[with this Chart].
 | features.archiver.maxNumFiles
 a| [subs=-attributes]
@@ -526,7 +526,7 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 +string+
 a| [subs=-attributes]
-`"https://idp.owncloud.test/realms/ocis"`
+`""`
 | Issuer URI of the OpenID Connect Identity Provider. If the IDP doesn't have valid / trusted SSL certificates, certificate validation can be disabled with the `insecure.oidcIdpInsecure` option.
 | features.externalUserManagement.oidc.roleAssignment.claim
 a| [subs=-attributes]
@@ -574,19 +574,19 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 +string+
 a| [subs=-attributes]
-`"https://keycloak.owncloud.test"`
+`""`
 | Base URI of keycloak.
 | features.gdprReport.integrations.keycloak.clientID
 a| [subs=-attributes]
 +string+
 a| [subs=-attributes]
-`"gdpr-exporter"`
+`""`
 | Client ID to authenticate against keycloak with.
 | features.gdprReport.integrations.keycloak.clientRealm
 a| [subs=-attributes]
 +string+
 a| [subs=-attributes]
-`"master"`
+`""`
 | Realm that the client ID is configured in, usually master.
 | features.gdprReport.integrations.keycloak.enabled
 a| [subs=-attributes]
@@ -604,7 +604,7 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 +string+
 a| [subs=-attributes]
-`"oCIS"`
+`""`
 | Realm that the users are in.
 | features.language.default
 a| [subs=-attributes]
@@ -1146,6 +1146,30 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `1000`
 | User ID that all processes within any containers will run with.
+| service.appProtocol.grpc
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"grpc"`
+| appProtocol to be used for service ports that use the grpc protocol.
+| service.appProtocol.http
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"http"`
+| appProtocol to be used for service ports that use the http protocol.
+| service.appProtocol.ldaps
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"tcp"`
+| appProtocol to be used for service ports that use the ldaps protocol. Not used if `features.externalUserManagement.enabled` equals `true`.
+| service.appProtocol.nats
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"tcp"`
+| appProtocol to be used for service ports that use the nats wire protocol. Not used if `messagingSystem.external.enabled` equals `true`.
 | services.antivirus
 a| [subs=-attributes]
 +object+
@@ -2854,7 +2878,7 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 +string+
 a| [subs=-attributes]
-`"http://tika.tika.svc.cluster.local:9998"`
+`""`
 | Set the URL to Tika. Only applicable if `services.search.extractor.type` == `tika`.
 | services.search.extractor.type
 a| [subs=-attributes]
@@ -3760,7 +3784,7 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 +string+
 a| [subs=-attributes]
-`"example-bucket"`
+`""`
 | S3 bucket to use for the S3NG driver. Only used if driver is set to "s3ng".
 | services.storageusers.storageBackend.driverConfig.s3ng.disableContentSHA256
 a| [subs=-attributes]
@@ -3772,7 +3796,7 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 +string+
 a| [subs=-attributes]
-`"https://localhost:1234"`
+`""`
 | S3 endpoint to use for the S3NG driver. Only used if driver is set to "s3ng".
 | services.storageusers.storageBackend.driverConfig.s3ng.maxConcurrency
 a| [subs=-attributes]
