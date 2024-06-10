@@ -85,6 +85,12 @@ spec:
                   name: {{ include "secrets.jwtSecret" $ }} #TODO: shouldn't this be a differnt secret?
                   key: jwt-secret
 
+            - name: COLLABORATION_WOPI_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "secrets.jwtSecret" $ }} #TODO: shouldn't this be a differnt secret?
+                  key: jwt-secret
+
           livenessProbe:
             exec:
               command:

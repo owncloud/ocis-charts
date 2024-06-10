@@ -796,7 +796,7 @@ services:
       # -- Image tag.
       tag: "latest" #TODO: change me
       # -- Image sha / digest (optional).
-      sha: "e499f3222a8b2e5b91a0a09bdea12cb4e810caa183718cd0a4de7891930e1a5d" #TODO: change me
+      sha: "ecf06d1a280b5e6b44f536890610f8bfa3714f949c720ca70fad94b2912d1551" #TODO: change me
       # -- Image pull policy
       pullPolicy:
 
