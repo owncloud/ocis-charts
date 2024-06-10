@@ -59,7 +59,7 @@ spec:
             - name: COLLABORATION_APP_DESCRIPTION
               value: {{ $officeSuite.name | quote }} #TODO: should this be changed?
 
-            - name: COLLABORATION_WOPIAPP_INSECURE
+            - name: COLLABORATION_APP_INSECURE
               value: {{ $officeSuite.insecure | quote }}
 
             - name: COLLABORATION_CS3API_DATAGATEWAY_INSECURE
@@ -71,13 +71,11 @@ spec:
             - name: COLLABORATION_APP_ICON
               value: {{ $officeSuite.iconURI | quote }}
 
-            - name: COLLABORATION_WOPIAPP_ADDR
+            - name: COLLABORATION_APP_ADDR
               value: {{ $officeSuite.uri | quote }}
 
-
-            - name: COLLABORATION_WOPIAPP_ADDR
+            - name: COLLABORATION_WOPI_SRC
               value: {{  $officeSuite.ingress.domain | quote }}
-
 
             - name: COLLABORATION_JWT_SECRET
               valueFrom:
