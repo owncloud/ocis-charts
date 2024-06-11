@@ -103,6 +103,11 @@ spec:
             - name: OCIS_ASYNC_UPLOADS
               value: "true"
 
+            {{- if .Values.customCAChain.enabled }}
+            - name: SSL_CERT_DIR
+              value: /etc/ssl/certs
+            {{- end }}
+
           {{- include "ocis.livenessProbe" . | nindent 10 }}
 
           resources: {{ toYaml .resources | nindent 12 }}
@@ -121,6 +126,10 @@ spec:
               readOnly: true
             - name: {{ include "ocis.persistence.dataVolumeName" . }}
               mountPath: /var/lib/ocis
+            {{- if .Values.customCAChain.enabled }}
+            - name: custom-ca-chain
+              mountPath: /etc/ssl/certs/
+            {{- end }}
 
       {{- include "ocis.imagePullSecrets" $ | nindent 6 }}
       volumes:
@@ -133,4 +142,9 @@ spec:
           {{ else }}
           emptyDir: {}
           {{ end }}
+        {{- if .Values.customCAChain.enabled }}
+        - name: custom-ca-chain
+          secret:
+            secretName:  {{ .Value.customCAChain.existingSecret }}
+        {{- end }}  
         {{- include "ocis.persistence.dataVolume" . | nindent 8 }}
