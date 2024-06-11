@@ -189,6 +189,7 @@ spec:
         - name: configs
           configMap:
             name: sharing-banned-passwords-{{ .appName }}
+        {{- if .Values.customCAChain.enabled }}
         - name: custom-ca-chain
           secret:
             secretName:  {{ .Value.customCAChain.existingSecret }}
