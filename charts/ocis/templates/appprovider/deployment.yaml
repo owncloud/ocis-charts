@@ -79,7 +79,7 @@ spec:
               value: {{ $.Values.features.appsIntegration.wopiIntegration.wopiFolderURIPathTemplate | quote }}
             {{- end }}
 
-            {{- if .Values.customCAChain.enabled }}
+            {{- if $.Values.customCAChain.enabled }}
             - name: SSL_CERT_DIR
               value: /etc/ssl/certs
             {{- end }}
@@ -112,7 +112,7 @@ spec:
           volumeMounts:
             - name: tmp-volume
               mountPath: /tmp
-            {{- if .Values.customCAChain.enabled }}
+            {{- if $.Values.customCAChain.enabled }}
             - name: custom-ca-chain
               mountPath: /etc/ssl/certs/
             {{- end }}
@@ -122,7 +122,7 @@ spec:
       volumes:
         - name: tmp-volume
           emptyDir: {}
-        {{- if .Values.customCAChain.enabled }}
+        {{- if $.Values.customCAChain.enabled }}
         - name: custom-ca-chain
           secret:
             secretName:  {{ .Value.customCAChain.existingSecret }}
