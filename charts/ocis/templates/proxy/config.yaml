@@ -46,11 +46,13 @@ data:
         - '''self'''
         - 'https://embed.diagrams.net/'
         - 'https://collabora.kube.owncloud.test/'
+        - 'https://onlyoffice.kube.owncloud.test/'
       img-src:
         - '''self'''
         - 'data:'
         - 'blob:'
         - 'https://collabora.kube.owncloud.test/'
+        - 'https://onlyoffice.kube.owncloud.test/'
       manifest-src:
         - '''self'''
       media-src:

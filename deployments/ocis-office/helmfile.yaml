@@ -17,61 +17,61 @@ releases:
       - image:
           tag: "latest-full" # using "full" tag for OCR func.
 
-  # - name: addons-onlyoffice
-  #   chart: addons/onlyoffice
-  #   namespace: onlyoffice
+  - name: addons-onlyoffice
+    chart: addons/onlyoffice
+    namespace: onlyoffice
 
-  # - name: rabbitmq
-  #   namespace: onlyoffice
-  #   chart: bitnami/rabbitmq
-  #   version: 14.4.1
+  - name: rabbitmq
+    namespace: onlyoffice
+    chart: bitnami/rabbitmq
+    version: 14.4.1
 
-  # - name: redis
-  #   namespace: onlyoffice
-  #   chart: bitnami/redis
-  #   version: 19.5.2
+  - name: redis
+    namespace: onlyoffice
+    chart: bitnami/redis
+    version: 19.5.2
 
-  # - name: postgresql
-  #   namespace: onlyoffice
-  #   chart: bitnami/postgresql
-  #   version: 15.5.4
+  - name: postgresql
+    namespace: onlyoffice
+    chart: bitnami/postgresql
+    version: 15.5.4
 
-  # - name: onlyoffice
-  #   namespace: onlyoffice
-  #   chart: onlyoffice/docs
-  #   version: 4.1.0
-  #   needs:
-  #     - onlyoffice/addons-onlyoffice
-  #     - onlyoffice/rabbitmq
-  #     - onlyoffice/redis
-  #     - onlyoffice/postgresql
-  #   values:
-  #     - wopi:
-  #         enabled: true
-  #     - ingress:
-  #         enabled: true
-  #         host: onlyoffice.kube.owncloud.test
-  #         ssl:
-  #           enabled: true
-  #           secret: onlyoffice-tls
-  #     - connections:
-  #         dbHost: postgresql
-  #         redisHost: redis-master
-  #         amqpHost: rabbitmq
-  #     - persistence:
-  #         existingClaim: ds-files
-  #   jsonPatches:
-  #     # patch https://github.com/ONLYOFFICE/Kubernetes-Docs/blob/master/templates/jobs/pre-install.yaml#L11 to a higher number
-  #     # without this, OnlyOffice installation fails on the first time
-  #     - target:
-  #         version: batch/v1
-  #         kind: Job
-  #         namespace: onlyoffice
-  #         name: pre-install
-  #       patch:
-  #         - op: replace
-  #           path: /spec/backoffLimit
-  #           value: 20
+  - name: onlyoffice
+    namespace: onlyoffice
+    chart: onlyoffice/docs
+    version: 4.1.0
+    needs:
+      - onlyoffice/addons-onlyoffice
+      - onlyoffice/rabbitmq
+      - onlyoffice/redis
+      - onlyoffice/postgresql
+    values:
+      - wopi:
+          enabled: true
+      - ingress:
+          enabled: true
+          host: onlyoffice.kube.owncloud.test
+          ssl:
+            enabled: true
+            secret: onlyoffice-tls
+      - connections:
+          dbHost: postgresql
+          redisHost: redis-master
+          amqpHost: rabbitmq
+      - persistence:
+          existingClaim: ds-files
+    jsonPatches:
+      # patch https://github.com/ONLYOFFICE/Kubernetes-Docs/blob/master/templates/jobs/pre-install.yaml#L11 to a higher number
+      # without this, OnlyOffice installation fails on the first time
+      - target:
+          version: batch/v1
+          kind: Job
+          namespace: onlyoffice
+          name: pre-install
+        patch:
+          - op: replace
+            path: /spec/backoffLimit
+            value: 20
 
   - name: collabora
     namespace: collabora
@@ -135,11 +135,13 @@ releases:
                   iconURI: https://collabora.kube.owncloud.test/favicon.ico
                   ingress:
                     domain: wopi-collabora.kube.owncloud.test
-                # - name: OnlyOffice
-                #   enabled: true
-                #   uri: "https://onlyoffice.kube.owncloud.test"
-                #   insecure: true
-                #   iconURI: https://onlyoffice.kube.owncloud.test/web-apps/apps/documenteditor/main/resources/img/favicon.ico
+                - name: OnlyOffice
+                  enabled: true
+                  uri: "https://onlyoffice.kube.owncloud.test"
+                  insecure: true
+                  iconURI: https://onlyoffice.kube.owncloud.test/web-apps/apps/documenteditor/main/resources/img/favicon.ico
+                  ingress:
+                    domain: wopi-onlyoffice.kube.owncloud.test
             mimetypes:
               # mimetypes for creation
               - mime_type: application/vnd.oasis.opendocument.text
