@@ -622,7 +622,6 @@ customCAChain:
   # Name of existing secret
   existingSecret: ""
 
-
 # Security context options.
 securityContext:
   # -- File system group for all volumes.
