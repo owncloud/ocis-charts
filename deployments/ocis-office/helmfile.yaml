@@ -72,6 +72,17 @@ releases:
           - op: replace
             path: /spec/backoffLimit
             value: 20
+      # - target:
+      #     version: apps/v1
+      #     kind: Deployment
+      #     namespace: onlyoffice
+      #     name: docservice
+      #   patch:
+      #     - op: add
+      #       path: "/spec/template/spec/containers/0/env/-"
+      #       value:
+      #         name: USE_UNAUTHORIZED_STORAGE
+      #         value: "true"
 
   - name: collabora
     namespace: collabora
@@ -226,3 +237,9 @@ releases:
           web:
             persistence:
               enabled: true
+
+          collaboration:
+            image:
+              repository: docker.io/wkloucek/ocis
+              tag: collaboration-multi
+              sha: 771e694316554efffb57998cbe1737cf17bf1cce179800bb9280615984140203
