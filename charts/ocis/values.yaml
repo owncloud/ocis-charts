@@ -794,9 +794,9 @@ services:
       # -- Image repository
       repository: ""
       # -- Image tag.
-      tag: "latest" #TODO: change me
+      tag: ""
       # -- Image sha / digest (optional).
-      sha: "ecf06d1a280b5e6b44f536890610f8bfa3714f949c720ca70fad94b2912d1551" #TODO: change me
+      sha: ""
       # -- Image pull policy
       pullPolicy:
 

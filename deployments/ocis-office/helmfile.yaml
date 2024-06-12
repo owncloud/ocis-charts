@@ -119,6 +119,10 @@ releases:
           oidcIdpInsecure: true
           ocisHttpApiInsecure: true
 
+      - image:
+          tag: "latest" #TODO: remove me
+          sha: "ecf06d1a280b5e6b44f536890610f8bfa3714f949c720ca70fad94b2912d1551" #TODO: remove me
+
       - features:
           appsIntegration:
             enabled: true
