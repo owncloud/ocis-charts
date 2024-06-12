@@ -113,10 +113,8 @@ spec:
             - name: PROXY_AUTOPROVISION_ACCOUNTS
               value: {{ .Values.features.externalUserManagement.autoprovisionAccounts | default "false" | quote }}
 
-            {{- if .Values.customCAChain.enabled }}
-            - name: SSL_CERT_DIR
-              value: /etc/ssl/certs
-            {{- end }}
+            {{- include "ocis.caEnv" . | nindent 12}}
+
           {{- include "ocis.livenessProbe" . | nindent 10 }}
 
           resources: {{ toYaml .resources | nindent 12 }}
@@ -130,18 +128,11 @@ spec:
           volumeMounts:
             - name: configs
               mountPath: /etc/ocis
-            {{- if .Values.customCAChain.enabled }}
-            - name: custom-ca-chain
-              mountPath: /etc/ssl/certs/
-            {{- end }}
+            {{- include "ocis.caPath" . | nindent 12}}
 
       {{- include "ocis.imagePullSecrets" $ | nindent 6 }}
       volumes:
         - name: configs
           configMap:
             name: {{ .appName }}-config
-        {{- if .Values.customCAChain.enabled }}
-        - name: custom-ca-chain
-          secret:
-            secretName:  {{ .Value.customCAChain.existingSecret }}
-        {{- end }}   
+        {{- include "ocis.caVolume" . | nindent 8}}    

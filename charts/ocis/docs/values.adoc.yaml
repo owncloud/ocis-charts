@@ -618,9 +618,9 @@ secretRefs:
 # If a custom CA chain is needed for the communcation with other services like S3 or notification services.
 # The secret needs to be manually created.
 customCAChain:
-  # -- Custom CA enables SSL_CERT_DIR in pods with the path /etc/ssl/certs.
+  # -- Custom CA enables SSL_CERT_DIR in pods with the additional path /etc/ssl/custom.
   enabled: false
-  # -- If custom CA chain is enabled this attribute mounts the existing secret to /etc/ssl/certs.
+  # -- If custom CA chain is enabled this attribute mounts the existing secret to /etc/ssl/custom.
   existingSecret: ""
 
 # Security context options.

@@ -62,6 +62,8 @@ spec:
 
             - name: NATS_DEBUG_ADDR
               value: 0.0.0.0:9234
+            
+            {{- include "ocis.caEnv" . | nindent 12}}
 
           {{- include "ocis.livenessProbe" . | nindent 10 }}
 
@@ -76,8 +78,10 @@ spec:
           volumeMounts:
             - name: {{ include "ocis.persistence.dataVolumeName" . }}
               mountPath: /var/lib/ocis
+            {{- include "ocis.caPath" . | nindent 12}}
 
       {{- include "ocis.imagePullSecrets" $ | nindent 6 }}
       volumes:
         {{- include "ocis.persistence.dataVolume" . | nindent 8 }}
+        {{- include "ocis.caVolume" . | nindent 8}}   
 {{- end }}

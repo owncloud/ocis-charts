@@ -54,10 +54,7 @@ spec:
             - name: EVENTHISTORY_DEBUG_ADDR
               value: 0.0.0.0:9270
 
-            {{- if .Values.customCAChain.enabled }}
-            - name: SSL_CERT_DIR
-              value: /etc/ssl/certs
-            {{- end }}
+            {{- include "ocis.caEnv" . | nindent 12}}
 
           {{- include "ocis.livenessProbe" . | nindent 10 }}
 
@@ -75,10 +72,7 @@ spec:
             - name: messaging-system-ca
               mountPath: /etc/ocis/messaging-system-ca
               readOnly: true
-            {{- if .Values.customCAChain.enabled }}
-            - name: custom-ca-chain
-              mountPath: /etc/ssl/certs/
-            {{- end }}
+            {{- include "ocis.caPath" . | nindent 12}}
 
       {{- include "ocis.imagePullSecrets" $ | nindent 6 }}
       volumes:
@@ -91,8 +85,4 @@ spec:
           {{ else }}
           emptyDir: {}
           {{ end }}
-        {{- if .Values.customCAChain.enabled }}
-        - name: custom-ca-chain
-          secret:
-            secretName:  {{ .Value.customCAChain.existingSecret }}
-        {{- end }} 
+        {{- include "ocis.caVolume" . | nindent 8}} 

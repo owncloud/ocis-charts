@@ -77,13 +77,13 @@ a| [subs=-attributes]
 +bool+
 a| [subs=-attributes]
 `false`
-| Custom CA enables SSL_CERT_DIR in pods with the path /etc/ssl/certs.
+| Custom CA enables SSL_CERT_DIR in pods with the additional path /etc/ssl/custom.
 | customCAChain.existingSecret
 a| [subs=-attributes]
 +string+
 a| [subs=-attributes]
 `""`
-| If custom CA chain is enabled this attribute mounts the existing secret to /etc/ssl/certs.
+| If custom CA chain is enabled this attribute mounts the existing secret to /etc/ssl/custom.
 | debug.profiling
 a| [subs=-attributes]
 +bool+
