@@ -76,11 +76,11 @@ releases:
   - name: collabora
     namespace: collabora
     chart: collabora/collabora-online
-    version: 1.1.16
+    version: 1.1.5
     values:
       - collabora:
           aliasgroups:
-            - host: "http://wopiserver.wopiserver.svc.cluster.local:8880"
+            - host: "https://wopi-collabora.kube.owncloud.test:443"
           extra_params: --o:ssl.enable=false --o:ssl.termination=true --o:net.frame_ancestors=ocis.kube.owncloud.test
       - ingress:
           enabled: true

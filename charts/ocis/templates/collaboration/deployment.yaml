@@ -75,7 +75,7 @@ spec:
               value: {{ $officeSuite.uri | quote }}
 
             - name: COLLABORATION_WOPI_SRC
-              value: https://{{  $officeSuite.ingress.domain | quote }} #TODO: protocol hardcoded?
+              value: https://{{  $officeSuite.ingress.domain }} #TODO: protocol hardcoded?
 
             - name: COLLABORATION_JWT_SECRET
               valueFrom:

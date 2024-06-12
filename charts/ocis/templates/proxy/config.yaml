@@ -30,3 +30,37 @@ data:
         {{- end }}
       {{- end }}
     {{- end }}
+  csp.yaml: |
+    directives:
+      child-src:
+        - '''self'''
+      connect-src:
+        - '''self'''
+      default-src:
+        - '''none'''
+      font-src:
+        - '''self'''
+      frame-ancestors:
+        - '''self'''
+      frame-src:
+        - '''self'''
+        - 'https://embed.diagrams.net/'
+        - 'https://collabora.kube.owncloud.test/'
+      img-src:
+        - '''self'''
+        - 'data:'
+        - 'blob:'
+        - 'https://collabora.kube.owncloud.test/'
+      manifest-src:
+        - '''self'''
+      media-src:
+        - '''self'''
+      object-src:
+        - '''self'''
+        - 'blob:'
+      script-src:
+        - '''self'''
+        - '''unsafe-inline'''
+      style-src:
+        - '''self'''
+        - '''unsafe-inline'''
