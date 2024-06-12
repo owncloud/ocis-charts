@@ -13,13 +13,13 @@ oCIS ca mount
 {{- if .Values.customCAChain.enabled }}
 - name: custom-ca-chain
   secret:
-    secretName:  {{ .Value.customCAChain.existingSecret }}
+    secretName:  {{ .Values.customCAChain.existingSecret }}
 {{- end }}
 {{- end -}}
 
 {{- define "ocis.caEnv" -}}
 {{- if .Values.customCAChain.enabled }}
 - name: SSL_CERT_DIR
-  value: /etc/ssl/certs;/etc/ssl/custom
+  value: "/etc/ssl/certs:/etc/ssl/custom"
 {{- end }}
 {{- end -}}
