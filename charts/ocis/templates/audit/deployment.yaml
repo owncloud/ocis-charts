@@ -50,7 +50,7 @@ spec:
 
             - name: AUDIT_LOG_TO_CONSOLE
               value: "true"
-        
+
             {{- include "ocis.caEnv" . | nindent 12}}
 
           {{- include "ocis.livenessProbe" . | nindent 10 }}
@@ -80,4 +80,4 @@ spec:
           {{ else }}
           emptyDir: {}
           {{ end }}
-        {{- include "ocis.caVolume" . | nindent 8}} 
+        {{- include "ocis.caVolume" . | nindent 8}}

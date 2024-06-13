@@ -118,5 +118,5 @@ spec:
       volumes:
         - name: tmp-volume
           emptyDir: {}
-        {{- include "ocis.caVolume" . | nindent 8}}   
+        {{- include "ocis.caVolume" . | nindent 8}}
         {{- include "ocis.persistence.dataVolume" . | nindent 8 }}

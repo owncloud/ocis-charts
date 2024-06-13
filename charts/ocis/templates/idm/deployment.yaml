@@ -136,6 +136,6 @@ spec:
         - name: ldap-cert
           secret:
             secretName: {{ include "secrets.ldapCertSecret" . }}
-        {{- include "ocis.caVolume" . | nindent 8}} 
+        {{- include "ocis.caVolume" . | nindent 8}}
         {{- include "ocis.persistence.dataVolume" . | nindent 8 }}
 {{- end }}

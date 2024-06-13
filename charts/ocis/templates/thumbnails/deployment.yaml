@@ -100,4 +100,4 @@ spec:
       {{- include "ocis.imagePullSecrets" $ | nindent 6 }}
       volumes:
         {{- include "ocis.persistence.dataVolume" . | nindent 8 }}
-        {{- include "ocis.caVolume" . | nindent 8}} 
+        {{- include "ocis.caVolume" . | nindent 8}}

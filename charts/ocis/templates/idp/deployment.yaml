@@ -109,5 +109,5 @@ spec:
         - name: idp-secrets
           secret:
             secretName: {{ include "secrets.idpSecret" . }}
-        {{- include "ocis.caVolume" . | nindent 8}}  
+        {{- include "ocis.caVolume" . | nindent 8}}
 {{- end }}

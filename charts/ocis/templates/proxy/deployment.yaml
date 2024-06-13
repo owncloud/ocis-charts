@@ -135,4 +135,4 @@ spec:
         - name: configs
           configMap:
             name: {{ .appName }}-config
-        {{- include "ocis.caVolume" . | nindent 8}}    
+        {{- include "ocis.caVolume" . | nindent 8}}

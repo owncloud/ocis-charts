@@ -195,5 +195,5 @@ spec:
           configMap:
             name: {{ . | quote }}
         {{- end }}
-        {{- include "ocis.caVolume" . | nindent 8}}         
+        {{- include "ocis.caVolume" . | nindent 8}}
         {{- include "ocis.persistence.dataVolume" . | nindent 8 }}

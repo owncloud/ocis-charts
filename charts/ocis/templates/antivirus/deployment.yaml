@@ -90,5 +90,5 @@ spec:
           {{ else }}
           emptyDir: {}
           {{ end }}
-        {{- include "ocis.caVolume" . | nindent 8}} 
+        {{- include "ocis.caVolume" . | nindent 8}}
 {{ end }}
