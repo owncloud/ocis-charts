@@ -1,13 +1,22 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": ["github>owncloud-ops/renovate-presets:docker"],
+  "extends": [
+    "github>owncloud-ops/renovate-presets:docker"
+  ],
   "kubernetes": {
-    "fileMatch": ["^ci/k3d-drone\\.ya?ml"]
+    "fileMatch": [
+      "^ci/k3d-drone\\.ya?ml"
+    ]
+  },
+  "git-submodules": {
+    "enabled": true
   },
   "customManagers": [
     {
       "customType": "regex",
-      "fileMatch": ["^charts/.+Chart\\.ya?ml$"],
+      "fileMatch": [
+        "^charts/.+Chart\\.ya?ml$"
+      ],
       "matchStrings": [
         "# renovate: datasource=(?<datasource>\\S+) depName=(?<depName>\\S+)( versioning=(?<versioning>.*?))?\\nappVersion:\\s?\\\"?(?<currentValue>.*?)\"?\\s"
       ]
