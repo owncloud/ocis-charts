@@ -13,10 +13,10 @@ repositories:
     url: https://opensource.zalando.com/postgres-operator/charts/postgres-operator
 
 releases:
-
   - name: tika
     namespace: tika
     chart: tika/tika
+    version: 2.9.0
     values:
       - image:
           tag: "latest-full" # using "full" tag for OCR func.
@@ -34,10 +34,12 @@ releases:
   - name: rabbitmq
     namespace: onlyoffice
     chart: bitnami/rabbitmq
+    version: 14.4.2
 
   - name: redis
     namespace: onlyoffice
     chart: bitnami/redis
+    version: 19.5.3
 
   - name: postgres-operator
     namespace: onlyoffice
@@ -52,6 +54,7 @@ releases:
   - name: onlyoffice
     namespace: onlyoffice
     chart: onlyoffice/docs
+    version: 4.1.0
     needs:
       - onlyoffice/addons-onlyoffice
       - onlyoffice/rabbitmq
@@ -91,6 +94,7 @@ releases:
   - name: collabora
     namespace: collabora
     chart: collabora/collabora-online
+    version: 1.1.17
     values:
       - collabora:
           aliasgroups:
@@ -117,7 +121,11 @@ releases:
   - name: wopiserver
     namespace: wopiserver
     chart: cs3org/wopiserver
+    version: 0.9.2
     values:
+      - image:
+          # renovate: datasource=docker depName=cs3org/wopiserver
+          tag: v10.4.0
       - wopiserverUrl: http://wopiserver.wopiserver.svc.cluster.local:8880
       - config:
           cs3:
@@ -203,6 +211,13 @@ releases:
                 icon: image-edit
                 default_app: "OnlyOffice"
                 allow_creation: true
+              - mime_type: application/vnd.openxmlformats-officedocument.wordprocessingml.form
+                extension: docxf
+                name: FormDocument
+                description: Form document
+                icon: image-edit
+                default_app: "OnlyOffice"
+                allow_creation: true
 
       - services:
           idm:
@@ -226,10 +241,6 @@ releases:
               enabled: true
 
           storageusers:
-            persistence:
-              enabled: true
-
-          store:
             persistence:
               enabled: true
 

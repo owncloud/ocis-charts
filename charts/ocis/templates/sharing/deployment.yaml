@@ -11,7 +11,6 @@ spec:
   template:
     {{- include "ocis.templateMetadata" (dict "scope" $ "configCheck" false) | nindent 4 }}
     spec:
-      {{- include "ocis.serviceAccount" . | nindent 6 }}
       {{- include "ocis.affinity" .Values.services.sharing | nindent 6 }}
       {{- include "ocis.securityContextAndtopologySpreadConstraints" . | nindent 6 }}
       {{- include "ocis.priorityClassName" $.priorityClassName | nindent 6 }}
@@ -25,6 +24,7 @@ spec:
           {{- include "ocis.containerSecurityContext" . | nindent 10 }}
           env:
             {{- include "ocis.serviceRegistry" . | nindent 12 }}
+            {{- include "ocis.events" . | nindent 12 }}
 
             - name: SHARING_LOG_COLOR
               value: {{ .Values.logging.color | quote }}
@@ -50,25 +50,6 @@ spec:
             - name: SHARING_DEBUG_ADDR
               value: 0.0.0.0:9151
 
-            - name: SHARING_EVENTS_ENDPOINT
-            {{- if not .Values.messagingSystem.external.enabled }}
-              value: {{ .appNameNats }}:9233
-            {{- else }}
-              value: {{ .Values.messagingSystem.external.endpoint }}
-            - name: SHARING_EVENTS_CLUSTER
-              value: {{ .Values.messagingSystem.external.cluster }}
-            - name: SHARING_EVENTS_ENABLE_TLS
-              value: {{ .Values.messagingSystem.external.tls.enabled | quote }}
-            - name: SHARING_EVENTS_TLS_INSECURE
-              value: {{ .Values.messagingSystem.external.tls.insecure | quote }}
-            - name: SHARING_EVENTS_TLS_ROOT_CA_CERTIFICATE
-              {{- if not .Values.messagingSystem.external.tls.certTrusted }}
-              value: /etc/ocis/messaging-system-ca/messaging-system-ca.crt
-              {{- else }}
-              value: "" # no cert needed
-              {{- end }}
-            {{- end }}
-
             - name: SHARING_JWT_SECRET
               valueFrom:
                 secretKeyRef:
@@ -77,6 +58,23 @@ spec:
 
             - name: SHARING_PUBLIC_WRITEABLE_SHARE_MUST_HAVE_PASSWORD
               value: {{ .Values.features.sharing.publiclink.writeableShareMustHavePassword | quote }}
+
+            - name: SHARING_PUBLIC_SHARE_MUST_HAVE_PASSWORD
+              value: {{ .Values.features.sharing.publiclink.shareMustHavePassword | quote }}
+
+            # password policies
+            - name: SHARING_PASSWORD_POLICY_MIN_CHARACTERS
+              value: {{ .Values.features.sharing.passwordPolicies.minCharacters | quote }}
+            - name: SHARING_PASSWORD_POLICY_MIN_LOWERCASE_CHARACTERS
+              value: {{ .Values.features.sharing.passwordPolicies.minLowerCharacters | quote }}
+            - name: SHARING_PASSWORD_POLICY_MIN_UPPERCASE_CHARACTERS
+              value: {{ .Values.features.sharing.passwordPolicies.minUpperCharacters | quote }}
+            - name: SHARING_PASSWORD_POLICY_MIN_DIGITS
+              value: {{ .Values.features.sharing.passwordPolicies.minDigits | quote }}
+            - name: SHARING_PASSWORD_POLICY_MIN_SPECIAL_CHARACTERS
+              value: {{ .Values.features.sharing.passwordPolicies.minSpecialCharacters | quote }}
+            - name: SHARING_PASSWORD_POLICY_BANNED_PASSWORDS_LIST
+              value: /etc/ocis/sharing-banned-passwords.txt
 
             # user sharing
             - name: SHARING_USER_DRIVER
@@ -119,11 +117,11 @@ spec:
           volumeMounts:
             - name: tmp-volume
               mountPath: /tmp
-            - name: ocis-config-tmp
-              mountPath: /etc/ocis # we mount that volume only to apply fsGroup to that path
             - name: messaging-system-ca
               mountPath: /etc/ocis/messaging-system-ca
               readOnly: true
+            - name: configs
+              mountPath: /etc/ocis
 
       {{- include "ocis.imagePullSecrets" $ | nindent 6 }}
       volumes:
@@ -138,3 +136,6 @@ spec:
           {{ else }}
           emptyDir: {}
           {{ end }}
+        - name: configs
+          configMap:
+            name: sharing-banned-passwords-{{ .appName }}

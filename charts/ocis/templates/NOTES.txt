@@ -19,16 +19,14 @@ You can get the initial "admin" administrator user password by running:
 kubectl -n {{ .Release.Namespace }} get secrets/admin-user --template='{{"{{"}}.data.password | base64decode | printf "%s\n" {{"}}"}}'
 
 {{ $noExternalUserManagement := not .Values.features.externalUserManagement.enabled -}}
-{{- $noopCache := eq .Values.cache.type "noop" -}}
 {{- $basicAuth := .Values.features.basicAuthentication -}}
 {{- $demoUsers := .Values.features.demoUsers -}}
 {{- $oidcIdpInsecure := .Values.insecure.oidcIdpInsecure -}}
 {{- $ocisHttpApiInsecure := .Values.insecure.ocisHttpApiInsecure -}}
 {{- $externalLDAPinsecure := and .Values.features.externalUserManagement.enabled .Values.features.externalUserManagement.ldap.insecure -}}
 {{- $noSMTPencryption := and .Values.features.emailNotifications.enabled (eq .Values.features.emailNotifications.smtp.encryption "none") -}}
-{{- $s3Credentials := or (.Values.services.storageusers.storageBackend.driverConfig.s3ng.accessKey) (.Values.services.storageusers.storageBackend.driverConfig.s3ng.secretKey) -}}
 
-{{ if or $noExternalUserManagement $noopCache $basicAuth $demoUsers $oidcIdpInsecure $ocisHttpApiInsecure $externalLDAPinsecure $noSMTPencryption }}
+{{ if or $noExternalUserManagement $basicAuth $demoUsers $oidcIdpInsecure $ocisHttpApiInsecure $externalLDAPinsecure $noSMTPencryption }}
 #################################################################################
 ######   WARNING: Your deployment of oCIS does not follow all best          #####
 ######   practices for production deployments of oCIS.                      #####
@@ -37,9 +35,6 @@ kubectl -n {{ .Release.Namespace }} get secrets/admin-user --template='{{"{{"}}.
 {{- if $noExternalUserManagement}}
 ######     - `features.externalUserManagement.enabled` should be            #####
 ######       set to `true`.                                                 #####
-{{- end }}
-{{- if $noopCache}}
-######     - `cache.type` should not be set to `noop`                       #####
 {{- end }}
 {{- if $basicAuth}}
 ######     - `features.basicAuthentication` should be set to `false`        #####
@@ -61,10 +56,6 @@ kubectl -n {{ .Release.Namespace }} get secrets/admin-user --template='{{"{{"}}.
 ######     - `features.emailNotifications.smtp.encryption` should           #####
 ######        not be set to `none`                                          #####
 {{- end }}
-{{- if $s3Credentials }}
-######     - `services.storageusers.storageBackend.driverConfig.s3ng`       #####
-######        should not have `accessKey` or `secretKey` set.               #####
-{{- end }}
 #################################################################################
 {{ end }}
 
@@ -75,9 +66,8 @@ kubectl -n {{ .Release.Namespace }} get secrets/admin-user --template='{{"{{"}}.
 {{- $storagesystemUnpersisted := not .Values.services.storagesystem.persistence.enabled -}}
 {{- $webUnpersisted := not .Values.services.web.persistence.enabled -}}
 {{- $storageusersUnpersisted := not .Values.services.storageusers.persistence.enabled -}}
-{{- $storeUnpersisted := not .Values.services.store.persistence.enabled -}}
 
-{{ if or $storagesystemUnpersisted $webUnpersisted $storageusersUnpersisted $storeUnpersisted $idmUnpersisted $searchUnpersisted $natsUnpersisted }}
+{{ if or $storagesystemUnpersisted $webUnpersisted $storageusersUnpersisted $idmUnpersisted $searchUnpersisted $natsUnpersisted }}
 #################################################################################
 ######   WARNING: Persistence is disabled for some services.                #####
 ######   You will lose your data when a service's pod is terminated.        #####
@@ -94,9 +84,6 @@ kubectl -n {{ .Release.Namespace }} get secrets/admin-user --template='{{"{{"}}.
 {{- end }}
 {{- if $idmUnpersisted }}
 ######     - idm                                                            #####
-{{- end }}
-{{- if $storeUnpersisted }}
-######     - store                                                          #####
 {{- end }}
 {{- if $searchUnpersisted }}
 ######     - search                                                         #####

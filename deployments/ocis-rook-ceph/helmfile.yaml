@@ -7,7 +7,7 @@ releases:
   - name: rook-ceph-operator
     namespace: rook-ceph
     chart: rook/rook-ceph
-    version: v1.13.3
+    version: v1.14.6
 
   - name: rook-ceph-storage
     namespace: rook-ceph
@@ -56,10 +56,6 @@ releases:
             persistence:
               enabled: true
               storageClassName: rook-cephfs
-
-          store:
-            persistence:
-              enabled: true
 
           thumbnails:
             persistence:

@@ -15,6 +15,8 @@ spec:
     - name: http
       port: 8080
       protocol: TCP
+      appProtocol: {{ .Values.service.appProtocol.http | quote}}
     - name: metrics-debug
       port: 9163
       protocol: TCP
+      appProtocol: {{ .Values.service.appProtocol.http | quote}}

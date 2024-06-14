@@ -18,7 +18,7 @@ image:
   #   - name: mySecret
   #   - name: mySecret2
 
-# -- InitContainer image used for oCIS services.
+# InitContainer image used for oCIS services.
 # Only used if `services.xxx.persistence.chownInitContainer.enabled` is set to true for at least one service.
 initContainerImage:
   # -- Image repository
@@ -54,7 +54,7 @@ tracing:
 
 # HTTP settings for oCIS services.
 http:
-  #-- CORS settings for oCIS services.
+  # CORS settings for oCIS services.
   cors:
     #-- allow_origins is a list of origins a cross-domain request can be executed from.
     # If the special "*" value is present in the list, all origins will be allowed.
@@ -72,7 +72,7 @@ deploymentStrategy:
   type: RollingUpdate
 
 # -- Domain where oCIS is reachable for the outside world
-externalDomain: ocis.owncloud.test
+externalDomain: ""
 
 # Insecure options.
 # These are useful for some limited environments like CI or on a test cluster.
@@ -85,34 +85,31 @@ insecure:
   ocisHttpApiInsecure: false
 
 cache:
-  # -- Type of the cache to use. It defaults to no cache or a in memory cache depending on the service.
-  # To disable the cache, set to "noop".
-  # Can be set to "redis", "redis-sentinel" or "etcd", then the address of Redis (Sentinel) / etcd node(s) needs to be set to `cache.nodes`.
-  type: ""
+  # -- Type of the cache to use.
+  # Can be set to "nats-js-kv" or "redis-sentinel". There are also the non-recommended options "memory" and "noop".
+  # The address of NATS / Redis Sentinel node(s) needs to be set to `cache.nodes`.
+  type: "nats-js-kv"
   # -- Nodes of the cache to use.
-  nodes: []
-  # nodes:
-  #   - redis-master-1.ocis-redis.svc.cluster.local:6379
-  #   - redis-master-2.ocis-redis.svc.cluster.local:6379
+  nodes:
+    - "{{ .appNameNats }}:9233"
 
 store:
-  # -- Configure the store type. To disable the cache, set to "noop".
-  # Defaults to "nats-js". Therefore `store.nodes` defaults to the address of the builtin NATS.
-  # Can be set to "redis", "redis-sentinel" or "etcd", then the address of Redis (Sentinel) / etcd node(s) needs to be set to `cache.nodes`.
-  type: nats-js
+  # -- Configure the store type.
+  # Can be set to "nats-js-kv" or "redis-sentinel". There is also the non-recommended option "memory".
+  # The address of NATS / Redis Sentinel node(s) needs to be set to `cache.nodes`.
+  type: nats-js-kv
   # -- Nodes of the store to use.
   nodes:
     - "{{ .appNameNats }}:9233"
 
 registry:
   # -- Configure the service registry type.
-  # Defaults to "kubernetes".
-  # Can be set to "etcd" or "nats", then the address of etcd / nats node(s) needs to be set to `registry.nodes`.
-  type: kubernetes
+  # Can be set to "nats-js-kv".
+  # The address of NATS node(s) needs to be set to `cache.nodes`.
+  type: nats-js-kv
   # -- Nodes of the service registry to use.
-  nodes: []
-  # nodes:
-  #   - etcd.ocis-etcd.svc.cluster.local:2379
+  nodes:
+    - "{{ .appNameNats }}:9233"
 
 messagingSystem:
   external:
@@ -137,7 +134,7 @@ messagingSystem:
       # Not recommended for production installations.
       insecure: false
 
-# provide custom hostnames to every oCIS pods
+# -- provide custom hostnames to every oCIS pods
 hostAliases: []
 # - ip: "192.168.49.2"
 #   hostnames:
@@ -152,6 +149,11 @@ features:
   # -- Create demo users on the first startup.
   # Not recommended for production installations.
   demoUsers: false
+  # Language related settings
+  language:
+    # -- The default language. If not defined, English will be used as default. See the documentation for more details.
+    default: "en"
+  # Email related settings
   emailNotifications:
     # -- Enables email notifications.
     enabled: false
@@ -162,10 +164,11 @@ features:
       port:
       # -- Sender address of emails that will be sent. Example: 'ownCloud <noreply@example.com>'
       sender:
-      # -- Authentication method for the SMTP communication. Possible values are ‘login’, ‘plain’, ‘crammd5’, ‘none’
+      # -- Authentication method for the SMTP communication. Possible values are ‘login’, ‘plain’, ‘crammd5’, ‘none’, 'auto'
       # If set to another value than `none`, a secret referenced by `notificationsSmtpSecretRef` needs to be present.
-      authentication: none
-      # -- Encryption method for the SMTP communication. Possible values are ‘starttls’, ‘ssl’, ‘ssltls’, ‘tls’ and ‘none’.
+      authentication: auto
+      # -- Encryption method for the SMTP communication. Possible values are ‘starttls’, ‘ssltls’ and ‘none’.
+      # -- Values 'ssl' and 'tls' are deprecated and will be removed in oCIS release 6.0.0. Use 'starttls' instead of 'tls' and 'ssltls' instead of 'ssl'.
       encryption: none
     branding:
       # -- Enables mail branding. If enabled, you need to provide the text and html template ConfigMap.
@@ -182,6 +185,12 @@ features:
       # -- Reference to a ConfigMap containing images that can be referenced from the html mail template.
       # This ConfigMap is optional and can be omitted when images are not used.
       htmlMailImagesConfigRef: "html-mail-images"
+
+  # SSE (server-sent events) settings.
+  sse:
+    # -- Disables SSE. When disabled, clients will no longer receive sse notifications.
+    disabled: false
+
   # Sharing related settings
   sharing:
     # Sharing with users related settings
@@ -193,10 +202,35 @@ features:
         # -- Minimum number of characters to enter before a client should start a search for Share receivers.
         # This setting can be used to customize the user experience if e.g too many results are displayed.
         minLengthLimit: 3
+        # -- Show user email when searching for other users to share with.
+        showUserEmail: true
     # Sharing per public link related setings
     publiclink:
-      # -- Enforce a password on writable public link shares.
+      # -- Enforce a password on all public link shares.
+      shareMustHavePassword: false
+      # -- Enforce a password only on writable public link shares.
+      # Is already enforced if `features.sharing.publiclink.shareMustHavePassword` option is set to `true``.
       writeableShareMustHavePassword: false
+
+    # -- automatically accept incoming shares
+    autoAcceptShares: true
+    # password policies for share passwords
+    passwordPolicies:
+      # -- the minimum amount of characters the password needs to have
+      minCharacters: 0
+      # -- the minimum amount of lower case characters the password needs to have
+      minLowerCharacters: 0
+      # -- the minimum amount of upper case characters the password needs to have
+      minUpperCharacters: 0
+      # -- the minimum amount of special characters the password needs to have
+      minSpecialCharacters: 0
+      # -- the minimum amount of digits the password needs to have
+      minDigits: 0
+      # -- list of banned passwords
+      bannedPasswords:
+        []
+        # - foo
+        # - bar
   # Apps integration
   appsIntegration:
     # -- Enables the apps integration.
@@ -204,7 +238,7 @@ features:
     # WOPI (office suite integration) needs an https://github.com/cs3org/wopiserver[cs3org/wopiserver] and at least one office suite.
     wopiIntegration:
       # -- URL of the https://github.com/cs3org/wopiserver[cs3org/wopiserver]. Can be deployed https://artifacthub.io/packages/helm/cs3org/wopiserver[with this Chart].
-      wopiServerURI: https://wopiserver.owncloud.test
+      wopiServerURI: ""
       # -- Base url to navigate back from the app to the containing folder in the file list.
       wopiFolderURI: https://{{ .Values.externalDomain }}
       # -- Path template for the url to navigate back from the app to the containing folder in the file list.
@@ -217,9 +251,9 @@ features:
           # -- Enables the office suite.
           enabled: false
           # -- URI of the office suite.
-          uri: https://collabora.owncloud.test
+          uri: ""
           # -- URI for the icon of the office suite. Will be displayed to the users.
-          iconURI: https://collabora.owncloud.test/favicon.ico
+          iconURI: ""
           # -- Disables SSL certificate checking for connections to the office suites http api.
           # Not recommended for production installations.
           insecure: false
@@ -228,9 +262,9 @@ features:
           # -- Enables the office suite.
           enabled: false
           # -- URI of the office suite.
-          uri: https://onlyoffice.owncloud.test
+          uri: ""
           # -- URI for the icon of the office suite. Will be displayed to the users.
-          iconURI: https://onlyoffice.owncloud.test/web-apps/apps/documenteditor/main/resources/img/favicon.ico
+          iconURI: ""
           # -- Disables SSL certificate checking for connections to the office suites http api.
           # Not recommended for production installations.
           insecure: false
@@ -258,11 +292,15 @@ features:
     # Consider that the UUID can be encoded in some LDAP deployment configurations like in .ldif files. These need to be decoded beforehand.
     # Note: Enabling `roleAssignment` will disable `adminUUID`.
     adminUUID: ""
+    # -- Enables account auto provisioning.
+    # It will create missing users on the LDAP server from OIDC information.
+    # Needs `features.externalUserManagement.ldap.writeable` to be be set to `true`.
+    autoprovisionAccounts: false
     # OpenID Connect Identity provider related settings.
     oidc:
       # -- Issuer URI of the OpenID Connect Identity Provider.
       # If the IDP doesn't have valid / trusted SSL certificates, certificate validation can be disabled with the `insecure.oidcIdpInsecure` option.
-      issuerURI: https://idp.owncloud.test/realms/ocis
+      issuerURI: ""
       # -- Link to the OIDC provider's user accessible session management. This will be shown to the user on the personal account page.
       # When using Keycloak with the a realm named "ocis" this could point to eg. https://keycloak.owncloud.test/realms/ocis/account/
       sessionManagementLink: ""
@@ -283,9 +321,10 @@ features:
       # Set to "jwt" or "none"
       accessTokenVerifyMethod: "jwt"
 
-      # -- Configure OIDC role assignment. If activated, oCIS will read the role assigment from the OIDC token, see
+      # Configure OIDC role assignment. If activated, oCIS will read the role assigment from the OIDC token, see
       # xref:{s-path}/proxy.adoc#automatic-role-assignments[Automatic Role Assignments]
       roleAssignment:
+        # -- enable OIDC role assignment.
         enabled: false
         # -- The name of the OIDC claim holding the role assignment
         claim: roles
@@ -384,7 +423,7 @@ features:
         filter:
         # -- The object class to use for groups in the default group search filter like `groupOfNames`.
         objectClass: groupOfNames
-      # -- When using external user management, users can be set as disabled by either belonging to a group or using an ldap attribute.
+      # When using external user management, users can be set as disabled by either belonging to a group or using an ldap attribute.
       disableUsers:
         # -- Enables disabling users if configured as "attribute" or "group"
         disableMechanism: none
@@ -395,20 +434,20 @@ features:
 
   # GDPR report related settings.
   gdprReport:
-    # -- Enables the GDPR report feature
-    # -- Controls the separate GDPR integrations
+    # Enables the GDPR report feature
+    # Controls the separate GDPR integrations
     integrations:
       keycloak:
         # -- Enable keycloak data export.
         enabled: false
         # -- Base URI of keycloak.
-        basePath: https://keycloak.owncloud.test
+        basePath: ""
         # -- Client ID to authenticate against keycloak with.
-        clientID: gdpr-exporter
+        clientID: ""
         # -- Realm that the client ID is configured in, usually master.
-        clientRealm: master
+        clientRealm: ""
         # -- Realm that the users are in.
-        userRealm: oCIS
+        userRealm: ""
         # -- Disables SSL certificate checking for connections to the GDPR export service.
         # Not recommended for production installations.
         insecure: false
@@ -447,7 +486,7 @@ features:
     # -- Sets a maximum file size for scans. Only this many bytes of a file will be scanned. 0 means unlimited and is the default.
     # Usable common abbreviations: [KB, KiB, GB, GiB, TB, TiB, PB, PiB, EB, EiB], example: 2GB.
     maxScanSize:
-    # -- Define icap parameters
+    # Define icap parameters
     icap:
       # -- Sets the timeout for icap scans
       timeout: 300
@@ -525,6 +564,8 @@ configRefs:
   # Does not get autogenerated.
   # Hint: if you set this, you'll no longer be able to change the instance logo via the Web UI.
   webThemeAssetsConfigRef: ""
+  # -- Reference to an existing authservice config.
+  authServiceConfigRef: ""
 
 # References to secrets.
 # Leave these empty to have them autogenerated by the Helm chart.
@@ -567,6 +608,8 @@ secretRefs:
   # -- Reference to an existing s3 secret (see ref:Secrets#secrets)
   # If not filled in, will attempt to use values in `.storageusers.storageBackend.s3.driverConfig.s3ng` instead.
   s3CredentialsSecretRef: ""
+  # -- Reference to an existing service account secret (see ref:Secrets#secrets)
+  serviceAccountSecretRef: ""
   # -- The secret to secure the global notifications endpoint. Only system admins and users knowing that secret can call the global notifications POST/DELETE endpoints.
   globalNotificationsSecretRef: ""
 
@@ -603,7 +646,7 @@ namespaceOverride:
 # -- Number of replicas for each scalable service. Has no effect when `autoscaling.enabled` is set to `true`.
 replicas: 1
 
-# Default PodDisruptionBudget to apply to all services, except per-service PodDisruptionBudget configuration in `services.<service-name>.podDisruptionBudget` is set.
+# -- Default PodDisruptionBudget to apply to all services, except per-service PodDisruptionBudget configuration in `services.<service-name>.podDisruptionBudget` is set.
 podDisruptionBudget:
   {}
   # -- Sets the maxUnavailable or the global PodDisruptionBudget.
@@ -746,7 +789,7 @@ services:
     # Do note that the value will be different for each service.
     # -- Per-service custom labels
     extraLabels: {}
-    # -- Per-service image configuration. Overrides the default setting from `image` if set.
+    # Per-service image configuration. Overrides the default setting from `image` if set.
     image:
       # -- Image repository
       repository: ""
@@ -770,7 +813,7 @@ services:
     affinity: {}
     # -- Per-service custom labels
     extraLabels: {}
-    # -- Per-service image configuration. Overrides the default setting from `image` if set.
+    # Per-service image configuration. Overrides the default setting from `image` if set.
     image:
       # -- Image repository
       repository: ""
@@ -798,7 +841,7 @@ services:
     affinity: {}
     # -- Per-service custom labels
     extraLabels: {}
-    # -- Per-service image configuration. Overrides the default setting from `image` if set.
+    # Per-service image configuration. Overrides the default setting from `image` if set.
     image:
       # -- Image repository
       repository: ""
@@ -826,7 +869,7 @@ services:
     affinity: {}
     # -- Per-service custom labels
     extraLabels: {}
-    # -- Per-service image configuration. Overrides the default setting from `image` if set.
+    # Per-service image configuration. Overrides the default setting from `image` if set.
     image:
       # -- Image repository
       repository: ""
@@ -854,7 +897,35 @@ services:
     affinity: {}
     # -- Per-service custom labels
     extraLabels: {}
-    # -- Per-service image configuration. Overrides the default setting from `image` if set.
+    # Per-service image configuration. Overrides the default setting from `image` if set.
+    image:
+      # -- Image repository
+      repository: ""
+      # -- Image tag.
+      tag: ""
+      # -- Image sha / digest (optional).
+      sha: ""
+      # -- Image pull policy
+      pullPolicy:
+
+  # -- AUTH SERVICE service.
+  # @default -- see detailed service configuration options below
+  authservice:
+    # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
+    resources: {}
+    # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
+    nodeSelector: {}
+    # -- Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
+    priorityClassName: ""
+    # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
+    podDisruptionBudget: {}
+    # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
+    autoscaling: {}
+    # -- Affinity settings for the authservice service. See the documentation of this setting in approvider for examples.
+    affinity: {}
+    # -- Per-service custom labels
+    extraLabels: {}
+    # Per-service image configuration. Overrides the default setting from `image` if set.
     image:
       # -- Image repository
       repository: ""
@@ -882,7 +953,35 @@ services:
     affinity: {}
     # -- Per-service custom labels
     extraLabels: {}
-    # -- Per-service image configuration. Overrides the default setting from `image` if set.
+    # Per-service image configuration. Overrides the default setting from `image` if set.
+    image:
+      # -- Image repository
+      repository: ""
+      # -- Image tag.
+      tag: ""
+      # -- Image sha / digest (optional).
+      sha: ""
+      # -- Image pull policy
+      pullPolicy:
+
+  # -- CLIENTLOG service.
+  # @default -- see detailed service configuration options below
+  clientlog:
+    # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
+    resources: {}
+    # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
+    nodeSelector: {}
+    # -- Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
+    priorityClassName: ""
+    # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
+    podDisruptionBudget: {}
+    # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
+    autoscaling: {}
+    # -- Affinity settings for the clientlog service. See the documentation of this setting in approvider for examples.
+    affinity: {}
+    # -- Per-service custom labels
+    extraLabels: {}
+    # Per-service image configuration. Overrides the default setting from `image` if set.
     image:
       # -- Image repository
       repository: ""
@@ -905,10 +1004,9 @@ services:
     # -- Per-service store configuration for the eventhistory service. Overrides the default setting from `store` if set.
     store:
       {}
-      # -- Configure the store type for the eventhistory service. Might be `memory`, `ocmem`, `etcd`, `redis`,
-      # `redis-sentinel`, `nats-js` or `noop`
+      # -- Configure the store type for the eventhistory service. Might be `memory` (only for testing), `redis-sentinel`, `nats-js-kv`
       #type:
-      # -- Provide a list of comma-separated addresses of `etcd`, `redis`, `redis-sentinel` or `nats-js` servers here
+      # -- Provide a list of comma-separated addresses of `redis-sentinel` or `nats-js` servers here
       # if the proper store is selected
       # addresses: []
       # - "{{ .appNameNats }}:9233"
@@ -920,7 +1018,7 @@ services:
     affinity: {}
     # -- Per-service custom labels
     extraLabels: {}
-    # -- Per-service image configuration. Overrides the default setting from `image` if set.
+    # Per-service image configuration. Overrides the default setting from `image` if set.
     image:
       # -- Image repository
       repository: ""
@@ -948,7 +1046,7 @@ services:
     affinity: {}
     # -- Per-service custom labels
     extraLabels: {}
-    # -- Per-service image configuration. Overrides the default setting from `image` if set.
+    # Per-service image configuration. Overrides the default setting from `image` if set.
     image:
       # -- Image repository
       repository: ""
@@ -976,7 +1074,7 @@ services:
     affinity: {}
     # -- Per-service custom labels
     extraLabels: {}
-    # -- Per-service image configuration. Overrides the default setting from `image` if set.
+    # Per-service image configuration. Overrides the default setting from `image` if set.
     image:
       # -- Image repository
       repository: ""
@@ -1004,7 +1102,7 @@ services:
     affinity: {}
     # -- Per-service custom labels
     extraLabels: {}
-    # -- Per-service image configuration. Overrides the default setting from `image` if set.
+    # Per-service image configuration. Overrides the default setting from `image` if set.
     image:
       # -- Image repository
       repository: ""
@@ -1032,7 +1130,7 @@ services:
     affinity: {}
     # -- Per-service custom labels
     extraLabels: {}
-    # -- Per-service image configuration. Overrides the default setting from `image` if set.
+    # Per-service image configuration. Overrides the default setting from `image` if set.
     image:
       # -- Image repository
       repository: ""
@@ -1052,7 +1150,6 @@ services:
       # -- Enables persistence.
       # Needs to be enabled on production installations, except `features.externalUserManagement.enabled` equals `true`.
       # If not enabled, pod restarts will lead to data loss.
-      # Also scaling this service beyond one instance is not possible if the service instances don't share the same storage.
       enabled: false
       # -- Enables an initContainer to chown the volume.
       # The initContainer is run as root.
@@ -1062,9 +1159,9 @@ services:
       # -- Storage class to use.
       # Uses the default storage class if not set.
       storageClassName:
-      # -- Persistent volume access modes. Needs to be `["ReadWriteMany"]` when scaling this service beyond one instance.
+      # -- Persistent volume access modes.
       accessModes:
-        - ReadWriteMany
+        - ReadWriteOnce
       # -- Size of the persistent volume.
       size: 10Gi
       # -- Persistent volume annotations.
@@ -1088,7 +1185,7 @@ services:
     affinity: {}
     # -- Per-service custom labels
     extraLabels: {}
-    # -- Per-service image configuration. Overrides the default setting from `image` if set.
+    # Per-service image configuration. Overrides the default setting from `image` if set.
     image:
       # -- Image repository
       repository: ""
@@ -1112,7 +1209,7 @@ services:
     affinity: {}
     # -- Per-service custom labels
     extraLabels: {}
-    # -- Per-service image configuration. Overrides the default setting from `image` if set.
+    # Per-service image configuration. Overrides the default setting from `image` if set.
     image:
       # -- Image repository
       repository: ""
@@ -1132,7 +1229,6 @@ services:
       # -- Enables persistence.
       # Needs to be enabled on production installations, except `messagingSystem.external.enabled` equals `true`.
       # If not enabled, pod restarts will lead to data loss.
-      # Also scaling this service beyond one instance is not possible if the service instances don't share the same storage.
       enabled: false
       # -- Enables an initContainer to chown the volume.
       # The initContainer is run as root.
@@ -1142,9 +1238,9 @@ services:
       # -- Storage class to use.
       # Uses the default storage class if not set.
       storageClassName:
-      # -- Persistent volume access modes. Needs to be `["ReadWriteMany"]` when scaling this service beyond one instance.
+      # -- Persistent volume access modes.
       accessModes:
-        - ReadWriteMany
+        - ReadWriteOnce
       # -- Size of the persistent volume.
       size: 10Gi
       # -- Persistent volume annotations.
@@ -1168,7 +1264,7 @@ services:
     affinity: {}
     # -- Per-service custom labels
     extraLabels: {}
-    # -- Per-service image configuration. Overrides the default setting from `image` if set.
+    # Per-service image configuration. Overrides the default setting from `image` if set.
     image:
       # -- Image repository
       repository: ""
@@ -1196,7 +1292,7 @@ services:
     affinity: {}
     # -- Per-service custom labels
     extraLabels: {}
-    # -- Per-service image configuration. Overrides the default setting from `image` if set.
+    # Per-service image configuration. Overrides the default setting from `image` if set.
     image:
       # -- Image repository
       repository: ""
@@ -1224,7 +1320,7 @@ services:
     affinity: {}
     # -- Per-service custom labels
     extraLabels: {}
-    # -- Per-service image configuration. Overrides the default setting from `image` if set.
+    # Per-service image configuration. Overrides the default setting from `image` if set.
     image:
       # -- Image repository
       repository: ""
@@ -1252,7 +1348,7 @@ services:
     affinity: {}
     # -- Per-service custom labels
     extraLabels: {}
-    # -- Per-service image configuration. Overrides the default setting from `image` if set.
+    # Per-service image configuration. Overrides the default setting from `image` if set.
     image:
       # -- Image repository
       repository: ""
@@ -1280,7 +1376,7 @@ services:
     affinity: {}
     # -- Per-service custom labels
     extraLabels: {}
-    # -- Per-service image configuration. Overrides the default setting from `image` if set.
+    # Per-service image configuration. Overrides the default setting from `image` if set.
     image:
       # -- Image repository
       repository: ""
@@ -1310,7 +1406,7 @@ services:
     affinity: {}
     # -- Per-service custom labels
     extraLabels: {}
-    # -- Per-service image configuration. Overrides the default setting from `image` if set.
+    # Per-service image configuration. Overrides the default setting from `image` if set.
     image:
       # -- Image repository
       repository: ""
@@ -1338,7 +1434,7 @@ services:
     affinity: {}
     # -- Per-service custom labels
     extraLabels: {}
-    # -- Per-service image configuration. Overrides the default setting from `image` if set.
+    # Per-service image configuration. Overrides the default setting from `image` if set.
     image:
       # -- Image repository
       repository: ""
@@ -1364,14 +1460,15 @@ services:
       sizeLimit:
       tika:
         # -- Set the URL to Tika. Only applicable if `services.search.extractor.type` == `tika`.
-        url: http://tika.tika.svc.cluster.local:9998
+        url: ""
+        # -- Defines if stop words should be cleaned or not.
+        cleanStopWords: true
     # -- Persistence settings.
     # @default -- see detailed persistence configuration options below
     persistence:
       # -- Enables persistence.
       # Needs to be enabled on production installations.
       # If not enabled, pod restarts will lead to data loss.
-      # Also scaling this service beyond one instance is not possible if the service instances don't share the same storage.
       enabled: false
       # -- Enables an initContainer to chown the volume.
       # The initContainer is run as root.
@@ -1381,9 +1478,9 @@ services:
       # -- Storage class to use.
       # Uses the default storage class if not set.
       storageClassName:
-      # -- Persistent volume access modes. Needs to be `["ReadWriteMany"]` when scaling this service beyond one instance.
+      # -- Persistent volume access modes.
       accessModes:
-        - ReadWriteMany
+        - ReadWriteOnce
       # -- Size of the persistent volume.
       size: 10Gi
       # -- Persistent volume annotations.
@@ -1409,7 +1506,7 @@ services:
     affinity: {}
     # -- Per-service custom labels
     extraLabels: {}
-    # -- Per-service image configuration. Overrides the default setting from `image` if set.
+    # Per-service image configuration. Overrides the default setting from `image` if set.
     image:
       # -- Image repository
       repository: ""
@@ -1437,7 +1534,7 @@ services:
     affinity: {}
     # -- Per-service custom labels
     extraLabels: {}
-    # -- Per-service image configuration. Overrides the default setting from `image` if set.
+    # Per-service image configuration. Overrides the default setting from `image` if set.
     image:
       # -- Image repository
       repository: ""
@@ -1465,7 +1562,37 @@ services:
     affinity: {}
     # -- Per-service custom labels
     extraLabels: {}
-    # -- Per-service image configuration. Overrides the default setting from `image` if set.
+    # Per-service image configuration. Overrides the default setting from `image` if set.
+    image:
+      # -- Image repository
+      repository: ""
+      # -- Image tag.
+      tag: ""
+      # -- Image sha / digest (optional).
+      sha: ""
+      # -- Image pull policy
+      pullPolicy:
+
+  # -- SSE service
+  # @default -- see detailed service configuration options below
+  sse:
+    # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
+    resources: {}
+    # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
+    nodeSelector: {}
+    # -- Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
+    priorityClassName: ""
+    # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
+    podDisruptionBudget: {}
+    # -- Per-service store configuration for the eventhistory service. Overrides the default setting from `store` if set.
+    store: {}
+    # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
+    autoscaling: {}
+    # -- Affinity settings for the postprocessing service. See the documentation of this setting in approvider for examples.
+    affinity: {}
+    # -- Per-service custom labels
+    extraLabels: {}
+    # Per-service image configuration. Overrides the default setting from `image` if set.
     image:
       # -- Image repository
       repository: ""
@@ -1493,7 +1620,7 @@ services:
     affinity: {}
     # -- Per-service custom labels
     extraLabels: {}
-    # -- Per-service image configuration. Overrides the default setting from `image` if set.
+    # Per-service image configuration. Overrides the default setting from `image` if set.
     image:
       # -- Image repository
       repository: ""
@@ -1521,7 +1648,7 @@ services:
     affinity: {}
     # -- Per-service custom labels
     extraLabels: {}
-    # -- Per-service image configuration. Overrides the default setting from `image` if set.
+    # Per-service image configuration. Overrides the default setting from `image` if set.
     image:
       # -- Image repository
       repository: ""
@@ -1541,7 +1668,7 @@ services:
       # -- Enables persistence.
       # Needs to be enabled on production installations.
       # If not enabled, pod restarts will lead to data loss.
-      # Also scaling this service beyond one instance is not possible if the service instances don't share the same storage.
+      # Also scaling this service to more than one replica is not possible if the pods don't share the same volume.
       enabled: false
       # -- Enables an initContainer to chown the volume.
       # The initContainer is run as root.
@@ -1551,7 +1678,7 @@ services:
       # -- Storage class to use.
       # Uses the default storage class if not set.
       storageClassName:
-      # -- Persistent volume access modes. Needs to be `["ReadWriteMany"]` when scaling this service beyond one instance.
+      # -- Persistent volume access modes. Needs to be `["ReadWriteMany"]` when having more than one replica for this service.
       accessModes:
         - ReadWriteMany
       # -- Size of the persistent volume.
@@ -1581,7 +1708,7 @@ services:
     affinity: {}
     # -- Per-service custom labels
     extraLabels: {}
-    # -- Per-service image configuration. Overrides the default setting from `image` if set.
+    # Per-service image configuration. Overrides the default setting from `image` if set.
     image:
       # -- Image repository
       repository: ""
@@ -1595,6 +1722,11 @@ services:
   # -- STORAGE-USERS service.
   # @default -- see detailed service configuration options below
   storageusers:
+    events:
+      consumer:
+        # -- Number of event consumers to be started that concurrently consume events (eg. postprocessing related events)
+        concurrency: 10
+
     storageBackend:
       # -- Configures the storage driver. Possible values are "ocis" and "s3ng".
       # The oCIS driver stores all data in the persistent volume if persistence is enabled.
@@ -1602,9 +1734,13 @@ services:
       driver: ocis
       driverConfig:
         ocis:
+          # -- Maximum number of concurrent go-routines. Higher values can potentially get work done faster but will also cause more load on the system.
+          maxConcurrency: 100
           # -- Metadata backend to use for the oCIS storage driver. Valid values are: "messagepack", "xattrs".
           metadataBackend: messagepack
         s3ng:
+          # -- Maximum number of concurrent go-routines. Higher values can potentially get work done faster but will also cause more load on the system.
+          maxConcurrency: 100
           # -- Metadata backend to use for the S3NG storage driver. Valid values are: "messagepack", "xattrs".
           metadataBackend: messagepack
 
@@ -1613,39 +1749,58 @@ services:
           #     "Version": "2012-10-17",
           #     "Statement": [
           #         {
-          #             "Sid": "ListObjectsInBucket",
+          #             "Sid": "ListBucket",
           #             "Effect": "Allow",
-          #             "Action": ["s3:ListBucket"],
-          #             "Resource": ["arn:aws:s3:::bucket-name"]
+          #             "Action": [
+          #                 "s3:ListBucket"
+          #             ],
+          #             "Resource": [
+          #                 "arn:aws:s3:::bucket-name"
+          #             ]
           #         },
           #         {
-          #             "Sid": "AllObjectActions",
+          #             "Sid": "ActionsInBucketContext",
           #             "Effect": "Allow",
-          #             "Action": "s3:*Object",
-          #             "Resource": ["arn:aws:s3:::bucket-name/*"]
+          #             "Action": [
+          #                 "s3:*Object",
+          #                 "s3:*MultipartUpload",
+          #                 "s3:ListMultipartUploadParts"
+          #             ],
+          #             "Resource": [
+          #                 "arn:aws:s3:::bucket-name/*"
+          #             ]
           #         }
           #     ]
           # }
           # -- S3 endpoint to use for the S3NG driver. Only used if driver is set to "s3ng".
-          endpoint: https://localhost:1234
+          endpoint: ""
           # -- S3 region to use for the S3NG driver. Only used if driver is set to "s3ng".
           region: default
           # -- S3 bucket to use for the S3NG driver. Only used if driver is set to "s3ng".
-          bucket: example-bucket
-          # -- S3 access key to use for the S3NG driver. Only used if driver is set to "s3ng".
-          # DEPRECATION WARNING: These values will be removed in the future. Predefine `secretRefs.s3CredentialsSecretRef` instead.
-          accessKey: ""
-          # -- S3 secret key to use for the S3NG driver. Only used if driver is set to "s3ng".
-          # DEPRECATION WARNING: These values will be removed in the future. Predefine `secretRefs.s3CredentialsSecretRef` instead.
-          secretKey: ""
+          bucket: ""
+          # -- Disable sending content sha256 when copying objects to S3.
+          disableContentSHA256: false
+          putObject:
+            # -- Disable multipart uploads when copying objects to S3
+            disableMultipart: false
+            # -- Send a Content-MD5 header when copying objects to S3.
+            sendContentMD5: true
+            # -- Always precreate parts when copying objects to S3.
+            concurrentStreamParts: true
+            # -- Number of concurrent uploads to use when copying objects to S3.
+            numThreads: 4
+            # -- Part size for concurrent uploads to S3.
+            partSize: 0
 
     maintenance:
       # Expired uploads can be cleaned up automatically by enabling the clean up job.
       cleanUpExpiredUploads:
         # -- Enables a job, that cleans up expired uploads. Requires persistence to be enabled and RWX storage.
         enabled: false
-        # -- Cron pattern for the job to be run. Defaults to every minute.
-        schedule: "* * * * *"
+        # -- Cron pattern for the job to be run.
+        schedule: "0 * * * *"
+        # -- Defines the a deadline (in whole seconds) for starting the Job, if that Job misses its scheduled time for any reason.
+        startingDeadlineSeconds: 600
         # -- Duration in seconds after which uploads will expire.
         #    WARNING: Setting this to a low number will lead to uploads being cancelled before they are finished and returning a 403 to the user.
         uploadExpiration: 86400
@@ -1653,15 +1808,23 @@ services:
       purgeExpiredTrashBinItems:
         # -- Enables a job, that purges expired trash bin items. Requires persistence to be enabled.
         enabled: false
-        # -- Cron pattern for the job to be run. Defaults to every minute.
-        schedule: "* * * * *"
-        # -- User ID of a user that has permissions to list all personal and project spaces.
-        purgeTrashBinUserID: ""
+        # -- Cron pattern for the job to be run.
+        schedule: "0 * * * *"
+        # -- Defines the a deadline (in whole seconds) for starting the Job, if that Job misses its scheduled time for any reason.
+        startingDeadlineSeconds: 600
         # -- Setting that makes the command delete all trashed personal files older than the value. The value is a number and a unit "d", "h", "m", "s".
         personalDeleteBefore: 30d
         # -- Setting that makes the command delete all trashed project files older than the value. The value is a number and a unit "d", "h", "m", "s".
         projectDeleteBefore: 30d
-      # -- Image for the storageusers service maintenance jobs
+      # Uploads that were not postprocessed can be automatically processed again by enabling the restart job.
+      restartPostprocessing:
+        # -- Enables a job, that restarts postprocessing for uploads that are currently in postprocessing state. Requires persistence to be enabled.
+        enabled: false
+        # -- Cron pattern for the job to be run.
+        schedule: "0 * * * *"
+        # -- Defines the a deadline (in whole seconds) for starting the Job, if that Job misses its scheduled time for any reason.
+        startingDeadlineSeconds: 600
+      # Image for the storageusers service maintenance jobs
       # Defaults to the same values as `image`
       image:
         # -- Image repository
@@ -1679,7 +1842,7 @@ services:
       # -- Enables persistence.
       # Needs to be enabled on production installations.
       # If not enabled, pod restarts will lead to data loss.
-      # Also scaling this service beyond one instance is not possible if the service instances don't share the same storage.
+      # Also scaling this service to more than one replica is not possible if the pods don't share the same volume.
       enabled: false
       # -- Enables an initContainer to chown the volume.
       # The initContainer is run as root.
@@ -1689,7 +1852,7 @@ services:
       # -- Storage class to use.
       # Uses the default storage class if not set.
       storageClassName:
-      # -- Persistent volume access modes. Needs to be `["ReadWriteMany"]` when scaling this service beyond one instance.
+      # -- Persistent volume access modes. Needs to be `["ReadWriteMany"]` when having more than one replica for this service.
       accessModes:
         - ReadWriteMany
       # -- Size of the persistent volume.
@@ -1725,63 +1888,7 @@ services:
     affinity: {}
     # -- Per-service custom labels
     extraLabels: {}
-    # -- Per-service image configuration. Overrides the default setting from `image` if set.
-    image:
-      # -- Image repository
-      repository: ""
-      # -- Image tag.
-      tag: ""
-      # -- Image sha / digest (optional).
-      sha: ""
-      # -- Image pull policy
-      pullPolicy:
-
-  # -- STORE service.
-  # @default -- see detailed service configuration options below
-  store:
-    # -- Persistence settings.
-    # @default -- see detailed persistence configuration options below
-    persistence:
-      # -- Enables persistence.
-      # Needs to be enabled on production installations.
-      # If not enabled, pod restarts will lead to data loss.
-      # Also scaling this service beyond one instance is not possible if the service instances don't share the same storage.
-      enabled: false
-      # -- Enables an initContainer to chown the volume.
-      # The initContainer is run as root.
-      # This is not needed if the driver applies the fsGroup from the securityContext.
-      # The image specified in `initContainerImage` will be used for this container.
-      chownInitContainer: false
-      # -- Storage class to use.
-      # Uses the default storage class if not set.
-      storageClassName:
-      # -- Persistent volume access modes. Needs to be `["ReadWriteMany"]` when scaling this service beyond one instance.
-      accessModes:
-        - ReadWriteMany
-      # -- Size of the persistent volume.
-      size: 5Gi
-      # -- Persistent volume annotations.
-      annotations: {}
-      # -- Persistent volume finalizers.
-      finalizers:
-        - kubernetes.io/pvc-protection
-      # -- Persistent volume selector labels.
-      selectorLabels: {}
-      # -- Use a custom name for the PVC instead of the default one.
-      claimName: ""
-      # -- Use an existing PersistentVolumeClaim for persistence.
-      existingClaim:
-    # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
-    resources: {}
-    # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
-    nodeSelector: {}
-    # -- Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
-    priorityClassName: ""
-    # -- Affinity settings for the store service. See the documentation of this setting in approvider for examples.
-    affinity: {}
-    # -- Per-service custom labels
-    extraLabels: {}
-    # -- Per-service image configuration. Overrides the default setting from `image` if set.
+    # Per-service image configuration. Overrides the default setting from `image` if set.
     image:
       # -- Image repository
       repository: ""
@@ -1811,7 +1918,7 @@ services:
       # -- Storage class to use.
       # Uses the default storage class if not set.
       storageClassName:
-      # -- Persistent volume access modes. Needs to be `["ReadWriteMany"]` when scaling this service beyond one instance or persistence needs to be disabled.
+      # -- Persistent volume access modes. Needs to be `["ReadWriteMany"]` when having more than one replica for this service or persistence needs to be disabled.
       accessModes:
         - ReadWriteMany
       # -- Size of the persistent volume.
@@ -1840,13 +1947,15 @@ services:
     jobPriorityClassName: ""
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
     podDisruptionBudget: {}
-    # -- Maintenance configuration for cleanup jobs.
+    # Maintenance configuration for cleanup jobs.
     maintenance:
       cleanUpOldThumbnails:
         # -- Enables a job, that cleans up old thumbnails. Requires persistence to be enabled.
         enabled: false
-        # -- Cron pattern for the job to be run. Defaults to every minute.
-        schedule: "* * * * *"
+        # -- Cron pattern for the job to be run.
+        schedule: "0 * * * *"
+        # -- Defines the a deadline (in whole seconds) for starting the Job, if that Job misses its scheduled time for any reason.
+        startingDeadlineSeconds: 600
         # -- Setting that makes the command delete all thumbnails older than the value. The value is a number in days.
         deleteBefore: 30
         # -- Method to use with BusyBox "find" for finding old thumbnails. Can be mtime, atime or ctime.
@@ -1867,7 +1976,7 @@ services:
     affinity: {}
     # -- Per-service custom labels
     extraLabels: {}
-    # -- Per-service image configuration. Overrides the default setting from `image` if set.
+    # Per-service image configuration. Overrides the default setting from `image` if set.
     image:
       # -- Image repository
       repository: ""
@@ -1890,10 +1999,9 @@ services:
     # -- Per-service store configuration for the userlog service. Overrides the default setting from `store` if set.
     store:
       {}
-      # -- Configure the store type for the userlog service. Might be `memory`, `ocmem`, `etcd`, `redis`,
-      # `redis-sentinel`, `nats-js` or `noop`
+      # -- Configure the store type for the userlog service. Might be `memory` (only for testing), `redis-sentinel`, `nats-js-kv`
       # type:
-      # -- Provide a list of comma-separated addresses of `etcd`, `redis`, `redis-sentinel` or `nats-js` servers here
+      # -- Provide a list of comma-separated addresses of `redis-sentinel` or `nats-js` servers here
       # if the proper store is selected
       # addresses:
       # - "{{ .appNameNats }}:9233"
@@ -1905,7 +2013,7 @@ services:
     affinity: {}
     # -- Per-service custom labels
     extraLabels: {}
-    # -- Per-service image configuration. Overrides the default setting from `image` if set.
+    # Per-service image configuration. Overrides the default setting from `image` if set.
     image:
       # -- Image repository
       repository: ""
@@ -1933,7 +2041,7 @@ services:
     affinity: {}
     # -- Per-service custom labels
     extraLabels: {}
-    # -- Per-service image configuration. Overrides the default setting from `image` if set.
+    # Per-service image configuration. Overrides the default setting from `image` if set.
     image:
       # -- Image repository
       repository: ""
@@ -2022,27 +2130,43 @@ services:
         # -- URL to load themes from. Will be prepended to the theme path. Defaults to the value of "externalDomain".
         server: ""
         # -- URL path to load themes from. The theme server will be prepended. Defaults to the ownCloud Web default theme.
-        path: ""
+        path: "/themes/owncloud/theme.json"
+        # -- Name of the theme you provide via `configRefs.webThemeConfigRef` and `configRefs.webThemeAssetsConfigRef`.
+        # If you change this when providing a custom theme, you must also change `theme.path`.
+        themeNameConfigRefs: "owncloud"
       # URI where to redirect the user after a logout was performed. Defaults to the URI of the login page.
       postLogoutRedirectURI: ""
       # Specifies the target url valid for the logged out / access denied page.
-      accessDeniedHelpURL: ""
-      # Specifies whether the access token will be stored in the local storage when set to ’true’ or in the session storage when set to ‘false’’.
-      # If stored in the local storage, login state will be persisted across multiple browser tabs, means no additional logins are required. Defaults to ’true’.
-      tokenStorageLocal:
-        enabled: true
-      # Specifies the target url for the imprint link in the account menu.
-      imprintURL:
-      # Specifies the target url for the privacy link in the account menu.
-      privacyURL:
+      loginURL:
+      # Defines whether one ore more filters must be set in order to list users in the Web admin settings.
+      userListRequiresFilter: false
+      # Embed mode settings
+      embed:
+        # Specifies if web "embed"-mode is enabled. Defaults to not being set (= disabled).
+        enabled: ""
+        # Specifies how web is being integrated when running in "embed"-mode. Currently supported values are "location" and "" (default).
+        target: ""
+        # Specifies a URL under which web can be integrated via iFrame. This needs to be specified when web is running in "embed"-mode.
+        messagesOrigin: ""
+        # Specifies if web delegates the authentication to the embedding parent application. Defaults to not being set (= web handles the authentication).
+        delegateAuthentication: ""
+        # Specifies the allowed message origin host when posting access tokens from the embedding parent application to web. Defaults to not being set, which is only recommended for development environments.
+        delegateAuthenticationOrigin: ""
+      concurrency:
+        # Defines the maximum number of concurrent requests per file/folder/space batch action. If uset, the default of ownCloud Web will be used.
+        resourceBatchActionRequests:
+        # Defines the maximum number of concurrent requests in SSE event handlers. If uset, the default of ownCloud Web will be used.
+        sseRequests:
+        # Defines the maximum number of concurrent requests per sharing invite batch. If uset, the default of ownCloud Web will be used.
+        shareCreateRequests:
+        # Defines the maximum number of concurrent requests when loading individual share information inside listings. If uset, the default of ownCloud Web will be used.
+        shareListRequests:
 
     # -- Persistence settings.
     # @default -- see detailed persistence configuration options below
     persistence:
       # -- Enables persistence.
-      # Is recommended to be enabled on production installations.
-      # If enabled, generated thumbnails are cached on this volume and available across pod restarts and service instances.
-      # If not enabled, thumbnail generation might lead to higher CPU usage.
+      # Only needed if you want to change the oCIS instance logo via the Web UI.
       enabled: false
       # -- Enables an initContainer to chown the volume.
       # The initContainer is run as root.
@@ -2052,7 +2176,7 @@ services:
       # -- Storage class to use.
       # Uses the default storage class if not set.
       storageClassName:
-      # -- Persistent volume access modes. Needs to be `["ReadWriteMany"]` when scaling this service beyond one instance or persistence needs to be disabled.
+      # -- Persistent volume access modes. Needs to be `["ReadWriteMany"]` when having more than one replica for this service or persistence needs to be disabled.
       accessModes:
         - ReadWriteMany
       # -- Size of the persistent volume.
@@ -2081,7 +2205,7 @@ services:
     affinity: {}
     # -- Per-service custom labels
     extraLabels: {}
-    # -- Per-service image configuration. Overrides the default setting from `image` if set.
+    # Per-service image configuration. Overrides the default setting from `image` if set.
     image:
       # -- Image repository
       repository: ""
@@ -2109,7 +2233,7 @@ services:
     affinity: {}
     # -- Per-service custom labels
     extraLabels: {}
-    # -- Per-service image configuration. Overrides the default setting from `image` if set.
+    # Per-service image configuration. Overrides the default setting from `image` if set.
     image:
       # -- Image repository
       repository: ""
@@ -2137,7 +2261,7 @@ services:
     affinity: {}
     # -- Per-service custom labels
     extraLabels: {}
-    # -- Per-service image configuration. Overrides the default setting from `image` if set.
+    # Per-service image configuration. Overrides the default setting from `image` if set.
     image:
       # -- Image repository
       repository: ""
@@ -2148,7 +2272,7 @@ services:
       # -- Image pull policy
       pullPolicy:
 
-# -- Service monitoring configuration. Requires the monitoring.coreos.com/v1 CRDs to be installed.
+# Service monitoring configuration. Requires the monitoring.coreos.com/v1 CRDs to be installed.
 monitoring:
   # -- Enable service monitoring.
   enabled: false
@@ -2156,3 +2280,15 @@ monitoring:
   interval: 60s
   # -- Scrape timeout.
   scrapeTimeout: 60s
+
+# Kubernetes service related settings.
+service:
+  appProtocol:
+    # -- appProtocol to be used for service ports that use the grpc protocol.
+    grpc: grpc
+    # -- appProtocol to be used for service ports that use the http protocol.
+    http: http
+    # -- appProtocol to be used for service ports that use the ldaps protocol. Not used if `features.externalUserManagement.enabled` equals `true`.
+    ldaps: tcp
+    # -- appProtocol to be used for service ports that use the nats wire protocol. Not used if `messagingSystem.external.enabled` equals `true`.
+    nats: tcp

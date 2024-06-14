@@ -11,7 +11,6 @@ spec:
   template:
     {{- include "ocis.templateMetadata" (dict "scope" $ "configCheck" true) | nindent 4 }}
     spec:
-      {{- include "ocis.serviceAccount" . | nindent 6 }}
       {{- include "ocis.affinity" .Values.services.web | nindent 6 }}
       {{- include "ocis.securityContextAndtopologySpreadConstraints" . | nindent 6 }}
       {{- include "ocis.priorityClassName" $.priorityClassName | nindent 6 }}
@@ -25,6 +24,7 @@ spec:
           {{- include "ocis.containerSecurityContext" . | nindent 10 }}
           env:
             {{- include "ocis.serviceRegistry" . | nindent 12 }}
+            {{- include "ocis.cors" . |nindent 12 }}
 
             - name: WEB_LOG_COLOR
               value: {{ .Values.logging.color | quote }}
@@ -71,6 +71,51 @@ spec:
               value: {{ .Values.services.web.config.theme.path | quote }}
             {{- end }}
 
+            {{- if .Values.services.web.config.embed.enabled }}
+            - name: WEB_OPTION_EMBED_ENABLED
+              value: {{ .Values.services.web.config.embed.enabled | quote }}
+            {{- end }}
+
+            {{- if .Values.services.web.config.embed.target }}
+            - name: WEB_OPTION_EMBED_TARGET
+              value: {{ .Values.services.web.config.embed.target | quote }}
+            {{- end }}
+
+            {{- if .Values.services.web.config.embed.messagesOrigin }}
+            - name: WEB_OPTION_EMBED_MESSAGES_ORIGIN
+              value: {{ .Values.services.web.config.embed.messagesOrigin | quote }}
+            {{- end }}
+
+            {{- if .Values.services.web.config.embed.delegateAuthentication }}
+            - name: WEB_OPTION_EMBED_DELEGATE_AUTHENTICATION
+              value: {{ .Values.services.web.config.embed.delegateAuthentication | quote }}
+            {{- end }}
+
+            {{- if .Values.services.web.config.embed.delegateAuthenticationOrigin }}
+            - name: WEB_OPTION_EMBED_DELEGATE_AUTHENTICATION_ORIGIN
+              value: {{ .Values.services.web.config.embed.delegateAuthenticationOrigin | quote }}
+            {{- end }}
+
+            {{- if .Values.services.web.config.concurrency.resourceBatchActionRequests }}
+            - name: WEB_OPTION_CONCURRENT_REQUESTS_RESOURCE_BATCH_ACTIONS
+              value: {{ .Values.services.web.config.concurrency.resourceBatchActionRequests | quote }}
+            {{- end }}
+
+            {{- if .Values.services.web.config.concurrency.sseRequests }}
+            - name: WEB_OPTION_CONCURRENT_REQUESTS_SSE
+              value: {{ .Values.services.web.config.concurrency.sseRequests | quote }}
+            {{- end }}
+
+            {{- if .Values.services.web.config.concurrency.shareCreateRequests }}
+            - name: WEB_OPTION_CONCURRENT_REQUESTS_SHARES_CREATE
+              value: {{ .Values.services.web.config.concurrency.shareCreateRequests | quote }}
+            {{- end }}
+
+            {{- if .Values.services.web.config.concurrency.sseRequests }}
+            - name: WEB_OPTION_CONCURRENT_REQUESTS_SHARES_LIST
+              value: {{ .Values.services.web.config.concurrency.sseRequests | quote }}
+            {{- end }}
+
             - name: WEB_UI_CONFIG_SERVER
               value: "https://{{ .Values.externalDomain }}"
 
@@ -92,21 +137,13 @@ spec:
               value: {{ . | quote }}
             {{- end }}
 
-            {{- with .Values.services.web.config.accessDeniedHelpURL }}
-            - name: WEB_OPTION_ACCESS_DENIED_HELP_URL
+            {{- with .Values.services.web.config.loginURL }}
+            - name: WEB_OPTION_LOGIN_URL
               value: {{ . | quote }}
             {{- end }}
 
-            {{- with .Values.services.web.config.imprintURL }}
-            - name: WEB_OPTION_IMPRINT_URL
-              value: {{ . | quote }}
-            {{- end }}
-
-            - name: WEB_OPTION_TOKEN_STORAGE_LOCAL
-              value: {{ .Values.services.web.config.tokenStorageLocal.enabled | quote }}
-
-            {{- with .Values.services.web.config.privacyURL }}
-            - name: WEB_OPTION_PRIVACY_URL
+            {{- with .Values.services.web.config.userListRequiresFilter }}
+            - name: WEB_OPTION_USER_LIST_REQUIRES_FILTER
               value: {{ . | quote }}
             {{- end }}
 
@@ -131,11 +168,11 @@ spec:
               mountPath: /etc/ocis
             {{- if .Values.configRefs.webThemeConfigRef }}
             - name: theme
-              mountPath: /var/lib/ocis/web/assets/themes/owncloud
+              mountPath: "/var/lib/ocis/web/assets/themes/{{ .Values.services.web.config.theme.themeNameConfigRefs }}"
             {{- end }}
             {{- if .Values.configRefs.webThemeAssetsConfigRef }}
             - name: theme-assets
-              mountPath: /var/lib/ocis/web/assets/themes/owncloud/assets
+              mountPath: "/var/lib/ocis/web/assets/themes/{{ .Values.services.web.config.theme.themeNameConfigRefs }}/assets"
             {{- end }}
             - name: {{ include "ocis.persistence.dataVolumeName" . }}
               mountPath: /var/lib/ocis

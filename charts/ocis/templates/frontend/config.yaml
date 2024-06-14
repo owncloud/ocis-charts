@@ -1,0 +1,15 @@
+{{- include "ocis.basicServiceTemplates" (dict "scope" . "appName" "appNameFrontend" "appNameSuffix" "") -}}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: sharing-banned-passwords-{{ .appName }}
+  namespace: {{ template "ocis.namespace" . }}
+  labels:
+    {{- include "ocis.labels" . | nindent 4 }}
+data:
+  sharing-banned-passwords.txt: |-
+    {{- with .Values.features.sharing.passwordPolicies.bannedPasswords -}}
+    {{- range . -}}
+    {{- . | nindent 4 }}
+    {{- end -}}
+    {{- end -}}

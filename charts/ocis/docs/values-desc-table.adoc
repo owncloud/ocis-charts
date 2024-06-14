@@ -34,14 +34,20 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 +list+
 a| [subs=-attributes]
-`[]`
+`["{{ .appNameNats }}:9233"]`
 | Nodes of the cache to use.
 | cache.type
 a| [subs=-attributes]
 +string+
 a| [subs=-attributes]
+`"nats-js-kv"`
+| Type of the cache to use. Can be set to "nats-js-kv" or "redis-sentinel". There are also the non-recommended options "memory" and "noop". The address of NATS / Redis Sentinel node(s) needs to be set to `cache.nodes`.
+| configRefs.authServiceConfigRef
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
 `""`
-| Type of the cache to use. It defaults to no cache or a in memory cache depending on the service. To disable the cache, set to "noop". Can be set to "redis", "redis-sentinel" or "etcd", then the address of Redis (Sentinel) / etcd node(s) needs to be set to `cache.nodes`.
+| Reference to an existing authservice config.
 | configRefs.graphConfigRef
 a| [subs=-attributes]
 +string+
@@ -82,7 +88,7 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 +string+
 a| [subs=-attributes]
-`"ocis.owncloud.test"`
+`""`
 | Domain where oCIS is reachable for the outside world
 | extraLabels
 a| [subs=-attributes]
@@ -118,7 +124,7 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 +string+
 a| [subs=-attributes]
-`"https://collabora.owncloud.test/favicon.ico"`
+`""`
 | URI for the icon of the office suite. Will be displayed to the users.
 | features.appsIntegration.wopiIntegration.officeSuites[0].insecure
 a| [subs=-attributes]
@@ -136,7 +142,7 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 +string+
 a| [subs=-attributes]
-`"https://collabora.owncloud.test"`
+`""`
 | URI of the office suite.
 | features.appsIntegration.wopiIntegration.officeSuites[1].disableChat
 a| [subs=-attributes]
@@ -154,7 +160,7 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 +string+
 a| [subs=-attributes]
-`"https://onlyoffice.owncloud.test/web-apps/apps/documenteditor/main/resources/img/favicon.ico"`
+`""`
 | URI for the icon of the office suite. Will be displayed to the users.
 | features.appsIntegration.wopiIntegration.officeSuites[1].insecure
 a| [subs=-attributes]
@@ -172,7 +178,7 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 +string+
 a| [subs=-attributes]
-`"https://onlyoffice.owncloud.test"`
+`""`
 | URI of the office suite.
 | features.appsIntegration.wopiIntegration.wopiFolderURI
 a| [subs=-attributes]
@@ -190,7 +196,7 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 +string+
 a| [subs=-attributes]
-`"https://wopiserver.owncloud.test"`
+`""`
 | URL of the https://github.com/cs3org/wopiserver[cs3org/wopiserver]. Can be deployed https://artifacthub.io/packages/helm/cs3org/wopiserver[with this Chart].
 | features.archiver.maxNumFiles
 a| [subs=-attributes]
@@ -256,14 +262,14 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 +string+
 a| [subs=-attributes]
-`"none"`
-| Authentication method for the SMTP communication. Possible values are ‘login’, ‘plain’, ‘crammd5’, ‘none’ If set to another value than `none`, a secret referenced by `notificationsSmtpSecretRef` needs to be present.
+`"auto"`
+| Authentication method for the SMTP communication. Possible values are ‘login’, ‘plain’, ‘crammd5’, ‘none’, 'auto' If set to another value than `none`, a secret referenced by `notificationsSmtpSecretRef` needs to be present.
 | features.emailNotifications.smtp.encryption
 a| [subs=-attributes]
 +string+
 a| [subs=-attributes]
 `"none"`
-| Encryption method for the SMTP communication. Possible values are ‘starttls’, ‘ssl’, ‘ssltls’, ‘tls’ and ‘none’.
+| Values 'ssl' and 'tls' are deprecated and will be removed in oCIS release 6.0.0. Use 'starttls' instead of 'tls' and 'ssltls' instead of 'ssl'.
 | features.emailNotifications.smtp.host
 a| [subs=-attributes]
 +string+
@@ -288,6 +294,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `""`
 | UUID of the inital admin user. If the given value matches a user's value from `features.externalUserManagement.oidc.userIDClaim`, the admin role will be assigned. Consider that the UUID can be encoded in some LDAP deployment configurations like in .ldif files. These need to be decoded beforehand. Note: Enabling `roleAssignment` will disable `adminUUID`.
+| features.externalUserManagement.autoprovisionAccounts
+a| [subs=-attributes]
++bool+
+a| [subs=-attributes]
+`false`
+| Enables account auto provisioning. It will create missing users on the LDAP server from OIDC information. Needs `features.externalUserManagement.ldap.writeable` to be be set to `true`.
 | features.externalUserManagement.enabled
 a| [subs=-attributes]
 +bool+
@@ -306,12 +318,6 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `true`
 | Set only to false, if the certificate of your LDAP secure service is not trusted. If set to false, you need to put the CA cert of the LDAP secure server into the secret referenced by "ldapCaRef"
-| features.externalUserManagement.ldap.disableUsers
-a| [subs=-attributes]
-+object+
-a| [subs=-attributes]
-`{"disableMechanism":"none","disabledUsersGroupDN":"cn=DisabledUsersGroup,ou=groups,o=libregraph-idm","userEnabledAttribute":"ownCloudUserEnabled"}`
-| When using external user management, users can be set as disabled by either belonging to a group or using an ldap attribute.
 | features.externalUserManagement.ldap.disableUsers.disableMechanism
 a| [subs=-attributes]
 +string+
@@ -520,20 +526,20 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 +string+
 a| [subs=-attributes]
-`"https://idp.owncloud.test/realms/ocis"`
+`""`
 | Issuer URI of the OpenID Connect Identity Provider. If the IDP doesn't have valid / trusted SSL certificates, certificate validation can be disabled with the `insecure.oidcIdpInsecure` option.
-| features.externalUserManagement.oidc.roleAssignment
-a| [subs=-attributes]
-+object+
-a| [subs=-attributes]
-`{"claim":"roles","enabled":false,"mapping":[{"claim_value":"ocisAdmin","role_name":"admin"},{"claim_value":"ocisSpaceAdmin","role_name":"spaceadmin"},{"claim_value":"ocisUser","role_name":"user"},{"claim_value":"ocisGuest","role_name":"guest"}]}`
-| Configure OIDC role assignment. If activated, oCIS will read the role assigment from the OIDC token, see xref:{s-path}/proxy.adoc#automatic-role-assignments[Automatic Role Assignments]
 | features.externalUserManagement.oidc.roleAssignment.claim
 a| [subs=-attributes]
 +string+
 a| [subs=-attributes]
 `"roles"`
 | The name of the OIDC claim holding the role assignment
+| features.externalUserManagement.oidc.roleAssignment.enabled
+a| [subs=-attributes]
++bool+
+a| [subs=-attributes]
+`false`
+| enable OIDC role assignment.
 | features.externalUserManagement.oidc.roleAssignment.mapping
 a| [subs=-attributes]
 +list+
@@ -564,29 +570,23 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `"web"`
 | Specify the client ID which the web frontend will use
-| features.gdprReport.integrations
-a| [subs=-attributes]
-+object+
-a| [subs=-attributes]
-`{"keycloak":{"basePath":"https://keycloak.owncloud.test","clientID":"gdpr-exporter","clientRealm":"master","enabled":false,"insecure":false,"userRealm":"oCIS"}}`
-| Controls the separate GDPR integrations
 | features.gdprReport.integrations.keycloak.basePath
 a| [subs=-attributes]
 +string+
 a| [subs=-attributes]
-`"https://keycloak.owncloud.test"`
+`""`
 | Base URI of keycloak.
 | features.gdprReport.integrations.keycloak.clientID
 a| [subs=-attributes]
 +string+
 a| [subs=-attributes]
-`"gdpr-exporter"`
+`""`
 | Client ID to authenticate against keycloak with.
 | features.gdprReport.integrations.keycloak.clientRealm
 a| [subs=-attributes]
 +string+
 a| [subs=-attributes]
-`"master"`
+`""`
 | Realm that the client ID is configured in, usually master.
 | features.gdprReport.integrations.keycloak.enabled
 a| [subs=-attributes]
@@ -604,8 +604,14 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 +string+
 a| [subs=-attributes]
-`"oCIS"`
+`""`
 | Realm that the users are in.
+| features.language.default
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"en"`
+| The default language. If not defined, English will be used as default. See the documentation for more details.
 | features.policies.enabled
 a| [subs=-attributes]
 +bool+
@@ -654,12 +660,60 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `nil`
 | Define the roles by specifying a name of a ConfigMap which already contains the the role description (might also be defined in the `extraResources` section). The ConfigMap needs to contain a file named `custom-roles.json` which holds the role description in JSON format Please note that you have to restart the settings service manually if you change the content of you ConfigMap.
+| features.sharing.autoAcceptShares
+a| [subs=-attributes]
++bool+
+a| [subs=-attributes]
+`true`
+| automatically accept incoming shares
+| features.sharing.passwordPolicies.bannedPasswords
+a| [subs=-attributes]
++list+
+a| [subs=-attributes]
+`[]`
+| list of banned passwords
+| features.sharing.passwordPolicies.minCharacters
+a| [subs=-attributes]
++int+
+a| [subs=-attributes]
+`0`
+| the minimum amount of characters the password needs to have
+| features.sharing.passwordPolicies.minDigits
+a| [subs=-attributes]
++int+
+a| [subs=-attributes]
+`0`
+| the minimum amount of digits the password needs to have
+| features.sharing.passwordPolicies.minLowerCharacters
+a| [subs=-attributes]
++int+
+a| [subs=-attributes]
+`0`
+| the minimum amount of lower case characters the password needs to have
+| features.sharing.passwordPolicies.minSpecialCharacters
+a| [subs=-attributes]
++int+
+a| [subs=-attributes]
+`0`
+| the minimum amount of special characters the password needs to have
+| features.sharing.passwordPolicies.minUpperCharacters
+a| [subs=-attributes]
++int+
+a| [subs=-attributes]
+`0`
+| the minimum amount of upper case characters the password needs to have
+| features.sharing.publiclink.shareMustHavePassword
+a| [subs=-attributes]
++bool+
+a| [subs=-attributes]
+`false`
+| Enforce a password on all public link shares.
 | features.sharing.publiclink.writeableShareMustHavePassword
 a| [subs=-attributes]
 +bool+
 a| [subs=-attributes]
 `false`
-| Enforce a password on writable public link shares.
+| Enforce a password only on writable public link shares. Is already enforced if `features.sharing.publiclink.shareMustHavePassword` option is set to `true``.
 | features.sharing.users.resharing
 a| [subs=-attributes]
 +bool+
@@ -672,18 +726,24 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `3`
 | Minimum number of characters to enter before a client should start a search for Share receivers. This setting can be used to customize the user experience if e.g too many results are displayed.
+| features.sharing.users.search.showUserEmail
+a| [subs=-attributes]
++bool+
+a| [subs=-attributes]
+`true`
+| Show user email when searching for other users to share with.
+| features.sse.disabled
+a| [subs=-attributes]
++bool+
+a| [subs=-attributes]
+`false`
+| Disables SSE. When disabled, clients will no longer receive sse notifications.
 | features.virusscan.enabled
 a| [subs=-attributes]
 +bool+
 a| [subs=-attributes]
 `false`
 | Enables virus scanning
-| features.virusscan.icap
-a| [subs=-attributes]
-+object+
-a| [subs=-attributes]
-`{"service":"avscan","timeout":300,"url":"icap://127.0.0.1:1344"}`
-| Define icap parameters
 | features.virusscan.icap.service
 a| [subs=-attributes]
 +string+
@@ -719,7 +779,7 @@ a| [subs=-attributes]
 +list+
 a| [subs=-attributes]
 `[]`
-|
+| provide custom hostnames to every oCIS pods
 | http.cors.allow_origins
 a| [subs=-attributes]
 +list+
@@ -786,12 +846,6 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `[]`
 | Ingress TLS configuration.
-| initContainerImage
-a| [subs=-attributes]
-+object+
-a| [subs=-attributes]
-`{"pullPolicy":"IfNotPresent","repository":"busybox","sha":"","tag":"stable"}`
-| InitContainer image used for oCIS services. Only used if `services.xxx.persistence.chownInitContainer.enabled` is set to true for at least one service.
 | initContainerImage.pullPolicy
 a| [subs=-attributes]
 +string+
@@ -900,12 +954,6 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `false`
 | For self signed certificates, consider to put the CA cert of the messaging system secure server into the secret referenced by "messagingSystemCaRef" Not recommended for production installations.
-| monitoring
-a| [subs=-attributes]
-+object+
-a| [subs=-attributes]
-`{"enabled":false,"interval":"60s","scrapeTimeout":"60s"}`
-| Service monitoring configuration. Requires the monitoring.coreos.com/v1 CRDs to be installed.
 | monitoring.enabled
 a| [subs=-attributes]
 +bool+
@@ -941,7 +989,7 @@ a| [subs=-attributes]
 +object+
 a| [subs=-attributes]
 `{}`
-|
+| Default PodDisruptionBudget to apply to all services, except per-service PodDisruptionBudget configuration in `services.<service-name>.podDisruptionBudget` is set.
 | priorityClassName
 a| [subs=-attributes]
 +string+
@@ -952,14 +1000,14 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 +list+
 a| [subs=-attributes]
-`[]`
+`["{{ .appNameNats }}:9233"]`
 | Nodes of the service registry to use.
 | registry.type
 a| [subs=-attributes]
 +string+
 a| [subs=-attributes]
-`"kubernetes"`
-| Configure the service registry type. Defaults to "kubernetes". Can be set to "etcd" or "nats", then the address of etcd / nats node(s) needs to be set to `registry.nodes`.
+`"nats-js-kv"`
+| Configure the service registry type. Can be set to "nats-js-kv". The address of NATS node(s) needs to be set to `cache.nodes`.
 | replicas
 a| [subs=-attributes]
 +int+
@@ -1044,6 +1092,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `""`
 | Reference to an existing s3 secret (see xref:{secrets}[Secrets]) If not filled in, will attempt to use values in `.storageusers.storageBackend.s3.driverConfig.s3ng` instead.
+| secretRefs.serviceAccountSecretRef
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Reference to an existing service account secret (see xref:{secrets}[Secrets])
 | secretRefs.storagesystemJwtSecretRef
 a| [subs=-attributes]
 +string+
@@ -1092,6 +1146,30 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `1000`
 | User ID that all processes within any containers will run with.
+| service.appProtocol.grpc
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"grpc"`
+| appProtocol to be used for service ports that use the grpc protocol.
+| service.appProtocol.http
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"http"`
+| appProtocol to be used for service ports that use the http protocol.
+| service.appProtocol.ldaps
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"tcp"`
+| appProtocol to be used for service ports that use the ldaps protocol. Not used if `features.externalUserManagement.enabled` equals `true`.
+| service.appProtocol.nats
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"tcp"`
+| appProtocol to be used for service ports that use the nats wire protocol. Not used if `messagingSystem.external.enabled` equals `true`.
 | services.antivirus
 a| [subs=-attributes]
 +object+
@@ -1116,12 +1194,6 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service custom labels
-| services.antivirus.image
-a| [subs=-attributes]
-+object+
-a| [subs=-attributes]
-`{"pullPolicy":null,"repository":"","sha":"","tag":""}`
-| Per-service image configuration. Overrides the default setting from `image` if set.
 | services.antivirus.image.pullPolicy
 a| [subs=-attributes]
 +string+
@@ -1188,12 +1260,6 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service custom labels
-| services.appprovider.image
-a| [subs=-attributes]
-+object+
-a| [subs=-attributes]
-`{"pullPolicy":null,"repository":"","sha":"","tag":""}`
-| Per-service image configuration. Overrides the default setting from `image` if set.
 | services.appprovider.image.pullPolicy
 a| [subs=-attributes]
 +string+
@@ -1254,12 +1320,6 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service custom labels
-| services.appregistry.image
-a| [subs=-attributes]
-+object+
-a| [subs=-attributes]
-`{"pullPolicy":null,"repository":"","sha":"","tag":""}`
-| Per-service image configuration. Overrides the default setting from `image` if set.
 | services.appregistry.image.pullPolicy
 a| [subs=-attributes]
 +string+
@@ -1326,12 +1386,6 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service custom labels
-| services.audit.image
-a| [subs=-attributes]
-+object+
-a| [subs=-attributes]
-`{"pullPolicy":null,"repository":"","sha":"","tag":""}`
-| Per-service image configuration. Overrides the default setting from `image` if set.
 | services.audit.image.pullPolicy
 a| [subs=-attributes]
 +string+
@@ -1404,12 +1458,6 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service custom labels
-| services.authbasic.image
-a| [subs=-attributes]
-+object+
-a| [subs=-attributes]
-`{"pullPolicy":null,"repository":"","sha":"","tag":""}`
-| Per-service image configuration. Overrides the default setting from `image` if set.
 | services.authbasic.image.pullPolicy
 a| [subs=-attributes]
 +string+
@@ -1482,12 +1530,6 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service custom labels
-| services.authmachine.image
-a| [subs=-attributes]
-+object+
-a| [subs=-attributes]
-`{"pullPolicy":null,"repository":"","sha":"","tag":""}`
-| Per-service image configuration. Overrides the default setting from `image` if set.
 | services.authmachine.image.pullPolicy
 a| [subs=-attributes]
 +string+
@@ -1536,6 +1578,150 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service resources configuration. Overrides the default setting from `resources` if set.
+| services.authservice
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+see detailed service configuration options below
+| AUTH SERVICE service.
+| services.authservice.affinity
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Affinity settings for the authservice service. See the documentation of this setting in approvider for examples.
+| services.authservice.autoscaling
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
+| services.authservice.extraLabels
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service custom labels
+| services.authservice.image.pullPolicy
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`nil`
+| Image pull policy
+| services.authservice.image.repository
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Image repository
+| services.authservice.image.sha
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Image sha / digest (optional).
+| services.authservice.image.tag
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Image tag.
+| services.authservice.nodeSelector
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
+| services.authservice.podDisruptionBudget
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
+| services.authservice.priorityClassName
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
+| services.authservice.resources
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service resources configuration. Overrides the default setting from `resources` if set.
+| services.clientlog
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+see detailed service configuration options below
+| CLIENTLOG service.
+| services.clientlog.affinity
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Affinity settings for the clientlog service. See the documentation of this setting in approvider for examples.
+| services.clientlog.autoscaling
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
+| services.clientlog.extraLabels
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service custom labels
+| services.clientlog.image.pullPolicy
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`nil`
+| Image pull policy
+| services.clientlog.image.repository
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Image repository
+| services.clientlog.image.sha
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Image sha / digest (optional).
+| services.clientlog.image.tag
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Image tag.
+| services.clientlog.nodeSelector
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
+| services.clientlog.podDisruptionBudget
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
+| services.clientlog.priorityClassName
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
+| services.clientlog.resources
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service resources configuration. Overrides the default setting from `resources` if set.
 | services.eventhistory
 a| [subs=-attributes]
 +object+
@@ -1560,12 +1746,6 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service custom labels
-| services.eventhistory.image
-a| [subs=-attributes]
-+object+
-a| [subs=-attributes]
-`{"pullPolicy":null,"repository":"","sha":"","tag":""}`
-| Per-service image configuration. Overrides the default setting from `image` if set.
 | services.eventhistory.image.pullPolicy
 a| [subs=-attributes]
 +string+
@@ -1644,12 +1824,6 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service custom labels
-| services.frontend.image
-a| [subs=-attributes]
-+object+
-a| [subs=-attributes]
-`{"pullPolicy":null,"repository":"","sha":"","tag":""}`
-| Per-service image configuration. Overrides the default setting from `image` if set.
 | services.frontend.image.pullPolicy
 a| [subs=-attributes]
 +string+
@@ -1722,12 +1896,6 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service custom labels
-| services.gateway.image
-a| [subs=-attributes]
-+object+
-a| [subs=-attributes]
-`{"pullPolicy":null,"repository":"","sha":"","tag":""}`
-| Per-service image configuration. Overrides the default setting from `image` if set.
 | services.gateway.image.pullPolicy
 a| [subs=-attributes]
 +string+
@@ -1800,12 +1968,6 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service custom labels
-| services.graph.image
-a| [subs=-attributes]
-+object+
-a| [subs=-attributes]
-`{"pullPolicy":null,"repository":"","sha":"","tag":""}`
-| Per-service image configuration. Overrides the default setting from `image` if set.
 | services.graph.image.pullPolicy
 a| [subs=-attributes]
 +string+
@@ -1878,12 +2040,6 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service custom labels
-| services.groups.image
-a| [subs=-attributes]
-+object+
-a| [subs=-attributes]
-`{"pullPolicy":null,"repository":"","sha":"","tag":""}`
-| Per-service image configuration. Overrides the default setting from `image` if set.
 | services.groups.image.pullPolicy
 a| [subs=-attributes]
 +string+
@@ -1950,12 +2106,6 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service custom labels
-| services.idm.image
-a| [subs=-attributes]
-+object+
-a| [subs=-attributes]
-`{"pullPolicy":null,"repository":"","sha":"","tag":""}`
-| Per-service image configuration. Overrides the default setting from `image` if set.
 | services.idm.image.pullPolicy
 a| [subs=-attributes]
 +string+
@@ -1996,8 +2146,8 @@ see detailed persistence configuration options below
 a| [subs=-attributes]
 +list+
 a| [subs=-attributes]
-`["ReadWriteMany"]`
-| Persistent volume access modes. Needs to be `["ReadWriteMany"]` when scaling this service beyond one instance.
+`["ReadWriteOnce"]`
+| Persistent volume access modes.
 | services.idm.persistence.annotations
 a| [subs=-attributes]
 +object+
@@ -2021,7 +2171,7 @@ a| [subs=-attributes]
 +bool+
 a| [subs=-attributes]
 `false`
-| Enables persistence. Needs to be enabled on production installations, except `features.externalUserManagement.enabled` equals `true`. If not enabled, pod restarts will lead to data loss. Also scaling this service beyond one instance is not possible if the service instances don't share the same storage.
+| Enables persistence. Needs to be enabled on production installations, except `features.externalUserManagement.enabled` equals `true`. If not enabled, pod restarts will lead to data loss.
 | services.idm.persistence.existingClaim
 a| [subs=-attributes]
 +string+
@@ -2082,12 +2232,6 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service custom labels
-| services.idp.image
-a| [subs=-attributes]
-+object+
-a| [subs=-attributes]
-`{"pullPolicy":null,"repository":"","sha":"","tag":""}`
-| Per-service image configuration. Overrides the default setting from `image` if set.
 | services.idp.image.pullPolicy
 a| [subs=-attributes]
 +string+
@@ -2148,12 +2292,6 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service custom labels
-| services.nats.image
-a| [subs=-attributes]
-+object+
-a| [subs=-attributes]
-`{"pullPolicy":null,"repository":"","sha":"","tag":""}`
-| Per-service image configuration. Overrides the default setting from `image` if set.
 | services.nats.image.pullPolicy
 a| [subs=-attributes]
 +string+
@@ -2194,8 +2332,8 @@ see detailed persistence configuration options below
 a| [subs=-attributes]
 +list+
 a| [subs=-attributes]
-`["ReadWriteMany"]`
-| Persistent volume access modes. Needs to be `["ReadWriteMany"]` when scaling this service beyond one instance.
+`["ReadWriteOnce"]`
+| Persistent volume access modes.
 | services.nats.persistence.annotations
 a| [subs=-attributes]
 +object+
@@ -2219,7 +2357,7 @@ a| [subs=-attributes]
 +bool+
 a| [subs=-attributes]
 `false`
-| Enables persistence. Needs to be enabled on production installations, except `messagingSystem.external.enabled` equals `true`. If not enabled, pod restarts will lead to data loss. Also scaling this service beyond one instance is not possible if the service instances don't share the same storage.
+| Enables persistence. Needs to be enabled on production installations, except `messagingSystem.external.enabled` equals `true`. If not enabled, pod restarts will lead to data loss.
 | services.nats.persistence.existingClaim
 a| [subs=-attributes]
 +string+
@@ -2286,12 +2424,6 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service custom labels
-| services.notifications.image
-a| [subs=-attributes]
-+object+
-a| [subs=-attributes]
-`{"pullPolicy":null,"repository":"","sha":"","tag":""}`
-| Per-service image configuration. Overrides the default setting from `image` if set.
 | services.notifications.image.pullPolicy
 a| [subs=-attributes]
 +string+
@@ -2364,12 +2496,6 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service custom labels
-| services.ocdav.image
-a| [subs=-attributes]
-+object+
-a| [subs=-attributes]
-`{"pullPolicy":null,"repository":"","sha":"","tag":""}`
-| Per-service image configuration. Overrides the default setting from `image` if set.
 | services.ocdav.image.pullPolicy
 a| [subs=-attributes]
 +string+
@@ -2442,12 +2568,6 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service custom labels
-| services.ocs.image
-a| [subs=-attributes]
-+object+
-a| [subs=-attributes]
-`{"pullPolicy":null,"repository":"","sha":"","tag":""}`
-| Per-service image configuration. Overrides the default setting from `image` if set.
 | services.ocs.image.pullPolicy
 a| [subs=-attributes]
 +string+
@@ -2520,12 +2640,6 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service custom labels
-| services.policies.image
-a| [subs=-attributes]
-+object+
-a| [subs=-attributes]
-`{"pullPolicy":null,"repository":"","sha":"","tag":""}`
-| Per-service image configuration. Overrides the default setting from `image` if set.
 | services.policies.image.pullPolicy
 a| [subs=-attributes]
 +string+
@@ -2598,12 +2712,6 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service custom labels
-| services.postprocessing.image
-a| [subs=-attributes]
-+object+
-a| [subs=-attributes]
-`{"pullPolicy":null,"repository":"","sha":"","tag":""}`
-| Per-service image configuration. Overrides the default setting from `image` if set.
 | services.postprocessing.image.pullPolicy
 a| [subs=-attributes]
 +string+
@@ -2682,12 +2790,6 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service custom labels
-| services.proxy.image
-a| [subs=-attributes]
-+object+
-a| [subs=-attributes]
-`{"pullPolicy":null,"repository":"","sha":"","tag":""}`
-| Per-service image configuration. Overrides the default setting from `image` if set.
 | services.proxy.image.pullPolicy
 a| [subs=-attributes]
 +string+
@@ -2766,11 +2868,17 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `nil`
 | Configures the maximum file size in bytes that is allowed for content extraction. For the default value see https://doc.owncloud.com/ocis/next/deployment/services/s-list/search.html
+| services.search.extractor.tika.cleanStopWords
+a| [subs=-attributes]
++bool+
+a| [subs=-attributes]
+`true`
+| Defines if stop words should be cleaned or not.
 | services.search.extractor.tika.url
 a| [subs=-attributes]
 +string+
 a| [subs=-attributes]
-`"http://tika.tika.svc.cluster.local:9998"`
+`""`
 | Set the URL to Tika. Only applicable if `services.search.extractor.type` == `tika`.
 | services.search.extractor.type
 a| [subs=-attributes]
@@ -2778,12 +2886,6 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `"basic"`
 | Configures the search extractor type to be used. Possible extractors: - `basic`: the default search extractor. - `tika`: the Tika search extractor. If set to this value, additional settings in the `tika` section apply.
-| services.search.image
-a| [subs=-attributes]
-+object+
-a| [subs=-attributes]
-`{"pullPolicy":null,"repository":"","sha":"","tag":""}`
-| Per-service image configuration. Overrides the default setting from `image` if set.
 | services.search.image.pullPolicy
 a| [subs=-attributes]
 +string+
@@ -2824,8 +2926,8 @@ see detailed persistence configuration options below
 a| [subs=-attributes]
 +list+
 a| [subs=-attributes]
-`["ReadWriteMany"]`
-| Persistent volume access modes. Needs to be `["ReadWriteMany"]` when scaling this service beyond one instance.
+`["ReadWriteOnce"]`
+| Persistent volume access modes.
 | services.search.persistence.annotations
 a| [subs=-attributes]
 +object+
@@ -2849,7 +2951,7 @@ a| [subs=-attributes]
 +bool+
 a| [subs=-attributes]
 `false`
-| Enables persistence. Needs to be enabled on production installations. If not enabled, pod restarts will lead to data loss. Also scaling this service beyond one instance is not possible if the service instances don't share the same storage.
+| Enables persistence. Needs to be enabled on production installations. If not enabled, pod restarts will lead to data loss.
 | services.search.persistence.existingClaim
 a| [subs=-attributes]
 +string+
@@ -2922,12 +3024,6 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service custom labels
-| services.settings.image
-a| [subs=-attributes]
-+object+
-a| [subs=-attributes]
-`{"pullPolicy":null,"repository":"","sha":"","tag":""}`
-| Per-service image configuration. Overrides the default setting from `image` if set.
 | services.settings.image.pullPolicy
 a| [subs=-attributes]
 +string+
@@ -3000,12 +3096,6 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service custom labels
-| services.sharing.image
-a| [subs=-attributes]
-+object+
-a| [subs=-attributes]
-`{"pullPolicy":null,"repository":"","sha":"","tag":""}`
-| Per-service image configuration. Overrides the default setting from `image` if set.
 | services.sharing.image.pullPolicy
 a| [subs=-attributes]
 +string+
@@ -3054,6 +3144,84 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service resources configuration. Overrides the default setting from `resources` if set.
+| services.sse
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+see detailed service configuration options below
+| SSE service
+| services.sse.affinity
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Affinity settings for the postprocessing service. See the documentation of this setting in approvider for examples.
+| services.sse.autoscaling
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
+| services.sse.extraLabels
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service custom labels
+| services.sse.image.pullPolicy
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`nil`
+| Image pull policy
+| services.sse.image.repository
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Image repository
+| services.sse.image.sha
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Image sha / digest (optional).
+| services.sse.image.tag
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Image tag.
+| services.sse.nodeSelector
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
+| services.sse.podDisruptionBudget
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
+| services.sse.priorityClassName
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
+| services.sse.resources
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service resources configuration. Overrides the default setting from `resources` if set.
+| services.sse.store
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service store configuration for the eventhistory service. Overrides the default setting from `store` if set.
 | services.storagepubliclink
 a| [subs=-attributes]
 +object+
@@ -3078,12 +3246,6 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service custom labels
-| services.storagepubliclink.image
-a| [subs=-attributes]
-+object+
-a| [subs=-attributes]
-`{"pullPolicy":null,"repository":"","sha":"","tag":""}`
-| Per-service image configuration. Overrides the default setting from `image` if set.
 | services.storagepubliclink.image.pullPolicy
 a| [subs=-attributes]
 +string+
@@ -3156,12 +3318,6 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service custom labels
-| services.storageshares.image
-a| [subs=-attributes]
-+object+
-a| [subs=-attributes]
-`{"pullPolicy":null,"repository":"","sha":"","tag":""}`
-| Per-service image configuration. Overrides the default setting from `image` if set.
 | services.storageshares.image.pullPolicy
 a| [subs=-attributes]
 +string+
@@ -3234,12 +3390,6 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service custom labels
-| services.storagesystem.image
-a| [subs=-attributes]
-+object+
-a| [subs=-attributes]
-`{"pullPolicy":null,"repository":"","sha":"","tag":""}`
-| Per-service image configuration. Overrides the default setting from `image` if set.
 | services.storagesystem.image.pullPolicy
 a| [subs=-attributes]
 +string+
@@ -3281,7 +3431,7 @@ a| [subs=-attributes]
 +list+
 a| [subs=-attributes]
 `["ReadWriteMany"]`
-| Persistent volume access modes. Needs to be `["ReadWriteMany"]` when scaling this service beyond one instance.
+| Persistent volume access modes. Needs to be `["ReadWriteMany"]` when having more than one replica for this service.
 | services.storagesystem.persistence.annotations
 a| [subs=-attributes]
 +object+
@@ -3305,7 +3455,7 @@ a| [subs=-attributes]
 +bool+
 a| [subs=-attributes]
 `false`
-| Enables persistence. Needs to be enabled on production installations. If not enabled, pod restarts will lead to data loss. Also scaling this service beyond one instance is not possible if the service instances don't share the same storage.
+| Enables persistence. Needs to be enabled on production installations. If not enabled, pod restarts will lead to data loss. Also scaling this service to more than one replica is not possible if the pods don't share the same volume.
 | services.storagesystem.persistence.existingClaim
 a| [subs=-attributes]
 +string+
@@ -3372,18 +3522,18 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
+| services.storageusers.events.consumer.concurrency
+a| [subs=-attributes]
++int+
+a| [subs=-attributes]
+`10`
+| Number of event consumers to be started that concurrently consume events (eg. postprocessing related events)
 | services.storageusers.extraLabels
 a| [subs=-attributes]
 +object+
 a| [subs=-attributes]
 `{}`
 | Per-service custom labels
-| services.storageusers.image
-a| [subs=-attributes]
-+object+
-a| [subs=-attributes]
-`{"pullPolicy":null,"repository":"","sha":"","tag":""}`
-| Per-service image configuration. Overrides the default setting from `image` if set.
 | services.storageusers.image.pullPolicy
 a| [subs=-attributes]
 +string+
@@ -3436,20 +3586,20 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 +string+
 a| [subs=-attributes]
-`"* * * * *"`
-| Cron pattern for the job to be run. Defaults to every minute.
+`"0 * * * *"`
+| Cron pattern for the job to be run.
+| services.storageusers.maintenance.cleanUpExpiredUploads.startingDeadlineSeconds
+a| [subs=-attributes]
++int+
+a| [subs=-attributes]
+`600`
+| Defines the a deadline (in whole seconds) for starting the Job, if that Job misses its scheduled time for any reason.
 | services.storageusers.maintenance.cleanUpExpiredUploads.uploadExpiration
 a| [subs=-attributes]
 +int+
 a| [subs=-attributes]
 `86400`
 | Duration in seconds after which uploads will expire.    WARNING: Setting this to a low number will lead to uploads being cancelled before they are finished and returning a 403 to the user.
-| services.storageusers.maintenance.image
-a| [subs=-attributes]
-+object+
-a| [subs=-attributes]
-`{"pullPolicy":null,"repository":"","sha":"","tag":""}`
-| Image for the storageusers service maintenance jobs Defaults to the same values as `image`
 | services.storageusers.maintenance.image.pullPolicy
 a| [subs=-attributes]
 +string+
@@ -3492,18 +3642,36 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `"30d"`
 | Setting that makes the command delete all trashed project files older than the value. The value is a number and a unit "d", "h", "m", "s".
-| services.storageusers.maintenance.purgeExpiredTrashBinItems.purgeTrashBinUserID
-a| [subs=-attributes]
-+string+
-a| [subs=-attributes]
-`""`
-| User ID of a user that has permissions to list all personal and project spaces.
 | services.storageusers.maintenance.purgeExpiredTrashBinItems.schedule
 a| [subs=-attributes]
 +string+
 a| [subs=-attributes]
-`"* * * * *"`
-| Cron pattern for the job to be run. Defaults to every minute.
+`"0 * * * *"`
+| Cron pattern for the job to be run.
+| services.storageusers.maintenance.purgeExpiredTrashBinItems.startingDeadlineSeconds
+a| [subs=-attributes]
++int+
+a| [subs=-attributes]
+`600`
+| Defines the a deadline (in whole seconds) for starting the Job, if that Job misses its scheduled time for any reason.
+| services.storageusers.maintenance.restartPostprocessing.enabled
+a| [subs=-attributes]
++bool+
+a| [subs=-attributes]
+`false`
+| Enables a job, that restarts postprocessing for uploads that are currently in postprocessing state. Requires persistence to be enabled.
+| services.storageusers.maintenance.restartPostprocessing.schedule
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"0 * * * *"`
+| Cron pattern for the job to be run.
+| services.storageusers.maintenance.restartPostprocessing.startingDeadlineSeconds
+a| [subs=-attributes]
++int+
+a| [subs=-attributes]
+`600`
+| Defines the a deadline (in whole seconds) for starting the Job, if that Job misses its scheduled time for any reason.
 | services.storageusers.nodeSelector
 a| [subs=-attributes]
 +object+
@@ -3521,7 +3689,7 @@ a| [subs=-attributes]
 +list+
 a| [subs=-attributes]
 `["ReadWriteMany"]`
-| Persistent volume access modes. Needs to be `["ReadWriteMany"]` when scaling this service beyond one instance.
+| Persistent volume access modes. Needs to be `["ReadWriteMany"]` when having more than one replica for this service.
 | services.storageusers.persistence.annotations
 a| [subs=-attributes]
 +object+
@@ -3545,7 +3713,7 @@ a| [subs=-attributes]
 +bool+
 a| [subs=-attributes]
 `false`
-| Enables persistence. Needs to be enabled on production installations. If not enabled, pod restarts will lead to data loss. Also scaling this service beyond one instance is not possible if the service instances don't share the same storage.
+| Enables persistence. Needs to be enabled on production installations. If not enabled, pod restarts will lead to data loss. Also scaling this service to more than one replica is not possible if the pods don't share the same volume.
 | services.storageusers.persistence.existingClaim
 a| [subs=-attributes]
 +string+
@@ -3600,180 +3768,84 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `"ocis"`
 | Configures the storage driver. Possible values are "ocis" and "s3ng". The oCIS driver stores all data in the persistent volume if persistence is enabled. The S3NG driver stores all metadata in the persistent volume and uploads blobs to s3 if persistence is enabled.
+| services.storageusers.storageBackend.driverConfig.ocis.maxConcurrency
+a| [subs=-attributes]
++int+
+a| [subs=-attributes]
+`100`
+| Maximum number of concurrent go-routines. Higher values can potentially get work done faster but will also cause more load on the system.
 | services.storageusers.storageBackend.driverConfig.ocis.metadataBackend
 a| [subs=-attributes]
 +string+
 a| [subs=-attributes]
 `"messagepack"`
 | Metadata backend to use for the oCIS storage driver. Valid values are: "messagepack", "xattrs".
-| services.storageusers.storageBackend.driverConfig.s3ng.accessKey
-a| [subs=-attributes]
-+string+
-a| [subs=-attributes]
-`""`
-| S3 access key to use for the S3NG driver. Only used if driver is set to "s3ng". DEPRECATION WARNING: These values will be removed in the future. Predefine `secretRefs.s3CredentialsSecretRef` instead.
 | services.storageusers.storageBackend.driverConfig.s3ng.bucket
 a| [subs=-attributes]
 +string+
 a| [subs=-attributes]
-`"example-bucket"`
+`""`
 | S3 bucket to use for the S3NG driver. Only used if driver is set to "s3ng".
+| services.storageusers.storageBackend.driverConfig.s3ng.disableContentSHA256
+a| [subs=-attributes]
++bool+
+a| [subs=-attributes]
+`false`
+| Disable sending content sha256 when copying objects to S3.
 | services.storageusers.storageBackend.driverConfig.s3ng.endpoint
 a| [subs=-attributes]
 +string+
 a| [subs=-attributes]
-`"https://localhost:1234"`
+`""`
 | S3 endpoint to use for the S3NG driver. Only used if driver is set to "s3ng".
+| services.storageusers.storageBackend.driverConfig.s3ng.maxConcurrency
+a| [subs=-attributes]
++int+
+a| [subs=-attributes]
+`100`
+| Maximum number of concurrent go-routines. Higher values can potentially get work done faster but will also cause more load on the system.
 | services.storageusers.storageBackend.driverConfig.s3ng.metadataBackend
 a| [subs=-attributes]
 +string+
 a| [subs=-attributes]
 `"messagepack"`
 | Metadata backend to use for the S3NG storage driver. Valid values are: "messagepack", "xattrs".
+| services.storageusers.storageBackend.driverConfig.s3ng.putObject.concurrentStreamParts
+a| [subs=-attributes]
++bool+
+a| [subs=-attributes]
+`true`
+| Always precreate parts when copying objects to S3.
+| services.storageusers.storageBackend.driverConfig.s3ng.putObject.disableMultipart
+a| [subs=-attributes]
++bool+
+a| [subs=-attributes]
+`false`
+| Disable multipart uploads when copying objects to S3
+| services.storageusers.storageBackend.driverConfig.s3ng.putObject.numThreads
+a| [subs=-attributes]
++int+
+a| [subs=-attributes]
+`4`
+| Number of concurrent uploads to use when copying objects to S3.
+| services.storageusers.storageBackend.driverConfig.s3ng.putObject.partSize
+a| [subs=-attributes]
++int+
+a| [subs=-attributes]
+`0`
+| Part size for concurrent uploads to S3.
+| services.storageusers.storageBackend.driverConfig.s3ng.putObject.sendContentMD5
+a| [subs=-attributes]
++bool+
+a| [subs=-attributes]
+`true`
+| Send a Content-MD5 header when copying objects to S3.
 | services.storageusers.storageBackend.driverConfig.s3ng.region
 a| [subs=-attributes]
 +string+
 a| [subs=-attributes]
 `"default"`
 | S3 region to use for the S3NG driver. Only used if driver is set to "s3ng".
-| services.storageusers.storageBackend.driverConfig.s3ng.secretKey
-a| [subs=-attributes]
-+string+
-a| [subs=-attributes]
-`""`
-| S3 secret key to use for the S3NG driver. Only used if driver is set to "s3ng". DEPRECATION WARNING: These values will be removed in the future. Predefine `secretRefs.s3CredentialsSecretRef` instead.
-| services.store
-a| [subs=-attributes]
-+object+
-a| [subs=-attributes]
-see detailed service configuration options below
-| STORE service.
-| services.store.affinity
-a| [subs=-attributes]
-+object+
-a| [subs=-attributes]
-`{}`
-| Affinity settings for the store service. See the documentation of this setting in approvider for examples.
-| services.store.extraLabels
-a| [subs=-attributes]
-+object+
-a| [subs=-attributes]
-`{}`
-| Per-service custom labels
-| services.store.image
-a| [subs=-attributes]
-+object+
-a| [subs=-attributes]
-`{"pullPolicy":null,"repository":"","sha":"","tag":""}`
-| Per-service image configuration. Overrides the default setting from `image` if set.
-| services.store.image.pullPolicy
-a| [subs=-attributes]
-+string+
-a| [subs=-attributes]
-`nil`
-| Image pull policy
-| services.store.image.repository
-a| [subs=-attributes]
-+string+
-a| [subs=-attributes]
-`""`
-| Image repository
-| services.store.image.sha
-a| [subs=-attributes]
-+string+
-a| [subs=-attributes]
-`""`
-| Image sha / digest (optional).
-| services.store.image.tag
-a| [subs=-attributes]
-+string+
-a| [subs=-attributes]
-`""`
-| Image tag.
-| services.store.nodeSelector
-a| [subs=-attributes]
-+object+
-a| [subs=-attributes]
-`{}`
-| Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
-| services.store.persistence
-a| [subs=-attributes]
-+object+
-a| [subs=-attributes]
-see detailed persistence configuration options below
-| Persistence settings.
-| services.store.persistence.accessModes
-a| [subs=-attributes]
-+list+
-a| [subs=-attributes]
-`["ReadWriteMany"]`
-| Persistent volume access modes. Needs to be `["ReadWriteMany"]` when scaling this service beyond one instance.
-| services.store.persistence.annotations
-a| [subs=-attributes]
-+object+
-a| [subs=-attributes]
-`{}`
-| Persistent volume annotations.
-| services.store.persistence.chownInitContainer
-a| [subs=-attributes]
-+bool+
-a| [subs=-attributes]
-`false`
-| Enables an initContainer to chown the volume. The initContainer is run as root. This is not needed if the driver applies the fsGroup from the securityContext. The image specified in `initContainerImage` will be used for this container.
-| services.store.persistence.claimName
-a| [subs=-attributes]
-+string+
-a| [subs=-attributes]
-`""`
-| Use a custom name for the PVC instead of the default one.
-| services.store.persistence.enabled
-a| [subs=-attributes]
-+bool+
-a| [subs=-attributes]
-`false`
-| Enables persistence. Needs to be enabled on production installations. If not enabled, pod restarts will lead to data loss. Also scaling this service beyond one instance is not possible if the service instances don't share the same storage.
-| services.store.persistence.existingClaim
-a| [subs=-attributes]
-+string+
-a| [subs=-attributes]
-`nil`
-| Use an existing PersistentVolumeClaim for persistence.
-| services.store.persistence.finalizers
-a| [subs=-attributes]
-+list+
-a| [subs=-attributes]
-`["kubernetes.io/pvc-protection"]`
-| Persistent volume finalizers.
-| services.store.persistence.selectorLabels
-a| [subs=-attributes]
-+object+
-a| [subs=-attributes]
-`{}`
-| Persistent volume selector labels.
-| services.store.persistence.size
-a| [subs=-attributes]
-+string+
-a| [subs=-attributes]
-`"5Gi"`
-| Size of the persistent volume.
-| services.store.persistence.storageClassName
-a| [subs=-attributes]
-+string+
-a| [subs=-attributes]
-`nil`
-| Storage class to use. Uses the default storage class if not set.
-| services.store.priorityClassName
-a| [subs=-attributes]
-+string+
-a| [subs=-attributes]
-`""`
-| Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
-| services.store.resources
-a| [subs=-attributes]
-+object+
-a| [subs=-attributes]
-`{}`
-| Per-service resources configuration. Overrides the default setting from `resources` if set.
 | services.thumbnails
 a| [subs=-attributes]
 +object+
@@ -3798,12 +3870,6 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service custom labels
-| services.thumbnails.image
-a| [subs=-attributes]
-+object+
-a| [subs=-attributes]
-`{"pullPolicy":null,"repository":"","sha":"","tag":""}`
-| Per-service image configuration. Overrides the default setting from `image` if set.
 | services.thumbnails.image.pullPolicy
 a| [subs=-attributes]
 +string+
@@ -3846,12 +3912,6 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service jobResources configuration. Overrides the default setting from `jobResources` if set.
-| services.thumbnails.maintenance
-a| [subs=-attributes]
-+object+
-a| [subs=-attributes]
-`{"cleanUpOldThumbnails":{"deleteBefore":30,"enabled":false,"method":"atime","schedule":"* * * * *"},"image":{"pullPolicy":"IfNotPresent","repository":"busybox","sha":"","tag":"stable"}}`
-| Maintenance configuration for cleanup jobs.
 | services.thumbnails.maintenance.cleanUpOldThumbnails.deleteBefore
 a| [subs=-attributes]
 +int+
@@ -3874,8 +3934,14 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 +string+
 a| [subs=-attributes]
-`"* * * * *"`
-| Cron pattern for the job to be run. Defaults to every minute.
+`"0 * * * *"`
+| Cron pattern for the job to be run.
+| services.thumbnails.maintenance.cleanUpOldThumbnails.startingDeadlineSeconds
+a| [subs=-attributes]
++int+
+a| [subs=-attributes]
+`600`
+| Defines the a deadline (in whole seconds) for starting the Job, if that Job misses its scheduled time for any reason.
 | services.thumbnails.maintenance.image.pullPolicy
 a| [subs=-attributes]
 +string+
@@ -3917,7 +3983,7 @@ a| [subs=-attributes]
 +list+
 a| [subs=-attributes]
 `["ReadWriteMany"]`
-| Persistent volume access modes. Needs to be `["ReadWriteMany"]` when scaling this service beyond one instance or persistence needs to be disabled.
+| Persistent volume access modes. Needs to be `["ReadWriteMany"]` when having more than one replica for this service or persistence needs to be disabled.
 | services.thumbnails.persistence.annotations
 a| [subs=-attributes]
 +object+
@@ -4014,12 +4080,6 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service custom labels
-| services.userlog.image
-a| [subs=-attributes]
-+object+
-a| [subs=-attributes]
-`{"pullPolicy":null,"repository":"","sha":"","tag":""}`
-| Per-service image configuration. Overrides the default setting from `image` if set.
 | services.userlog.image.pullPolicy
 a| [subs=-attributes]
 +string+
@@ -4098,12 +4158,6 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service custom labels
-| services.users.image
-a| [subs=-attributes]
-+object+
-a| [subs=-attributes]
-`{"pullPolicy":null,"repository":"","sha":"","tag":""}`
-| Per-service image configuration. Overrides the default setting from `image` if set.
 | services.users.image.pullPolicy
 a| [subs=-attributes]
 +string+
@@ -4246,7 +4300,7 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 +string+
 a| [subs=-attributes]
-`""`
+`"/themes/owncloud/theme.json"`
 | URL path to load themes from. The theme server will be prepended. Defaults to the ownCloud Web default theme.
 | services.web.config.theme.server
 a| [subs=-attributes]
@@ -4254,18 +4308,18 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `""`
 | URL to load themes from. Will be prepended to the theme path. Defaults to the value of "externalDomain".
+| services.web.config.theme.themeNameConfigRefs
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"owncloud"`
+| Name of the theme you provide via `configRefs.webThemeConfigRef` and `configRefs.webThemeAssetsConfigRef`. If you change this when providing a custom theme, you must also change `theme.path`.
 | services.web.extraLabels
 a| [subs=-attributes]
 +object+
 a| [subs=-attributes]
 `{}`
 | Per-service custom labels
-| services.web.image
-a| [subs=-attributes]
-+object+
-a| [subs=-attributes]
-`{"pullPolicy":null,"repository":"","sha":"","tag":""}`
-| Per-service image configuration. Overrides the default setting from `image` if set.
 | services.web.image.pullPolicy
 a| [subs=-attributes]
 +string+
@@ -4307,7 +4361,7 @@ a| [subs=-attributes]
 +list+
 a| [subs=-attributes]
 `["ReadWriteMany"]`
-| Persistent volume access modes. Needs to be `["ReadWriteMany"]` when scaling this service beyond one instance or persistence needs to be disabled.
+| Persistent volume access modes. Needs to be `["ReadWriteMany"]` when having more than one replica for this service or persistence needs to be disabled.
 | services.web.persistence.annotations
 a| [subs=-attributes]
 +object+
@@ -4331,7 +4385,7 @@ a| [subs=-attributes]
 +bool+
 a| [subs=-attributes]
 `false`
-| Enables persistence. Is recommended to be enabled on production installations. If enabled, generated thumbnails are cached on this volume and available across pod restarts and service instances. If not enabled, thumbnail generation might lead to higher CPU usage.
+| Enables persistence. Only needed if you want to change the oCIS instance logo via the Web UI.
 | services.web.persistence.existingClaim
 a| [subs=-attributes]
 +string+
@@ -4404,12 +4458,6 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service custom labels
-| services.webdav.image
-a| [subs=-attributes]
-+object+
-a| [subs=-attributes]
-`{"pullPolicy":null,"repository":"","sha":"","tag":""}`
-| Per-service image configuration. Overrides the default setting from `image` if set.
 | services.webdav.image.pullPolicy
 a| [subs=-attributes]
 +string+
@@ -4482,12 +4530,6 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service custom labels
-| services.webfinger.image
-a| [subs=-attributes]
-+object+
-a| [subs=-attributes]
-`{"pullPolicy":null,"repository":"","sha":"","tag":""}`
-| Per-service image configuration. Overrides the default setting from `image` if set.
 | services.webfinger.image.pullPolicy
 a| [subs=-attributes]
 +string+
@@ -4546,8 +4588,8 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 +string+
 a| [subs=-attributes]
-`"nats-js"`
-| Configure the store type. To disable the cache, set to "noop". Defaults to "nats-js". Therefore `store.nodes` defaults to the address of the builtin NATS. Can be set to "redis", "redis-sentinel" or "etcd", then the address of Redis (Sentinel) / etcd node(s) needs to be set to `cache.nodes`.
+`"nats-js-kv"`
+| Configure the store type. Can be set to "nats-js-kv" or "redis-sentinel". There is also the non-recommended option "memory". The address of NATS / Redis Sentinel node(s) needs to be set to `cache.nodes`.
 | topologySpreadConstraints
 a| [subs=-attributes]
 +string+

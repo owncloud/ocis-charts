@@ -12,7 +12,6 @@ spec:
   template:
     {{- include "ocis.templateMetadata" (dict "scope" $ "configCheck" false) | nindent 4 }}
     spec:
-      {{- include "ocis.serviceAccount" . | nindent 6 }}
       {{- include "ocis.affinity" .Values.services.userlog | nindent 6 }}
       {{- include "ocis.securityContextAndtopologySpreadConstraints" . | nindent 6 }}
       {{- include "ocis.priorityClassName" $.priorityClassName | nindent 6 }}
@@ -26,6 +25,13 @@ spec:
           {{- include "ocis.containerSecurityContext" . | nindent 10 }}
           env:
             {{- include "ocis.serviceRegistry" . | nindent 12 }}
+            {{- include "ocis.cors" . |nindent 12 }}
+            {{- include "ocis.events" . | nindent 12 }}
+            {{- include "ocis.persistentStore" . | nindent 12 }}
+
+            - name: OCIS_DEFAULT_LANGUAGE
+              value: {{ default "en" .Values.features.language.default | quote }}
+
             - name: USERLOG_LOG_COLOR
               value: {{ .Values.logging.color | quote }}
             - name: USERLOG_LOG_LEVEL
@@ -52,35 +58,24 @@ spec:
             - name: USERLOG_DEBUG_ADDR
               value: 0.0.0.0:9210
 
-            - name: USERLOG_STORE
-              value: {{ .store.type | quote }}
-            - name: USERLOG_STORE_NODES
-              value: {{ tpl (join "," .store.nodes) . | quote }}
-
-            - name: USERLOG_EVENTS_ENDPOINT
-            {{- if not .Values.messagingSystem.external.enabled }}
-              value: {{ .appNameNats }}:9233
-            {{- else }}
-              value: {{ .Values.messagingSystem.external.endpoint | quote }}
-            - name: USERLOG_EVENTS_CLUSTER
-              value: {{ .Values.messagingSystem.external.cluster | quote }}
-            - name: USERLOG_EVENTS_ENABLE_TLS
-              value: {{ .Values.messagingSystem.external.tls.enabled | quote }}
-            - name: USERLOG_EVENTS_TLS_INSECURE
-              value: {{ .Values.messagingSystem.external.tls.insecure | quote }}
-            - name: USERLOG_EVENTS_TLS_ROOT_CA_CERTIFICATE
-              {{- if not .Values.messagingSystem.external.tls.certTrusted }}
-              value: /etc/ocis/messaging-system-ca/messaging-system-ca.crt
-              {{- else }}
-              value: "" # no cert needed
-              {{- end }}
-            {{- end }}
-
-            - name: USERLOG_MACHINE_AUTH_API_KEY
+            - name: USERLOG_SERVICE_ACCOUNT_ID
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ include "config.authService" . }}
+                  key: service-account-id
+            - name: USERLOG_SERVICE_ACCOUNT_SECRET
               valueFrom:
                 secretKeyRef:
-                  name: {{ include "secrets.machineAuthAPIKeySecret" . }}
-                  key: machine-auth-api-key
+                  name: {{ include "secrets.serviceAccountSecret" . }}
+                  key: service-account-secret
+
+            {{- if .Values.secretRefs.globalNotificationsSecretRef }}
+            - name: USERLOG_GLOBAL_NOTIFICATIONS_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "secrets.globalNotificationsSecret" . }}
+                  key: notifications-secret
+            {{- end }}
 
             {{- if .Values.secretRefs.globalNotificationsSecretRef }}
             - name: USERLOG_GLOBAL_NOTIFICATIONS_SECRET
@@ -95,7 +90,9 @@ spec:
                 secretKeyRef:
                   name: {{ include "secrets.jwtSecret" . }}
                   key: jwt-secret
-            {{- include "ocis.cors" . |nindent 12 }}
+
+            - name: OCIS_DISABLE_SSE
+              value: {{ .Values.features.sse.disabled | quote }}
 
           {{- include "ocis.livenessProbe" . | nindent 10 }}
 

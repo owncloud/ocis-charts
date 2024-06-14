@@ -4,16 +4,20 @@ repositories:
 
 releases:
   - name: nats
-    chart: nats/nats
     namespace: ocis-nats
+    chart: nats/nats
+    version: 1.1.12
     values:
       - config:
           cluster:
-              enabled: true
-              replicas: 3
-              name: "ocis-cluster"
+            enabled: true
+            replicas: 3
+            name: "ocis-cluster"
           jetstream:
             enabled: true
+            memoryStore:
+              enabled: true
+              maxSize: 2Gi
           merge:
             00$include: auth.conf
       - configMap:
@@ -45,19 +49,20 @@ releases:
                 no_auth_user: ocis
 
   - name: nack-crds
-    chart: ./crds
     namespace: ocis-nack
+    chart: ./crds
 
   - name: nack-streams
-    chart: ./streams
     namespace: ocis-nats
+    chart: ./streams
     needs:
       - ocis-nats/nats
       - ocis-nack/nack-crds
 
   - name: nack
-    chart: nats/nack
     namespace: ocis-nack
+    chart: nats/nack
+    version: 0.25.4
     values:
       - namespaced: false
       - readOnly: false
@@ -65,8 +70,8 @@ releases:
       - ocis-nack/nack-crds
 
   - name: ocis
-    chart: ../../charts/ocis
     namespace: ocis
+    chart: ../../charts/ocis
     values:
       - externalDomain: ocis.kube.owncloud.test
       - ingress:
@@ -91,12 +96,17 @@ releases:
               enabled: false
 
       - registry:
-          type: nats
+          type: nats-js-kv
           nodes:
             - nats.ocis-nats.svc.cluster.local:4222
 
       - store:
-          type: nats-js
+          type: nats-js-kv
+          nodes:
+            - nats.ocis-nats.svc.cluster.local:4222
+
+      - cache:
+          type: nats-js-kv
           nodes:
             - nats.ocis-nats.svc.cluster.local:4222
 
@@ -118,10 +128,6 @@ releases:
               enabled: true
 
           storageusers:
-            persistence:
-              enabled: true
-
-          store:
             persistence:
               enabled: true
 

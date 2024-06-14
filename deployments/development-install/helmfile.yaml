@@ -21,6 +21,10 @@ releases:
           oidcIdpInsecure: true
           ocisHttpApiInsecure: true
 
+      - features:
+          demoUsers: true
+          basicAuthentication: true
+
       - services:
           idm:
             persistence:
@@ -41,14 +45,24 @@ releases:
           storageusers:
             persistence:
               enabled: true
-
-          store:
-            persistence:
-              enabled: true
+            maintenance:
+              cleanUpExpiredUploads:
+                enabled: true
+                schedule: "* * * * *"
+              purgeExpiredTrashBinItems:
+                enabled: true
+                schedule: "* * * * *"
+              restartPostprocessing:
+                enabled: true
+                schedule: "* * * * *"
 
           thumbnails:
             persistence:
               enabled: true
+            maintenance:
+              cleanUpOldThumbnails:
+                enabled: true
+                schedule: "* * * * *"
 
           web:
             persistence:

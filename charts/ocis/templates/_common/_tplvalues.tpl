@@ -38,7 +38,9 @@ Adds the app names to the scope and set the name of the app based on the input p
   {{- $_ := set .scope "appNameAudit" "audit" -}}
   {{- $_ := set .scope "appNameAuthBasic" "authbasic" -}}
   {{- $_ := set .scope "appNameAuthMachine" "authmachine" -}}
+  {{- $_ := set .scope "appNameAuthService" "authservice" -}}
   {{- $_ := set .scope "appNameAntivirus" "antivirus" -}}
+  {{- $_ := set .scope "appNameClientlog" "clientlog" -}}
   {{- $_ := set .scope "appNameEventhistory" "eventhistory" -}}
   {{- $_ := set .scope "appNameFrontend" "frontend" -}}
   {{- $_ := set .scope "appNameGateway" "gateway" -}}
@@ -56,6 +58,7 @@ Adds the app names to the scope and set the name of the app based on the input p
   {{- $_ := set .scope "appNameSearch" "search" -}}
   {{- $_ := set .scope "appNameSettings" "settings" -}}
   {{- $_ := set .scope "appNameSharing" "sharing" -}}
+  {{- $_ := set .scope "appNameSSE" "sse" -}}
   {{- $_ := set .scope "appNameStoragePubliclink" "storagepubliclink" -}}
   {{- $_ := set .scope "appNameStorageShares" "storageshares" -}}
   {{- $_ := set .scope "appNameStorageUsers" "storageusers" -}}
@@ -233,15 +236,8 @@ oCIS deployment CORS template
 {{- define "ocis.cors" -}}
 {{- if .Values.http.cors.allow_origins }}
 - name: OCIS_CORS_ALLOW_ORIGINS
-  value: {{ .Values.http.cors.allow_origins | join "," | quote }}
+  value: {{ without .Values.http.cors.allow_origins "" | join "," | quote }}
 {{- end }}
-{{- end -}}
-
-{{/*
-oCIS serviceAccount settings
-*/}}
-{{- define "ocis.serviceAccount" -}}
-automountServiceAccountToken: true
 {{- end -}}
 
 {{/*

@@ -21,10 +21,10 @@ image:
     - name: some-pull-secret
 nodeSelector:
   kubernetes.io/arch: "amd64"
-hostAliases: 
-- ip: "192.168.4.2"
-  hostnames:
-  - "example.kube.owncloud.test"
+hostAliases:
+  - ip: "192.168.4.2"
+    hostnames:
+      - "example.kube.owncloud.test"
 priorityClassName: ocis-middle-priority
 jobPriorityClassName: ocis-job-middle-priority
 features:
@@ -93,6 +93,15 @@ resources:
     memory: 128Mi
 
 services:
+  postprocessing:
+    jobResources:
+      limits:
+        cpu: 100m
+        memory: 128Mi
+      requests:
+        cpu: 100m
+        memory: 128Mi
+
   storagesystem:
     persistence:
       enabled: true
@@ -133,20 +142,8 @@ services:
         enabled: true
       purgeExpiredTrashBinItems:
         enabled: true
-
-  store:
-    persistence:
-      enabled: true
-      storageClassName: default-storage
-      accessModes:
-        - ReadWriteMany
-      size: 5Gi
-      annotations:
-        anno-1: test
-      finalizers:
-        - kubernetes.io/pvc-protection
-      selectorLabels:
-        selector1: foobar
+      restartPostprocessing:
+        enabled: true
 
   thumbnails:
     persistence:
