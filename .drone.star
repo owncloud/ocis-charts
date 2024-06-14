@@ -133,7 +133,7 @@ def documentation(ctx):
             },
             {
                 "name": "gomplate-values-adoc",
-                "image": "hairyhenderson/gomplate:v3.11.7-alpine",
+                "image": "hairyhenderson/gomplate:v3.11.8-alpine",
                 "entrypoint": [
                     "/bin/gomplate",
                     "--file=charts/ocis/docs/templates/values.adoc.yaml.gotmpl",
