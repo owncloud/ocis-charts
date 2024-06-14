@@ -50,6 +50,9 @@ spec:
             - name: PROXY_DEBUG_ADDR
               value: 0.0.0.0:9205
 
+            - name: PROXY_CSP_CONFIG_FILE_LOCATION
+              value: /etc/ocis/csp.yaml
+
             - name: PROXY_ENABLE_BASIC_AUTH
               value: {{ .Values.features.basicAuthentication | quote }}
 

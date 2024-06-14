@@ -1,8 +1,6 @@
 repositories:
   - name: tika
     url: https://apache.jfrog.io/artifactory/tika
-  - name: cs3org
-    url: https://cs3org.github.io/charts/
   - name: collabora
     url: https://collaboraonline.github.io/online/
   - name: bitnami
@@ -74,15 +72,26 @@ releases:
           - op: replace
             path: /spec/backoffLimit
             value: 20
+      # - target:
+      #     version: apps/v1
+      #     kind: Deployment
+      #     namespace: onlyoffice
+      #     name: docservice
+      #   patch:
+      #     - op: add
+      #       path: "/spec/template/spec/containers/0/env/-"
+      #       value:
+      #         name: USE_UNAUTHORIZED_STORAGE
+      #         value: "true"
 
   - name: collabora
     namespace: collabora
     chart: collabora/collabora-online
-    version: 1.1.16
+    version: 1.1.5
     values:
       - collabora:
           aliasgroups:
-            - host: "http://wopiserver.wopiserver.svc.cluster.local:8880"
+            - host: "https://wopi-collabora.kube.owncloud.test:443"
           extra_params: --o:ssl.enable=false --o:ssl.termination=true --o:net.frame_ancestors=ocis.kube.owncloud.test
       - ingress:
           enabled: true
@@ -101,20 +110,6 @@ releases:
             - secretName: collabora-dev-tls
               hosts:
                 - collabora.kube.owncloud.test
-
-  - name: wopiserver
-    namespace: wopiserver
-    chart: cs3org/wopiserver
-    version: 0.9.2
-    values:
-      - image:
-          # renovate: datasource=docker depName=cs3org/wopiserver
-          tag: v10.4.0
-      - wopiserverUrl: http://wopiserver.wopiserver.svc.cluster.local:8880
-      - config:
-          cs3:
-            gateway: gateway.ocis.svc.cluster.local:9142
-            sslVerify: False
 
   - name: ocis
     chart: ../../charts/ocis
@@ -135,22 +130,29 @@ releases:
           oidcIdpInsecure: true
           ocisHttpApiInsecure: true
 
+      - image:
+          tag: "latest" #TODO: remove me
+          sha: "ecf06d1a280b5e6b44f536890610f8bfa3714f949c720ca70fad94b2912d1551" #TODO: remove me
+
       - features:
           appsIntegration:
             enabled: true
             wopiIntegration:
-              wopiServerURI: http://wopiserver.wopiserver.svc.cluster.local:8880
               officeSuites:
                 - name: Collabora
                   enabled: true
                   uri: "https://collabora.kube.owncloud.test"
                   insecure: true
                   iconURI: https://collabora.kube.owncloud.test/favicon.ico
+                  ingress:
+                    domain: wopi-collabora.kube.owncloud.test
                 - name: OnlyOffice
                   enabled: true
                   uri: "https://onlyoffice.kube.owncloud.test"
                   insecure: true
                   iconURI: https://onlyoffice.kube.owncloud.test/web-apps/apps/documenteditor/main/resources/img/favicon.ico
+                  ingress:
+                    domain: wopi-onlyoffice.kube.owncloud.test
             mimetypes:
               # mimetypes for creation
               - mime_type: application/vnd.oasis.opendocument.text
@@ -235,3 +237,9 @@ releases:
           web:
             persistence:
               enabled: true
+
+          collaboration:
+            image:
+              repository: docker.io/wkloucek/ocis
+              tag: collaboration-multi
+              sha: 771e694316554efffb57998cbe1737cf17bf1cce179800bb9280615984140203
