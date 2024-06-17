@@ -1,0 +1,74 @@
+---
+kind: ConfigMap
+metadata:
+  name: doc-local.json
+apiVersion: v1
+data:
+  local.json: |-
+    {
+      "services": {
+        "CoAuthoring": {
+          "ipfilter": {
+            "rules": [
+              {
+                "address": "wopiserver.wopiserver.svc.cluster.local",
+                "allowed": true
+              },
+              {
+                "address": "*",
+                "allowed": false
+              }
+            ],
+            "useforrequest": false,
+            "errorcode": 403
+          },
+          "sql": {
+            "pgPoolExtraOptions": {
+              "ssl": {
+                "rejectUnauthorized": false
+              }
+            }
+          },
+          "autoAssembly": {
+            "enable": true,
+            "interval": "5m"
+          },
+          "server": {
+            "openProtectedFile": false
+          }
+        }
+      },
+      "FileConverter": {
+        "converter": {
+          "maxDownloadBytes": 1073741824,
+          "downloadTimeout": {
+            "connectionAndInactivity": "2m",
+            "wholeCycle": "2m"
+          },
+          "errorfiles": "error",
+          "inputLimits": [
+            {
+              "type": "docx;dotx;docm;dotm",
+              "zip": {
+                "uncompressed": "1GB",
+                "template": "*.xml"
+              }
+            },
+            {
+              "type": "xlsx;xltx;xlsm;xltm",
+              "zip": {
+                "uncompressed": "1GB",
+                "template": "*.xml"
+              }
+            },
+            {
+              "type": "pptx;ppsx;potx;pptm;ppsm;potm",
+              "zip": {
+                "uncompressed": "1GB",
+                "template": "*.xml"
+              }
+            }
+          ]
+        }
+      }
+    }
