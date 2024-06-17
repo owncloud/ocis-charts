@@ -23,18 +23,7 @@ lint: $(KUBE_LINTER)
 
 
 .PHONY: api
-api: api-1.26.0 api-1.27.0 api-1.28.0 api-1.29.0
-
-.PHONY: api-1.26.0
-api-1.26.0: api-1.26.0-template api-1.26.0-kubeconform
-
-.PHONY: api-1.26.0-template
-api-1.26.0-template:
-	helm template --kube-version 1.26.0 charts/ocis -f 'charts/ocis/ci/values.yaml' > charts/ocis/ci/templated.yaml
-
-.PHONY: api-1.26.0-kubeconform
-api-1.26.0-kubeconform: $(KUBECONFORM)
-	$(KUBECONFORM) -kubernetes-version 1.26.0 -summary -strict charts/ocis/ci/templated.yaml
+api: api-1.27.0 api-1.28.0 api-1.29.0 api-1.30.0
 
 .PHONY: api-1.27.0
 api-1.27.0: api-1.27.0-template api-1.27.0-kubeconform
@@ -68,6 +57,18 @@ api-1.29.0-template:
 .PHONY: api-1.29.0-kubeconform
 api-1.29.0-kubeconform: $(KUBECONFORM)
 	$(KUBECONFORM) -kubernetes-version 1.29.0 -summary -strict charts/ocis/ci/templated.yaml
+
+.PHONY: api-1.30.0
+api-1.30.0: api-1.30.0-template api-1.30.0-kubeconform
+
+.PHONY: api-1.30.0-template
+api-1.30.0-template:
+	helm template --kube-version 1.30.0 charts/ocis -f 'charts/ocis/ci/values.yaml' > charts/ocis/ci/templated.yaml
+
+.PHONY: api-1.30.0-kubeconform
+api-1.30.0-kubeconform: $(KUBECONFORM)
+	$(KUBECONFORM) -kubernetes-version 1.30.0 -summary -strict charts/ocis/ci/templated.yaml
+
 
 .PHONY: tools-update
 tools-update: $(BINGO)
