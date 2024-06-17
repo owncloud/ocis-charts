@@ -55,7 +55,7 @@ spec:
               configMap:
                 name: thumbnails-cleanup-script-configmap
                 defaultMode: 0500
-            {{- include "ocis.persistence.dataVolume" . | nindent 12 }}
+            {{- include "ocis.caVolume" . | nindent 12}}
 ---
 apiVersion: v1
 kind: ConfigMap
