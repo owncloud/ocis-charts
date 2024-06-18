@@ -75,7 +75,11 @@ spec:
               value: {{ $officeSuite.uri | quote }}
 
             - name: COLLABORATION_WOPI_SRC
+              {{- if $officeSuite.ingress.enabled }}
               value: https://{{  $officeSuite.ingress.domain }} #TODO: protocol hardcoded?
+              {{- else }}
+              value: http://{{ $.appName }}.{{ template "ocis.namespace" $ }}.svc.cluster.local:9300
+              {{- end }}
 
             - name: COLLABORATION_JWT_SECRET
               valueFrom:

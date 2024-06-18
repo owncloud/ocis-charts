@@ -72,23 +72,6 @@ releases:
           - op: replace
             path: /spec/backoffLimit
             value: 20
-    strategicMergePatches:
-      - apiVersion: apps/v1
-        kind: Deployment
-        metadata:
-          labels:
-            app: docservice
-          name: docservice
-          namespace: onlyoffice
-        spec:
-          template:
-            spec:
-              containers:
-                - name: docservice
-                  env:
-                    # allow to contact a WOPI endpoint without certificate checking
-                    - name: USE_UNAUTHORIZED_STORAGE
-                      value: "true" # allow
 
   - name: collabora
     namespace: collabora
@@ -142,12 +125,12 @@ releases:
             wopiIntegration:
               officeSuites:
                 - name: Collabora
-                  enabled: true
+                  enabled: false
                   uri: "https://collabora.kube.owncloud.test"
                   insecure: true
                   iconURI: https://collabora.kube.owncloud.test/favicon.ico
                   ingress:
-                    enabled: true
+                    enabled: true # Collabora uses the collaboration via Ingress for demo purposes
                     domain: wopi-collabora.kube.owncloud.test
                     ingressClassName: nginx
                     annotations:
@@ -157,20 +140,12 @@ releases:
                         hosts:
                           - wopi-collabora.kube.owncloud.test
                 - name: OnlyOffice
-                  enabled: false # TODO: enable when multiple offices are supported
+                  enabled: true # TODO: enable when multiple offices are supported
                   uri: "https://onlyoffice.kube.owncloud.test"
                   insecure: true
                   iconURI: https://onlyoffice.kube.owncloud.test/web-apps/apps/documenteditor/main/resources/img/favicon.ico
                   ingress:
-                    enabled: true
-                    domain: wopi-onlyoffice.kube.owncloud.test
-                    ingressClassName: nginx
-                    annotations:
-                      nginx.ingress.kubernetes.io/proxy-body-size: 1024m
-                    tls:
-                      - secretName: ocis-dev-tls
-                        hosts:
-                          - wopi-onlyoffice.kube.owncloud.test
+                    enabled: false # OnlyOffice uses the cluster internal collaboration Service
             mimetypes:
               # mimetypes for creation
               - mime_type: application/vnd.oasis.opendocument.text
