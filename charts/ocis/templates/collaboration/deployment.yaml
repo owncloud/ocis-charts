@@ -58,17 +58,15 @@ spec:
             - name: COLLABORATION_APP_NAME
               value: {{ $officeSuite.name | quote }}
 
-            - name: COLLABORATION_APP_DESCRIPTION
-              value: {{ $officeSuite.name | quote }} #TODO: should this be changed?
-
             - name: COLLABORATION_APP_INSECURE
               value: {{ $officeSuite.insecure | quote }}
 
             - name: COLLABORATION_CS3API_DATAGATEWAY_INSECURE
-              value: {{ $officeSuite.insecure | quote }} #TODO: is this another option?
+              value: {{ $.Values.insecure.ocisHttpApiInsecure | quote }}
 
-            - name: COLLABORATION_APP_LOCKNAME
-              value: com.github.owncloud.collaboration #TODO: should this be unique per office?
+            # TODO: should be unique per office when we can have multiple of them
+            # - name: COLLABORATION_APP_LOCKNAME
+            #   value: com.github.owncloud.collaboration
 
             - name: COLLABORATION_APP_ICON
               value: {{ $officeSuite.iconURI | quote }}
@@ -78,7 +76,7 @@ spec:
 
             - name: COLLABORATION_WOPI_SRC
               {{- if $officeSuite.ingress.enabled }}
-              value: https://{{  $officeSuite.ingress.domain }} #TODO: protocol hardcoded?
+              value: https://{{  $officeSuite.ingress.domain }}
               {{- else }}
               value: http://{{ $.appName }}.{{ template "ocis.namespace" $ }}.svc.cluster.local:9300
               {{- end }}
@@ -86,14 +84,14 @@ spec:
             - name: COLLABORATION_JWT_SECRET
               valueFrom:
                 secretKeyRef:
-                  name: {{ include "secrets.jwtSecret" $ }} #TODO: shouldn't this be a differnt secret?
+                  name: {{ include "secrets.collaborationJwtSecret" $ }}
                   key: jwt-secret
 
             - name: COLLABORATION_WOPI_SECRET
               valueFrom:
                 secretKeyRef:
-                  name: {{ include "secrets.jwtSecret" $ }} #TODO: shouldn't this be a differnt secret?
-                  key: jwt-secret
+                  name: {{ include "secrets.collaborationWopiSecret" $ }}
+                  key: wopi-secret
 
           livenessProbe:
             exec:

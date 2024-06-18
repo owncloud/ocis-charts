@@ -31,6 +31,7 @@ data:
       {{- end }}
     {{- end }}
   csp.yaml: |
+    # TODO: split out in separate PR and make configurable
     directives:
       child-src:
         - '''self'''

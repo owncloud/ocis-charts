@@ -1092,6 +1092,18 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `""`
 | Reference to an existing admin user secret (see xref:{secrets}[Secrets]). Not used if `features.externalUserManagement.enabled` equals `true`.
+| secretRefs.collaborationJwtSecretRef
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+|
+| secretRefs.collaborationWopiSecret
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+|
 | secretRefs.gdprExportClientSecretRef
 a| [subs=-attributes]
 +string+
