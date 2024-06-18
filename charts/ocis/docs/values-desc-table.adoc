@@ -1740,6 +1740,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Affinity settings for the approvider service.
+| services.collaboration.autoscaling
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
 | services.collaboration.extraLabels
 a| [subs=-attributes]
 +object+
@@ -1776,6 +1782,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
+| services.collaboration.podDisruptionBudget
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
 | services.collaboration.priorityClassName
 a| [subs=-attributes]
 +string+

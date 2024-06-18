@@ -80,7 +80,8 @@ releases:
     values:
       - collabora:
           aliasgroups:
-            - host: "https://wopi-collabora.kube.owncloud.test:443"
+            - host: "wopi-collabora.kube.owncloud.test" # needed if communication via the ingress to the collaboration service
+            - host: "collaboration-collabora.ocis.svc.cluster.local" # needed if cluster intern communication to the collaboration service
           extra_params: --o:ssl.enable=false --o:ssl.termination=true --o:net.frame_ancestors=ocis.kube.owncloud.test
       - ingress:
           enabled: true
@@ -125,12 +126,13 @@ releases:
             wopiIntegration:
               officeSuites:
                 - name: Collabora
-                  enabled: false
+                  enabled: true
                   uri: "https://collabora.kube.owncloud.test"
                   insecure: true
                   iconURI: https://collabora.kube.owncloud.test/favicon.ico
                   ingress:
-                    enabled: true # Collabora uses the collaboration via Ingress for demo purposes
+                    # Collabora uses the collaboration via Ingress for demo purposes
+                    enabled: true
                     domain: wopi-collabora.kube.owncloud.test
                     ingressClassName: nginx
                     annotations:
@@ -140,7 +142,7 @@ releases:
                         hosts:
                           - wopi-collabora.kube.owncloud.test
                 - name: OnlyOffice
-                  enabled: true # TODO: enable when multiple offices are supported
+                  enabled: false # TODO: re-enable when multiple offices are supported
                   uri: "https://onlyoffice.kube.owncloud.test"
                   insecure: true
                   iconURI: https://onlyoffice.kube.owncloud.test/web-apps/apps/documenteditor/main/resources/img/favicon.ico
