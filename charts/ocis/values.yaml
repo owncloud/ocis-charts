@@ -792,6 +792,10 @@ services:
     nodeSelector: {}
     # -- Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
     priorityClassName: ""
+    # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
+    podDisruptionBudget: {}
+    # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
+    autoscaling: {}
     # -- Affinity settings for the approvider service.
     affinity: {}
     # -- Configuration for the appprovider service, every other service will have the same configuration.
