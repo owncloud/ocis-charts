@@ -126,6 +126,42 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `""`
 | URI for the icon of the office suite. Will be displayed to the users.
+| features.appsIntegration.wopiIntegration.officeSuites[0].ingress.annotations
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Ingress annotations.
+| features.appsIntegration.wopiIntegration.officeSuites[0].ingress.domain
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Domain of the Ingress.
+| features.appsIntegration.wopiIntegration.officeSuites[0].ingress.enabled
+a| [subs=-attributes]
++bool+
+a| [subs=-attributes]
+`false`
+| Enables the Ingress. Only needed if the office application is not running within the same cluster.
+| features.appsIntegration.wopiIntegration.officeSuites[0].ingress.ingressClassName
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`nil`
+| Ingress class to use. Uses the default ingress class if not set.
+| features.appsIntegration.wopiIntegration.officeSuites[0].ingress.labels
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Labels for the ingress.
+| features.appsIntegration.wopiIntegration.officeSuites[0].ingress.tls
+a| [subs=-attributes]
++list+
+a| [subs=-attributes]
+`[]`
+| Ingress TLS configuration.
 | features.appsIntegration.wopiIntegration.officeSuites[0].insecure
 a| [subs=-attributes]
 +bool+
@@ -144,12 +180,6 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `""`
 | URI of the office suite.
-| features.appsIntegration.wopiIntegration.officeSuites[1].disableChat
-a| [subs=-attributes]
-+bool+
-a| [subs=-attributes]
-`false`
-| Disables Chat functionality of OnlyOffice
 | features.appsIntegration.wopiIntegration.officeSuites[1].enabled
 a| [subs=-attributes]
 +bool+
@@ -162,6 +192,42 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `""`
 | URI for the icon of the office suite. Will be displayed to the users.
+| features.appsIntegration.wopiIntegration.officeSuites[1].ingress.annotations
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Ingress annotations.
+| features.appsIntegration.wopiIntegration.officeSuites[1].ingress.domain
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Domain of the Ingress.
+| features.appsIntegration.wopiIntegration.officeSuites[1].ingress.enabled
+a| [subs=-attributes]
++bool+
+a| [subs=-attributes]
+`false`
+| Enables the Ingress. Only needed if the office application is not running within the same cluster.
+| features.appsIntegration.wopiIntegration.officeSuites[1].ingress.ingressClassName
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`nil`
+| Ingress class to use. Uses the default ingress class if not set.
+| features.appsIntegration.wopiIntegration.officeSuites[1].ingress.labels
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Labels for the ingress.
+| features.appsIntegration.wopiIntegration.officeSuites[1].ingress.tls
+a| [subs=-attributes]
++list+
+a| [subs=-attributes]
+`[]`
+| Ingress TLS configuration.
 | features.appsIntegration.wopiIntegration.officeSuites[1].insecure
 a| [subs=-attributes]
 +bool+
@@ -1242,66 +1308,6 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service resources configuration. Overrides the default setting from `resources` if set.
-| services.appprovider
-a| [subs=-attributes]
-+object+
-a| [subs=-attributes]
-see detailed service configuration options below
-| APP PROVIDER service. Not used if `features.appsIntegration.enabled` equals `false`.
-| services.appprovider.affinity
-a| [subs=-attributes]
-+object+
-a| [subs=-attributes]
-`{}`
-| Affinity settings for the approvider service.
-| services.appprovider.extraLabels
-a| [subs=-attributes]
-+object+
-a| [subs=-attributes]
-`{}`
-| Per-service custom labels
-| services.appprovider.image.pullPolicy
-a| [subs=-attributes]
-+string+
-a| [subs=-attributes]
-`nil`
-| Image pull policy
-| services.appprovider.image.repository
-a| [subs=-attributes]
-+string+
-a| [subs=-attributes]
-`""`
-| Image repository
-| services.appprovider.image.sha
-a| [subs=-attributes]
-+string+
-a| [subs=-attributes]
-`""`
-| Image sha / digest (optional).
-| services.appprovider.image.tag
-a| [subs=-attributes]
-+string+
-a| [subs=-attributes]
-`""`
-| Image tag.
-| services.appprovider.nodeSelector
-a| [subs=-attributes]
-+object+
-a| [subs=-attributes]
-`{}`
-| Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
-| services.appprovider.priorityClassName
-a| [subs=-attributes]
-+string+
-a| [subs=-attributes]
-`""`
-| Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
-| services.appprovider.resources
-a| [subs=-attributes]
-+object+
-a| [subs=-attributes]
-`{}`
-| Per-service resources configuration. Overrides the default setting from `resources` if set.
 | services.appregistry
 a| [subs=-attributes]
 +object+
@@ -1717,6 +1723,66 @@ a| [subs=-attributes]
 `""`
 | Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
 | services.clientlog.resources
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service resources configuration. Overrides the default setting from `resources` if set.
+| services.collaboration
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+see detailed service configuration options below
+| COLLABORATION service. Not used if `features.appsIntegration.enabled` equals `false`.
+| services.collaboration.affinity
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Affinity settings for the approvider service.
+| services.collaboration.extraLabels
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service custom labels
+| services.collaboration.image.pullPolicy
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`nil`
+| Image pull policy
+| services.collaboration.image.repository
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Image repository
+| services.collaboration.image.sha
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Image sha / digest (optional).
+| services.collaboration.image.tag
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Image tag.
+| services.collaboration.nodeSelector
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
+| services.collaboration.priorityClassName
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
+| services.collaboration.resources
 a| [subs=-attributes]
 +object+
 a| [subs=-attributes]

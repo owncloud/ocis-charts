@@ -72,17 +72,23 @@ releases:
           - op: replace
             path: /spec/backoffLimit
             value: 20
-      # - target:
-      #     version: apps/v1
-      #     kind: Deployment
-      #     namespace: onlyoffice
-      #     name: docservice
-      #   patch:
-      #     - op: add
-      #       path: "/spec/template/spec/containers/0/env/-"
-      #       value:
-      #         name: USE_UNAUTHORIZED_STORAGE
-      #         value: "true"
+    strategicMergePatches:
+      - apiVersion: apps/v1
+        kind: Deployment
+        metadata:
+          labels:
+            app: docservice
+          name: docservice
+          namespace: onlyoffice
+        spec:
+          template:
+            spec:
+              containers:
+                - name: docservice
+                  env:
+                    # allow to contact a WOPI endpoint without certificate checking
+                    - name: USE_UNAUTHORIZED_STORAGE
+                      value: "true" # allow
 
   - name: collabora
     namespace: collabora
@@ -130,10 +136,6 @@ releases:
           oidcIdpInsecure: true
           ocisHttpApiInsecure: true
 
-      - image:
-          tag: "latest" #TODO: remove me
-          sha: "ecf06d1a280b5e6b44f536890610f8bfa3714f949c720ca70fad94b2912d1551" #TODO: remove me
-
       - features:
           appsIntegration:
             enabled: true
@@ -145,14 +147,30 @@ releases:
                   insecure: true
                   iconURI: https://collabora.kube.owncloud.test/favicon.ico
                   ingress:
+                    enabled: true
                     domain: wopi-collabora.kube.owncloud.test
+                    ingressClassName: nginx
+                    annotations:
+                      nginx.ingress.kubernetes.io/proxy-body-size: 1024m
+                    tls:
+                      - secretName: ocis-dev-tls
+                        hosts:
+                          - wopi-collabora.kube.owncloud.test
                 - name: OnlyOffice
-                  enabled: true
+                  enabled: false # TODO: enable when multiple offices are supported
                   uri: "https://onlyoffice.kube.owncloud.test"
                   insecure: true
                   iconURI: https://onlyoffice.kube.owncloud.test/web-apps/apps/documenteditor/main/resources/img/favicon.ico
                   ingress:
+                    enabled: true
                     domain: wopi-onlyoffice.kube.owncloud.test
+                    ingressClassName: nginx
+                    annotations:
+                      nginx.ingress.kubernetes.io/proxy-body-size: 1024m
+                    tls:
+                      - secretName: ocis-dev-tls
+                        hosts:
+                          - wopi-onlyoffice.kube.owncloud.test
             mimetypes:
               # mimetypes for creation
               - mime_type: application/vnd.oasis.opendocument.text
@@ -240,6 +258,8 @@ releases:
 
           collaboration:
             image:
-              repository: docker.io/wkloucek/ocis
-              tag: collaboration-multi
-              sha: 771e694316554efffb57998cbe1737cf17bf1cce179800bb9280615984140203
+              # TODO: switch to rolling release when available and includes https://github.com/owncloud/ocis/pull/9385
+              # repository: owncloud/ocis-rolling
+              # tag: 6.0.0-alpha.2
+              tag: latest
+              sha: bb78d72b006dcbceee216decf3a09eed52f451e1591b5866c0ff614469a69f2b

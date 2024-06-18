@@ -257,6 +257,24 @@ features:
           # -- Disables SSL certificate checking for connections to the office suites http api.
           # Not recommended for production installations.
           insecure: false
+          # Ingress for collaboration service.
+          ingress:
+            # -- Enables the Ingress. Only needed if the office application is not running within the same cluster.
+            enabled: false
+            # -- Domain of the Ingress.
+            domain: ""
+            # -- Ingress class to use.
+            # Uses the default ingress class if not set.
+            ingressClassName:
+            # -- Ingress annotations.
+            annotations: {}
+            # -- Labels for the ingress.
+            labels: {}
+            # -- Ingress TLS configuration.
+            tls: []
+            #  - secretName: chart-example-tls
+            #    hosts:
+            #      - collabora-wopi.owncloud.test
         - # -- Name of the office suite. Will be displayed to the users.
           name: OnlyOffice
           # -- Enables the office suite.
@@ -268,8 +286,24 @@ features:
           # -- Disables SSL certificate checking for connections to the office suites http api.
           # Not recommended for production installations.
           insecure: false
-          # -- Disables Chat functionality of OnlyOffice
-          disableChat: false
+          # Ingress for collaboration service.
+          ingress:
+            # -- Enables the Ingress. Only needed if the office application is not running within the same cluster.
+            enabled: false
+            # -- Domain of the Ingress.
+            domain: ""
+            # -- Ingress class to use.
+            # Uses the default ingress class if not set.
+            ingressClassName:
+            # -- Ingress annotations.
+            annotations: {}
+            # -- Labels for the ingress.
+            labels: {}
+            # -- Ingress TLS configuration.
+            tls: []
+            #  - secretName: chart-example-tls
+            #    hosts:
+            #      - onlyoffice-wopi.owncloud.test
     # -- Mimetype configuration.
     # Let's you configure a mimetypes' default application, if it is allowed to create a new file and more.
     # @default -- default configuration of oCIS, see https://doc.owncloud.com/ocis/next/deployment/services/s-list/app-registry.html#yaml-example[doc.owncloud.com]
