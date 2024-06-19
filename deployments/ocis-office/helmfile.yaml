@@ -235,11 +235,8 @@ releases:
 
           collaboration:
             image:
-              # TODO: switch to rolling release when available and includes https://github.com/owncloud/ocis/pull/9385
-              # repository: owncloud/ocis-rolling
-              # tag: 6.0.0-alpha.2
-              tag: latest
-              sha: bb78d72b006dcbceee216decf3a09eed52f451e1591b5866c0ff614469a69f2b
+              repository: owncloud/ocis-rolling
+              tag: 6.0.0-alpha.2
 
             podDisruptionBudget:
               maxUnavailable: 1 #TODO: doesn't yet work
