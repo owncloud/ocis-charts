@@ -30,6 +30,24 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `3`
 | Sets minimum replicas for autoscaling.
+| backup.configMapLabels
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Labels that are added to ConfigMaps that are manged by this Chart and must be included in a backup when backing up Kubernetes resources.
+| backup.pvcLabels
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Labels that are added to PVCs that are manged by this Chart and must be included in a backup when backing up Kubernetes resources.
+| backup.secretLabels
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Labels that are added to Secrets that are manged by this Chart and must be included in a backup when backing up Kubernetes resources.
 | cache.nodes
 a| [subs=-attributes]
 +list+
