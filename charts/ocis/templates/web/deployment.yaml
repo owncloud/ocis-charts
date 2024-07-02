@@ -153,6 +153,8 @@ spec:
                   name: {{ include "secrets.jwtSecret" . }}
                   key: jwt-secret
 
+            {{- include "ocis.caEnv" . | nindent 12}}
+
           {{- include "ocis.livenessProbe" . | nindent 10 }}
 
           resources: {{ toYaml .resources | nindent 12 }}
@@ -176,6 +178,7 @@ spec:
             {{- end }}
             - name: {{ include "ocis.persistence.dataVolumeName" . }}
               mountPath: /var/lib/ocis
+            {{- include "ocis.caPath" . | nindent 12}}
 
       {{- include "ocis.imagePullSecrets" $ | nindent 6 }}
       volumes:
@@ -192,4 +195,5 @@ spec:
           configMap:
             name: {{ . | quote }}
         {{- end }}
+        {{- include "ocis.caVolume" . | nindent 8}}
         {{- include "ocis.persistence.dataVolume" . | nindent 8 }}
