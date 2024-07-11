@@ -58,15 +58,14 @@ spec:
             - name: COLLABORATION_APP_NAME
               value: {{ $officeSuite.name | quote }}
 
+            - name: COLLABORATION_APP_LOCKNAME
+              value: com.github.owncloud.collaboration-{{ $officeSuite.name }}
+
             - name: COLLABORATION_APP_INSECURE
               value: {{ $officeSuite.insecure | quote }}
 
             - name: COLLABORATION_CS3API_DATAGATEWAY_INSECURE
               value: {{ $.Values.insecure.ocisHttpApiInsecure | quote }}
-
-            # TODO: should be unique per office when we can have multiple of them
-            # - name: COLLABORATION_APP_LOCKNAME
-            #   value: com.github.owncloud.collaboration
 
             - name: COLLABORATION_APP_ICON
               value: {{ $officeSuite.iconURI | quote }}
