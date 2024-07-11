@@ -234,10 +234,6 @@ releases:
               enabled: true
 
           collaboration:
-            image:
-              repository: owncloud/ocis-rolling
-              tag: 6.0.0-alpha.2
-
             podDisruptionBudget:
               maxUnavailable: 1 #TODO: doesn't yet work
             autoscaling:
