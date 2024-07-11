@@ -158,7 +158,7 @@ releases:
                         hosts:
                           - wopi-collabora.kube.owncloud.test
                 - name: OnlyOffice
-                  enabled: false # TODO: re-enable when multiple offices are supported
+                  enabled: true
                   uri: "https://onlyoffice.kube.owncloud.test"
                   insecure: true
                   iconURI: https://onlyoffice.kube.owncloud.test/web-apps/apps/documenteditor/main/resources/img/favicon.ico
