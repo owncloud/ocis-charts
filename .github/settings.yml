@@ -49,7 +49,7 @@ branches:
         teams:
           - ci
           - employees
-  - name: stable-*
+  - name: stable-5
     protection:
       required_pull_request_reviews:
         required_approving_review_count: 1
