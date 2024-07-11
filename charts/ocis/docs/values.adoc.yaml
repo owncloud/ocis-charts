@@ -3,7 +3,7 @@
 # Image for oCIS services
 image:
   # -- Image repository
-  repository: owncloud/ocis
+  repository: owncloud/ocis-rolling
   # -- Image tag. Defaults to the chart's appVersion.
   tag: ""
   # -- Image sha / digest (optional).
