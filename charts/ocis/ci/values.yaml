@@ -51,12 +51,39 @@ features:
           uri: https://collabora.owncloud.test
           iconURI: https://collabora.owncloud.test/favicon.ico
           insecure: false
+          ingress:
+            enabled: true
+            domain: collabora-wopi.owncloud.test
+            ingressClassName: some-ingress
+            annotations:
+              kubernetes.io/ingress.class: some-ingress
+              kubernetes.io/tls-acme: "true"
+            labels:
+              label1: lorem
+              label2: ipsum
+            tls:
+              - secretName: chart-example-tls
+                hosts:
+                  - collabora-wopi.owncloud.test
         - name: OnlyOffice
           enabled: true
           uri: https://onlyoffice.owncloud.test
           iconURI: https://onlyoffice.owncloud.test/web-apps/apps/documenteditor/main/resources/img/favicon.ico
           insecure: false
-          disableChat: true
+          ingress:
+            enabled: true
+            domain: onlyoffice-wopi.owncloud.test
+            ingressClassName: some-ingress
+            annotations:
+              kubernetes.io/ingress.class: some-ingress
+              kubernetes.io/tls-acme: "true"
+            labels:
+              label1: lorem
+              label2: ipsum
+            tls:
+              - secretName: chart-example-tls
+                hosts:
+                  - onlyoffice-wopi.owncloud.test
     mimetypes:
       - mime_type: application/vnd.oasis.opendocument.text
         extension: odt

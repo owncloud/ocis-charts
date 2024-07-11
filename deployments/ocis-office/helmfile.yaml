@@ -1,16 +1,12 @@
 repositories:
   - name: tika
     url: https://apache.jfrog.io/artifactory/tika
-  - name: cs3org
-    url: https://cs3org.github.io/charts/
   - name: collabora
     url: https://collaboraonline.github.io/online/
   - name: bitnami
     url: https://charts.bitnami.com/bitnami
   - name: onlyoffice
     url: https://download.onlyoffice.com/charts/stable
-  - name: postgres-operator
-    url: https://opensource.zalando.com/postgres-operator/charts/postgres-operator
 
 releases:
   - name: tika
@@ -94,11 +90,12 @@ releases:
   - name: collabora
     namespace: collabora
     chart: collabora/collabora-online
-    version: 1.1.18
+    version: 1.1.5
     values:
       - collabora:
           aliasgroups:
-            - host: "http://wopiserver.wopiserver.svc.cluster.local:8880"
+            - host: "wopi-collabora.kube.owncloud.test" # needed if communication via the ingress to the collaboration service
+            - host: "collaboration-collabora.ocis.svc.cluster.local" # needed if cluster intern communication to the collaboration service
           extra_params: --o:ssl.enable=false --o:ssl.termination=true --o:net.frame_ancestors=ocis.kube.owncloud.test
       - ingress:
           enabled: true
@@ -117,20 +114,6 @@ releases:
             - secretName: collabora-dev-tls
               hosts:
                 - collabora.kube.owncloud.test
-
-  - name: wopiserver
-    namespace: wopiserver
-    chart: cs3org/wopiserver
-    version: 0.9.2
-    values:
-      - image:
-          # renovate: datasource=docker depName=cs3org/wopiserver
-          tag: v10.4.0
-      - wopiserverUrl: http://wopiserver.wopiserver.svc.cluster.local:8880
-      - config:
-          cs3:
-            gateway: gateway.ocis.svc.cluster.local:9142
-            sslVerify: False
 
   - name: ocis
     chart: ../../charts/ocis
@@ -155,18 +138,30 @@ releases:
           appsIntegration:
             enabled: true
             wopiIntegration:
-              wopiServerURI: http://wopiserver.wopiserver.svc.cluster.local:8880
               officeSuites:
                 - name: Collabora
                   enabled: true
                   uri: "https://collabora.kube.owncloud.test"
                   insecure: true
                   iconURI: https://collabora.kube.owncloud.test/favicon.ico
+                  ingress:
+                    # Collabora uses the collaboration via Ingress for demo purposes
+                    enabled: true
+                    domain: wopi-collabora.kube.owncloud.test
+                    ingressClassName: nginx
+                    annotations:
+                      nginx.ingress.kubernetes.io/proxy-body-size: 1024m
+                    tls:
+                      - secretName: ocis-dev-tls
+                        hosts:
+                          - wopi-collabora.kube.owncloud.test
                 - name: OnlyOffice
-                  enabled: true
+                  enabled: false # TODO: re-enable when multiple offices are supported
                   uri: "https://onlyoffice.kube.owncloud.test"
                   insecure: true
                   iconURI: https://onlyoffice.kube.owncloud.test/web-apps/apps/documenteditor/main/resources/img/favicon.ico
+                  ingress:
+                    enabled: false # OnlyOffice uses the cluster internal collaboration Service
             mimetypes:
               # mimetypes for creation
               - mime_type: application/vnd.oasis.opendocument.text
@@ -251,3 +246,13 @@ releases:
           web:
             persistence:
               enabled: true
+
+          collaboration:
+            image:
+              repository: owncloud/ocis-rolling
+              tag: 6.0.0-alpha.2
+
+            podDisruptionBudget:
+              maxUnavailable: 1 #TODO: doesn't yet work
+            autoscaling:
+              enabled: true 1 #TODO: doesn't yet work

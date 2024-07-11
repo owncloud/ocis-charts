@@ -1,0 +1,39 @@
+{{ if .Values.features.appsIntegration.enabled }}
+{{- range $officeSuite := .Values.features.appsIntegration.wopiIntegration.officeSuites }}
+{{ if and $officeSuite.enabled $officeSuite.ingress.enabled }}
+{{- include "ocis.basicServiceTemplates" (dict "scope" $ "appName" "appNameCollaboration" "appNameSuffix" (regexReplaceAll "\\W+" (lower $officeSuite.name) "-")) -}}
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+{{ include "ocis.metadata" $ }}
+{{- if $.Values.ingress.labels }}
+{{ toYaml $.Values.ingress.labels | indent 4 }}
+{{- end }}
+  {{- if $.Values.ingress.annotations }}
+  annotations:
+    {{- range $key, $value := $.Values.ingress.annotations }}
+    {{ $key }}: {{ tpl $value $ | quote }}
+    {{- end }}
+  {{- end }}
+spec:
+  {{- if $.Values.ingress.ingressClassName }}
+  ingressClassName: {{ $.Values.ingress.ingressClassName }}
+  {{- end }}
+{{- if $.Values.ingress.tls }}
+  tls:
+{{ tpl (toYaml $.Values.ingress.tls) $ | indent 4 }}
+{{- end }}
+  rules:
+    - host: {{ $officeSuite.ingress.domain | quote }}
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: {{ $.appName | quote }}
+                port:
+                  number: 9300
+{{ end }}
+{{ end }}
+{{ end }}
