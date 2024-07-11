@@ -16,6 +16,17 @@ ingress:
 
 externalDomain: ocis.owncloud.test
 
+backup:
+  configMapLabels:
+    backup.test/include: "true"
+    backup.test/configmap: "test"
+  secretLabels:
+    backup.test/include: "true"
+    backup.test/secret: "test"
+  pvcLabels:
+    backup.test/include: "true"
+    backup.test/pvc: "test"
+
 image:
   pullSecrets:
     - name: some-pull-secret

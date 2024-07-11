@@ -2,7 +2,7 @@
 # Image for oCIS services
 image:
   # -- Image repository
-  repository: owncloud/ocis
+  repository: owncloud/ocis-rolling
   # -- Image tag. Defaults to the chart's appVersion.
   tag: ""
   # -- Image sha / digest (optional).
@@ -677,6 +677,16 @@ topologySpreadConstraints: "" # |
 
 # -- Custom labels for all manifests
 extraLabels: {}
+
+# Backup related settings
+# Compare to https://doc.owncloud.com/ocis/next/maintenance/b-r/backup_considerations.html
+backup:
+  # -- Labels that are added to ConfigMaps that are manged by this Chart and must be included in a backup when backing up Kubernetes resources.
+  configMapLabels: {}
+  # -- Labels that are added to Secrets that are manged by this Chart and must be included in a backup when backing up Kubernetes resources.
+  secretLabels: {}
+  # -- Labels that are added to PVCs that are manged by this Chart and must be included in a backup when backing up Kubernetes resources.
+  pvcLabels: {}
 
 # -- Override the deployment namespace of all resources in this Helm chart.
 namespaceOverride:

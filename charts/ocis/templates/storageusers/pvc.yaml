@@ -7,6 +7,9 @@ metadata:
   namespace: {{ template "ocis.namespace" . }}
   labels:
     {{- include "ocis.labels" . | nindent 4 }}
+    {{- with .Values.backup.pvcLabels }}
+    {{ toYaml . | nindent 4 }}
+    {{- end }}
   {{- with .Values.services.storageusers.persistence.annotations  }}
   annotations:
 {{ toYaml . | indent 4 }}

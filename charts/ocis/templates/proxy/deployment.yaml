@@ -25,6 +25,8 @@ spec:
           env:
             {{- include "ocis.serviceRegistry" . | nindent 12 }}
             {{- include "ocis.cacheStore" . | nindent 12 }}
+            {{- include "ocis.events" . | nindent 12 }}
+
 
             - name: PROXY_LOG_COLOR
               value: {{ .Values.logging.color | quote }}
