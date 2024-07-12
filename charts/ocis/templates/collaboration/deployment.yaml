@@ -83,7 +83,7 @@ spec:
             - name: COLLABORATION_JWT_SECRET
               valueFrom:
                 secretKeyRef:
-                  name: {{ include "secrets.collaborationJwtSecret" $ }}
+                  name: {{ include "secrets.jwtSecret" $ }}
                   key: jwt-secret
 
             - name: COLLABORATION_WOPI_SECRET

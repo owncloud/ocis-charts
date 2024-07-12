@@ -16,10 +16,6 @@ All take the scope as the first and only parameter.
 {{ .Values.secretRefs.jwtSecretRef | default "jwt-secret" | quote }}
 {{- end -}}
 
-{{- define "secrets.collaborationJwtSecret" -}}
-{{ .Values.secretRefs.collaborationJwtSecretRef | default "collaboration-jwt-secret" | quote }}
-{{- end -}}
-
 {{- define "secrets.collaborationWopiSecret" -}}
 {{ .Values.secretRefs.collaborationWopiSecret | default "collaboration-wopi-secret" | quote }}
 {{- end -}}

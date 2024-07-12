@@ -664,8 +664,6 @@ configRefs:
 secretRefs:
   # -- Reference to an existing admin user secret (see xref:{secrets}[Secrets]). Not used if `features.externalUserManagement.enabled` equals `true`.
   adminUserSecretRef: ""
-  # - Reference to an existing collaboration service JWT secret (see xref:{secrets}[Secrets]). Not used if `features.appsIntegration.enabled` equals `false`.
-  collaborationJwtSecretRef: ""
   # - Reference to an existing collaboration service WOPI secret (see xref:{secrets}[Secrets]). Not used if `features.appsIntegration.enabled` equals `false`.
   collaborationWopiSecret: ""
   # -- Reference to an existing IDP secret (see xref:{secrets}[Secrets]). Not used if `features.externalUserManagement.enabled` equals `true`.
@@ -751,7 +749,7 @@ replicas: 1
 podDisruptionBudget:
   {}
   # -- Sets the maxUnavailable or the global PodDisruptionBudget.
-  #maxUnavailable: 1
+  # maxUnavailable: 1
 
 # Autoscaling settings.
 autoscaling:

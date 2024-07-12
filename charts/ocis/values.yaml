@@ -663,8 +663,6 @@ configRefs:
 secretRefs:
   # -- Reference to an existing admin user secret (see ref:Secrets#secrets). Not used if `features.externalUserManagement.enabled` equals `true`.
   adminUserSecretRef: ""
-  # - Reference to an existing collaboration service JWT secret (see ref:Secrets#secrets). Not used if `features.appsIntegration.enabled` equals `false`.
-  collaborationJwtSecretRef: ""
   # - Reference to an existing collaboration service WOPI secret (see ref:Secrets#secrets). Not used if `features.appsIntegration.enabled` equals `false`.
   collaborationWopiSecret: ""
   # -- Reference to an existing IDP secret (see ref:Secrets#secrets). Not used if `features.externalUserManagement.enabled` equals `true`.
