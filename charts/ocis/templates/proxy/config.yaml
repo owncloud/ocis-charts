@@ -30,6 +30,11 @@ data:
         {{- end }}
       {{- end }}
     {{- end }}
+    {{- with $.Values.services.proxy.additionalPolicies }}
+    additional_policies:
+      {{- toYaml . | nindent 6 }}
+    {{- end }}
+
   csp.yaml: |
     ---
     directives:

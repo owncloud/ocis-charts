@@ -2862,6 +2862,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 see detailed service configuration options below
 | PROXY service.
+| services.proxy.additionalPolicies
+a| [subs=-attributes]
++list+
+a| [subs=-attributes]
+`[]`
+| Specifies additional policies for the proxy service. Routes are appended to the default routes of specified policies. The policy name should always be 'ocis'.
 | services.proxy.affinity
 a| [subs=-attributes]
 +object+
