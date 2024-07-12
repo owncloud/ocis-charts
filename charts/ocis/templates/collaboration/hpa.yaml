@@ -1,0 +1,10 @@
+{{ if .Values.features.appsIntegration.enabled }}
+{{- range $officeSuite := .Values.features.appsIntegration.wopiIntegration.officeSuites }}
+{{ if $officeSuite.enabled }}
+{{- include "ocis.basicServiceTemplates" (dict "scope" $ "appName" "appNameCollaboration" "appNameSuffix" (regexReplaceAll "\\W+" (lower $officeSuite.name) "-")) -}}
+---
+{{- $_ := set $ "autoscaling" (default (default (dict) $.Values.autoscaling) $.Values.services.collaboration.autoscaling) -}}
+{{ include "ocis.hpa" $ }}
+{{ end }}
+{{ end }}
+{{ end }}

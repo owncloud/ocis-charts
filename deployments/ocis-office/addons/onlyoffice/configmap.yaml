@@ -11,7 +11,7 @@ data:
           "ipfilter": {
             "rules": [
               {
-                "address": "wopiserver.wopiserver.svc.cluster.local",
+                "address": "collaboration-onlyoffice.ocis.svc.cluster.local",
                 "allowed": true
               },
               {

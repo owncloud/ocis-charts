@@ -1,7 +1,7 @@
 {{ if .Values.features.appsIntegration.enabled }}
 {{- range $officeSuite := .Values.features.appsIntegration.wopiIntegration.officeSuites }}
 {{ if $officeSuite.enabled }}
-{{- include "ocis.basicServiceTemplates" (dict "scope" $ "appName" "appNameAppProvider" "appNameSuffix" (regexReplaceAll "\\W+" (lower $officeSuite.name) "-")) -}}
+{{- include "ocis.basicServiceTemplates" (dict "scope" $ "appName" "appNameCollaboration" "appNameSuffix" (regexReplaceAll "\\W+" (lower $officeSuite.name) "-")) -}}
 ---
 apiVersion: v1
 kind: Service
@@ -17,11 +17,15 @@ spec:
     app: {{ $.appName }}
   ports:
     - name: grpc
-      port: 9164
+      port: 9301
       protocol: TCP
       appProtocol: {{ $.Values.service.appProtocol.grpc | quote}}
+    - name: http
+      port: 9300
+      protocol: TCP
+      appProtocol: {{ $.Values.service.appProtocol.http | quote}}
     - name: metrics-debug
-      port: 9165
+      port: 9304
       protocol: TCP
       appProtocol: {{ $.Values.service.appProtocol.http | quote}}
 {{ end }}

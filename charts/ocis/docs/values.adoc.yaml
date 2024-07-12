@@ -309,6 +309,24 @@ features:
           # -- Disables SSL certificate checking for connections to the office suites http api.
           # Not recommended for production installations.
           insecure: false
+          # Ingress for collaboration service.
+          ingress:
+            # -- Enables the Ingress. Only needed if the office application is not running within the same cluster.
+            enabled: false
+            # -- Domain of the Ingress.
+            domain: ""
+            # -- Ingress class to use.
+            # Uses the default ingress class if not set.
+            ingressClassName:
+            # -- Ingress annotations.
+            annotations: {}
+            # -- Labels for the ingress.
+            labels: {}
+            # -- Ingress TLS configuration.
+            tls: []
+            #  - secretName: chart-example-tls
+            #    hosts:
+            #      - collabora-wopi.owncloud.test
         - # -- Name of the office suite. Will be displayed to the users.
           name: OnlyOffice
           # -- Enables the office suite.
@@ -320,8 +338,24 @@ features:
           # -- Disables SSL certificate checking for connections to the office suites http api.
           # Not recommended for production installations.
           insecure: false
-          # -- Disables Chat functionality of OnlyOffice
-          disableChat: false
+          # Ingress for collaboration service.
+          ingress:
+            # -- Enables the Ingress. Only needed if the office application is not running within the same cluster.
+            enabled: false
+            # -- Domain of the Ingress.
+            domain: ""
+            # -- Ingress class to use.
+            # Uses the default ingress class if not set.
+            ingressClassName:
+            # -- Ingress annotations.
+            annotations: {}
+            # -- Labels for the ingress.
+            labels: {}
+            # -- Ingress TLS configuration.
+            tls: []
+            #  - secretName: chart-example-tls
+            #    hosts:
+            #      - onlyoffice-wopi.owncloud.test
     # -- Mimetype configuration.
     # Let's you configure a mimetypes' default application, if it is allowed to create a new file and more.
     # @default -- default configuration of oCIS, see https://doc.owncloud.com/ocis/next/deployment/services/s-list/app-registry.html#yaml-example[doc.owncloud.com]
@@ -630,6 +664,8 @@ configRefs:
 secretRefs:
   # -- Reference to an existing admin user secret (see xref:{secrets}[Secrets]). Not used if `features.externalUserManagement.enabled` equals `true`.
   adminUserSecretRef: ""
+  # - Reference to an existing collaboration service WOPI secret (see xref:{secrets}[Secrets]). Not used if `features.appsIntegration.enabled` equals `false`.
+  collaborationWopiSecret: ""
   # -- Reference to an existing IDP secret (see xref:{secrets}[Secrets]). Not used if `features.externalUserManagement.enabled` equals `true`.
   idpSecretRef: ""
   # -- Reference to an existing JWT secret (see xref:{secrets}[Secrets]).
@@ -713,7 +749,7 @@ replicas: 1
 podDisruptionBudget:
   {}
   # -- Sets the maxUnavailable or the global PodDisruptionBudget.
-  #maxUnavailable: 1
+  # maxUnavailable: 1
 
 # Autoscaling settings.
 autoscaling:
@@ -812,15 +848,19 @@ extraResources: []
 
 # per-service configuration.
 services:
-  # -- APP PROVIDER service. Not used if `features.appsIntegration.enabled` equals `false`.
+  # -- COLLABORATION service. Not used if `features.appsIntegration.enabled` equals `false`.
   # @default -- see detailed service configuration options below
-  appprovider:
+  collaboration:
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
     # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
     nodeSelector: {}
     # -- Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
     priorityClassName: ""
+    # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
+    podDisruptionBudget: {}
+    # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
+    autoscaling: {}
     # -- Affinity settings for the approvider service.
     affinity: {}
     # -- Configuration for the appprovider service, every other service will have the same configuration.

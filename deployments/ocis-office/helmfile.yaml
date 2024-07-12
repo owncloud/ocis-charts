@@ -1,8 +1,6 @@
 repositories:
   - name: tika
     url: https://apache.jfrog.io/artifactory/tika
-  - name: cs3org
-    url: https://cs3org.github.io/charts/
   - name: collabora
     url: https://collaboraonline.github.io/online/
   - name: bitnami
@@ -98,7 +96,8 @@ releases:
     values:
       - collabora:
           aliasgroups:
-            - host: "http://wopiserver.wopiserver.svc.cluster.local:8880"
+            - host: "wopi-collabora.kube.owncloud.test" # needed because we connect via the ingress to the collaboration service
+            # - host: "collaboration-collabora.ocis.svc.cluster.local" # needed if we would use the cluster internal Service to connect to the collaboration service
           extra_params: --o:ssl.enable=false --o:ssl.termination=true --o:net.frame_ancestors=ocis.kube.owncloud.test
       - ingress:
           enabled: true
@@ -117,20 +116,6 @@ releases:
             - secretName: collabora-dev-tls
               hosts:
                 - collabora.kube.owncloud.test
-
-  - name: wopiserver
-    namespace: wopiserver
-    chart: cs3org/wopiserver
-    version: 0.9.2
-    values:
-      - image:
-          # renovate: datasource=docker depName=cs3org/wopiserver
-          tag: v10.4.0
-      - wopiserverUrl: http://wopiserver.wopiserver.svc.cluster.local:8880
-      - config:
-          cs3:
-            gateway: gateway.ocis.svc.cluster.local:9142
-            sslVerify: False
 
   - name: ocis
     chart: ../../charts/ocis
@@ -155,18 +140,34 @@ releases:
           appsIntegration:
             enabled: true
             wopiIntegration:
-              wopiServerURI: http://wopiserver.wopiserver.svc.cluster.local:8880
               officeSuites:
                 - name: Collabora
                   enabled: true
                   uri: "https://collabora.kube.owncloud.test"
                   insecure: true
                   iconURI: https://collabora.kube.owncloud.test/favicon.ico
+                  ingress:
+                    # Collabora connects to the collaboration service via Ingress in this case
+                    enabled: true
+                    domain: wopi-collabora.kube.owncloud.test
+                    ingressClassName: nginx
+                    annotations:
+                      nginx.ingress.kubernetes.io/proxy-body-size: 1024m
+                    tls:
+                      - secretName: ocis-dev-tls
+                        hosts:
+                          - wopi-collabora.kube.owncloud.test
                 - name: OnlyOffice
                   enabled: true
                   uri: "https://onlyoffice.kube.owncloud.test"
                   insecure: true
                   iconURI: https://onlyoffice.kube.owncloud.test/web-apps/apps/documenteditor/main/resources/img/favicon.ico
+                  ingress:
+                    # OnlyOffice connects to the collaboration service via the cluster internal Service in this case
+                    # We need to configure the internal hostname in the OnlyOffice ipfilter, see also:
+                    # https://test-helpcenter.onlyoffice.com/installation/docs-configure-ipfilter.aspx
+                    # we do this for this setup in deployments/ocis-office/addons/onlyoffice/configmap.yaml
+                    enabled: false
             mimetypes:
               # mimetypes for creation
               - mime_type: application/vnd.oasis.opendocument.text

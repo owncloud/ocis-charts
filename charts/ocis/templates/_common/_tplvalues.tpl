@@ -33,7 +33,6 @@ Adds the app names to the scope and set the name of the app based on the input p
 @param .appNameSuffix  The suffix to be added to the appName (if needed)
 */}}
 {{- define "ocis.basicServiceTemplates" -}}
-  {{- $_ := set .scope "appNameAppProvider" "appprovider" -}}
   {{- $_ := set .scope "appNameAppRegistry" "appregistry" -}}
   {{- $_ := set .scope "appNameAudit" "audit" -}}
   {{- $_ := set .scope "appNameAuthBasic" "authbasic" -}}
@@ -41,6 +40,7 @@ Adds the app names to the scope and set the name of the app based on the input p
   {{- $_ := set .scope "appNameAuthService" "authservice" -}}
   {{- $_ := set .scope "appNameAntivirus" "antivirus" -}}
   {{- $_ := set .scope "appNameClientlog" "clientlog" -}}
+  {{- $_ := set .scope "appNameCollaboration" "collaboration" -}}
   {{- $_ := set .scope "appNameEventhistory" "eventhistory" -}}
   {{- $_ := set .scope "appNameFrontend" "frontend" -}}
   {{- $_ := set .scope "appNameGateway" "gateway" -}}
@@ -97,7 +97,7 @@ oCIS PDB template
 
 */}}
 {{- define "ocis.pdb" -}}
-{{- $_ := set . "podDisruptionBudget" (default (default (dict) .Values.podDisruptionBudget) (index .Values.services .appName).podDisruptionBudget) -}}
+{{- $_ := set . "podDisruptionBudget" (default (default (dict) .Values.podDisruptionBudget) (index .Values.services (split "-" .appName)._0).podDisruptionBudget) -}}
 {{ if .podDisruptionBudget }}
 apiVersion: policy/v1
 kind: PodDisruptionBudget
