@@ -110,6 +110,9 @@ spec:
                   name: {{ include "secrets.serviceAccountSecret" . }}
                   key: service-account-secret
 
+            - name: PROXY_CSP_CONFIG_FILE_LOCATION
+              value: /etc/ocis/csp.yaml
+
             {{- if .Values.features.policies.enabled }}
             - name: PROXY_POLICIES_QUERY
               value: data.proxy.granted

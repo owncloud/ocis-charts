@@ -59,6 +59,57 @@ http:
     #-- allow_origins is a list of origins a cross-domain request can be executed from.
     # If the special "*" value is present in the list, all origins will be allowed.
     allow_origins: []
+  # CSP settings for oCIS services.
+  csp:
+    directives:
+      # -- child-src directive, see https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/child-src
+      childSrc:
+        - "'self'"
+      # -- connect-src directive, see https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/connect-src
+      connectSrc:
+        - "'self'"
+        # If Uppy Companion is used, you need to add it with your URI:
+        # - "https://companion.kube.owncloud.test/"
+        # - "wss:///companion.kube.owncloud.test/"
+      # -- default-src directive, see https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/default-src
+      defaultSrc:
+        - "'none'"
+      # -- front-src directive, see https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/front-src
+      fontSrc:
+        - "'self'"
+      # -- frame-ancestors directive, see https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/frame-ancestors
+      frameAncestors:
+        - "'self'"
+      # -- frame-src directive, see https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/frame-src
+      frameSrc:
+        - "'self'"
+        - "blob:"
+        # Needed for the draw-io integration that is enabled by default.
+        # Can be removed when "draw-io" is removed from services.web.config.apps
+        - "https://embed.diagrams.net/"
+      # -- img-src directive, see https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/img-src
+      imgSrc:
+        - "'self'"
+        - "data:"
+        - "blob:"
+      # -- manifest-src directive, see https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/manifest-src
+      manifestSrc:
+        - "'self'"
+      # -- media-src directive, see https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/media-src
+      mediaSrc:
+        - "'self'"
+      # -- object-src directive, see https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/object-src
+      objectSrc:
+        - "'self'"
+        - "blob:"
+      # -- script-src directive, see https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/script-src
+      scriptSrc:
+        - "'self'"
+        - "'unsafe-inline'"
+      # -- style-src directive, see https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/style-src
+      styleSrc:
+        - "'self'"
+        - "'unsafe-inline'"
 
 # Debug settings for the oCIS service
 debug:
@@ -334,6 +385,7 @@ features:
     oidc:
       # -- Issuer URI of the OpenID Connect Identity Provider.
       # If the IDP doesn't have valid / trusted SSL certificates, certificate validation can be disabled with the `insecure.oidcIdpInsecure` option.
+      # The issuerURI will be automatically be added to http.csp.directives.connectSrc
       issuerURI: ""
       # -- Link to the OIDC provider's user accessible session management. This will be shown to the user on the personal account page.
       # When using Keycloak with the a realm named "ocis" this could point to eg. https://keycloak.owncloud.test/realms/ocis/account/
@@ -2153,7 +2205,9 @@ services:
         # - text-editor
         # - pdf-viewer
         # - external
-        # - user-management
+        # - admin-settings
+        # - epub-reader
+        # - draw-io
       # -- Configure the {"applications": []} section in the Web config.json.
       applications:
         []

@@ -31,39 +31,56 @@ data:
       {{- end }}
     {{- end }}
   csp.yaml: |
-    # TODO: split out in separate PR and make configurable
+    ---
     directives:
       child-src:
-        - '''self'''
+        {{- with .Values.http.csp.directives.childSrc -}}
+        {{ toYaml . | nindent 8 }}
+        {{- end }}
       connect-src:
-        - '''self'''
+        {{- with .Values.http.csp.directives.connectSrc -}}
+        {{ toYaml . | nindent 8 }}
+        {{- end }}
+        {{- if .Values.features.externalUserManagement.enabled }}
+        - "{{ trimSuffix "/" .Values.features.externalUserManagement.oidc.issuerURI }}/"
+        {{- end }}
       default-src:
-        - '''none'''
+        {{- with .Values.http.csp.directives.defaultSrc -}}
+        {{ toYaml . | nindent 8 }}
+        {{- end }}
       font-src:
-        - '''self'''
+        {{- with .Values.http.csp.directives.fontSrc -}}
+        {{ toYaml . | nindent 8 }}
+        {{- end }}
       frame-ancestors:
-        - '''self'''
+        {{- with .Values.http.csp.directives.frameAncestors -}}
+        {{ toYaml . | nindent 8 }}
+        {{- end }}
       frame-src:
-        - '''self'''
-        - 'https://embed.diagrams.net/'
-        - 'https://collabora.kube.owncloud.test/'
-        - 'https://onlyoffice.kube.owncloud.test/'
+        {{- with .Values.http.csp.directives.frameSrc -}}
+        {{ toYaml . | nindent 8 }}
+        {{- end }}
       img-src:
-        - '''self'''
-        - 'data:'
-        - 'blob:'
-        - 'https://collabora.kube.owncloud.test/'
-        - 'https://onlyoffice.kube.owncloud.test/'
+        {{- with .Values.http.csp.directives.imgSrc -}}
+        {{ toYaml . | nindent 8 }}
+        {{- end }}
       manifest-src:
-        - '''self'''
+        {{- with .Values.http.csp.directives.manifestSrc -}}
+        {{ toYaml . | nindent 8 }}
+        {{- end }}
       media-src:
-        - '''self'''
+        {{- with .Values.http.csp.directives.mediaSrc -}}
+        {{ toYaml . | nindent 8 }}
+        {{- end }}
       object-src:
-        - '''self'''
-        - 'blob:'
+        {{- with .Values.http.csp.directives.objectSrc -}}
+        {{ toYaml . | nindent 8 }}
+        {{- end }}
       script-src:
-        - '''self'''
-        - '''unsafe-inline'''
+        {{- with .Values.http.csp.directives.scriptSrc -}}
+        {{ toYaml . | nindent 8 }}
+        {{- end }}
       style-src:
-        - '''self'''
-        - '''unsafe-inline'''
+        {{- with .Values.http.csp.directives.styleSrc -}}
+        {{ toYaml . | nindent 8 }}
+        {{- end }}

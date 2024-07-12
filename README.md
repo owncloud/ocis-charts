@@ -4,6 +4,9 @@
 
 The code is provided as-is with no warranties.
 
+> [!WARNING]  
+> As of 11.07.2024 we switched the branching model used in this chart. `main` will now contain the future oCIS 6 adjustments, while oCIS 5 will be contained in `stable-5`. Please change your chart usage accordingly.
+
 ## Usage
 
 [Helm](https://helm.sh) must be installed to use the charts.
