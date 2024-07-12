@@ -14,7 +14,7 @@ data:
         policy: ocis
     {{- with $.Values.features.quotas.roles }}
     role_quotas:
-      {{- toYaml . | nindent 8 }}
+      {{- toYaml . | nindent 6 }}
     {{- end }}
     {{- if $.Values.features.externalUserManagement.oidc.roleAssignment.enabled }}
     role_assignment:
