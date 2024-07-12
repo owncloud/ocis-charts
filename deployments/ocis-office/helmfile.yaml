@@ -163,7 +163,11 @@ releases:
                   insecure: true
                   iconURI: https://onlyoffice.kube.owncloud.test/web-apps/apps/documenteditor/main/resources/img/favicon.ico
                   ingress:
-                    enabled: false # OnlyOffice connects to the collaboration service via the cluster internal Service in this case
+                    # OnlyOffice connects to the collaboration service via the cluster internal Service in this case
+                    # We need to configure the internal hostname in the OnlyOffice ipfilter, see also:
+                    # https://test-helpcenter.onlyoffice.com/installation/docs-configure-ipfilter.aspx
+                    # we do this for this setup in deployments/ocis-office/addons/onlyoffice/configmap.yaml
+                    enabled: false
             mimetypes:
               # mimetypes for creation
               - mime_type: application/vnd.oasis.opendocument.text
