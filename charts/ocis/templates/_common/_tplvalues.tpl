@@ -97,7 +97,7 @@ oCIS PDB template
 
 */}}
 {{- define "ocis.pdb" -}}
-{{- $_ := set . "podDisruptionBudget" (default (default (dict) .Values.podDisruptionBudget) (index .Values.services .appName).podDisruptionBudget) -}}
+{{- $_ := set . "podDisruptionBudget" (default (default (dict) .Values.podDisruptionBudget) (index .Values.services (split "-" .appName)._0).podDisruptionBudget) -}}
 {{ if .podDisruptionBudget }}
 apiVersion: policy/v1
 kind: PodDisruptionBudget

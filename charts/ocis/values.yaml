@@ -698,7 +698,7 @@ replicas: 1
 podDisruptionBudget:
   {}
   # -- Sets the maxUnavailable or the global PodDisruptionBudget.
-  #maxUnavailable: 1
+  # maxUnavailable: 1
 
 # Autoscaling settings.
 autoscaling:
