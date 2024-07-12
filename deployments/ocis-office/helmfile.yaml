@@ -96,8 +96,8 @@ releases:
     values:
       - collabora:
           aliasgroups:
-            - host: "wopi-collabora.kube.owncloud.test" # needed if communication via the ingress to the collaboration service
-            - host: "collaboration-collabora.ocis.svc.cluster.local" # needed if cluster intern communication to the collaboration service
+            - host: "wopi-collabora.kube.owncloud.test" # needed because we connect via the ingress to the collaboration service
+            # - host: "collaboration-collabora.ocis.svc.cluster.local" # needed if we would use the cluster internal Service to connect to the collaboration service
           extra_params: --o:ssl.enable=false --o:ssl.termination=true --o:net.frame_ancestors=ocis.kube.owncloud.test
       - ingress:
           enabled: true
@@ -147,7 +147,7 @@ releases:
                   insecure: true
                   iconURI: https://collabora.kube.owncloud.test/favicon.ico
                   ingress:
-                    # Collabora uses the collaboration via Ingress for demo purposes
+                    # Collabora connects to the collaboration service via Ingress in this case
                     enabled: true
                     domain: wopi-collabora.kube.owncloud.test
                     ingressClassName: nginx
@@ -163,7 +163,7 @@ releases:
                   insecure: true
                   iconURI: https://onlyoffice.kube.owncloud.test/web-apps/apps/documenteditor/main/resources/img/favicon.ico
                   ingress:
-                    enabled: false # OnlyOffice uses the cluster internal collaboration Service
+                    enabled: false # OnlyOffice connects to the collaboration service via the cluster internal Service in this case
             mimetypes:
               # mimetypes for creation
               - mime_type: application/vnd.oasis.opendocument.text
