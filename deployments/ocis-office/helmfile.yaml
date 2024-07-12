@@ -49,45 +49,45 @@ releases:
           connection_pooler_number_of_instances: 3
           connection_pooler_mode: "session"
 
-  - name: onlyoffice
-    namespace: onlyoffice
-    chart: onlyoffice/docs
-    version: 4.2.0
-    needs:
-      - onlyoffice/addons-onlyoffice
-      - onlyoffice/rabbitmq
-      - onlyoffice/redis
-      - onlyoffice/postgres-operator
-    values:
-      - wopi:
-          enabled: true
-      - ingress:
-          enabled: true
-          host: onlyoffice.kube.owncloud.test
-          ssl:
-            enabled: true
-            secret: onlyoffice-tls
-      - extraConf:
-          configMap: "doc-local.json"
-      - connections:
-          dbHost: postgres-pooler
-          dbExistingSecret: postgres.postgres.credentials.postgresql.acid.zalan.do
-          dbSecretKeyName: password
-          redisHost: redis-master
-          amqpHost: rabbitmq
-      - persistence:
-          existingClaim: ds-files
-    jsonPatches:
-      # patch https://github.com/ONLYOFFICE/Kubernetes-Docs/blob/851362e5b96f5e86fe8cc9c3bdd86b5f217dd5d0/templates/jobs/pre-install.yaml#L16 to a higher number
-      # without this, OnlyOffice installation fails on the first time
-      - target:
-          kind: Job
-          namespace: onlyoffice
-          name: pre-install
-        patch:
-          - op: replace
-            path: /spec/backoffLimit
-            value: 20
+  # - name: onlyoffice
+  #   namespace: onlyoffice
+  #   chart: onlyoffice/docs
+  #   version: 4.2.0
+  #   needs:
+  #     - onlyoffice/addons-onlyoffice
+  #     - onlyoffice/rabbitmq
+  #     - onlyoffice/redis
+  #     - onlyoffice/postgres-operator
+  #   values:
+  #     - wopi:
+  #         enabled: true
+  #     - ingress:
+  #         enabled: true
+  #         host: onlyoffice.kube.owncloud.test
+  #         ssl:
+  #           enabled: true
+  #           secret: onlyoffice-tls
+  #     - extraConf:
+  #         configMap: "doc-local.json"
+  #     - connections:
+  #         dbHost: postgres-pooler
+  #         dbExistingSecret: postgres.postgres.credentials.postgresql.acid.zalan.do
+  #         dbSecretKeyName: password
+  #         redisHost: redis-master
+  #         amqpHost: rabbitmq
+  #     - persistence:
+  #         existingClaim: ds-files
+  #   jsonPatches:
+  #     # patch https://github.com/ONLYOFFICE/Kubernetes-Docs/blob/851362e5b96f5e86fe8cc9c3bdd86b5f217dd5d0/templates/jobs/pre-install.yaml#L16 to a higher number
+  #     # without this, OnlyOffice installation fails on the first time
+  #     - target:
+  #         kind: Job
+  #         namespace: onlyoffice
+  #         name: pre-install
+  #       patch:
+  #         - op: replace
+  #           path: /spec/backoffLimit
+  #           value: 20
 
   - name: collabora
     namespace: collabora
@@ -248,9 +248,3 @@ releases:
           web:
             persistence:
               enabled: true
-
-          collaboration:
-            podDisruptionBudget:
-              maxUnavailable: 1 #TODO: doesn't yet work
-            autoscaling:
-              enabled: true 1 #TODO: doesn't yet work

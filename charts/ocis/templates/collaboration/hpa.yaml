@@ -3,7 +3,7 @@
 {{ if $officeSuite.enabled }}
 {{- include "ocis.basicServiceTemplates" (dict "scope" $ "appName" "appNameCollaboration" "appNameSuffix" (regexReplaceAll "\\W+" (lower $officeSuite.name) "-")) -}}
 ---
-{{- $_ := set . "autoscaling" (default (default (dict) $.Values.autoscaling) $.Values.services.collaboration.autoscaling) -}}
+{{- $_ := set $ "autoscaling" (default (default (dict) $.Values.autoscaling) $.Values.services.collaboration.autoscaling) -}}
 {{ include "ocis.hpa" $ }}
 {{ end }}
 {{ end }}
