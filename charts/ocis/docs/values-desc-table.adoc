@@ -545,7 +545,7 @@ a| [subs=-attributes]
 +string+
 a| [subs=-attributes]
 `""`
-| Issuer URI of the OpenID Connect Identity Provider. If the IDP doesn't have valid / trusted SSL certificates, certificate validation can be disabled with the `insecure.oidcIdpInsecure` option.
+| Issuer URI of the OpenID Connect Identity Provider. If the IDP doesn't have valid / trusted SSL certificates, certificate validation can be disabled with the `insecure.oidcIdpInsecure` option. The issuerURI will be automatically be added to http.csp.directives.connectSrc
 | features.externalUserManagement.oidc.roleAssignment.claim
 a| [subs=-attributes]
 +string+
@@ -804,6 +804,78 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `[]`
 |
+| http.csp.directives.childSrc
+a| [subs=-attributes]
++list+
+a| [subs=-attributes]
+`["'self'"]`
+| child-src directive, see https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/child-src
+| http.csp.directives.connectSrc
+a| [subs=-attributes]
++list+
+a| [subs=-attributes]
+`["'self'"]`
+| connect-src directive, see https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/connect-src
+| http.csp.directives.defaultSrc
+a| [subs=-attributes]
++list+
+a| [subs=-attributes]
+`["'none'"]`
+| default-src directive, see https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/default-src
+| http.csp.directives.fontSrc
+a| [subs=-attributes]
++list+
+a| [subs=-attributes]
+`["'self'"]`
+| front-src directive, see https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/front-src
+| http.csp.directives.frameAncestors
+a| [subs=-attributes]
++list+
+a| [subs=-attributes]
+`["'self'"]`
+| frame-ancestors directive, see https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/frame-ancestors
+| http.csp.directives.frameSrc
+a| [subs=-attributes]
++list+
+a| [subs=-attributes]
+`["'self'","blob:","https://embed.diagrams.net/"]`
+| frame-src directive, see https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/frame-src
+| http.csp.directives.imgSrc
+a| [subs=-attributes]
++list+
+a| [subs=-attributes]
+`["'self'","data:","blob:"]`
+| img-src directive, see https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/img-src
+| http.csp.directives.manifestSrc
+a| [subs=-attributes]
++list+
+a| [subs=-attributes]
+`["'self'"]`
+| manifest-src directive, see https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/manifest-src
+| http.csp.directives.mediaSrc
+a| [subs=-attributes]
++list+
+a| [subs=-attributes]
+`["'self'"]`
+| media-src directive, see https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/media-src
+| http.csp.directives.objectSrc
+a| [subs=-attributes]
++list+
+a| [subs=-attributes]
+`["'self'","blob:"]`
+| object-src directive, see https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/object-src
+| http.csp.directives.scriptSrc
+a| [subs=-attributes]
++list+
+a| [subs=-attributes]
+`["'self'","'unsafe-inline'"]`
+| script-src directive, see https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/script-src
+| http.csp.directives.styleSrc
+a| [subs=-attributes]
++list+
+a| [subs=-attributes]
+`["'self'","'unsafe-inline'"]`
+| style-src directive, see https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/style-src
 | image.pullPolicy
 a| [subs=-attributes]
 +string+
