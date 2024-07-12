@@ -820,7 +820,7 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 +string+
 a| [subs=-attributes]
-`"owncloud/ocis"`
+`"owncloud/ocis-rolling"`
 | Image repository
 | image.sha
 a| [subs=-attributes]
