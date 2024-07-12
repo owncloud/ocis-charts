@@ -1482,6 +1482,17 @@ services:
   # -- PROXY service.
   # @default -- see detailed service configuration options below
   proxy:
+    # -- Specifies additional policies for the proxy service.
+    # Routes are appended to the default routes of specified policies.
+    # The policy name should always be 'ocis'.
+    additionalPolicies: []
+    #  - name: ocis
+    #    routes:
+    #      - endpoint: /some-service/endpoint
+    #        service: com.owncloud.some-namespace.some-service
+    #        unprotected: true
+    #
+
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
     # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
