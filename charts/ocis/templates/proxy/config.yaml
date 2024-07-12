@@ -60,9 +60,23 @@ data:
         {{- with .Values.http.csp.directives.frameSrc -}}
         {{ toYaml . | nindent 8 }}
         {{- end }}
+        {{ if .Values.features.appsIntegration.enabled }}
+        {{- range $officeSuite := .Values.features.appsIntegration.wopiIntegration.officeSuites }}
+        {{ if $officeSuite.enabled }}
+        - "{{ trimSuffix "/" $officeSuite.uri }}/"
+        {{- end }}
+        {{- end }}
+        {{- end }}
       img-src:
         {{- with .Values.http.csp.directives.imgSrc -}}
         {{ toYaml . | nindent 8 }}
+        {{- end }}
+        {{ if .Values.features.appsIntegration.enabled }}
+        {{- range $officeSuite := .Values.features.appsIntegration.wopiIntegration.officeSuites }}
+        {{ if and $officeSuite.enabled (ne $officeSuite.iconURI "")}}
+        - {{ $officeSuite.iconURI | quote }}
+        {{- end }}
+        {{- end }}
         {{- end }}
       manifest-src:
         {{- with .Values.http.csp.directives.manifestSrc -}}
