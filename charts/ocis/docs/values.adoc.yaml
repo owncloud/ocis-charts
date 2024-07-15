@@ -2016,6 +2016,11 @@ services:
   # -- THUMBNAILS service.
   # @default -- see detailed service configuration options below
   thumbnails:
+    quota:
+      # -- Number of maximum concurrent thumbnail requests. Default is 0 which is unlimited.
+      maxConcurrencyRequests: 0
+      # -- Sets a maximum file size of an input image which is being processed. Usable common abbreviations: [KB, KiB, MB, MiB, GB, GiB, TB, TiB, PB, PiB, EB, EiB], example: 2GB.
+      maxFileSize:
     # -- Persistence settings.
     # @default -- see detailed persistence configuration options below
     persistence:
