@@ -66,12 +66,10 @@ spec:
             - name: THUMBNAILS_DATA_ENDPOINT
               value: http://{{ .appName }}:9186/thumbnails/data
 
-            {{- if  .Values.services.thumbnails.quota.enabled}}
             - name: THUMBNAILS_MAX_CONCURRENT_REQUESTS
               value: {{ .Values.services.thumbnails.quota.maxConcurrencyRequests | quote }}
             - name: THUMBNAILS_MAX_INPUT_IMAGE_FILE_SIZE
               value: {{ .Values.services.thumbnails.quota.maxFileSize | quote }}
-            {{- end }}
 
             - name: THUMBNAILS_WEBDAVSOURCE_INSECURE
               value: {{ .Values.insecure.ocisHttpApiInsecure | quote }}
