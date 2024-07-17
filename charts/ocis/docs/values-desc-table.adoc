@@ -4240,7 +4240,7 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 +string+
 a| [subs=-attributes]
-`"50Mi"`
+`"50MB"`
 | Sets a maximum file size of an input image which is being processed. Usable common abbreviations: [KB, KiB, MB, MiB, GB, GiB, TB, TiB, PB, PiB, EB, EiB], example: 2GB.
 | services.thumbnails.resources
 a| [subs=-attributes]

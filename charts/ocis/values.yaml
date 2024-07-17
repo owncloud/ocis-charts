@@ -2019,7 +2019,7 @@ services:
       # -- Number of maximum concurrent thumbnail requests. Default is 0 which is unlimited.
       maxConcurrencyRequests: 0
       # -- Sets a maximum file size of an input image which is being processed. Usable common abbreviations: [KB, KiB, MB, MiB, GB, GiB, TB, TiB, PB, PiB, EB, EiB], example: 2GB.
-      maxFileSize: 50Mi
+      maxFileSize: 50MB
     # -- Persistence settings.
     # @default -- see detailed persistence configuration options below
     persistence:
