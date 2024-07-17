@@ -52,7 +52,7 @@ releases:
   - name: onlyoffice
     namespace: onlyoffice
     chart: onlyoffice/docs
-    version: 4.2.0
+    version: 4.2.1
     needs:
       - onlyoffice/addons-onlyoffice
       - onlyoffice/rabbitmq
