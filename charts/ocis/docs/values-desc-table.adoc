@@ -4230,6 +4230,18 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `""`
 | Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
+| services.thumbnails.quota.maxConcurrencyRequests
+a| [subs=-attributes]
++int+
+a| [subs=-attributes]
+`0`
+| Number of maximum concurrent thumbnail requests. Default is 0 which is unlimited.
+| services.thumbnails.quota.maxFileSize
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"50MB"`
+| Sets a maximum file size of an input image which is being processed. Usable common abbreviations: [KB, KiB, MB, MiB, GB, GiB, TB, TiB, PB, PiB, EB, EiB], example: 2GB.
 | services.thumbnails.resources
 a| [subs=-attributes]
 +object+
