@@ -114,6 +114,9 @@ spec:
             - name: PROXY_POLICIES_QUERY
               value: data.proxy.granted
             {{- end }}
+            
+            - name: PROXY_AUTOPROVISION_CLAIM_USERNAME
+              value: {{ .Values.features.externalUserManagement.autoprovisionAccounts.clamUsenName | quote }}
 
             - name: PROXY_AUTOPROVISION_ACCOUNTS
               value: {{ .Values.features.externalUserManagement.autoprovisionAccounts | default "false" | quote }}

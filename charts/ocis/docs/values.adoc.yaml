@@ -381,7 +381,13 @@ features:
     # -- Enables account auto provisioning.
     # It will create missing users on the LDAP server from OIDC information.
     # Needs `features.externalUserManagement.ldap.writeable` to be be set to `true`.
-    autoprovisionAccounts: false
+    autoprovisionAccounts:
+      # -- Enables account auto provisioning.
+      # It will create missing users on the LDAP server from OIDC information.
+      # Needs `features.externalUserManagement.ldap.writeable` to be be set to `true`.
+      enabled: true
+      # -- Claim to take an unique user identifier from. It will be used to look up the user on the LDAP server.
+      clamUsenName: email
     # OpenID Connect Identity provider related settings.
     oidc:
       # -- Issuer URI of the OpenID Connect Identity Provider.
