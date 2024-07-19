@@ -1176,6 +1176,36 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Default resources to apply to all services, except per-service resources configuration in `services.<service-name>.resources` is set. Best practice is to: - set memory request == memory limit (compare to https://home.robusta.dev/blog/kubernetes-memory-limit) - set cpu request and omit cpu limit (compare to https://home.robusta.dev/blog/stop-using-cpu-limits)
+| route.enabled
+a| [subs=-attributes]
++bool+
+a| [subs=-attributes]
+`false`
+| Enables the Route.
+| route.targetPort
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"http"`
+|
+| route.tls.enabled
+a| [subs=-attributes]
++bool+
+a| [subs=-attributes]
+`true`
+| Route TLS configuration.
+| route.tls.insecureEdgeTerminationPolicy
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"Redirect"`
+|
+| route.tls.termination
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"edge"`
+| Secured routes specify the TLS termination of the route and, optionally, provide a key and certificate(s).
 | secretRefs.adminUserSecretRef
 a| [subs=-attributes]
 +string+
