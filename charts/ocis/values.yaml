@@ -385,8 +385,14 @@ features:
       # It will create missing users on the LDAP server from OIDC information.
       # Needs `features.externalUserManagement.ldap.writeable` to be be set to `true`.
       enabled: false
+      # -- The name of the OIDC claim that holds the email.
+      clamEmail: email
+      # -- The name of the OIDC claim that holds the display name.
+      clamDisplayname: name
+      # -- The name of the OIDC claim that holds the groups.
+      clamGroups: groups
       # -- The name of the OIDC claim that holds the username.
-      clamUsenName: email
+      clamUserName: sub
     # OpenID Connect Identity provider related settings.
     oidc:
       # -- Issuer URI of the OpenID Connect Identity Provider.

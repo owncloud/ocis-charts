@@ -114,12 +114,17 @@ spec:
             - name: PROXY_POLICIES_QUERY
               value: data.proxy.granted
             {{- end }}
-            
-            - name: PROXY_AUTOPROVISION_CLAIM_USERNAME
-              value: {{ .Values.features.externalUserManagement.autoprovisionAccounts.clamUsenName | quote }}
 
             - name: PROXY_AUTOPROVISION_ACCOUNTS
               value: {{ .Values.features.externalUserManagement.autoprovisionAccounts | default "false" | quote }}
+            - name: PROXY_AUTOPROVISION_CLAIM_EMAIL
+              value: {{ .Values.features.externalUserManagement.autoprovisionAccounts.clamEmail | quote }}
+            - name: PROXY_AUTOPROVISION_CLAIM_DISPLAYNAME
+              value: {{ .Values.features.externalUserManagement.autoprovisionAccounts.clamDisplayname | quote }}
+            - name: PROXY_AUTOPROVISION_CLAIM_GROUPS
+              value: {{ .Values.features.externalUserManagement.autoprovisionAccounts.clamGroups | quote }}
+            - name: PROXY_AUTOPROVISION_CLAIM_USERNAME
+              value: {{ .Values.features.externalUserManagement.autoprovisionAccounts.clamUserName | quote }}
 
           {{- include "ocis.livenessProbe" . | nindent 10 }}
 
