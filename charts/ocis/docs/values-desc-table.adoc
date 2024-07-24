@@ -4068,6 +4068,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `""`
 | Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
+| services.thumbnails.quota.maxConcurrencyRequests
+a| [subs=-attributes]
++int+
+a| [subs=-attributes]
+`0`
+| Number of maximum concurrent thumbnail requests. Default is 0 which is unlimited.
 | services.thumbnails.resources
 a| [subs=-attributes]
 +object+
