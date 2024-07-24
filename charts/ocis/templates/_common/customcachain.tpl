@@ -12,8 +12,8 @@ oCIS ca mount
 {{- define "ocis.caVolume" -}}
 {{- if .Values.customCAChain.enabled }}
 - name: custom-ca-chain
-  secret:
-    secretName:  {{ .Values.customCAChain.existingSecret }}
+  configMap:
+    name:  {{ .Values.customCAChain.existingConfigMap }}
 {{- end }}
 {{- end -}}
 
