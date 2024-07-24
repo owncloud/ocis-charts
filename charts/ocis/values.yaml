@@ -1912,6 +1912,9 @@ services:
   # -- THUMBNAILS service.
   # @default -- see detailed service configuration options below
   thumbnails:
+    quota:
+      # -- Number of maximum concurrent thumbnail requests. Default is 0 which is unlimited.
+      maxConcurrencyRequests: 0
     # -- Persistence settings.
     # @default -- see detailed persistence configuration options below
     persistence:
