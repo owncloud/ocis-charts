@@ -104,6 +104,8 @@ spec:
                   name: {{ include "secrets.storageSystemSecret" . }}
                   key: user-id
 
+            {{- include "ocis.caEnv" . | nindent 12}}
+
           {{- include "ocis.livenessProbe" . | nindent 10 }}
 
           resources: {{ toYaml .resources | nindent 12 }}
@@ -122,6 +124,7 @@ spec:
               readOnly: true
             - name: configs
               mountPath: /etc/ocis
+            {{- include "ocis.caPath" . | nindent 12}}
 
       {{- include "ocis.imagePullSecrets" $ | nindent 6 }}
       volumes:
@@ -139,3 +142,4 @@ spec:
         - name: configs
           configMap:
             name: sharing-banned-passwords-{{ .appName }}
+        {{- include "ocis.caVolume" . | nindent 8}}
