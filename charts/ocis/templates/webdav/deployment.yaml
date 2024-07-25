@@ -54,6 +54,8 @@ spec:
             - name: OCIS_PUBLIC_URL
               value: "https://{{ .Values.externalDomain }}"
 
+            {{- include "ocis.caEnv" . | nindent 12}}
+
           {{- include "ocis.livenessProbe" . | nindent 10 }}
 
           resources: {{ toYaml .resources | nindent 12 }}
@@ -66,8 +68,10 @@ spec:
           volumeMounts:
             - name: tmp-volume
               mountPath: /tmp
+            {{- include "ocis.caPath" . | nindent 12}}
 
       {{- include "ocis.imagePullSecrets" $ | nindent 6 }}
       volumes:
         - name: tmp-volume
           emptyDir: {}
+        {{- include "ocis.caVolume" . | nindent 8}}

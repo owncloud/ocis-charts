@@ -109,6 +109,8 @@ spec:
                       name: {{ include "secrets.serviceAccountSecret" . }}
                       key: service-account-secret
 
+                {{- include "ocis.caEnv" . | nindent 16}}
+
               resources: {{ toYaml .jobResources | nindent 16 }}
 
               volumeMounts:
@@ -116,12 +118,14 @@ spec:
                   mountPath: /tmp
                 - name: {{ include "ocis.persistence.dataVolumeName" . }}
                   mountPath: /var/lib/ocis
+              {{- include "ocis.caPath" . | nindent 16}}
 
           {{- include "ocis.imagePullSecrets" $ | nindent 10 }}
           volumes:
             - name: tmp-volume
               emptyDir: {}
             {{- include "ocis.persistence.dataVolume" . | nindent 12 }}
+            {{- include "ocis.caVolume" . | nindent 12}}
 {{ end }}
 {{- if .Values.services.storageusers.persistence.enabled }}
 {{- include "ocis.basicServiceTemplates" (dict "scope" . "appName" "appNameStorageUsers" "appNameSuffix" "") -}}
@@ -207,6 +211,8 @@ spec:
                       name: {{ include "secrets.serviceAccountSecret" . }}
                       key: service-account-secret
 
+                {{- include "ocis.caEnv" . | nindent 16}}
+
               resources: {{ toYaml .jobResources | nindent 16 }}
 
               volumeMounts:
@@ -214,12 +220,14 @@ spec:
                   mountPath: /tmp
                 - name: {{ include "ocis.persistence.dataVolumeName" . }}
                   mountPath: /var/lib/ocis
+                {{- include "ocis.caPath" . | nindent 16}}
 
           {{- include "ocis.imagePullSecrets" $ | nindent 10 }}
           volumes:
             - name: tmp-volume
               emptyDir: {}
             {{- include "ocis.persistence.dataVolume" . | nindent 12 }}
+            {{- include "ocis.caVolume" . | nindent 12}}
 {{ end }}
 
 {{- if .Values.services.storageusers.persistence.enabled }}
@@ -306,6 +314,8 @@ spec:
                       name: {{ include "secrets.serviceAccountSecret" . }}
                       key: service-account-secret
 
+                {{- include "ocis.caEnv" . | nindent 16}}
+
               resources: {{ toYaml .jobResources | nindent 16 }}
 
               volumeMounts:
@@ -313,10 +323,12 @@ spec:
                   mountPath: /tmp
                 - name: {{ include "ocis.persistence.dataVolumeName" . }}
                   mountPath: /var/lib/ocis
+              {{- include "ocis.caPath" . | nindent 16}}
 
           {{- include "ocis.imagePullSecrets" $ | nindent 10 }}
           volumes:
             - name: tmp-volume
               emptyDir: {}
             {{- include "ocis.persistence.dataVolume" . | nindent 12 }}
+            {{- include "ocis.caVolume" . | nindent 12}}
 {{ end }}
