@@ -71,6 +71,8 @@ spec:
                   name: {{ include "secrets.machineAuthAPIKeySecret" . }}
                   key: machine-auth-api-key
 
+            {{- include "ocis.caEnv" . | nindent 12}}
+
           {{- include "ocis.livenessProbe" . | nindent 10 }}
 
           resources: {{ toYaml .resources | nindent 12 }}
@@ -79,4 +81,10 @@ spec:
               containerPort: 8080
             - name: metrics-debug
               containerPort: 9163
+
+          volumeMounts:
+            {{- include "ocis.caPath" . | nindent 12}}
+
       {{- include "ocis.imagePullSecrets" $ | nindent 6 }}
+      volumes:
+        {{- include "ocis.caVolume" . | nindent 8}}

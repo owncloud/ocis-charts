@@ -83,6 +83,8 @@ spec:
                   name: {{ include "secrets.thumbnailsSecret" . }}
                   key: thumbnails-transfer-secret
 
+            {{- include "ocis.caEnv" . | nindent 12}}
+
           {{- include "ocis.livenessProbe" . | nindent 10 }}
 
           resources: {{ toYaml .resources | nindent 12 }}
@@ -98,7 +100,9 @@ spec:
           volumeMounts:
             - name: {{ include "ocis.persistence.dataVolumeName" . }}
               mountPath: /var/lib/ocis
+            {{- include "ocis.caPath" . | nindent 12}}
 
       {{- include "ocis.imagePullSecrets" $ | nindent 6 }}
       volumes:
         {{- include "ocis.persistence.dataVolume" . | nindent 8 }}
+        {{- include "ocis.caVolume" . | nindent 8}}
