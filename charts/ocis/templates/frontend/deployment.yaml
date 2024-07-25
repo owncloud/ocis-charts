@@ -183,4 +183,4 @@ spec:
         - name: configs
           configMap:
             name: sharing-banned-passwords-{{ .appName }}
-        {{- include "ocis.caVolume" . | nindent 8}}   
+        {{- include "ocis.caVolume" . | nindent 8}}

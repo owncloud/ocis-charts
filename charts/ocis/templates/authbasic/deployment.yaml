@@ -150,7 +150,7 @@ spec:
               value: {{ .Values.features.externalUserManagement.ldap.disableUsers.disableMechanism | quote }}
             - name: AUTH_BASIC_DISABLED_USERS_GROUP_DN
               value: {{ .Values.features.externalUserManagement.ldap.disableUsers.disabledUsersGroupDN | quote }}
- 
+
             {{- include "ocis.caEnv" . | nindent 12}}
 
           {{- include "ocis.livenessProbe" . | nindent 10 }}
@@ -186,5 +186,5 @@ spec:
           {{ else }}
           emptyDir: {}
           {{ end }}
-        {{- include "ocis.caVolume" . | nindent 8}} 
+        {{- include "ocis.caVolume" . | nindent 8}}
 {{ end }}
