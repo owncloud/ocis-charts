@@ -101,6 +101,8 @@ spec:
             - name: OCIS_URL
               value: "https://{{ $.Values.externalDomain }}"
 
+            {{- include "ocis.caEnv" $. | nindent 12}}
+
           livenessProbe:
             exec:
               command:
@@ -121,6 +123,10 @@ spec:
               containerPort: 9300
             - name: metrics-debug
               containerPort: 9304
+          {{- if $.Values.customCAChain.enabled }}
+          volumeMounts:
+          {{- include "ocis.caPath" $. | nindent 12}}
+          {{- end }}
 
           volumeMounts:
             - name: tmp-volume
@@ -131,6 +137,7 @@ spec:
       volumes:
         - name: tmp-volume
           emptyDir: {}
+        {{- include "ocis.caVolume" $. | nindent 8}}
 {{ end }}
 {{ end }}
 {{ end }}
