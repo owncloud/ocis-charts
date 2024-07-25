@@ -176,6 +176,8 @@ spec:
             - name: STORAGE_USERS_DATA_GATEWAY_URL
               value: "http://{{ .appNameFrontend }}:9140/data/"
 
+            {{- include "ocis.caEnv" . | nindent 12}}
+
           {{- include "ocis.livenessProbe" . | nindent 10 }}
 
           resources: {{ toYaml .resources | nindent 12 }}
@@ -196,6 +198,7 @@ spec:
               readOnly: true
             - name: {{ include "ocis.persistence.dataVolumeName" . }}
               mountPath: /var/lib/ocis
+            {{- include "ocis.caPath" . | nindent 12}}
 
       {{- include "ocis.imagePullSecrets" $ | nindent 6 }}
       volumes:
@@ -208,4 +211,5 @@ spec:
           {{ else }}
           emptyDir: {}
           {{ end }}
+        {{- include "ocis.caVolume" . | nindent 8}}
         {{- include "ocis.persistence.dataVolume" . | nindent 8 }}
