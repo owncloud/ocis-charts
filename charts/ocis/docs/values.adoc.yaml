@@ -614,6 +614,15 @@ secretRefs:
   # -- The secret to secure the global notifications endpoint. Only system admins and users knowing that secret can call the global notifications POST/DELETE endpoints.
   globalNotificationsSecretRef: ""
 
+# Custom CA chain
+# If a custom CA chain is needed for the communcation in between services or with external services like S3 or notification services.
+# The secret needs to be manually created.
+customCAChain:
+  # -- Custom CA enables SSL_CERT_DIR in pods with the additional path /etc/ssl/custom.
+  enabled: false
+  # -- If custom CA chain is enabled this attribute mounts the existing ConfigMap to /etc/ssl/custom.
+  existingConfigMap: ""
+
 # Security context options.
 securityContext:
   # -- File system group for all volumes.
