@@ -628,7 +628,7 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 +list+
 a| [subs=-attributes]
-`[{"claim_value":"ocisAdmin","role_name":"admin"},{"claim_value":"ocisSpaceAdmin","role_name":"spaceadmin"},{"claim_value":"ocisUser","role_name":"user"},{"claim_value":"ocisGuest","role_name":"guest"}]`
+`[{"claim_value":"ocisAdmin","role_name":"admin"},{"claim_value":"ocisSpaceAdmin","role_name":"spaceadmin"},{"claim_value":"ocisUser","role_name":"user"},{"claim_value":"ocisGuest","role_name":"user-light"}]`
 | Configure the mapping for the role assignment
 | features.externalUserManagement.oidc.sessionManagementLink
 a| [subs=-attributes]
