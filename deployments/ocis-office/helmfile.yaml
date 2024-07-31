@@ -94,7 +94,9 @@ releases:
     chart: collabora/collabora-online
     version: 1.1.20
     values:
-      - collabora:
+      - autoscaling:
+          enabled: false
+        collabora:
           aliasgroups:
             - host: "wopi-collabora.kube.owncloud.test" # needed because we connect via the ingress to the collaboration service
             # - host: "collaboration-collabora.ocis.svc.cluster.local" # needed if we would use the cluster internal Service to connect to the collaboration service
