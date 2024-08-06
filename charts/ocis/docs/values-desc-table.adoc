@@ -1192,7 +1192,7 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 +bool+
 a| [subs=-attributes]
-`true`
+`false`
 | Route TLS configuration.
 | route.tls.insecureEdgeTerminationPolicy
 a| [subs=-attributes]
