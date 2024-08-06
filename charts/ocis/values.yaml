@@ -635,7 +635,7 @@ route:
   ## More information: https://docs.openshift.com/container-platform/4.6/networking/routes/secured-routes.html
   tls:
     # -- Route TLS configuration.
-    enabled: true
+    enabled: false
     # -- Secured routes specify the TLS termination of the route and, optionally, provide a key and certificate(s).
     termination: edge
     insecureEdgeTerminationPolicy: Redirect
