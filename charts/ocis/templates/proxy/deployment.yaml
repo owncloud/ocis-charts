@@ -118,13 +118,13 @@ spec:
             - name: PROXY_AUTOPROVISION_ACCOUNTS
               value: {{ .Values.features.externalUserManagement.autoprovisionAccounts.enabled | default "false" | quote }}
             - name: PROXY_AUTOPROVISION_CLAIM_EMAIL
-              value: {{ .Values.features.externalUserManagement.autoprovisionAccounts.clamEmail | quote }}
+              value: {{ .Values.features.externalUserManagement.autoprovisionAccounts.claimEmail | quote }}
             - name: PROXY_AUTOPROVISION_CLAIM_DISPLAYNAME
-              value: {{ .Values.features.externalUserManagement.autoprovisionAccounts.clamDisplayname | quote }}
+              value: {{ .Values.features.externalUserManagement.autoprovisionAccounts.claimDisplayname | quote }}
             - name: PROXY_AUTOPROVISION_CLAIM_GROUPS
-              value: {{ .Values.features.externalUserManagement.autoprovisionAccounts.clamGroups | quote }}
+              value: {{ .Values.features.externalUserManagement.autoprovisionAccounts.claimGroups | quote }}
             - name: PROXY_AUTOPROVISION_CLAIM_USERNAME
-              value: {{ .Values.features.externalUserManagement.autoprovisionAccounts.clamUserName | quote }}
+              value: {{ .Values.features.externalUserManagement.autoprovisionAccounts.claimUserName | quote }}
 
           {{- include "ocis.livenessProbe" . | nindent 10 }}
 
