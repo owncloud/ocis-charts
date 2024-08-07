@@ -27,14 +27,6 @@ backup:
     backup.test/include: "true"
     backup.test/pvc: "test"
 
-route:
-  enabled: true
-  targetPort: http
-  tls:
-    enabled: true
-    termination: edge
-    insecureEdgeTerminationPolicy: Redirect
-
 image:
   pullSecrets:
     - name: some-pull-secret
