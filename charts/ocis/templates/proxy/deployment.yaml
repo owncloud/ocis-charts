@@ -116,7 +116,7 @@ spec:
             {{- end }}
 
             - name: PROXY_AUTOPROVISION_ACCOUNTS
-              value: {{ .Values.features.externalUserManagement.autoprovisionAccounts | default "false" | quote }}
+              value: {{ .Values.features.externalUserManagement.autoprovisionAccounts.enabled | default "false" | quote }}
             - name: PROXY_AUTOPROVISION_CLAIM_EMAIL
               value: {{ .Values.features.externalUserManagement.autoprovisionAccounts.clamEmail | quote }}
             - name: PROXY_AUTOPROVISION_CLAIM_DISPLAYNAME
