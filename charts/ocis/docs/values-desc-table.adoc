@@ -382,27 +382,27 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 +object+
 a| [subs=-attributes]
-`{"clamDisplayname":"name","clamEmail":"email","clamGroups":"groups","clamUserName":"sub","enabled":false}`
+`{"claimDisplayname":"name","claimEmail":"email","claimGroups":"groups","claimUserName":"sub","enabled":false}`
 | Enables account auto provisioning. It will create missing users on the LDAP server from OIDC information. Needs `features.externalUserManagement.ldap.writeable` to be be set to `true`.
-| features.externalUserManagement.autoprovisionAccounts.clamDisplayname
+| features.externalUserManagement.autoprovisionAccounts.claimDisplayname
 a| [subs=-attributes]
 +string+
 a| [subs=-attributes]
 `"name"`
 | The name of the OIDC claim that holds the display name.
-| features.externalUserManagement.autoprovisionAccounts.clamEmail
+| features.externalUserManagement.autoprovisionAccounts.claimEmail
 a| [subs=-attributes]
 +string+
 a| [subs=-attributes]
 `"email"`
 | The name of the OIDC claim that holds the email.
-| features.externalUserManagement.autoprovisionAccounts.clamGroups
+| features.externalUserManagement.autoprovisionAccounts.claimGroups
 a| [subs=-attributes]
 +string+
 a| [subs=-attributes]
 `"groups"`
 | The name of the OIDC claim that holds the groups.
-| features.externalUserManagement.autoprovisionAccounts.clamUserName
+| features.externalUserManagement.autoprovisionAccounts.claimUserName
 a| [subs=-attributes]
 +string+
 a| [subs=-attributes]

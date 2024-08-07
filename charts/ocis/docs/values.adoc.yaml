@@ -387,13 +387,13 @@ features:
       # Needs `features.externalUserManagement.ldap.writeable` to be be set to `true`.
       enabled: false
       # -- The name of the OIDC claim that holds the email.
-      clamEmail: email
+      claimEmail: email
       # -- The name of the OIDC claim that holds the display name.
-      clamDisplayname: name
+      claimDisplayname: name
       # -- The name of the OIDC claim that holds the groups.
-      clamGroups: groups
+      claimGroups: groups
       # -- The name of the OIDC claim that holds the username.
-      clamUserName: sub
+      claimUserName: sub
     # OpenID Connect Identity provider related settings.
     oidc:
       # -- Issuer URI of the OpenID Connect Identity Provider.
