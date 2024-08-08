@@ -1,0 +1,42 @@
+{{ if .Values.features.appsIntegration.enabled }}
+{{- range $officeSuite := .Values.features.appsIntegration.wopiIntegration.officeSuites }}
+{{ if and $officeSuite.enabled $officeSuite.ingress.enabled }}
+{{- include "ocis.basicServiceTemplates" (dict "scope" $ "appName" "appNameCollaboration" "appNameSuffix" (regexReplaceAll "\\W+" (lower $officeSuite.name) "-")) -}}
+---
+apiVersion: route.openshift.io/v1
+kind: Route
+{{ include "ocis.metadata" $ }}
+{{- if $.Values.ingress.labels }}
+{{ toYaml $.Values.ingress.labels | indent 4 }}
+{{- end }}
+spec:
+  host: {{ $officeSuite.ingress.domain | quote }}
+  to:
+    kind: Service
+    name: {{ $.appName | quote }}
+  port:
+    targetPort: {{ tpl $.Values.route.targetPort . }}
+{{- if $.Values.route.tls.enabled }}
+  tls:
+    termination: {{ $.Values.route.tls.termination }}
+    insecureEdgeTerminationPolicy: {{ $.Values.route.tls.insecureEdgeTerminationPolicy }}
+  {{- if $.Values.route.tls.key }}
+    key: |-
+      {{- .Values.route.tls.key | nindent 6 }}
+  {{- end }}
+  {{- if $.Values.route.tls.destinationCACertificate }}
+    destinationCACertificate: |-
+      {{- .Values.route.tls.destinationCACertificate | nindent 6 }}
+  {{- end }}
+  {{- if $.Values.route.tls.caCertificate }}
+    caCertificate: |-
+      {{- .Values.route.tls.caCertificate | nindent 6 }}
+  {{- end }}
+  {{- if $.Values.route.tls.certificate }}
+    certificate: |-
+      {{- .Values.route.tls.certificate | nindent 6 }}
+  {{- end }}
+{{- end }}
+{{- end }}
+{{ end }}
+{{ end }}
