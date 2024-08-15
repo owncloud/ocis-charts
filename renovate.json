@@ -8,6 +8,7 @@
       "^ci/k3d-drone\\.ya?ml"
     ]
   },
+  "cloneSubmodules": true,
   "git-submodules": {
     "enabled": true
   },
