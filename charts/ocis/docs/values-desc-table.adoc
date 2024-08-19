@@ -624,12 +624,6 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `true`
 | Writeable configures if oCIS is allowed to write to the LDAP server, to eg. create or edit users.
-| features.externalUserManagement.oidc.WebClientScope
-a| [subs=-attributes]
-+string+
-a| [subs=-attributes]
-`"openid profile email"`
-| OIDC scopes to request during authentication to authorize access to user details. Defaults to ‘openid profile email’. Values are separated by blank. More example values but not limited to are ‘address’ or ‘phone’ etc.
 | features.externalUserManagement.oidc.accessTokenVerifyMethod
 a| [subs=-attributes]
 +string+
@@ -684,12 +678,6 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `"userid"`
 | Attribute mapping of for the userIDClaim. Set to `userid` if the claim specified in `...oidc.userIDClaim` holds the value of the ldap user attribute specified in `...ldap.user.schema.id`. Set to `mail` if the claim specified in `...oidc.userIDClaim` holds the value of the ldap user attribute specified in  `...ldap.user.schema.mail`. Set to `username` if the claim specified in `...oidc.userIDClaim` holds the value of the ldap user attribute specified in `...ldap.user.schema.userName`.
-| features.externalUserManagement.oidc.webClientID
-a| [subs=-attributes]
-+string+
-a| [subs=-attributes]
-`"web"`
-| Specify the client ID which the web frontend will use
 | features.gdprReport.integrations.keycloak.basePath
 a| [subs=-attributes]
 +string+
@@ -4506,6 +4494,18 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `""`
 | URI where the feedback link points. Uses the ownCloud default href if empty.
+| services.web.config.oidc.webClientID
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"web"`
+| Specify the client ID which the web frontend will use
+| services.web.config.oidc.webClientScope
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"openid profile email"`
+| OIDC scopes to request during authentication to authorize access to user details. Defaults to ‘openid profile email’. Values are separated by blank. More example values but not limited to are ‘address’ or ‘phone’ etc.
 | services.web.config.previewFileMimeTypes
 a| [subs=-attributes]
 +list+
