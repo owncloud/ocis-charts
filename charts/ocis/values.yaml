@@ -405,10 +405,6 @@ features:
       # -- Link to the OIDC provider's user accessible account editing page. This will be shown to the user on the personal account page.
       # When using Keycloak with the a realm named "ocis" this could point to eg. https://keycloak.owncloud.test/realms/ocis/account/
       editAccountLink: ""
-      # -- OIDC scopes to request during authentication to authorize access to user details. Defaults to ‘openid profile email’. Values are separated by blank. More example values but not limited to are ‘address’ or ‘phone’ etc.
-      WebClientScope: "openid profile email"
-      # -- Specify the client ID which the web frontend will use
-      webClientID: web
       # -- Claim to take an unique user identifier from. It will be used to look up the user on the LDAP server.
       userIDClaim: ocis.user.uuid
       # -- Attribute mapping of for the userIDClaim.
@@ -2268,10 +2264,15 @@ services:
         # -- Name of the theme you provide via `configRefs.webThemeConfigRef` and `configRefs.webThemeAssetsConfigRef`.
         # If you change this when providing a custom theme, you must also change `theme.path`.
         themeNameConfigRefs: "owncloud"
-      # URI where to redirect the user after a logout was performed. Defaults to the URI of the login page.
-      postLogoutRedirectURI: ""
-      # Specifies the target url valid for the logged out / access denied page.
-      loginURL:
+      oidc:
+        # -- OIDC scopes to request during authentication to authorize access to user details. Defaults to ‘openid profile email’. Values are separated by blank. More example values but not limited to are ‘address’ or ‘phone’ etc.
+        webClientScope: "openid profile email"
+        # -- Specify the client ID which the web frontend will use
+        webClientID: web
+        # URI where to redirect the user after a logout was performed. Defaults to the URI of the login page.
+        postLogoutRedirectURI: ""
+        # Specifies the target url valid for the logged out / access denied page.
+        loginURL:
       # Defines whether one ore more filters must be set in order to list users in the Web admin settings.
       userListRequiresFilter: false
       # Embed mode settings
