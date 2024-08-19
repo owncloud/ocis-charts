@@ -624,6 +624,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `true`
 | Writeable configures if oCIS is allowed to write to the LDAP server, to eg. create or edit users.
+| features.externalUserManagement.oidc.WebClientScope
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"openid profile email"`
+| OIDC scopes to request during authentication to authorize access to user details. Defaults to ‘openid profile email’. Values are separated by blank. More example values but not limited to are ‘address’ or ‘phone’ etc.
 | features.externalUserManagement.oidc.accessTokenVerifyMethod
 a| [subs=-attributes]
 +string+

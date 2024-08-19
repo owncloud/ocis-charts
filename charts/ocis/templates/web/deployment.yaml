@@ -56,9 +56,10 @@ spec:
             {{- else }}
               value: {{ .Values.features.externalUserManagement.oidc.issuerURI | quote }}
             {{- end }}
-
             - name: WEB_OIDC_CLIENT_ID
               value: {{ .Values.features.externalUserManagement.oidc.webClientID | quote }}
+            - name: WEB_OIDC_SCOPE
+              value: {{ .Values.features.externalUserManagement.oidc.WebClientScope | quote }}
 
             - name: WEB_UI_THEME_SERVER
             {{- if .Values.services.web.config.theme.server }}

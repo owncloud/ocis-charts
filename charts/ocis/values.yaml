@@ -405,6 +405,8 @@ features:
       # -- Link to the OIDC provider's user accessible account editing page. This will be shown to the user on the personal account page.
       # When using Keycloak with the a realm named "ocis" this could point to eg. https://keycloak.owncloud.test/realms/ocis/account/
       editAccountLink: ""
+      # -- OIDC scopes to request during authentication to authorize access to user details. Defaults to ‘openid profile email’. Values are separated by blank. More example values but not limited to are ‘address’ or ‘phone’ etc.
+      WebClientScope: "openid profile email"
       # -- Specify the client ID which the web frontend will use
       webClientID: web
       # -- Claim to take an unique user identifier from. It will be used to look up the user on the LDAP server.
