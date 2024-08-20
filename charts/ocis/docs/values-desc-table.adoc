@@ -4494,6 +4494,18 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `""`
 | URI where the feedback link points. Uses the ownCloud default href if empty.
+| services.web.config.oidc.loginURL
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`nil`
+| Specifies the target url valid for the logged out / access denied page.
+| services.web.config.oidc.postLogoutRedirectURI
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| URI where to redirect the user after a logout was performed. Defaults to the URI of the login page.
 | services.web.config.oidc.webClientID
 a| [subs=-attributes]
 +string+
