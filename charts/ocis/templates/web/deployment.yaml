@@ -59,7 +59,7 @@ spec:
             - name: WEB_OIDC_CLIENT_ID
               value: {{ .Values.services.web.config.oidc.webClientID | quote }}
             - name: WEB_OIDC_SCOPE
-              value: {{ .Values.services.web.config.oidc.WebClientScope | quote }}
+              value: {{ .Values.services.web.config.oidc.webClientScope | quote }}
 
             - name: WEB_UI_THEME_SERVER
             {{- if .Values.services.web.config.theme.server }}
