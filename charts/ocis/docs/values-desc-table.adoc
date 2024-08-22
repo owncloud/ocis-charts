@@ -1068,6 +1068,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `false`
 | Disables SSL certificate checking for connections to the openID connect identity provider. Not recommended for production installations.
+| insecure.secureViewAppAddr
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Service name or address of the app provider to use for secure view. Should match the service name or address of the registered CS3 app provider.
 | jobNodeSelector
 a| [subs=-attributes]
 +object+

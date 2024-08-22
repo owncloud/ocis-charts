@@ -134,7 +134,8 @@ insecure:
   # -- Disables SSL certificate checking for connections to the oCIS http apis.
   # Not recommended for production installations.
   ocisHttpApiInsecure: false
-
+  # -- Service name or address of the app provider to use for secure view. Should match the service name or address of the registered CS3 app provider.
+  secureViewAppAddr: ""
 cache:
   # -- Type of the cache to use.
   # Can be set to "nats-js-kv" or "redis-sentinel". There are also the non-recommended options "memory" and "noop".

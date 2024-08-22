@@ -74,6 +74,9 @@ spec:
             - name: FRONTEND_APP_HANDLER_INSECURE
               value: {{ .Values.insecure.ocisHttpApiInsecure | quote }}
 
+            - name: FRONTEND_APP_HANDLER_SECURE_VIEW_APP_ADDR
+              value: {{ .Values.secureViewAppAddr | quote }}
+
             - name: FRONTEND_ARCHIVER_INSECURE
               value: {{ .Values.insecure.ocisHttpApiInsecure | quote }}
 
