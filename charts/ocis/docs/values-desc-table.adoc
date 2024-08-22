@@ -622,7 +622,7 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 +string+
 a| [subs=-attributes]
-`"none"`
+`"default"`
 | Apply restrictions to usernames. Supported values are 'default' and 'none'. When set to 'default', user names must not start with a number and are restricted to ASCII characters. When set to 'none', no restrictions are applied. The default value is 'default'.
 | features.externalUserManagement.ldap.writeable
 a| [subs=-attributes]
