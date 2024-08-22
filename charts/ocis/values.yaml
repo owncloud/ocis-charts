@@ -494,6 +494,8 @@ features:
         filter:
         # -- The object class to use for users in the default user search filter like `inetOrgPerson`.
         objectClass: inetOrgPerson
+        # -- Apply restrictions to usernames. Supported values are 'default' and 'none'. When set to 'default', user names must not start with a number and are restricted to ASCII characters. When set to 'none', no restrictions are applied. The default value is 'default'.
+        userNameMatch: default
       group:
         schema:
           # -- LDAP Attribute to use as the unique ID for groups. This should be a stable globally unique ID like a UUID.
