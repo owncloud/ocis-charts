@@ -352,7 +352,6 @@ releases:
             adminUUID: "ddc2004c-0977-11eb-9d3f-a793888cd0f8"
             oidc:
               issuerURI: https://keycloak.kube.owncloud.test/realms/oCIS
-              webClientID: web
               userIDClaim: ocis.user.uuid
               userIDClaimAttributeMapping: userid
 
@@ -392,6 +391,9 @@ releases:
           web:
             persistence:
               enabled: true
+            config:
+              oidc:
+                webClientID: web
 
       - extraResources:
           - |

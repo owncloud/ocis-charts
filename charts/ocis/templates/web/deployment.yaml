@@ -56,9 +56,10 @@ spec:
             {{- else }}
               value: {{ .Values.features.externalUserManagement.oidc.issuerURI | quote }}
             {{- end }}
-
             - name: WEB_OIDC_CLIENT_ID
-              value: {{ .Values.features.externalUserManagement.oidc.webClientID | quote }}
+              value: {{ .Values.services.web.config.oidc.webClientID | quote }}
+            - name: WEB_OIDC_SCOPE
+              value: {{ .Values.services.web.config.oidc.webClientScope | quote }}
 
             - name: WEB_UI_THEME_SERVER
             {{- if .Values.services.web.config.theme.server }}
@@ -132,12 +133,12 @@ spec:
               value: {{ . | quote }}
             {{- end }}
 
-            {{- with .Values.services.web.config.postLogoutRedirectURI }}
+            {{- with .Values.services.web.config.oidc.postLogoutRedirectURI }}
             - name: WEB_OIDC_POST_LOGOUT_REDIRECT_URI
               value: {{ . | quote }}
             {{- end }}
 
-            {{- with .Values.services.web.config.loginURL }}
+            {{- with .Values.services.web.config.oidc.loginURL }}
             - name: WEB_OPTION_LOGIN_URL
               value: {{ . | quote }}
             {{- end }}
