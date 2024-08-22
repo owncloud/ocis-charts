@@ -109,6 +109,9 @@ spec:
             - name: GRAPH_LDAP_GROUP_SEARCH_SCOPE
               value: {{ .Values.features.externalUserManagement.ldap.group.scope | quote }}
 
+            - name: GRAPH_USERNAME_MATCH
+              value: {{ .Values.features.externalUserManagement.ldap.user.userNameMatch | quote }}
+              
             - name: GRAPH_LDAP_USER_FILTER
               value: {{ .Values.features.externalUserManagement.ldap.user.filter | quote }}
             - name: GRAPH_LDAP_GROUP_FILTER
