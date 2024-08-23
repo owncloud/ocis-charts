@@ -308,8 +308,8 @@ features:
           # -- Disables SSL certificate checking for connections to the office suites http api.
           # Not recommended for production installations.
           insecure: false
-          # -- Service name or address of the app provider to use for secure view. Should match the service name or address of the registered CS3 app provider.
-          secureViewAppAddr:
+          # -- Enable secure view for this office suite
+          secureViewEnabled: false
           # Ingress for collaboration service.
           ingress:
             # -- Enables the Ingress. Only needed if the office application is not running within the same cluster.
@@ -340,6 +340,8 @@ features:
           # -- Disables SSL certificate checking for connections to the office suites http api.
           # Not recommended for production installations.
           insecure: false
+          # -- Enable secure view for this office suite. Note: OnlyOffice doesn't support secureView right now
+          secureViewEnabled: false
           # Ingress for collaboration service.
           ingress:
             # -- Enables the Ingress. Only needed if the office application is not running within the same cluster.

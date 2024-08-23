@@ -78,8 +78,10 @@ spec:
             - name: FRONTEND_APP_HANDLER_INSECURE
               value: {{ .Values.insecure.ocisHttpApiInsecure | quote }}
 
+            {{- if $officeSuite.secureViewEnabled }}
             - name: FRONTEND_APP_HANDLER_SECURE_VIEW_APP_ADDR
-              value: {{ $officeSuite.secureViewAppAddr | quote }}
+              value: com.owncloud.api.collaboration.{{ $officeSuite.name | quote }}
+            {{- end }}
 
             - name: FRONTEND_ARCHIVER_INSECURE
               value: {{ .Values.insecure.ocisHttpApiInsecure | quote }}
