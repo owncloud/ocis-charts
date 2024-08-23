@@ -135,8 +135,7 @@ insecure:
   # -- Disables SSL certificate checking for connections to the oCIS http apis.
   # Not recommended for production installations.
   ocisHttpApiInsecure: false
-  # -- Service name or address of the app provider to use for secure view. Should match the service name or address of the registered CS3 app provider.
-  secureViewAppAddr: ""
+
 cache:
   # -- Type of the cache to use.
   # Can be set to "nats-js-kv" or "redis-sentinel". There are also the non-recommended options "memory" and "noop".
@@ -310,6 +309,8 @@ features:
           # -- Disables SSL certificate checking for connections to the office suites http api.
           # Not recommended for production installations.
           insecure: false
+          # -- Service name or address of the app provider to use for secure view. Should match the service name or address of the registered CS3 app provider.
+          secureViewAppAddr:
           # Ingress for collaboration service.
           ingress:
             # -- Enables the Ingress. Only needed if the office application is not running within the same cluster.
@@ -328,6 +329,7 @@ features:
             #  - secretName: chart-example-tls
             #    hosts:
             #      - collabora-wopi.owncloud.test
+
         - # -- Name of the office suite. Will be displayed to the users.
           name: OnlyOffice
           # -- Enables the office suite.

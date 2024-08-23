@@ -192,6 +192,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `"Collabora"`
 | Name of the office suite. Will be displayed to the users.
+| features.appsIntegration.wopiIntegration.officeSuites[0].secureViewAppAddr
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`nil`
+| Service name or address of the app provider to use for secure view. Should match the service name or address of the registered CS3 app provider.
 | features.appsIntegration.wopiIntegration.officeSuites[0].uri
 a| [subs=-attributes]
 +string+
@@ -1068,12 +1074,6 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `false`
 | Disables SSL certificate checking for connections to the openID connect identity provider. Not recommended for production installations.
-| insecure.secureViewAppAddr
-a| [subs=-attributes]
-+string+
-a| [subs=-attributes]
-`""`
-| Service name or address of the app provider to use for secure view. Should match the service name or address of the registered CS3 app provider.
 | jobNodeSelector
 a| [subs=-attributes]
 +object+

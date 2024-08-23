@@ -1,3 +1,5 @@
+{{- range $officeSuite := .Values.features.appsIntegration.wopiIntegration.officeSuites }}
+{{ if $officeSuite.enabled }}
 {{- include "ocis.basicServiceTemplates" (dict "scope" . "appName" "appNameFrontend" "appNameSuffix" "") -}}
 apiVersion: apps/v1
 kind: Deployment
@@ -75,7 +77,7 @@ spec:
               value: {{ .Values.insecure.ocisHttpApiInsecure | quote }}
 
             - name: FRONTEND_APP_HANDLER_SECURE_VIEW_APP_ADDR
-              value: {{ .Values.secureViewAppAddr | quote }}
+              value: {{ $officeSuite.secureViewAppAddr | quote }}
 
             - name: FRONTEND_ARCHIVER_INSECURE
               value: {{ .Values.insecure.ocisHttpApiInsecure | quote }}
