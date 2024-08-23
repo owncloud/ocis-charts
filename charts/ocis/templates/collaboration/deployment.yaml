@@ -65,7 +65,7 @@ spec:
               value: {{ $officeSuite.insecure | quote }}
 
             - name: COLLABORATION_CS3API_DATAGATEWAY_INSECURE
-              value: {{ $.Values.insecure.ocisHttpApiInsecure | quote }}
+              value: com.github.owncloud.collaboration-{{ $officeSuite.name }}
 
             - name: COLLABORATION_APP_ICON
               value: {{ $officeSuite.iconURI | quote }}
