@@ -187,3 +187,6 @@ spec:
         - name: configs
           configMap:
             name: sharing-banned-passwords-{{ .appName }}
+{{ end }}
+{{ end }}
+{{ end }}
