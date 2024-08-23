@@ -3,9 +3,8 @@
 {{- range $officeSuite := .Values.features.appsIntegration.wopiIntegration.officeSuites }}
 {{- if $officeSuite.enabled }}
 {{- if $officeSuite.secureViewEnabled }}
-{{- if not $.secureViewAppFound }}
+{{- if not $.secureViewApp }}
 {{- $_ := set $ "secureViewApp" (print "com.owncloud.api.collaboration." $officeSuite.name) }}
-{{- $_ := set $ "secureViewAppFound" true }}
 {{- else }}
 {{ fail "Only one office with secureView enabled allowed" }}
 {{- end }}
@@ -88,7 +87,7 @@ spec:
             - name: FRONTEND_APP_HANDLER_INSECURE
               value: {{ .Values.insecure.ocisHttpApiInsecure | quote }}
 
-            {{- with .secureViewApp }}
+            {{ with .secureViewApp -}}
             - name: FRONTEND_APP_HANDLER_SECURE_VIEW_APP_ADDR
               value: {{ . | quote }}
             {{- end }}
