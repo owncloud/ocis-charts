@@ -192,12 +192,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `"Collabora"`
 | Name of the office suite. Will be displayed to the users.
-| features.appsIntegration.wopiIntegration.officeSuites[0].secureViewAppAddr
+| features.appsIntegration.wopiIntegration.officeSuites[0].secureViewEnabled
 a| [subs=-attributes]
-+string+
++bool+
 a| [subs=-attributes]
-`nil`
-| Service name or address of the app provider to use for secure view. Should match the service name or address of the registered CS3 app provider.
+`false`
+| Enable secure view for this office suite
 | features.appsIntegration.wopiIntegration.officeSuites[0].uri
 a| [subs=-attributes]
 +string+
@@ -264,6 +264,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `"OnlyOffice"`
 | Name of the office suite. Will be displayed to the users.
+| features.appsIntegration.wopiIntegration.officeSuites[1].secureViewEnabled
+a| [subs=-attributes]
++bool+
+a| [subs=-attributes]
+`false`
+| Enable secure view for this office suite. Note: OnlyOffice doesn't support secureView right now
 | features.appsIntegration.wopiIntegration.officeSuites[1].uri
 a| [subs=-attributes]
 +string+
