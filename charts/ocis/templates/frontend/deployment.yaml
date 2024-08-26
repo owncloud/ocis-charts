@@ -1,17 +1,4 @@
 {{- include "ocis.basicServiceTemplates" (dict "scope" . "appName" "appNameFrontend" "appNameSuffix" "") -}}
-{{- if .Values.features.appsIntegration.enabled }}
-{{- range $officeSuite := .Values.features.appsIntegration.wopiIntegration.officeSuites }}
-{{- if $officeSuite.enabled }}
-{{- if $officeSuite.secureViewEnabled }}
-{{- if not $.secureViewApp }}
-{{- $_ := set $ "secureViewApp" (print "com.owncloud.api.collaboration." $officeSuite.name) }}
-{{- else }}
-{{ fail "Only one office with secureView enabled allowed" }}
-{{- end }}
-{{- end }}
-{{- end }}
-{{- end }}
----
 apiVersion: apps/v1
 kind: Deployment
 {{ include "ocis.metadata" . }}
@@ -86,10 +73,7 @@ spec:
 
             - name: FRONTEND_APP_HANDLER_INSECURE
               value: {{ .Values.insecure.ocisHttpApiInsecure | quote }}
-            {{ with .secureViewApp }}
-            - name: FRONTEND_APP_HANDLER_SECURE_VIEW_APP_ADDR
-              value: {{ . | quote }}
-            {{ end }}
+
             - name: FRONTEND_ARCHIVER_INSECURE
               value: {{ .Values.insecure.ocisHttpApiInsecure | quote }}
 
@@ -196,4 +180,3 @@ spec:
         - name: configs
           configMap:
             name: sharing-banned-passwords-{{ .appName }}
-{{ end }}
