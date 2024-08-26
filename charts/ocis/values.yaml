@@ -308,6 +308,8 @@ features:
           # -- Disables SSL certificate checking for connections to the office suites http api.
           # Not recommended for production installations.
           insecure: false
+          # -- Enable secure view for this office suite
+          secureViewEnabled: false
           # Ingress for collaboration service.
           ingress:
             # -- Enables the Ingress. Only needed if the office application is not running within the same cluster.
@@ -326,6 +328,7 @@ features:
             #  - secretName: chart-example-tls
             #    hosts:
             #      - collabora-wopi.owncloud.test
+
         - # -- Name of the office suite. Will be displayed to the users.
           name: OnlyOffice
           # -- Enables the office suite.
@@ -337,6 +340,8 @@ features:
           # -- Disables SSL certificate checking for connections to the office suites http api.
           # Not recommended for production installations.
           insecure: false
+          # -- Enable secure view for this office suite. Note: OnlyOffice doesn't support secureView right now
+          secureViewEnabled: false
           # Ingress for collaboration service.
           ingress:
             # -- Enables the Ingress. Only needed if the office application is not running within the same cluster.

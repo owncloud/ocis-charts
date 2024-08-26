@@ -192,6 +192,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `"Collabora"`
 | Name of the office suite. Will be displayed to the users.
+| features.appsIntegration.wopiIntegration.officeSuites[0].secureViewEnabled
+a| [subs=-attributes]
++bool+
+a| [subs=-attributes]
+`false`
+| Enable secure view for this office suite
 | features.appsIntegration.wopiIntegration.officeSuites[0].uri
 a| [subs=-attributes]
 +string+
@@ -258,6 +264,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `"OnlyOffice"`
 | Name of the office suite. Will be displayed to the users.
+| features.appsIntegration.wopiIntegration.officeSuites[1].secureViewEnabled
+a| [subs=-attributes]
++bool+
+a| [subs=-attributes]
+`false`
+| Enable secure view for this office suite. Note: OnlyOffice doesn't support secureView right now
 | features.appsIntegration.wopiIntegration.officeSuites[1].uri
 a| [subs=-attributes]
 +string+
