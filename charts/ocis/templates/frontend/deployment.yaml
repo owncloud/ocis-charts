@@ -11,6 +11,7 @@
 {{- end }}
 {{- end }}
 {{- end }}
+{{ end }}
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -196,4 +197,4 @@ spec:
         - name: configs
           configMap:
             name: sharing-banned-passwords-{{ .appName }}
-{{ end }}
+
