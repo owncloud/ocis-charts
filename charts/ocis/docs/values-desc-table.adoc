@@ -756,6 +756,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `"en"`
 | The default language. If not defined, English will be used as default. See the documentation for more details.
+| features.ocm.enabled
+a| [subs=-attributes]
++bool+
+a| [subs=-attributes]
+`false`
+| Enables OCM service
 | features.policies.enabled
 a| [subs=-attributes]
 +bool+
@@ -2773,6 +2779,78 @@ a| [subs=-attributes]
 `""`
 | Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
 | services.ocdav.resources
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service resources configuration. Overrides the default setting from `resources` if set.
+| services.ocm
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+see detailed service configuration options below
+| OCM service.
+| services.ocm.affinity
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Affinity settings for the ocs service. See the documentation of this setting in approvider for examples.
+| services.ocm.autoscaling
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
+| services.ocm.extraLabels
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service custom labels
+| services.ocm.image.pullPolicy
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`nil`
+| Image pull policy
+| services.ocm.image.repository
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Image repository
+| services.ocm.image.sha
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Image sha / digest (optional).
+| services.ocm.image.tag
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Image tag.
+| services.ocm.nodeSelector
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
+| services.ocm.podDisruptionBudget
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
+| services.ocm.priorityClassName
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
+| services.ocm.resources
 a| [subs=-attributes]
 +object+
 a| [subs=-attributes]
