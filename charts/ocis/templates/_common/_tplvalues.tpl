@@ -81,6 +81,7 @@ Adds the app names to the scope and set the name of the app based on the input p
   {{- $_ := set .scope "appSpecificConfig" (index .scope.Values.services (index .scope .appName)) -}}
   {{- end -}}
 
+  {{- $_ := set .scope "affinity" .scope.appSpecificConfig.affinity -}}
   {{- $_ := set .scope "priorityClassName" (default (default (dict) .scope.Values.priorityClassName) .scope.appSpecificConfig.priorityClassName) -}}
   {{- $_ := set .scope "jobPriorityClassName" (default (default (dict) .scope.Values.jobPriorityClassName) .scope.appSpecificConfig.jobPriorityClassName) -}}
 
@@ -126,9 +127,9 @@ spec:
 {{- end -}}
 
 {{- define "ocis.affinity" -}}
-{{- if .affinity }}
+{{- with .affinity }}
 affinity:
-  {{- toYaml .affinity | nindent 2 }}
+  {{- toYaml . | nindent 2 }}
 {{- end }}
 {{- end -}}
 
