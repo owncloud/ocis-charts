@@ -26,6 +26,7 @@ spec:
             {{- include "ocis.labels" . | nindent 12 }}
         spec:
           restartPolicy: Never
+          {{- include "ocis.securityContextAndtopologySpreadConstraints" . | nindent 10 }}
           {{- include "ocis.priorityClassName" $.jobPriorityClassName | nindent 10 }}
           {{- include "ocis.hostAliases" $ | nindent 10 }}
           nodeSelector: {{ toYaml $.jobNodeSelector | nindent 12 }}
