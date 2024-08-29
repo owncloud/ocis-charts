@@ -1,0 +1,4 @@
+{{ if .Values.features.ocm.enabled }}
+{{- include "ocis.basicServiceTemplates" (dict "scope" . "appName" "appNameOcm" "appNameSuffix" "") -}}
+{{ include "ocis.pdb" . }}
+{{ end }}
