@@ -11,7 +11,7 @@ spec:
   template:
     {{- include "ocis.templateMetadata" (dict "scope" $ "configCheck" false) | nindent 4 }}
     spec:
-      {{- include "ocis.affinity" .Values.services.idm | nindent 6 }}
+      {{- include "ocis.affinity" $ | nindent 6 }}
       {{- include "ocis.securityContextAndtopologySpreadConstraints" . | nindent 6 }}
       initContainers:
       {{- if and $.Values.services.idm.persistence.enabled $.Values.services.idm.persistence.chownInitContainer }}
