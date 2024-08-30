@@ -17,13 +17,7 @@ spec:
     {{- include "ocis.templateMetadata" (dict "scope" $ "configCheck" true) | nindent 4 }}
     spec:
       {{- include "ocis.affinity" $ | nindent 6 }}
-      securityContext:
-          fsGroup: {{ .Values.securityContext.fsGroup }}
-          fsGroupChangePolicy: {{ .Values.securityContext.fsGroupChangePolicy }}
-      {{- with .Values.topologySpreadConstraints }}
-      topologySpreadConstraints:
-        {{- tpl . $ | nindent 8 }}
-      {{- end }}
+      {{- include "ocis.securityContextAndtopologySpreadConstraints" . | nindent 6 }}
       {{- include "ocis.priorityClassName" $.priorityClassName | nindent 6 }}
       {{- include "ocis.hostAliases" $ | nindent 6 }}
       nodeSelector: {{ toYaml $.nodeSelector | nindent 8 }}

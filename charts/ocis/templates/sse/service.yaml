@@ -1,3 +1,4 @@
+{{ if not .Values.features.sse.disabled }}
 {{- include "ocis.basicServiceTemplates" (dict "scope" . "appName" "appNameSSE" "appNameSuffix" "") -}}
 apiVersion: v1
 kind: Service
@@ -20,3 +21,4 @@ spec:
       port: 9135
       protocol: TCP
       appProtocol: {{ .Values.service.appProtocol.http | quote}}
+{{ end }}
