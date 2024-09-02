@@ -62,7 +62,7 @@ releases:
   - name: nack
     namespace: ocis-nack
     chart: nats/nack
-    version: 0.26.0
+    version: 0.26.1
     values:
       - namespaced: false
       - readOnly: false
