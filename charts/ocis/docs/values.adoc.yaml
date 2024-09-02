@@ -438,7 +438,7 @@ features:
             claim_value: ocisSpaceAdmin
           - role_name: user
             claim_value: ocisUser
-          - role_name: guest
+          - role_name: user-light
             claim_value: ocisGuest
     # LDAP related settings.
     ldap:
