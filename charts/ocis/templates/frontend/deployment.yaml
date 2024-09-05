@@ -164,6 +164,9 @@ spec:
             - name: FRONTEND_PASSWORD_POLICY_BANNED_PASSWORDS_LIST
               value: /etc/ocis/sharing-banned-passwords.txt
 
+            - name: OCIS_ENABLE_OCM
+              value: {{ .Values.features.ocm.enabled | quote }}
+
           {{- include "ocis.livenessProbe" . | nindent 10 }}
 
           resources: {{ toYaml .resources | nindent 12 }}

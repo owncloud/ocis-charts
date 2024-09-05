@@ -5,16 +5,11 @@ kind: Deployment
 {{ include "ocis.metadata" . }}
 spec:
   {{- include "ocis.selector" . | nindent 2 }}
-  {{- if and (not .Values.autoscaling.enabled) (.Values.replicas) }}
-  replicas: {{ .Values.replicas }}
-  {{- end }}
-  {{- if .Values.deploymentStrategy }}
-  strategy: {{ toYaml .Values.deploymentStrategy | nindent 4 }}
-  {{ end }}
+  replicas: 1 # OCM service cannot be scaled right now
+  {{- include "ocis.deploymentStrategy" . | nindent 2 }}
   template:
     {{- include "ocis.templateMetadata" (dict "scope" $ "configCheck" false) | nindent 4 }}
     spec:
-      #TODO Needs 698 to be merged first
       {{- include "ocis.affinity" $ | nindent 6 }}
       {{- include "ocis.securityContextAndtopologySpreadConstraints" . | nindent 6 }}
       {{- include "ocis.priorityClassName" $.priorityClassName | nindent 6 }}
@@ -57,7 +52,7 @@ spec:
             - name: OCM_HTTP_ADDR
               value: 0.0.0.0:9280
 
-            # {{- include "ocis.livenessProbe" . | nindent 10 }}
+          {{- include "ocis.livenessProbe" . | nindent 10 }}
 
           resources: {{ toYaml .resources | nindent 12 }}
 
@@ -68,16 +63,19 @@ spec:
               containerPort: 9281
 
           volumeMounts:
-            - name: ocis-config-tmp
-              mountPath: /etc/ocis # we mount that volume only to apply fsGroup to that path
+            - name: configs
+              mountPath: /etc/ocis
             - name: messaging-system-ca
               mountPath: /etc/ocis/messaging-system-ca
               readOnly: true
+            - name: {{ include "ocis.persistence.dataVolumeName" . }}
+              mountPath: /var/lib/ocis
 
       {{- include "ocis.imagePullSecrets" $ | nindent 6 }}
       volumes:
-        - name: ocis-config-tmp
-          emptyDir: {}
+        - name: configs
+          configMap:
+            name: ocmproviders-{{ .appName }}
         - name: messaging-system-ca
           {{ if and (.Values.messagingSystem.external.enabled) (not .Values.messagingSystem.external.tls.certTrusted) }}
           secret:
@@ -85,4 +83,5 @@ spec:
           {{ else }}
           emptyDir: {}
           {{ end }}
+        {{- include "ocis.persistence.dataVolume" . | nindent 8 }}
 {{ end }}

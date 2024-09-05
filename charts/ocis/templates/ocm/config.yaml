@@ -1,0 +1,15 @@
+{{ if .Values.features.ocm.enabled }}
+{{- include "ocis.basicServiceTemplates" (dict "scope" . "appName" "appNameOcm" "appNameSuffix" "") -}}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ocmproviders-{{ .appName }}
+  namespace: {{ template "ocis.namespace" . }}
+  labels:
+    {{- include "ocis.labels" . | nindent 4 }}
+data:
+  ocmproviders.json: |-
+    {{- with .Values.features.ocm.providers -}}
+    {{- . | nindent 4 }}
+    {{- end -}}
+{{ end }}
