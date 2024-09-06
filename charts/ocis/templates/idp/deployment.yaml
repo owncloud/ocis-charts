@@ -51,7 +51,7 @@ spec:
             - name: IDP_DEBUG_ADDR
               value: 0.0.0.0:9134
 
-            - name: IDP_ISS
+            - name: OCIS_URL
               value: "https://{{ .Values.externalDomain }}"
 
             - name: IDP_LDAP_URI
