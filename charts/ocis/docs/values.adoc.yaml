@@ -588,7 +588,7 @@ features:
     # Abort will keep the file in the uploads folder for further admin inspection and will not move it to its final destination.
     infectedFileHandling: delete
     # -- Sets a maximum file size for scans. Only this many bytes of a file will be scanned. 0 means unlimited and is the default.
-    # Usable common abbreviations: [KB, KiB, GB, GiB, TB, TiB, PB, PiB, EB, EiB], example: 2GB.
+    # Usable common abbreviations: [KB, KiB, MB, MiB, GB, GiB, TB, TiB, PB, PiB, EB, EiB], example: 2GB.
     maxScanSize:
     # Define icap parameters
     icap:
