@@ -111,7 +111,7 @@ spec:
 
             - name: GRAPH_USERNAME_MATCH
               value: {{ .Values.features.externalUserManagement.ldap.user.userNameMatch | quote }}
-              
+
             - name: GRAPH_LDAP_USER_FILTER
               value: {{ .Values.features.externalUserManagement.ldap.user.filter | quote }}
             - name: GRAPH_LDAP_GROUP_FILTER
@@ -164,6 +164,9 @@ spec:
                 secretKeyRef:
                   name: {{ include "secrets.jwtSecret" . }}
                   key: jwt-secret
+
+            - name: OCIS_DEFAULT_LANGUAGE
+              value: {{ default "en" .Values.features.language.default | quote }}
 
             {{- if .Values.features.quotas.default }}
             - name: GRAPH_SPACES_DEFAULT_QUOTA
