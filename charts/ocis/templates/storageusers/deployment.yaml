@@ -195,8 +195,6 @@ spec:
           volumeMounts:
             - name: tmp-volume
               mountPath: /tmp
-            - name: ocis-config-tmp
-              mountPath: /etc/ocis # we mount that volume only to apply fsGroup to that path
             - name: messaging-system-ca
               mountPath: /etc/ocis/messaging-system-ca
               readOnly: true
@@ -206,8 +204,6 @@ spec:
       {{- include "ocis.imagePullSecrets" $ | nindent 6 }}
       volumes:
         - name: tmp-volume
-          emptyDir: {}
-        - name: ocis-config-tmp
           emptyDir: {}
         - name: messaging-system-ca
           {{ if and (.Values.messagingSystem.external.enabled) (not .Values.messagingSystem.external.tls.certTrusted) }}

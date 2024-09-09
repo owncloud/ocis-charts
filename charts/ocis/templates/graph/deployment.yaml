@@ -111,7 +111,7 @@ spec:
 
             - name: GRAPH_USERNAME_MATCH
               value: {{ .Values.features.externalUserManagement.ldap.user.userNameMatch | quote }}
-              
+
             - name: GRAPH_LDAP_USER_FILTER
               value: {{ .Values.features.externalUserManagement.ldap.user.filter | quote }}
             - name: GRAPH_LDAP_GROUP_FILTER
@@ -210,8 +210,6 @@ spec:
               containerPort: 9124
 
           volumeMounts:
-            - name: ocis-config-tmp
-              mountPath: /etc/ocis # we mount that volume only to apply fsGroup to that path
             - name: messaging-system-ca
               mountPath: /etc/ocis/messaging-system-ca
               readOnly: true
@@ -221,8 +219,6 @@ spec:
 
       {{- include "ocis.imagePullSecrets" $ | nindent 6 }}
       volumes:
-        - name: ocis-config-tmp
-          emptyDir: {}
         - name: messaging-system-ca
           {{ if and (.Values.messagingSystem.external.enabled) (not .Values.messagingSystem.external.tls.certTrusted) }}
           secret:

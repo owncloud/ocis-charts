@@ -127,8 +127,6 @@ spec:
       volumes:
         - name: tmp-volume
           emptyDir: {}
-        - name: ocis-config-tmp
-          emptyDir: {}
         - name: messaging-system-ca
           {{ if and (.Values.messagingSystem.external.enabled) (not .Values.messagingSystem.external.tls.certTrusted) }}
           secret:
