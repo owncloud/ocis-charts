@@ -856,7 +856,7 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 +bool+
 a| [subs=-attributes]
-`true`
+`false`
 | Show user email when searching for other users to share with.
 | features.sse.disabled
 a| [subs=-attributes]
