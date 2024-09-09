@@ -115,8 +115,8 @@ http:
 # Debug settings for the oCIS service
 debug:
   # -- Profiling enables the http://<pod>:<debug-metrics>/debug/pprof endpoint to inspect various Go runtime internals.
-  # You can use the endpoint on your machine by forwarding the port, eg: `kubectl port-forward -n ocis pod/authbasic-8587dc9d64-fs24l 9147:9147`
-  # and then accessing the port on https://localhost:9147/debug/pprof or using the pprof command line tool: `go tool pprof -web http://localhost:9147/debug/pprof/symbol\?seconds\=10`
+  # You can use the endpoint on your machine by forwarding the port, eg: `kubectl port-forward -n ocis pod/proxy-8587dc9d64-fs24l 9205:9205`
+  # and then accessing the port on https://localhost:9147/debug/pprof or using the pprof command line tool: `go tool pprof -web http://localhost:9205/debug/pprof/symbol\?seconds\=10`
   profiling: false
 
 # -- Deployment strategy.
@@ -195,9 +195,6 @@ hostAliases: []
 # Feature options.
 # Enable or disable features of oCIS.
 features:
-  # -- Enable basic authentication.
-  # Not recommended for production installations.
-  basicAuthentication: false
   # -- Create demo users on the first startup.
   # Not recommended for production installations.
   demoUsers: false
@@ -958,34 +955,6 @@ services:
     # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
     autoscaling: {}
     # -- Affinity settings for the audit service. See the documentation of this setting in approvider for examples.
-    affinity: {}
-    # -- Per-service custom labels
-    extraLabels: {}
-    # Per-service image configuration. Overrides the default setting from `image` if set.
-    image:
-      # -- Image repository
-      repository: ""
-      # -- Image tag.
-      tag: ""
-      # -- Image sha / digest (optional).
-      sha: ""
-      # -- Image pull policy
-      pullPolicy:
-
-  # -- AUTH BASIC service. Not used if `features.externalUserManagement.enabled` equals `true`.
-  # @default -- see detailed service configuration options below
-  authbasic:
-    # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
-    resources: {}
-    # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
-    nodeSelector: {}
-    # -- Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
-    priorityClassName: ""
-    # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
-    podDisruptionBudget: {}
-    # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
-    autoscaling: {}
-    # -- Affinity settings for the authbasic service. See the documentation of this setting in approvider for examples.
     affinity: {}
     # -- Per-service custom labels
     extraLabels: {}

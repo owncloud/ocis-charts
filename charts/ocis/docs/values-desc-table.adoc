@@ -95,7 +95,7 @@ a| [subs=-attributes]
 +bool+
 a| [subs=-attributes]
 `false`
-| Profiling enables the http://<pod>:<debug-metrics>/debug/pprof endpoint to inspect various Go runtime internals. You can use the endpoint on your machine by forwarding the port, eg: `kubectl port-forward -n ocis pod/authbasic-8587dc9d64-fs24l 9147:9147` and then accessing the port on https://localhost:9147/debug/pprof or using the pprof command line tool: `go tool pprof -web http://localhost:9147/debug/pprof/symbol\?seconds\=10`
+| Profiling enables the http://<pod>:<debug-metrics>/debug/pprof endpoint to inspect various Go runtime internals. You can use the endpoint on your machine by forwarding the port, eg: `kubectl port-forward -n ocis pod/proxy-8587dc9d64-fs24l 9205:9205` and then accessing the port on https://localhost:9147/debug/pprof or using the pprof command line tool: `go tool pprof -web http://localhost:9205/debug/pprof/symbol\?seconds\=10`
 | deploymentStrategy
 a| [subs=-attributes]
 +object+
@@ -306,12 +306,6 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `1073741824`
 | Max size in bytes of the zip archive the archiver can create.
-| features.basicAuthentication
-a| [subs=-attributes]
-+bool+
-a| [subs=-attributes]
-`false`
-| Enable basic authentication. Not recommended for production installations.
 | features.demoUsers
 a| [subs=-attributes]
 +bool+
@@ -1573,78 +1567,6 @@ a| [subs=-attributes]
 `""`
 | Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
 | services.audit.resources
-a| [subs=-attributes]
-+object+
-a| [subs=-attributes]
-`{}`
-| Per-service resources configuration. Overrides the default setting from `resources` if set.
-| services.authbasic
-a| [subs=-attributes]
-+object+
-a| [subs=-attributes]
-see detailed service configuration options below
-| AUTH BASIC service. Not used if `features.externalUserManagement.enabled` equals `true`.
-| services.authbasic.affinity
-a| [subs=-attributes]
-+object+
-a| [subs=-attributes]
-`{}`
-| Affinity settings for the authbasic service. See the documentation of this setting in approvider for examples.
-| services.authbasic.autoscaling
-a| [subs=-attributes]
-+object+
-a| [subs=-attributes]
-`{}`
-| Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
-| services.authbasic.extraLabels
-a| [subs=-attributes]
-+object+
-a| [subs=-attributes]
-`{}`
-| Per-service custom labels
-| services.authbasic.image.pullPolicy
-a| [subs=-attributes]
-+string+
-a| [subs=-attributes]
-`nil`
-| Image pull policy
-| services.authbasic.image.repository
-a| [subs=-attributes]
-+string+
-a| [subs=-attributes]
-`""`
-| Image repository
-| services.authbasic.image.sha
-a| [subs=-attributes]
-+string+
-a| [subs=-attributes]
-`""`
-| Image sha / digest (optional).
-| services.authbasic.image.tag
-a| [subs=-attributes]
-+string+
-a| [subs=-attributes]
-`""`
-| Image tag.
-| services.authbasic.nodeSelector
-a| [subs=-attributes]
-+object+
-a| [subs=-attributes]
-`{}`
-| Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
-| services.authbasic.podDisruptionBudget
-a| [subs=-attributes]
-+object+
-a| [subs=-attributes]
-`{}`
-| Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
-| services.authbasic.priorityClassName
-a| [subs=-attributes]
-+string+
-a| [subs=-attributes]
-`""`
-| Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
-| services.authbasic.resources
 a| [subs=-attributes]
 +object+
 a| [subs=-attributes]
