@@ -148,6 +148,23 @@ spec:
               value: {{ . | quote }}
             {{- end }}
 
+            - name: WEB_OPTION_DISABLE_FEEDBACK_LINK
+              value: {{ not .Values.services.web.config.feedbackLink.enabled | quote }}
+            {{- if .Values.services.web.config.feedbackLink.enabled }}
+            {{- with .Values.services.web.config.feedbackLink.href }}
+            - name: WEB_OPTION_FEEDBACKLINK_HREF
+              value: {{ . | quote }}
+            {{- end }}
+            {{- with .Values.services.web.config.feedbackLink.ariaLabel }}
+            - name: WEB_OPTION_FEEDBACKLINK_ARIALABEL
+              value: {{ . | quote }}
+            {{- end }}
+            {{- with .Values.services.web.config.feedbackLink.description }}
+            - name: WEB_OPTION_FEEDBACKLINK_DESCRIPTION
+              value: {{ . | quote }}
+            {{- end }}
+            {{- end }}
+
             - name: WEB_JWT_SECRET
               valueFrom:
                 secretKeyRef:
