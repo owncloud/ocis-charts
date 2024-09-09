@@ -4284,6 +4284,18 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `"50MB"`
 | Sets a maximum file size of an input image which is being processed. Usable common abbreviations: [KB, KiB, MB, MiB, GB, GiB, TB, TiB, PB, PiB, EB, EiB], example: 2GB.
+| services.thumbnails.quota.maxInputHeight
+a| [subs=-attributes]
++int+
+a| [subs=-attributes]
+`7680`
+| Sets a maximium height of an imput image which is being processed.
+| services.thumbnails.quota.maxInputWitdth
+a| [subs=-attributes]
++int+
+a| [subs=-attributes]
+`7680`
+| Sets a maximium width of an imput image which is being processed.
 | services.thumbnails.resources
 a| [subs=-attributes]
 +object+

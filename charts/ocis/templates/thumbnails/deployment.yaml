@@ -70,6 +70,10 @@ spec:
               value: {{ .Values.services.thumbnails.quota.maxConcurrencyRequests | quote }}
             - name: THUMBNAILS_MAX_INPUT_IMAGE_FILE_SIZE
               value: {{ .Values.services.thumbnails.quota.maxFileSize | quote }}
+            - name: THUMBNAILS_MAX_INPUT_WIDTH
+              value: {{ .Values.services.thumbnails.quota.maxInputWitdth | quote }}
+            - name: THUMBNAILS_MAX_INPUT_HEIGHT
+              value: {{ .Values.services.thumbnails.quota.maxInputHeight | quote }}
 
             - name: THUMBNAILS_WEBDAVSOURCE_INSECURE
               value: {{ .Values.insecure.ocisHttpApiInsecure | quote }}
