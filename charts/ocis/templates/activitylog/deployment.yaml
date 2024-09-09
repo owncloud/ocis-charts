@@ -1,0 +1,99 @@
+{{- include "ocis.basicServiceTemplates" (dict "scope" . "appName" "appNameActivitylog" "appNameSuffix" "") -}}
+apiVersion: apps/v1
+kind: Deployment
+{{ include "ocis.metadata" . }}
+spec:
+  {{- include "ocis.selector" . | nindent 2 }}
+  {{- if and (not .Values.autoscaling.enabled) (.Values.replicas) }}
+  replicas: {{ .Values.replicas }}
+  {{- end }}
+  {{- include "ocis.deploymentStrategy" . | nindent 2 }}
+  template:
+    {{- include "ocis.templateMetadata" (dict "scope" $ "configCheck" false) | nindent 4 }}
+    spec:
+      {{- include "ocis.affinity" $ | nindent 6 }}
+      {{- include "ocis.securityContextAndtopologySpreadConstraints" . | nindent 6 }}
+      {{- include "ocis.priorityClassName" $.priorityClassName | nindent 6 }}
+      {{- include "ocis.hostAliases" $ | nindent 6 }}
+      nodeSelector: {{ toYaml $.nodeSelector | nindent 8 }}
+      containers:
+        - name: {{ .appName }}
+          {{- include "ocis.image" $ | nindent 10 }}
+          command: ["ocis"]
+          args: ["activitylog", "server"]
+          {{- include "ocis.containerSecurityContext" . | nindent 10 }}
+          env:
+            {{- include "ocis.serviceRegistry" . | nindent 12 }}
+            {{- include "ocis.events" . | nindent 12 }}
+            {{- include "ocis.cors" . | nindent 12 }}
+            {{- include "ocis.persistentStore" . | nindent 12 }}
+
+            - name: ACTIVITYLOG_LOG_COLOR
+              value: {{ .Values.logging.color | quote }}
+            - name: ACTIVITYLOG_LOG_LEVEL
+              value: {{ .Values.logging.level | quote }}
+            - name: ACTIVITYLOG_LOG_PRETTY
+              value: {{ .Values.logging.pretty | quote }}
+
+            - name: ACTIVITYLOG_TRACING_ENABLED
+              value: "{{ .Values.tracing.enabled }}"
+            - name: ACTIVITYLOG_TRACING_TYPE
+              value: {{ .Values.tracing.type | quote }}
+            - name: ACTIVITYLOG_TRACING_ENDPOINT
+              value: {{ .Values.tracing.endpoint | quote }}
+            - name: ACTIVITYLOG_TRACING_COLLECTOR
+              value: {{ .Values.tracing.collector | quote }}
+
+            - name: ACTIVITYLOG_DEBUG_PPROF
+              value: {{ .Values.debug.profiling | quote }}
+
+            - name: ACTIVITYLOG_HTTP_ADDR
+              value: 0.0.0.0:9195
+            - name: ACTIVITYLOG_DEBUG_ADDR
+              value: 0.0.0.0:9197
+
+            - name: ACTIVITYLOG_SERVICE_ACCOUNT_ID
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ include "config.authService" . }}
+                  key: service-account-id
+            - name: ACTIVITYOG_SERVICE_ACCOUNT_SECRET #TODO: https://github.com/owncloud/ocis/issues/10013
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "secrets.serviceAccountSecret" . }}
+                  key: service-account-secret
+
+            - name: ACTIVITYLOG_JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "secrets.jwtSecret" . }}
+                  key: jwt-secret
+
+          {{- include "ocis.livenessProbe" . | nindent 10 }}
+
+          resources: {{ toYaml .resources | nindent 12 }}
+
+          ports:
+            - name: http
+              containerPort: 9195
+            - name: metrics-debug
+              containerPort: 9260
+
+          volumeMounts:
+            - name: ocis-config-tmp
+              mountPath: /etc/ocis # we mount that volume only to apply fsGroup to that path
+            - name: messaging-system-ca
+              mountPath: /etc/ocis/messaging-system-ca
+              readOnly: true
+
+      {{- include "ocis.imagePullSecrets" $ | nindent 6 }}
+      volumes:
+        - name: ocis-config-tmp
+          emptyDir: {}
+        - name: messaging-system-ca
+          {{ if and (.Values.messagingSystem.external.enabled) (not .Values.messagingSystem.external.tls.certTrusted) }}
+          secret:
+            secretName: {{ include "secrets.messagingSystemCASecret" . }}
+          {{ else }}
+          emptyDir: {}
+          {{ end }}
