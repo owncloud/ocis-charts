@@ -111,7 +111,7 @@ spec:
 
             - name: GRAPH_USERNAME_MATCH
               value: {{ .Values.features.externalUserManagement.ldap.user.userNameMatch | quote }}
-              
+
             - name: GRAPH_LDAP_USER_FILTER
               value: {{ .Values.features.externalUserManagement.ldap.user.filter | quote }}
             - name: GRAPH_LDAP_GROUP_FILTER
@@ -152,6 +152,9 @@ spec:
               value: {{ .Values.features.externalUserManagement.ldap.disableUsers.disabledUsersGroupDN | quote }}
 
             {{ end }}
+
+            - name: OCIS_SHOW_USER_EMAIL_IN_RESULTS
+              value: {{ .Values.features.sharing.users.search.showUserEmail | quote }}
 
             - name: GRAPH_APPLICATION_ID
               valueFrom:
