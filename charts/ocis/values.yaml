@@ -308,6 +308,9 @@ features:
           # -- Disables SSL certificate checking for connections to the office suites http api.
           # Not recommended for production installations.
           insecure: false
+          # -- Disables verifying requests via WOPI proof keys.
+          # Not recommended to be disabled for production installations.
+          disableProof: false
           # -- Enable secure view for this office suite
           secureViewEnabled: false
           # Ingress for collaboration service.
@@ -340,6 +343,9 @@ features:
           # -- Disables SSL certificate checking for connections to the office suites http api.
           # Not recommended for production installations.
           insecure: false
+          # -- Disables verifying requests via WOPI proof keys.
+          # Not recommended to be disabled for production installations.
+          disableProof: false
           # -- Enable secure view for this office suite. Note: OnlyOffice doesn't support secureView right now
           secureViewEnabled: false
           # Ingress for collaboration service.
