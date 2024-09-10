@@ -164,8 +164,6 @@ spec:
           volumeMounts:
             - name: tmp-volume
               mountPath: /tmp
-            - name: ocis-config-tmp
-              mountPath: /etc/ocis # we mount that volume only to apply fsGroup to that path
             - name: ldap-ca
               mountPath: /etc/ocis/ldap-ca
               readOnly: true
@@ -173,8 +171,6 @@ spec:
       {{- include "ocis.imagePullSecrets" $ | nindent 6 }}
       volumes:
         - name: tmp-volume
-          emptyDir: {}
-        - name: ocis-config-tmp
           emptyDir: {}
         - name: ldap-ca
           {{ if or (not .Values.features.externalUserManagement.enabled) (not .Values.features.externalUserManagement.ldap.certTrusted) }}
