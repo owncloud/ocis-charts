@@ -36,6 +36,7 @@ spec:
           {{- include "ocis.containerSecurityContext" . | nindent 10 }}
           env:
             {{- include "ocis.serviceRegistry" . | nindent 12 }}
+            {{- include "ocis.cors" . |nindent 12 }}
 
             - name: THUMBNAILS_LOG_COLOR
               value: {{ .Values.logging.color | quote }}
