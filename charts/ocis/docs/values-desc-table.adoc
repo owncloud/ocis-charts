@@ -132,6 +132,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 default configuration of oCIS, see https://doc.owncloud.com/ocis/next/deployment/services/s-list/app-registry.html#yaml-example[doc.owncloud.com]
 | Mimetype configuration. Let's you configure a mimetypes' default application, if it is allowed to create a new file and more.
+| features.appsIntegration.wopiIntegration.officeSuites[0].disableChat
+a| [subs=-attributes]
++bool+
+a| [subs=-attributes]
+`false`
+| Disables the chat in the office suite. Note: This currently only applies to OnlyOffice
 | features.appsIntegration.wopiIntegration.officeSuites[0].enabled
 a| [subs=-attributes]
 +bool+
@@ -204,6 +210,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `""`
 | URI of the office suite.
+| features.appsIntegration.wopiIntegration.officeSuites[1].disableChat
+a| [subs=-attributes]
++bool+
+a| [subs=-attributes]
+`false`
+| Disables the chat in the office suite. Note: This currently only applies to OnlyOffice
 | features.appsIntegration.wopiIntegration.officeSuites[1].enabled
 a| [subs=-attributes]
 +bool+

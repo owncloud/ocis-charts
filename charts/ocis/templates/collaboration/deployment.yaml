@@ -80,6 +80,9 @@ spec:
               value: http://{{ $.appName }}.{{ template "ocis.namespace" $ }}.svc.cluster.local:9300
               {{- end }}
 
+            - name: COLLABORATION_WOPI_DISABLE_CHAT
+              value: {{ default false $officeSuite.disableChat | quote }}
+
             - name: COLLABORATION_JWT_SECRET
               valueFrom:
                 secretKeyRef:
