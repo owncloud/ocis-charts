@@ -55,7 +55,7 @@ spec:
   maxMsgsPerSubject: 1
   name: KV_cache-userinfo
   noAck: false
-  allowDirect: false
+  allowDirect: true
   preventDelete: false
   preventUpdate: false
   replicas: 3
@@ -84,7 +84,7 @@ spec:
   maxMsgsPerSubject: 1
   name: KV_userlog
   noAck: false
-  allowDirect: false
+  allowDirect: true
   preventDelete: false
   preventUpdate: false
   replicas: 3
@@ -113,7 +113,7 @@ spec:
   maxMsgsPerSubject: 1
   name: KV_postprocessing
   noAck: false
-  allowDirect: false
+  allowDirect: true
   preventDelete: false
   preventUpdate: false
   replicas: 3
@@ -142,7 +142,7 @@ spec:
   maxMsgsPerSubject: 1
   name: KV_ids-storage-users
   noAck: false
-  allowDirect: false
+  allowDirect: true
   preventDelete: false
   preventUpdate: false
   replicas: 3
@@ -171,7 +171,7 @@ spec:
   maxMsgsPerSubject: 1
   name: KV_storage-users
   noAck: false
-  allowDirect: false
+  allowDirect: true
   preventDelete: false
   preventUpdate: false
   replicas: 3
@@ -200,7 +200,7 @@ spec:
   maxMsgsPerSubject: 1
   name: KV_eventhistory
   noAck: false
-  allowDirect: false
+  allowDirect: true
   preventDelete: false
   preventUpdate: false
   replicas: 3
@@ -220,8 +220,8 @@ spec:
   description: oCIS service registry
   denyDelete: true
   discard: new
-  duplicateWindow: "60s"
-  maxAge: "60s"
+  duplicateWindow: "30s"
+  maxAge: "30s"
   maxBytes: -1
   maxConsumers: -1
   maxMsgs: -1
@@ -229,7 +229,7 @@ spec:
   maxMsgsPerSubject: 1
   name: KV_service-registry
   noAck: false
-  allowDirect: false
+  allowDirect: true
   preventDelete: false
   preventUpdate: false
   replicas: 3
@@ -258,7 +258,7 @@ spec:
   maxMsgsPerSubject: 1
   name: KV_settings-cache
   noAck: false
-  allowDirect: false
+  allowDirect: true
   preventDelete: false
   preventUpdate: false
   replicas: 3
@@ -266,6 +266,7 @@ spec:
   storage: memory
   subjects:
     - $KV.settings-cache.>
+
 ---
 apiVersion: jetstream.nats.io/v1beta2
 kind: Stream
@@ -286,7 +287,7 @@ spec:
   maxMsgsPerSubject: 1
   name: KV_storage-system
   noAck: false
-  allowDirect: false
+  allowDirect: true
   preventDelete: false
   preventUpdate: false
   replicas: 3
@@ -294,6 +295,7 @@ spec:
   storage: memory
   subjects:
     - $KV.storage-system.>
+
 ---
 apiVersion: jetstream.nats.io/v1beta2
 kind: Stream
@@ -314,7 +316,7 @@ spec:
   maxMsgsPerSubject: 1
   name: KV_cache-roles
   noAck: false
-  allowDirect: false
+  allowDirect: true
   preventDelete: false
   preventUpdate: false
   replicas: 3
@@ -322,6 +324,7 @@ spec:
   storage: memory
   subjects:
     - $KV.cache-roles.>
+
 ---
 apiVersion: jetstream.nats.io/v1beta2
 kind: Stream
@@ -342,7 +345,7 @@ spec:
   maxMsgsPerSubject: 1
   name: KV_proxy
   noAck: false
-  allowDirect: false
+  allowDirect: true
   preventDelete: false
   preventUpdate: false
   replicas: 3
@@ -350,6 +353,7 @@ spec:
   storage: memory
   subjects:
     - $KV.proxy.>
+
 ---
 apiVersion: jetstream.nats.io/v1beta2
 kind: Stream
@@ -370,7 +374,7 @@ spec:
   maxMsgsPerSubject: 1
   name: KV_ocis-pkg
   noAck: false
-  allowDirect: false
+  allowDirect: true
   preventDelete: false
   preventUpdate: false
   replicas: 3
