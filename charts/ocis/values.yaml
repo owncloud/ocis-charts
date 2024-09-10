@@ -219,7 +219,7 @@ features:
       # If set to another value than `none`, a secret referenced by `notificationsSmtpSecretRef` needs to be present.
       authentication: auto
       # -- Encryption method for the SMTP communication. Possible values are `starttls`, `ssl`, `ssltls`, `tls` and `none`
-      encryption: none #TODO: have a more sane default?
+      encryption: ssltls
     branding:
       # -- Enables mail branding. If enabled, you need to provide the text and html template ConfigMap.
       # The image ConfigMap is optional.
