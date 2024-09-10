@@ -168,6 +168,9 @@ spec:
                   name: {{ include "secrets.jwtSecret" . }}
                   key: jwt-secret
 
+            - name: OCIS_DEFAULT_LANGUAGE
+              value: {{ default "en" .Values.features.language.default | quote }}
+
             {{- if .Values.features.quotas.default }}
             - name: GRAPH_SPACES_DEFAULT_QUOTA
               value: {{ .Values.features.quotas.default | quote }}
