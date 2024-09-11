@@ -99,9 +99,6 @@ spec:
             - name: FRONTEND_SEARCH_MIN_LENGTH
               value: {{ .Values.features.sharing.users.search.minLengthLimit | quote }}
 
-            - name: FRONTEND_ENABLE_RESHARING
-              value: {{ .Values.features.sharing.users.resharing | quote }}
-
             - name: FRONTEND_ARCHIVER_MAX_SIZE
               value: {{ int64 .Values.features.archiver.maxSize | quote }}
 

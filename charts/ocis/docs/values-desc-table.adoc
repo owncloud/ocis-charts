@@ -846,12 +846,6 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `false`
 | Enforce a password only on writable public link shares. Is already enforced if `features.sharing.publiclink.shareMustHavePassword` option is set to `true``.
-| features.sharing.users.resharing
-a| [subs=-attributes]
-+bool+
-a| [subs=-attributes]
-`true`
-| Allow a share receiver to share the share with a 3rd person.
 | features.sharing.users.search.minLengthLimit
 a| [subs=-attributes]
 +int+

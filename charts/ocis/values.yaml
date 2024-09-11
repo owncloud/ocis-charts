@@ -242,8 +242,6 @@ features:
   sharing:
     # Sharing with users related settings
     users:
-      # -- Allow a share receiver to share the share with a 3rd person.
-      resharing: true
       # Search settings for finding users to share with.
       search:
         # -- Minimum number of characters to enter before a client should start a search for Share receivers.
