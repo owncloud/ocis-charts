@@ -77,7 +77,7 @@ spec:
             - name: http
               containerPort: 9195
             - name: metrics-debug
-              containerPort: 9260
+              containerPort: 9197
 
           volumeMounts:
             - name: messaging-system-ca
