@@ -52,9 +52,6 @@ spec:
             - name: PROXY_DEBUG_ADDR
               value: 0.0.0.0:9205
 
-            - name: PROXY_ENABLE_BASIC_AUTH
-              value: {{ .Values.features.basicAuthentication | quote }}
-
             - name: PROXY_OIDC_ISSUER
             {{- if not .Values.features.externalUserManagement.enabled }}
               value: "https://{{ .Values.externalDomain }}"

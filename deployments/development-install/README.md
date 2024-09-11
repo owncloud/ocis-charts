@@ -55,4 +55,4 @@ If you do this, please check if your storage provider supports this access mode.
 
 ### Development
 
-Note this chart is made for development, therefore both `demoUsers` and `basicAuthentication` is set to true. Using this chart in production is not recommended.
+Note this chart is made for development, therefore both `demoUsers` is set to true. Using this chart in production is not recommended.
