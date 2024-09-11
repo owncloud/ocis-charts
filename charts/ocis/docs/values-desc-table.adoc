@@ -792,6 +792,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Sets specific quotas for roles
+| features.roles.availableUnifiedRoles
+a| [subs=-attributes]
++list+
+a| [subs=-attributes]
+`[]`
+| Define a list of unified roles to make them available. The default of an empty list means all unified roles are available. The IDs of the roles and a description can be found by running: kubectl -n ocis exec deployments/graph -- ocis graph list-unified-roles
 | features.roles.customRoles
 a| [subs=-attributes]
 +string+
