@@ -138,6 +138,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `false`
 | Disables the chat in the office suite. Note: This currently only applies to OnlyOffice
+| features.appsIntegration.wopiIntegration.officeSuites[0].disableProof
+a| [subs=-attributes]
++bool+
+a| [subs=-attributes]
+`false`
+| Disables verifying requests via WOPI proof keys. Not recommended to be disabled for production installations.
 | features.appsIntegration.wopiIntegration.officeSuites[0].enabled
 a| [subs=-attributes]
 +bool+
@@ -216,6 +222,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `false`
 | Disables the chat in the office suite. Note: This currently only applies to OnlyOffice
+| features.appsIntegration.wopiIntegration.officeSuites[1].disableProof
+a| [subs=-attributes]
++bool+
+a| [subs=-attributes]
+`false`
+| Disables verifying requests via WOPI proof keys. Not recommended to be disabled for production installations.
 | features.appsIntegration.wopiIntegration.officeSuites[1].enabled
 a| [subs=-attributes]
 +bool+
