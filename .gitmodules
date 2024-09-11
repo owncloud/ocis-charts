@@ -2,4 +2,4 @@
 	path = deployments/external-user-management/charts/keycloak-k8s-resources
 	url = https://github.com/keycloak/keycloak-k8s-resources.git
 	shallow = true
-	branch = 23.0.6
+	branch = 25.0.5
