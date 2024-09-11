@@ -215,9 +215,8 @@ features:
       # -- Authentication method for the SMTP communication. Possible values are ‘login’, ‘plain’, ‘crammd5’, ‘none’, 'auto'
       # If set to another value than `none`, a secret referenced by `notificationsSmtpSecretRef` needs to be present.
       authentication: auto
-      # -- Encryption method for the SMTP communication. Possible values are ‘starttls’, ‘ssltls’ and ‘none’.
-      # -- Values 'ssl' and 'tls' are deprecated and will be removed in oCIS release 6.0.0. Use 'starttls' instead of 'tls' and 'ssltls' instead of 'ssl'.
-      encryption: none
+      # -- Encryption method for the SMTP communication. Possible values are `starttls`, `ssl`, `ssltls`, `tls` and `none`
+      encryption: ssltls
     branding:
       # -- Enables mail branding. If enabled, you need to provide the text and html template ConfigMap.
       # The image ConfigMap is optional.
@@ -251,7 +250,7 @@ features:
         # This setting can be used to customize the user experience if e.g too many results are displayed.
         minLengthLimit: 3
         # -- Show user email when searching for other users to share with.
-        showUserEmail: true
+        showUserEmail: false
     # Sharing per public link related setings
     publiclink:
       # -- Enforce a password on all public link shares.
@@ -307,6 +306,8 @@ features:
           insecure: false
           # -- Enable secure view for this office suite
           secureViewEnabled: false
+          # -- Disables the chat in the office suite. Note: This currently only applies to OnlyOffice
+          disableChat: false
           # Ingress for collaboration service.
           ingress:
             # -- Enables the Ingress. Only needed if the office application is not running within the same cluster.
@@ -339,6 +340,8 @@ features:
           insecure: false
           # -- Enable secure view for this office suite. Note: OnlyOffice doesn't support secureView right now
           secureViewEnabled: false
+          # -- Disables the chat in the office suite. Note: This currently only applies to OnlyOffice
+          disableChat: false
           # Ingress for collaboration service.
           ingress:
             # -- Enables the Ingress. Only needed if the office application is not running within the same cluster.
@@ -584,7 +587,7 @@ features:
     # Abort will keep the file in the uploads folder for further admin inspection and will not move it to its final destination.
     infectedFileHandling: delete
     # -- Sets a maximum file size for scans. Only this many bytes of a file will be scanned. 0 means unlimited and is the default.
-    # Usable common abbreviations: [KB, KiB, GB, GiB, TB, TiB, PB, PiB, EB, EiB], example: 2GB.
+    # Usable common abbreviations: [KB, KiB, MB, MiB, GB, GiB, TB, TiB, PB, PiB, EB, EiB], example: 2GB.
     maxScanSize:
     # Define icap parameters
     icap:
@@ -2006,6 +2009,10 @@ services:
       maxConcurrencyRequests: 0
       # -- Sets a maximum file size of an input image which is being processed. Usable common abbreviations: [KB, KiB, MB, MiB, GB, GiB, TB, TiB, PB, PiB, EB, EiB], example: 2GB.
       maxFileSize: 50MB
+      # -- Sets a maximium width of an imput image which is being processed.
+      maxInputWitdth: 7680
+      # -- Sets a maximium height of an imput image which is being processed.
+      maxInputHeight: 7680
     # -- Persistence settings.
     # @default -- see detailed persistence configuration options below
     persistence:

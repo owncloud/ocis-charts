@@ -71,6 +71,8 @@ spec:
 
             - name: IDM_CREATE_DEMO_USERS
               value: {{ .Values.features.demoUsers | quote }}
+            - name: OCIS_OIDC_ISSUER
+              value: "https://{{ .Values.externalDomain }}"
 
             - name: IDM_ADMIN_PASSWORD
               valueFrom:
@@ -118,8 +120,6 @@ spec:
               containerPort: 9239
 
           volumeMounts:
-            - name: ocis-config-tmp
-              mountPath: /etc/ocis # we mount that volume only to apply fsGroup to that path
             - name: ldap-cert
               mountPath: /etc/ocis/ldap-cert
               readOnly: true
@@ -128,8 +128,6 @@ spec:
 
       {{- include "ocis.imagePullSecrets" $ | nindent 6 }}
       volumes:
-        - name: ocis-config-tmp
-          emptyDir: {}
         - name: ldap-cert
           secret:
             secretName: {{ include "secrets.ldapCertSecret" . }}
