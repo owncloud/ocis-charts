@@ -31,27 +31,3 @@ data:
         external_apps:
           {{- toYaml . | nindent 10 }}
         {{- end }}
-        {{- with .Values.services.web.config.applications }}
-        applications:
-          {{- toYaml . | nindent 10 }}
-        {{- end }}
-        options:
-          disableFeedbackLink: {{ not .Values.services.web.config.feedbackLink.enabled }}
-          {{- if .Values.services.web.config.feedbackLink.enabled }}
-          {{- if (or .Values.services.web.config.feedbackLink.href .Values.services.web.config.feedbackLink.ariaLabel .Values.services.web.config.feedbackLink.description) }}
-          feedbackLink:
-            {{- with .Values.services.web.config.feedbackLink.href  }}
-            href: {{ . | quote }}
-            {{- end }}
-            {{- with .Values.services.web.config.feedbackLink.ariaLabel  }}
-            ariaLabel: {{ . | quote }}
-            {{- end }}
-            {{- with .Values.services.web.config.feedbackLink.description }}
-            description: {{ . | quote }}
-            {{- end }}
-          {{- end }}
-          {{- end }}
-          {{- with .Values.services.web.config.previewFileMimeTypes }}
-          previewFileMimeTypes:
-            {{- toYaml . | nindent 12 }}
-          {{- end }}

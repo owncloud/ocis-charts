@@ -4482,12 +4482,6 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
-| services.web.config.applications
-a| [subs=-attributes]
-+list+
-a| [subs=-attributes]
-`[]`
-| Configure the {"applications": []} section in the Web config.json.
 | services.web.config.apps
 a| [subs=-attributes]
 +list+
@@ -4560,12 +4554,6 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `"openid profile email"`
 | OIDC scopes to request during authentication to authorize access to user details. Defaults to ‘openid profile email’. Values are separated by blank. More example values but not limited to are ‘address’ or ‘phone’ etc.
-| services.web.config.previewFileMimeTypes
-a| [subs=-attributes]
-+list+
-a| [subs=-attributes]
-`[]`
-| Specifies which mimeTypes will be previewed in the UI.
 | services.web.config.scripts
 a| [subs=-attributes]
 +list+
