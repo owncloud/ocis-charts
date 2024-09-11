@@ -952,7 +952,7 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 +list+
 a| [subs=-attributes]
-`["'self'","blob:","https://embed.diagrams.net/"]`
+`["'self'","blob:"]`
 | frame-src directive, see https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/frame-src
 | http.csp.directives.imgSrc
 a| [subs=-attributes]

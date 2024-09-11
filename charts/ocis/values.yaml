@@ -84,9 +84,6 @@ http:
       frameSrc:
         - "'self'"
         - "blob:"
-        # Needed for the draw-io integration that is enabled by default.
-        # Can be removed when "draw-io" is removed from services.web.config.apps
-        - "https://embed.diagrams.net/"
       # -- img-src directive, see https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/img-src
       imgSrc:
         - "'self'"
