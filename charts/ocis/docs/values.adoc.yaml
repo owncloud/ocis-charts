@@ -234,11 +234,6 @@ features:
       # This ConfigMap is optional and can be omitted when images are not used.
       htmlMailImagesConfigRef: "html-mail-images"
 
-  # SSE (server-sent events) settings.
-  sse:
-    # -- Disables SSE. When disabled, clients will no longer receive sse notifications.
-    disabled: false
-
   # Sharing related settings
   sharing:
     # Sharing with users related settings

@@ -858,12 +858,6 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `false`
 | Show user email when searching for other users to share with.
-| features.sse.disabled
-a| [subs=-attributes]
-+bool+
-a| [subs=-attributes]
-`false`
-| Disables SSE. When disabled, clients will no longer receive sse notifications.
 | features.virusscan.enabled
 a| [subs=-attributes]
 +bool+
