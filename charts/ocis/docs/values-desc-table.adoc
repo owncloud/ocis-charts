@@ -4458,12 +4458,6 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
-| services.web.config.applications
-a| [subs=-attributes]
-+list+
-a| [subs=-attributes]
-`[]`
-| Configure the {"applications": []} section in the Web config.json.
 | services.web.config.apps
 a| [subs=-attributes]
 +list+

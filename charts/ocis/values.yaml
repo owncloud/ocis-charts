@@ -2219,16 +2219,6 @@ services:
         # - url: https://ocis.kube.owncloud.test/custom_translations.json
       # -- Configure the {"apps": []} section in the Web config.json.
       apps: []
-      # -- Configure the {"applications": []} section in the Web config.json.
-      applications:
-        []
-        # example for an user manual homepage, that will be linked in the app drawer
-        # - icon: book-read
-        #   url: "https://manual.owncloud.test"
-        #   target: _blank
-        #   title:
-        #     de: Anleitung
-        #     en: Manual
       # -- Configure the {"external_apps": []} section in the Web config.json.
       externalApplications: []
       # Theme settings

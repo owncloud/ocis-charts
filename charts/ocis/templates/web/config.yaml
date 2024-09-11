@@ -31,7 +31,3 @@ data:
         external_apps:
           {{- toYaml . | nindent 10 }}
         {{- end }}
-        {{- with .Values.services.web.config.applications }}
-        applications:
-          {{- toYaml . | nindent 10 }}
-        {{- end }}
