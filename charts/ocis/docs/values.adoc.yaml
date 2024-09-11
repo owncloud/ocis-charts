@@ -864,6 +864,43 @@ extraResources: []
 
 # per-service configuration.
 services:
+  # -- ACTIVITYLOG service.
+  # @default -- see detailed service configuration options below
+  activitylog:
+    # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
+    resources: {}
+    # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
+    nodeSelector: {}
+    # -- Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
+    priorityClassName: ""
+    # -- Per-service store configuration for the activitylog service. Overrides the default setting from `store` if set.
+    store:
+      {}
+      # -- Configure the store type for the activitylog service. Might be `memory` (only for testing), `redis-sentinel`, `nats-js-kv`
+      # type:
+      # -- Provide a list of comma-separated addresses of `redis-sentinel` or `nats-js` servers here
+      # if the proper store is selected
+      # addresses:
+      # - "{{ .appNameNats }}:9233"
+    # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
+    podDisruptionBudget: {}
+    # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
+    autoscaling: {}
+    # -- Affinity settings for the activitylog service. See the documentation of this setting in approvider for examples.
+    affinity: {}
+    # -- Per-service custom labels
+    extraLabels: {}
+    # Per-service image configuration. Overrides the default setting from `image` if set.
+    image:
+      # -- Image repository
+      repository: ""
+      # -- Image tag.
+      tag: ""
+      # -- Image sha / digest (optional).
+      sha: ""
+      # -- Image pull policy
+      pullPolicy:
+
   # -- COLLABORATION service. Not used if `features.appsIntegration.enabled` equals `false`.
   # @default -- see detailed service configuration options below
   collaboration:
