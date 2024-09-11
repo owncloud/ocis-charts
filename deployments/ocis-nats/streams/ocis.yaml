@@ -97,6 +97,35 @@ spec:
 apiVersion: jetstream.nats.io/v1beta2
 kind: Stream
 metadata:
+  name: kv-activitylog
+spec:
+  account: ocis-nats
+  allowRollup: true
+  description: oCIS activitylog store
+  denyDelete: true
+  discard: new
+  duplicateWindow: "2m0s"
+  maxAge: "336h"
+  maxBytes: -1
+  maxConsumers: -1
+  maxMsgs: -1
+  maxMsgSize: -1
+  maxMsgsPerSubject: 1
+  name: KV_activitylog
+  noAck: false
+  allowDirect: true
+  preventDelete: false
+  preventUpdate: false
+  replicas: 3
+  retention: limits
+  storage: file
+  subjects:
+    - $KV.activitylog.>
+
+---
+apiVersion: jetstream.nats.io/v1beta2
+kind: Stream
+metadata:
   name: kv-postprocessing
 spec:
   account: ocis-nats
