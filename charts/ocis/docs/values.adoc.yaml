@@ -2255,16 +2255,6 @@ services:
         ariaLabel: ""
         # -- Description to be shown for the feedback link. Uses the ownCloud default description if empty.
         description: ""
-      # -- Specifies which mimeTypes will be previewed in the UI.
-      previewFileMimeTypes:
-        []
-        # - image/gif
-        # - image/png
-        # - image/jpeg
-        # - text/plain
-        # - image/tiff
-        # - image/bmp
-        # - image/x-ms-bmp
       # -- Configure the {"styles": []} section in the Web config.json.
       styles:
         []
@@ -2279,17 +2269,7 @@ services:
         []
         # - url: https://ocis.kube.owncloud.test/custom_translations.json
       # -- Configure the {"apps": []} section in the Web config.json.
-      apps:
-        []
-        # default apps, add and remove apps as desired
-        # - files
-        # - search
-        # - text-editor
-        # - pdf-viewer
-        # - external
-        # - admin-settings
-        # - epub-reader
-        # - draw-io
+      apps: []
       # -- Configure the {"applications": []} section in the Web config.json.
       applications:
         []
@@ -2301,18 +2281,7 @@ services:
         #     de: Anleitung
         #     en: Manual
       # -- Configure the {"external_apps": []} section in the Web config.json.
-      externalApplications:
-        []
-        # default external application of Web, add and remove apps as desired
-        # - id: preview
-        #   path: web-app-preview
-        #   config:
-        #     mimeTypes:
-        #       - image/tiff
-        #       - image/bmp
-        #       - image/x-ms-bmp
-        # - id: settings
-        #   path: /settings.js
+      externalApplications: []
       # Theme settings
       theme:
         # -- URL to load themes from. Will be prepended to the theme path. Defaults to the value of "externalDomain".
