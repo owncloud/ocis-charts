@@ -132,6 +132,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 default configuration of oCIS, see https://doc.owncloud.com/ocis/next/deployment/services/s-list/app-registry.html#yaml-example[doc.owncloud.com]
 | Mimetype configuration. Let's you configure a mimetypes' default application, if it is allowed to create a new file and more.
+| features.appsIntegration.wopiIntegration.officeSuites[0].disableChat
+a| [subs=-attributes]
++bool+
+a| [subs=-attributes]
+`false`
+| Disables the chat in the office suite. Note: This currently only applies to OnlyOffice
 | features.appsIntegration.wopiIntegration.officeSuites[0].disableProof
 a| [subs=-attributes]
 +bool+
@@ -210,6 +216,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `""`
 | URI of the office suite.
+| features.appsIntegration.wopiIntegration.officeSuites[1].disableChat
+a| [subs=-attributes]
++bool+
+a| [subs=-attributes]
+`false`
+| Disables the chat in the office suite. Note: This currently only applies to OnlyOffice
 | features.appsIntegration.wopiIntegration.officeSuites[1].disableProof
 a| [subs=-attributes]
 +bool+
@@ -376,8 +388,8 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 +string+
 a| [subs=-attributes]
-`"none"`
-| Values 'ssl' and 'tls' are deprecated and will be removed in oCIS release 6.0.0. Use 'starttls' instead of 'tls' and 'ssltls' instead of 'ssl'.
+`"ssltls"`
+| Encryption method for the SMTP communication. Possible values are `starttls`, `ssl`, `ssltls`, `tls` and `none`
 | features.emailNotifications.smtp.host
 a| [subs=-attributes]
 +string+
@@ -868,7 +880,7 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 +bool+
 a| [subs=-attributes]
-`true`
+`false`
 | Show user email when searching for other users to share with.
 | features.sse.disabled
 a| [subs=-attributes]
@@ -4296,6 +4308,18 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `"50MB"`
 | Sets a maximum file size of an input image which is being processed. Usable common abbreviations: [KB, KiB, MB, MiB, GB, GiB, TB, TiB, PB, PiB, EB, EiB], example: 2GB.
+| services.thumbnails.quota.maxInputHeight
+a| [subs=-attributes]
++int+
+a| [subs=-attributes]
+`7680`
+| Sets a maximium height of an imput image which is being processed.
+| services.thumbnails.quota.maxInputWitdth
+a| [subs=-attributes]
++int+
+a| [subs=-attributes]
+`7680`
+| Sets a maximium width of an imput image which is being processed.
 | services.thumbnails.resources
 a| [subs=-attributes]
 +object+

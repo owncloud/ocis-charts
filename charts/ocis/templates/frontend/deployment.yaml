@@ -111,7 +111,7 @@ spec:
             - name: FRONTEND_FULL_TEXT_SEARCH_ENABLED
               value: {{ not (eq .Values.services.search.extractor.type "basic") | quote }}
 
-            - name: FRONTEND_SHOW_USER_EMAIL_IN_RESULTS
+            - name: OCIS_SHOW_USER_EMAIL_IN_RESULTS
               value: {{ .Values.features.sharing.users.search.showUserEmail | quote }}
 
             - name: OCIS_DISABLE_SSE
@@ -193,4 +193,3 @@ spec:
         - name: configs
           configMap:
             name: sharing-banned-passwords-{{ .appName }}
-
