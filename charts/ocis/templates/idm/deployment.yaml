@@ -71,6 +71,8 @@ spec:
 
             - name: IDM_CREATE_DEMO_USERS
               value: {{ .Values.features.demoUsers | quote }}
+            - name: OCIS_OIDC_ISSUER
+              value: "https://{{ .Values.externalDomain }}"
 
             - name: IDM_ADMIN_PASSWORD
               valueFrom:
