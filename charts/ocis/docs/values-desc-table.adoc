@@ -762,6 +762,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `false`
 | Enables OCM service
+| features.ocm.providers
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"[\n  {\n      \"name\": \"oCIS Test\",\n      \"full_name\": \"oCIS Test provider\",\n      \"organization\": \"oCIS\",\n      \"domain\": \"cloud.ocis.test\",\n      \"homepage\": \"https://ocis.test\",\n      \"description\": \"oCIS Example cloud storage\",\n      \"services\": [\n          {\n              \"endpoint\": {\n                  \"type\": {\n                      \"name\": \"OCM\",\n                      \"description\": \"cloud.ocis.test Open Cloud Mesh API\"\n                  },\n                  \"name\": \"cloud.ocis.test - OCM API\",\n                  \"path\": \"https://cloud.ocis.test/ocm/\",\n                  \"is_monitored\": true\n              },\n              \"api_version\": \"0.0.1\",\n              \"host\": \"http://cloud.ocis.test\"\n          },\n          {\n              \"endpoint\": {\n                  \"type\": {\n                      \"name\": \"Webdav\",\n                      \"description\": \"cloud.ocis.test Webdav API\"\n                  },\n                  \"name\": \"cloud.ocis.test Example - Webdav API\",\n                  \"path\": \"https://cloud.ocis.test/dav/\",\n                  \"is_monitored\": true\n              },\n              \"api_version\": \"0.0.1\",\n              \"host\": \"https://cloud.ocis.test/\"\n          }\n      ]\n  },\n  {\n      \"name\": \"ownCloud Test\",\n      \"full_name\": \"ownCloud Test provider\",\n      \"organization\": \"ownCloud\",\n      \"domain\": \"cloud.owncloud.test\",\n      \"homepage\": \"https://owncloud.test\",\n      \"description\": \"ownCloud Example cloud storage\",\n      \"services\": [\n          {\n              \"endpoint\": {\n                  \"type\": {\n                      \"name\": \"OCM\",\n                      \"description\": \"cloud.owncloud.test Open Cloud Mesh API\"\n                  },\n                  \"name\": \"cloud.owncloud.test - OCM API\",\n                  \"path\": \"https://cloud.owncloud.test/ocm/\",\n                  \"is_monitored\": true\n              },\n              \"api_version\": \"0.0.1\",\n              \"host\": \"http://cloud.owncloud.test\"\n          },\n          {\n              \"endpoint\": {\n                  \"type\": {\n                      \"name\": \"Webdav\",\n                      \"description\": \"cloud.owncloud.test Webdav API\"\n                  },\n                  \"name\": \"cloud.owncloud.test Example - Webdav API\",\n                  \"path\": \"https://cloud.owncloud.test/dav/\",\n                  \"is_monitored\": true\n              },\n              \"api_version\": \"0.0.1\",\n              \"host\": \"https://cloud.owncloud.test/\"\n          }\n      ]\n  }\n]"`
+|
 | features.policies.enabled
 a| [subs=-attributes]
 +bool+
@@ -2838,6 +2844,72 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
+| services.ocm.persistence
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+see detailed persistence configuration options below
+| Persistence settings.
+| services.ocm.persistence.accessModes
+a| [subs=-attributes]
++list+
+a| [subs=-attributes]
+`["ReadWriteOnce"]`
+| Persistent volume access modes. Needs to be `["ReadWriteMany"]` when having more than one replica for this service.
+| services.ocm.persistence.annotations
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Persistent volume annotations.
+| services.ocm.persistence.chownInitContainer
+a| [subs=-attributes]
++bool+
+a| [subs=-attributes]
+`false`
+| Enables an initContainer to chown the volume. The initContainer is run as root. This is not needed if the driver applies the fsGroup from the securityContext. The image specified in `initContainerImage` will be used for this container.
+| services.ocm.persistence.claimName
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Use a custom name for the PVC instead of the default one.
+| services.ocm.persistence.enabled
+a| [subs=-attributes]
++bool+
+a| [subs=-attributes]
+`false`
+| Enables persistence. Needs to be enabled on production installations. If not enabled, pod restarts will lead to data loss. Also scaling this service to more than one replica is not possible if the pods don't share the same volume.
+| services.ocm.persistence.existingClaim
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`nil`
+| Use an existing PersistentVolumeClaim for persistence.
+| services.ocm.persistence.finalizers
+a| [subs=-attributes]
++list+
+a| [subs=-attributes]
+`["kubernetes.io/pvc-protection"]`
+| Persistent volume finalizers.
+| services.ocm.persistence.selectorLabels
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Persistent volume selector labels.
+| services.ocm.persistence.size
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"100Mi"`
+| Size of the persistent volume.
+| services.ocm.persistence.storageClassName
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`nil`
+| Storage class to use. Uses the default storage class if not set.
 | services.ocm.podDisruptionBudget
 a| [subs=-attributes]
 +object+

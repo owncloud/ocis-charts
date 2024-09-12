@@ -634,6 +634,81 @@ features:
   ocm:
     # -- Enables OCM service
     enabled: false
+    providers: |-
+      [
+        {
+            "name": "oCIS Test",
+            "full_name": "oCIS Test provider",
+            "organization": "oCIS",
+            "domain": "cloud.ocis.test",
+            "homepage": "https://ocis.test",
+            "description": "oCIS Example cloud storage",
+            "services": [
+                {
+                    "endpoint": {
+                        "type": {
+                            "name": "OCM",
+                            "description": "cloud.ocis.test Open Cloud Mesh API"
+                        },
+                        "name": "cloud.ocis.test - OCM API",
+                        "path": "https://cloud.ocis.test/ocm/",
+                        "is_monitored": true
+                    },
+                    "api_version": "0.0.1",
+                    "host": "http://cloud.ocis.test"
+                },
+                {
+                    "endpoint": {
+                        "type": {
+                            "name": "Webdav",
+                            "description": "cloud.ocis.test Webdav API"
+                        },
+                        "name": "cloud.ocis.test Example - Webdav API",
+                        "path": "https://cloud.ocis.test/dav/",
+                        "is_monitored": true
+                    },
+                    "api_version": "0.0.1",
+                    "host": "https://cloud.ocis.test/"
+                }
+            ]
+        },
+        {
+            "name": "ownCloud Test",
+            "full_name": "ownCloud Test provider",
+            "organization": "ownCloud",
+            "domain": "cloud.owncloud.test",
+            "homepage": "https://owncloud.test",
+            "description": "ownCloud Example cloud storage",
+            "services": [
+                {
+                    "endpoint": {
+                        "type": {
+                            "name": "OCM",
+                            "description": "cloud.owncloud.test Open Cloud Mesh API"
+                        },
+                        "name": "cloud.owncloud.test - OCM API",
+                        "path": "https://cloud.owncloud.test/ocm/",
+                        "is_monitored": true
+                    },
+                    "api_version": "0.0.1",
+                    "host": "http://cloud.owncloud.test"
+                },
+                {
+                    "endpoint": {
+                        "type": {
+                            "name": "Webdav",
+                            "description": "cloud.owncloud.test Webdav API"
+                        },
+                        "name": "cloud.owncloud.test Example - Webdav API",
+                        "path": "https://cloud.owncloud.test/dav/",
+                        "is_monitored": true
+                    },
+                    "api_version": "0.0.1",
+                    "host": "https://cloud.owncloud.test/"
+                }
+            ]
+        }
+      ]
 # Ingress for oCIS.
 ingress:
   # -- Enables the Ingress.
@@ -1493,6 +1568,38 @@ services:
       sha: ""
       # -- Image pull policy
       pullPolicy:
+    # -- Persistence settings.
+    # @default -- see detailed persistence configuration options below
+    persistence:
+      # -- Enables persistence.
+      # Needs to be enabled on production installations.
+      # If not enabled, pod restarts will lead to data loss.
+      # Also scaling this service to more than one replica is not possible if the pods don't share the same volume.
+      enabled: false
+      # -- Enables an initContainer to chown the volume.
+      # The initContainer is run as root.
+      # This is not needed if the driver applies the fsGroup from the securityContext.
+      # The image specified in `initContainerImage` will be used for this container.
+      chownInitContainer: false
+      # -- Storage class to use.
+      # Uses the default storage class if not set.
+      storageClassName:
+      # -- Persistent volume access modes. Needs to be `["ReadWriteMany"]` when having more than one replica for this service.
+      accessModes:
+        - ReadWriteOnce
+      # -- Size of the persistent volume.
+      size: 100Mi
+      # -- Persistent volume annotations.
+      annotations: {}
+      # -- Persistent volume finalizers.
+      finalizers:
+        - kubernetes.io/pvc-protection
+      # -- Persistent volume selector labels.
+      selectorLabels: {}
+      # -- Use a custom name for the PVC instead of the default one.
+      claimName: ""
+      # -- Use an existing PersistentVolumeClaim for persistence.
+      existingClaim:
 
   # -- OCS service.
   # @default -- see detailed service configuration options below
