@@ -52,6 +52,24 @@ spec:
             - name: OCM_HTTP_ADDR
               value: 0.0.0.0:9280
 
+            - name: OCM_OCM_INVITE_MANAGER_INSECURE
+              value: {{ .Values.insecure.ocmInsecure | quote }}
+            - name: OCM_OCM_STORAGE_PROVIDER_INSECURE
+              value: {{ .Values.insecure.ocmInsecure | quote }}
+            - name: OCM_OCM_SHARE_PROVIDER_INSECURE
+              value: {{ .Values.insecure.ocmInsecure | quote }}
+
+            - name: OCM_SERVICE_ACCOUNT_ID
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ include "config.authService" . }}
+                  key: service-account-id
+            - name: OCM_SERVICE_ACCOUNT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "secrets.serviceAccountSecret" . }}
+                  key: service-account-secret
+
           {{- include "ocis.livenessProbe" . | nindent 10 }}
 
           resources: {{ toYaml .resources | nindent 12 }}
@@ -70,6 +88,8 @@ spec:
               readOnly: true
             - name: {{ include "ocis.persistence.dataVolumeName" . }}
               mountPath: /var/lib/ocis
+            - name: tmp-volume
+              mountPath: /tmp
 
       {{- include "ocis.imagePullSecrets" $ | nindent 6 }}
       volumes:
@@ -83,5 +103,7 @@ spec:
           {{ else }}
           emptyDir: {}
           {{ end }}
+        - name: tmp-volume
+          emptyDir: {}
         {{- include "ocis.persistence.dataVolume" . | nindent 8 }}
 {{ end }}
