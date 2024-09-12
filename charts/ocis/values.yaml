@@ -84,9 +84,6 @@ http:
       frameSrc:
         - "'self'"
         - "blob:"
-        # Needed for the draw-io integration that is enabled by default.
-        # Can be removed when "draw-io" is removed from services.web.config.apps
-        - "https://embed.diagrams.net/"
       # -- img-src directive, see https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/img-src
       imgSrc:
         - "'self'"
@@ -114,8 +111,8 @@ http:
 # Debug settings for the oCIS service
 debug:
   # -- Profiling enables the http://<pod>:<debug-metrics>/debug/pprof endpoint to inspect various Go runtime internals.
-  # You can use the endpoint on your machine by forwarding the port, eg: `kubectl port-forward -n ocis pod/authbasic-8587dc9d64-fs24l 9147:9147`
-  # and then accessing the port on https://localhost:9147/debug/pprof or using the pprof command line tool: `go tool pprof -web http://localhost:9147/debug/pprof/symbol\?seconds\=10`
+  # You can use the endpoint on your machine by forwarding the port, eg: `kubectl port-forward -n ocis pod/proxy-8587dc9d64-fs24l 9205:9205`
+  # and then accessing the port on https://localhost:9147/debug/pprof or using the pprof command line tool: `go tool pprof -web http://localhost:9205/debug/pprof/symbol\?seconds\=10`
   profiling: false
 
 # -- Deployment strategy.
@@ -194,9 +191,6 @@ hostAliases: []
 # Feature options.
 # Enable or disable features of oCIS.
 features:
-  # -- Enable basic authentication.
-  # Not recommended for production installations.
-  basicAuthentication: false
   # -- Create demo users on the first startup.
   # Not recommended for production installations.
   demoUsers: false
@@ -218,9 +212,8 @@ features:
       # -- Authentication method for the SMTP communication. Possible values are ‘login’, ‘plain’, ‘crammd5’, ‘none’, 'auto'
       # If set to another value than `none`, a secret referenced by `notificationsSmtpSecretRef` needs to be present.
       authentication: auto
-      # -- Encryption method for the SMTP communication. Possible values are ‘starttls’, ‘ssltls’ and ‘none’.
-      # -- Values 'ssl' and 'tls' are deprecated and will be removed in oCIS release 6.0.0. Use 'starttls' instead of 'tls' and 'ssltls' instead of 'ssl'.
-      encryption: none
+      # -- Encryption method for the SMTP communication. Possible values are `starttls`, `ssl`, `ssltls`, `tls` and `none`
+      encryption: ssltls
     branding:
       # -- Enables mail branding. If enabled, you need to provide the text and html template ConfigMap.
       # The image ConfigMap is optional.
@@ -237,24 +230,17 @@ features:
       # This ConfigMap is optional and can be omitted when images are not used.
       htmlMailImagesConfigRef: "html-mail-images"
 
-  # SSE (server-sent events) settings.
-  sse:
-    # -- Disables SSE. When disabled, clients will no longer receive sse notifications.
-    disabled: false
-
   # Sharing related settings
   sharing:
     # Sharing with users related settings
     users:
-      # -- Allow a share receiver to share the share with a 3rd person.
-      resharing: true
       # Search settings for finding users to share with.
       search:
         # -- Minimum number of characters to enter before a client should start a search for Share receivers.
         # This setting can be used to customize the user experience if e.g too many results are displayed.
         minLengthLimit: 3
         # -- Show user email when searching for other users to share with.
-        showUserEmail: true
+        showUserEmail: false
     # Sharing per public link related setings
     publiclink:
       # -- Enforce a password on all public link shares.
@@ -308,8 +294,13 @@ features:
           # -- Disables SSL certificate checking for connections to the office suites http api.
           # Not recommended for production installations.
           insecure: false
+          # -- Disables verifying requests via WOPI proof keys.
+          # Not recommended to be disabled for production installations.
+          disableProof: false
           # -- Enable secure view for this office suite
           secureViewEnabled: false
+          # -- Disables the chat in the office suite. Note: This currently only applies to OnlyOffice
+          disableChat: false
           # Ingress for collaboration service.
           ingress:
             # -- Enables the Ingress. Only needed if the office application is not running within the same cluster.
@@ -340,8 +331,13 @@ features:
           # -- Disables SSL certificate checking for connections to the office suites http api.
           # Not recommended for production installations.
           insecure: false
+          # -- Disables verifying requests via WOPI proof keys.
+          # Not recommended to be disabled for production installations.
+          disableProof: false
           # -- Enable secure view for this office suite. Note: OnlyOffice doesn't support secureView right now
           secureViewEnabled: false
+          # -- Disables the chat in the office suite. Note: This currently only applies to OnlyOffice
+          disableChat: false
           # Ingress for collaboration service.
           ingress:
             # -- Enables the Ingress. Only needed if the office application is not running within the same cluster.
@@ -587,7 +583,7 @@ features:
     # Abort will keep the file in the uploads folder for further admin inspection and will not move it to its final destination.
     infectedFileHandling: delete
     # -- Sets a maximum file size for scans. Only this many bytes of a file will be scanned. 0 means unlimited and is the default.
-    # Usable common abbreviations: [KB, KiB, GB, GiB, TB, TiB, PB, PiB, EB, EiB], example: 2GB.
+    # Usable common abbreviations: [KB, KiB, MB, MiB, GB, GiB, TB, TiB, PB, PiB, EB, EiB], example: 2GB.
     maxScanSize:
     # Define icap parameters
     icap:
@@ -864,6 +860,43 @@ extraResources: []
 
 # per-service configuration.
 services:
+  # -- ACTIVITYLOG service.
+  # @default -- see detailed service configuration options below
+  activitylog:
+    # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
+    resources: {}
+    # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
+    nodeSelector: {}
+    # -- Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
+    priorityClassName: ""
+    # -- Per-service store configuration for the activitylog service. Overrides the default setting from `store` if set.
+    store:
+      {}
+      # -- Configure the store type for the activitylog service. Might be `memory` (only for testing), `redis-sentinel`, `nats-js-kv`
+      # type:
+      # -- Provide a list of comma-separated addresses of `redis-sentinel` or `nats-js` servers here
+      # if the proper store is selected
+      # addresses:
+      # - "{{ .appNameNats }}:9233"
+    # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
+    podDisruptionBudget: {}
+    # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
+    autoscaling: {}
+    # -- Affinity settings for the activitylog service. See the documentation of this setting in approvider for examples.
+    affinity: {}
+    # -- Per-service custom labels
+    extraLabels: {}
+    # Per-service image configuration. Overrides the default setting from `image` if set.
+    image:
+      # -- Image repository
+      repository: ""
+      # -- Image tag.
+      tag: ""
+      # -- Image sha / digest (optional).
+      sha: ""
+      # -- Image pull policy
+      pullPolicy:
+
   # -- COLLABORATION service. Not used if `features.appsIntegration.enabled` equals `false`.
   # @default -- see detailed service configuration options below
   collaboration:
@@ -957,34 +990,6 @@ services:
     # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
     autoscaling: {}
     # -- Affinity settings for the audit service. See the documentation of this setting in approvider for examples.
-    affinity: {}
-    # -- Per-service custom labels
-    extraLabels: {}
-    # Per-service image configuration. Overrides the default setting from `image` if set.
-    image:
-      # -- Image repository
-      repository: ""
-      # -- Image tag.
-      tag: ""
-      # -- Image sha / digest (optional).
-      sha: ""
-      # -- Image pull policy
-      pullPolicy:
-
-  # -- AUTH BASIC service. Not used if `features.externalUserManagement.enabled` equals `true`.
-  # @default -- see detailed service configuration options below
-  authbasic:
-    # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
-    resources: {}
-    # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
-    nodeSelector: {}
-    # -- Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
-    priorityClassName: ""
-    # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
-    podDisruptionBudget: {}
-    # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
-    autoscaling: {}
-    # -- Affinity settings for the authbasic service. See the documentation of this setting in approvider for examples.
     affinity: {}
     # -- Per-service custom labels
     extraLabels: {}
@@ -2037,6 +2042,10 @@ services:
       maxConcurrencyRequests: 0
       # -- Sets a maximum file size of an input image which is being processed. Usable common abbreviations: [KB, KiB, MB, MiB, GB, GiB, TB, TiB, PB, PiB, EB, EiB], example: 2GB.
       maxFileSize: 50MB
+      # -- Sets a maximium width of an imput image which is being processed.
+      maxInputWitdth: 7680
+      # -- Sets a maximium height of an imput image which is being processed.
+      maxInputHeight: 7680
     # -- Persistence settings.
     # @default -- see detailed persistence configuration options below
     persistence:
@@ -2204,16 +2213,6 @@ services:
         ariaLabel: ""
         # -- Description to be shown for the feedback link. Uses the ownCloud default description if empty.
         description: ""
-      # -- Specifies which mimeTypes will be previewed in the UI.
-      previewFileMimeTypes:
-        []
-        # - image/gif
-        # - image/png
-        # - image/jpeg
-        # - text/plain
-        # - image/tiff
-        # - image/bmp
-        # - image/x-ms-bmp
       # -- Configure the {"styles": []} section in the Web config.json.
       styles:
         []
@@ -2228,40 +2227,9 @@ services:
         []
         # - url: https://ocis.kube.owncloud.test/custom_translations.json
       # -- Configure the {"apps": []} section in the Web config.json.
-      apps:
-        []
-        # default apps, add and remove apps as desired
-        # - files
-        # - search
-        # - text-editor
-        # - pdf-viewer
-        # - external
-        # - admin-settings
-        # - epub-reader
-        # - draw-io
-      # -- Configure the {"applications": []} section in the Web config.json.
-      applications:
-        []
-        # example for an user manual homepage, that will be linked in the app drawer
-        # - icon: book-read
-        #   url: "https://manual.owncloud.test"
-        #   target: _blank
-        #   title:
-        #     de: Anleitung
-        #     en: Manual
+      apps: []
       # -- Configure the {"external_apps": []} section in the Web config.json.
-      externalApplications:
-        []
-        # default external application of Web, add and remove apps as desired
-        # - id: preview
-        #   path: web-app-preview
-        #   config:
-        #     mimeTypes:
-        #       - image/tiff
-        #       - image/bmp
-        #       - image/x-ms-bmp
-        # - id: settings
-        #   path: /settings.js
+      externalApplications: []
       # Theme settings
       theme:
         # -- URL to load themes from. Will be prepended to the theme path. Defaults to the value of "externalDomain".

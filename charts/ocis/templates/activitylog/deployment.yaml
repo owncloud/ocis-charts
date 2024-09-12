@@ -1,4 +1,4 @@
-{{- include "ocis.basicServiceTemplates" (dict "scope" . "appName" "appNameSSE" "appNameSuffix" "") -}}
+{{- include "ocis.basicServiceTemplates" (dict "scope" . "appName" "appNameActivitylog" "appNameSuffix" "") -}}
 apiVersion: apps/v1
 kind: Deployment
 {{ include "ocis.metadata" . }}
@@ -20,54 +20,64 @@ spec:
         - name: {{ .appName }}
           {{- include "ocis.image" $ | nindent 10 }}
           command: ["ocis"]
-          args: ["sse", "server"]
+          args: ["activitylog", "server"]
           {{- include "ocis.containerSecurityContext" . | nindent 10 }}
           env:
             {{- include "ocis.serviceRegistry" . | nindent 12 }}
-            {{- include "ocis.cors" . |nindent 12 }}
             {{- include "ocis.events" . | nindent 12 }}
+            {{- include "ocis.cors" . | nindent 12 }}
+            {{- include "ocis.persistentStore" . | nindent 12 }}
 
-            - name: SSE_LOG_COLOR
+            - name: ACTIVITYLOG_LOG_COLOR
               value: {{ .Values.logging.color | quote }}
-            - name: SSE_LOG_LEVEL
+            - name: ACTIVITYLOG_LOG_LEVEL
               value: {{ .Values.logging.level | quote }}
-            - name: SSE_LOG_PRETTY
+            - name: ACTIVITYLOG_LOG_PRETTY
               value: {{ .Values.logging.pretty | quote }}
 
-            # Tracing not yet implemented: https://github.com/owncloud/ocis/issues/6176
-            - name: SSE_TRACING_ENABLED
+            - name: ACTIVITYLOG_TRACING_ENABLED
               value: "{{ .Values.tracing.enabled }}"
-            - name: SSE_TRACING_TYPE
+            - name: ACTIVITYLOG_TRACING_TYPE
               value: {{ .Values.tracing.type | quote }}
-            - name: SSE_TRACING_ENDPOINT
+            - name: ACTIVITYLOG_TRACING_ENDPOINT
               value: {{ .Values.tracing.endpoint | quote }}
-            - name: SSE_TRACING_COLLECTOR
+            - name: ACTIVITYLOG_TRACING_COLLECTOR
               value: {{ .Values.tracing.collector | quote }}
 
-            - name: SSE_DEBUG_PPROF
+            - name: ACTIVITYLOG_DEBUG_PPROF
               value: {{ .Values.debug.profiling | quote }}
 
-            - name: SSE_DEBUG_ADDR
-              value: 0.0.0.0:9135
+            - name: ACTIVITYLOG_HTTP_ADDR
+              value: 0.0.0.0:9195
+            - name: ACTIVITYLOG_DEBUG_ADDR
+              value: 0.0.0.0:9197
 
-            - name: SSE_HTTP_ADDR
-              value: 0.0.0.0:9939
+            - name: ACTIVITYLOG_SERVICE_ACCOUNT_ID
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ include "config.authService" . }}
+                  key: service-account-id
+            - name: ACTIVITYOG_SERVICE_ACCOUNT_SECRET #TODO: https://github.com/owncloud/ocis/issues/10013
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "secrets.serviceAccountSecret" . }}
+                  key: service-account-secret
 
-            - name: SSE_JWT_SECRET
+            - name: ACTIVITYLOG_JWT_SECRET
               valueFrom:
                 secretKeyRef:
                   name: {{ include "secrets.jwtSecret" . }}
                   key: jwt-secret
 
-            # {{- include "ocis.livenessProbe" . | nindent 10 }}
+          {{- include "ocis.livenessProbe" . | nindent 10 }}
 
           resources: {{ toYaml .resources | nindent 12 }}
 
           ports:
             - name: http
-              containerPort: 9939
+              containerPort: 9195
             - name: metrics-debug
-              containerPort: 9135
+              containerPort: 9197
 
           volumeMounts:
             - name: messaging-system-ca

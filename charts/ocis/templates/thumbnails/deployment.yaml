@@ -36,6 +36,7 @@ spec:
           {{- include "ocis.containerSecurityContext" . | nindent 10 }}
           env:
             {{- include "ocis.serviceRegistry" . | nindent 12 }}
+            {{- include "ocis.cors" . |nindent 12 }}
 
             - name: THUMBNAILS_LOG_COLOR
               value: {{ .Values.logging.color | quote }}
@@ -70,6 +71,10 @@ spec:
               value: {{ .Values.services.thumbnails.quota.maxConcurrencyRequests | quote }}
             - name: THUMBNAILS_MAX_INPUT_IMAGE_FILE_SIZE
               value: {{ .Values.services.thumbnails.quota.maxFileSize | quote }}
+            - name: THUMBNAILS_MAX_INPUT_WIDTH
+              value: {{ .Values.services.thumbnails.quota.maxInputWitdth | quote }}
+            - name: THUMBNAILS_MAX_INPUT_HEIGHT
+              value: {{ .Values.services.thumbnails.quota.maxInputHeight | quote }}
 
             - name: THUMBNAILS_WEBDAVSOURCE_INSECURE
               value: {{ .Values.insecure.ocisHttpApiInsecure | quote }}

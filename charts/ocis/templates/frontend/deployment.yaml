@@ -99,9 +99,6 @@ spec:
             - name: FRONTEND_SEARCH_MIN_LENGTH
               value: {{ .Values.features.sharing.users.search.minLengthLimit | quote }}
 
-            - name: FRONTEND_ENABLE_RESHARING
-              value: {{ .Values.features.sharing.users.resharing | quote }}
-
             - name: FRONTEND_ARCHIVER_MAX_SIZE
               value: {{ int64 .Values.features.archiver.maxSize | quote }}
 
@@ -111,11 +108,8 @@ spec:
             - name: FRONTEND_FULL_TEXT_SEARCH_ENABLED
               value: {{ not (eq .Values.services.search.extractor.type "basic") | quote }}
 
-            - name: FRONTEND_SHOW_USER_EMAIL_IN_RESULTS
+            - name: OCIS_SHOW_USER_EMAIL_IN_RESULTS
               value: {{ .Values.features.sharing.users.search.showUserEmail | quote }}
-
-            - name: OCIS_DISABLE_SSE
-              value: {{ .Values.features.sse.disabled | quote }}
 
             # cache
             # the stat cache is disabled for now for performance reasons, see https://github.com/owncloud/ocis-charts/issues/214
@@ -193,4 +187,3 @@ spec:
         - name: configs
           configMap:
             name: sharing-banned-passwords-{{ .appName }}
-

@@ -91,9 +91,6 @@ spec:
                   name: {{ include "secrets.jwtSecret" . }}
                   key: jwt-secret
 
-            - name: OCIS_DISABLE_SSE
-              value: {{ .Values.features.sse.disabled | quote }}
-
           {{- include "ocis.livenessProbe" . | nindent 10 }}
 
           resources: {{ toYaml .resources | nindent 12 }}
@@ -105,16 +102,12 @@ spec:
               containerPort: 9210
 
           volumeMounts:
-            - name: ocis-config-tmp
-              mountPath: /etc/ocis # we mount that volume only to apply fsGroup to that path
             - name: messaging-system-ca
               mountPath: /etc/ocis/messaging-system-ca
               readOnly: true
 
       {{- include "ocis.imagePullSecrets" $ | nindent 6 }}
       volumes:
-        - name: ocis-config-tmp
-          emptyDir: {}
         - name: messaging-system-ca
           {{ if and (.Values.messagingSystem.external.enabled) (not .Values.messagingSystem.external.tls.certTrusted) }}
           secret:

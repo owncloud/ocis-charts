@@ -95,7 +95,7 @@ a| [subs=-attributes]
 +bool+
 a| [subs=-attributes]
 `false`
-| Profiling enables the http://<pod>:<debug-metrics>/debug/pprof endpoint to inspect various Go runtime internals. You can use the endpoint on your machine by forwarding the port, eg: `kubectl port-forward -n ocis pod/authbasic-8587dc9d64-fs24l 9147:9147` and then accessing the port on https://localhost:9147/debug/pprof or using the pprof command line tool: `go tool pprof -web http://localhost:9147/debug/pprof/symbol\?seconds\=10`
+| Profiling enables the http://<pod>:<debug-metrics>/debug/pprof endpoint to inspect various Go runtime internals. You can use the endpoint on your machine by forwarding the port, eg: `kubectl port-forward -n ocis pod/proxy-8587dc9d64-fs24l 9205:9205` and then accessing the port on https://localhost:9147/debug/pprof or using the pprof command line tool: `go tool pprof -web http://localhost:9205/debug/pprof/symbol\?seconds\=10`
 | deploymentStrategy
 a| [subs=-attributes]
 +object+
@@ -132,6 +132,18 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 default configuration of oCIS, see https://doc.owncloud.com/ocis/next/deployment/services/s-list/app-registry.html#yaml-example[doc.owncloud.com]
 | Mimetype configuration. Let's you configure a mimetypes' default application, if it is allowed to create a new file and more.
+| features.appsIntegration.wopiIntegration.officeSuites[0].disableChat
+a| [subs=-attributes]
++bool+
+a| [subs=-attributes]
+`false`
+| Disables the chat in the office suite. Note: This currently only applies to OnlyOffice
+| features.appsIntegration.wopiIntegration.officeSuites[0].disableProof
+a| [subs=-attributes]
++bool+
+a| [subs=-attributes]
+`false`
+| Disables verifying requests via WOPI proof keys. Not recommended to be disabled for production installations.
 | features.appsIntegration.wopiIntegration.officeSuites[0].enabled
 a| [subs=-attributes]
 +bool+
@@ -204,6 +216,18 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `""`
 | URI of the office suite.
+| features.appsIntegration.wopiIntegration.officeSuites[1].disableChat
+a| [subs=-attributes]
++bool+
+a| [subs=-attributes]
+`false`
+| Disables the chat in the office suite. Note: This currently only applies to OnlyOffice
+| features.appsIntegration.wopiIntegration.officeSuites[1].disableProof
+a| [subs=-attributes]
++bool+
+a| [subs=-attributes]
+`false`
+| Disables verifying requests via WOPI proof keys. Not recommended to be disabled for production installations.
 | features.appsIntegration.wopiIntegration.officeSuites[1].enabled
 a| [subs=-attributes]
 +bool+
@@ -306,12 +330,6 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `1073741824`
 | Max size in bytes of the zip archive the archiver can create.
-| features.basicAuthentication
-a| [subs=-attributes]
-+bool+
-a| [subs=-attributes]
-`false`
-| Enable basic authentication. Not recommended for production installations.
 | features.demoUsers
 a| [subs=-attributes]
 +bool+
@@ -364,8 +382,8 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 +string+
 a| [subs=-attributes]
-`"none"`
-| Values 'ssl' and 'tls' are deprecated and will be removed in oCIS release 6.0.0. Use 'starttls' instead of 'tls' and 'ssltls' instead of 'ssl'.
+`"ssltls"`
+| Encryption method for the SMTP communication. Possible values are `starttls`, `ssl`, `ssltls`, `tls` and `none`
 | features.emailNotifications.smtp.host
 a| [subs=-attributes]
 +string+
@@ -840,12 +858,6 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `false`
 | Enforce a password only on writable public link shares. Is already enforced if `features.sharing.publiclink.shareMustHavePassword` option is set to `true``.
-| features.sharing.users.resharing
-a| [subs=-attributes]
-+bool+
-a| [subs=-attributes]
-`true`
-| Allow a share receiver to share the share with a 3rd person.
 | features.sharing.users.search.minLengthLimit
 a| [subs=-attributes]
 +int+
@@ -856,14 +868,8 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 +bool+
 a| [subs=-attributes]
-`true`
-| Show user email when searching for other users to share with.
-| features.sse.disabled
-a| [subs=-attributes]
-+bool+
-a| [subs=-attributes]
 `false`
-| Disables SSE. When disabled, clients will no longer receive sse notifications.
+| Show user email when searching for other users to share with.
 | features.virusscan.enabled
 a| [subs=-attributes]
 +bool+
@@ -899,7 +905,7 @@ a| [subs=-attributes]
 +string+
 a| [subs=-attributes]
 `nil`
-| Sets a maximum file size for scans. Only this many bytes of a file will be scanned. 0 means unlimited and is the default. Usable common abbreviations: [KB, KiB, GB, GiB, TB, TiB, PB, PiB, EB, EiB], example: 2GB.
+| Sets a maximum file size for scans. Only this many bytes of a file will be scanned. 0 means unlimited and is the default. Usable common abbreviations: [KB, KiB, MB, MiB, GB, GiB, TB, TiB, PB, PiB, EB, EiB], example: 2GB.
 | hostAliases
 a| [subs=-attributes]
 +list+
@@ -946,7 +952,7 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 +list+
 a| [subs=-attributes]
-`["'self'","blob:","https://embed.diagrams.net/"]`
+`["'self'","blob:"]`
 | frame-src directive, see https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/frame-src
 | http.csp.directives.imgSrc
 a| [subs=-attributes]
@@ -1374,6 +1380,84 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `"tcp"`
 | appProtocol to be used for service ports that use the nats wire protocol. Not used if `messagingSystem.external.enabled` equals `true`.
+| services.activitylog
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+see detailed service configuration options below
+| ACTIVITYLOG service.
+| services.activitylog.affinity
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Affinity settings for the activitylog service. See the documentation of this setting in approvider for examples.
+| services.activitylog.autoscaling
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
+| services.activitylog.extraLabels
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service custom labels
+| services.activitylog.image.pullPolicy
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`nil`
+| Image pull policy
+| services.activitylog.image.repository
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Image repository
+| services.activitylog.image.sha
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Image sha / digest (optional).
+| services.activitylog.image.tag
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Image tag.
+| services.activitylog.nodeSelector
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
+| services.activitylog.podDisruptionBudget
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
+| services.activitylog.priorityClassName
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
+| services.activitylog.resources
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service resources configuration. Overrides the default setting from `resources` if set.
+| services.activitylog.store
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service store configuration for the activitylog service. Overrides the default setting from `store` if set.
 | services.antivirus
 a| [subs=-attributes]
 +object+
@@ -1573,78 +1657,6 @@ a| [subs=-attributes]
 `""`
 | Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
 | services.audit.resources
-a| [subs=-attributes]
-+object+
-a| [subs=-attributes]
-`{}`
-| Per-service resources configuration. Overrides the default setting from `resources` if set.
-| services.authbasic
-a| [subs=-attributes]
-+object+
-a| [subs=-attributes]
-see detailed service configuration options below
-| AUTH BASIC service. Not used if `features.externalUserManagement.enabled` equals `true`.
-| services.authbasic.affinity
-a| [subs=-attributes]
-+object+
-a| [subs=-attributes]
-`{}`
-| Affinity settings for the authbasic service. See the documentation of this setting in approvider for examples.
-| services.authbasic.autoscaling
-a| [subs=-attributes]
-+object+
-a| [subs=-attributes]
-`{}`
-| Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
-| services.authbasic.extraLabels
-a| [subs=-attributes]
-+object+
-a| [subs=-attributes]
-`{}`
-| Per-service custom labels
-| services.authbasic.image.pullPolicy
-a| [subs=-attributes]
-+string+
-a| [subs=-attributes]
-`nil`
-| Image pull policy
-| services.authbasic.image.repository
-a| [subs=-attributes]
-+string+
-a| [subs=-attributes]
-`""`
-| Image repository
-| services.authbasic.image.sha
-a| [subs=-attributes]
-+string+
-a| [subs=-attributes]
-`""`
-| Image sha / digest (optional).
-| services.authbasic.image.tag
-a| [subs=-attributes]
-+string+
-a| [subs=-attributes]
-`""`
-| Image tag.
-| services.authbasic.nodeSelector
-a| [subs=-attributes]
-+object+
-a| [subs=-attributes]
-`{}`
-| Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
-| services.authbasic.podDisruptionBudget
-a| [subs=-attributes]
-+object+
-a| [subs=-attributes]
-`{}`
-| Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
-| services.authbasic.priorityClassName
-a| [subs=-attributes]
-+string+
-a| [subs=-attributes]
-`""`
-| Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
-| services.authbasic.resources
 a| [subs=-attributes]
 +object+
 a| [subs=-attributes]
@@ -4284,6 +4296,18 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `"50MB"`
 | Sets a maximum file size of an input image which is being processed. Usable common abbreviations: [KB, KiB, MB, MiB, GB, GiB, TB, TiB, PB, PiB, EB, EiB], example: 2GB.
+| services.thumbnails.quota.maxInputHeight
+a| [subs=-attributes]
++int+
+a| [subs=-attributes]
+`7680`
+| Sets a maximium height of an imput image which is being processed.
+| services.thumbnails.quota.maxInputWitdth
+a| [subs=-attributes]
++int+
+a| [subs=-attributes]
+`7680`
+| Sets a maximium width of an imput image which is being processed.
 | services.thumbnails.resources
 a| [subs=-attributes]
 +object+
@@ -4458,12 +4482,6 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
-| services.web.config.applications
-a| [subs=-attributes]
-+list+
-a| [subs=-attributes]
-`[]`
-| Configure the {"applications": []} section in the Web config.json.
 | services.web.config.apps
 a| [subs=-attributes]
 +list+
@@ -4536,12 +4554,6 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `"openid profile email"`
 | OIDC scopes to request during authentication to authorize access to user details. Defaults to ‘openid profile email’. Values are separated by blank. More example values but not limited to are ‘address’ or ‘phone’ etc.
-| services.web.config.previewFileMimeTypes
-a| [subs=-attributes]
-+list+
-a| [subs=-attributes]
-`[]`
-| Specifies which mimeTypes will be previewed in the UI.
 | services.web.config.scripts
 a| [subs=-attributes]
 +list+

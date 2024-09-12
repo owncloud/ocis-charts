@@ -52,9 +52,6 @@ spec:
             - name: PROXY_DEBUG_ADDR
               value: 0.0.0.0:9205
 
-            - name: PROXY_ENABLE_BASIC_AUTH
-              value: {{ .Values.features.basicAuthentication | quote }}
-
             - name: PROXY_OIDC_ISSUER
             {{- if not .Values.features.externalUserManagement.enabled }}
               value: "https://{{ .Values.externalDomain }}"
@@ -114,6 +111,7 @@ spec:
 
             - name: PROXY_AUTOPROVISION_ACCOUNTS
               value: {{ .Values.features.externalUserManagement.autoprovisionAccounts.enabled | default "false" | quote }}
+            {{- if .Values.features.externalUserManagement.autoprovisionAccounts.enabled }}
             - name: PROXY_AUTOPROVISION_CLAIM_EMAIL
               value: {{ .Values.features.externalUserManagement.autoprovisionAccounts.claimEmail | quote }}
             - name: PROXY_AUTOPROVISION_CLAIM_DISPLAYNAME
@@ -122,6 +120,7 @@ spec:
               value: {{ .Values.features.externalUserManagement.autoprovisionAccounts.claimGroups | quote }}
             - name: PROXY_AUTOPROVISION_CLAIM_USERNAME
               value: {{ .Values.features.externalUserManagement.autoprovisionAccounts.claimUserName | quote }}
+            {{- end }}
 
           {{- include "ocis.livenessProbe" . | nindent 10 }}
 
