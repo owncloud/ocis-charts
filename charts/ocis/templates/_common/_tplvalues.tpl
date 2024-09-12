@@ -235,12 +235,12 @@ oCIS deployment CORS template
 
 */}}
 {{- define "ocis.cors" -}}
+{{- $origins := .Values.http.cors.allow_origins -}}
+{{- if not (has "https://{{ .Values.externalDomain }}" $origins) -}}
+{{- $origins = prepend $origins (print "https://" .Values.externalDomain) -}}
+{{- end -}}
 - name: OCIS_CORS_ALLOW_ORIGINS
-{{- if .Values.http.cors.allow_origins }}
-  value: {{ without .Values.http.cors.allow_origins "" | join "," | quote }}
-{{- else }}
-  value: "https://{{ .Values.externalDomain }}"
-{{- end }}
+  value: {{ without $origins "" | join "," | quote }}
 {{- end -}}
 
 {{/*
