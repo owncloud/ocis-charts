@@ -115,10 +115,6 @@ releases:
             persistence:
               enabled: true
 
-          nats:
-            persistence:
-              enabled: true
-
           search:
             persistence:
               enabled: true
