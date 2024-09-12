@@ -235,6 +235,8 @@ oCIS deployment CORS template
 
 */}}
 {{- define "ocis.cors" -}}
+- name: OCIS_URL
+  value: "https://{{ .Values.externalDomain }}"
 {{- if .Values.http.cors.allow_origins }}
 - name: OCIS_CORS_ALLOW_ORIGINS
   value: {{ without .Values.http.cors.allow_origins "" | join "," | quote }}
