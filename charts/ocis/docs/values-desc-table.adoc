@@ -4470,6 +4470,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 see detailed service configuration options below
 | ownCloud WEB service.
+| services.web.additionalInitContainers
+a| [subs=-attributes]
++list+
+a| [subs=-attributes]
+`[]`
+| Additional init containers for the Web pods.
 | services.web.affinity
 a| [subs=-attributes]
 +object+
@@ -4502,10 +4508,10 @@ a| [subs=-attributes]
 | Configure custom translations
 | services.web.config.externalApplications
 a| [subs=-attributes]
-+list+
++object+
 a| [subs=-attributes]
-`[]`
-| Configure the {"external_apps": []} section in the Web config.json.
+`{}`
+| Configure external apps in Web's app.yaml
 | services.web.config.feedbackLink.ariaLabel
 a| [subs=-attributes]
 +string+

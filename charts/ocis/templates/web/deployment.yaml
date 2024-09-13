@@ -16,6 +16,23 @@ spec:
       {{- include "ocis.priorityClassName" $.priorityClassName | nindent 6 }}
       {{- include "ocis.hostAliases" $ | nindent 6 }}
       nodeSelector: {{ toYaml $.nodeSelector | nindent 8 }}
+      {{- if or (gt (len $.Values.services.web.additionalInitContainers) 0) (and $.Values.services.web.persistence.enabled $.Values.services.web.persistence.chownInitContainer) }}
+      initContainers:
+      {{- end }}
+      {{- if and $.Values.services.web.persistence.enabled $.Values.services.web.persistence.chownInitContainer }}
+        - name: init-chown-data
+          {{- include "ocis.initContainerImage" $ | nindent 10 }}
+          securityContext:
+            runAsNonRoot: false
+            runAsUser: 0
+          {{- include "ocis.initChownDataCommand" $ | nindent 10 }}
+          volumeMounts:
+          - name: {{ include "ocis.persistence.dataVolumeName" . }}
+            mountPath: /var/lib/ocis
+      {{- end }}
+      {{- with $.Values.services.web.additionalInitContainers }}
+        {{ toYaml . | nindent 8 }}
+      {{- end }}
       containers:
         - name: {{ .appName }}
           {{- include "ocis.image" $ | nindent 10 }}
@@ -192,6 +209,8 @@ spec:
             - name: theme-assets
               mountPath: "/var/lib/ocis/web/assets/themes/{{ .Values.services.web.config.theme.themeNameConfigRefs }}/assets"
             {{- end }}
+            - name: apps
+              mountPath: /var/lib/ocis/web/assets/apps
             - name: {{ include "ocis.persistence.dataVolumeName" . }}
               mountPath: /var/lib/ocis
 
@@ -210,4 +229,6 @@ spec:
           configMap:
             name: {{ . | quote }}
         {{- end }}
+        - name: apps
+          emptyDir: {}
         {{- include "ocis.persistence.dataVolume" . | nindent 8 }}
