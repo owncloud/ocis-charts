@@ -50,7 +50,7 @@ releases:
             persistence:
               enabled: true
             config:
-              externalApplications:
+              externalApps:
                 external-sites:
                   config:
                     sites:

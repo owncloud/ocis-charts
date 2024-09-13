@@ -2228,8 +2228,10 @@ services:
         # - url: https://ocis.kube.owncloud.test/custom_translations.json
       # -- Configure the {"apps": []} section in the Web config.json.
       apps: []
+      # -- Configure the {"external_apps": []} section in the Web config.json.
+      externalApplications: []
       # -- Configure external apps in Web's app.yaml
-      externalApplications: {}
+      externalApps: {}
       # Theme settings
       theme:
         # -- URL to load themes from. Will be prepended to the theme path. Defaults to the value of "externalDomain".

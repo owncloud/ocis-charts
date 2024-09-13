@@ -4508,6 +4508,12 @@ a| [subs=-attributes]
 | Configure custom translations
 | services.web.config.externalApplications
 a| [subs=-attributes]
++list+
+a| [subs=-attributes]
+`[]`
+| Configure the {"external_apps": []} section in the Web config.json.
+| services.web.config.externalApps
+a| [subs=-attributes]
 +object+
 a| [subs=-attributes]
 `{}`
