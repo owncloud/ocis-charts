@@ -1,0 +1,205 @@
+repositories:
+  - name: opendesk-clamav
+    url: https://gitlab.opencode.de/api/v4/projects/1381/packages/helm/stable
+
+releases:
+  - name: ocis
+    chart: ../../charts/ocis
+    namespace: ocis
+    values:
+      - externalDomain: ocis.kube.owncloud.test
+      - ingress:
+          enabled: true
+          ingressClassName: nginx
+          annotations:
+            nginx.ingress.kubernetes.io/proxy-body-size: 1024m
+          tls:
+            - secretName: ocis-dev-tls
+              hosts:
+                - ocis.kube.owncloud.test
+
+      - logging:
+          level: debug
+
+      - insecure:
+          oidcIdpInsecure: true
+          ocisHttpApiInsecure: true
+
+      - features:
+          demoUsers: true
+          ocm:
+            enabled: true
+          virusscan:
+            maxScanSize: 64MB
+            # -- Enables virus scanning
+            enabled: true
+            # -- Define what should happen with infected files. Supported options are: 'delete', 'continue' and 'abort '.
+            # Delete will delete the file.
+            # Continue will mark the file as infected but continues further processing.
+            # Abort will keep the file in the uploads folder for further admin inspection and will not move it to its final destination.
+            infectedFileHandling: abort
+            # Define icap parameters
+            icap:
+              # -- Sets the timeout for icap scans
+              timeout: 300
+              # -- Sets the icap url
+              url: http://opendesk-clamav-icap.clamav:1344
+              # -- Sets the service to be used in icap
+              service: avscan
+
+
+      - services:
+          idm:
+            persistence:
+              enabled: true
+              accessModes:
+                - ReadWriteOnce
+
+          nats:
+            persistence:
+              enabled: true
+              accessModes:
+                - ReadWriteOnce
+
+          search:
+            persistence:
+              enabled: true
+              accessModes:
+                - ReadWriteOnce
+
+          storagesystem:
+            persistence:
+              enabled: true
+              accessModes:
+                - ReadWriteOnce
+
+          storageusers:
+            persistence:
+              enabled: true
+              accessModes:
+                - ReadWriteOnce
+            maintenance:
+              cleanUpExpiredUploads:
+                enabled: true
+                schedule: "* * * * *"
+              purgeExpiredTrashBinItems:
+                enabled: true
+                schedule: "* * * * *"
+              restartPostprocessing:
+                enabled: true
+                schedule: "* * * * *"
+
+          thumbnails:
+            persistence:
+              enabled: true
+              accessModes:
+                - ReadWriteOnce
+            maintenance:
+              cleanUpOldThumbnails:
+                enabled: true
+                schedule: "* * * * *"
+
+          web:
+            persistence:
+              enabled: true
+              accessModes:
+                - ReadWriteOnce
+
+  - name: opendesk-clamav
+    chart: opendesk-clamav/opendesk-clamav
+    namespace: clamav
+    version: 4.0.6
+    values:
+      # The global properties are used to configure multiple charts at once.
+      - serviceAccount:
+          automountServiceAccountToken: false
+          create: false
+          name: "clamav"
+
+      - containerSecurityContext:
+          capabilities:
+            add:
+              - "CHOWN"
+          readOnlyRootFilesystem: false
+
+      - image:
+          tag: "1.4.0"
+
+      - persistence:
+          # -- Enable data persistence (true) or use temporary storage (false).
+          enabled: true
+          accessModes:
+            - "ReadWriteOnce"
+
+          # -- The volume size with unit.
+          size: "1Gi"
+
+      - podSecurityContext:
+          enabled: true
+          fsGroup: 101
+          fsGroupChangePolicy: "OnRootMismatch"
+
+      - resources:
+          limits:
+            # -- The max amount of CPUs to consume.
+            cpu: "500m"
+            # -- The max amount of RAM to consume.
+            memory: "1Gi"
+          requests:
+            # -- The amount of CPUs which has to be available on the scheduled node.
+            cpu: "500m"
+            # -- The amount of RAM which has to be available on the scheduled node.
+            memory: "900Mi"
+
+      - freshclam:
+          containerSecurityContext:
+            capabilities:
+              add:
+                - "CHOWN"
+            readOnlyRootFilesystem: false
+          image:
+            tag: "1.4.0"
+          podSecurityContext:
+            fsGroupChangePolicy: "OnRootMismatch"
+
+          # ClamAV configuration.
+          settings:
+            # -- Send the RELOAD command to clamd.
+            notifyClamd: /etc/clamav/clamd.conf
+            maxAttempts: 5
+            pidFile: "/tmp/freshclam.pid"
+
+      - milter:
+          settings:
+            clamdHost: "opendesk-clamav-clamd"
+
+      - clamd:
+          containerSecurityContext:
+            capabilities:
+              add:
+                - "CHOWN"
+            readOnlyRootFilesystem: false
+          image:
+            tag: "1.4.0"
+          podSecurityContext:
+            fsGroupChangePolicy: "OnRootMismatch"
+          serviceAccount:
+            create: false
+
+      - icap:
+          containerSecurityContext:
+            capabilities:
+              add:
+                - "CHOWN"
+            readOnlyRootFilesystem: false
+          image:
+            registry: "docker.io"
+            repository: "case404/clamav-i-cap"
+            imagePullPolicy: "IfNotPresent"
+            tag: "0.5.12"
+          podSecurityContext:
+            fsGroupChangePolicy: "OnRootMismatch"
+          serviceAccount:
+            create: false
+          settings:
+            clamdModClamdHost: "opendesk-clamav-clamd"
