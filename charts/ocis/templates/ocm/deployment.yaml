@@ -52,6 +52,15 @@ spec:
             - name: OCM_HTTP_ADDR
               value: 0.0.0.0:9280
 
+            - name: OCM_GRPC_ADDR
+              value: 0.0.0.0:9282
+
+            - name: OCM_JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: "jwt-secret"
+                  key: jwt-secret
+
             - name: OCM_OCM_INVITE_MANAGER_INSECURE
               value: {{ .Values.insecure.ocmInsecure | quote }}
             - name: OCM_OCM_STORAGE_PROVIDER_INSECURE
