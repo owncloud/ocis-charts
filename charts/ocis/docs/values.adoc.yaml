@@ -564,6 +564,19 @@ features:
     # The IDs of the roles and a description can be found by running:
     # kubectl -n ocis exec deployments/graph -- ocis graph list-unified-roles
     availableUnifiedRoles: []
+    # Uncomment one of the following to get the corresponding roles:
+    # - b1e2218d-eef8-4d4c-b82d-0f1a1b48f3b5 # Viewer
+    # - d5041006-ebb3-4b4a-b6a4-7c180ecfb17d # ViewerListGrants
+    # - a8d5fe5e-96e3-418d-825b-534dbdf22b99 # SpaceViewer
+    # - fb6c3e19-e378-47e5-b277-9732f9de6e21 # Editor
+    # - e8ea8b21-abd4-45d2-b893-8d1546378e9e # EditorListGrants
+    # - 58c63c02-1d89-4572-916a-870abc5a1b7d # SpaceEditor
+    # - 3284f2d5-0070-4ad8-ac40-c247f7c1fb27 # SpaceEditorWithoutVersions
+    # - 2d00ce52-1fc2-4dbc-8b95-a73b73395f5a # FileEditor
+    # - c1235aea-d106-42db-8458-7d5610fb0a67 # FileEditorListGrants
+    # - 1c996275-f1c9-4e71-abdf-a42f6495e960 # EditorLite
+    # - 312c0871-5ef7-4b3a-85b6-0e4074c64049 # SpaceManager
+    # - aa97fe03-7980-45ac-9e50-b325749fd7e6 # SecureViewer
   # Define quota settings.
   quotas:
     # -- Sets the maximum quota for spaces in bytes. So 1000 sets the max quota to 1KB.
