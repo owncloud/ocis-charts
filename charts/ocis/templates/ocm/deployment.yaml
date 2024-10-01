@@ -55,6 +55,9 @@ spec:
             - name: OCM_GRPC_ADDR
               value: 0.0.0.0:9282
 
+            - name: OCIS_URL
+              value: "https://{{ .Values.externalDomain }}"
+
             - name: OCM_JWT_SECRET
               valueFrom:
                 secretKeyRef:
