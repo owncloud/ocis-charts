@@ -99,7 +99,7 @@ spec:
                   key: wopi-secret
 
             - name: OCIS_URL
-              value: "https://{{ .Values.externalDomain }}"
+              value: "https://{{ $.Values.externalDomain }}"
 
           livenessProbe:
             exec:
