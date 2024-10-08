@@ -558,6 +558,12 @@ features:
     customRolesConfigRef:
     # -- Define the roles by providing the JSON text here.
     customRoles: ""
+    # -- Define a list of unified roles to make them available.
+    # The default of an empty list means all unified roles are available.
+    # You can read about unified roles in https://doc.owncloud.com/ocis/next/deployment/services/s-list/graph.html.
+    # The IDs of the roles and a description can be found by running:
+    # kubectl -n ocis exec deployments/graph -- ocis graph list-unified-roles
+    availableUnifiedRoles: []
   # Define quota settings.
   quotas:
     # -- Sets the maximum quota for spaces in bytes. So 1000 sets the max quota to 1KB.
@@ -1871,14 +1877,9 @@ services:
         ocis:
           # -- Maximum number of concurrent go-routines. Higher values can potentially get work done faster but will also cause more load on the system.
           maxConcurrency: 100
-          # -- Metadata backend to use for the oCIS storage driver. Valid values are: "messagepack", "xattrs".
-          metadataBackend: messagepack
         s3ng:
           # -- Maximum number of concurrent go-routines. Higher values can potentially get work done faster but will also cause more load on the system.
           maxConcurrency: 100
-          # -- Metadata backend to use for the S3NG storage driver. Valid values are: "messagepack", "xattrs".
-          metadataBackend: messagepack
-
           # The S3NG driver needs an existing S3 bucket with following permissions:
           # {
           #     "Version": "2012-10-17",
@@ -2228,8 +2229,8 @@ services:
         # - url: https://ocis.kube.owncloud.test/custom_translations.json
       # -- Configure the {"apps": []} section in the Web config.json.
       apps: []
-      # -- Configure the {"external_apps": []} section in the Web config.json.
-      externalApplications: []
+      # -- Configure external apps in Web's app.yaml
+      externalApps: {}
       # Theme settings
       theme:
         # -- URL to load themes from. Will be prepended to the theme path. Defaults to the value of "externalDomain".
@@ -2325,6 +2326,8 @@ services:
       sha: ""
       # -- Image pull policy
       pullPolicy:
+    # -- Additional init containers for the Web pods.
+    additionalInitContainers: []
 
   # -- WEBDAV service.
   # @default -- see detailed service configuration options below

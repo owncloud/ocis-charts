@@ -7,6 +7,11 @@ metadata:
   labels:
     {{- include "ocis.labels" . | nindent 4 }}
 data:
+  {{- with .Values.services.web.config.externalApps }}
+  apps.yaml: |
+    ---
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
   web.yaml: |
     ---
     web:
@@ -25,9 +30,5 @@ data:
         {{- end }}
         {{- with .Values.services.web.config.apps }}
         apps:
-          {{- toYaml . | nindent 10 }}
-        {{- end }}
-        {{- with .Values.services.web.config.externalApplications }}
-        external_apps:
           {{- toYaml . | nindent 10 }}
         {{- end }}

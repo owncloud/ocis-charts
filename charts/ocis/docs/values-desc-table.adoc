@@ -792,6 +792,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Sets specific quotas for roles
+| features.roles.availableUnifiedRoles
+a| [subs=-attributes]
++list+
+a| [subs=-attributes]
+`[]`
+| Define a list of unified roles to make them available. The default of an empty list means all unified roles are available. You can read about unified roles in https://doc.owncloud.com/ocis/next/deployment/services/s-list/graph.html. The IDs of the roles and a description can be found by running: kubectl -n ocis exec deployments/graph -- ocis graph list-unified-roles
 | features.roles.customRoles
 a| [subs=-attributes]
 +string+
@@ -4008,12 +4014,6 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `100`
 | Maximum number of concurrent go-routines. Higher values can potentially get work done faster but will also cause more load on the system.
-| services.storageusers.storageBackend.driverConfig.ocis.metadataBackend
-a| [subs=-attributes]
-+string+
-a| [subs=-attributes]
-`"messagepack"`
-| Metadata backend to use for the oCIS storage driver. Valid values are: "messagepack", "xattrs".
 | services.storageusers.storageBackend.driverConfig.s3ng.bucket
 a| [subs=-attributes]
 +string+
@@ -4038,12 +4038,6 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `100`
 | Maximum number of concurrent go-routines. Higher values can potentially get work done faster but will also cause more load on the system.
-| services.storageusers.storageBackend.driverConfig.s3ng.metadataBackend
-a| [subs=-attributes]
-+string+
-a| [subs=-attributes]
-`"messagepack"`
-| Metadata backend to use for the S3NG storage driver. Valid values are: "messagepack", "xattrs".
 | services.storageusers.storageBackend.driverConfig.s3ng.putObject.concurrentStreamParts
 a| [subs=-attributes]
 +bool+
@@ -4470,6 +4464,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 see detailed service configuration options below
 | ownCloud WEB service.
+| services.web.additionalInitContainers
+a| [subs=-attributes]
++list+
+a| [subs=-attributes]
+`[]`
+| Additional init containers for the Web pods.
 | services.web.affinity
 a| [subs=-attributes]
 +object+
@@ -4500,12 +4500,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `[]`
 | Configure custom translations
-| services.web.config.externalApplications
+| services.web.config.externalApps
 a| [subs=-attributes]
-+list+
++object+
 a| [subs=-attributes]
-`[]`
-| Configure the {"external_apps": []} section in the Web config.json.
+`{}`
+| Configure external apps in Web's app.yaml
 | services.web.config.feedbackLink.ariaLabel
 a| [subs=-attributes]
 +string+
