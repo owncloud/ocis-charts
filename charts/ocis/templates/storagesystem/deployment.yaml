@@ -72,8 +72,6 @@ spec:
 
             - name: STORAGE_SYSTEM_DRIVER
               value: ocis
-            - name: STORAGE_SYSTEM_OCIS_METADATA_BACKEND
-              value: messagepack
 
             - name: STORAGE_SYSTEM_JWT_SECRET
               valueFrom:
