@@ -1,0 +1,73 @@
+releases:
+  - name: ocis
+    chart: ../../charts/ocis
+    namespace: ocis
+    values:
+      - externalDomain: ocis.kube.owncloud.test
+      - ingress:
+          enabled: true
+          ingressClassName: nginx
+          annotations:
+            nginx.ingress.kubernetes.io/proxy-body-size: 1024m
+          tls:
+            - secretName: ocis-dev-tls
+              hosts:
+                - ocis.kube.owncloud.test
+
+      - insecure:
+          oidcIdpInsecure: true
+          ocisHttpApiInsecure: true
+
+      - features:
+          demoUsers: true
+
+      - services:
+          idm:
+            persistence:
+              enabled: true
+
+          nats:
+            persistence:
+              enabled: true
+
+          search:
+            persistence:
+              enabled: true
+
+          storagesystem:
+            persistence:
+              enabled: true
+
+          storageusers:
+            persistence:
+              enabled: true
+
+          thumbnails:
+            persistence:
+              enabled: true
+
+          web:
+            persistence:
+              enabled: true
+            config:
+              externalApps:
+                external-sites:
+                  config:
+                    sites:
+                      - name: ownCloud
+                        url: https://www.owncloud.com
+                        target: external
+                        color: "#0D856F"
+                        icon: cloud
+                        priority: 50
+            additionalInitContainers:
+              - name: external-sites
+                image: owncloud/web-extensions:external-sites-0.2.0
+                command:
+                  - cp
+                  - -R
+                  - /var/lib/nginx/html/external-sites/
+                  - /apps
+                volumeMounts:
+                  - name: apps
+                    mountPath: /apps
