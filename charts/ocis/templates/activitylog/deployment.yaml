@@ -57,7 +57,7 @@ spec:
                 configMapKeyRef:
                   name: {{ include "config.authService" . }}
                   key: service-account-id
-            - name: ACTIVITYOG_SERVICE_ACCOUNT_SECRET #TODO: https://github.com/owncloud/ocis/issues/10013
+            - name: ACTIVITYLOG_SERVICE_ACCOUNT_SECRET
               valueFrom:
                 secretKeyRef:
                   name: {{ include "secrets.serviceAccountSecret" . }}

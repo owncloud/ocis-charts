@@ -1890,14 +1890,9 @@ services:
         ocis:
           # -- Maximum number of concurrent go-routines. Higher values can potentially get work done faster but will also cause more load on the system.
           maxConcurrency: 100
-          # -- Metadata backend to use for the oCIS storage driver. Valid values are: "messagepack", "xattrs".
-          metadataBackend: messagepack
         s3ng:
           # -- Maximum number of concurrent go-routines. Higher values can potentially get work done faster but will also cause more load on the system.
           maxConcurrency: 100
-          # -- Metadata backend to use for the S3NG storage driver. Valid values are: "messagepack", "xattrs".
-          metadataBackend: messagepack
-
           # The S3NG driver needs an existing S3 bucket with following permissions:
           # {
           #     "Version": "2012-10-17",

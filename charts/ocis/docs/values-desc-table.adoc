@@ -4014,12 +4014,6 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `100`
 | Maximum number of concurrent go-routines. Higher values can potentially get work done faster but will also cause more load on the system.
-| services.storageusers.storageBackend.driverConfig.ocis.metadataBackend
-a| [subs=-attributes]
-+string+
-a| [subs=-attributes]
-`"messagepack"`
-| Metadata backend to use for the oCIS storage driver. Valid values are: "messagepack", "xattrs".
 | services.storageusers.storageBackend.driverConfig.s3ng.bucket
 a| [subs=-attributes]
 +string+
@@ -4044,12 +4038,6 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `100`
 | Maximum number of concurrent go-routines. Higher values can potentially get work done faster but will also cause more load on the system.
-| services.storageusers.storageBackend.driverConfig.s3ng.metadataBackend
-a| [subs=-attributes]
-+string+
-a| [subs=-attributes]
-`"messagepack"`
-| Metadata backend to use for the S3NG storage driver. Valid values are: "messagepack", "xattrs".
 | services.storageusers.storageBackend.driverConfig.s3ng.putObject.concurrentStreamParts
 a| [subs=-attributes]
 +bool+
