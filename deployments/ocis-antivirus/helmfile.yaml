@@ -91,7 +91,6 @@ releases:
             tag: "0.5.10" # overwrite incorrect digest pin from default chart
           settings:
             clamdModClamdHost: "opendesk-clamav-clamd"
-            pipelining: "on"
 
       - milter: # not really needed, but can't be disabled right now
           settings:
