@@ -55,8 +55,10 @@ spec:
             - name: GRAPH_SPACES_WEBDAV_BASE
               value: "https://{{ .Values.externalDomain }}"
 
+            {{- if gt (len .Values.features.roles.availableUnifiedRoles) 0 }}
             - name: GRAPH_AVAILABLE_ROLES
               value: {{ tpl (join "," .Values.features.roles.availableUnifiedRoles) . | quote }}
+            {{- end }}
 
             {{ if not .Values.features.externalUserManagement.enabled }}
             - name: GRAPH_LDAP_URI
