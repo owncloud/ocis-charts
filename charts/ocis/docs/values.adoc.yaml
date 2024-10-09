@@ -132,6 +132,9 @@ insecure:
   # -- Disables SSL certificate checking for connections to the oCIS http apis.
   # Not recommended for production installations.
   ocisHttpApiInsecure: false
+  # -- Disables SSL certificate checking for connections to all OCM instances
+  # Not recommended for production installations.
+  ocmInsecure: false
 
 cache:
   # -- Type of the cache to use.
