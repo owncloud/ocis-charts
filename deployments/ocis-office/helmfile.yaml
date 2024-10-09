@@ -37,7 +37,7 @@ releases:
   - name: redis
     namespace: onlyoffice
     chart: bitnami/redis
-    version: 20.1.0
+    version: 20.2.0
 
   - name: postgres-operator
     namespace: onlyoffice
