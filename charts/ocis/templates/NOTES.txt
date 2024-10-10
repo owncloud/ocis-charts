@@ -22,6 +22,7 @@ kubectl -n {{ .Release.Namespace }} get secrets/admin-user --template='{{"{{"}}.
 {{- $demoUsers := .Values.features.demoUsers -}}
 {{- $oidcIdpInsecure := .Values.insecure.oidcIdpInsecure -}}
 {{- $ocisHttpApiInsecure := .Values.insecure.ocisHttpApiInsecure -}}
+{{- $ocmInsecure := .Values.insecure.ocmInsecure -}}
 {{- $externalLDAPinsecure := and .Values.features.externalUserManagement.enabled .Values.features.externalUserManagement.ldap.insecure -}}
 {{- $noSMTPencryption := and .Values.features.emailNotifications.enabled (eq .Values.features.emailNotifications.smtp.encryption "none") -}}
 
@@ -40,6 +41,9 @@ kubectl -n {{ .Release.Namespace }} get secrets/admin-user --template='{{"{{"}}.
 {{- end }}
 {{- if $oidcIdpInsecure}}
 ######     - `insecure.oidcIdpInsecure` should be set to `false`            #####
+{{- end }}
+{{- if $ocmInsecure}}
+######     - `insecure.ocmInsecure` should be set to `false`                #####
 {{- end }}
 {{- if $ocisHttpApiInsecure}}
 ######     - `insecure.ocisHttpApiInsecure` should be set to `false`        #####
