@@ -109,7 +109,7 @@ spec:
             - name: IDM_LDAPS_KEY
               value: /etc/ocis/ldap-cert/ldap.key
 
-            {{- include "ocis.caEnv" . | nindent 12}}
+            {{- include "ocis.caEnv" $ | nindent 12}}
 
           {{- include "ocis.livenessProbe" . | nindent 10 }}
 
@@ -129,7 +129,7 @@ spec:
               readOnly: true
             - name: {{ include "ocis.persistence.dataVolumeName" . }}
               mountPath: /var/lib/ocis
-            {{- include "ocis.caPath" . | nindent 12}}
+            {{- include "ocis.caPath" $ | nindent 12}}
 
       {{- include "ocis.imagePullSecrets" $ | nindent 6 }}
       volumes:
@@ -138,6 +138,6 @@ spec:
         - name: ldap-cert
           secret:
             secretName: {{ include "secrets.ldapCertSecret" . }}
-        {{- include "ocis.caVolume" . | nindent 8}}
+        {{- include "ocis.caVolume" $ | nindent 8}}
         {{- include "ocis.persistence.dataVolume" . | nindent 8 }}
 {{- end }}

@@ -103,7 +103,7 @@ spec:
             - name: OCIS_ASYNC_UPLOADS
               value: "true"
 
-            {{- include "ocis.caEnv" . | nindent 12}}
+            {{- include "ocis.caEnv" $ | nindent 12}}
 
           {{- include "ocis.livenessProbe" . | nindent 10 }}
 
@@ -123,7 +123,7 @@ spec:
               readOnly: true
             - name: {{ include "ocis.persistence.dataVolumeName" . }}
               mountPath: /var/lib/ocis
-            {{- include "ocis.caPath" . | nindent 12}}
+            {{- include "ocis.caPath" $ | nindent 12}}
 
       {{- include "ocis.imagePullSecrets" $ | nindent 6 }}
       volumes:
@@ -136,5 +136,5 @@ spec:
           {{ else }}
           emptyDir: {}
           {{ end }}
-        {{- include "ocis.caVolume" . | nindent 8}}
+        {{- include "ocis.caVolume" $ | nindent 8}}
         {{- include "ocis.persistence.dataVolume" . | nindent 8 }}

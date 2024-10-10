@@ -61,7 +61,7 @@ spec:
             - name: ANTIVIRUS_MAX_SCAN_SIZE
               value: {{ .Values.features.virusscan.maxScanSize | quote }}
 
-            {{- include "ocis.caEnv" . | nindent 12}}
+            {{- include "ocis.caEnv" $ | nindent 12}}
 
           {{- include "ocis.livenessProbe" . | nindent 10 }}
 
@@ -77,7 +77,7 @@ spec:
             - name: messaging-system-ca
               mountPath: /etc/ocis/messaging-system-ca
               readOnly: true
-            {{- include "ocis.caPath" . | nindent 12}}
+            {{- include "ocis.caPath" $ | nindent 12}}
 
       {{- include "ocis.imagePullSecrets" $ | nindent 6 }}
       volumes:
@@ -90,5 +90,5 @@ spec:
           {{ else }}
           emptyDir: {}
           {{ end }}
-        {{- include "ocis.caVolume" . | nindent 8}}
+        {{- include "ocis.caVolume" $ | nindent 8}}
 {{ end }}
