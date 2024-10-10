@@ -97,10 +97,6 @@ features:
   policies:
     enabled: true
 
-customCAChain:
-  enabled: true
-  existingSecret: myCAchain
-
 extraLabels:
   extra1: lorem
   extra2: ipsum
@@ -214,3 +210,7 @@ services:
 
 secretRefs:
   notificationsSmtpSecretRef: "smtp-secret"
+
+customCAChain:
+  enabled: true
+  existingConfigMap: myCAchain

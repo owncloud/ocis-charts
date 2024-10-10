@@ -13,7 +13,7 @@ oCIS ca mount
 {{- if .Values.customCAChain.enabled }}
 - name: custom-ca-chain
   configMap:
-    name:  {{ .Values.customCAChain.existingConfigMap }}
+    name: {{ .Values.customCAChain.existingConfigMap }}
 {{- end }}
 {{- end -}}
 
