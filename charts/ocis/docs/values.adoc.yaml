@@ -369,6 +369,11 @@ features:
       # icon: ""
       # default_app: ""
       # allow_creation: true
+  # App Tokens
+  appTokens:
+    # -- Enables generation of app tokens on the cli to integrate other services.
+    # Use this to generate a bearer auth token that can be used by other services to intergrate with oCIS.
+    enabled: false
   # External user management
   externalUserManagement:
     # -- Enables external user management (and disables internal user management).
@@ -1010,6 +1015,66 @@ services:
     # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
     autoscaling: {}
     # -- Affinity settings for the audit service. See the documentation of this setting in approvider for examples.
+    affinity: {}
+    # -- Per-service custom labels
+    extraLabels: {}
+    # Per-service image configuration. Overrides the default setting from `image` if set.
+    image:
+      # -- Image repository
+      repository: ""
+      # -- Image tag.
+      tag: ""
+      # -- Image sha / digest (optional).
+      sha: ""
+      # -- Image pull policy
+      pullPolicy:
+
+  # -- AUTH APP service.
+  # @default -- see detailed service configuration options below
+  authapp:
+    # -- Persistence settings.
+    # @default -- see detailed persistence configuration options below
+    persistence:
+      # -- Enables persistence.
+      # Needs to be enabled on production installations.
+      # If not enabled, pod restarts will invialidate all app tokens
+      # Also scaling this service to more than one replica is not possible if the pods don't share the same volume.
+      enabled: false
+      # -- Enables an initContainer to chown the volume.
+      # The initContainer is run as root.
+      # This is not needed if the driver applies the fsGroup from the securityContext.
+      # The image specified in `initContainerImage` will be used for this container.
+      chownInitContainer: false
+      # -- Storage class to use.
+      # Uses the default storage class if not set.
+      storageClassName:
+      # -- Persistent volume access modes. Needs to be `["ReadWriteMany"]` when having more than one replica for this service.
+      accessModes:
+        - ReadWriteMany
+      # -- Size of the persistent volume.
+      size: 10Mi
+      # -- Persistent volume annotations.
+      annotations: {}
+      # -- Persistent volume finalizers.
+      finalizers:
+        - kubernetes.io/pvc-protection
+      # -- Persistent volume selector labels.
+      selectorLabels: {}
+      # -- Use a custom name for the PVC instead of the default one.
+      claimName: ""
+      # -- Use an existing PersistentVolumeClaim for persistence.
+      existingClaim:
+    # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
+    resources: {}
+    # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
+    nodeSelector: {}
+    # -- Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
+    priorityClassName: ""
+    # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
+    podDisruptionBudget: {}
+    # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
+    autoscaling: {}
+    # -- Affinity settings for the authapp service. See the documentation of this setting in approvider for examples.
     affinity: {}
     # -- Per-service custom labels
     extraLabels: {}

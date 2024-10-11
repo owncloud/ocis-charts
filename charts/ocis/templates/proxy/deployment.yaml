@@ -104,6 +104,11 @@ spec:
                   name: {{ include "secrets.serviceAccountSecret" . }}
                   key: service-account-secret
 
+            {{- if .Values.features.appTokens.enabled }}
+            - name: PROXY_ENABLE_APP_AUTH
+              value: "true"
+            {{- end }}
+
             - name: PROXY_CSP_CONFIG_FILE_LOCATION
               value: /etc/ocis/csp.yaml
 

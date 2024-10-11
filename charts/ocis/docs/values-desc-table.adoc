@@ -132,6 +132,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `[]`
 | Extra resources to be included.
+| features.appTokens.enabled
+a| [subs=-attributes]
++bool+
+a| [subs=-attributes]
+`false`
+| Enables generation of app tokens on the cli to integrate other services. Use this to generate a bearer auth token that can be used by other services to intergrate with oCIS.
 | features.appsIntegration.enabled
 a| [subs=-attributes]
 +bool+
@@ -1681,6 +1687,144 @@ a| [subs=-attributes]
 `""`
 | Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
 | services.audit.resources
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service resources configuration. Overrides the default setting from `resources` if set.
+| services.authapp
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+see detailed service configuration options below
+| AUTH APP service.
+| services.authapp.affinity
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Affinity settings for the authapp service. See the documentation of this setting in approvider for examples.
+| services.authapp.autoscaling
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
+| services.authapp.extraLabels
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service custom labels
+| services.authapp.image.pullPolicy
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`nil`
+| Image pull policy
+| services.authapp.image.repository
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Image repository
+| services.authapp.image.sha
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Image sha / digest (optional).
+| services.authapp.image.tag
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Image tag.
+| services.authapp.nodeSelector
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
+| services.authapp.persistence
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+see detailed persistence configuration options below
+| Persistence settings.
+| services.authapp.persistence.accessModes
+a| [subs=-attributes]
++list+
+a| [subs=-attributes]
+`["ReadWriteMany"]`
+| Persistent volume access modes. Needs to be `["ReadWriteMany"]` when having more than one replica for this service.
+| services.authapp.persistence.annotations
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Persistent volume annotations.
+| services.authapp.persistence.chownInitContainer
+a| [subs=-attributes]
++bool+
+a| [subs=-attributes]
+`false`
+| Enables an initContainer to chown the volume. The initContainer is run as root. This is not needed if the driver applies the fsGroup from the securityContext. The image specified in `initContainerImage` will be used for this container.
+| services.authapp.persistence.claimName
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Use a custom name for the PVC instead of the default one.
+| services.authapp.persistence.enabled
+a| [subs=-attributes]
++bool+
+a| [subs=-attributes]
+`false`
+| Enables persistence. Needs to be enabled on production installations. If not enabled, pod restarts will invialidate all app tokens Also scaling this service to more than one replica is not possible if the pods don't share the same volume.
+| services.authapp.persistence.existingClaim
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`nil`
+| Use an existing PersistentVolumeClaim for persistence.
+| services.authapp.persistence.finalizers
+a| [subs=-attributes]
++list+
+a| [subs=-attributes]
+`["kubernetes.io/pvc-protection"]`
+| Persistent volume finalizers.
+| services.authapp.persistence.selectorLabels
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Persistent volume selector labels.
+| services.authapp.persistence.size
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"10Mi"`
+| Size of the persistent volume.
+| services.authapp.persistence.storageClassName
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`nil`
+| Storage class to use. Uses the default storage class if not set.
+| services.authapp.podDisruptionBudget
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
+| services.authapp.priorityClassName
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
+| services.authapp.resources
 a| [subs=-attributes]
 +object+
 a| [subs=-attributes]

@@ -1,0 +1,5 @@
+{{ if .Values.features.appTokens.enabled }}
+{{- include "ocis.basicServiceTemplates" (dict "scope" . "appName" "appNameAuthApp" "appNameSuffix" "") -}}
+{{- $_ := set . "autoscaling" (default (default (dict) .Values.autoscaling) .Values.services.authapp.autoscaling) -}}
+{{ include "ocis.hpa" . }}
+{{ end }}
