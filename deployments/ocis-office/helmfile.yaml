@@ -23,71 +23,56 @@ releases:
     chart: addons/onlyoffice
     namespace: onlyoffice
 
-  - name: addons-postgresql
-    chart: addons/postgresql
-    namespace: onlyoffice
-    needs:
-      - onlyoffice/postgres-operator
-
-  - name: rabbitmq
-    namespace: onlyoffice
-    chart: bitnami/rabbitmq
-    version: 14.6.9
-
   - name: redis
     namespace: onlyoffice
     chart: bitnami/redis
     version: 20.1.0
-
-  - name: postgres-operator
-    namespace: onlyoffice
-    chart: postgres-operator/postgres-operator
-    version: 1.13.0
     values:
-      - configConnectionPooler:
-          connection_pooler_max_db_connections: 300
-          connection_pooler_number_of_instances: 3
-          connection_pooler_mode: "session"
+      - replica:
+          replicaCount: 0
 
   - name: onlyoffice
     namespace: onlyoffice
-    chart: onlyoffice/docs
-    version: 4.2.1
+    chart: onlyoffice/docs-shards
+    version: 1.0.1
     needs:
-      - onlyoffice/addons-onlyoffice
-      - onlyoffice/rabbitmq
       - onlyoffice/redis
-      - onlyoffice/postgres-operator
     values:
+      - ingress-nginx:
+          namespaceOverride: onlyoffice
+          controller:
+            replicaCount: 3
+            service:
+              type: ClusterIP
+            ingressClassResource:
+              enabled: enabled
+              name: onlyoffice-nginx
+              controllerValue: k8s.io/onlyoffice-ingress-nginx
+            ingressClass: onlyoffice-nginx
+            scope:
+              enabled: true
+              namespace: onlyoffice
+      - documentserver:
+          ingressCustomConfigMapsNamespace: onlyoffice
+          replicas: 3
+          converter:
+            count: 1
       - wopi:
           enabled: true
       - ingress:
           enabled: true
+          ingressClassName: onlyoffice-nginx
           host: onlyoffice.kube.owncloud.test
           ssl:
             enabled: true
             secret: onlyoffice-tls
       - extraConf:
           configMap: "doc-local.json"
+          filename: local-production-linux.json
       - connections:
-          dbHost: postgres-pooler
-          dbExistingSecret: postgres.postgres.credentials.postgresql.acid.zalan.do
-          dbSecretKeyName: password
-          redisHost: redis-master
-          amqpHost: rabbitmq
+          redisHost: redis-master.onlyoffice.svc.cluster.local # must not be changed after installation, because changes are not reflected
       - persistence:
           existingClaim: ds-files
-    jsonPatches:
-      # patch https://github.com/ONLYOFFICE/Kubernetes-Docs/blob/851362e5b96f5e86fe8cc9c3bdd86b5f217dd5d0/templates/jobs/pre-install.yaml#L16 to a higher number
-      # without this, OnlyOffice installation fails on the first time
-      - target:
-          kind: Job
-          namespace: onlyoffice
-          name: pre-install
-        patch:
-          - op: replace
-            path: /spec/backoffLimit
-            value: 20
 
   - name: collabora
     namespace: collabora
