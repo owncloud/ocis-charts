@@ -161,7 +161,7 @@ releases:
                   enabled: true
                   uri: "https://onlyoffice.kube.owncloud.test"
                   insecure: true
-                  disableProof: true # to be resolved in https://github.com/owncloud/ocis/issues/10022
+                  disableProof: false
                   iconURI: https://onlyoffice.kube.owncloud.test/web-apps/apps/documenteditor/main/resources/img/favicon.ico
                   ingress:
                     # OnlyOffice connects to the collaboration service via the cluster internal Service in this case
