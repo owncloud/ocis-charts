@@ -4,7 +4,7 @@ metadata:
   name: doc-local.json
 apiVersion: v1
 data:
-  local.json: |-
+  local-production-linux.json: |-
     {
       "services": {
         "CoAuthoring": {
@@ -21,13 +21,6 @@ data:
             ],
             "useforrequest": false,
             "errorcode": 403
-          },
-          "sql": {
-            "pgPoolExtraOptions": {
-              "ssl": {
-                "rejectUnauthorized": false
-              }
-            }
           },
           "autoAssembly": {
             "enable": true,
