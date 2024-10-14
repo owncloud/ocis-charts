@@ -74,6 +74,8 @@ releases:
           size: "10Gi"
 
       - freshclam:
+          containerSecurityContext:	
+            readOnlyRootFilesystem: false
           image:
             tag: "1.4.0" # newer version of clamav/clamav than default chart
 
