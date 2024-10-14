@@ -86,6 +86,8 @@ spec:
           resources: {{ toYaml .resources | nindent 12 }}
 
           ports:
+            - name: grpc
+              containerPort: 9282
             - name: http
               containerPort: 9280
             - name: metrics-debug

@@ -13,6 +13,10 @@ spec:
   selector:
     app: {{ .appName }}
   ports:
+    - name: grpc
+      port: 9282
+      protocol: TCP
+      appProtocol: {{ $.Values.service.appProtocol.grpc | quote}}
     - name: http
       port: 9280
       protocol: TCP
