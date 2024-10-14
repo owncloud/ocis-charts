@@ -145,6 +145,7 @@ releases:
                   enabled: true
                   uri: "https://collabora.kube.owncloud.test"
                   insecure: true
+                  disableProof: true # TODO: https://github.com/CollaboraOnline/online/issues/10020
                   iconURI: https://collabora.kube.owncloud.test/favicon.ico
                   ingress:
                     # Collabora connects to the collaboration service via Ingress in this case
