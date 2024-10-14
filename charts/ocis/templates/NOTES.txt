@@ -26,7 +26,7 @@ kubectl -n {{ .Release.Namespace }} get secrets/admin-user --template='{{"{{"}}.
 {{- $externalLDAPinsecure := and .Values.features.externalUserManagement.enabled .Values.features.externalUserManagement.ldap.insecure -}}
 {{- $noSMTPencryption := and .Values.features.emailNotifications.enabled (eq .Values.features.emailNotifications.smtp.encryption "none") -}}
 
-{{ if or $noExternalUserManagement $demoUsers $oidcIdpInsecure $ocisHttpApiInsecure $externalLDAPinsecure $noSMTPencryption }}
+{{ if or $noExternalUserManagement $demoUsers $oidcIdpInsecure $ocisHttpApiInsecure $externalLDAPinsecure $noSMTPencryption $ocmInsecure }}
 #################################################################################
 ######   WARNING: Your deployment of oCIS does not follow all best          #####
 ######   practices for production deployments of oCIS.                      #####
