@@ -6,9 +6,8 @@ repositories:
   - name: bitnami
     url: https://charts.bitnami.com/bitnami
   - name: onlyoffice
-    url: https://download.onlyoffice.com/charts/stable
-  - name: postgres-operator
-    url: https://opensource.zalando.com/postgres-operator/charts/postgres-operator
+    url: git+https://github.com/ONLYOFFICE/Kubernetes-Docs-Shards?ref=bc77cf40efb84f469cf812a4760e97b2129d710b # release/v1.2.0 branch
+    #url: https://download.onlyoffice.com/charts/stable
 
 releases:
   - name: tika
@@ -34,26 +33,13 @@ releases:
   - name: onlyoffice
     namespace: onlyoffice
     chart: onlyoffice/docs-shards
-    version: 1.0.1
+    # version: 1.0.1
     needs:
       - onlyoffice/redis
     values:
       - ingress-nginx:
-          namespaceOverride: onlyoffice
-          controller:
-            replicaCount: 3
-            service:
-              type: ClusterIP
-            ingressClassResource:
-              enabled: enabled
-              name: onlyoffice-nginx
-              controllerValue: k8s.io/onlyoffice-ingress-nginx
-            ingressClass: onlyoffice-nginx
-            scope:
-              enabled: true
-              namespace: onlyoffice
+          enabled: false
       - documentserver:
-          ingressCustomConfigMapsNamespace: onlyoffice
           replicas: 3
           converter:
             count: 1
@@ -61,7 +47,7 @@ releases:
           enabled: true
       - ingress:
           enabled: true
-          ingressClassName: onlyoffice-nginx
+          ingressClassName: nginx
           host: onlyoffice.kube.owncloud.test
           ssl:
             enabled: true
@@ -73,6 +59,33 @@ releases:
           redisHost: redis-master.onlyoffice.svc.cluster.local # must not be changed after installation, because changes are not reflected
       - persistence:
           existingClaim: ds-files
+
+      # image overrides #TODO: remove when released
+      - documentserver:
+          initContainers:
+            image:
+              # repository: docker.onlyoffice.com/docs-utils
+              # tag: 8.2.0-rc25
+              repository: onlyoffice/4testing-docs-utils
+              tag: 8.2.0-2-saas
+          proxy:
+            image:
+              # repository: docker.onlyoffice.com/docs-proxy-de
+              # tag: 8.2.0-rc25
+              repository: onlyoffice/4testing-docs-proxy-de
+              tag: 8.2.0-2-saas
+          docservice:
+            image:
+              # repository: docker.onlyoffice.com/docs-docservice-de
+              # tag: 8.2.0-rc25
+              repository: onlyoffice/4testing-docs-docsservice-de
+              tag: 8.2.0-2-saas
+          converter:
+            image:
+              # repository: docker.onlyoffice.com/docs-converter-de
+              # tag: 8.2.0-rc25
+              repository: onlyoffice/4testing-docs-converter-de
+              tag: 8.2.0-2-saas
 
   - name: collabora
     namespace: collabora
