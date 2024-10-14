@@ -6,7 +6,6 @@ releases:
       - externalDomain: ocis.kube.owncloud.test
       - ingress:
           enabled: true
-          #ingressClassName: nginx
           annotations:
             nginx.ingress.kubernetes.io/proxy-body-size: 1024m
           tls:
@@ -175,7 +174,6 @@ releases:
       - externalDomain: ocis2.kube.owncloud.test
       - ingress:
           enabled: true
-          #ingressClassName: nginx
           annotations:
             nginx.ingress.kubernetes.io/proxy-body-size: 1024m
           tls:
