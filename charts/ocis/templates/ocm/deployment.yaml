@@ -92,8 +92,10 @@ spec:
               containerPort: 9281
 
           volumeMounts:
+            {{- if and (.Values.features.ocm.enabled) (.Values.features.ocm.providersConfigRef) }}
             - name: configs
               mountPath: /etc/ocis
+            {{- end }}
             - name: messaging-system-ca
               mountPath: /etc/ocis/messaging-system-ca
               readOnly: true
@@ -104,9 +106,11 @@ spec:
 
       {{- include "ocis.imagePullSecrets" $ | nindent 6 }}
       volumes:
+        {{- if and (.Values.features.ocm.enabled) (.Values.features.ocm.providersConfigRef) }}
         - name: configs
           configMap:
-            name: ocmproviders-{{ .appName }}
+            name: {{ .Values.features.ocm.providersConfigRef }}
+        {{- end }}
         - name: messaging-system-ca
           {{ if and (.Values.messagingSystem.external.enabled) (not .Values.messagingSystem.external.tls.certTrusted) }}
           secret:
