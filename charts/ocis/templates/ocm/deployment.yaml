@@ -33,7 +33,6 @@ spec:
             - name: OCM_LOG_PRETTY
               value: {{ .Values.logging.pretty | quote }}
 
-            # Tracing not yet implemented: https://github.com/owncloud/ocis/issues/6176
             - name: OCM_TRACING_ENABLED
               value: "{{ .Values.tracing.enabled }}"
             - name: OCM_TRACING_TYPE
