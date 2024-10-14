@@ -66,6 +66,7 @@ kubectl -n {{ .Release.Namespace }} get secrets/admin-user --template='{{"{{"}}.
 {{- $storagesystemUnpersisted := not .Values.services.storagesystem.persistence.enabled -}}
 {{- $webUnpersisted := not .Values.services.web.persistence.enabled -}}
 {{- $storageusersUnpersisted := not .Values.services.storageusers.persistence.enabled -}}
+{{- $ocmUnpersisted := not .Values.services.ocm.persistence.enabled -}}
 
 {{ if or $storagesystemUnpersisted $webUnpersisted $storageusersUnpersisted $idmUnpersisted $searchUnpersisted $natsUnpersisted }}
 #################################################################################
@@ -90,6 +91,9 @@ kubectl -n {{ .Release.Namespace }} get secrets/admin-user --template='{{"{{"}}.
 {{- end }}
 {{- if $natsUnpersisted }}
 ######     - nats                                                           #####
+{{- end }}
+{{- if $ocmUnpersisted }}
+######     - ocm                                                           #####
 {{- end }}
 #################################################################################
 {{- end }}
