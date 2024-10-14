@@ -92,7 +92,7 @@ releases:
   - name: collabora
     namespace: collabora
     chart: collabora/collabora-online
-    version: 1.1.20
+    version: 1.1.23
     values:
       - collabora:
           aliasgroups:
@@ -145,6 +145,7 @@ releases:
                   enabled: true
                   uri: "https://collabora.kube.owncloud.test"
                   insecure: true
+                  disableProof: true # TODO: https://github.com/CollaboraOnline/online/issues/10020
                   iconURI: https://collabora.kube.owncloud.test/favicon.ico
                   ingress:
                     # Collabora connects to the collaboration service via Ingress in this case
