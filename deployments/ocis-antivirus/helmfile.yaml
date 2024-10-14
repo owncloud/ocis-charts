@@ -76,11 +76,6 @@ releases:
       - freshclam:
           image:
             tag: "1.4.0" # newer version of clamav/clamav than default chart
-          settings:
-            # Send the RELOAD command to clamd.
-            notifyClamd: /etc/clamav/clamd.conf
-            maxAttempts: 5
-            pidFile: "/tmp/freshclam.pid"
 
       - clamd:
           image:
