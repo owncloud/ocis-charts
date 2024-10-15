@@ -56,7 +56,7 @@ releases:
           configMap: "doc-local.json"
           filename: local-production-linux.json
       - connections:
-          redisHost: redis-master.onlyoffice.svc.cluster.local # must not be changed after installation, because changes are not reflected
+          redisHost: redis-master.onlyoffice.svc.cluster.local
       - persistence:
           existingClaim: ds-files
 
@@ -64,28 +64,20 @@ releases:
       - documentserver:
           initContainers:
             image:
-              # repository: docker.onlyoffice.com/docs-utils
-              # tag: 8.2.0-rc25
-              repository: onlyoffice/4testing-docs-utils
-              tag: 8.2.0-2-saas
+              repository: docker.onlyoffice.com/docs-utils
+              tag: 8.2.0-rc25
           proxy:
             image:
-              # repository: docker.onlyoffice.com/docs-proxy-de
-              # tag: 8.2.0-rc25
-              repository: onlyoffice/4testing-docs-proxy-de
-              tag: 8.2.0-2-saas
+              repository: docker.onlyoffice.com/docs-proxy-de
+              tag: 8.2.0-rc25
           docservice:
             image:
-              # repository: docker.onlyoffice.com/docs-docservice-de
-              # tag: 8.2.0-rc25
-              repository: onlyoffice/4testing-docs-docsservice-de
-              tag: 8.2.0-2-saas
+              repository: docker.onlyoffice.com/docs-docservice-de
+              tag: 8.2.0-rc25
           converter:
             image:
-              # repository: docker.onlyoffice.com/docs-converter-de
-              # tag: 8.2.0-rc25
-              repository: onlyoffice/4testing-docs-converter-de
-              tag: 8.2.0-2-saas
+              repository: docker.onlyoffice.com/docs-converter-de
+              tag: 8.2.0-rc25
 
   - name: collabora
     namespace: collabora
