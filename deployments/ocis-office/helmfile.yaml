@@ -63,6 +63,8 @@ releases:
           enabled: true
       - ingress:
           enabled: true
+          annotations:
+            nginx.org/websocket-services: documentserver
           host: onlyoffice.kube.owncloud.test
           ssl:
             enabled: true
