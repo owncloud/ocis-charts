@@ -210,3 +210,7 @@ services:
 
 secretRefs:
   notificationsSmtpSecretRef: "smtp-secret"
+
+customCAChain:
+  enabled: true
+  existingConfigMap: myCAchain
