@@ -1,0 +1,62 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: grafana-datasources
+  labels:
+    grafana_datasource: 'true' # default value for: sidecar.datasources.label
+stringData:
+  mimir.yaml: |-
+    apiVersion: 1
+    datasources:
+      - name: prometheus
+        type: prometheus
+        url: http://{{ .Values.mimir.name }}-gateway.{{ .Values.mimir.namespace }}.svc:80/prometheus/
+        basicAuth: true
+        basicAuthUser: {{ .Values.mimir.username | quote }}
+        secureJsonData:
+          basicAuthPassword: {{ .Values.mimir.password | quote }}
+          httpHeaderValue1: monitoring-dev
+        jsonData:
+          httpHeaderName1: X-Scope-OrgID
+        # <bool> allow users to edit datasources from the UI.
+        editable: true
+  loki.yaml: |-
+    apiVersion: 1
+    datasources:
+      - name: loki
+        type: loki
+        uid: loki
+        url: http://{{ .Values.loki.name }}-gateway.{{ .Values.loki.namespace }}.svc:80
+        basicAuth: true
+        basicAuthUser: {{ .Values.loki.username | quote }}
+        jsonData:
+          httpHeaderName1: X-Scope-OrgID
+          derivedFields:
+            - datasourceUid: tempo
+              matcherRegex: '"traceid":"([^"]*)"'
+              name: TraceID
+              # url will be interpreted as query for the datasource
+              url: '$${__value.raw}'
+              # optional for URL Label to set a custom display label for the link.
+              urlDisplayLabel: 'View Trace'
+        secureJsonData:
+          basicAuthPassword: {{ .Values.loki.password | quote }}
+          httpHeaderValue1: monitoring-dev
+        # <bool> allow users to edit datasources from the UI.
+        editable: true
+  # https://grafana.com/docs/grafana/latest/datasources/tempo/#provision-the-data-source
+  tempo.yaml: |-
+    apiVersion: 1
+    datasources:
+      - name: Tempo
+        type: tempo
+        uid: tempo
+        url: http://{{ .Values.tempo.name }}-gateway.{{ .Values.tempo.namespace }}.svc:80
+        basicAuth: true
+        basicAuthUser: {{ .Values.tempo.username | quote }}
+        jsonData:
+          httpHeaderName1: X-Scope-OrgID
+        secureJsonData:
+          basicAuthPassword: {{ .Values.tempo.password | quote }}
+          httpHeaderValue1: monitoring-dev
+        editable: true
