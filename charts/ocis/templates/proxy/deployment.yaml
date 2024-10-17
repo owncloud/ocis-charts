@@ -70,6 +70,9 @@ spec:
 
             - name: PROXY_OIDC_ACCESS_TOKEN_VERIFY_METHOD
               value: {{ .Values.features.externalUserManagement.oidc.accessTokenVerifyMethod | quote }}
+
+            - name: PROXY_OIDC_SKIP_USER_INFO
+              value: {{ .Values.features.externalUserManagement.oidc.skipUserInfo | quote }}
             {{- end }}
 
             - name: PROXY_TLS

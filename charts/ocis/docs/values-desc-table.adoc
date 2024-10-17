@@ -702,6 +702,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `""`
 | Link to the OIDC provider's user accessible session management. This will be shown to the user on the personal account page. When using Keycloak with the a realm named "ocis" this could point to eg. https://keycloak.owncloud.test/realms/ocis/account/
+| features.externalUserManagement.oidc.skipUserInfo
+a| [subs=-attributes]
++bool+
+a| [subs=-attributes]
+`false`
+| Do not look up user claims at the userinfo endpoint and directly read them from the access token. Incompatible with 'accessTokenVerifyMethod=none'
 | features.externalUserManagement.oidc.userIDClaim
 a| [subs=-attributes]
 +string+
