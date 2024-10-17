@@ -7,7 +7,7 @@ releases:
   - name: rook-ceph-operator
     namespace: rook-ceph
     chart: rook/rook-ceph
-    version: v1.15.3
+    version: v1.15.4
 
   - name: rook-ceph-storage
     namespace: rook-ceph
