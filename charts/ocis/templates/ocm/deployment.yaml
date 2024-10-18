@@ -59,6 +59,11 @@ spec:
             - name: OCIS_URL
               value: "https://{{ .Values.externalDomain }}"
 
+            - name: OCM_OCM_INVITE_MANAGER_TOKEN_EXPIRATION
+              value: {{ .Values.features.ocm.invitationExpiry | quote }}
+            - name: OCM_OCM_INVITE_MANAGER_TIMEOUT
+              value: {{ .Values.features.ocm.requestTimeout | quote }}
+
             - name: OCM_JWT_SECRET
               valueFrom:
                 secretKeyRef:
