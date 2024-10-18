@@ -60,24 +60,20 @@ releases:
       - persistence:
           existingClaim: ds-files
 
-      # image overrides #TODO: remove when released
+      # image overrides #TODO: remove when released chart is used
       - documentserver:
           initContainers:
             image:
-              repository: docker.onlyoffice.com/docs-utils
-              tag: 8.2.0-rc25
+              tag: 8.2.0-1
           proxy:
             image:
-              repository: docker.onlyoffice.com/docs-proxy-de
-              tag: 8.2.0-rc25
+              tag: 8.2.0-1
           docservice:
             image:
-              repository: docker.onlyoffice.com/docs-docservice-de
-              tag: 8.2.0-rc25
+              tag: 8.2.0-1
           converter:
             image:
-              repository: docker.onlyoffice.com/docs-converter-de
-              tag: 8.2.0-rc25
+              tag: 8.2.0-1
 
   - name: collabora
     namespace: collabora
