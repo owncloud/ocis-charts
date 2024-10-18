@@ -54,6 +54,8 @@ spec:
             - name: OCM_GRPC_ADDR
               value: 0.0.0.0:9282
 
+            # HINT: as of oCIS 6.5, this option is not in documented because it's pulled in from the "common" section.
+            # This env variable should be replaced by a more scoped and documented env variable.
             - name: OCIS_URL
               value: "https://{{ .Values.externalDomain }}"
 
