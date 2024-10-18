@@ -32,12 +32,12 @@ releases:
   - name: rabbitmq
     namespace: onlyoffice
     chart: bitnami/rabbitmq
-    version: 14.6.9
+    version: 15.0.3
 
   - name: redis
     namespace: onlyoffice
     chart: bitnami/redis
-    version: 20.1.0
+    version: 20.2.1
 
   - name: postgres-operator
     namespace: onlyoffice
@@ -52,7 +52,7 @@ releases:
   - name: onlyoffice
     namespace: onlyoffice
     chart: onlyoffice/docs
-    version: 4.2.1
+    version: 4.2.2
     needs:
       - onlyoffice/addons-onlyoffice
       - onlyoffice/rabbitmq
@@ -92,7 +92,7 @@ releases:
   - name: collabora
     namespace: collabora
     chart: collabora/collabora-online
-    version: 1.1.20
+    version: 1.1.23
     values:
       - collabora:
           aliasgroups:
@@ -145,6 +145,7 @@ releases:
                   enabled: true
                   uri: "https://collabora.kube.owncloud.test"
                   insecure: true
+                  disableProof: true # TODO: https://github.com/CollaboraOnline/online/issues/10020
                   iconURI: https://collabora.kube.owncloud.test/favicon.ico
                   ingress:
                     # Collabora connects to the collaboration service via Ingress in this case
@@ -161,7 +162,7 @@ releases:
                   enabled: true
                   uri: "https://onlyoffice.kube.owncloud.test"
                   insecure: true
-                  disableProof: true # to be resolved in https://github.com/owncloud/ocis/issues/10022
+                  disableProof: false
                   iconURI: https://onlyoffice.kube.owncloud.test/web-apps/apps/documenteditor/main/resources/img/favicon.ico
                   ingress:
                     # OnlyOffice connects to the collaboration service via the cluster internal Service in this case

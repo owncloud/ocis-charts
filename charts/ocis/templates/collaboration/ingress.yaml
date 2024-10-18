@@ -6,22 +6,22 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 {{ include "ocis.metadata" $ }}
-{{- if $.Values.ingress.labels }}
-{{ toYaml $.Values.ingress.labels | indent 4 }}
+{{- if $officeSuite.ingress.labels }}
+{{ toYaml $officeSuite.ingress.labels | indent 4 }}
 {{- end }}
-  {{- if $.Values.ingress.annotations }}
+  {{- if $officeSuite.ingress.annotations }}
   annotations:
-    {{- range $key, $value := $.Values.ingress.annotations }}
+    {{- range $key, $value := $officeSuite.ingress.annotations }}
     {{ $key }}: {{ tpl $value $ | quote }}
     {{- end }}
   {{- end }}
 spec:
-  {{- if $.Values.ingress.ingressClassName }}
-  ingressClassName: {{ $.Values.ingress.ingressClassName }}
+  {{- if $officeSuite.ingress.ingressClassName }}
+  ingressClassName: {{ $officeSuite.ingress.ingressClassName }}
   {{- end }}
-{{- if $.Values.ingress.tls }}
+{{- if $officeSuite.ingress.tls }}
   tls:
-{{ tpl (toYaml $.Values.ingress.tls) $ | indent 4 }}
+{{ tpl (toYaml $officeSuite.ingress.tls) $ | indent 4 }}
 {{- end }}
   rules:
     - host: {{ $officeSuite.ingress.domain | quote }}

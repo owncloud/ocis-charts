@@ -6,7 +6,7 @@ releases:
   - name: nats
     namespace: ocis-nats
     chart: nats/nats
-    version: 1.2.4
+    version: 1.2.5
     values:
       - config:
           cluster:
@@ -62,7 +62,7 @@ releases:
   - name: nack
     namespace: ocis-nack
     chart: nats/nack
-    version: 0.26.1
+    version: 0.27.0
     values:
       - namespaced: false
       - readOnly: false
