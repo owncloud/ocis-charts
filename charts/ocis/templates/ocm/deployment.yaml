@@ -63,6 +63,8 @@ spec:
               value: {{ .Values.features.ocm.invitationExpiry | quote }}
             - name: OCM_OCM_INVITE_MANAGER_TIMEOUT
               value: {{ .Values.features.ocm.requestTimeout | quote }}
+            - name: OCM_OCM_PROVIDER_AUTHORIZER_VERIFY_REQUEST_HOSTNAME
+              value: {{ .Values.features.ocm.verfiyHostnameIncomingRequests | quote }}
 
             - name: OCM_JWT_SECRET
               valueFrom:

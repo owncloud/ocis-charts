@@ -780,6 +780,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `"30s"`
 | Timeout specifies a time limit for requests made to OCM endpoints.
+| features.ocm.verfiyHostnameIncomingRequests
+a| [subs=-attributes]
++bool+
+a| [subs=-attributes]
+`true`
+| Verify the hostname of the incoming request against the hostname of the OCM provider.
 | features.policies.enabled
 a| [subs=-attributes]
 +bool+
