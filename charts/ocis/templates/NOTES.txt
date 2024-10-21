@@ -68,7 +68,7 @@ kubectl -n {{ .Release.Namespace }} get secrets/{{ .Values.secretRefs.adminUserS
 {{- $storageusersUnpersisted := not .Values.services.storageusers.persistence.enabled -}}
 {{- $ocmUnpersisted := not .Values.services.ocm.persistence.enabled -}}
 
-{{ if or $storagesystemUnpersisted $webUnpersisted $storageusersUnpersisted $idmUnpersisted $searchUnpersisted $natsUnpersisted }}
+{{ if or $storagesystemUnpersisted $webUnpersisted $storageusersUnpersisted $idmUnpersisted $searchUnpersisted $natsUnpersisted $ocmUnpersisted }}
 #################################################################################
 ######   WARNING: Persistence is disabled for some services.                #####
 ######   You will lose your data when a service's pod is terminated.        #####
