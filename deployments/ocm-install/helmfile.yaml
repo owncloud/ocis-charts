@@ -13,22 +13,22 @@ releases:
               hosts:
                 - ocis.kube.owncloud.test
 
-      - logging:
+      - logging: &logging
           level: debug
 
-      - insecure:
+      - insecure: &insecure
           oidcIdpInsecure: true
           ocisHttpApiInsecure: true
           ocmInsecure: true
 
-      - features:
+      - features: &features
           demoUsers: true
           ocm:
             enabled: true
             providersConfigRef: "ocmproviders"
             verfiyHostnameIncomingRequests: false # TODO: see https://github.com/owncloud/ocis/issues/10355
 
-      - services:
+      - services: &services
           idm:
             persistence:
               enabled: true
@@ -194,85 +194,14 @@ releases:
               hosts:
                 - ocis2.kube.owncloud.test
 
+      # for the following configuration, see the other oCIS release
       - logging:
-          level: debug
-
+          <<: *logging
       - insecure:
-          oidcIdpInsecure: true
-          ocisHttpApiInsecure: true
-          ocmInsecure: true
-
+          <<: *insecure
       - features:
-          demoUsers: true
-          ocm:
-            enabled: true
-            providersConfigRef: "ocmproviders"
-            verfiyHostnameIncomingRequests: false # TODO: see https://github.com/owncloud/ocis/issues/10355
-
+          <<: *features
       - services:
-          idm:
-            persistence:
-              enabled: true
-              accessModes:
-                - ReadWriteOnce
-
-          nats:
-            persistence:
-              enabled: true
-              accessModes:
-                - ReadWriteOnce
-
-          search:
-            persistence:
-              enabled: true
-              accessModes:
-                - ReadWriteOnce
-
-          storagesystem:
-            persistence:
-              enabled: true
-              accessModes:
-                - ReadWriteOnce
-
-          storageusers:
-            persistence:
-              enabled: true
-              accessModes:
-                - ReadWriteOnce
-            maintenance:
-              cleanUpExpiredUploads:
-                enabled: true
-                schedule: "* * * * *"
-              purgeExpiredTrashBinItems:
-                enabled: true
-                schedule: "* * * * *"
-              restartPostprocessing:
-                enabled: true
-                schedule: "* * * * *"
-
-          thumbnails:
-            persistence:
-              enabled: true
-              accessModes:
-                - ReadWriteOnce
-            maintenance:
-              cleanUpOldThumbnails:
-                enabled: true
-                schedule: "* * * * *"
-
-          web:
-            persistence:
-              enabled: true
-              accessModes:
-                - ReadWriteOnce
-            config:
-              apps:
-                - files
-                - search
-                - text-editor
-                - pdf-viewer
-                - external
-                - user-management
-                - ocm
+          <<: *services
       - extraResources:
-          - *ocmproviders # see extraResources of other oCIS
+          - *ocmproviders
