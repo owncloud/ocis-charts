@@ -1,4 +1,23 @@
+repositories:
+  - name: inbucket
+    url: https://inbucket.github.io/inbucket-community
+
 releases:
+  - name: inbucket
+    chart: inbucket/inbucket
+    namespace: inbucket
+    values:
+      - ingress:
+          enabled: true
+          hosts:
+            - host: inbucket.kube.owncloud.test
+              paths:
+                - path: /
+          tls:
+            - secretName: inbucket-tls
+              hosts:
+                - inbucket.kube.owncloud.test
+
   - name: ocis
     chart: ../../charts/ocis
     namespace: ocis
@@ -23,6 +42,14 @@ releases:
 
       - features: &features
           demoUsers: true
+          emailNotifications: # OCM invitations may be sent via email
+            enabled: true
+            smtp:
+              host: inbucket.inbucket.svc.cluster.local
+              port: 2500
+              sender: "ownCloud <noreply@ocis.kube.owncloud.test>"
+              authentication: none
+              encryption: none
           ocm:
             enabled: true
             providersConfigRef: "ocmproviders"
