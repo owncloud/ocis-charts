@@ -2873,7 +2873,7 @@ a| [subs=-attributes]
 +list+
 a| [subs=-attributes]
 `["ReadWriteOnce"]`
-| Persistent volume access modes. Needs to be `["ReadWriteMany"]` when having more than one replica for this service.
+| Persistent volume access modes.
 | services.ocm.persistence.annotations
 a| [subs=-attributes]
 +object+
@@ -2920,7 +2920,7 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 +string+
 a| [subs=-attributes]
-`"100Mi"`
+`"1Gi"`
 | Size of the persistent volume.
 | services.ocm.persistence.storageClassName
 a| [subs=-attributes]

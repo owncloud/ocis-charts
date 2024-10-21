@@ -1520,11 +1520,11 @@ services:
       # -- Storage class to use.
       # Uses the default storage class if not set.
       storageClassName:
-      # -- Persistent volume access modes. Needs to be `["ReadWriteMany"]` when having more than one replica for this service.
+      # -- Persistent volume access modes.
       accessModes:
         - ReadWriteOnce
       # -- Size of the persistent volume.
-      size: 100Mi
+      size: 1Gi
       # -- Persistent volume annotations.
       annotations: {}
       # -- Persistent volume finalizers.
