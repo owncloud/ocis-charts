@@ -4,4 +4,4 @@ go 1.22
 
 toolchain go1.22.3
 
-require github.com/yannh/kubeconform v0.6.6 // cmd/kubeconform
+require github.com/yannh/kubeconform v0.6.7 // cmd/kubeconform
