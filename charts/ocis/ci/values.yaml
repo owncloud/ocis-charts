@@ -96,6 +96,8 @@ features:
     enabled: true
   policies:
     enabled: true
+  ocm:
+    enabled: true
 
 extraLabels:
   extra1: lorem
@@ -207,6 +209,19 @@ services:
     maintenance:
       cleanUpOldThumbnails:
         enabled: true
+
+  ocm:
+    persistence:
+      enabled: true
+      storageClassName: default-storage
+      accessModes:
+        - ReadWriteOnce
+      size: 10Gi
+      annotations:
+        anno-1: test
+      finalizers: []
+      selectorLabels:
+        selector1: foobar
 
 secretRefs:
   notificationsSmtpSecretRef: "smtp-secret"

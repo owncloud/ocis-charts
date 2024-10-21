@@ -16,6 +16,13 @@ logging:
 insecure:
   oidcIdpInsecure: true
   ocisHttpApiInsecure: true
+features:
+  virusscan:
+    enabled: true
+  policies:
+    enabled: true
+  ocm:
+    enabled: true
 services:
   idm:
     persistence:
@@ -38,6 +45,11 @@ services:
       accessModes:
         - ReadWriteOnce
   storageusers:
+    persistence:
+      enabled: true
+      accessModes:
+        - ReadWriteOnce
+  ocm:
     persistence:
       enabled: true
       accessModes:
