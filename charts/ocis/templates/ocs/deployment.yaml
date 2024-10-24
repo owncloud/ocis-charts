@@ -72,4 +72,12 @@ spec:
               containerPort: 9110
             - name: metrics-debug
               containerPort: 9114
+
+          volumeMounts:
+            - name: tmp-volume
+              mountPath: /tmp
+
       {{- include "ocis.imagePullSecrets" $ | nindent 6 }}
+      volumes:
+        - name: tmp-volume
+          emptyDir: {}

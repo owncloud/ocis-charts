@@ -175,10 +175,10 @@ spec:
               containerPort: 9141
 
           volumeMounts:
-            - name: configs
-              mountPath: /etc/ocis
             - name: tmp-volume
               mountPath: /tmp
+            - name: configs
+              mountPath: /etc/ocis
 
       {{- include "ocis.imagePullSecrets" $ | nindent 6 }}
       volumes:
