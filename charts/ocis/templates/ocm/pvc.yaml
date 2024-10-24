@@ -1,0 +1,39 @@
+{{- if .Values.features.ocm.enabled }}
+{{- if and .Values.services.ocm.persistence.enabled (not .Values.services.ocm.persistence.existingClaim)}}
+{{- include "ocis.basicServiceTemplates" (dict "scope" . "appName" "appNameOcm" "appNameSuffix" "") -}}
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ include "ocis.persistence.dataVolumeName" . }}
+  namespace: {{ template "ocis.namespace" . }}
+  labels:
+    {{- include "ocis.labels" . | nindent 4 }}
+    {{- with .Values.backup.pvcLabels }}
+    {{ toYaml . | nindent 4 }}
+    {{- end }}
+  {{- with .Values.services.ocm.persistence.annotations  }}
+  annotations:
+{{ toYaml . | indent 4 }}
+  {{- end }}
+  {{- with .Values.services.ocm.persistence.finalizers  }}
+  finalizers:
+{{ toYaml . | indent 4 }}
+  {{- end }}
+spec:
+  accessModes:
+    {{- range .Values.services.ocm.persistence.accessModes }}
+    - {{ . | quote }}
+    {{- end }}
+  resources:
+    requests:
+      storage: {{ .Values.services.ocm.persistence.size | quote }}
+  {{- if .Values.services.ocm.persistence.storageClassName }}
+  storageClassName: {{ .Values.services.ocm.persistence.storageClassName }}
+  {{- end -}}
+  {{- with .Values.services.ocm.persistence.selectorLabels }}
+  selector:
+    matchLabels:
+{{ toYaml . | indent 6 }}
+  {{- end }}
+{{- end -}}
+{{- end -}}

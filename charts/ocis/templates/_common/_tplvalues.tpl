@@ -51,6 +51,7 @@ Adds the app names to the scope and set the name of the app based on the input p
   {{- $_ := set .scope "appNameNats" "nats" -}}
   {{- $_ := set .scope "appNameNotifications" "notifications" -}}
   {{- $_ := set .scope "appNameOcdav" "ocdav" -}}
+  {{- $_ := set .scope "appNameOcm" "ocm" -}}
   {{- $_ := set .scope "appNameOcs" "ocs" -}}
   {{- $_ := set .scope "appNamePolicies" "policies" -}}
   {{- $_ := set .scope "appNamePostprocessing" "postprocessing" -}}
