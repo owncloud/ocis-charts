@@ -74,10 +74,14 @@ spec:
               containerPort: 9234
 
           volumeMounts:
+            - name: tmp-volume
+              mountPath: /tmp
             - name: {{ include "ocis.persistence.dataVolumeName" . }}
               mountPath: /var/lib/ocis
 
       {{- include "ocis.imagePullSecrets" $ | nindent 6 }}
       volumes:
+        - name: tmp-volume
+          emptyDir: {}
         {{- include "ocis.persistence.dataVolume" . | nindent 8 }}
 {{- end }}
