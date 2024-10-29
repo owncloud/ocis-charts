@@ -368,6 +368,7 @@ features:
       # icon: ""
       # default_app: ""
       # allow_creation: true
+      # target_ext: ""
   # External user management
   externalUserManagement:
     # -- Enables external user management (and disables internal user management).

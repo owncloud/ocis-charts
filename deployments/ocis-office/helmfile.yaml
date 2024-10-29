@@ -221,6 +221,61 @@ releases:
                 icon: image-edit
                 default_app: "OnlyOffice"
                 allow_creation: true
+              # mimetypes for templates
+              - mime_type: application/vnd.oasis.opendocument.text-template
+                extension: ott
+                name: TextDocument Template
+                description: Text document template
+                default_app: "Collabora"
+                target_ext: odt
+              - mime_type: application/vnd.oasis.opendocument.spreadsheet-template
+                extension: ots
+                name: Spreadsheet Template
+                description: Spreadsheet document template
+                default_app: "Collabora"
+                target_ext: ods
+              - mime_type: application/vnd.oasis.opendocument.presentation-template
+                extension: otp
+                name: Presentation Template
+                description: Presentation document template
+                default_app: "Collabora"
+                target_ext: odp
+              - mime_type: application/vnd.ms-word.template.macroenabled.12
+                extension: dotm
+                name: TextDocument Template
+                description: Text document template
+                default_app: "OnlyOffice"
+                target_ext: docx
+              - mime_type: application/vnd.openxmlformats-officedocument.wordprocessingml.template
+                extension: dotx
+                name: TextDocument Template
+                description: Text document template
+                default_app: "OnlyOffice"
+                target_ext: docx
+              - mime_type: application/vnd.ms-excel.template.macroenabled.12
+                extension: xltm
+                name: Spreadsheet Template
+                description: Spreadsheet document template
+                default_app: "OnlyOffice"
+                target_ext: xlsx
+              - mime_type: application/vnd.openxmlformats-officedocument.spreadsheetml.template
+                extension: xltx
+                name: Spreadsheet Template
+                description: Spreadsheet document template
+                default_app: "OnlyOffice"
+                target_ext: xlsx
+              - mime_type: application/vnd.ms-powerpoint.template.macroenabled.12
+                extension: pptm
+                name: TextDocument Template
+                description: Text document template
+                default_app: "OnlyOffice"
+                target_ext: pptx
+              - mime_type: application/vnd.openxmlformats-officedocument.presentationml.template
+                extension: potx
+                name: Presentation Template
+                description: Presentation document template
+                default_app: "OnlyOffice"
+                target_ext: pptx
 
       - services:
           idm:
