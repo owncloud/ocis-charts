@@ -55,6 +55,9 @@ spec:
             - name: OCM_GRPC_ADDR
               value: 0.0.0.0:9282
 
+            - name: OCM_OCM_STORAGE_DATA_SERVER_URL
+              value: http://{{ .appName }}:9216/data
+
             # HINT: as of oCIS 6.5, this option is not in documented because it's pulled in from the "common" section.
             # This env variable should be replaced by a more scoped and documented env variable.
             - name: OCIS_URL
@@ -64,8 +67,6 @@ spec:
               value: {{ .Values.features.ocm.invitationExpiry | quote }}
             - name: OCM_OCM_INVITE_MANAGER_TIMEOUT
               value: {{ .Values.features.ocm.requestTimeout | quote }}
-            - name: OCM_OCM_PROVIDER_AUTHORIZER_VERIFY_REQUEST_HOSTNAME
-              value: {{ .Values.features.ocm.verfiyHostnameIncomingRequests | quote }}
 
             - name: OCM_JWT_SECRET
               valueFrom:

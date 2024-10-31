@@ -53,7 +53,6 @@ releases:
           ocm:
             enabled: true
             providersConfigRef: "ocmproviders"
-            verfiyHostnameIncomingRequests: false # TODO: see https://github.com/owncloud/ocis/issues/10355
 
       - services: &services
           idm:
