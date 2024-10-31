@@ -72,6 +72,8 @@ spec:
             - name: IDP_ENCRYPTION_SECRET_FILE
               value: /etc/ocis/idp/encryption.key
 
+            {{- include "ocis.caEnv" $ | nindent 12}}
+
           {{- include "ocis.livenessProbe" . | nindent 10 }}
 
           resources: {{ toYaml .resources | nindent 12 }}
@@ -93,6 +95,7 @@ spec:
             - name: idp-secrets
               mountPath: /etc/ocis/idp
               readOnly: true
+            {{- include "ocis.caPath" $ | nindent 12}}
 
       {{- include "ocis.imagePullSecrets" $ | nindent 6 }}
       volumes:
@@ -106,4 +109,5 @@ spec:
         - name: idp-secrets
           secret:
             secretName: {{ include "secrets.idpSecret" . }}
+        {{- include "ocis.caVolume" $ | nindent 8}}
 {{- end }}

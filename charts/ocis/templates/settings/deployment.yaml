@@ -95,6 +95,8 @@ spec:
                   name: {{ include "secrets.storageSystemSecret" . }}
                   key: user-id
 
+            {{- include "ocis.caEnv" $ | nindent 12}}
+
           {{- include "ocis.livenessProbe" . | nindent 10 }}
 
           resources: {{ toYaml .resources | nindent 12 }}
@@ -114,6 +116,7 @@ spec:
             - name: ocis-role-config
               mountPath: /etc/ocis
           {{- end }}
+            {{- include "ocis.caPath" $ | nindent 12}}
 
       {{- include "ocis.imagePullSecrets" $ | nindent 6 }}
 
@@ -130,3 +133,4 @@ spec:
           configMap:
             name: {{ .Values.features.roles.customRolesConfigRef }}
       {{- end }}
+        {{- include "ocis.caVolume" $ | nindent 8}}

@@ -125,6 +125,8 @@ spec:
               value: {{ .Values.features.externalUserManagement.autoprovisionAccounts.claimUserName | quote }}
             {{- end }}
 
+            {{- include "ocis.caEnv" $ | nindent 12}}
+
           {{- include "ocis.livenessProbe" . | nindent 10 }}
 
           resources: {{ toYaml .resources | nindent 12 }}
@@ -140,6 +142,7 @@ spec:
               mountPath: /tmp
             - name: configs
               mountPath: /etc/ocis
+            {{- include "ocis.caPath" $ | nindent 12}}
 
       {{- include "ocis.imagePullSecrets" $ | nindent 6 }}
       volumes:
@@ -148,3 +151,4 @@ spec:
         - name: configs
           configMap:
             name: {{ .appName }}-config
+        {{- include "ocis.caVolume" $ | nindent 8}}
