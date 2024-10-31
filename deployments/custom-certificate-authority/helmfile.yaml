@@ -1,0 +1,89 @@
+repositories:
+  - name: jetstack
+    url: https://charts.jetstack.io
+
+releases:
+  - name: cert-manager
+    chart: jetstack/cert-manager
+    version: v1.16.1
+    namespace: cert-manager
+    values:
+      - crds:
+          enabled: true
+
+  - name: certificate-authority
+    chart: ./charts/certificate-authority
+    namespace: cert-manager
+    needs:
+      - cert-manager/cert-manager
+
+  - name: trust-manager
+    chart: jetstack/trust-manager
+    version: v0.13.0
+    namespace: cert-manager
+    needs:
+      - cert-manager/certificate-authority
+    wait: true
+
+  - name: trust-config
+    chart: ./charts/trust-config
+    namespace: cert-manager
+    needs:
+      - cert-manager/trust-manager
+
+  - name: ocis
+    chart: ../../charts/ocis
+    namespace: ocis
+    values:
+      - externalDomain: ocis.kube.owncloud.test
+      - ingress:
+          enabled: true
+          ingressClassName: nginx
+          annotations:
+            nginx.ingress.kubernetes.io/proxy-body-size: 1024m
+            cert-manager.io/cluster-issuer: my-ca-issuer
+          tls:
+            - secretName: ocis-dev-tls
+              hosts:
+                - ocis.kube.owncloud.test
+
+      - customCAChain:
+          enabled: true
+          existingConfigMap: ocis-trust
+      # please note that all insecure options are set to false, because we actually trust the CA of the self signed certificates in use
+      - insecure:
+          oidcIdpInsecure: false
+          ocisHttpApiInsecure: false
+
+      - features:
+          demoUsers: true
+          basicAuthentication: false
+
+      - services:
+          idm:
+            persistence:
+              enabled: true
+
+          nats:
+            persistence:
+              enabled: true
+
+          search:
+            persistence:
+              enabled: true
+
+          storagesystem:
+            persistence:
+              enabled: true
+
+          storageusers:
+            persistence:
+              enabled: true
+
+          thumbnails:
+            persistence:
+              enabled: true
+
+          web:
+            persistence:
+              enabled: true

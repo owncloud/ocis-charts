@@ -213,6 +213,8 @@ spec:
             - name: OCIS_ENABLE_OCM
               value: {{ .Values.features.ocm.enabled | quote }}
 
+            {{- include "ocis.caEnv" $ | nindent 12}}
+
           {{- include "ocis.livenessProbe" . | nindent 10 }}
 
           resources: {{ toYaml .resources | nindent 12 }}
@@ -224,15 +226,20 @@ spec:
               containerPort: 9124
 
           volumeMounts:
+            - name: tmp-volume
+              mountPath: /tmp
             - name: messaging-system-ca
               mountPath: /etc/ocis/messaging-system-ca
               readOnly: true
             - name: ldap-ca
               mountPath: /etc/ocis/ldap-ca
               readOnly: true
+            {{- include "ocis.caPath" $ | nindent 12}}
 
       {{- include "ocis.imagePullSecrets" $ | nindent 6 }}
       volumes:
+        - name: tmp-volume
+          emptyDir: {}
         - name: messaging-system-ca
           {{ if and (.Values.messagingSystem.external.enabled) (not .Values.messagingSystem.external.tls.certTrusted) }}
           secret:
@@ -247,3 +254,4 @@ spec:
           {{ else }}
           emptyDir: {}
           {{ end }}
+        {{- include "ocis.caVolume" $ | nindent 8}}

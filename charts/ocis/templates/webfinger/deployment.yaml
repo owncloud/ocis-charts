@@ -62,6 +62,8 @@ spec:
             - name: WEBFINGER_INSECURE
               value: "{{ .Values.insecure.oidcIdpInsecure }}"
 
+            {{- include "ocis.caEnv" $ | nindent 12}}
+
           {{- include "ocis.livenessProbe" . | nindent 10 }}
 
           resources: {{ toYaml .resources | nindent 12 }}
@@ -71,4 +73,14 @@ spec:
               containerPort: 8080
             - name: metrics-debug
               containerPort: 8081
+
+          volumeMounts:
+            - name: tmp-volume
+              mountPath: /tmp
+            {{- include "ocis.caPath" $ | nindent 12}}
+
       {{- include "ocis.imagePullSecrets" $ | nindent 6 }}
+      volumes:
+        - name: tmp-volume
+          emptyDir: {}
+        {{- include "ocis.caVolume" $ | nindent 8}}

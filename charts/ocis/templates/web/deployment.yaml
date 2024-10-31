@@ -188,6 +188,8 @@ spec:
                   name: {{ include "secrets.jwtSecret" . }}
                   key: jwt-secret
 
+            {{- include "ocis.caEnv" $ | nindent 12}}
+
           {{- include "ocis.livenessProbe" . | nindent 10 }}
 
           resources: {{ toYaml .resources | nindent 12 }}
@@ -199,6 +201,8 @@ spec:
               containerPort: 9104
 
           volumeMounts:
+            - name: tmp-volume
+              mountPath: /tmp
             - name: configs
               mountPath: /etc/ocis
             {{- if .Values.configRefs.webThemeConfigRef }}
@@ -213,9 +217,12 @@ spec:
               mountPath: /var/lib/ocis/web/assets/apps
             - name: {{ include "ocis.persistence.dataVolumeName" . }}
               mountPath: /var/lib/ocis
+            {{- include "ocis.caPath" $ | nindent 12}}
 
       {{- include "ocis.imagePullSecrets" $ | nindent 6 }}
       volumes:
+        - name: tmp-volume
+          emptyDir: {}
         - name: configs
           configMap:
             name: {{ .appName }}-config
@@ -231,4 +238,5 @@ spec:
         {{- end }}
         - name: apps
           emptyDir: {}
+        {{- include "ocis.caVolume" $ | nindent 8}}
         {{- include "ocis.persistence.dataVolume" . | nindent 8 }}

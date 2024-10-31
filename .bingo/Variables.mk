@@ -29,11 +29,11 @@ $(GOMPLATE): $(BINGO_DIR)/gomplate.mod
 	@echo "(re)installing $(GOBIN)/gomplate-v3.11.8"
 	@cd $(BINGO_DIR) && GOWORK=off $(GO) build -mod=mod -modfile=gomplate.mod -o=$(GOBIN)/gomplate-v3.11.8 "github.com/hairyhenderson/gomplate/v3/cmd/gomplate"
 
-HELM_DOCS := $(GOBIN)/helm-docs-v1.13.1
+HELM_DOCS := $(GOBIN)/helm-docs-v1.14.2
 $(HELM_DOCS): $(BINGO_DIR)/helm-docs.mod
 	@# Install binary/ries using Go 1.14+ build command. This is using bwplotka/bingo-controlled, separate go module with pinned dependencies.
-	@echo "(re)installing $(GOBIN)/helm-docs-v1.13.1"
-	@cd $(BINGO_DIR) && GOWORK=off $(GO) build -mod=mod -modfile=helm-docs.mod -o=$(GOBIN)/helm-docs-v1.13.1 "github.com/norwoodj/helm-docs/cmd/helm-docs"
+	@echo "(re)installing $(GOBIN)/helm-docs-v1.14.2"
+	@cd $(BINGO_DIR) && GOWORK=off $(GO) build -mod=mod -modfile=helm-docs.mod -o=$(GOBIN)/helm-docs-v1.14.2 "github.com/norwoodj/helm-docs/cmd/helm-docs"
 
 KUBE_LINTER := $(GOBIN)/kube-linter-v0.6.8
 $(KUBE_LINTER): $(BINGO_DIR)/kube-linter.mod
@@ -41,9 +41,9 @@ $(KUBE_LINTER): $(BINGO_DIR)/kube-linter.mod
 	@echo "(re)installing $(GOBIN)/kube-linter-v0.6.8"
 	@cd $(BINGO_DIR) && GOWORK=off $(GO) build -mod=mod -modfile=kube-linter.mod -o=$(GOBIN)/kube-linter-v0.6.8 "golang.stackrox.io/kube-linter/cmd/kube-linter"
 
-KUBECONFORM := $(GOBIN)/kubeconform-v0.6.6
+KUBECONFORM := $(GOBIN)/kubeconform-v0.6.7
 $(KUBECONFORM): $(BINGO_DIR)/kubeconform.mod
 	@# Install binary/ries using Go 1.14+ build command. This is using bwplotka/bingo-controlled, separate go module with pinned dependencies.
-	@echo "(re)installing $(GOBIN)/kubeconform-v0.6.6"
-	@cd $(BINGO_DIR) && GOWORK=off $(GO) build -mod=mod -modfile=kubeconform.mod -o=$(GOBIN)/kubeconform-v0.6.6 "github.com/yannh/kubeconform/cmd/kubeconform"
+	@echo "(re)installing $(GOBIN)/kubeconform-v0.6.7"
+	@cd $(BINGO_DIR) && GOWORK=off $(GO) build -mod=mod -modfile=kubeconform.mod -o=$(GOBIN)/kubeconform-v0.6.7 "github.com/yannh/kubeconform/cmd/kubeconform"
 

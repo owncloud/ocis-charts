@@ -61,6 +61,8 @@ spec:
             - name: ANTIVIRUS_MAX_SCAN_SIZE
               value: {{ .Values.features.virusscan.maxScanSize | quote }}
 
+            {{- include "ocis.caEnv" $ | nindent 12}}
+
           {{- include "ocis.livenessProbe" . | nindent 10 }}
 
           resources: {{ toYaml .resources | nindent 12 }}
@@ -70,12 +72,17 @@ spec:
               containerPort: 9277
 
           volumeMounts:
+            - name: tmp-volume
+              mountPath: /tmp
             - name: messaging-system-ca
               mountPath: /etc/ocis/messaging-system-ca
               readOnly: true
+            {{- include "ocis.caPath" $ | nindent 12}}
 
       {{- include "ocis.imagePullSecrets" $ | nindent 6 }}
       volumes:
+        - name: tmp-volume
+          emptyDir: {}
         - name: messaging-system-ca
           {{ if and (.Values.messagingSystem.external.enabled) (not .Values.messagingSystem.external.tls.certTrusted) }}
           secret:
@@ -83,4 +90,5 @@ spec:
           {{ else }}
           emptyDir: {}
           {{ end }}
+        {{- include "ocis.caVolume" $ | nindent 8}}
 {{ end }}
