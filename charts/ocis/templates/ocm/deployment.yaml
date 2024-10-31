@@ -56,7 +56,7 @@ spec:
               value: 0.0.0.0:9282
 
             - name: OCM_OCM_STORAGE_DATA_SERVER_URL
-              value: http://{{ .appName }}:9216/data
+              value: http://{{ .appName }}:9280/data
 
             # HINT: as of oCIS 6.5, this option is not in documented because it's pulled in from the "common" section.
             # This env variable should be replaced by a more scoped and documented env variable.
