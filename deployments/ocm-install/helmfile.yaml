@@ -123,7 +123,10 @@ releases:
                 - text-editor
                 - pdf-viewer
                 - external
-                - user-management
+                - admin-settings
+                - epub-reader
+                - preview
+                - app-store
                 - ocm
 
       - extraResources:
