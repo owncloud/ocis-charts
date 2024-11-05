@@ -3774,6 +3774,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Affinity settings for the storageusers service. See the documentation of this setting in approvider for examples.
+| services.storageusers.asyncPropagation
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{"delay":"5s","enabled":false}`
+| Enable asynchronous metadata propagation
 | services.storageusers.autoscaling
 a| [subs=-attributes]
 +object+

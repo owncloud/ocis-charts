@@ -1881,6 +1881,11 @@ services:
         # -- Number of event consumers to be started that concurrently consume events (eg. postprocessing related events)
         concurrency: 10
 
+    # -- Enable asynchronous metadata propagation
+    asyncPropagation:
+      enabled: false
+      delay: "5s"
+
     storageBackend:
       # -- Configures the storage driver. Possible values are "ocis" and "s3ng".
       # The oCIS driver stores all data in the persistent volume if persistence is enabled.
