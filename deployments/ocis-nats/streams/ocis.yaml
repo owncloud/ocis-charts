@@ -27,6 +27,9 @@ spec:
   maxMsgsPerSubject: 0
   name: main-queue
   noAck: false
+  #maxAckPending: #TODO: acts as default for SSE and undefined clients??
+  #maxWaiting:
+  #ackWait:
   preventDelete: false
   preventUpdate: false
   replicas: 3
@@ -411,3 +414,219 @@ spec:
   storage: memory
   subjects:
     - $KV.ocis-pkg.>
+
+---
+apiVersion: jetstream.nats.io/v1beta2
+kind: Consumer
+metadata:
+  name: activitylog
+spec:
+  streamName: main-queue
+  durableName: activitylog
+  deliverGroup: activitylog
+  deliverPolicy: new
+  filterSubject: main-queue
+  ackPolicy: explicit
+  ackWait: 30s
+  maxAckPending: 1000
+  maxDeliver: -1
+  replayPolicy: instant
+  numReplicas: 0
+
+---
+apiVersion: jetstream.nats.io/v1beta2
+kind: Consumer
+metadata:
+  name: audit
+spec:
+  streamName: main-queue
+  durableName: audit
+  deliverGroup: audit
+  deliverPolicy: new
+  filterSubject: main-queue
+  ackPolicy: explicit
+  ackWait: 30s
+  maxAckPending: 1000
+  maxDeliver: -1
+  replayPolicy: instant
+  numReplicas: 0
+
+---
+apiVersion: jetstream.nats.io/v1beta2
+kind: Consumer
+metadata:
+  name: clientlog
+spec:
+  streamName: main-queue
+  durableName: clientlog
+  deliverGroup: clientlog
+  deliverPolicy: new
+  filterSubject: main-queue
+  ackPolicy: explicit
+  ackWait: 30s
+  maxAckPending: 1000
+  maxDeliver: -1
+  replayPolicy: instant
+  numReplicas: 0
+
+---
+apiVersion: jetstream.nats.io/v1beta2
+kind: Consumer
+metadata:
+  name: clientlog
+spec:
+  streamName: main-queue
+  durableName: clientlog
+  deliverGroup: clientlog
+  deliverPolicy: new
+  filterSubject: main-queue
+  ackPolicy: explicit
+  ackWait: 30s
+  maxAckPending: 1000
+  maxDeliver: -1
+  replayPolicy: instant
+  numReplicas: 0
+
+---
+apiVersion: jetstream.nats.io/v1beta2
+kind: Consumer
+metadata:
+  name: dcfs
+spec:
+  streamName: main-queue
+  durableName: dcfs
+  deliverGroup: dcfs
+  deliverPolicy: new
+  filterSubject: main-queue
+  ackPolicy: explicit
+  ackWait: 30s
+  maxAckPending: 1000
+  maxDeliver: -1
+  replayPolicy: instant
+  numReplicas: 0
+
+---
+apiVersion: jetstream.nats.io/v1beta2
+kind: Consumer
+metadata:
+  name: evhistory
+spec:
+  streamName: main-queue
+  durableName: evhistory
+  deliverGroup: evhistory
+  deliverPolicy: new
+  filterSubject: main-queue
+  ackPolicy: explicit
+  ackWait: 30s
+  maxAckPending: 1000
+  maxDeliver: -1
+  replayPolicy: instant
+  numReplicas: 0
+
+---
+apiVersion: jetstream.nats.io/v1beta2
+kind: Consumer
+metadata:
+  name: frontend
+spec:
+  streamName: main-queue
+  durableName: frontend
+  deliverGroup: frontend
+  deliverPolicy: new
+  filterSubject: main-queue
+  ackPolicy: explicit
+  ackWait: 30s
+  maxAckPending: 1000
+  maxDeliver: -1
+  replayPolicy: instant
+  numReplicas: 0
+
+---
+apiVersion: jetstream.nats.io/v1beta2
+kind: Consumer
+metadata:
+  name: graph
+spec:
+  streamName: main-queue
+  durableName: graph
+  deliverGroup: graph
+  deliverPolicy: new
+  filterSubject: main-queue
+  ackPolicy: explicit
+  ackWait: 30s
+  maxAckPending: 1000
+  maxDeliver: -1
+  replayPolicy: instant
+  numReplicas: 0
+
+---
+apiVersion: jetstream.nats.io/v1beta2
+kind: Consumer
+metadata:
+  name: postprocessing
+spec:
+  streamName: main-queue
+  durableName: postprocessing
+  deliverGroup: postprocessing
+  deliverPolicy: new
+  filterSubject: main-queue
+  ackPolicy: explicit
+  ackWait: 30s
+  maxAckPending: 1000
+  maxDeliver: -1
+  replayPolicy: instant
+  numReplicas: 0
+
+---
+apiVersion: jetstream.nats.io/v1beta2
+kind: Consumer
+metadata:
+  name: search
+spec:
+  streamName: main-queue
+  durableName: search
+  deliverGroup: search
+  deliverPolicy: new
+  filterSubject: main-queue
+  ackPolicy: explicit
+  ackWait: 30s
+  maxAckPending: 1000
+  maxDeliver: -1
+  replayPolicy: instant
+  numReplicas: 0
+
+---
+apiVersion: jetstream.nats.io/v1beta2
+kind: Consumer
+metadata:
+  name: storage-users
+spec:
+  streamName: main-queue
+  durableName: storage-users
+  deliverGroup: storage-users
+  deliverPolicy: new
+  filterSubject: main-queue
+  ackPolicy: explicit
+  ackWait: 30s
+  maxAckPending: 1000
+  maxDeliver: -1
+  replayPolicy: instant
+  numReplicas: 0
+
+---
+apiVersion: jetstream.nats.io/v1beta2
+kind: Consumer
+metadata:
+  name: userlog
+spec:
+  streamName: main-queue
+  durableName: userlog
+  deliverGroup: userlog
+  deliverPolicy: new
+  filterSubject: main-queue
+  ackPolicy: explicit
+  ackWait: 30s
+  maxAckPending: 1000
+  maxDeliver: -1
+  replayPolicy: instant
+  numReplicas: 0
