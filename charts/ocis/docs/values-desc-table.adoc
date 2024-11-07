@@ -2070,6 +2070,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
+| services.frontend.events.consumer.concurrency
+a| [subs=-attributes]
++int+
+a| [subs=-attributes]
+`100`
+| Number of event consumers to be started that concurrently consume events (used for auto-accepting shares, see `features.sharing.autoAcceptShares`)
 | services.frontend.extraLabels
 a| [subs=-attributes]
 +object+

@@ -1176,6 +1176,10 @@ services:
   # -- FRONTEND service.
   # @default -- see detailed service configuration options below
   frontend:
+    events:
+      consumer:
+        # -- Number of event consumers to be started that concurrently consume events (used for auto-accepting shares, see `features.sharing.autoAcceptShares`)
+        concurrency: 100
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
     # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
