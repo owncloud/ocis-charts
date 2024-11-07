@@ -227,7 +227,7 @@ def showPodsAfterInstall(config):
             "export KUBECONFIG=kubeconfig-$${DRONE_BUILD_NUMBER}.yaml",
             "until test -f $${KUBECONFIG}; do sleep 1s; done",
             "kubectl get pods -n ocis",
-            "if [ \"$(kubectl get pods -n ocis --field-selector status.phase=Running | wc -l)\" -le \"1\" ]; then exit 1; fi",
+            "if [ \"$(kubectl get pods -n ocis --field-selector status.phase=Running | wc -l)\" -le \"32\" ]; then exit 1; fi",  # there are 32 pods + 1 header line
             "kubectl get ingress -n ocis",
             "if [ \"$(kubectl get ingress -n ocis | wc -l)\" -le \"1\" ]; then exit 1; fi",
         ],
