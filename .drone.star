@@ -2,14 +2,6 @@ config = {
     "branches": [
         "main",
     ],
-    # if this changes, also tested versions in need to be changed here:
-    # - Makefile
-    "kubernetesVersions": [
-        "1.28.0",
-        "1.29.0",
-        "1.30.0",
-        "1.31.0",
-    ],
 }
 
 def main(ctx):
@@ -28,24 +20,16 @@ def main(ctx):
 def linting(ctx):
     pipelines = []
 
-    kubeconform_steps = []
-
-    for version in config["kubernetesVersions"]:
-        kubeconform_steps.append(
+    result = {
+        "kind": "pipeline",
+        "type": "docker",
+        "name": "lint charts/ocis",
+        "steps": [
             {
-                "name": "template - %s" % version,
-                "image": "owncloudci/alpine:latest",
-                "commands": [
-                    "make api-%s-template" % version,
-                ],
-            },
-        )
-        kubeconform_steps.append(
-            {
-                "name": "kubeconform - %s" % version,
+                "name": "lint",
                 "image": "owncloudci/golang:latest",
                 "commands": [
-                    "make api-%s-kubeconform" % version,
+                    "make lint",
                 ],
                 "volumes": [
                     {
@@ -54,38 +38,20 @@ def linting(ctx):
                     },
                 ],
             },
-        )
-
-    result = {
-        "kind": "pipeline",
-        "type": "docker",
-        "name": "lint charts/ocis",
-        "steps": [
             {
-                "name": "helm lint",
-                "image": "owncloudci/alpine:latest",
+                "name": "api",
+                "image": "owncloudci/golang:latest",
                 "commands": [
-                    "helm lint charts/ocis",
+                    "make api",
+                ],
+                "volumes": [
+                    {
+                        "name": "gopath",
+                        "path": "/go",
+                    },
                 ],
             },
-            {
-                "name": "helm template",
-                "image": "owncloudci/alpine:latest",
-                "commands": [
-                    "helm template charts/ocis -f 'charts/ocis/ci/values.yaml' > charts/ocis/ci/templated.yaml",
-                ],
-            },
-            {
-                "name": "kube-linter",
-                "image": "stackrox/kube-linter:latest",
-                "entrypoint": [
-                    "/kube-linter",
-                    "lint",
-                    "--exclude=latest-tag",
-                    "charts/ocis/ci/templated.yaml",
-                ],
-            },
-        ] + kubeconform_steps,
+        ],
         "depends_on": [],
         "trigger": {
             "ref": [
@@ -114,30 +80,16 @@ def documentation(ctx):
         "name": "documentation",
         "steps": [
             {
-                "name": "helm-docs-readme",
-                "image": "jnorwood/helm-docs:v1.14.2",
-                "entrypoint": [
-                    "/usr/bin/helm-docs",
-                    "--template-files=README.md.gotmpl",
-                    "--output-file=README.md",
+                "name": "generate docs",
+                "image": "owncloudci/golang:latest",
+                "commands": [
+                    "make docs",
                 ],
-            },
-            {
-                "name": "helm-docs-values-table-adoc",
-                "image": "jnorwood/helm-docs:v1.14.2",
-                "entrypoint": [
-                    "/usr/bin/helm-docs",
-                    "--template-files=charts/ocis/docs/templates/values-desc-table.adoc.gotmpl",
-                    "--output-file=docs/values-desc-table.adoc",
-                ],
-            },
-            {
-                "name": "gomplate-values-adoc",
-                "image": "hairyhenderson/gomplate:v3.11.7-alpine",
-                "entrypoint": [
-                    "/bin/gomplate",
-                    "--file=charts/ocis/docs/templates/values.adoc.yaml.gotmpl",
-                    "--out=charts/ocis/docs/values.adoc.yaml",
+                "volumes": [
+                    {
+                        "name": "gopath",
+                        "path": "/go",
+                    },
                 ],
             },
             {
@@ -149,6 +101,12 @@ def documentation(ctx):
             },
         ],
         "depends_on": [],
+        "volumes": [
+            {
+                "name": "gopath",
+                "temp": {},
+            },
+        ],
         "trigger": {
             "ref": [
                 "refs/pull/**",
@@ -213,6 +171,12 @@ def deployments(ctx):
             },
         ],
         "depends_on": [],
+        "volumes": [
+            {
+                "name": "gopath",
+                "temp": {},
+            },
+        ],
         "trigger": {
             "ref": [
                 "refs/pull/**",
@@ -228,10 +192,16 @@ def deployments(ctx):
 def install(ctx):
     return [{
         "name": "helm-install",
-        "image": "docker.io/owncloudci/alpine",
+        "image": "owncloudci/golang:latest",
         "commands": [
             "export KUBECONFIG=kubeconfig-$${DRONE_BUILD_NUMBER}.yaml",
-            "helm install --values charts/ocis/ci/deployment-values.yaml --atomic --timeout 5m0s ocis charts/ocis/",
+            "make helm-install-atomic",
+        ],
+        "volumes": [
+            {
+                "name": "gopath",
+                "path": "/go",
+            },
         ],
     }]
 

@@ -14,13 +14,15 @@ docs: $(HELM_DOCS) $(GOMPLATE)
 clean:
 	@rm charts/ocis/ci/templated.yaml
 
-.PHONY: lint
-lint: $(KUBE_LINTER)
-	# TODO: use helm from bingo
-	helm lint charts/ocis
-	helm template charts/ocis -f 'charts/ocis/ci/values.yaml' > charts/ocis/ci/templated.yaml
-	$(KUBE_LINTER) lint charts/ocis/ci/templated.yaml
+.PHONY: helm-install-atomic
+helm-install: $(HELM)
+	$(HELM) install --values charts/ocis/ci/deployment-values.yaml --atomic --timeout 5m0s ocis charts/ocis/
 
+.PHONY: lint
+lint: $(KUBE_LINTER) $(HELM)
+	$(HELM) lint charts/ocis
+	$(HELM) template charts/ocis -f 'charts/ocis/ci/values.yaml' > charts/ocis/ci/templated.yaml
+	$(KUBE_LINTER) lint charts/ocis/ci/templated.yaml
 
 .PHONY: api
 api: api-1.28.0 api-1.29.0 api-1.30.0 api-1.31.0
@@ -29,8 +31,8 @@ api: api-1.28.0 api-1.29.0 api-1.30.0 api-1.31.0
 api-1.28.0: api-1.28.0-template api-1.28.0-kubeconform
 
 .PHONY: api-1.28.0-template
-api-1.28.0-template:
-	helm template --kube-version 1.28.0 charts/ocis -f 'charts/ocis/ci/values.yaml' > charts/ocis/ci/templated.yaml
+api-1.28.0-template: $(HELM)
+	$(HELM) template --kube-version 1.28.0 charts/ocis -f 'charts/ocis/ci/values.yaml' > charts/ocis/ci/templated.yaml
 
 .PHONY: api-1.28.0-kubeconform
 api-1.28.0-kubeconform: $(KUBECONFORM)
@@ -40,8 +42,8 @@ api-1.28.0-kubeconform: $(KUBECONFORM)
 api-1.29.0: api-1.29.0-template api-1.29.0-kubeconform
 
 .PHONY: api-1.29.0-template
-api-1.29.0-template:
-	helm template --kube-version 1.29.0 charts/ocis -f 'charts/ocis/ci/values.yaml' > charts/ocis/ci/templated.yaml
+api-1.29.0-template: $(HELM)
+	$(HELM) template --kube-version 1.29.0 charts/ocis -f 'charts/ocis/ci/values.yaml' > charts/ocis/ci/templated.yaml
 
 .PHONY: api-1.29.0-kubeconform
 api-1.29.0-kubeconform: $(KUBECONFORM)
@@ -51,8 +53,8 @@ api-1.29.0-kubeconform: $(KUBECONFORM)
 api-1.30.0: api-1.30.0-template api-1.30.0-kubeconform
 
 .PHONY: api-1.30.0-template
-api-1.30.0-template:
-	helm template --kube-version 1.30.0 charts/ocis -f 'charts/ocis/ci/values.yaml' > charts/ocis/ci/templated.yaml
+api-1.30.0-template: $(HELM)
+	$(HELM) template --kube-version 1.30.0 charts/ocis -f 'charts/ocis/ci/values.yaml' > charts/ocis/ci/templated.yaml
 
 .PHONY: api-1.30.0-kubeconform
 api-1.30.0-kubeconform: $(KUBECONFORM)
@@ -62,8 +64,8 @@ api-1.30.0-kubeconform: $(KUBECONFORM)
 api-1.31.0: api-1.31.0-template api-1.31.0-kubeconform
 
 .PHONY: api-1.31.0-template
-api-1.31.0-template:
-	helm template --kube-version 1.31.0 charts/ocis -f 'charts/ocis/ci/values.yaml' > charts/ocis/ci/templated.yaml
+api-1.31.0-template: $(HELM)
+	$(HELM) template --kube-version 1.31.0 charts/ocis -f 'charts/ocis/ci/values.yaml' > charts/ocis/ci/templated.yaml
 
 .PHONY: api-1.31.0-kubeconform
 api-1.31.0-kubeconform: $(KUBECONFORM)
@@ -71,6 +73,7 @@ api-1.31.0-kubeconform: $(KUBECONFORM)
 
 .PHONY: tools-update
 tools-update: $(BINGO)
+	$(BINGO) get helm.sh/helm/v3/cmd/helm@latest
 	$(BINGO) get github.com/bwplotka/bingo@latest
 	$(BINGO) get github.com/hairyhenderson/gomplate/v3/cmd/gomplate@latest
 	$(BINGO) get github.com/norwoodj/helm-docs/cmd/helm-docs@latest
