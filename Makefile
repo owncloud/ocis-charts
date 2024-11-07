@@ -16,7 +16,7 @@ clean:
 
 .PHONY: helm-install-atomic
 helm-install: $(HELM)
-	$(HELM) install --values charts/ocis/ci/deployment-values.yaml --atomic --timeout 5m0s ocis charts/ocis/
+	$(HELM) install -n ocis --values charts/ocis/ci/deployment-values.yaml --atomic --timeout 5m0s ocis charts/ocis/
 
 .PHONY: lint
 lint: $(KUBE_LINTER) $(HELM)

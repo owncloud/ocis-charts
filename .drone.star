@@ -226,7 +226,9 @@ def showPodsAfterInstall(config):
         "commands": [
             "export KUBECONFIG=kubeconfig-$${DRONE_BUILD_NUMBER}.yaml",
             "until test -f $${KUBECONFIG}; do sleep 1s; done",
-            "kubectl get pods -A",
-            "kubectl get ingress",
+            "kubectl get pods -n ocis",
+            "if [ \"$(kubectl get pods -n ocis | wc -l)\" -le \"1\" ]; then exit 1; fi",
+            "kubectl get ingress -n ocis",
+            "if [ \"$(kubectl get ingress -n ocis | wc -l)\" -le \"1\" ]; then exit 1; fi",
         ],
     }]
