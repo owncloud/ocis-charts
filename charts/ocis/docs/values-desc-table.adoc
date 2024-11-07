@@ -3420,6 +3420,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
+| services.sse.connections.keepaliveInterval
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"30s"`
+| To prevent intermediate proxies from closing the SSE connection, send periodic SSE comments to keep it open.
 | services.sse.extraLabels
 a| [subs=-attributes]
 +object+
