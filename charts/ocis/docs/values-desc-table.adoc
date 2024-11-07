@@ -216,6 +216,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `"Collabora"`
 | Name of the office suite. Will be displayed to the users.
+| features.appsIntegration.wopiIntegration.officeSuites[0].product
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"Collabora"`
+| Product type of the office suite. Will be used to determine certain product specifics. Supports "Collabora", "OnlyOffice", "Microsoft365" or "MicrosoftOfficeOnline".
 | features.appsIntegration.wopiIntegration.officeSuites[0].secureViewEnabled
 a| [subs=-attributes]
 +bool+
@@ -300,6 +306,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `"OnlyOffice"`
 | Name of the office suite. Will be displayed to the users.
+| features.appsIntegration.wopiIntegration.officeSuites[1].product
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"OnlyOffice"`
+| Product type of the office suite. Will be used to determine certain product specifics. Supports "Collabora", "OnlyOffice", "Microsoft365" or "MicrosoftOfficeOnline".
 | features.appsIntegration.wopiIntegration.officeSuites[1].secureViewEnabled
 a| [subs=-attributes]
 +bool+
