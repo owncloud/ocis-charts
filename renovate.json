@@ -3,6 +3,10 @@
   "extends": [
     "github>owncloud-ops/renovate-presets:docker"
   ],
+  "baseBranches": [
+    "main",
+    "/^stable-.*/"
+  ],
   "kubernetes": {
     "fileMatch": [
       "^ci/k3d-drone\\.ya?ml"
