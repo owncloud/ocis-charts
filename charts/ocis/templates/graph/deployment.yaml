@@ -210,6 +210,9 @@ spec:
                   name: {{ include "secrets.serviceAccountSecret" . }}
                   key: service-account-secret
 
+            - name: OCIS_ENABLE_OCM
+              value: {{ .Values.features.ocm.enabled | quote }}
+
             {{- include "ocis.caEnv" $ | nindent 12}}
 
           {{- include "ocis.livenessProbe" . | nindent 10 }}
