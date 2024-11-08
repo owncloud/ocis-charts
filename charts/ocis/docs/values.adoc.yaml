@@ -1743,6 +1743,9 @@ services:
   # -- SSE service
   # @default -- see detailed service configuration options below
   sse:
+    connections:
+      # -- To prevent intermediate proxies from closing the SSE connection, send periodic SSE comments to keep it open.
+      keepaliveInterval: 30s
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
     # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
