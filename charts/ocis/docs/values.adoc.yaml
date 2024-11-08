@@ -286,6 +286,9 @@ features:
       officeSuites:
         - # -- Name of the office suite. Will be displayed to the users.
           name: Collabora
+          # -- Product type of the office suite. Will be used to determine certain product specifics.
+          # Supports "Collabora", "OnlyOffice", "Microsoft365" or "MicrosoftOfficeOnline".
+          product: Collabora
           # -- Enables the office suite.
           enabled: false
           # -- URI of the office suite.
@@ -323,6 +326,9 @@ features:
 
         - # -- Name of the office suite. Will be displayed to the users.
           name: OnlyOffice
+          # -- Product type of the office suite. Will be used to determine certain product specifics.
+          # Supports "Collabora", "OnlyOffice", "Microsoft365" or "MicrosoftOfficeOnline".
+          product: OnlyOffice
           # -- Enables the office suite.
           enabled: false
           # -- URI of the office suite.
