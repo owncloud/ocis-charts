@@ -27,7 +27,7 @@ def linting(ctx):
         "steps": [
             {
                 "name": "lint",
-                "image": "owncloudci/golang:1.22",
+                "image": "owncloudci/golang:latest",
                 "commands": [
                     "make lint",
                 ],
@@ -40,7 +40,7 @@ def linting(ctx):
             },
             {
                 "name": "api",
-                "image": "owncloudci/golang:1.22",
+                "image": "owncloudci/golang:latest",
                 "commands": [
                     "make api",
                 ],
@@ -81,7 +81,7 @@ def documentation(ctx):
         "steps": [
             {
                 "name": "generate docs",
-                "image": "owncloudci/golang:1.22",
+                "image": "owncloudci/golang:latest",
                 "commands": [
                     "make docs",
                 ],
@@ -192,7 +192,7 @@ def deployments(ctx):
 def install(ctx):
     return [{
         "name": "helm-install",
-        "image": "owncloudci/golang:1.22",
+        "image": "owncloudci/golang:latest",
         "commands": [
             "export KUBECONFIG=kubeconfig-$${DRONE_BUILD_NUMBER}.yaml",
             "make helm-install-atomic",
