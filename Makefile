@@ -27,49 +27,26 @@ lint: $(KUBE_LINTER) $(HELM)
 .PHONY: api
 api: api-1.28.0 api-1.29.0 api-1.30.0 api-1.31.0
 
+define api_test
+	$(HELM) template --kube-version $(1) charts/ocis -f 'charts/ocis/ci/values.yaml' > charts/ocis/ci/templated.yaml
+	$(KUBECONFORM) -kubernetes-version $(1) -summary -strict charts/ocis/ci/templated.yaml
+endef
+
 .PHONY: api-1.28.0
-api-1.28.0: api-1.28.0-template api-1.28.0-kubeconform
-
-.PHONY: api-1.28.0-template
-api-1.28.0-template: $(HELM)
-	$(HELM) template --kube-version 1.28.0 charts/ocis -f 'charts/ocis/ci/values.yaml' > charts/ocis/ci/templated.yaml
-
-.PHONY: api-1.28.0-kubeconform
-api-1.28.0-kubeconform: $(KUBECONFORM)
-	$(KUBECONFORM) -kubernetes-version 1.28.0 -summary -strict charts/ocis/ci/templated.yaml
+api-1.28.0: $(KUBECONFORM) $(HELM)
+	$(call api_test,"1.28.0")
 
 .PHONY: api-1.29.0
-api-1.29.0: api-1.29.0-template api-1.29.0-kubeconform
-
-.PHONY: api-1.29.0-template
-api-1.29.0-template: $(HELM)
-	$(HELM) template --kube-version 1.29.0 charts/ocis -f 'charts/ocis/ci/values.yaml' > charts/ocis/ci/templated.yaml
-
-.PHONY: api-1.29.0-kubeconform
-api-1.29.0-kubeconform: $(KUBECONFORM)
-	$(KUBECONFORM) -kubernetes-version 1.29.0 -summary -strict charts/ocis/ci/templated.yaml
+api-1.29.0: $(KUBECONFORM) $(HELM)
+	$(call api_test,"1.29.0")
 
 .PHONY: api-1.30.0
-api-1.30.0: api-1.30.0-template api-1.30.0-kubeconform
-
-.PHONY: api-1.30.0-template
-api-1.30.0-template: $(HELM)
-	$(HELM) template --kube-version 1.30.0 charts/ocis -f 'charts/ocis/ci/values.yaml' > charts/ocis/ci/templated.yaml
-
-.PHONY: api-1.30.0-kubeconform
-api-1.30.0-kubeconform: $(KUBECONFORM)
-	$(KUBECONFORM) -kubernetes-version 1.30.0 -summary -strict charts/ocis/ci/templated.yaml
+api-1.30.0: $(KUBECONFORM) $(HELM)
+	$(call api_test,"1.30.0")
 
 .PHONY: api-1.31.0
-api-1.31.0: api-1.31.0-template api-1.31.0-kubeconform
-
-.PHONY: api-1.31.0-template
-api-1.31.0-template: $(HELM)
-	$(HELM) template --kube-version 1.31.0 charts/ocis -f 'charts/ocis/ci/values.yaml' > charts/ocis/ci/templated.yaml
-
-.PHONY: api-1.31.0-kubeconform
-api-1.31.0-kubeconform: $(KUBECONFORM)
-	$(KUBECONFORM) -kubernetes-version 1.31.0 -summary -strict charts/ocis/ci/templated.yaml
+api-1.31.0: $(KUBECONFORM) $(HELM)
+	$(call api_test,"1.31.0")
 
 .PHONY: tools-update
 tools-update: $(BINGO)
