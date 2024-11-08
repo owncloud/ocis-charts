@@ -89,16 +89,21 @@ releases:
             path: /spec/backoffLimit
             value: 20
 
+  - name: addons-collabora
+    chart: addons/collabora
+    namespace: collabora
+
   - name: collabora
     namespace: collabora
     chart: collabora/collabora-online
-    version: 1.1.24
+    version: 1.1.25
     values:
       - collabora:
           aliasgroups:
             - host: "wopi-collabora.kube.owncloud.test" # needed because we connect via the ingress to the collaboration service
             # - host: "collaboration-collabora.ocis.svc.cluster.local" # needed if we would use the cluster internal Service to connect to the collaboration service
           extra_params: --o:ssl.enable=false --o:ssl.termination=true --o:net.frame_ancestors=ocis.kube.owncloud.test
+          proofKeysSecretRef: proofkey
       - ingress:
           enabled: true
           className: "nginx"
@@ -146,7 +151,7 @@ releases:
                   enabled: true
                   uri: "https://collabora.kube.owncloud.test"
                   insecure: true
-                  disableProof: true # TODO: https://github.com/CollaboraOnline/online/issues/10020
+                  disableProof: false
                   iconURI: https://collabora.kube.owncloud.test/favicon.ico
                   ingress:
                     # Collabora connects to the collaboration service via Ingress in this case
