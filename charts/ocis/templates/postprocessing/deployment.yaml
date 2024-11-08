@@ -51,6 +51,9 @@ spec:
             - name: POSTPROCESSING_DEBUG_ADDR
               value: 0.0.0.0:9255
 
+            - name: POSTPROCESSING_WORKERS
+              value: {{ .Values.services.postprocessing.events.consumer.concurrency | quote }}
+
             {{- $_ := set . "postprocessingSteps" list -}}
             {{/*
             # We currently don't support enforcing policies as a postprocessing step.

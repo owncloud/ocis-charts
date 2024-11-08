@@ -53,6 +53,9 @@ spec:
             - name: SSE_HTTP_ADDR
               value: 0.0.0.0:9939
 
+            - name: SSE_KEEPALIVE_INTERVAL
+              value: {{ .Values.services.sse.connections.keepaliveInterval | quote }}
+
             - name: SSE_JWT_SECRET
               valueFrom:
                 secretKeyRef:

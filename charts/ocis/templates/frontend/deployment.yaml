@@ -149,6 +149,8 @@ spec:
 
             - name: FRONTEND_AUTO_ACCEPT_SHARES
               value: {{ .Values.features.sharing.autoAcceptShares | quote }}
+            - name: FRONTEND_MAX_CONCURRENCY
+              value: {{ .Values.services.frontend.events.consumer.concurrency | quote }}
 
             # password policies
             - name: FRONTEND_PASSWORD_POLICY_MIN_CHARACTERS
@@ -163,6 +165,9 @@ spec:
               value: {{ .Values.features.sharing.passwordPolicies.minSpecialCharacters | quote }}
             - name: FRONTEND_PASSWORD_POLICY_BANNED_PASSWORDS_LIST
               value: /etc/ocis/sharing-banned-passwords.txt
+
+            - name: OCIS_ENABLE_OCM
+              value: {{ .Values.features.ocm.enabled | quote }}
 
             {{- include "ocis.caEnv" $ | nindent 12}}
 
@@ -190,4 +195,4 @@ spec:
         - name: configs
           configMap:
             name: sharing-banned-passwords-{{ .appName }}
-        {{- include "ocis.caVolume" $ | nindent 8}}   
+        {{- include "ocis.caVolume" $ | nindent 8}}
