@@ -27,7 +27,7 @@ def linting(ctx):
         "steps": [
             {
                 "name": "lint",
-                "image": "owncloudci/golang:latest",
+                "image": "owncloudci/golang:1.22",
                 "commands": [
                     "make lint",
                 ],
@@ -40,7 +40,7 @@ def linting(ctx):
             },
             {
                 "name": "api",
-                "image": "owncloudci/golang:latest",
+                "image": "owncloudci/golang:1.22",
                 "commands": [
                     "make api",
                 ],
@@ -81,7 +81,7 @@ def documentation(ctx):
         "steps": [
             {
                 "name": "generate docs",
-                "image": "owncloudci/golang:latest",
+                "image": "owncloudci/golang:1.22",
                 "commands": [
                     "make docs",
                 ],
@@ -192,7 +192,7 @@ def deployments(ctx):
 def install(ctx):
     return [{
         "name": "helm-install",
-        "image": "owncloudci/golang:latest",
+        "image": "owncloudci/golang:1.22",
         "commands": [
             "export KUBECONFIG=kubeconfig-$${DRONE_BUILD_NUMBER}.yaml",
             "make helm-install-atomic",
@@ -208,7 +208,7 @@ def install(ctx):
 def wait(config):
     return [{
         "name": "wait",
-        "image": "docker.io/bitnami/kubectl:1.25",
+        "image": "docker.io/bitnami/kubectl:1.31",
         "user": "root",
         "commands": [
             "export KUBECONFIG=kubeconfig-$${DRONE_BUILD_NUMBER}.yaml",
@@ -221,7 +221,7 @@ def wait(config):
 def showPodsAfterInstall(config):
     return [{
         "name": "testPodsAfterInstall",
-        "image": "docker.io/bitnami/kubectl:1.25",
+        "image": "docker.io/bitnami/kubectl:1.31",
         "user": "root",
         "commands": [
             "export KUBECONFIG=kubeconfig-$${DRONE_BUILD_NUMBER}.yaml",

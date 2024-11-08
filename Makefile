@@ -15,7 +15,7 @@ clean:
 	@rm charts/ocis/ci/templated.yaml
 
 .PHONY: helm-install-atomic
-helm-install-atomic: $(HELM)
+c: $(HELM)
 	$(HELM) install -n ocis --create-namespace --values charts/ocis/ci/deployment-values.yaml --atomic --timeout 5m0s ocis charts/ocis/
 
 .PHONY: lint
