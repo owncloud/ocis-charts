@@ -60,6 +60,8 @@ spec:
               value: {{ .Values.features.virusscan.icap.service | quote }}
             - name: ANTIVIRUS_MAX_SCAN_SIZE
               value: {{ .Values.features.virusscan.maxScanSize | quote }}
+            - name: ANTIVIRUS_WORKERS
+              value: {{ .Values.services.antivirus.events.consumer.concurrency | quote }}
 
             {{- include "ocis.caEnv" $ | nindent 12}}
 

@@ -1083,6 +1083,10 @@ services:
   # -- ANTIVIRUS service. Not used if `features.virusscan.enabled` equals `false`.
   # @default -- see detailed service configuration options below
   antivirus:
+    events:
+      consumer:
+        # -- Number of event consumers to be started that concurrently consume events.
+        concurrency: 10
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
     # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
