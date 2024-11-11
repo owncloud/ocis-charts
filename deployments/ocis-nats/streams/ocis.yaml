@@ -437,11 +437,11 @@ spec:
 apiVersion: jetstream.nats.io/v1beta2
 kind: Consumer
 metadata:
-  name: audit
+  name: antivirus
 spec:
   streamName: main-queue
-  durableName: audit
-  deliverGroup: audit
+  durableName: antivirus
+  deliverGroup: antivirus
   deliverPolicy: new
   filterSubject: main-queue
   ackPolicy: explicit
@@ -455,11 +455,11 @@ spec:
 apiVersion: jetstream.nats.io/v1beta2
 kind: Consumer
 metadata:
-  name: clientlog
+  name: audit
 spec:
   streamName: main-queue
-  durableName: clientlog
-  deliverGroup: clientlog
+  durableName: audit
+  deliverGroup: audit
   deliverPolicy: new
   filterSubject: main-queue
   ackPolicy: explicit
@@ -558,6 +558,43 @@ spec:
   maxDeliver: -1
   replayPolicy: instant
   numReplicas: 0
+
+---
+apiVersion: jetstream.nats.io/v1beta2
+kind: Consumer
+metadata:
+  name: notifications
+spec:
+  streamName: main-queue
+  durableName: notifications
+  deliverGroup: notifications
+  deliverPolicy: new
+  filterSubject: main-queue
+  ackPolicy: explicit
+  ackWait: 30s
+  maxAckPending: 1000
+  maxDeliver: -1
+  replayPolicy: instant
+  numReplicas: 0
+
+---
+apiVersion: jetstream.nats.io/v1beta2
+kind: Consumer
+metadata:
+  name: policies
+spec:
+  streamName: main-queue
+  durableName: policies
+  deliverGroup: policies
+  deliverPolicy: new
+  filterSubject: main-queue
+  ackPolicy: explicit
+  ackWait: 30s
+  maxAckPending: 1000
+  maxDeliver: -1
+  replayPolicy: instant
+  numReplicas: 0
+
 
 ---
 apiVersion: jetstream.nats.io/v1beta2
