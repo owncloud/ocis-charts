@@ -182,6 +182,9 @@ spec:
             {{- end }}
             {{- end }}
 
+            - name: WEB_OPTION_TOKEN_STORAGE_LOCAL
+              value: {{ .Values.services.web.config.tokenStorageLocal.enabled | quote }}
+
             - name: WEB_JWT_SECRET
               valueFrom:
                 secretKeyRef:

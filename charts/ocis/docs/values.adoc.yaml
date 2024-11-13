@@ -2310,6 +2310,10 @@ services:
   web:
     # Configuration for web, that ends up in the config.json file.
     config:
+      tokenStorageLocal:
+        #-- Specifies whether the access token will be stored in the local storage when set to ’true’ or in the session storage when set to ‘false’.
+        # If stored in the local storage, login state will be persisted across multiple browser tabs, means no additional logins are required.
+        enabled: true
       contextHelpersReadMore:
         # -- Specifies whether the “Read more” link should be displayed or not.
         enabled: true
