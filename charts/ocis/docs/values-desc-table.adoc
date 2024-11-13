@@ -4506,7 +4506,7 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `7680`
 | Sets a maximium height of an imput image which is being processed.
-| services.thumbnails.quota.maxInputWitdth
+| services.thumbnails.quota.maxInputWidth
 a| [subs=-attributes]
 +int+
 a| [subs=-attributes]
