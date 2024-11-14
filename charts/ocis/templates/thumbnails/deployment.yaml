@@ -72,7 +72,7 @@ spec:
             - name: THUMBNAILS_MAX_INPUT_IMAGE_FILE_SIZE
               value: {{ .Values.services.thumbnails.quota.maxFileSize | quote }}
             - name: THUMBNAILS_MAX_INPUT_WIDTH
-              value: {{ .Values.services.thumbnails.quota.maxInputWitdth | quote }}
+              value: {{ .Values.services.thumbnails.quota.maxInputWidth | quote }}
             - name: THUMBNAILS_MAX_INPUT_HEIGHT
               value: {{ .Values.services.thumbnails.quota.maxInputHeight | quote }}
 

@@ -2152,7 +2152,7 @@ services:
       # -- Sets a maximum file size of an input image which is being processed. Usable common abbreviations: [KB, KiB, MB, MiB, GB, GiB, TB, TiB, PB, PiB, EB, EiB], example: 2GB.
       maxFileSize: 50MB
       # -- Sets a maximium width of an imput image which is being processed.
-      maxInputWitdth: 7680
+      maxInputWidth: 7680
       # -- Sets a maximium height of an imput image which is being processed.
       maxInputHeight: 7680
     # -- Persistence settings.
