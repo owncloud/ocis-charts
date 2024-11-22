@@ -24,6 +24,10 @@ lint: $(KUBE_LINTER) $(HELM)
 	$(HELM) template charts/ocis -f 'charts/ocis/ci/values.yaml' > charts/ocis/ci/templated.yaml
 	$(KUBE_LINTER) lint charts/ocis/ci/templated.yaml
 
+.PHONY: schema
+schema: $(HELM_SCHEMA)
+	$(HELM_SCHEMA) -a -c ./charts/ocis
+
 .PHONY: api
 api: api-1.28.0 api-1.29.0 api-1.30.0 api-1.31.0
 
@@ -56,3 +60,4 @@ tools-update: $(BINGO)
 	$(BINGO) get github.com/norwoodj/helm-docs/cmd/helm-docs@latest
 	$(BINGO) get golang.stackrox.io/kube-linter/cmd/kube-linter@latest
 	$(BINGO) get github.com/yannh/kubeconform/cmd/kubeconform@latest
+	$(BINGO) get github.com/dadav/helm-schema/cmd/helm-schema@latest
