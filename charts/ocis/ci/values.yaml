@@ -44,7 +44,6 @@ features:
   appsIntegration:
     enabled: true
     wopiIntegration:
-      wopiServerURI: https://wopiserver.owncloud.test
       officeSuites:
         - name: Collabora
           enabled: true
@@ -133,15 +132,6 @@ resources:
     memory: 128Mi
 
 services:
-  postprocessing:
-    jobResources:
-      limits:
-        cpu: 100m
-        memory: 128Mi
-      requests:
-        cpu: 100m
-        memory: 128Mi
-
   storagesystem:
     persistence:
       enabled: true

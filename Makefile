@@ -19,7 +19,7 @@ helm-install-atomic: $(HELM)
 	$(HELM) install -n ocis --create-namespace --values charts/ocis/ci/deployment-values.yaml --atomic --timeout 5m0s ocis charts/ocis/
 
 .PHONY: lint
-lint: $(KUBE_LINTER) $(HELM)
+lint: $(KUBE_LINTER) $(HELM) schema
 	$(HELM) lint charts/ocis
 	$(HELM) template charts/ocis -f 'charts/ocis/ci/values.yaml' > charts/ocis/ci/templated.yaml
 	$(KUBE_LINTER) lint charts/ocis/ci/templated.yaml

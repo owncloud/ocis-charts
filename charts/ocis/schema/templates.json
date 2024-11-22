@@ -1,0 +1,40 @@
+{
+    "podDisruptionBudgetTemplate": {
+        "type": "object",
+        "properties": {
+            "maxUnavailable": {
+                "type": "integer"
+            },
+            "minAvailable": {
+                "type": "integer"
+            }
+        }
+    },
+    "resourcesTemplate": {
+        "type": "object",
+        "properties": {
+            "limits": {
+                "type": "object",
+                "properties": {
+                    "memory": {
+                        "type": "string"
+                    },
+                    "cpu": {
+                        "type": "string"
+                    }
+                }
+            },
+            "requests": {
+                "type": "object",
+                "properties": {
+                    "memory": {
+                        "type": "string"
+                    },
+                    "cpu": {
+                        "type": "string"
+                    }
+                }
+            }
+        }
+    }
+}

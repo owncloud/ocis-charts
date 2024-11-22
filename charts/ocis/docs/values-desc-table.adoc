@@ -178,7 +178,7 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 +string+
 a| [subs=-attributes]
-`""`
+`nil`
 | Domain of the Ingress.
 | features.appsIntegration.wopiIntegration.officeSuites[0].ingress.enabled
 a| [subs=-attributes]
@@ -232,7 +232,7 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 +string+
 a| [subs=-attributes]
-`""`
+`nil`
 | URI of the office suite.
 | features.appsIntegration.wopiIntegration.officeSuites[1].disableChat
 a| [subs=-attributes]
@@ -324,24 +324,6 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `""`
 | URI of the office suite.
-| features.appsIntegration.wopiIntegration.wopiFolderURI
-a| [subs=-attributes]
-+string+
-a| [subs=-attributes]
-`"https://{{ .Values.externalDomain }}"`
-| Base url to navigate back from the app to the containing folder in the file list.
-| features.appsIntegration.wopiIntegration.wopiFolderURIPathTemplate
-a| [subs=-attributes]
-+string+
-a| [subs=-attributes]
-`nil`
-| Path template for the url to navigate back from the app to the containing folder in the file list. null uses the default value of oCIS, so that one also can set it to "" to not have a path template.
-| features.appsIntegration.wopiIntegration.wopiServerURI
-a| [subs=-attributes]
-+string+
-a| [subs=-attributes]
-`""`
-| URL of the https://github.com/cs3org/wopiserver[cs3org/wopiserver]. Can be deployed https://artifacthub.io/packages/helm/cs3org/wopiserver[with this Chart].
 | features.archiver.maxNumFiles
 a| [subs=-attributes]
 +int+
@@ -856,7 +838,7 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 +string+
 a| [subs=-attributes]
-`""`
+`nil`
 | Define the roles by providing the JSON text here.
 | features.roles.customRolesConfigRef
 a| [subs=-attributes]
@@ -4750,7 +4732,7 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 +string+
 a| [subs=-attributes]
-`""`
+`nil`
 | URI where to redirect the user after a logout was performed. Defaults to the URI of the login page.
 | services.web.config.oidc.webClientID
 a| [subs=-attributes]

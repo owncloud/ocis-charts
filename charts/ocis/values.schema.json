@@ -327,7 +327,10 @@
                                 "description": "Domain of the Ingress.",
                                 "required": [],
                                 "title": "domain",
-                                "type": "string"
+                                "type": [
+                                  "string",
+                                  "null"
+                                ]
                               },
                               "enabled": {
                                 "default": false,
@@ -341,7 +344,10 @@
                                 "description": "Ingress class to use.\nUses the default ingress class if not set.",
                                 "required": [],
                                 "title": "ingressClassName",
-                                "type": "null"
+                                "type": [
+                                  "string",
+                                  "null"
+                                ]
                               },
                               "labels": {
                                 "additionalProperties": false,
@@ -363,7 +369,6 @@
                             "required": [
                               "enabled",
                               "domain",
-                              "ingressClassName",
                               "annotations",
                               "labels",
                               "tls"
@@ -404,7 +409,10 @@
                             "description": "URI of the office suite.",
                             "required": [],
                             "title": "uri",
-                            "type": "string"
+                            "type": [
+                              "string",
+                              "null"
+                            ]
                           }
                         },
                         "required": [
@@ -482,7 +490,7 @@
                                 "description": "Ingress class to use.\nUses the default ingress class if not set.",
                                 "required": [],
                                 "title": "ingressClassName",
-                                "type": "null"
+                                "type": "string"
                               },
                               "labels": {
                                 "additionalProperties": false,
@@ -504,7 +512,6 @@
                             "required": [
                               "enabled",
                               "domain",
-                              "ingressClassName",
                               "annotations",
                               "labels",
                               "tls"
@@ -568,33 +575,9 @@
                   "required": [],
                   "title": "officeSuites",
                   "type": "array"
-                },
-                "wopiFolderURI": {
-                  "default": "https://{{ .Values.externalDomain }}",
-                  "description": "Base url to navigate back from the app to the containing folder in the file list.",
-                  "required": [],
-                  "title": "wopiFolderURI",
-                  "type": "string"
-                },
-                "wopiFolderURIPathTemplate": {
-                  "default": "null",
-                  "description": "Path template for the url to navigate back from the app to the containing folder in the file list.\nnull uses the default value of oCIS, so that one also can set it to \"\" to not have a path template.",
-                  "required": [],
-                  "title": "wopiFolderURIPathTemplate",
-                  "type": "null"
-                },
-                "wopiServerURI": {
-                  "default": "",
-                  "description": "URL of the https://github.com/cs3org/wopiserver[cs3org/wopiserver]. Can be deployed https://artifacthub.io/packages/helm/cs3org/wopiserver[with this Chart].",
-                  "required": [],
-                  "title": "wopiServerURI",
-                  "type": "string"
                 }
               },
               "required": [
-                "wopiServerURI",
-                "wopiFolderURI",
-                "wopiFolderURIPathTemplate",
                 "officeSuites"
               ],
               "title": "wopiIntegration",
@@ -707,43 +690,62 @@
                 "authentication": {
                   "default": "auto",
                   "description": "Authentication method for the SMTP communication. Possible values are ‘login’, ‘plain’, ‘crammd5’, ‘none’, 'auto'\nIf set to another value than `none`, a secret referenced by `notificationsSmtpSecretRef` needs to be present.",
+                  "enum": [
+                    "auto",
+                    "login",
+                    "plain",
+                    "crammd5",
+                    "none"
+                  ],
                   "required": [],
-                  "title": "authentication",
-                  "type": "string"
+                  "title": "authentication"
                 },
                 "encryption": {
                   "default": "ssltls",
                   "description": "Encryption method for the SMTP communication. Possible values are `starttls`, `ssl`, `ssltls`, `tls` and `none`",
+                  "enum": [
+                    "starttls",
+                    "ssl",
+                    "ssltls",
+                    "tls",
+                    "none"
+                  ],
                   "required": [],
-                  "title": "encryption",
-                  "type": "string"
+                  "title": "encryption"
                 },
                 "host": {
                   "default": "",
                   "description": "SMTP host to connect to.",
                   "required": [],
                   "title": "host",
-                  "type": "null"
+                  "type": [
+                    "string",
+                    "null"
+                  ]
                 },
                 "port": {
                   "default": "",
                   "description": "Port of the SMTP host to connect to.",
+                  "minimum": 1,
                   "required": [],
                   "title": "port",
-                  "type": "null"
+                  "type": [
+                    "integer",
+                    "null"
+                  ]
                 },
                 "sender": {
                   "default": "",
                   "description": "Sender address of emails that will be sent. Example: 'ownCloud \u003cnoreply",
                   "required": [],
                   "title": "sender",
-                  "type": "null"
+                  "type": [
+                    "string",
+                    "null"
+                  ]
                 }
               },
               "required": [
-                "host",
-                "port",
-                "sender",
                 "authentication",
                 "encryption"
               ],
@@ -852,9 +854,13 @@
                     "disableMechanism": {
                       "default": "none",
                       "description": "Enables disabling users if configured as \"attribute\" or \"group\"",
+                      "enum": [
+                        "none",
+                        "attribute",
+                        "group"
+                      ],
                       "required": [],
-                      "title": "disableMechanism",
-                      "type": "string"
+                      "title": "disableMechanism"
                     },
                     "disabledUsersGroupDN": {
                       "default": "cn=DisabledUsersGroup,ou=groups,o=libregraph-idm",
@@ -901,7 +907,10 @@
                       "description": "LDAP filter to add to the default filters for group searches.",
                       "required": [],
                       "title": "filter",
-                      "type": "null"
+                      "type": [
+                        "string",
+                        "null"
+                      ]
                     },
                     "objectClass": {
                       "default": "groupOfNames",
@@ -980,7 +989,6 @@
                     "baseDN",
                     "createBaseDN",
                     "scope",
-                    "filter",
                     "objectClass"
                   ],
                   "title": "group",
@@ -1045,7 +1053,10 @@
                       "description": "LDAP filter to add to the default filters for user search like `(objectclass=ownCloud)`.",
                       "required": [],
                       "title": "filter",
-                      "type": "null"
+                      "type": [
+                        "string",
+                        "null"
+                      ]
                     },
                     "objectClass": {
                       "default": "inetOrgPerson",
@@ -1128,9 +1139,12 @@
                     "userNameMatch": {
                       "default": "default",
                       "description": "Apply restrictions to usernames. Supported values are 'default' and 'none'. When set to 'default', user names must not start with a number and are restricted to ASCII characters. When set to 'none', no restrictions are applied. The default value is 'default'.",
+                      "enum": [
+                        "default",
+                        "none"
+                      ],
                       "required": [],
-                      "title": "userNameMatch",
-                      "type": "string"
+                      "title": "userNameMatch"
                     }
                   },
                   "required": [
@@ -1138,7 +1152,6 @@
                     "baseDN",
                     "scope",
                     "substringFilterType",
-                    "filter",
                     "objectClass",
                     "userNameMatch"
                   ],
@@ -1558,14 +1571,20 @@
               "description": "Sets the default quota for spaces in bytes. So 1000 sets the default quota to 1KB. 0 means unlimited.",
               "required": [],
               "title": "default",
-              "type": "null"
+              "type": [
+                "string",
+                "null"
+              ]
             },
             "max": {
               "default": "",
               "description": "Sets the maximum quota for spaces in bytes. So 1000 sets the max quota to 1KB.",
               "required": [],
               "title": "max",
-              "type": "null"
+              "type": [
+                "string",
+                "null"
+              ]
             },
             "roles": {
               "additionalProperties": false,
@@ -1576,8 +1595,6 @@
             }
           },
           "required": [
-            "max",
-            "default",
             "roles"
           ],
           "title": "quotas",
@@ -1598,22 +1615,26 @@
             },
             "customRoles": {
               "default": "",
-              "description": "Define the roles by providing the JSON text here.",
+              "description": "Image pull policy\nDefine the roles by providing the JSON text here.",
               "required": [],
               "title": "customRoles",
-              "type": "string"
+              "type": [
+                "string",
+                "null"
+              ]
             },
             "customRolesConfigRef": {
               "default": "",
-              "description": "Define the roles by specifying a name of a ConfigMap which already contains the the role description (might also be defined in the `extraResources` section).\nThe ConfigMap needs to contain a file named `custom-roles.json` which holds the role description in JSON format\nPlease note that you have to restart the settings service manually if you change the content of you ConfigMap.",
+              "description": "Image pull policy\nDefine the roles by specifying a name of a ConfigMap which already contains the the role description (might also be defined in the `extraResources` section).\nThe ConfigMap needs to contain a file named `custom-roles.json` which holds the role description in JSON format\nPlease note that you have to restart the settings service manually if you change the content of you ConfigMap.",
               "required": [],
               "title": "customRolesConfigRef",
-              "type": "null"
+              "type": [
+                "string",
+                "null"
+              ]
             }
           },
           "required": [
-            "customRolesConfigRef",
-            "customRoles",
             "availableUnifiedRoles"
           ],
           "title": "roles",
@@ -1820,13 +1841,15 @@
               "description": "Sets a maximum file size for scans. Only this many bytes of a file will be scanned. 0 means unlimited and is the default.\nUsable common abbreviations: [KB, KiB, MB, MiB, GB, GiB, TB, TiB, PB, PiB, EB, EiB], example: 2GB.",
               "required": [],
               "title": "maxScanSize",
-              "type": "null"
+              "type": [
+                "string",
+                "null"
+              ]
             }
           },
           "required": [
             "enabled",
             "infectedFileHandling",
-            "maxScanSize",
             "icap"
           ],
           "title": "virusscan",
@@ -2144,7 +2167,10 @@
           "description": "Image pull policy",
           "required": [],
           "title": "pullPolicy",
-          "type": "string"
+          "type": [
+            "string",
+            "null"
+          ]
         },
         "pullSecrets": {
           "description": "Names of the secret containing the credentials to pull an image from the registry. More\ninformation how a secret can be defined at https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/\n\n*Note:* These secrets also apply to initContainers, so you need to provide secrets for the initContainer image here as well.",
@@ -2217,8 +2243,8 @@
           "required": [],
           "title": "ingressClassName",
           "type": [
-            "null",
-            "string"
+            "string",
+            "null"
           ]
         },
         "labels": {
@@ -2246,7 +2272,6 @@
       },
       "required": [
         "enabled",
-        "ingressClassName",
         "annotations",
         "labels",
         "tls"
@@ -2263,7 +2288,10 @@
           "description": "Image pull policy",
           "required": [],
           "title": "pullPolicy",
-          "type": "string"
+          "type": [
+            "string",
+            "null"
+          ]
         },
         "repository": {
           "default": "busybox",
@@ -2347,6 +2375,36 @@
     "jobResources": {
       "additionalProperties": false,
       "description": "Default resources to apply to all jobs in services, except per-service resources configuration in `services.\u003cservice-name\u003e.jobResources` is set.\nBest practice is to:\n- set memory request == memory limit (compare to https://home.robusta.dev/blog/kubernetes-memory-limit)\n- set cpu request and omit cpu limit (compare to https://home.robusta.dev/blog/stop-using-cpu-limits)",
+      "properties": {
+        "limits": {
+          "properties": {
+            "cpu": {
+              "required": [],
+              "type": "string"
+            },
+            "memory": {
+              "required": [],
+              "type": "string"
+            }
+          },
+          "required": [],
+          "type": "object"
+        },
+        "requests": {
+          "properties": {
+            "cpu": {
+              "required": [],
+              "type": "string"
+            },
+            "memory": {
+              "required": [],
+              "type": "string"
+            }
+          },
+          "required": [],
+          "type": "object"
+        }
+      },
       "required": [],
       "title": "jobResources",
       "type": "object"
@@ -2501,7 +2559,10 @@
       "description": "Override the deployment namespace of all resources in this Helm chart.",
       "required": [],
       "title": "namespaceOverride",
-      "type": "null"
+      "type": [
+        "string",
+        "null"
+      ]
     },
     "nodeSelector": {
       "additionalProperties": false,
@@ -2513,6 +2574,16 @@
     "podDisruptionBudget": {
       "additionalProperties": false,
       "description": "Default PodDisruptionBudget to apply to all services, except per-service PodDisruptionBudget configuration in `services.\u003cservice-name\u003e.podDisruptionBudget` is set.",
+      "properties": {
+        "maxUnavailable": {
+          "required": [],
+          "type": "integer"
+        },
+        "minAvailable": {
+          "required": [],
+          "type": "integer"
+        }
+      },
       "required": [],
       "title": "podDisruptionBudget",
       "type": "object"
@@ -2568,6 +2639,36 @@
     "resources": {
       "additionalProperties": false,
       "description": "Default resources to apply to all services, except per-service resources configuration in `services.\u003cservice-name\u003e.resources` is set.\nBest practice is to:\n- set memory request == memory limit (compare to https://home.robusta.dev/blog/kubernetes-memory-limit)\n- set cpu request and omit cpu limit (compare to https://home.robusta.dev/blog/stop-using-cpu-limits)",
+      "properties": {
+        "limits": {
+          "properties": {
+            "cpu": {
+              "required": [],
+              "type": "string"
+            },
+            "memory": {
+              "required": [],
+              "type": "string"
+            }
+          },
+          "required": [],
+          "type": "object"
+        },
+        "requests": {
+          "properties": {
+            "cpu": {
+              "required": [],
+              "type": "string"
+            },
+            "memory": {
+              "required": [],
+              "type": "string"
+            }
+          },
+          "required": [],
+          "type": "object"
+        }
+      },
       "required": [],
       "title": "resources",
       "type": "object"
@@ -2858,7 +2959,10 @@
                   "description": "Image pull policy",
                   "required": [],
                   "title": "pullPolicy",
-                  "type": "null"
+                  "type": [
+                    "string",
+                    "null"
+                  ]
                 },
                 "repository": {
                   "default": "",
@@ -2885,8 +2989,7 @@
               "required": [
                 "repository",
                 "tag",
-                "sha",
-                "pullPolicy"
+                "sha"
               ],
               "title": "image",
               "type": "object"
@@ -2901,6 +3004,16 @@
             "podDisruptionBudget": {
               "additionalProperties": false,
               "description": "Configure the store type for the activitylog service. Might be `memory` (only for testing), `redis-sentinel`, `nats-js-kv`\ntype:\nProvide a list of comma-separated addresses of `redis-sentinel` or `nats-js` servers here\nif the proper store is selected\naddresses:\n- \"{{ .appNameNats }}:9233\"\nPer-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.",
+              "properties": {
+                "maxUnavailable": {
+                  "required": [],
+                  "type": "integer"
+                },
+                "minAvailable": {
+                  "required": [],
+                  "type": "integer"
+                }
+              },
               "required": [],
               "title": "podDisruptionBudget",
               "type": "object"
@@ -2915,6 +3028,36 @@
             "resources": {
               "additionalProperties": false,
               "description": "Per-service resources configuration. Overrides the default setting from `resources` if set.",
+              "properties": {
+                "limits": {
+                  "properties": {
+                    "cpu": {
+                      "required": [],
+                      "type": "string"
+                    },
+                    "memory": {
+                      "required": [],
+                      "type": "string"
+                    }
+                  },
+                  "required": [],
+                  "type": "object"
+                },
+                "requests": {
+                  "properties": {
+                    "cpu": {
+                      "required": [],
+                      "type": "string"
+                    },
+                    "memory": {
+                      "required": [],
+                      "type": "string"
+                    }
+                  },
+                  "required": [],
+                  "type": "object"
+                }
+              },
               "required": [],
               "title": "resources",
               "type": "object"
@@ -2928,11 +3071,9 @@
             }
           },
           "required": [
-            "resources",
             "nodeSelector",
             "priorityClassName",
             "store",
-            "podDisruptionBudget",
             "autoscaling",
             "affinity",
             "extraLabels",
@@ -3003,7 +3144,10 @@
                   "description": "Image pull policy",
                   "required": [],
                   "title": "pullPolicy",
-                  "type": "null"
+                  "type": [
+                    "string",
+                    "null"
+                  ]
                 },
                 "repository": {
                   "default": "",
@@ -3030,8 +3174,7 @@
               "required": [
                 "repository",
                 "tag",
-                "sha",
-                "pullPolicy"
+                "sha"
               ],
               "title": "image",
               "type": "object"
@@ -3046,6 +3189,16 @@
             "podDisruptionBudget": {
               "additionalProperties": false,
               "description": "Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.",
+              "properties": {
+                "maxUnavailable": {
+                  "required": [],
+                  "type": "integer"
+                },
+                "minAvailable": {
+                  "required": [],
+                  "type": "integer"
+                }
+              },
               "required": [],
               "title": "podDisruptionBudget",
               "type": "object"
@@ -3060,6 +3213,36 @@
             "resources": {
               "additionalProperties": false,
               "description": "Per-service resources configuration. Overrides the default setting from `resources` if set.",
+              "properties": {
+                "limits": {
+                  "properties": {
+                    "cpu": {
+                      "required": [],
+                      "type": "string"
+                    },
+                    "memory": {
+                      "required": [],
+                      "type": "string"
+                    }
+                  },
+                  "required": [],
+                  "type": "object"
+                },
+                "requests": {
+                  "properties": {
+                    "cpu": {
+                      "required": [],
+                      "type": "string"
+                    },
+                    "memory": {
+                      "required": [],
+                      "type": "string"
+                    }
+                  },
+                  "required": [],
+                  "type": "object"
+                }
+              },
               "required": [],
               "title": "resources",
               "type": "object"
@@ -3067,10 +3250,8 @@
           },
           "required": [
             "events",
-            "resources",
             "nodeSelector",
             "priorityClassName",
-            "podDisruptionBudget",
             "autoscaling",
             "affinity",
             "extraLabels",
@@ -3106,7 +3287,10 @@
                   "description": "Image pull policy",
                   "required": [],
                   "title": "pullPolicy",
-                  "type": "null"
+                  "type": [
+                    "string",
+                    "null"
+                  ]
                 },
                 "repository": {
                   "default": "",
@@ -3133,8 +3317,7 @@
               "required": [
                 "repository",
                 "tag",
-                "sha",
-                "pullPolicy"
+                "sha"
               ],
               "title": "image",
               "type": "object"
@@ -3156,13 +3339,42 @@
             "resources": {
               "additionalProperties": false,
               "description": "Per-service resources configuration. Overrides the default setting from `resources` if set.",
+              "properties": {
+                "limits": {
+                  "properties": {
+                    "cpu": {
+                      "required": [],
+                      "type": "string"
+                    },
+                    "memory": {
+                      "required": [],
+                      "type": "string"
+                    }
+                  },
+                  "required": [],
+                  "type": "object"
+                },
+                "requests": {
+                  "properties": {
+                    "cpu": {
+                      "required": [],
+                      "type": "string"
+                    },
+                    "memory": {
+                      "required": [],
+                      "type": "string"
+                    }
+                  },
+                  "required": [],
+                  "type": "object"
+                }
+              },
               "required": [],
               "title": "resources",
               "type": "object"
             }
           },
           "required": [
-            "resources",
             "nodeSelector",
             "priorityClassName",
             "affinity",
@@ -3206,7 +3418,10 @@
                   "description": "Image pull policy",
                   "required": [],
                   "title": "pullPolicy",
-                  "type": "null"
+                  "type": [
+                    "string",
+                    "null"
+                  ]
                 },
                 "repository": {
                   "default": "",
@@ -3233,8 +3448,7 @@
               "required": [
                 "repository",
                 "tag",
-                "sha",
-                "pullPolicy"
+                "sha"
               ],
               "title": "image",
               "type": "object"
@@ -3249,6 +3463,16 @@
             "podDisruptionBudget": {
               "additionalProperties": false,
               "description": "Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.",
+              "properties": {
+                "maxUnavailable": {
+                  "required": [],
+                  "type": "integer"
+                },
+                "minAvailable": {
+                  "required": [],
+                  "type": "integer"
+                }
+              },
               "required": [],
               "title": "podDisruptionBudget",
               "type": "object"
@@ -3263,16 +3487,44 @@
             "resources": {
               "additionalProperties": false,
               "description": "Per-service resources configuration. Overrides the default setting from `resources` if set.",
+              "properties": {
+                "limits": {
+                  "properties": {
+                    "cpu": {
+                      "required": [],
+                      "type": "string"
+                    },
+                    "memory": {
+                      "required": [],
+                      "type": "string"
+                    }
+                  },
+                  "required": [],
+                  "type": "object"
+                },
+                "requests": {
+                  "properties": {
+                    "cpu": {
+                      "required": [],
+                      "type": "string"
+                    },
+                    "memory": {
+                      "required": [],
+                      "type": "string"
+                    }
+                  },
+                  "required": [],
+                  "type": "object"
+                }
+              },
               "required": [],
               "title": "resources",
               "type": "object"
             }
           },
           "required": [
-            "resources",
             "nodeSelector",
             "priorityClassName",
-            "podDisruptionBudget",
             "autoscaling",
             "affinity",
             "extraLabels",
@@ -3315,7 +3567,10 @@
                   "description": "Image pull policy",
                   "required": [],
                   "title": "pullPolicy",
-                  "type": "null"
+                  "type": [
+                    "string",
+                    "null"
+                  ]
                 },
                 "repository": {
                   "default": "",
@@ -3342,8 +3597,7 @@
               "required": [
                 "repository",
                 "tag",
-                "sha",
-                "pullPolicy"
+                "sha"
               ],
               "title": "image",
               "type": "object"
@@ -3358,6 +3612,16 @@
             "podDisruptionBudget": {
               "additionalProperties": false,
               "description": "Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.",
+              "properties": {
+                "maxUnavailable": {
+                  "required": [],
+                  "type": "integer"
+                },
+                "minAvailable": {
+                  "required": [],
+                  "type": "integer"
+                }
+              },
               "required": [],
               "title": "podDisruptionBudget",
               "type": "object"
@@ -3372,16 +3636,44 @@
             "resources": {
               "additionalProperties": false,
               "description": "Per-service resources configuration. Overrides the default setting from `resources` if set.",
+              "properties": {
+                "limits": {
+                  "properties": {
+                    "cpu": {
+                      "required": [],
+                      "type": "string"
+                    },
+                    "memory": {
+                      "required": [],
+                      "type": "string"
+                    }
+                  },
+                  "required": [],
+                  "type": "object"
+                },
+                "requests": {
+                  "properties": {
+                    "cpu": {
+                      "required": [],
+                      "type": "string"
+                    },
+                    "memory": {
+                      "required": [],
+                      "type": "string"
+                    }
+                  },
+                  "required": [],
+                  "type": "object"
+                }
+              },
               "required": [],
               "title": "resources",
               "type": "object"
             }
           },
           "required": [
-            "resources",
             "nodeSelector",
             "priorityClassName",
-            "podDisruptionBudget",
             "autoscaling",
             "affinity",
             "extraLabels",
@@ -3424,7 +3716,10 @@
                   "description": "Image pull policy",
                   "required": [],
                   "title": "pullPolicy",
-                  "type": "null"
+                  "type": [
+                    "string",
+                    "null"
+                  ]
                 },
                 "repository": {
                   "default": "",
@@ -3451,8 +3746,7 @@
               "required": [
                 "repository",
                 "tag",
-                "sha",
-                "pullPolicy"
+                "sha"
               ],
               "title": "image",
               "type": "object"
@@ -3467,6 +3761,16 @@
             "podDisruptionBudget": {
               "additionalProperties": false,
               "description": "Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.",
+              "properties": {
+                "maxUnavailable": {
+                  "required": [],
+                  "type": "integer"
+                },
+                "minAvailable": {
+                  "required": [],
+                  "type": "integer"
+                }
+              },
               "required": [],
               "title": "podDisruptionBudget",
               "type": "object"
@@ -3481,16 +3785,44 @@
             "resources": {
               "additionalProperties": false,
               "description": "Per-service resources configuration. Overrides the default setting from `resources` if set.",
+              "properties": {
+                "limits": {
+                  "properties": {
+                    "cpu": {
+                      "required": [],
+                      "type": "string"
+                    },
+                    "memory": {
+                      "required": [],
+                      "type": "string"
+                    }
+                  },
+                  "required": [],
+                  "type": "object"
+                },
+                "requests": {
+                  "properties": {
+                    "cpu": {
+                      "required": [],
+                      "type": "string"
+                    },
+                    "memory": {
+                      "required": [],
+                      "type": "string"
+                    }
+                  },
+                  "required": [],
+                  "type": "object"
+                }
+              },
               "required": [],
               "title": "resources",
               "type": "object"
             }
           },
           "required": [
-            "resources",
             "nodeSelector",
             "priorityClassName",
-            "podDisruptionBudget",
             "autoscaling",
             "affinity",
             "extraLabels",
@@ -3533,7 +3865,10 @@
                   "description": "Image pull policy",
                   "required": [],
                   "title": "pullPolicy",
-                  "type": "null"
+                  "type": [
+                    "string",
+                    "null"
+                  ]
                 },
                 "repository": {
                   "default": "",
@@ -3560,8 +3895,7 @@
               "required": [
                 "repository",
                 "tag",
-                "sha",
-                "pullPolicy"
+                "sha"
               ],
               "title": "image",
               "type": "object"
@@ -3576,6 +3910,16 @@
             "podDisruptionBudget": {
               "additionalProperties": false,
               "description": "Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.",
+              "properties": {
+                "maxUnavailable": {
+                  "required": [],
+                  "type": "integer"
+                },
+                "minAvailable": {
+                  "required": [],
+                  "type": "integer"
+                }
+              },
               "required": [],
               "title": "podDisruptionBudget",
               "type": "object"
@@ -3590,16 +3934,44 @@
             "resources": {
               "additionalProperties": false,
               "description": "Per-service resources configuration. Overrides the default setting from `resources` if set.",
+              "properties": {
+                "limits": {
+                  "properties": {
+                    "cpu": {
+                      "required": [],
+                      "type": "string"
+                    },
+                    "memory": {
+                      "required": [],
+                      "type": "string"
+                    }
+                  },
+                  "required": [],
+                  "type": "object"
+                },
+                "requests": {
+                  "properties": {
+                    "cpu": {
+                      "required": [],
+                      "type": "string"
+                    },
+                    "memory": {
+                      "required": [],
+                      "type": "string"
+                    }
+                  },
+                  "required": [],
+                  "type": "object"
+                }
+              },
               "required": [],
               "title": "resources",
               "type": "object"
             }
           },
           "required": [
-            "resources",
             "nodeSelector",
             "priorityClassName",
-            "podDisruptionBudget",
             "autoscaling",
             "affinity",
             "extraLabels",
@@ -3642,7 +4014,10 @@
                   "description": "Image pull policy",
                   "required": [],
                   "title": "pullPolicy",
-                  "type": "null"
+                  "type": [
+                    "string",
+                    "null"
+                  ]
                 },
                 "repository": {
                   "default": "",
@@ -3669,8 +4044,7 @@
               "required": [
                 "repository",
                 "tag",
-                "sha",
-                "pullPolicy"
+                "sha"
               ],
               "title": "image",
               "type": "object"
@@ -3685,6 +4059,16 @@
             "podDisruptionBudget": {
               "additionalProperties": false,
               "description": "Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.",
+              "properties": {
+                "maxUnavailable": {
+                  "required": [],
+                  "type": "integer"
+                },
+                "minAvailable": {
+                  "required": [],
+                  "type": "integer"
+                }
+              },
               "required": [],
               "title": "podDisruptionBudget",
               "type": "object"
@@ -3699,16 +4083,44 @@
             "resources": {
               "additionalProperties": false,
               "description": "Per-service resources configuration. Overrides the default setting from `resources` if set.",
+              "properties": {
+                "limits": {
+                  "properties": {
+                    "cpu": {
+                      "required": [],
+                      "type": "string"
+                    },
+                    "memory": {
+                      "required": [],
+                      "type": "string"
+                    }
+                  },
+                  "required": [],
+                  "type": "object"
+                },
+                "requests": {
+                  "properties": {
+                    "cpu": {
+                      "required": [],
+                      "type": "string"
+                    },
+                    "memory": {
+                      "required": [],
+                      "type": "string"
+                    }
+                  },
+                  "required": [],
+                  "type": "object"
+                }
+              },
               "required": [],
               "title": "resources",
               "type": "object"
             }
           },
           "required": [
-            "resources",
             "nodeSelector",
             "priorityClassName",
-            "podDisruptionBudget",
             "autoscaling",
             "affinity",
             "extraLabels",
@@ -3751,7 +4163,10 @@
                   "description": "Image pull policy",
                   "required": [],
                   "title": "pullPolicy",
-                  "type": "null"
+                  "type": [
+                    "string",
+                    "null"
+                  ]
                 },
                 "repository": {
                   "default": "",
@@ -3778,8 +4193,7 @@
               "required": [
                 "repository",
                 "tag",
-                "sha",
-                "pullPolicy"
+                "sha"
               ],
               "title": "image",
               "type": "object"
@@ -3794,6 +4208,16 @@
             "podDisruptionBudget": {
               "additionalProperties": false,
               "description": "Configure the store type for the eventhistory service. Might be `memory` (only for testing), `redis-sentinel`, `nats-js-kv`\ntype:\nProvide a list of comma-separated addresses of `redis-sentinel` or `nats-js` servers here\nif the proper store is selected\naddresses: []\n- \"{{ .appNameNats }}:9233\"\nPer-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.",
+              "properties": {
+                "maxUnavailable": {
+                  "required": [],
+                  "type": "integer"
+                },
+                "minAvailable": {
+                  "required": [],
+                  "type": "integer"
+                }
+              },
               "required": [],
               "title": "podDisruptionBudget",
               "type": "object"
@@ -3808,6 +4232,36 @@
             "resources": {
               "additionalProperties": false,
               "description": "Per-service resources configuration. Overrides the default setting from `resources` if set.",
+              "properties": {
+                "limits": {
+                  "properties": {
+                    "cpu": {
+                      "required": [],
+                      "type": "string"
+                    },
+                    "memory": {
+                      "required": [],
+                      "type": "string"
+                    }
+                  },
+                  "required": [],
+                  "type": "object"
+                },
+                "requests": {
+                  "properties": {
+                    "cpu": {
+                      "required": [],
+                      "type": "string"
+                    },
+                    "memory": {
+                      "required": [],
+                      "type": "string"
+                    }
+                  },
+                  "required": [],
+                  "type": "object"
+                }
+              },
               "required": [],
               "title": "resources",
               "type": "object"
@@ -3821,11 +4275,9 @@
             }
           },
           "required": [
-            "resources",
             "nodeSelector",
             "priorityClassName",
             "store",
-            "podDisruptionBudget",
             "autoscaling",
             "affinity",
             "extraLabels",
@@ -3896,7 +4348,10 @@
                   "description": "Image pull policy",
                   "required": [],
                   "title": "pullPolicy",
-                  "type": "null"
+                  "type": [
+                    "string",
+                    "null"
+                  ]
                 },
                 "repository": {
                   "default": "",
@@ -3923,8 +4378,7 @@
               "required": [
                 "repository",
                 "tag",
-                "sha",
-                "pullPolicy"
+                "sha"
               ],
               "title": "image",
               "type": "object"
@@ -3939,6 +4393,16 @@
             "podDisruptionBudget": {
               "additionalProperties": false,
               "description": "Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.",
+              "properties": {
+                "maxUnavailable": {
+                  "required": [],
+                  "type": "integer"
+                },
+                "minAvailable": {
+                  "required": [],
+                  "type": "integer"
+                }
+              },
               "required": [],
               "title": "podDisruptionBudget",
               "type": "object"
@@ -3953,6 +4417,36 @@
             "resources": {
               "additionalProperties": false,
               "description": "Per-service resources configuration. Overrides the default setting from `resources` if set.",
+              "properties": {
+                "limits": {
+                  "properties": {
+                    "cpu": {
+                      "required": [],
+                      "type": "string"
+                    },
+                    "memory": {
+                      "required": [],
+                      "type": "string"
+                    }
+                  },
+                  "required": [],
+                  "type": "object"
+                },
+                "requests": {
+                  "properties": {
+                    "cpu": {
+                      "required": [],
+                      "type": "string"
+                    },
+                    "memory": {
+                      "required": [],
+                      "type": "string"
+                    }
+                  },
+                  "required": [],
+                  "type": "object"
+                }
+              },
               "required": [],
               "title": "resources",
               "type": "object"
@@ -3960,10 +4454,8 @@
           },
           "required": [
             "events",
-            "resources",
             "nodeSelector",
             "priorityClassName",
-            "podDisruptionBudget",
             "autoscaling",
             "affinity",
             "extraLabels",
@@ -4006,7 +4498,10 @@
                   "description": "Image pull policy",
                   "required": [],
                   "title": "pullPolicy",
-                  "type": "null"
+                  "type": [
+                    "string",
+                    "null"
+                  ]
                 },
                 "repository": {
                   "default": "",
@@ -4033,8 +4528,7 @@
               "required": [
                 "repository",
                 "tag",
-                "sha",
-                "pullPolicy"
+                "sha"
               ],
               "title": "image",
               "type": "object"
@@ -4049,6 +4543,16 @@
             "podDisruptionBudget": {
               "additionalProperties": false,
               "description": "Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.",
+              "properties": {
+                "maxUnavailable": {
+                  "required": [],
+                  "type": "integer"
+                },
+                "minAvailable": {
+                  "required": [],
+                  "type": "integer"
+                }
+              },
               "required": [],
               "title": "podDisruptionBudget",
               "type": "object"
@@ -4063,16 +4567,44 @@
             "resources": {
               "additionalProperties": false,
               "description": "Per-service resources configuration. Overrides the default setting from `resources` if set.",
+              "properties": {
+                "limits": {
+                  "properties": {
+                    "cpu": {
+                      "required": [],
+                      "type": "string"
+                    },
+                    "memory": {
+                      "required": [],
+                      "type": "string"
+                    }
+                  },
+                  "required": [],
+                  "type": "object"
+                },
+                "requests": {
+                  "properties": {
+                    "cpu": {
+                      "required": [],
+                      "type": "string"
+                    },
+                    "memory": {
+                      "required": [],
+                      "type": "string"
+                    }
+                  },
+                  "required": [],
+                  "type": "object"
+                }
+              },
               "required": [],
               "title": "resources",
               "type": "object"
             }
           },
           "required": [
-            "resources",
             "nodeSelector",
             "priorityClassName",
-            "podDisruptionBudget",
             "autoscaling",
             "affinity",
             "extraLabels",
@@ -4115,7 +4647,10 @@
                   "description": "Image pull policy",
                   "required": [],
                   "title": "pullPolicy",
-                  "type": "null"
+                  "type": [
+                    "string",
+                    "null"
+                  ]
                 },
                 "repository": {
                   "default": "",
@@ -4142,8 +4677,7 @@
               "required": [
                 "repository",
                 "tag",
-                "sha",
-                "pullPolicy"
+                "sha"
               ],
               "title": "image",
               "type": "object"
@@ -4158,6 +4692,16 @@
             "podDisruptionBudget": {
               "additionalProperties": false,
               "description": "Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.",
+              "properties": {
+                "maxUnavailable": {
+                  "required": [],
+                  "type": "integer"
+                },
+                "minAvailable": {
+                  "required": [],
+                  "type": "integer"
+                }
+              },
               "required": [],
               "title": "podDisruptionBudget",
               "type": "object"
@@ -4172,16 +4716,44 @@
             "resources": {
               "additionalProperties": false,
               "description": "Per-service resources configuration. Overrides the default setting from `resources` if set.",
+              "properties": {
+                "limits": {
+                  "properties": {
+                    "cpu": {
+                      "required": [],
+                      "type": "string"
+                    },
+                    "memory": {
+                      "required": [],
+                      "type": "string"
+                    }
+                  },
+                  "required": [],
+                  "type": "object"
+                },
+                "requests": {
+                  "properties": {
+                    "cpu": {
+                      "required": [],
+                      "type": "string"
+                    },
+                    "memory": {
+                      "required": [],
+                      "type": "string"
+                    }
+                  },
+                  "required": [],
+                  "type": "object"
+                }
+              },
               "required": [],
               "title": "resources",
               "type": "object"
             }
           },
           "required": [
-            "resources",
             "nodeSelector",
             "priorityClassName",
-            "podDisruptionBudget",
             "autoscaling",
             "affinity",
             "extraLabels",
@@ -4224,7 +4796,10 @@
                   "description": "Image pull policy",
                   "required": [],
                   "title": "pullPolicy",
-                  "type": "null"
+                  "type": [
+                    "string",
+                    "null"
+                  ]
                 },
                 "repository": {
                   "default": "",
@@ -4251,8 +4826,7 @@
               "required": [
                 "repository",
                 "tag",
-                "sha",
-                "pullPolicy"
+                "sha"
               ],
               "title": "image",
               "type": "object"
@@ -4267,6 +4841,16 @@
             "podDisruptionBudget": {
               "additionalProperties": false,
               "description": "Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.",
+              "properties": {
+                "maxUnavailable": {
+                  "required": [],
+                  "type": "integer"
+                },
+                "minAvailable": {
+                  "required": [],
+                  "type": "integer"
+                }
+              },
               "required": [],
               "title": "podDisruptionBudget",
               "type": "object"
@@ -4281,16 +4865,44 @@
             "resources": {
               "additionalProperties": false,
               "description": "Per-service resources configuration. Overrides the default setting from `resources` if set.",
+              "properties": {
+                "limits": {
+                  "properties": {
+                    "cpu": {
+                      "required": [],
+                      "type": "string"
+                    },
+                    "memory": {
+                      "required": [],
+                      "type": "string"
+                    }
+                  },
+                  "required": [],
+                  "type": "object"
+                },
+                "requests": {
+                  "properties": {
+                    "cpu": {
+                      "required": [],
+                      "type": "string"
+                    },
+                    "memory": {
+                      "required": [],
+                      "type": "string"
+                    }
+                  },
+                  "required": [],
+                  "type": "object"
+                }
+              },
               "required": [],
               "title": "resources",
               "type": "object"
             }
           },
           "required": [
-            "resources",
             "nodeSelector",
             "priorityClassName",
-            "podDisruptionBudget",
             "autoscaling",
             "affinity",
             "extraLabels",
@@ -4326,7 +4938,10 @@
                   "description": "Image pull policy",
                   "required": [],
                   "title": "pullPolicy",
-                  "type": "null"
+                  "type": [
+                    "string",
+                    "null"
+                  ]
                 },
                 "repository": {
                   "default": "",
@@ -4353,8 +4968,7 @@
               "required": [
                 "repository",
                 "tag",
-                "sha",
-                "pullPolicy"
+                "sha"
               ],
               "title": "image",
               "type": "object"
@@ -4418,7 +5032,10 @@
                   "description": "Use an existing PersistentVolumeClaim for persistence.",
                   "required": [],
                   "title": "existingClaim",
-                  "type": "null"
+                  "type": [
+                    "string",
+                    "null"
+                  ]
                 },
                 "finalizers": {
                   "description": "Persistent volume finalizers.",
@@ -4454,20 +5071,21 @@
                   "description": "Storage class to use.\nUses the default storage class if not set.",
                   "required": [],
                   "title": "storageClassName",
-                  "type": "null"
+                  "type": [
+                    "string",
+                    "null"
+                  ]
                 }
               },
               "required": [
                 "enabled",
                 "chownInitContainer",
-                "storageClassName",
                 "accessModes",
                 "size",
                 "annotations",
                 "finalizers",
                 "selectorLabels",
-                "claimName",
-                "existingClaim"
+                "claimName"
               ],
               "title": "persistence",
               "type": "object"
@@ -4482,6 +5100,36 @@
             "resources": {
               "additionalProperties": false,
               "description": "Per-service resources configuration. Overrides the default setting from `resources` if set.",
+              "properties": {
+                "limits": {
+                  "properties": {
+                    "cpu": {
+                      "required": [],
+                      "type": "string"
+                    },
+                    "memory": {
+                      "required": [],
+                      "type": "string"
+                    }
+                  },
+                  "required": [],
+                  "type": "object"
+                },
+                "requests": {
+                  "properties": {
+                    "cpu": {
+                      "required": [],
+                      "type": "string"
+                    },
+                    "memory": {
+                      "required": [],
+                      "type": "string"
+                    }
+                  },
+                  "required": [],
+                  "type": "object"
+                }
+              },
               "required": [],
               "title": "resources",
               "type": "object"
@@ -4489,7 +5137,6 @@
           },
           "required": [
             "persistence",
-            "resources",
             "nodeSelector",
             "priorityClassName",
             "affinity",
@@ -4526,7 +5173,10 @@
                   "description": "Image pull policy",
                   "required": [],
                   "title": "pullPolicy",
-                  "type": "null"
+                  "type": [
+                    "string",
+                    "null"
+                  ]
                 },
                 "repository": {
                   "default": "",
@@ -4553,8 +5203,7 @@
               "required": [
                 "repository",
                 "tag",
-                "sha",
-                "pullPolicy"
+                "sha"
               ],
               "title": "image",
               "type": "object"
@@ -4576,13 +5225,42 @@
             "resources": {
               "additionalProperties": false,
               "description": "Per-service resources configuration. Overrides the default setting from `resources` if set.",
+              "properties": {
+                "limits": {
+                  "properties": {
+                    "cpu": {
+                      "required": [],
+                      "type": "string"
+                    },
+                    "memory": {
+                      "required": [],
+                      "type": "string"
+                    }
+                  },
+                  "required": [],
+                  "type": "object"
+                },
+                "requests": {
+                  "properties": {
+                    "cpu": {
+                      "required": [],
+                      "type": "string"
+                    },
+                    "memory": {
+                      "required": [],
+                      "type": "string"
+                    }
+                  },
+                  "required": [],
+                  "type": "object"
+                }
+              },
               "required": [],
               "title": "resources",
               "type": "object"
             }
           },
           "required": [
-            "resources",
             "nodeSelector",
             "priorityClassName",
             "affinity",
@@ -4619,7 +5297,10 @@
                   "description": "Image pull policy",
                   "required": [],
                   "title": "pullPolicy",
-                  "type": "null"
+                  "type": [
+                    "string",
+                    "null"
+                  ]
                 },
                 "repository": {
                   "default": "",
@@ -4646,8 +5327,7 @@
               "required": [
                 "repository",
                 "tag",
-                "sha",
-                "pullPolicy"
+                "sha"
               ],
               "title": "image",
               "type": "object"
@@ -4711,7 +5391,10 @@
                   "description": "Use an existing PersistentVolumeClaim for persistence.",
                   "required": [],
                   "title": "existingClaim",
-                  "type": "null"
+                  "type": [
+                    "string",
+                    "null"
+                  ]
                 },
                 "finalizers": {
                   "description": "Persistent volume finalizers.",
@@ -4747,20 +5430,21 @@
                   "description": "Storage class to use.\nUses the default storage class if not set.",
                   "required": [],
                   "title": "storageClassName",
-                  "type": "null"
+                  "type": [
+                    "string",
+                    "null"
+                  ]
                 }
               },
               "required": [
                 "enabled",
                 "chownInitContainer",
-                "storageClassName",
                 "accessModes",
                 "size",
                 "annotations",
                 "finalizers",
                 "selectorLabels",
-                "claimName",
-                "existingClaim"
+                "claimName"
               ],
               "title": "persistence",
               "type": "object"
@@ -4775,6 +5459,36 @@
             "resources": {
               "additionalProperties": false,
               "description": "Per-service resources configuration. Overrides the default setting from `resources` if set.",
+              "properties": {
+                "limits": {
+                  "properties": {
+                    "cpu": {
+                      "required": [],
+                      "type": "string"
+                    },
+                    "memory": {
+                      "required": [],
+                      "type": "string"
+                    }
+                  },
+                  "required": [],
+                  "type": "object"
+                },
+                "requests": {
+                  "properties": {
+                    "cpu": {
+                      "required": [],
+                      "type": "string"
+                    },
+                    "memory": {
+                      "required": [],
+                      "type": "string"
+                    }
+                  },
+                  "required": [],
+                  "type": "object"
+                }
+              },
               "required": [],
               "title": "resources",
               "type": "object"
@@ -4782,7 +5496,6 @@
           },
           "required": [
             "persistence",
-            "resources",
             "nodeSelector",
             "priorityClassName",
             "affinity",
@@ -4826,7 +5539,10 @@
                   "description": "Image pull policy",
                   "required": [],
                   "title": "pullPolicy",
-                  "type": "null"
+                  "type": [
+                    "string",
+                    "null"
+                  ]
                 },
                 "repository": {
                   "default": "",
@@ -4853,8 +5569,7 @@
               "required": [
                 "repository",
                 "tag",
-                "sha",
-                "pullPolicy"
+                "sha"
               ],
               "title": "image",
               "type": "object"
@@ -4869,6 +5584,16 @@
             "podDisruptionBudget": {
               "additionalProperties": false,
               "description": "Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.",
+              "properties": {
+                "maxUnavailable": {
+                  "required": [],
+                  "type": "integer"
+                },
+                "minAvailable": {
+                  "required": [],
+                  "type": "integer"
+                }
+              },
               "required": [],
               "title": "podDisruptionBudget",
               "type": "object"
@@ -4883,16 +5608,44 @@
             "resources": {
               "additionalProperties": false,
               "description": "Per-service resources configuration. Overrides the default setting from `resources` if set.",
+              "properties": {
+                "limits": {
+                  "properties": {
+                    "cpu": {
+                      "required": [],
+                      "type": "string"
+                    },
+                    "memory": {
+                      "required": [],
+                      "type": "string"
+                    }
+                  },
+                  "required": [],
+                  "type": "object"
+                },
+                "requests": {
+                  "properties": {
+                    "cpu": {
+                      "required": [],
+                      "type": "string"
+                    },
+                    "memory": {
+                      "required": [],
+                      "type": "string"
+                    }
+                  },
+                  "required": [],
+                  "type": "object"
+                }
+              },
               "required": [],
               "title": "resources",
               "type": "object"
             }
           },
           "required": [
-            "resources",
             "nodeSelector",
             "priorityClassName",
-            "podDisruptionBudget",
             "autoscaling",
             "affinity",
             "extraLabels",
@@ -4935,7 +5688,10 @@
                   "description": "Image pull policy",
                   "required": [],
                   "title": "pullPolicy",
-                  "type": "null"
+                  "type": [
+                    "string",
+                    "null"
+                  ]
                 },
                 "repository": {
                   "default": "",
@@ -4962,8 +5718,7 @@
               "required": [
                 "repository",
                 "tag",
-                "sha",
-                "pullPolicy"
+                "sha"
               ],
               "title": "image",
               "type": "object"
@@ -4978,6 +5733,16 @@
             "podDisruptionBudget": {
               "additionalProperties": false,
               "description": "Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.",
+              "properties": {
+                "maxUnavailable": {
+                  "required": [],
+                  "type": "integer"
+                },
+                "minAvailable": {
+                  "required": [],
+                  "type": "integer"
+                }
+              },
               "required": [],
               "title": "podDisruptionBudget",
               "type": "object"
@@ -4992,16 +5757,44 @@
             "resources": {
               "additionalProperties": false,
               "description": "Per-service resources configuration. Overrides the default setting from `resources` if set.",
+              "properties": {
+                "limits": {
+                  "properties": {
+                    "cpu": {
+                      "required": [],
+                      "type": "string"
+                    },
+                    "memory": {
+                      "required": [],
+                      "type": "string"
+                    }
+                  },
+                  "required": [],
+                  "type": "object"
+                },
+                "requests": {
+                  "properties": {
+                    "cpu": {
+                      "required": [],
+                      "type": "string"
+                    },
+                    "memory": {
+                      "required": [],
+                      "type": "string"
+                    }
+                  },
+                  "required": [],
+                  "type": "object"
+                }
+              },
               "required": [],
               "title": "resources",
               "type": "object"
             }
           },
           "required": [
-            "resources",
             "nodeSelector",
             "priorityClassName",
-            "podDisruptionBudget",
             "autoscaling",
             "affinity",
             "extraLabels",
@@ -5037,7 +5830,10 @@
                   "description": "Image pull policy",
                   "required": [],
                   "title": "pullPolicy",
-                  "type": "null"
+                  "type": [
+                    "string",
+                    "null"
+                  ]
                 },
                 "repository": {
                   "default": "",
@@ -5064,8 +5860,7 @@
               "required": [
                 "repository",
                 "tag",
-                "sha",
-                "pullPolicy"
+                "sha"
               ],
               "title": "image",
               "type": "object"
@@ -5129,7 +5924,10 @@
                   "description": "Use an existing PersistentVolumeClaim for persistence.",
                   "required": [],
                   "title": "existingClaim",
-                  "type": "null"
+                  "type": [
+                    "string",
+                    "null"
+                  ]
                 },
                 "finalizers": {
                   "description": "Persistent volume finalizers.",
@@ -5165,20 +5963,21 @@
                   "description": "Storage class to use.\nUses the default storage class if not set.",
                   "required": [],
                   "title": "storageClassName",
-                  "type": "null"
+                  "type": [
+                    "string",
+                    "null"
+                  ]
                 }
               },
               "required": [
                 "enabled",
                 "chownInitContainer",
-                "storageClassName",
                 "accessModes",
                 "size",
                 "annotations",
                 "finalizers",
                 "selectorLabels",
-                "claimName",
-                "existingClaim"
+                "claimName"
               ],
               "title": "persistence",
               "type": "object"
@@ -5193,13 +5992,42 @@
             "resources": {
               "additionalProperties": false,
               "description": "Per-service resources configuration. Overrides the default setting from `resources` if set.",
+              "properties": {
+                "limits": {
+                  "properties": {
+                    "cpu": {
+                      "required": [],
+                      "type": "string"
+                    },
+                    "memory": {
+                      "required": [],
+                      "type": "string"
+                    }
+                  },
+                  "required": [],
+                  "type": "object"
+                },
+                "requests": {
+                  "properties": {
+                    "cpu": {
+                      "required": [],
+                      "type": "string"
+                    },
+                    "memory": {
+                      "required": [],
+                      "type": "string"
+                    }
+                  },
+                  "required": [],
+                  "type": "object"
+                }
+              },
               "required": [],
               "title": "resources",
               "type": "object"
             }
           },
           "required": [
-            "resources",
             "nodeSelector",
             "priorityClassName",
             "affinity",
@@ -5244,7 +6072,10 @@
                   "description": "Image pull policy",
                   "required": [],
                   "title": "pullPolicy",
-                  "type": "null"
+                  "type": [
+                    "string",
+                    "null"
+                  ]
                 },
                 "repository": {
                   "default": "",
@@ -5271,8 +6102,7 @@
               "required": [
                 "repository",
                 "tag",
-                "sha",
-                "pullPolicy"
+                "sha"
               ],
               "title": "image",
               "type": "object"
@@ -5287,6 +6117,16 @@
             "podDisruptionBudget": {
               "additionalProperties": false,
               "description": "Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.",
+              "properties": {
+                "maxUnavailable": {
+                  "required": [],
+                  "type": "integer"
+                },
+                "minAvailable": {
+                  "required": [],
+                  "type": "integer"
+                }
+              },
               "required": [],
               "title": "podDisruptionBudget",
               "type": "object"
@@ -5301,16 +6141,44 @@
             "resources": {
               "additionalProperties": false,
               "description": "Per-service resources configuration. Overrides the default setting from `resources` if set.",
+              "properties": {
+                "limits": {
+                  "properties": {
+                    "cpu": {
+                      "required": [],
+                      "type": "string"
+                    },
+                    "memory": {
+                      "required": [],
+                      "type": "string"
+                    }
+                  },
+                  "required": [],
+                  "type": "object"
+                },
+                "requests": {
+                  "properties": {
+                    "cpu": {
+                      "required": [],
+                      "type": "string"
+                    },
+                    "memory": {
+                      "required": [],
+                      "type": "string"
+                    }
+                  },
+                  "required": [],
+                  "type": "object"
+                }
+              },
               "required": [],
               "title": "resources",
               "type": "object"
             }
           },
           "required": [
-            "resources",
             "nodeSelector",
             "priorityClassName",
-            "podDisruptionBudget",
             "autoscaling",
             "affinity",
             "extraLabels",
@@ -5353,7 +6221,10 @@
                   "description": "Image pull policy",
                   "required": [],
                   "title": "pullPolicy",
-                  "type": "null"
+                  "type": [
+                    "string",
+                    "null"
+                  ]
                 },
                 "repository": {
                   "default": "",
@@ -5380,8 +6251,7 @@
               "required": [
                 "repository",
                 "tag",
-                "sha",
-                "pullPolicy"
+                "sha"
               ],
               "title": "image",
               "type": "object"
@@ -5396,6 +6266,16 @@
             "podDisruptionBudget": {
               "additionalProperties": false,
               "description": "Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.",
+              "properties": {
+                "maxUnavailable": {
+                  "required": [],
+                  "type": "integer"
+                },
+                "minAvailable": {
+                  "required": [],
+                  "type": "integer"
+                }
+              },
               "required": [],
               "title": "podDisruptionBudget",
               "type": "object"
@@ -5410,16 +6290,44 @@
             "resources": {
               "additionalProperties": false,
               "description": "Per-service resources configuration. Overrides the default setting from `resources` if set.",
+              "properties": {
+                "limits": {
+                  "properties": {
+                    "cpu": {
+                      "required": [],
+                      "type": "string"
+                    },
+                    "memory": {
+                      "required": [],
+                      "type": "string"
+                    }
+                  },
+                  "required": [],
+                  "type": "object"
+                },
+                "requests": {
+                  "properties": {
+                    "cpu": {
+                      "required": [],
+                      "type": "string"
+                    },
+                    "memory": {
+                      "required": [],
+                      "type": "string"
+                    }
+                  },
+                  "required": [],
+                  "type": "object"
+                }
+              },
               "required": [],
               "title": "resources",
               "type": "object"
             }
           },
           "required": [
-            "resources",
             "nodeSelector",
             "priorityClassName",
-            "podDisruptionBudget",
             "autoscaling",
             "affinity",
             "extraLabels",
@@ -5490,7 +6398,10 @@
                   "description": "Image pull policy",
                   "required": [],
                   "title": "pullPolicy",
-                  "type": "null"
+                  "type": [
+                    "string",
+                    "null"
+                  ]
                 },
                 "repository": {
                   "default": "",
@@ -5517,8 +6428,7 @@
               "required": [
                 "repository",
                 "tag",
-                "sha",
-                "pullPolicy"
+                "sha"
               ],
               "title": "image",
               "type": "object"
@@ -5533,6 +6443,16 @@
             "podDisruptionBudget": {
               "additionalProperties": false,
               "description": "Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.",
+              "properties": {
+                "maxUnavailable": {
+                  "required": [],
+                  "type": "integer"
+                },
+                "minAvailable": {
+                  "required": [],
+                  "type": "integer"
+                }
+              },
               "required": [],
               "title": "podDisruptionBudget",
               "type": "object"
@@ -5547,6 +6467,36 @@
             "resources": {
               "additionalProperties": false,
               "description": "Per-service resources configuration. Overrides the default setting from `resources` if set.",
+              "properties": {
+                "limits": {
+                  "properties": {
+                    "cpu": {
+                      "required": [],
+                      "type": "string"
+                    },
+                    "memory": {
+                      "required": [],
+                      "type": "string"
+                    }
+                  },
+                  "required": [],
+                  "type": "object"
+                },
+                "requests": {
+                  "properties": {
+                    "cpu": {
+                      "required": [],
+                      "type": "string"
+                    },
+                    "memory": {
+                      "required": [],
+                      "type": "string"
+                    }
+                  },
+                  "required": [],
+                  "type": "object"
+                }
+              },
               "required": [],
               "title": "resources",
               "type": "object"
@@ -5561,10 +6511,8 @@
           },
           "required": [
             "events",
-            "resources",
             "nodeSelector",
             "priorityClassName",
-            "podDisruptionBudget",
             "store",
             "autoscaling",
             "affinity",
@@ -5617,7 +6565,10 @@
                   "description": "Image pull policy",
                   "required": [],
                   "title": "pullPolicy",
-                  "type": "null"
+                  "type": [
+                    "string",
+                    "null"
+                  ]
                 },
                 "repository": {
                   "default": "",
@@ -5644,8 +6595,7 @@
               "required": [
                 "repository",
                 "tag",
-                "sha",
-                "pullPolicy"
+                "sha"
               ],
               "title": "image",
               "type": "object"
@@ -5660,6 +6610,16 @@
             "podDisruptionBudget": {
               "additionalProperties": false,
               "description": "Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.",
+              "properties": {
+                "maxUnavailable": {
+                  "required": [],
+                  "type": "integer"
+                },
+                "minAvailable": {
+                  "required": [],
+                  "type": "integer"
+                }
+              },
               "required": [],
               "title": "podDisruptionBudget",
               "type": "object"
@@ -5673,7 +6633,37 @@
             },
             "resources": {
               "additionalProperties": false,
-              "description": "Per-service resources configuration. Overrides the default setting from `resources` if set.",
+              "description": " - name: ocis\n   routes:\n     - endpoint: /some-service/endpoint\n       service: com.owncloud.some-namespace.some-service\n       unprotected: true\n\nPer-service resources configuration. Overrides the default setting from `resources` if set.",
+              "properties": {
+                "limits": {
+                  "properties": {
+                    "cpu": {
+                      "required": [],
+                      "type": "string"
+                    },
+                    "memory": {
+                      "required": [],
+                      "type": "string"
+                    }
+                  },
+                  "required": [],
+                  "type": "object"
+                },
+                "requests": {
+                  "properties": {
+                    "cpu": {
+                      "required": [],
+                      "type": "string"
+                    },
+                    "memory": {
+                      "required": [],
+                      "type": "string"
+                    }
+                  },
+                  "required": [],
+                  "type": "object"
+                }
+              },
               "required": [],
               "title": "resources",
               "type": "object"
@@ -5681,10 +6671,8 @@
           },
           "required": [
             "additionalPolicies",
-            "resources",
             "nodeSelector",
             "priorityClassName",
-            "podDisruptionBudget",
             "autoscaling",
             "affinity",
             "extraLabels",
@@ -5717,10 +6705,13 @@
               "properties": {
                 "sizeLimit": {
                   "default": "",
-                  "description": "Configures the maximum file size in bytes that is allowed for content extraction.\nFor the default value see https://doc.owncloud.com/ocis/next/deployment/services/s-list/search.html",
+                  "description": "Image pull policy\nConfigures the maximum file size in bytes that is allowed for content extraction.\nFor the default value see https://doc.owncloud.com/ocis/next/deployment/services/s-list/search.html",
                   "required": [],
                   "title": "sizeLimit",
-                  "type": "null"
+                  "type": [
+                    "string",
+                    "null"
+                  ]
                 },
                 "tika": {
                   "additionalProperties": false,
@@ -5757,7 +6748,6 @@
               },
               "required": [
                 "type",
-                "sizeLimit",
                 "tika"
               ],
               "title": "extractor",
@@ -5772,7 +6762,10 @@
                   "description": "Image pull policy",
                   "required": [],
                   "title": "pullPolicy",
-                  "type": "null"
+                  "type": [
+                    "string",
+                    "null"
+                  ]
                 },
                 "repository": {
                   "default": "",
@@ -5799,8 +6792,7 @@
               "required": [
                 "repository",
                 "tag",
-                "sha",
-                "pullPolicy"
+                "sha"
               ],
               "title": "image",
               "type": "object"
@@ -5864,7 +6856,10 @@
                   "description": "Use an existing PersistentVolumeClaim for persistence.",
                   "required": [],
                   "title": "existingClaim",
-                  "type": "null"
+                  "type": [
+                    "string",
+                    "null"
+                  ]
                 },
                 "finalizers": {
                   "description": "Persistent volume finalizers.",
@@ -5900,20 +6895,21 @@
                   "description": "Storage class to use.\nUses the default storage class if not set.",
                   "required": [],
                   "title": "storageClassName",
-                  "type": "null"
+                  "type": [
+                    "string",
+                    "null"
+                  ]
                 }
               },
               "required": [
                 "enabled",
                 "chownInitContainer",
-                "storageClassName",
                 "accessModes",
                 "size",
                 "annotations",
                 "finalizers",
                 "selectorLabels",
-                "claimName",
-                "existingClaim"
+                "claimName"
               ],
               "title": "persistence",
               "type": "object"
@@ -5921,6 +6917,16 @@
             "podDisruptionBudget": {
               "additionalProperties": false,
               "description": "Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.",
+              "properties": {
+                "maxUnavailable": {
+                  "required": [],
+                  "type": "integer"
+                },
+                "minAvailable": {
+                  "required": [],
+                  "type": "integer"
+                }
+              },
               "required": [],
               "title": "podDisruptionBudget",
               "type": "object"
@@ -5935,6 +6941,36 @@
             "resources": {
               "additionalProperties": false,
               "description": "Per-service resources configuration. Overrides the default setting from `resources` if set.",
+              "properties": {
+                "limits": {
+                  "properties": {
+                    "cpu": {
+                      "required": [],
+                      "type": "string"
+                    },
+                    "memory": {
+                      "required": [],
+                      "type": "string"
+                    }
+                  },
+                  "required": [],
+                  "type": "object"
+                },
+                "requests": {
+                  "properties": {
+                    "cpu": {
+                      "required": [],
+                      "type": "string"
+                    },
+                    "memory": {
+                      "required": [],
+                      "type": "string"
+                    }
+                  },
+                  "required": [],
+                  "type": "object"
+                }
+              },
               "required": [],
               "title": "resources",
               "type": "object"
@@ -5943,10 +6979,8 @@
           "required": [
             "extractor",
             "persistence",
-            "resources",
             "nodeSelector",
             "priorityClassName",
-            "podDisruptionBudget",
             "affinity",
             "extraLabels",
             "image"
@@ -5988,7 +7022,10 @@
                   "description": "Image pull policy",
                   "required": [],
                   "title": "pullPolicy",
-                  "type": "null"
+                  "type": [
+                    "string",
+                    "null"
+                  ]
                 },
                 "repository": {
                   "default": "",
@@ -6015,8 +7052,7 @@
               "required": [
                 "repository",
                 "tag",
-                "sha",
-                "pullPolicy"
+                "sha"
               ],
               "title": "image",
               "type": "object"
@@ -6031,6 +7067,16 @@
             "podDisruptionBudget": {
               "additionalProperties": false,
               "description": "Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.",
+              "properties": {
+                "maxUnavailable": {
+                  "required": [],
+                  "type": "integer"
+                },
+                "minAvailable": {
+                  "required": [],
+                  "type": "integer"
+                }
+              },
               "required": [],
               "title": "podDisruptionBudget",
               "type": "object"
@@ -6045,16 +7091,44 @@
             "resources": {
               "additionalProperties": false,
               "description": "Per-service resources configuration. Overrides the default setting from `resources` if set.",
+              "properties": {
+                "limits": {
+                  "properties": {
+                    "cpu": {
+                      "required": [],
+                      "type": "string"
+                    },
+                    "memory": {
+                      "required": [],
+                      "type": "string"
+                    }
+                  },
+                  "required": [],
+                  "type": "object"
+                },
+                "requests": {
+                  "properties": {
+                    "cpu": {
+                      "required": [],
+                      "type": "string"
+                    },
+                    "memory": {
+                      "required": [],
+                      "type": "string"
+                    }
+                  },
+                  "required": [],
+                  "type": "object"
+                }
+              },
               "required": [],
               "title": "resources",
               "type": "object"
             }
           },
           "required": [
-            "resources",
             "nodeSelector",
             "priorityClassName",
-            "podDisruptionBudget",
             "autoscaling",
             "affinity",
             "extraLabels",
@@ -6097,7 +7171,10 @@
                   "description": "Image pull policy",
                   "required": [],
                   "title": "pullPolicy",
-                  "type": "null"
+                  "type": [
+                    "string",
+                    "null"
+                  ]
                 },
                 "repository": {
                   "default": "",
@@ -6124,8 +7201,7 @@
               "required": [
                 "repository",
                 "tag",
-                "sha",
-                "pullPolicy"
+                "sha"
               ],
               "title": "image",
               "type": "object"
@@ -6140,6 +7216,16 @@
             "podDisruptionBudget": {
               "additionalProperties": false,
               "description": "Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.",
+              "properties": {
+                "maxUnavailable": {
+                  "required": [],
+                  "type": "integer"
+                },
+                "minAvailable": {
+                  "required": [],
+                  "type": "integer"
+                }
+              },
               "required": [],
               "title": "podDisruptionBudget",
               "type": "object"
@@ -6154,16 +7240,44 @@
             "resources": {
               "additionalProperties": false,
               "description": "Per-service resources configuration. Overrides the default setting from `resources` if set.",
+              "properties": {
+                "limits": {
+                  "properties": {
+                    "cpu": {
+                      "required": [],
+                      "type": "string"
+                    },
+                    "memory": {
+                      "required": [],
+                      "type": "string"
+                    }
+                  },
+                  "required": [],
+                  "type": "object"
+                },
+                "requests": {
+                  "properties": {
+                    "cpu": {
+                      "required": [],
+                      "type": "string"
+                    },
+                    "memory": {
+                      "required": [],
+                      "type": "string"
+                    }
+                  },
+                  "required": [],
+                  "type": "object"
+                }
+              },
               "required": [],
               "title": "resources",
               "type": "object"
             }
           },
           "required": [
-            "resources",
             "nodeSelector",
             "priorityClassName",
-            "podDisruptionBudget",
             "autoscaling",
             "affinity",
             "extraLabels",
@@ -6223,7 +7337,10 @@
                   "description": "Image pull policy",
                   "required": [],
                   "title": "pullPolicy",
-                  "type": "null"
+                  "type": [
+                    "string",
+                    "null"
+                  ]
                 },
                 "repository": {
                   "default": "",
@@ -6250,8 +7367,7 @@
               "required": [
                 "repository",
                 "tag",
-                "sha",
-                "pullPolicy"
+                "sha"
               ],
               "title": "image",
               "type": "object"
@@ -6266,6 +7382,16 @@
             "podDisruptionBudget": {
               "additionalProperties": false,
               "description": "Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.",
+              "properties": {
+                "maxUnavailable": {
+                  "required": [],
+                  "type": "integer"
+                },
+                "minAvailable": {
+                  "required": [],
+                  "type": "integer"
+                }
+              },
               "required": [],
               "title": "podDisruptionBudget",
               "type": "object"
@@ -6280,6 +7406,36 @@
             "resources": {
               "additionalProperties": false,
               "description": "Per-service resources configuration. Overrides the default setting from `resources` if set.",
+              "properties": {
+                "limits": {
+                  "properties": {
+                    "cpu": {
+                      "required": [],
+                      "type": "string"
+                    },
+                    "memory": {
+                      "required": [],
+                      "type": "string"
+                    }
+                  },
+                  "required": [],
+                  "type": "object"
+                },
+                "requests": {
+                  "properties": {
+                    "cpu": {
+                      "required": [],
+                      "type": "string"
+                    },
+                    "memory": {
+                      "required": [],
+                      "type": "string"
+                    }
+                  },
+                  "required": [],
+                  "type": "object"
+                }
+              },
               "required": [],
               "title": "resources",
               "type": "object"
@@ -6294,10 +7450,8 @@
           },
           "required": [
             "connections",
-            "resources",
             "nodeSelector",
             "priorityClassName",
-            "podDisruptionBudget",
             "store",
             "autoscaling",
             "affinity",
@@ -6341,7 +7495,10 @@
                   "description": "Image pull policy",
                   "required": [],
                   "title": "pullPolicy",
-                  "type": "null"
+                  "type": [
+                    "string",
+                    "null"
+                  ]
                 },
                 "repository": {
                   "default": "",
@@ -6368,8 +7525,7 @@
               "required": [
                 "repository",
                 "tag",
-                "sha",
-                "pullPolicy"
+                "sha"
               ],
               "title": "image",
               "type": "object"
@@ -6384,6 +7540,16 @@
             "podDisruptionBudget": {
               "additionalProperties": false,
               "description": "Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.",
+              "properties": {
+                "maxUnavailable": {
+                  "required": [],
+                  "type": "integer"
+                },
+                "minAvailable": {
+                  "required": [],
+                  "type": "integer"
+                }
+              },
               "required": [],
               "title": "podDisruptionBudget",
               "type": "object"
@@ -6398,16 +7564,44 @@
             "resources": {
               "additionalProperties": false,
               "description": "Per-service resources configuration. Overrides the default setting from `resources` if set.",
+              "properties": {
+                "limits": {
+                  "properties": {
+                    "cpu": {
+                      "required": [],
+                      "type": "string"
+                    },
+                    "memory": {
+                      "required": [],
+                      "type": "string"
+                    }
+                  },
+                  "required": [],
+                  "type": "object"
+                },
+                "requests": {
+                  "properties": {
+                    "cpu": {
+                      "required": [],
+                      "type": "string"
+                    },
+                    "memory": {
+                      "required": [],
+                      "type": "string"
+                    }
+                  },
+                  "required": [],
+                  "type": "object"
+                }
+              },
               "required": [],
               "title": "resources",
               "type": "object"
             }
           },
           "required": [
-            "resources",
             "nodeSelector",
             "priorityClassName",
-            "podDisruptionBudget",
             "autoscaling",
             "affinity",
             "extraLabels",
@@ -6450,7 +7644,10 @@
                   "description": "Image pull policy",
                   "required": [],
                   "title": "pullPolicy",
-                  "type": "null"
+                  "type": [
+                    "string",
+                    "null"
+                  ]
                 },
                 "repository": {
                   "default": "",
@@ -6477,8 +7674,7 @@
               "required": [
                 "repository",
                 "tag",
-                "sha",
-                "pullPolicy"
+                "sha"
               ],
               "title": "image",
               "type": "object"
@@ -6493,6 +7689,16 @@
             "podDisruptionBudget": {
               "additionalProperties": false,
               "description": "Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.",
+              "properties": {
+                "maxUnavailable": {
+                  "required": [],
+                  "type": "integer"
+                },
+                "minAvailable": {
+                  "required": [],
+                  "type": "integer"
+                }
+              },
               "required": [],
               "title": "podDisruptionBudget",
               "type": "object"
@@ -6507,16 +7713,44 @@
             "resources": {
               "additionalProperties": false,
               "description": "Per-service resources configuration. Overrides the default setting from `resources` if set.",
+              "properties": {
+                "limits": {
+                  "properties": {
+                    "cpu": {
+                      "required": [],
+                      "type": "string"
+                    },
+                    "memory": {
+                      "required": [],
+                      "type": "string"
+                    }
+                  },
+                  "required": [],
+                  "type": "object"
+                },
+                "requests": {
+                  "properties": {
+                    "cpu": {
+                      "required": [],
+                      "type": "string"
+                    },
+                    "memory": {
+                      "required": [],
+                      "type": "string"
+                    }
+                  },
+                  "required": [],
+                  "type": "object"
+                }
+              },
               "required": [],
               "title": "resources",
               "type": "object"
             }
           },
           "required": [
-            "resources",
             "nodeSelector",
             "priorityClassName",
-            "podDisruptionBudget",
             "autoscaling",
             "affinity",
             "extraLabels",
@@ -6559,7 +7793,10 @@
                   "description": "Image pull policy",
                   "required": [],
                   "title": "pullPolicy",
-                  "type": "null"
+                  "type": [
+                    "string",
+                    "null"
+                  ]
                 },
                 "repository": {
                   "default": "",
@@ -6586,8 +7823,7 @@
               "required": [
                 "repository",
                 "tag",
-                "sha",
-                "pullPolicy"
+                "sha"
               ],
               "title": "image",
               "type": "object"
@@ -6651,7 +7887,10 @@
                   "description": "Use an existing PersistentVolumeClaim for persistence.",
                   "required": [],
                   "title": "existingClaim",
-                  "type": "null"
+                  "type": [
+                    "string",
+                    "null"
+                  ]
                 },
                 "finalizers": {
                   "description": "Persistent volume finalizers.",
@@ -6687,20 +7926,21 @@
                   "description": "Storage class to use.\nUses the default storage class if not set.",
                   "required": [],
                   "title": "storageClassName",
-                  "type": "null"
+                  "type": [
+                    "string",
+                    "null"
+                  ]
                 }
               },
               "required": [
                 "enabled",
                 "chownInitContainer",
-                "storageClassName",
                 "accessModes",
                 "size",
                 "annotations",
                 "finalizers",
                 "selectorLabels",
-                "claimName",
-                "existingClaim"
+                "claimName"
               ],
               "title": "persistence",
               "type": "object"
@@ -6708,6 +7948,16 @@
             "podDisruptionBudget": {
               "additionalProperties": false,
               "description": "Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.",
+              "properties": {
+                "maxUnavailable": {
+                  "required": [],
+                  "type": "integer"
+                },
+                "minAvailable": {
+                  "required": [],
+                  "type": "integer"
+                }
+              },
               "required": [],
               "title": "podDisruptionBudget",
               "type": "object"
@@ -6722,6 +7972,36 @@
             "resources": {
               "additionalProperties": false,
               "description": "Per-service resources configuration. Overrides the default setting from `resources` if set.",
+              "properties": {
+                "limits": {
+                  "properties": {
+                    "cpu": {
+                      "required": [],
+                      "type": "string"
+                    },
+                    "memory": {
+                      "required": [],
+                      "type": "string"
+                    }
+                  },
+                  "required": [],
+                  "type": "object"
+                },
+                "requests": {
+                  "properties": {
+                    "cpu": {
+                      "required": [],
+                      "type": "string"
+                    },
+                    "memory": {
+                      "required": [],
+                      "type": "string"
+                    }
+                  },
+                  "required": [],
+                  "type": "object"
+                }
+              },
               "required": [],
               "title": "resources",
               "type": "object"
@@ -6729,10 +8009,8 @@
           },
           "required": [
             "persistence",
-            "resources",
             "nodeSelector",
             "priorityClassName",
-            "podDisruptionBudget",
             "autoscaling",
             "affinity",
             "extraLabels",
@@ -6803,7 +8081,10 @@
                   "description": "Image pull policy",
                   "required": [],
                   "title": "pullPolicy",
-                  "type": "null"
+                  "type": [
+                    "string",
+                    "null"
+                  ]
                 },
                 "repository": {
                   "default": "",
@@ -6830,8 +8111,7 @@
               "required": [
                 "repository",
                 "tag",
-                "sha",
-                "pullPolicy"
+                "sha"
               ],
               "title": "image",
               "type": "object"
@@ -6853,6 +8133,36 @@
             "jobResources": {
               "additionalProperties": false,
               "description": "Per-service jobResources configuration. Overrides the default setting from `jobResources` if set.",
+              "properties": {
+                "limits": {
+                  "properties": {
+                    "cpu": {
+                      "required": [],
+                      "type": "string"
+                    },
+                    "memory": {
+                      "required": [],
+                      "type": "string"
+                    }
+                  },
+                  "required": [],
+                  "type": "object"
+                },
+                "requests": {
+                  "properties": {
+                    "cpu": {
+                      "required": [],
+                      "type": "string"
+                    },
+                    "memory": {
+                      "required": [],
+                      "type": "string"
+                    }
+                  },
+                  "required": [],
+                  "type": "object"
+                }
+              },
               "required": [],
               "title": "jobResources",
               "type": "object"
@@ -6911,7 +8221,10 @@
                       "description": "Image pull policy",
                       "required": [],
                       "title": "pullPolicy",
-                      "type": "null"
+                      "type": [
+                        "string",
+                        "null"
+                      ]
                     },
                     "repository": {
                       "default": "",
@@ -6938,8 +8251,7 @@
                   "required": [
                     "repository",
                     "tag",
-                    "sha",
-                    "pullPolicy"
+                    "sha"
                   ],
                   "title": "image",
                   "type": "object"
@@ -7097,7 +8409,10 @@
                   "description": "Use an existing PersistentVolumeClaim for persistence.",
                   "required": [],
                   "title": "existingClaim",
-                  "type": "null"
+                  "type": [
+                    "string",
+                    "null"
+                  ]
                 },
                 "finalizers": {
                   "description": "Persistent volume finalizers.",
@@ -7133,20 +8448,21 @@
                   "description": "Storage class to use.\nUses the default storage class if not set.",
                   "required": [],
                   "title": "storageClassName",
-                  "type": "null"
+                  "type": [
+                    "string",
+                    "null"
+                  ]
                 }
               },
               "required": [
                 "enabled",
                 "chownInitContainer",
-                "storageClassName",
                 "accessModes",
                 "size",
                 "annotations",
                 "finalizers",
                 "selectorLabels",
-                "claimName",
-                "existingClaim"
+                "claimName"
               ],
               "title": "persistence",
               "type": "object"
@@ -7154,6 +8470,16 @@
             "podDisruptionBudget": {
               "additionalProperties": false,
               "description": "Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.",
+              "properties": {
+                "maxUnavailable": {
+                  "required": [],
+                  "type": "integer"
+                },
+                "minAvailable": {
+                  "required": [],
+                  "type": "integer"
+                }
+              },
               "required": [],
               "title": "podDisruptionBudget",
               "type": "object"
@@ -7168,6 +8494,36 @@
             "resources": {
               "additionalProperties": false,
               "description": "Per-service resources configuration. Overrides the default setting from `resources` if set.",
+              "properties": {
+                "limits": {
+                  "properties": {
+                    "cpu": {
+                      "required": [],
+                      "type": "string"
+                    },
+                    "memory": {
+                      "required": [],
+                      "type": "string"
+                    }
+                  },
+                  "required": [],
+                  "type": "object"
+                },
+                "requests": {
+                  "properties": {
+                    "cpu": {
+                      "required": [],
+                      "type": "string"
+                    },
+                    "memory": {
+                      "required": [],
+                      "type": "string"
+                    }
+                  },
+                  "required": [],
+                  "type": "object"
+                }
+              },
               "required": [],
               "title": "resources",
               "type": "object"
@@ -7327,13 +8683,10 @@
             "storageBackend",
             "maintenance",
             "persistence",
-            "resources",
             "nodeSelector",
             "priorityClassName",
             "jobPriorityClassName",
-            "jobResources",
             "jobNodeSelector",
-            "podDisruptionBudget",
             "autoscaling",
             "affinity",
             "extraLabels",
@@ -7376,7 +8729,10 @@
                   "description": "Image pull policy",
                   "required": [],
                   "title": "pullPolicy",
-                  "type": "null"
+                  "type": [
+                    "string",
+                    "null"
+                  ]
                 },
                 "repository": {
                   "default": "",
@@ -7403,8 +8759,7 @@
               "required": [
                 "repository",
                 "tag",
-                "sha",
-                "pullPolicy"
+                "sha"
               ],
               "title": "image",
               "type": "object"
@@ -7426,6 +8781,36 @@
             "jobResources": {
               "additionalProperties": false,
               "description": "Per-service jobResources configuration. Overrides the default setting from `jobResources` if set.",
+              "properties": {
+                "limits": {
+                  "properties": {
+                    "cpu": {
+                      "required": [],
+                      "type": "string"
+                    },
+                    "memory": {
+                      "required": [],
+                      "type": "string"
+                    }
+                  },
+                  "required": [],
+                  "type": "object"
+                },
+                "requests": {
+                  "properties": {
+                    "cpu": {
+                      "required": [],
+                      "type": "string"
+                    },
+                    "memory": {
+                      "required": [],
+                      "type": "string"
+                    }
+                  },
+                  "required": [],
+                  "type": "object"
+                }
+              },
               "required": [],
               "title": "jobResources",
               "type": "object"
@@ -7492,7 +8877,10 @@
                       "description": "Image pull policy",
                       "required": [],
                       "title": "pullPolicy",
-                      "type": "string"
+                      "type": [
+                        "string",
+                        "null"
+                      ]
                     },
                     "repository": {
                       "default": "busybox",
@@ -7592,7 +8980,10 @@
                   "description": "Use an existing PersistentVolumeClaim for persistence.",
                   "required": [],
                   "title": "existingClaim",
-                  "type": "null"
+                  "type": [
+                    "string",
+                    "null"
+                  ]
                 },
                 "finalizers": {
                   "description": "Persistent volume finalizers.",
@@ -7622,20 +9013,21 @@
                   "description": "Storage class to use.\nUses the default storage class if not set.",
                   "required": [],
                   "title": "storageClassName",
-                  "type": "null"
+                  "type": [
+                    "string",
+                    "null"
+                  ]
                 }
               },
               "required": [
                 "enabled",
                 "chownInitContainer",
-                "storageClassName",
                 "accessModes",
                 "size",
                 "annotations",
                 "finalizers",
                 "selectorLabels",
-                "claimName",
-                "existingClaim"
+                "claimName"
               ],
               "title": "persistence",
               "type": "object"
@@ -7643,6 +9035,16 @@
             "podDisruptionBudget": {
               "additionalProperties": false,
               "description": "Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.",
+              "properties": {
+                "maxUnavailable": {
+                  "required": [],
+                  "type": "integer"
+                },
+                "minAvailable": {
+                  "required": [],
+                  "type": "integer"
+                }
+              },
               "required": [],
               "title": "podDisruptionBudget",
               "type": "object"
@@ -7660,7 +9062,7 @@
                 "maxConcurrencyRequests": {
                   "default": 0,
                   "description": "Number of maximum concurrent thumbnail requests. Default is 0 which is unlimited.",
-                  "minimum": 1,
+                  "minimum": 0,
                   "required": [],
                   "title": "maxConcurrencyRequests",
                   "type": "integer"
@@ -7699,6 +9101,36 @@
             "resources": {
               "additionalProperties": false,
               "description": "Per-service resources configuration. Overrides the default setting from `resources` if set.",
+              "properties": {
+                "limits": {
+                  "properties": {
+                    "cpu": {
+                      "required": [],
+                      "type": "string"
+                    },
+                    "memory": {
+                      "required": [],
+                      "type": "string"
+                    }
+                  },
+                  "required": [],
+                  "type": "object"
+                },
+                "requests": {
+                  "properties": {
+                    "cpu": {
+                      "required": [],
+                      "type": "string"
+                    },
+                    "memory": {
+                      "required": [],
+                      "type": "string"
+                    }
+                  },
+                  "required": [],
+                  "type": "object"
+                }
+              },
               "required": [],
               "title": "resources",
               "type": "object"
@@ -7707,13 +9139,10 @@
           "required": [
             "quota",
             "persistence",
-            "resources",
             "nodeSelector",
             "priorityClassName",
-            "jobResources",
             "jobNodeSelector",
             "jobPriorityClassName",
-            "podDisruptionBudget",
             "maintenance",
             "autoscaling",
             "affinity",
@@ -7757,7 +9186,10 @@
                   "description": "Image pull policy",
                   "required": [],
                   "title": "pullPolicy",
-                  "type": "null"
+                  "type": [
+                    "string",
+                    "null"
+                  ]
                 },
                 "repository": {
                   "default": "",
@@ -7784,8 +9216,7 @@
               "required": [
                 "repository",
                 "tag",
-                "sha",
-                "pullPolicy"
+                "sha"
               ],
               "title": "image",
               "type": "object"
@@ -7800,6 +9231,16 @@
             "podDisruptionBudget": {
               "additionalProperties": false,
               "description": "Configure the store type for the userlog service. Might be `memory` (only for testing), `redis-sentinel`, `nats-js-kv`\ntype:\nProvide a list of comma-separated addresses of `redis-sentinel` or `nats-js` servers here\nif the proper store is selected\naddresses:\n- \"{{ .appNameNats }}:9233\"\nPer-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.",
+              "properties": {
+                "maxUnavailable": {
+                  "required": [],
+                  "type": "integer"
+                },
+                "minAvailable": {
+                  "required": [],
+                  "type": "integer"
+                }
+              },
               "required": [],
               "title": "podDisruptionBudget",
               "type": "object"
@@ -7814,6 +9255,36 @@
             "resources": {
               "additionalProperties": false,
               "description": "Per-service resources configuration. Overrides the default setting from `resources` if set.",
+              "properties": {
+                "limits": {
+                  "properties": {
+                    "cpu": {
+                      "required": [],
+                      "type": "string"
+                    },
+                    "memory": {
+                      "required": [],
+                      "type": "string"
+                    }
+                  },
+                  "required": [],
+                  "type": "object"
+                },
+                "requests": {
+                  "properties": {
+                    "cpu": {
+                      "required": [],
+                      "type": "string"
+                    },
+                    "memory": {
+                      "required": [],
+                      "type": "string"
+                    }
+                  },
+                  "required": [],
+                  "type": "object"
+                }
+              },
               "required": [],
               "title": "resources",
               "type": "object"
@@ -7827,11 +9298,9 @@
             }
           },
           "required": [
-            "resources",
             "nodeSelector",
             "priorityClassName",
             "store",
-            "podDisruptionBudget",
             "autoscaling",
             "affinity",
             "extraLabels",
@@ -7871,10 +9340,13 @@
               "properties": {
                 "pullPolicy": {
                   "default": "",
-                  "description": "Image pull policy",
+                  "description": "Image pull policy\nImage pull policy",
                   "required": [],
                   "title": "pullPolicy",
-                  "type": "null"
+                  "type": [
+                    "string",
+                    "null"
+                  ]
                 },
                 "repository": {
                   "default": "",
@@ -7901,8 +9373,7 @@
               "required": [
                 "repository",
                 "tag",
-                "sha",
-                "pullPolicy"
+                "sha"
               ],
               "title": "image",
               "type": "object"
@@ -7917,6 +9388,16 @@
             "podDisruptionBudget": {
               "additionalProperties": false,
               "description": "Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.",
+              "properties": {
+                "maxUnavailable": {
+                  "required": [],
+                  "type": "integer"
+                },
+                "minAvailable": {
+                  "required": [],
+                  "type": "integer"
+                }
+              },
               "required": [],
               "title": "podDisruptionBudget",
               "type": "object"
@@ -7931,16 +9412,44 @@
             "resources": {
               "additionalProperties": false,
               "description": "Per-service resources configuration. Overrides the default setting from `resources` if set.",
+              "properties": {
+                "limits": {
+                  "properties": {
+                    "cpu": {
+                      "required": [],
+                      "type": "string"
+                    },
+                    "memory": {
+                      "required": [],
+                      "type": "string"
+                    }
+                  },
+                  "required": [],
+                  "type": "object"
+                },
+                "requests": {
+                  "properties": {
+                    "cpu": {
+                      "required": [],
+                      "type": "string"
+                    },
+                    "memory": {
+                      "required": [],
+                      "type": "string"
+                    }
+                  },
+                  "required": [],
+                  "type": "object"
+                }
+              },
               "required": [],
               "title": "resources",
               "type": "object"
             }
           },
           "required": [
-            "resources",
             "nodeSelector",
             "priorityClassName",
-            "podDisruptionBudget",
             "autoscaling",
             "affinity",
             "extraLabels",
@@ -7995,38 +9504,49 @@
                     "resourceBatchActionRequests": {
                       "default": "",
                       "description": "Defines the maximum number of concurrent requests per file/folder/space batch action. If uset, the default of ownCloud Web will be used.",
+                      "minimum": 1,
                       "required": [],
                       "title": "resourceBatchActionRequests",
-                      "type": "null"
+                      "type": [
+                        "integer",
+                        "null"
+                      ]
                     },
                     "shareCreateRequests": {
                       "default": "",
                       "description": "Defines the maximum number of concurrent requests per sharing invite batch. If uset, the default of ownCloud Web will be used.",
+                      "minimum": 1,
                       "required": [],
                       "title": "shareCreateRequests",
-                      "type": "null"
+                      "type": [
+                        "integer",
+                        "null"
+                      ]
                     },
                     "shareListRequests": {
                       "default": "",
                       "description": "Defines the maximum number of concurrent requests when loading individual share information inside listings. If uset, the default of ownCloud Web will be used.",
+                      "minimum": 1,
                       "required": [],
                       "title": "shareListRequests",
-                      "type": "null"
+                      "type": [
+                        "integer",
+                        "null"
+                      ]
                     },
                     "sseRequests": {
                       "default": "",
                       "description": "Defines the maximum number of concurrent requests in SSE event handlers. If uset, the default of ownCloud Web will be used.",
+                      "minimum": 1,
                       "required": [],
                       "title": "sseRequests",
-                      "type": "null"
+                      "type": [
+                        "integer",
+                        "null"
+                      ]
                     }
                   },
-                  "required": [
-                    "resourceBatchActionRequests",
-                    "sseRequests",
-                    "shareCreateRequests",
-                    "shareListRequests"
-                  ],
+                  "required": [],
                   "title": "concurrency",
                   "type": "object"
                 },
@@ -8162,14 +9682,20 @@
                       "description": "Specifies the target url valid for the logged out / access denied page.",
                       "required": [],
                       "title": "loginURL",
-                      "type": "null"
+                      "type": [
+                        "string",
+                        "null"
+                      ]
                     },
                     "postLogoutRedirectURI": {
                       "default": "",
                       "description": "URI where to redirect the user after a logout was performed. Defaults to the URI of the login page.",
                       "required": [],
                       "title": "postLogoutRedirectURI",
-                      "type": "string"
+                      "type": [
+                        "string",
+                        "null"
+                      ]
                     },
                     "webClientID": {
                       "default": "web",
@@ -8188,9 +9714,7 @@
                   },
                   "required": [
                     "webClientScope",
-                    "webClientID",
-                    "postLogoutRedirectURI",
-                    "loginURL"
+                    "webClientID"
                   ],
                   "title": "oidc",
                   "type": "object"
@@ -8306,7 +9830,10 @@
                   "description": "Image pull policy",
                   "required": [],
                   "title": "pullPolicy",
-                  "type": "null"
+                  "type": [
+                    "string",
+                    "null"
+                  ]
                 },
                 "repository": {
                   "default": "",
@@ -8333,8 +9860,7 @@
               "required": [
                 "repository",
                 "tag",
-                "sha",
-                "pullPolicy"
+                "sha"
               ],
               "title": "image",
               "type": "object"
@@ -8398,7 +9924,10 @@
                   "description": "Use an existing PersistentVolumeClaim for persistence.",
                   "required": [],
                   "title": "existingClaim",
-                  "type": "null"
+                  "type": [
+                    "string",
+                    "null"
+                  ]
                 },
                 "finalizers": {
                   "description": "Persistent volume finalizers.",
@@ -8428,20 +9957,21 @@
                   "description": "Storage class to use.\nUses the default storage class if not set.",
                   "required": [],
                   "title": "storageClassName",
-                  "type": "null"
+                  "type": [
+                    "string",
+                    "null"
+                  ]
                 }
               },
               "required": [
                 "enabled",
                 "chownInitContainer",
-                "storageClassName",
                 "accessModes",
                 "size",
                 "annotations",
                 "finalizers",
                 "selectorLabels",
-                "claimName",
-                "existingClaim"
+                "claimName"
               ],
               "title": "persistence",
               "type": "object"
@@ -8449,6 +9979,16 @@
             "podDisruptionBudget": {
               "additionalProperties": false,
               "description": "Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.",
+              "properties": {
+                "maxUnavailable": {
+                  "required": [],
+                  "type": "integer"
+                },
+                "minAvailable": {
+                  "required": [],
+                  "type": "integer"
+                }
+              },
               "required": [],
               "title": "podDisruptionBudget",
               "type": "object"
@@ -8463,6 +10003,36 @@
             "resources": {
               "additionalProperties": false,
               "description": "Per-service resources configuration. Overrides the default setting from `resources` if set.",
+              "properties": {
+                "limits": {
+                  "properties": {
+                    "cpu": {
+                      "required": [],
+                      "type": "string"
+                    },
+                    "memory": {
+                      "required": [],
+                      "type": "string"
+                    }
+                  },
+                  "required": [],
+                  "type": "object"
+                },
+                "requests": {
+                  "properties": {
+                    "cpu": {
+                      "required": [],
+                      "type": "string"
+                    },
+                    "memory": {
+                      "required": [],
+                      "type": "string"
+                    }
+                  },
+                  "required": [],
+                  "type": "object"
+                }
+              },
               "required": [],
               "title": "resources",
               "type": "object"
@@ -8471,10 +10041,8 @@
           "required": [
             "config",
             "persistence",
-            "resources",
             "nodeSelector",
             "priorityClassName",
-            "podDisruptionBudget",
             "autoscaling",
             "affinity",
             "extraLabels",
@@ -8518,7 +10086,10 @@
                   "description": "Image pull policy",
                   "required": [],
                   "title": "pullPolicy",
-                  "type": "null"
+                  "type": [
+                    "string",
+                    "null"
+                  ]
                 },
                 "repository": {
                   "default": "",
@@ -8545,8 +10116,7 @@
               "required": [
                 "repository",
                 "tag",
-                "sha",
-                "pullPolicy"
+                "sha"
               ],
               "title": "image",
               "type": "object"
@@ -8561,6 +10131,16 @@
             "podDisruptionBudget": {
               "additionalProperties": false,
               "description": "Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.",
+              "properties": {
+                "maxUnavailable": {
+                  "required": [],
+                  "type": "integer"
+                },
+                "minAvailable": {
+                  "required": [],
+                  "type": "integer"
+                }
+              },
               "required": [],
               "title": "podDisruptionBudget",
               "type": "object"
@@ -8575,16 +10155,44 @@
             "resources": {
               "additionalProperties": false,
               "description": "Per-service resources configuration. Overrides the default setting from `resources` if set.",
+              "properties": {
+                "limits": {
+                  "properties": {
+                    "cpu": {
+                      "required": [],
+                      "type": "string"
+                    },
+                    "memory": {
+                      "required": [],
+                      "type": "string"
+                    }
+                  },
+                  "required": [],
+                  "type": "object"
+                },
+                "requests": {
+                  "properties": {
+                    "cpu": {
+                      "required": [],
+                      "type": "string"
+                    },
+                    "memory": {
+                      "required": [],
+                      "type": "string"
+                    }
+                  },
+                  "required": [],
+                  "type": "object"
+                }
+              },
               "required": [],
               "title": "resources",
               "type": "object"
             }
           },
           "required": [
-            "resources",
             "nodeSelector",
             "priorityClassName",
-            "podDisruptionBudget",
             "autoscaling",
             "affinity",
             "extraLabels",
@@ -8627,7 +10235,10 @@
                   "description": "Image pull policy",
                   "required": [],
                   "title": "pullPolicy",
-                  "type": "null"
+                  "type": [
+                    "string",
+                    "null"
+                  ]
                 },
                 "repository": {
                   "default": "",
@@ -8654,8 +10265,7 @@
               "required": [
                 "repository",
                 "tag",
-                "sha",
-                "pullPolicy"
+                "sha"
               ],
               "title": "image",
               "type": "object"
@@ -8670,6 +10280,16 @@
             "podDisruptionBudget": {
               "additionalProperties": false,
               "description": "Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.",
+              "properties": {
+                "maxUnavailable": {
+                  "required": [],
+                  "type": "integer"
+                },
+                "minAvailable": {
+                  "required": [],
+                  "type": "integer"
+                }
+              },
               "required": [],
               "title": "podDisruptionBudget",
               "type": "object"
@@ -8684,16 +10304,44 @@
             "resources": {
               "additionalProperties": false,
               "description": "Per-service resources configuration. Overrides the default setting from `resources` if set.",
+              "properties": {
+                "limits": {
+                  "properties": {
+                    "cpu": {
+                      "required": [],
+                      "type": "string"
+                    },
+                    "memory": {
+                      "required": [],
+                      "type": "string"
+                    }
+                  },
+                  "required": [],
+                  "type": "object"
+                },
+                "requests": {
+                  "properties": {
+                    "cpu": {
+                      "required": [],
+                      "type": "string"
+                    },
+                    "memory": {
+                      "required": [],
+                      "type": "string"
+                    }
+                  },
+                  "required": [],
+                  "type": "object"
+                }
+              },
               "required": [],
               "title": "resources",
               "type": "object"
             }
           },
           "required": [
-            "resources",
             "nodeSelector",
             "priorityClassName",
-            "podDisruptionBudget",
             "autoscaling",
             "affinity",
             "extraLabels",
@@ -8852,13 +10500,9 @@
     "topologySpreadConstraints",
     "extraLabels",
     "backup",
-    "namespaceOverride",
     "replicas",
-    "podDisruptionBudget",
     "autoscaling",
-    "resources",
     "nodeSelector",
-    "jobResources",
     "jobNodeSelector",
     "jobPriorityClassName",
     "priorityClassName",

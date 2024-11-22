@@ -7,6 +7,10 @@ image:
   tag: ""
   # -- Image sha / digest (optional).
   sha: ""
+  # @schema
+  # type: [string, null]
+  # required: true
+  # @schema
   # -- Image pull policy
   pullPolicy: IfNotPresent
   # -- Names of the secret containing the credentials to pull an image from the registry. More
@@ -27,6 +31,10 @@ initContainerImage:
   tag: "stable"
   # -- Image sha / digest (optional).
   sha: ""
+  # @schema
+  # type: [string, null]
+  # required: true
+  # @schema
   # -- Image pull policy
   pullPolicy: IfNotPresent
 
@@ -242,15 +250,36 @@ features:
     # -- Enables email notifications.
     enabled: false
     smtp:
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- SMTP host to connect to.
       host:
+      # @schema
+      # type: [integer, null]
+      # minimum: 1
+      # required: false
+      # @schema
       # -- Port of the SMTP host to connect to.
       port:
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Sender address of emails that will be sent. Example: 'ownCloud <noreply@example.com>'
       sender:
+      # @schema
+      # enum: [auto, login, plain, crammd5, none]
+      # required: true
+      # @schema
       # -- Authentication method for the SMTP communication. Possible values are ‘login’, ‘plain’, ‘crammd5’, ‘none’, 'auto'
       # If set to another value than `none`, a secret referenced by `notificationsSmtpSecretRef` needs to be present.
       authentication: auto
+      # @schema
+      # enum: [starttls, ssl, ssltls, tls, none]
+      # required: true
+      # @schema
       # -- Encryption method for the SMTP communication. Possible values are `starttls`, `ssl`, `ssltls`, `tls` and `none`
       encryption: ssltls
     branding:
@@ -321,17 +350,18 @@ features:
     enabled: false
     # WOPI (office suite integration) needs an https://github.com/cs3org/wopiserver[cs3org/wopiserver] and at least one office suite.
     wopiIntegration:
-      # -- URL of the https://github.com/cs3org/wopiserver[cs3org/wopiserver]. Can be deployed https://artifacthub.io/packages/helm/cs3org/wopiserver[with this Chart].
-      wopiServerURI: ""
-      # -- Base url to navigate back from the app to the containing folder in the file list.
-      wopiFolderURI: https://{{ .Values.externalDomain }}
-      # -- Path template for the url to navigate back from the app to the containing folder in the file list.
-      # null uses the default value of oCIS, so that one also can set it to "" to not have a path template.
-      wopiFolderURIPathTemplate: null
       # List of WOPI compliant office suites.
       officeSuites:
-        - # -- Name of the office suite. Will be displayed to the users.
+        - # @schema
+          # type: string
+          # required: true
+          # @schema
+          # -- Name of the office suite. Will be displayed to the users.
           name: Collabora
+          # @schema
+          # type: string
+          # required: true
+          # @schema
           # -- Product type of the office suite. Will be used to determine certain product specifics.
           # Supports "Collabora", "OnlyOffice", "Microsoft365" or "MicrosoftOfficeOnline".
           product: Collabora
@@ -341,8 +371,12 @@ features:
           # @schema
           # -- Enables the office suite.
           enabled: false
+          # @schema
+          # type: [string, null]
+          # required: true
+          # @schema
           # -- URI of the office suite.
-          uri: ""
+          uri:
           # -- URI for the icon of the office suite. Will be displayed to the users.
           iconURI: ""
           # @schema
@@ -379,8 +413,16 @@ features:
             # @schema
             # -- Enables the Ingress. Only needed if the office application is not running within the same cluster.
             enabled: false
+            # @schema
+            # type: [string, null]
+            # required: true
+            # @schema
             # -- Domain of the Ingress.
-            domain: ""
+            domain:
+            # @schema
+            # type: [string, null]
+            # required: false
+            # @schema
             # -- Ingress class to use.
             # Uses the default ingress class if not set.
             ingressClassName:
@@ -441,6 +483,10 @@ features:
             enabled: false
             # -- Domain of the Ingress.
             domain: ""
+            # @schema
+            # type: string
+            # required: false
+            # @schema
             # -- Ingress class to use.
             # Uses the default ingress class if not set.
             ingressClassName:
@@ -568,6 +614,10 @@ features:
       # The password for the user needs to be set in the secret referenced by `secretRefs.ldapSecretRef` as `reva-ldap-bind-password`.
       # The user needs to have permission to list users and groups.
       bindDN: uid=ocis,ou=system-users,dc=owncloud,dc=test
+      # @schema
+      # type: boolean
+      # required: true
+      # @schema
       # -- Signals that the LDAP server has the refint plugin enabled, which makes some actions not needed.
       refintEnabled: false
       # -- Use the Password Modify Extended Operation for updating user passwords.
@@ -576,63 +626,163 @@ features:
       useServerUUID: false
       user:
         schema:
+          # @schema
+          # type: string
+          # required: true
+          # @schema
           # -- LDAP Attribute to use as the unique id for users. This should be a stable globally unique id like a UUID.
           id: ownclouduuid
+          # @schema
+          # type: boolean
+          # required: true
+          # @schema
           # -- Set this to true if the defined `id` attribute for users is of the `OCTETSTRING` syntax. This is e.g. required when using the `objectGUID` attribute of Active Directory for the user ID`s.
           idIsOctetString: false
+          # @schema
+          # type: string
+          # required: true
+          # @schema
           # -- LDAP Attribute to use for the email address of users.
           mail: mail
+          # @schema
+          # type: string
+          # required: true
+          # @schema
           # -- LDAP Attribute to use for the displayname of users.
           displayName: displayname
+          # @schema
+          # type: string
+          # required: true
+          # @schema
           # -- LDAP Attribute to use for username of users.
           userName: uid
+          # @schema
+          # type: string
+          # required: true
+          # @schema
           # -- LDAP Attribute to distinguish between 'Member' and 'Guest' users. Default is 'ownCloudUserType'.
           userType: ownCloudUserType
+        # @schema
+        # type: string
+        # required: true
+        # @schema
         # -- Search base DN for looking up LDAP users.
         baseDN: ou=users,dc=owncloud,dc=com
+        # @schema
+        # type: string
+        # required: true
+        # @schema
         # -- LDAP search scope to use when looking up users. Supported values are `base`, `one` and `sub`.
         scope: sub
+        # @schema
+        # type: string
+        # required: true
+        # @schema
         # -- Type of substring search filter to use for substring searches for users. Possible values: `initial` for doing prefix only searches, `final` for doing suffix only searches or `any` for doing full substring searches
         substringFilterType: any
+        # @schema
+        # type: [string, null]
+        # required: false
+        # @schema
         # -- LDAP filter to add to the default filters for user search like `(objectclass=ownCloud)`.
         filter:
         # -- The object class to use for users in the default user search filter like `inetOrgPerson`.
         objectClass: inetOrgPerson
+        # @schema
+        # enum: [default, none]
+        # required: true
+        # @schema
         # -- Apply restrictions to usernames. Supported values are 'default' and 'none'. When set to 'default', user names must not start with a number and are restricted to ASCII characters. When set to 'none', no restrictions are applied. The default value is 'default'.
         userNameMatch: default
       group:
         schema:
+          # @schema
+          # type: string
+          # required: true
+          # @schema
           # -- LDAP Attribute to use as the unique ID for groups. This should be a stable globally unique ID like a UUID.
           id: ownclouduuid
+          # @schema
+          # type: boolean
+          # required: true
+          # @schema
           # -- Set this to true if the defined `id` attribute for groups is of the `OCTETSTRING` syntax. This is e.g. required when using the `objectGUID` attribute of Active Directory for the group ID`s.
           idIsOctetString: false
+          # @schema
+          # type: string
+          # required: true
+          # @schema
           # -- LDAP Attribute to use for the email address of groups (can be empty).
           mail: mail
+          # @schema
+          # type: string
+          # required: true
+          # @schema
           # -- LDAP Attribute to use for the displayname of groups (often the same as groupname attribute).
           displayName: cn
+          # @schema
+          # type: string
+          # required: true
+          # @schema
           # -- LDAP Attribute to use for the name of groups.
           groupName: cn
+          # @schema
+          # type: string
+          # required: true
+          # @schema
           # -- LDAP Attribute that is used for group members.
           member: member
+        # @schema
+        # type: string
+        # required: true
+        # @schema
         # -- Search base DN for looking up LDAP groups.
         baseDN: ou=groups,dc=owncloud,dc=com
+        # @schema
+        # type: string
+        # required: true
+        # @schema
         # -- BaseDN where new groups are created and are considered as editable.
         # All existing groups with a DN outside the `features.externalUserManagement.ldap.group.createBaseDN` will be treated as read-only groups.
         # Defaults to the value `features.externalUserManagement.ldap.group.baseDN`.
         # Only applicable if `features.externalUserManagement.ldap.writeable` is set to `true`
         createBaseDN: ""
+        # @schema
+        # type: string
+        # required: true
+        # @schema
         # -- LDAP search scope to use when looking up groups. Supported values are `base`, `one` and `sub`.
         scope: sub
+        # @schema
+        # type: [string, null]
+        # required: false
+        # @schema
         # -- LDAP filter to add to the default filters for group searches.
         filter:
+        # @schema
+        # type: string
+        # required: true
+        # @schema
         # -- The object class to use for groups in the default group search filter like `groupOfNames`.
         objectClass: groupOfNames
       # When using external user management, users can be set as disabled by either belonging to a group or using an ldap attribute.
       disableUsers:
+        # @schema
+        # enum: [none, attribute, group]
+        # required: true
+        # @schema
         # -- Enables disabling users if configured as "attribute" or "group"
         disableMechanism: none
+        # @schema
+        # type: string
+        # required: true
+        # @schema
         # -- Attribute to use for disabling users.
         userEnabledAttribute: ownCloudUserEnabled
+        # @schema
+        # type: string
+        # required: true
+        # @schema
         # -- Group that a user can be added to and by that being marked as disabled.
         disabledUsersGroupDN: "cn=DisabledUsersGroup,ou=groups,o=libregraph-idm"
 
@@ -657,12 +807,22 @@ features:
         insecure: false
   # Define custom roles here. Note that the definition will be either or. So you cannot provide a ConfigMap name and text at once.
   roles:
+    # @schema
+    # type: [string, null]
+    # required: false
+    # @schema
+    # -- Image pull policy
     # -- Define the roles by specifying a name of a ConfigMap which already contains the the role description (might also be defined in the `extraResources` section).
     # The ConfigMap needs to contain a file named `custom-roles.json` which holds the role description in JSON format
     # Please note that you have to restart the settings service manually if you change the content of you ConfigMap.
     customRolesConfigRef:
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
+      # -- Image pull policy
     # -- Define the roles by providing the JSON text here.
-    customRoles: ""
+    customRoles:
     # -- Define a list of unified roles to make them available.
     # The default of an empty list means all unified roles are available.
     # You can read about unified roles in https://doc.owncloud.com/ocis/next/deployment/services/s-list/graph.html.
@@ -671,8 +831,16 @@ features:
     availableUnifiedRoles: []
   # Define quota settings.
   quotas:
+    # @schema
+    # type: [string, null]
+    # required: false
+    # @schema
     # -- Sets the maximum quota for spaces in bytes. So 1000 sets the max quota to 1KB.
     max:
+    # @schema
+    # type: [string, null]
+    # required: false
+    # @schema
     # -- Sets the default quota for spaces in bytes. So 1000 sets the default quota to 1KB. 0 means unlimited.
     default:
     # -- Sets specific quotas for roles
@@ -697,6 +865,10 @@ features:
     # Continue will mark the file as infected but continues further processing.
     # Abort will keep the file in the uploads folder for further admin inspection and will not move it to its final destination.
     infectedFileHandling: delete
+    # @schema
+    # type: [string, null]
+    # required: false
+    # @schema
     # -- Sets a maximum file size for scans. Only this many bytes of a file will be scanned. 0 means unlimited and is the default.
     # Usable common abbreviations: [KB, KiB, MB, MiB, GB, GiB, TB, TiB, PB, PiB, EB, EiB], example: 2GB.
     maxScanSize:
@@ -765,8 +937,8 @@ ingress:
   # -- Enables the Ingress.
   enabled: false
   # @schema
-  # type: [null, string]
-  # required: true
+  # type: [string, null]
+  # required: false
   # @schema
   # -- Ingress class to use.
   # Uses the default ingress class if not set.
@@ -919,17 +1091,24 @@ backup:
   # -- Labels that are added to PVCs that are manged by this Chart and must be included in a backup when backing up Kubernetes resources.
   pvcLabels: {}
 
+# @schema
+# type: [string, null]
+# required: false
+# @schema
 # -- Override the deployment namespace of all resources in this Helm chart.
 namespaceOverride:
 
-  # @schema
-  # type: integer
-  # minimum: 1
-  # required: true
-  # @schema
+# @schema
+# type: integer
+# minimum: 1
+# required: true
+# @schema
 # -- Number of replicas for each scalable service. Has no effect when `autoscaling.enabled` is set to `true`.
 replicas: 1
 
+# @schema
+# $ref: schema/templates.json#/podDisruptionBudgetTemplate
+# @schema
 # -- Default PodDisruptionBudget to apply to all services, except per-service PodDisruptionBudget configuration in `services.<service-name>.podDisruptionBudget` is set.
 podDisruptionBudget:
   {}
@@ -969,6 +1148,9 @@ autoscaling:
 #         type: Utilization
 #         averageUtilization: 60
 
+# @schema
+# $ref: schema/templates.json#/resourcesTemplate
+# @schema
 # -- Default resources to apply to all services, except per-service resources configuration in `services.<service-name>.resources` is set.
 # Best practice is to:
 # - set memory request == memory limit (compare to https://home.robusta.dev/blog/kubernetes-memory-limit)
@@ -988,6 +1170,9 @@ nodeSelector:
   # kubernetes.io/hostname: node-01
   # kubernetes.io/arch: "amd64"
 
+# @schema
+# $ref: schema/templates.json#/resourcesTemplate
+# @schema
 # -- Default resources to apply to all jobs in services, except per-service resources configuration in `services.<service-name>.jobResources` is set.
 # Best practice is to:
 # - set memory request == memory limit (compare to https://home.robusta.dev/blog/kubernetes-memory-limit)
@@ -1046,6 +1231,9 @@ services:
   # -- ACTIVITYLOG service.
   # @default -- see detailed service configuration options below
   activitylog:
+    # @schema
+    # $ref: schema/templates.json#/resourcesTemplate
+    # @schema
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
     # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
@@ -1061,6 +1249,9 @@ services:
       # if the proper store is selected
       # addresses:
       # - "{{ .appNameNats }}:9233"
+    # @schema
+    # $ref: schema/templates.json#/podDisruptionBudgetTemplate
+    # @schema
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
     podDisruptionBudget: {}
     # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
@@ -1077,18 +1268,28 @@ services:
       tag: ""
       # -- Image sha / digest (optional).
       sha: ""
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Image pull policy
       pullPolicy:
 
   # -- COLLABORATION service. Not used if `features.appsIntegration.enabled` equals `false`.
   # @default -- see detailed service configuration options below
   collaboration:
+    # @schema
+    # $ref: schema/templates.json#/resourcesTemplate
+    # @schema
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
     # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
     nodeSelector: {}
     # -- Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
     priorityClassName: ""
+    # @schema
+    # $ref: schema/templates.json#/podDisruptionBudgetTemplate
+    # @schema
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
     podDisruptionBudget: {}
     # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
@@ -1132,12 +1333,19 @@ services:
       tag: ""
       # -- Image sha / digest (optional).
       sha: ""
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Image pull policy
       pullPolicy:
 
   # -- APP REGISTRY service. Not used if `features.appsIntegration.enabled` equals `false`.
   # @default -- see detailed service configuration options below
   appregistry:
+    # @schema
+    # $ref: schema/templates.json#/resourcesTemplate
+    # @schema
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
     # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
@@ -1156,18 +1364,28 @@ services:
       tag: ""
       # -- Image sha / digest (optional).
       sha: ""
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Image pull policy
       pullPolicy:
 
   # -- AUDIT service.
   # @default -- see detailed service configuration options below
   audit:
+    # @schema
+    # $ref: schema/templates.json#/resourcesTemplate
+    # @schema
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
     # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
     nodeSelector: {}
     # -- Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
     priorityClassName: ""
+    # @schema
+    # $ref: schema/templates.json#/podDisruptionBudgetTemplate
+    # @schema
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
     podDisruptionBudget: {}
     # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
@@ -1184,18 +1402,28 @@ services:
       tag: ""
       # -- Image sha / digest (optional).
       sha: ""
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Image pull policy
       pullPolicy:
 
   # -- AUTH MACHINE service.
   # @default -- see detailed service configuration options below
   authmachine:
+    # @schema
+    # $ref: schema/templates.json#/resourcesTemplate
+    # @schema
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
     # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
     nodeSelector: {}
     # -- Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
     priorityClassName: ""
+    # @schema
+    # $ref: schema/templates.json#/podDisruptionBudgetTemplate
+    # @schema
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
     podDisruptionBudget: {}
     # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
@@ -1212,18 +1440,28 @@ services:
       tag: ""
       # -- Image sha / digest (optional).
       sha: ""
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Image pull policy
       pullPolicy:
 
   # -- AUTH SERVICE service.
   # @default -- see detailed service configuration options below
   authservice:
+    # @schema
+    # $ref: schema/templates.json#/resourcesTemplate
+    # @schema
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
     # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
     nodeSelector: {}
     # -- Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
     priorityClassName: ""
+    # @schema
+    # $ref: schema/templates.json#/podDisruptionBudgetTemplate
+    # @schema
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
     podDisruptionBudget: {}
     # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
@@ -1240,6 +1478,10 @@ services:
       tag: ""
       # -- Image sha / digest (optional).
       sha: ""
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Image pull policy
       pullPolicy:
 
@@ -1255,12 +1497,18 @@ services:
         # @schema
         # -- Number of event consumers to be started that concurrently consume events.
         concurrency: 10
+    # @schema
+    # $ref: schema/templates.json#/resourcesTemplate
+    # @schema
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
     # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
     nodeSelector: {}
     # -- Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
     priorityClassName: ""
+    # @schema
+    # $ref: schema/templates.json#/podDisruptionBudgetTemplate
+    # @schema
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
     podDisruptionBudget: {}
     # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
@@ -1277,18 +1525,28 @@ services:
       tag: ""
       # -- Image sha / digest (optional).
       sha: ""
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Image pull policy
       pullPolicy:
 
   # -- CLIENTLOG service.
   # @default -- see detailed service configuration options below
   clientlog:
+    # @schema
+    # $ref: schema/templates.json#/resourcesTemplate
+    # @schema
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
     # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
     nodeSelector: {}
     # -- Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
     priorityClassName: ""
+    # @schema
+    # $ref: schema/templates.json#/podDisruptionBudgetTemplate
+    # @schema
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
     podDisruptionBudget: {}
     # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
@@ -1305,12 +1563,19 @@ services:
       tag: ""
       # -- Image sha / digest (optional).
       sha: ""
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Image pull policy
       pullPolicy:
 
   # -- EVENT HISTORY service.
   # @default -- see detailed service configuration options below
   eventhistory:
+    # @schema
+    # $ref: schema/templates.json#/resourcesTemplate
+    # @schema
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
     # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
@@ -1326,6 +1591,9 @@ services:
       # if the proper store is selected
       # addresses: []
       # - "{{ .appNameNats }}:9233"
+    # @schema
+    # $ref: schema/templates.json#/podDisruptionBudgetTemplate
+    # @schema
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
     podDisruptionBudget: {}
     # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
@@ -1342,6 +1610,10 @@ services:
       tag: ""
       # -- Image sha / digest (optional).
       sha: ""
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Image pull policy
       pullPolicy:
 
@@ -1357,12 +1629,18 @@ services:
         # @schema
         # -- Number of event consumers to be started that concurrently consume events (used for auto-accepting shares, see `features.sharing.autoAcceptShares`)
         concurrency: 100
+    # @schema
+    # $ref: schema/templates.json#/resourcesTemplate
+    # @schema
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
     # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
     nodeSelector: {}
     # -- Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
     priorityClassName: ""
+    # @schema
+    # $ref: schema/templates.json#/podDisruptionBudgetTemplate
+    # @schema
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
     podDisruptionBudget: {}
     # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
@@ -1379,18 +1657,28 @@ services:
       tag: ""
       # -- Image sha / digest (optional).
       sha: ""
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Image pull policy
       pullPolicy:
 
   # -- GATEWAY service.
   # @default -- see detailed service configuration options below
   gateway:
+    # @schema
+    # $ref: schema/templates.json#/resourcesTemplate
+    # @schema
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
     # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
     nodeSelector: {}
     # -- Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
     priorityClassName: ""
+    # @schema
+    # $ref: schema/templates.json#/podDisruptionBudgetTemplate
+    # @schema
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
     podDisruptionBudget: {}
     # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
@@ -1407,18 +1695,28 @@ services:
       tag: ""
       # -- Image sha / digest (optional).
       sha: ""
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Image pull policy
       pullPolicy:
 
   # -- GRAPH service.
   # @default -- see detailed service configuration options below
   graph:
+    # @schema
+    # $ref: schema/templates.json#/resourcesTemplate
+    # @schema
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
     # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
     nodeSelector: {}
     # -- Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
     priorityClassName: ""
+    # @schema
+    # $ref: schema/templates.json#/podDisruptionBudgetTemplate
+    # @schema
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
     podDisruptionBudget: {}
     # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
@@ -1435,18 +1733,28 @@ services:
       tag: ""
       # -- Image sha / digest (optional).
       sha: ""
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Image pull policy
       pullPolicy:
 
   # -- GROUPS service.
   # @default -- see detailed service configuration options below
   groups:
+    # @schema
+    # $ref: schema/templates.json#/resourcesTemplate
+    # @schema
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
     # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
     nodeSelector: {}
     # -- Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
     priorityClassName: ""
+    # @schema
+    # $ref: schema/templates.json#/podDisruptionBudgetTemplate
+    # @schema
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
     podDisruptionBudget: {}
     # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
@@ -1463,6 +1771,10 @@ services:
       tag: ""
       # -- Image sha / digest (optional).
       sha: ""
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Image pull policy
       pullPolicy:
 
@@ -1489,6 +1801,10 @@ services:
       # This is not needed if the driver applies the fsGroup from the securityContext.
       # The image specified in `initContainerImage` will be used for this container.
       chownInitContainer: false
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Storage class to use.
       # Uses the default storage class if not set.
       storageClassName:
@@ -1506,8 +1822,15 @@ services:
       selectorLabels: {}
       # -- Use a custom name for the PVC instead of the default one.
       claimName: ""
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Use an existing PersistentVolumeClaim for persistence.
       existingClaim:
+    # @schema
+    # $ref: schema/templates.json#/resourcesTemplate
+    # @schema
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
     # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
@@ -1526,12 +1849,19 @@ services:
       tag: ""
       # -- Image sha / digest (optional).
       sha: ""
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Image pull policy
       pullPolicy:
 
   # -- IDP service. Not used if `features.externalUserManagement.enabled` equals `true`.
   # @default -- see detailed service configuration options below
   idp:
+    # @schema
+    # $ref: schema/templates.json#/resourcesTemplate
+    # @schema
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
     # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
@@ -1550,6 +1880,10 @@ services:
       tag: ""
       # -- Image sha / digest (optional).
       sha: ""
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Image pull policy
       pullPolicy:
 
@@ -1576,6 +1910,10 @@ services:
       # This is not needed if the driver applies the fsGroup from the securityContext.
       # The image specified in `initContainerImage` will be used for this container.
       chownInitContainer: false
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Storage class to use.
       # Uses the default storage class if not set.
       storageClassName:
@@ -1593,8 +1931,15 @@ services:
       selectorLabels: {}
       # -- Use a custom name for the PVC instead of the default one.
       claimName: ""
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Use an existing PersistentVolumeClaim for persistence.
       existingClaim:
+    # @schema
+    # $ref: schema/templates.json#/resourcesTemplate
+    # @schema
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
     # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
@@ -1613,18 +1958,28 @@ services:
       tag: ""
       # -- Image sha / digest (optional).
       sha: ""
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Image pull policy
       pullPolicy:
 
   # -- NOTIFICATIONS service. Not used if `features.emailNotifications.enabled` equals `true`.
   # @default -- see detailed service configuration options below
   notifications:
+    # @schema
+    # $ref: schema/templates.json#/resourcesTemplate
+    # @schema
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
     # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
     nodeSelector: {}
     # -- Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
     priorityClassName: ""
+    # @schema
+    # $ref: schema/templates.json#/podDisruptionBudgetTemplate
+    # @schema
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
     podDisruptionBudget: {}
     # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
@@ -1641,18 +1996,28 @@ services:
       tag: ""
       # -- Image sha / digest (optional).
       sha: ""
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Image pull policy
       pullPolicy:
 
   # -- OCDAV service.
   # @default -- see detailed service configuration options below
   ocdav:
+    # @schema
+    # $ref: schema/templates.json#/resourcesTemplate
+    # @schema
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
     # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
     nodeSelector: {}
     # -- Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
     priorityClassName: ""
+    # @schema
+    # $ref: schema/templates.json#/podDisruptionBudgetTemplate
+    # @schema
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
     podDisruptionBudget: {}
     # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
@@ -1669,12 +2034,19 @@ services:
       tag: ""
       # -- Image sha / digest (optional).
       sha: ""
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Image pull policy
       pullPolicy:
 
   # -- OCM service.
   # @default -- see detailed service configuration options below
   ocm:
+    # @schema
+    # $ref: schema/templates.json#/resourcesTemplate
+    # @schema
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
     # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
@@ -1693,6 +2065,10 @@ services:
       tag: ""
       # -- Image sha / digest (optional).
       sha: ""
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Image pull policy
       pullPolicy:
     # -- Persistence settings.
@@ -1712,6 +2088,10 @@ services:
       # This is not needed if the driver applies the fsGroup from the securityContext.
       # The image specified in `initContainerImage` will be used for this container.
       chownInitContainer: false
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Storage class to use.
       # Uses the default storage class if not set.
       storageClassName:
@@ -1729,18 +2109,28 @@ services:
       selectorLabels: {}
       # -- Use a custom name for the PVC instead of the default one.
       claimName: ""
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Use an existing PersistentVolumeClaim for persistence.
       existingClaim:
 
   # -- OCS service.
   # @default -- see detailed service configuration options below
   ocs:
+    # @schema
+    # $ref: schema/templates.json#/resourcesTemplate
+    # @schema
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
     # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
     nodeSelector: {}
     # -- Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
     priorityClassName: ""
+    # @schema
+    # $ref: schema/templates.json#/podDisruptionBudgetTemplate
+    # @schema
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
     podDisruptionBudget: {}
     # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
@@ -1757,18 +2147,28 @@ services:
       tag: ""
       # -- Image sha / digest (optional).
       sha: ""
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Image pull policy
       pullPolicy:
 
   # -- POLICIES service.
   # @default -- see detailed service configuration options below
   policies:
+    # @schema
+    # $ref: schema/templates.json#/resourcesTemplate
+    # @schema
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
     # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
     nodeSelector: {}
     # -- Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
     priorityClassName: ""
+    # @schema
+    # $ref: schema/templates.json#/podDisruptionBudgetTemplate
+    # @schema
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
     podDisruptionBudget: {}
     # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
@@ -1785,6 +2185,10 @@ services:
       tag: ""
       # -- Image sha / digest (optional).
       sha: ""
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Image pull policy
       pullPolicy:
 
@@ -1800,12 +2204,18 @@ services:
         # @schema
         # -- Number of event consumers to be started that concurrently consume events
         concurrency: 3
+    # @schema
+    # $ref: schema/templates.json#/resourcesTemplate
+    # @schema
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
     # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
     nodeSelector: {}
     # -- Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
     priorityClassName: ""
+    # @schema
+    # $ref: schema/templates.json#/podDisruptionBudgetTemplate
+    # @schema
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
     podDisruptionBudget: {}
     # -- Per-service store configuration for the eventhistory service. Overrides the default setting from `store` if set.
@@ -1824,6 +2234,10 @@ services:
       tag: ""
       # -- Image sha / digest (optional).
       sha: ""
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Image pull policy
       pullPolicy:
 
@@ -1840,13 +2254,18 @@ services:
     #        service: com.owncloud.some-namespace.some-service
     #        unprotected: true
     #
-
+    # @schema
+    # $ref: schema/templates.json#/resourcesTemplate
+    # @schema
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
     # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
     nodeSelector: {}
     # -- Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
     priorityClassName: ""
+    # @schema
+    # $ref: schema/templates.json#/podDisruptionBudgetTemplate
+    # @schema
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
     podDisruptionBudget: {}
     # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
@@ -1863,6 +2282,10 @@ services:
       tag: ""
       # -- Image sha / digest (optional).
       sha: ""
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Image pull policy
       pullPolicy:
 
@@ -1876,6 +2299,11 @@ services:
       # - `basic`: the default search extractor.
       # - `tika`: the Tika search extractor. If set to this value, additional settings in the `tika` section apply.
       type: basic
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
+      # -- Image pull policy
       # -- Configures the maximum file size in bytes that is allowed for content extraction.
       # For the default value see https://doc.owncloud.com/ocis/next/deployment/services/s-list/search.html
       sizeLimit:
@@ -1904,6 +2332,10 @@ services:
       # This is not needed if the driver applies the fsGroup from the securityContext.
       # The image specified in `initContainerImage` will be used for this container.
       chownInitContainer: false
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Storage class to use.
       # Uses the default storage class if not set.
       storageClassName:
@@ -1921,14 +2353,24 @@ services:
       selectorLabels: {}
       # -- Use a custom name for the PVC instead of the default one.
       claimName: ""
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Use an existing PersistentVolumeClaim for persistence.
       existingClaim:
+    # @schema
+    # $ref: schema/templates.json#/resourcesTemplate
+    # @schema
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
     # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
     nodeSelector: {}
     # -- Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
     priorityClassName: ""
+    # @schema
+    # $ref: schema/templates.json#/podDisruptionBudgetTemplate
+    # @schema
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
     podDisruptionBudget: {}
     # -- Affinity settings for the search service. See the documentation of this setting in approvider for examples.
@@ -1943,18 +2385,28 @@ services:
       tag: ""
       # -- Image sha / digest (optional).
       sha: ""
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Image pull policy
       pullPolicy:
 
   # -- SETTINGS service.
   # @default -- see detailed service configuration options below
   settings:
+    # @schema
+    # $ref: schema/templates.json#/resourcesTemplate
+    # @schema
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
     # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
     nodeSelector: {}
     # -- Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
     priorityClassName: ""
+    # @schema
+    # $ref: schema/templates.json#/podDisruptionBudgetTemplate
+    # @schema
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
     podDisruptionBudget: {}
     # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
@@ -1971,18 +2423,28 @@ services:
       tag: ""
       # -- Image sha / digest (optional).
       sha: ""
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Image pull policy
       pullPolicy:
 
   # -- SHARING service.
   # @default -- see detailed service configuration options below
   sharing:
+    # @schema
+    # $ref: schema/templates.json#/resourcesTemplate
+    # @schema
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
     # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
     nodeSelector: {}
     # -- Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
     priorityClassName: ""
+    # @schema
+    # $ref: schema/templates.json#/podDisruptionBudgetTemplate
+    # @schema
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
     podDisruptionBudget: {}
     # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
@@ -1999,6 +2461,10 @@ services:
       tag: ""
       # -- Image sha / digest (optional).
       sha: ""
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Image pull policy
       pullPolicy:
 
@@ -2008,12 +2474,18 @@ services:
     connections:
       # -- To prevent intermediate proxies from closing the SSE connection, send periodic SSE comments to keep it open.
       keepaliveInterval: 30s
+    # @schema
+    # $ref: schema/templates.json#/resourcesTemplate
+    # @schema
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
     # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
     nodeSelector: {}
     # -- Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
     priorityClassName: ""
+    # @schema
+    # $ref: schema/templates.json#/podDisruptionBudgetTemplate
+    # @schema
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
     podDisruptionBudget: {}
     # -- Per-service store configuration for the eventhistory service. Overrides the default setting from `store` if set.
@@ -2032,18 +2504,28 @@ services:
       tag: ""
       # -- Image sha / digest (optional).
       sha: ""
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Image pull policy
       pullPolicy:
 
   # -- STORAGE-PUBLICLINK service.
   # @default -- see detailed service configuration options below
   storagepubliclink:
+    # @schema
+    # $ref: schema/templates.json#/resourcesTemplate
+    # @schema
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
     # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
     nodeSelector: {}
     # -- Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
     priorityClassName: ""
+    # @schema
+    # $ref: schema/templates.json#/podDisruptionBudgetTemplate
+    # @schema
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
     podDisruptionBudget: {}
     # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
@@ -2060,18 +2542,28 @@ services:
       tag: ""
       # -- Image sha / digest (optional).
       sha: ""
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Image pull policy
       pullPolicy:
 
   # -- STORAGE-SHARES service.
   # @default -- see detailed service configuration options below
   storageshares:
+    # @schema
+    # $ref: schema/templates.json#/resourcesTemplate
+    # @schema
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
     # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
     nodeSelector: {}
     # -- Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
     priorityClassName: ""
+    # @schema
+    # $ref: schema/templates.json#/podDisruptionBudgetTemplate
+    # @schema
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
     podDisruptionBudget: {}
     # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
@@ -2088,6 +2580,10 @@ services:
       tag: ""
       # -- Image sha / digest (optional).
       sha: ""
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Image pull policy
       pullPolicy:
 
@@ -2115,6 +2611,10 @@ services:
       # This is not needed if the driver applies the fsGroup from the securityContext.
       # The image specified in `initContainerImage` will be used for this container.
       chownInitContainer: false
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Storage class to use.
       # Uses the default storage class if not set.
       storageClassName:
@@ -2132,14 +2632,24 @@ services:
       selectorLabels: {}
       # -- Use a custom name for the PVC instead of the default one.
       claimName: ""
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Use an existing PersistentVolumeClaim for persistence.
       existingClaim:
+    # @schema
+    # $ref: schema/templates.json#/resourcesTemplate
+    # @schema
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
     # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
     nodeSelector: {}
     # -- Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
     priorityClassName: ""
+    # @schema
+    # $ref: schema/templates.json#/podDisruptionBudgetTemplate
+    # @schema
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
     podDisruptionBudget: {}
     # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
@@ -2156,6 +2666,10 @@ services:
       tag: ""
       # -- Image sha / digest (optional).
       sha: ""
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Image pull policy
       pullPolicy:
 
@@ -2321,6 +2835,10 @@ services:
         tag: ""
         # -- Image sha / digest (optional).
         sha: ""
+        # @schema
+        # type: [string, null]
+        # required: false
+        # @schema
         # -- Image pull policy
         pullPolicy:
 
@@ -2345,6 +2863,10 @@ services:
       # This is not needed if the driver applies the fsGroup from the securityContext.
       # The image specified in `initContainerImage` will be used for this container.
       chownInitContainer: false
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Storage class to use.
       # Uses the default storage class if not set.
       storageClassName:
@@ -2362,8 +2884,15 @@ services:
       selectorLabels: {}
       # -- Use a custom name for the PVC instead of the default one.
       claimName: ""
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Use an existing PersistentVolumeClaim for persistence.
       existingClaim:
+    # @schema
+    # $ref: schema/templates.json#/resourcesTemplate
+    # @schema
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
     # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
@@ -2372,10 +2901,16 @@ services:
     priorityClassName: ""
     # -- Per-service jobPriorityClassName configuration. Overrides the default setting from `jobPriorityClassName` if set.
     jobPriorityClassName: ""
+    # @schema
+    # $ref: schema/templates.json#/resourcesTemplate
+    # @schema
     # -- Per-service jobResources configuration. Overrides the default setting from `jobResources` if set.
     jobResources: {}
     # -- Per-service jobNodeSelector configuration. Overrides the default setting from `jobNodeSelector` if set.
     jobNodeSelector: {}
+    # @schema
+    # $ref: schema/templates.json#/podDisruptionBudgetTemplate
+    # @schema
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
     podDisruptionBudget: {}
     # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
@@ -2392,6 +2927,10 @@ services:
       tag: ""
       # -- Image sha / digest (optional).
       sha: ""
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Image pull policy
       pullPolicy:
 
@@ -2401,7 +2940,7 @@ services:
     quota:
       # @schema
       # type: integer
-      # minimum: 1
+      # minimum: 0
       # required: true
       # @schema
       # -- Number of maximum concurrent thumbnail requests. Default is 0 which is unlimited.
@@ -2433,6 +2972,10 @@ services:
       # This is not needed if the driver applies the fsGroup from the securityContext.
       # The image specified in `initContainerImage` will be used for this container.
       chownInitContainer: false
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Storage class to use.
       # Uses the default storage class if not set.
       storageClassName:
@@ -2449,20 +2992,33 @@ services:
       selectorLabels: {}
       # -- Use a custom name for the PVC instead of the default one.
       claimName: ""
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Use an existing PersistentVolumeClaim for persistence.
       existingClaim:
+    # @schema
+    # $ref: schema/templates.json#/resourcesTemplate
+    # @schema
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
     # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
     nodeSelector: {}
     # -- Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
     priorityClassName: ""
+    # @schema
+    # $ref: schema/templates.json#/resourcesTemplate
+    # @schema
     # -- Per-service jobResources configuration. Overrides the default setting from `jobResources` if set.
     jobResources: {}
     # -- Per-service jobNodeSelector configuration. Overrides the default setting from `jobNodeSelector` if set.
     jobNodeSelector: {}
     # -- Per-service jobPriorityClassName configuration. Overrides the default setting from `jobPriorityClassName` if set.
     jobPriorityClassName: ""
+    # @schema
+    # $ref: schema/templates.json#/podDisruptionBudgetTemplate
+    # @schema
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
     podDisruptionBudget: {}
     # Maintenance configuration for cleanup jobs.
@@ -2490,6 +3046,10 @@ services:
         tag: "stable"
         # -- Image sha / digest (optional).
         sha: ""
+        # @schema
+        # type: [string, null]
+        # required: true
+        # @schema
         # -- Image pull policy
         pullPolicy: IfNotPresent
     # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
@@ -2506,12 +3066,19 @@ services:
       tag: ""
       # -- Image sha / digest (optional).
       sha: ""
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Image pull policy
       pullPolicy:
 
   # -- USERLOG service.
   # @default -- see detailed service configuration options below
   userlog:
+    # @schema
+    # $ref: schema/templates.json#/resourcesTemplate
+    # @schema
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
     # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
@@ -2527,6 +3094,9 @@ services:
       # if the proper store is selected
       # addresses:
       # - "{{ .appNameNats }}:9233"
+    # @schema
+    # $ref: schema/templates.json#/podDisruptionBudgetTemplate
+    # @schema
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
     podDisruptionBudget: {}
     # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
@@ -2543,18 +3113,28 @@ services:
       tag: ""
       # -- Image sha / digest (optional).
       sha: ""
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Image pull policy
       pullPolicy:
 
   # -- USERS service.
   # @default -- see detailed service configuration options below
   users:
+    # @schema
+    # $ref: schema/templates.json#/resourcesTemplate
+    # @schema
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
     # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
     nodeSelector: {}
     # -- Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
     priorityClassName: ""
+    # @schema
+    # $ref: schema/templates.json#/podDisruptionBudgetTemplate
+    # @schema
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
     podDisruptionBudget: {}
     # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
@@ -2571,6 +3151,11 @@ services:
       tag: ""
       # -- Image sha / digest (optional).
       sha: ""
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
+      # -- Image pull policy
       # -- Image pull policy
       pullPolicy:
 
@@ -2638,8 +3223,16 @@ services:
         webClientScope: "openid profile email"
         # -- Specify the client ID which the web frontend will use
         webClientID: web
+        # @schema
+        # type: [string, null]
+        # required: false
+        # @schema
         # -- URI where to redirect the user after a logout was performed. Defaults to the URI of the login page.
-        postLogoutRedirectURI: ""
+        postLogoutRedirectURI:
+        # @schema
+        # type: [string, null]
+        # required: false
+        # @schema
         # -- Specifies the target url valid for the logged out / access denied page.
         loginURL:
       # @schema
@@ -2665,12 +3258,32 @@ services:
         # Specifies the allowed message origin host when posting access tokens from the embedding parent application to web. Defaults to not being set, which is only recommended for development environments.
         delegateAuthenticationOrigin: ""
       concurrency:
+        # @schema
+        # type: [integer, null]
+        # minimum: 1
+        # required: false
+        # @schema
         # Defines the maximum number of concurrent requests per file/folder/space batch action. If uset, the default of ownCloud Web will be used.
         resourceBatchActionRequests:
+        # @schema
+        # type: [integer, null]
+        # minimum: 1
+        # required: false
+        # @schema
         # Defines the maximum number of concurrent requests in SSE event handlers. If uset, the default of ownCloud Web will be used.
         sseRequests:
+        # @schema
+        # type: [integer, null]
+        # minimum: 1
+        # required: false
+        # @schema
         # Defines the maximum number of concurrent requests per sharing invite batch. If uset, the default of ownCloud Web will be used.
         shareCreateRequests:
+        # @schema
+        # type: [integer, null]
+        # minimum: 1
+        # required: false
+        # @schema
         # Defines the maximum number of concurrent requests when loading individual share information inside listings. If uset, the default of ownCloud Web will be used.
         shareListRequests:
 
@@ -2693,6 +3306,10 @@ services:
       # This is not needed if the driver applies the fsGroup from the securityContext.
       # The image specified in `initContainerImage` will be used for this container.
       chownInitContainer: false
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Storage class to use.
       # Uses the default storage class if not set.
       storageClassName:
@@ -2709,14 +3326,24 @@ services:
       selectorLabels: {}
       # -- Use a custom name for the PVC instead of the default one.
       claimName: ""
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Use an existing PersistentVolumeClaim for persistence.
       existingClaim:
+    # @schema
+    # $ref: schema/templates.json#/resourcesTemplate
+    # @schema
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
     # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
     nodeSelector: {}
     # -- Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
     priorityClassName: ""
+    # @schema
+    # $ref: schema/templates.json#/podDisruptionBudgetTemplate
+    # @schema
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
     podDisruptionBudget: {}
     # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
@@ -2733,6 +3360,10 @@ services:
       tag: ""
       # -- Image sha / digest (optional).
       sha: ""
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Image pull policy
       pullPolicy:
     # -- Additional init containers for the Web pods.
@@ -2741,12 +3372,18 @@ services:
   # -- WEBDAV service.
   # @default -- see detailed service configuration options below
   webdav:
+    # @schema
+    # $ref: schema/templates.json#/resourcesTemplate
+    # @schema
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
     # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
     nodeSelector: {}
     # -- Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
     priorityClassName: ""
+    # @schema
+    # $ref: schema/templates.json#/podDisruptionBudgetTemplate
+    # @schema
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
     podDisruptionBudget: {}
     # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
@@ -2763,18 +3400,28 @@ services:
       tag: ""
       # -- Image sha / digest (optional).
       sha: ""
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Image pull policy
       pullPolicy:
 
   # -- WEBFINGER service.
   # @default -- see detailed service configuration options below
   webfinger:
+    # @schema
+    # $ref: schema/templates.json#/resourcesTemplate
+    # @schema
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
     # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
     nodeSelector: {}
     # -- Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
     priorityClassName: ""
+    # @schema
+    # $ref: schema/templates.json#/podDisruptionBudgetTemplate
+    # @schema
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
     podDisruptionBudget: {}
     # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
@@ -2791,6 +3438,10 @@ services:
       tag: ""
       # -- Image sha / digest (optional).
       sha: ""
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Image pull policy
       pullPolicy:
 
