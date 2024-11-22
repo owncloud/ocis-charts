@@ -32,6 +32,7 @@
         "minReplicas": {
           "default": 3,
           "description": "Sets minimum replicas for autoscaling.",
+          "minimum": 1,
           "required": [],
           "title": "minReplicas",
           "type": "integer"
@@ -2193,6 +2194,12 @@
         "annotations": {
           "additionalProperties": false,
           "description": "Ingress annotations.",
+          "patternProperties": {
+            ".*": {
+              "required": [],
+              "type": "string"
+            }
+          },
           "required": [],
           "title": "annotations",
           "type": "object"
@@ -2209,11 +2216,20 @@
           "description": "Ingress class to use.\nUses the default ingress class if not set.",
           "required": [],
           "title": "ingressClassName",
-          "type": "null"
+          "type": [
+            "null",
+            "string"
+          ]
         },
         "labels": {
           "additionalProperties": false,
           "description": "Labels for the ingress.",
+          "patternProperties": {
+            ".*": {
+              "required": [],
+              "type": "string"
+            }
+          },
           "required": [],
           "title": "labels",
           "type": "object"
@@ -2544,6 +2560,7 @@
     "replicas": {
       "default": 1,
       "description": "Number of replicas for each scalable service. Has no effect when `autoscaling.enabled` is set to `true`.",
+      "minimum": 1,
       "required": [],
       "title": "replicas",
       "type": "integer"
@@ -2951,6 +2968,7 @@
                     "concurrency": {
                       "default": 10,
                       "description": "Number of event consumers to be started that concurrently consume events.",
+                      "minimum": 1,
                       "required": [],
                       "title": "concurrency",
                       "type": "integer"
@@ -3843,6 +3861,7 @@
                     "concurrency": {
                       "default": 100,
                       "description": "Number of event consumers to be started that concurrently consume events (used for auto-accepting shares, see `features.sharing.autoAcceptShares`)",
+                      "minimum": 1,
                       "required": [],
                       "title": "concurrency",
                       "type": "integer"
@@ -5436,6 +5455,7 @@
                     "concurrency": {
                       "default": 3,
                       "description": "Number of event consumers to be started that concurrently consume events",
+                      "minimum": 1,
                       "required": [],
                       "title": "concurrency",
                       "type": "integer"
@@ -6748,6 +6768,7 @@
                     "concurrency": {
                       "default": 10,
                       "description": "Number of event consumers to be started that concurrently consume events (eg. postprocessing related events)",
+                      "minimum": 1,
                       "required": [],
                       "title": "concurrency",
                       "type": "integer"
@@ -7170,6 +7191,7 @@
                         "maxConcurrency": {
                           "default": 100,
                           "description": "Maximum number of concurrent go-routines. Higher values can potentially get work done faster but will also cause more load on the system.",
+                          "minimum": 1,
                           "required": [],
                           "title": "maxConcurrency",
                           "type": "integer"
@@ -7208,6 +7230,7 @@
                         "maxConcurrency": {
                           "default": 100,
                           "description": "Maximum number of concurrent go-routines. Higher values can potentially get work done faster but will also cause more load on the system.",
+                          "minimum": 1,
                           "required": [],
                           "title": "maxConcurrency",
                           "type": "integer"
@@ -7232,6 +7255,7 @@
                             "numThreads": {
                               "default": 4,
                               "description": "Number of concurrent uploads to use when copying objects to S3.",
+                              "minimum": 1,
                               "required": [],
                               "title": "numThreads",
                               "type": "integer"
@@ -7239,6 +7263,7 @@
                             "partSize": {
                               "default": 0,
                               "description": "Part size for concurrent uploads to S3.",
+                              "minimum": 0,
                               "required": [],
                               "title": "partSize",
                               "type": "integer"
@@ -7635,6 +7660,7 @@
                 "maxConcurrencyRequests": {
                   "default": 0,
                   "description": "Number of maximum concurrent thumbnail requests. Default is 0 which is unlimited.",
+                  "minimum": 1,
                   "required": [],
                   "title": "maxConcurrencyRequests",
                   "type": "integer"
@@ -8049,11 +8075,11 @@
                       "type": "string"
                     },
                     "enabled": {
-                      "default": "",
-                      "description": "Specifies if web \"embed\"-mode is enabled. Defaults to not being set (= disabled).",
+                      "default": false,
+                      "description": "Enables the ownCloud Web \"embed\"-mode.",
                       "required": [],
                       "title": "enabled",
-                      "type": "string"
+                      "type": "boolean"
                     },
                     "messagesOrigin": {
                       "default": "",
