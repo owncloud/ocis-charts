@@ -89,11 +89,9 @@ spec:
               value: {{ .Values.services.web.config.theme.path | quote }}
             {{- end }}
 
-            {{- if .Values.services.web.config.embed.enabled }}
             - name: WEB_OPTION_EMBED_ENABLED
               value: {{ .Values.services.web.config.embed.enabled | quote }}
-            {{- end }}
-
+            {{- if .Values.services.web.config.embed.enabled }}
             {{- if .Values.services.web.config.embed.target }}
             - name: WEB_OPTION_EMBED_TARGET
               value: {{ .Values.services.web.config.embed.target | quote }}
@@ -112,6 +110,7 @@ spec:
             {{- if .Values.services.web.config.embed.delegateAuthenticationOrigin }}
             - name: WEB_OPTION_EMBED_DELEGATE_AUTHENTICATION_ORIGIN
               value: {{ .Values.services.web.config.embed.delegateAuthenticationOrigin | quote }}
+            {{- end }}
             {{- end }}
 
             {{- if .Values.services.web.config.concurrency.resourceBatchActionRequests }}
