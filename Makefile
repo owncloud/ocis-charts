@@ -5,7 +5,7 @@ endif
 all: docs lint api clean
 
 .PHONY: docs
-docs: $(HELM_DOCS) $(GOMPLATE)
+docs: $(HELM_DOCS) $(GOMPLATE) schema
 	$(HELM_DOCS) --template-files=README.md.gotmpl --output-file=README.md
 	$(HELM_DOCS) --log-level debug --template-files=charts/ocis/docs/templates/values-desc-table.adoc.gotmpl --output-file=docs/values-desc-table.adoc
 	$(GOMPLATE) --file=charts/ocis/docs/templates/values.adoc.yaml.gotmpl  --out=charts/ocis/docs/values.adoc.yaml

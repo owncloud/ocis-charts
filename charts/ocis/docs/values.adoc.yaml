@@ -126,12 +126,24 @@ externalDomain: ""
 # Insecure options.
 # These are useful for some limited environments like CI or on a test cluster.
 insecure:
+  # @schema
+  # type: boolean
+  # required: true
+  # @schema
   # -- Disables SSL certificate checking for connections to the openID connect identity provider.
   # Not recommended for production installations.
   oidcIdpInsecure: false
+  # @schema
+  # type: boolean
+  # required: true
+  # @schema
   # -- Disables SSL certificate checking for connections to the oCIS http apis.
   # Not recommended for production installations.
   ocisHttpApiInsecure: false
+  # @schema
+  # type: boolean
+  # required: true
+  # @schema
   # -- Disables SSL certificate checking for connections to all OCM instances
   # Not recommended for production installations.
   ocmInsecure: false
@@ -165,6 +177,10 @@ registry:
 
 messagingSystem:
   external:
+    # @schema
+    # type: boolean
+    # required: true
+    # @schema
     # -- Use an external NATS messaging system instead of the internal one.
     # Recommended for all production instances.
     # Needs to be used if HighAvailability is needed.
@@ -175,12 +191,24 @@ messagingSystem:
     # -- Cluster name to use with the messaging system.
     cluster: "ocis-cluster"
     tls:
+      # @schema
+      # type: boolean
+      # required: true
+      # @schema
       # -- Enables TLS encrypted communication with the messaging system.
       # Recommended for production installations.
       enabled: true
+      # @schema
+      # type: boolean
+      # required: true
+      # @schema
       # -- Set only to false, if the certificate of your messaging system service is not trusted.
       # If set to false, you need to put the CA cert of the messaging system server into the secret referenced by "messagingSystemCaRef"
       certTrusted: true
+      # @schema
+      # type: boolean
+      # required: true
+      # @schema
       # -- Disables SSL certificate checking for connections to the messaging system server.
       # -- For self signed certificates, consider to put the CA cert of the messaging system secure server into the secret referenced by "messagingSystemCaRef"
       # Not recommended for production installations.
@@ -195,6 +223,10 @@ hostAliases: []
 # Feature options.
 # Enable or disable features of oCIS.
 features:
+  # @schema
+  # type: boolean
+  # required: true
+  # @schema
   # -- Create demo users on the first startup.
   # Not recommended for production installations.
   demoUsers: false
@@ -204,6 +236,10 @@ features:
     default: "en"
   # Email related settings
   emailNotifications:
+    # @schema
+    # type: boolean
+    # required: true
+    # @schema
     # -- Enables email notifications.
     enabled: false
     smtp:
@@ -253,6 +289,10 @@ features:
       # Is already enforced if `features.sharing.publiclink.shareMustHavePassword` option is set to `true``.
       writeableShareMustHavePassword: false
 
+    # @schema
+    # type: boolean
+    # required: true
+    # @schema
     # -- automatically accept incoming shares
     autoAcceptShares: true
     # password policies for share passwords
@@ -274,6 +314,10 @@ features:
         # - bar
   # Apps integration
   appsIntegration:
+    # @schema
+    # type: boolean
+    # required: true
+    # @schema
     # -- Enables the apps integration.
     enabled: false
     # WOPI (office suite integration) needs an https://github.com/cs3org/wopiserver[cs3org/wopiserver] and at least one office suite.
@@ -292,24 +336,48 @@ features:
           # -- Product type of the office suite. Will be used to determine certain product specifics.
           # Supports "Collabora", "OnlyOffice", "Microsoft365" or "MicrosoftOfficeOnline".
           product: Collabora
+          # @schema
+          # type: boolean
+          # required: true
+          # @schema
           # -- Enables the office suite.
           enabled: false
           # -- URI of the office suite.
           uri: ""
           # -- URI for the icon of the office suite. Will be displayed to the users.
           iconURI: ""
+          # @schema
+          # type: boolean
+          # required: true
+          # @schema
           # -- Disables SSL certificate checking for connections to the office suites http api.
           # Not recommended for production installations.
           insecure: false
+          # @schema
+          # type: boolean
+          # required: true
+          # @schema
           # -- Disables verifying requests via WOPI proof keys.
           # Not recommended to be disabled for production installations.
           disableProof: false
+          # @schema
+          # type: boolean
+          # required: true
+          # @schema
           # -- Enable secure view for this office suite
           secureViewEnabled: false
+          # @schema
+          # type: boolean
+          # required: true
+          # @schema
           # -- Disables the chat in the office suite. Note: This currently only applies to OnlyOffice
           disableChat: false
           # Ingress for collaboration service.
           ingress:
+            # @schema
+            # type: boolean
+            # required: true
+            # @schema
             # -- Enables the Ingress. Only needed if the office application is not running within the same cluster.
             enabled: false
             # -- Domain of the Ingress.
@@ -332,24 +400,44 @@ features:
           # -- Product type of the office suite. Will be used to determine certain product specifics.
           # Supports "Collabora", "OnlyOffice", "Microsoft365" or "MicrosoftOfficeOnline".
           product: OnlyOffice
+          # @schema
+          # type: boolean
+          # required: true
+          # @schema
           # -- Enables the office suite.
           enabled: false
           # -- URI of the office suite.
           uri: ""
           # -- URI for the icon of the office suite. Will be displayed to the users.
           iconURI: ""
+          # @schema
+          # type: boolean
+          # required: true
+          # @schema
           # -- Disables SSL certificate checking for connections to the office suites http api.
           # Not recommended for production installations.
           insecure: false
+          # @schema
+          # type: boolean
+          # required: true
+          # @schema
           # -- Disables verifying requests via WOPI proof keys.
           # Not recommended to be disabled for production installations.
           disableProof: false
           # -- Enable secure view for this office suite. Note: OnlyOffice doesn't support secureView right now
           secureViewEnabled: false
+          # @schema
+          # type: boolean
+          # required: true
+          # @schema
           # -- Disables the chat in the office suite. Note: This currently only applies to OnlyOffice
           disableChat: false
           # Ingress for collaboration service.
           ingress:
+            # @schema
+            # type: boolean
+            # required: true
+            # @schema
             # -- Enables the Ingress. Only needed if the office application is not running within the same cluster.
             enabled: false
             # -- Domain of the Ingress.
@@ -380,6 +468,10 @@ features:
       # allow_creation: true
   # External user management
   externalUserManagement:
+    # @schema
+    # type: boolean
+    # required: true
+    # @schema
     # -- Enables external user management (and disables internal user management).
     # Needs an external OpenID Connect Identity Provider and an external LDAP server.
     enabled: false
@@ -595,6 +687,10 @@ features:
     #   2aadd357-682c-406b-8874-293091995fdd: 100000000000
   # Define virus scanning
   virusscan:
+    # @schema
+    # type: boolean
+    # required: true
+    # @schema
     # -- Enables virus scanning
     enabled: false
     # -- Define what should happen with infected files. Supported options are: 'delete', 'continue' and 'abort '.
@@ -615,6 +711,10 @@ features:
       service: avscan
   # Define policies
   policies:
+    # @schema
+    # type: boolean
+    # required: true
+    # @schema
     # -- Enables policies
     enabled: false
     # -- Sets the timeout the rego expression evaluation can take. The timeout can be set as number followed by a unit identifier
@@ -659,13 +759,35 @@ features:
 
 # Ingress for oCIS.
 ingress:
+  # @schema
+  # type: boolean
+  # required: true
+  # @schema
   # -- Enables the Ingress.
   enabled: false
+  # @schema
+  # type: [null, string]
+  # required: true
+  # @schema
   # -- Ingress class to use.
   # Uses the default ingress class if not set.
   ingressClassName:
+  # @schema
+  # type: object
+  # required: true
+  # patternProperties:
+  #  ".*":
+  #    type: string
+  # @schema
   # -- Ingress annotations.
   annotations: {}
+  # @schema
+  # type: object
+  # required: true
+  # patternProperties:
+  #  ".*":
+  #    type: string
+  # @schema
   # -- Labels for the ingress.
   labels: {}
   # -- Ingress TLS configuration.
@@ -752,6 +874,10 @@ secretRefs:
 # If a custom CA chain is needed for the communcation in between services or with external services like S3 or notification services.
 # The secret needs to be manually created.
 customCAChain:
+  # @schema
+  # type: boolean
+  # required: true
+  # @schema
   # -- Custom CA enables SSL_CERT_DIR in pods with the additional path /etc/ssl/custom.
   enabled: false
   # -- If custom CA chain is enabled this attribute mounts the existing ConfigMap to /etc/ssl/custom.
@@ -797,6 +923,11 @@ backup:
 # -- Override the deployment namespace of all resources in this Helm chart.
 namespaceOverride:
 
+  # @schema
+  # type: integer
+  # minimum: 1
+  # required: true
+  # @schema
 # -- Number of replicas for each scalable service. Has no effect when `autoscaling.enabled` is set to `true`.
 replicas: 1
 
@@ -808,8 +939,18 @@ podDisruptionBudget:
 
 # Autoscaling settings.
 autoscaling:
+  # @schema
+  # type: boolean
+  # required: true
+  # @schema
   # -- Enables autoscaling. When set to `true`, `replicas` is no longer applied.
-  enabled: false
+  enabled:
+    false
+    # @schema
+  # type: integer
+  # minimum: 1
+  # required: true
+  # @schema
   # -- Sets minimum replicas for autoscaling.
   minReplicas: 3
   # -- Sets maximum replicas for autoscaling.
@@ -1108,6 +1249,11 @@ services:
   antivirus:
     events:
       consumer:
+        # @schema
+        # type: integer
+        # minimum: 1
+        # required: true
+        # @schema
         # -- Number of event consumers to be started that concurrently consume events.
         concurrency: 10
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
@@ -1205,6 +1351,11 @@ services:
   frontend:
     events:
       consumer:
+        # @schema
+        # type: integer
+        # minimum: 1
+        # required: true
+        # @schema
         # -- Number of event consumers to be started that concurrently consume events (used for auto-accepting shares, see `features.sharing.autoAcceptShares`)
         concurrency: 100
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
@@ -1322,10 +1473,18 @@ services:
     # -- Persistence settings.
     # @default -- see detailed persistence configuration options below
     persistence:
+      # @schema
+      # type: boolean
+      # required: true
+      # @schema
       # -- Enables persistence.
       # Needs to be enabled on production installations, except `features.externalUserManagement.enabled` equals `true`.
       # If not enabled, pod restarts will lead to data loss.
       enabled: false
+      # @schema
+      # type: boolean
+      # required: true
+      # @schema
       # -- Enables an initContainer to chown the volume.
       # The initContainer is run as root.
       # This is not needed if the driver applies the fsGroup from the securityContext.
@@ -1401,10 +1560,18 @@ services:
     # -- Persistence settings.
     # @default -- see detailed persistence configuration options below
     persistence:
+      # @schema
+      # type: boolean
+      # required: true
+      # @schema
       # -- Enables persistence.
       # Needs to be enabled on production installations, except `messagingSystem.external.enabled` equals `true`.
       # If not enabled, pod restarts will lead to data loss.
       enabled: false
+      # @schema
+      # type: boolean
+      # required: true
+      # @schema
       # -- Enables an initContainer to chown the volume.
       # The initContainer is run as root.
       # This is not needed if the driver applies the fsGroup from the securityContext.
@@ -1532,6 +1699,10 @@ services:
     # -- Persistence settings.
     # @default -- see detailed persistence configuration options below
     persistence:
+      # @schema
+      # type: boolean
+      # required: true
+      # @schema
       # -- Enables persistence.
       # Needs to be enabled on production installations.
       # If not enabled, pod restarts will lead to data loss.
@@ -1623,6 +1794,11 @@ services:
   postprocessing:
     events:
       consumer:
+        # @schema
+        # type: integer
+        # minimum: 1
+        # required: true
+        # @schema
         # -- Number of event consumers to be started that concurrently consume events
         concurrency: 3
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
@@ -1712,10 +1888,18 @@ services:
     # -- Persistence settings.
     # @default -- see detailed persistence configuration options below
     persistence:
+      # @schema
+      # type: boolean
+      # required: true
+      # @schema
       # -- Enables persistence.
       # Needs to be enabled on production installations.
       # If not enabled, pod restarts will lead to data loss.
       enabled: false
+      # @schema
+      # type: boolean
+      # required: true
+      # @schema
       # -- Enables an initContainer to chown the volume.
       # The initContainer is run as root.
       # This is not needed if the driver applies the fsGroup from the securityContext.
@@ -1914,11 +2098,19 @@ services:
     # -- Persistence settings.
     # @default -- see detailed persistence configuration options below
     persistence:
+      # @schema
+      # type: boolean
+      # required: true
+      # @schema
       # -- Enables persistence.
       # Needs to be enabled on production installations.
       # If not enabled, pod restarts will lead to data loss.
       # Also scaling this service to more than one replica is not possible if the pods don't share the same volume.
       enabled: false
+      # @schema
+      # type: boolean
+      # required: true
+      # @schema
       # -- Enables an initContainer to chown the volume.
       # The initContainer is run as root.
       # This is not needed if the driver applies the fsGroup from the securityContext.
@@ -1973,6 +2165,11 @@ services:
   storageusers:
     events:
       consumer:
+        # @schema
+        # type: integer
+        # minimum: 1
+        # required: true
+        # @schema
         # -- Number of event consumers to be started that concurrently consume events (eg. postprocessing related events)
         concurrency: 10
 
@@ -1983,9 +2180,19 @@ services:
       driver: ocis
       driverConfig:
         ocis:
+          # @schema
+          # type: integer
+          # minimum: 1
+          # required: true
+          # @schema
           # -- Maximum number of concurrent go-routines. Higher values can potentially get work done faster but will also cause more load on the system.
           maxConcurrency: 100
         s3ng:
+          # @schema
+          # type: integer
+          # minimum: 1
+          # required: true
+          # @schema
           # -- Maximum number of concurrent go-routines. Higher values can potentially get work done faster but will also cause more load on the system.
           maxConcurrency: 100
           # The S3NG driver needs an existing S3 bucket with following permissions:
@@ -2022,23 +2229,53 @@ services:
           region: default
           # -- S3 bucket to use for the S3NG driver. Only used if driver is set to "s3ng".
           bucket: ""
+          # @schema
+          # type: boolean
+          # required: true
+          # @schema
           # -- Disable sending content sha256 when copying objects to S3.
           disableContentSHA256: false
           putObject:
+            # @schema
+            # type: boolean
+            # required: true
+            # @schema
             # -- Disable multipart uploads when copying objects to S3
             disableMultipart: false
+            # @schema
+            # type: boolean
+            # required: true
+            # @schema
             # -- Send a Content-MD5 header when copying objects to S3.
             sendContentMD5: true
+            # @schema
+            # type: boolean
+            # required: true
+            # @schema
             # -- Always precreate parts when copying objects to S3.
             concurrentStreamParts: true
+            # @schema
+            # type: integer
+            # minimum: 1
+            # required: true
+            # @schema
             # -- Number of concurrent uploads to use when copying objects to S3.
             numThreads: 4
+            # @schema
+            # type: integer
+            # minimum: 0
+            # required: true
+            # @schema
             # -- Part size for concurrent uploads to S3.
             partSize: 0
 
     maintenance:
       # Expired uploads can be cleaned up automatically by enabling the clean up job.
       cleanUpExpiredUploads:
+        # @schema
+        # type: boolean
+        # required: true
+        # @schema
         # -- Enables a job, that cleans up expired uploads. Requires persistence to be enabled and RWX storage.
         enabled: false
         # -- Cron pattern for the job to be run.
@@ -2050,6 +2287,10 @@ services:
         uploadExpiration: 86400
       # Expired trash bin items can be cleaned up automatically by enabling the purge exired trash bin items job.
       purgeExpiredTrashBinItems:
+        # @schema
+        # type: boolean
+        # required: true
+        # @schema
         # -- Enables a job, that purges expired trash bin items. Requires persistence to be enabled.
         enabled: false
         # -- Cron pattern for the job to be run.
@@ -2062,6 +2303,10 @@ services:
         projectDeleteBefore: 30d
       # Uploads that were not postprocessed can be automatically processed again by enabling the restart job.
       restartPostprocessing:
+        # @schema
+        # type: boolean
+        # required: true
+        # @schema
         # -- Enables a job, that restarts postprocessing for uploads that are currently in postprocessing state. Requires persistence to be enabled.
         enabled: false
         # -- Cron pattern for the job to be run.
@@ -2083,11 +2328,19 @@ services:
     # -- Persistence settings.
     # @default -- see detailed persistence configuration options below
     persistence:
+      # @schema
+      # type: boolean
+      # required: true
+      # @schema
       # -- Enables persistence.
       # Needs to be enabled on production installations.
       # If not enabled, pod restarts will lead to data loss.
       # Also scaling this service to more than one replica is not possible if the pods don't share the same volume.
       enabled: false
+      # @schema
+      # type: boolean
+      # required: true
+      # @schema
       # -- Enables an initContainer to chown the volume.
       # The initContainer is run as root.
       # This is not needed if the driver applies the fsGroup from the securityContext.
@@ -2147,6 +2400,11 @@ services:
   # @default -- see detailed service configuration options below
   thumbnails:
     quota:
+      # @schema
+      # type: integer
+      # minimum: 1
+      # required: true
+      # @schema
       # -- Number of maximum concurrent thumbnail requests. Default is 0 which is unlimited.
       maxConcurrencyRequests: 0
       # -- Sets a maximum file size of an input image which is being processed. Usable common abbreviations: [KB, KiB, MB, MiB, GB, GiB, TB, TiB, PB, PiB, EB, EiB], example: 2GB.
@@ -2158,11 +2416,19 @@ services:
     # -- Persistence settings.
     # @default -- see detailed persistence configuration options below
     persistence:
+      # @schema
+      # type: boolean
+      # required: true
+      # @schema
       # -- Enables persistence.
       # Is recommended to be enabled on production installations.
       # If enabled, generated thumbnails are cached on this volume and available across pod restarts and service instances.
       # If not enabled, thumbnail generation might lead to higher CPU usage.
       enabled: false
+      # @schema
+      # type: boolean
+      # required: true
+      # @schema
       # -- Enables an initContainer to chown the volume.
       # The initContainer is run as root.
       # This is not needed if the driver applies the fsGroup from the securityContext.
@@ -2203,6 +2469,10 @@ services:
     # Maintenance configuration for cleanup jobs.
     maintenance:
       cleanUpOldThumbnails:
+        # @schema
+        # type: boolean
+        # required: true
+        # @schema
         # -- Enables a job, that cleans up old thumbnails. Requires persistence to be enabled.
         enabled: false
         # -- Cron pattern for the job to be run.
@@ -2311,13 +2581,25 @@ services:
     # Configuration for web, that ends up in the config.json file.
     config:
       tokenStorageLocal:
+        # @schema
+        # type: boolean
+        # required: true
+        # @schema
         #-- Specifies whether the access token will be stored in the local storage when set to ’true’ or in the session storage when set to ‘false’.
         # If stored in the local storage, login state will be persisted across multiple browser tabs, means no additional logins are required.
         enabled: true
       contextHelpersReadMore:
+        # @schema
+        # type: boolean
+        # required: true
+        # @schema
         # -- Specifies whether the “Read more” link should be displayed or not.
         enabled: true
       feedbackLink:
+        # @schema
+        # type: boolean
+        # required: true
+        # @schema
         # -- Enables the feedback link in the Web UI.
         enabled: true
         # -- URI where the feedback link points. Uses the ownCloud default href if empty.
@@ -2361,12 +2643,20 @@ services:
         postLogoutRedirectURI: ""
         # -- Specifies the target url valid for the logged out / access denied page.
         loginURL:
+      # @schema
+      # type: boolean
+      # required: true
+      # @schema
       # Defines whether one ore more filters must be set in order to list users in the Web admin settings.
       userListRequiresFilter: false
       # Embed mode settings
       embed:
-        # Specifies if web "embed"-mode is enabled. Defaults to not being set (= disabled).
-        enabled: ""
+        # @schema
+        # type: boolean
+        # required: true
+        # @schema
+        # Enables the ownCloud Web "embed"-mode.
+        enabled: false
         # Specifies how web is being integrated when running in "embed"-mode. Currently supported values are "location" and "" (default).
         target: ""
         # Specifies a URL under which web can be integrated via iFrame. This needs to be specified when web is running in "embed"-mode.
@@ -2388,9 +2678,17 @@ services:
     # -- Persistence settings.
     # @default -- see detailed persistence configuration options below
     persistence:
+      # @schema
+      # type: boolean
+      # required: true
+      # @schema
       # -- Enables persistence.
       # Only needed if you want to change the oCIS instance logo via the Web UI.
       enabled: false
+      # @schema
+      # type: boolean
+      # required: true
+      # @schema
       # -- Enables an initContainer to chown the volume.
       # The initContainer is run as root.
       # This is not needed if the driver applies the fsGroup from the securityContext.
@@ -2499,6 +2797,10 @@ services:
 
 # Service monitoring configuration. Requires the monitoring.coreos.com/v1 CRDs to be installed.
 monitoring:
+  # @schema
+  # type: boolean
+  # required: true
+  # @schema
   # -- Enable service monitoring.
   enabled: false
   # -- Interval at which to scrape metrics.
