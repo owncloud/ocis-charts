@@ -1307,7 +1307,7 @@ features:
     # required: true
     # patternProperties:
     #  ".*":
-    #    type: string
+    #    type: integer
     # @schema
     # -- Sets specific quotas for roles
     roles: {}
