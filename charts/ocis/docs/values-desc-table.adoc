@@ -1512,12 +1512,6 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service resources configuration. Overrides the default setting from `resources` if set.
-| services.activitylog.store
-a| [subs=-attributes]
-+object+
-a| [subs=-attributes]
-`{}`
-| Per-service store configuration for the activitylog service. Overrides the default setting from `store` if set.
 | services.antivirus
 a| [subs=-attributes]
 +object+
@@ -2088,12 +2082,6 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service resources configuration. Overrides the default setting from `resources` if set.
-| services.eventhistory.store
-a| [subs=-attributes]
-+object+
-a| [subs=-attributes]
-`{}`
-| Per-service store configuration for the eventhistory service. Overrides the default setting from `store` if set.
 | services.frontend
 a| [subs=-attributes]
 +object+
@@ -3192,12 +3180,6 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service resources configuration. Overrides the default setting from `resources` if set.
-| services.postprocessing.store
-a| [subs=-attributes]
-+object+
-a| [subs=-attributes]
-`{}`
-| Per-service store configuration for the eventhistory service. Overrides the default setting from `store` if set.
 | services.proxy
 a| [subs=-attributes]
 +object+
@@ -3660,12 +3642,6 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service resources configuration. Overrides the default setting from `resources` if set.
-| services.sse.store
-a| [subs=-attributes]
-+object+
-a| [subs=-attributes]
-`{}`
-| Per-service store configuration for the eventhistory service. Overrides the default setting from `store` if set.
 | services.storagepubliclink
 a| [subs=-attributes]
 +object+
@@ -4584,12 +4560,6 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service resources configuration. Overrides the default setting from `resources` if set.
-| services.userlog.store
-a| [subs=-attributes]
-+object+
-a| [subs=-attributes]
-`{}`
-| Per-service store configuration for the userlog service. Overrides the default setting from `store` if set.
 | services.users
 a| [subs=-attributes]
 +object+
