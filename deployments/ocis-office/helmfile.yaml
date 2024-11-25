@@ -12,9 +12,9 @@ repositories:
 
 releases:
   - name: tika
+    namespace: tika
     chart: tika/tika
     version: 2.9.0
-    namespace: tika
     labels:
       ci-lint-skip: true # skip linting this chart in CI
     values:
@@ -36,23 +36,23 @@ releases:
       - onlyoffice/postgres-operator
 
   - name: rabbitmq
+    namespace: onlyoffice
     chart: bitnami/rabbitmq
     version: 15.0.4
-    namespace: onlyoffice
     labels:
       ci-lint-skip: true # skip linting this chart in CI
 
   - name: redis
+    namespace: onlyoffice
     chart: bitnami/redis
     version: 20.2.1
-    namespace: onlyoffice
     labels:
       ci-lint-skip: true # skip linting this chart in CI
 
   - name: postgres-operator
+    namespace: onlyoffice
     chart: postgres-operator/postgres-operator
     version: 1.13.0
-    namespace: onlyoffice
     labels:
       ci-lint-skip: true # skip linting this chart in CI
     values:
@@ -62,9 +62,9 @@ releases:
           connection_pooler_mode: "session"
 
   - name: onlyoffice
+    namespace: onlyoffice
     chart: onlyoffice/docs
     version: 4.3.0
-    namespace: onlyoffice
     labels:
       ci-lint-skip: true # skip linting this chart in CI
     needs:
