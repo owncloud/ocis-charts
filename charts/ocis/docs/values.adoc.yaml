@@ -39,8 +39,7 @@ image:
   # @schema
   # -- Names of the secret containing the credentials to pull an image from the registry. More
   # information how a secret can be defined at https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
-  #
-  # *Note:* These secrets also apply to initContainers, so you need to provide secrets for the initContainer image here as well.
+  # These secrets also apply to initContainers, so you need to provide secrets for the initContainer image here as well.
   pullSecrets: []
   # pullSecrets:
   #   - name: mySecret
@@ -76,19 +75,39 @@ initContainerImage:
 
 # Logging settings for oCIS services
 logging:
+  # @schema
+  # enum: [panic, fatal, error, warn, info, debug, trace]
+  # required: true
+  # @schema
   # -- Log level. Valid values: `panic`, `fatal`, `error`, `warn`, `info`, `debug`, `trace`.
   level: "info"
+  # @schema
+  # type: boolean
+  # required: true
+  # @schema
   # -- Activates pretty log output.
   # Not recommended for production installations.
-  pretty: "false"
+  pretty: false
+  # @schema
+  # type: boolean
+  # required: true
+  # @schema
   # -- Activates colorized log output.
   # Not recommended for production installations.
-  color: "false"
+  color: false
 
 # Tracing settings for oCIS services
 tracing:
+  # @schema
+  # type: boolean
+  # required: true
+  # @schema
   # -- Tracing enables sending traces
   enabled: false
+  # @schema
+  # enum: [jaeger]
+  # required: true
+  # @schema
   # -- Type of trace provider to use
   type: "jaeger"
   # @schema
@@ -108,27 +127,63 @@ tracing:
 http:
   # CORS settings for oCIS services.
   cors:
+    # @schema
+    # type: array
+    # items:
+    #   type: string
+    #   required: true
+    # @schema
     #-- allow_origins is a list of origins a cross-domain request can be executed from.
     # If the special "*" value is present in the list, all origins will be allowed.
     allow_origins: []
   # CSP settings for oCIS services.
   csp:
     directives:
+      # @schema
+      # type: array
+      # items:
+      #   type: string
+      #   required: true
+      # @schema
       # -- child-src directive, see https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/child-src
       childSrc:
         - "'self'"
+      # @schema
+      # type: array
+      # items:
+      #   type: string
+      #   required: true
+      # @schema
       # -- connect-src directive, see https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/connect-src
       connectSrc:
         - "'self'"
         # If Uppy Companion is used, you need to add it with your URI:
         # - "https://companion.kube.owncloud.test/"
         # - "wss:///companion.kube.owncloud.test/"
+      # @schema
+      # type: array
+      # items:
+      #   type: string
+      #   required: true
+      # @schema
       # -- default-src directive, see https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/default-src
       defaultSrc:
         - "'none'"
+      # @schema
+      # type: array
+      # items:
+      #   type: string
+      #   required: true
+      # @schema
       # -- front-src directive, see https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/front-src
       fontSrc:
         - "'self'"
+      # @schema
+      # type: array
+      # items:
+      #   type: string
+      #   required: true
+      # @schema
       # -- frame-ancestors directive, see https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/frame-ancestors
       frameAncestors:
         - "'self'"
@@ -136,25 +191,61 @@ http:
       frameSrc:
         - "'self'"
         - "blob:"
+      # @schema
+      # type: array
+      # items:
+      #   type: string
+      #   required: true
+      # @schema
       # -- img-src directive, see https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/img-src
       imgSrc:
         - "'self'"
         - "data:"
         - "blob:"
+      # @schema
+      # type: array
+      # items:
+      #   type: string
+      #   required: true
+      # @schema
       # -- manifest-src directive, see https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/manifest-src
       manifestSrc:
         - "'self'"
+      # @schema
+      # type: array
+      # items:
+      #   type: string
+      #   required: true
+      # @schema
       # -- media-src directive, see https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/media-src
       mediaSrc:
         - "'self'"
+      # @schema
+      # type: array
+      # items:
+      #   type: string
+      #   required: true
+      # @schema
       # -- object-src directive, see https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/object-src
       objectSrc:
         - "'self'"
         - "blob:"
+      # @schema
+      # type: array
+      # items:
+      #   type: string
+      #   required: true
+      # @schema
       # -- script-src directive, see https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/script-src
       scriptSrc:
         - "'self'"
         - "'unsafe-inline'"
+      # @schema
+      # type: array
+      # items:
+      #   type: string
+      #   required: true
+      # @schema
       # -- style-src directive, see https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/style-src
       styleSrc:
         - "'self'"
@@ -162,14 +253,38 @@ http:
 
 # Debug settings for the oCIS service
 debug:
+  # @schema
+  # type: boolean
+  # required: true
+  # @schema
   # -- Profiling enables the http://<pod>:<debug-metrics>/debug/pprof endpoint to inspect various Go runtime internals.
   # You can use the endpoint on your machine by forwarding the port, eg: `kubectl port-forward -n ocis pod/proxy-8587dc9d64-fs24l 9205:9205`
   # and then accessing the port on https://localhost:9147/debug/pprof or using the pprof command line tool: `go tool pprof -web http://localhost:9205/debug/pprof/symbol\?seconds\=10`
   profiling: false
 
-# -- Deployment strategy.
+# Deployment strategy.
 deploymentStrategy:
+  # @schema
+  # enum: [RollingUpdate, Recreate]
+  # required: true
+  # @schema
+  # deployment strategy type to use. Can be "RollingUpdate" or "Recreate"
   type: RollingUpdate
+  rollingUpdate:
+    # @schema
+    # type: string
+    # required: true
+    # @schema
+    #-- The maximum number of pods that can be scheduled above the desired number of pods.
+    # Value can be an absolute number (ex: 5) or a percentage of desired pods (ex: 10%).
+    maxSurge: 25%
+    # @schema
+    # type: string
+    # required: true
+    # @schema
+    # -- The maximum number of pods that can be unavailable during the update.
+    # Value can be an absolute number (ex: 5) or a percentage of desired pods (ex: 10%).
+    maxUnavailable: 25%
 
 # @schema
 # type: string
@@ -204,28 +319,58 @@ insecure:
   ocmInsecure: false
 
 cache:
+  # @schema
+  # type: string
+  # required: true
+  # @schema
   # -- Type of the cache to use.
   # Can be set to "nats-js-kv" or "redis-sentinel". There are also the non-recommended options "memory" and "noop".
   # The address of NATS / Redis Sentinel node(s) needs to be set to `cache.nodes`.
   type: "nats-js-kv"
+  # @schema
+  # type: array
+  # items:
+  #   type: string
+  #   required: true
+  # @schema
   # -- Nodes of the cache to use.
   nodes:
     - "{{ .appNameNats }}:9233"
 
 store:
+  # @schema
+  # type: string
+  # required: true
+  # @schema
   # -- Configure the store type.
   # Can be set to "nats-js-kv" or "redis-sentinel". There is also the non-recommended option "memory".
   # The address of NATS / Redis Sentinel node(s) needs to be set to `cache.nodes`.
   type: nats-js-kv
+  # @schema
+  # type: array
+  # items:
+  #   type: string
+  #   required: true
+  # @schema
   # -- Nodes of the store to use.
   nodes:
     - "{{ .appNameNats }}:9233"
 
 registry:
+  # @schema
+  # type: string
+  # required: true
+  # @schema
   # -- Configure the service registry type.
   # Can be set to "nats-js-kv".
   # The address of NATS node(s) needs to be set to `cache.nodes`.
   type: nats-js-kv
+  # @schema
+  # type: array
+  # items:
+  #   type: string
+  #   required: true
+  # @schema
   # -- Nodes of the service registry to use.
   nodes:
     - "{{ .appNameNats }}:9233"
@@ -241,10 +386,18 @@ messagingSystem:
     # Needs to be used if HighAvailability is needed.
     # Needs to be used if oCIS shall be used by more than a 2-digit user count.
     enabled: false
+    # @schema
+    # type: [string, null]
+    # required: false
+    # @schema
     # -- Endpoint of the messaging system.
-    endpoint: "nats.ocis-nats.svc.cluster.local:4222"
+    endpoint:
+    # @schema
+    # type: [string, null]
+    # required: false
+    # @schema
     # -- Cluster name to use with the messaging system.
-    cluster: "ocis-cluster"
+    cluster:
     tls:
       # @schema
       # type: boolean
@@ -269,6 +422,23 @@ messagingSystem:
       # Not recommended for production installations.
       insecure: false
 
+# @schema
+# type: array
+# required: true
+# items:
+#   type: object
+#   additionalProperties: false
+#   properties:
+#     ip:
+#       type: string
+#       required: true
+#     hostnames:
+#       type: array
+#       required: true
+#       items:
+#         type: string
+#         required: true
+# @schema
 # -- provide custom hostnames to every oCIS pods
 hostAliases: []
 # - ip: "192.168.49.2"
@@ -287,6 +457,10 @@ features:
   demoUsers: false
   # Language related settings
   language:
+    # @schema
+    # type: string
+    # required: true
+    # @schema
     # -- The default language. If not defined, English will be used as default. See the documentation for more details.
     default: "en"
   # Email related settings
@@ -331,17 +505,33 @@ features:
       # -- Encryption method for the SMTP communication. Possible values are `starttls`, `ssl`, `ssltls`, `tls` and `none`
       encryption: ssltls
     branding:
+      # @schema
+      # type: boolean
+      # required: true
+      # @schema
       # -- Enables mail branding. If enabled, you need to provide the text and html template ConfigMap.
       # The image ConfigMap is optional.
       enabled: false
+      # @schema
+      # type: string
+      # required: true
+      # @schema
       # -- Reference to a ConfigMap containing the text mail template.
       # The template file must be named "email.text.tmpl".
       # The default template can be seen here: https://github.com/owncloud/ocis/blob/master/services/notifications/pkg/email/templates/text/email.text.tmpl
       textMailTemplatesConfigRef: "text-mail-templates"
+      # @schema
+      # type: string
+      # required: true
+      # @schema
       # -- Reference to a ConfigMap containing the html mail template.
       # The template file must be named "email.html.tmpl".
       # The default template can be seen here: https://github.com/owncloud/ocis/blob/master/services/notifications/pkg/email/templates/html/email.html.tmpl
       htmlMailTemplatesConfigRef: "html-mail-templates"
+      # @schema
+      # type: string
+      # required: true
+      # @schema
       # -- Reference to a ConfigMap containing images that can be referenced from the html mail template.
       # This ConfigMap is optional and can be omitted when images are not used.
       htmlMailImagesConfigRef: "html-mail-images"
@@ -352,15 +542,32 @@ features:
     users:
       # Search settings for finding users to share with.
       search:
+        # @schema
+        # type: integer
+        # required: true
+        # minimum: 1
+        # @schema
         # -- Minimum number of characters to enter before a client should start a search for Share receivers.
         # This setting can be used to customize the user experience if e.g too many results are displayed.
         minLengthLimit: 3
+        # @schema
+        # type: boolean
+        # required: true
+        # @schema
         # -- Show user email when searching for other users to share with.
         showUserEmail: false
     # Sharing per public link related setings
     publiclink:
+      # @schema
+      # type: boolean
+      # required: true
+      # @schema
       # -- Enforce a password on all public link shares.
       shareMustHavePassword: false
+      # @schema
+      # type: boolean
+      # required: true
+      # @schema
       # -- Enforce a password only on writable public link shares.
       # Is already enforced if `features.sharing.publiclink.shareMustHavePassword` option is set to `true``.
       writeableShareMustHavePassword: false
@@ -373,16 +580,47 @@ features:
     autoAcceptShares: true
     # password policies for share passwords
     passwordPolicies:
+      # @schema
+      # type: integer
+      # required: true
+      # minimum: 0
+      # @schema
       # -- the minimum amount of characters the password needs to have
       minCharacters: 0
+      # @schema
+      # type: integer
+      # required: true
+      # minimum: 0
+      # @schema
       # -- the minimum amount of lower case characters the password needs to have
       minLowerCharacters: 0
+      # @schema
+      # type: integer
+      # required: true
+      # minimum: 0
+      # @schema
       # -- the minimum amount of upper case characters the password needs to have
       minUpperCharacters: 0
+      # @schema
+      # type: integer
+      # required: true
+      # minimum: 0
+      # @schema
       # -- the minimum amount of special characters the password needs to have
       minSpecialCharacters: 0
+      # @schema
+      # type: integer
+      # required: true
+      # minimum: 0
+      # @schema
       # -- the minimum amount of digits the password needs to have
       minDigits: 0
+      # @schema
+      # type: array
+      # required: true
+      # items:
+      #   type: string
+      # @schema
       # -- list of banned passwords
       bannedPasswords:
         []
@@ -555,6 +793,35 @@ features:
         #     #    hosts:
         #     #      - onlyoffice-wopi.owncloud.test
 
+    # @schema
+    # type: array
+    # required: true
+    # items:
+    #   type: object
+    #   additionalProperties: false
+    #   properties:
+    #     name:
+    #       type: string
+    #       required: false
+    #     mime_type:
+    #       type: string
+    #       required: true
+    #     extension:
+    #       type: string
+    #       required: true
+    #     description:
+    #       type: string
+    #       required: false
+    #     icon:
+    #       type: string
+    #       required: false
+    #     default_app:
+    #       type: string
+    #       required: false
+    #     allow_creation:
+    #       type: boolean
+    #       required: false
+    # @schema
     # -- Mimetype configuration.
     # Let's you configure a mimetypes' default application, if it is allowed to create a new file and more.
     # @default -- default configuration of oCIS, see https://doc.owncloud.com/ocis/next/deployment/services/s-list/app-registry.html#yaml-example[doc.owncloud.com]
@@ -589,16 +856,36 @@ features:
     # It will create missing users on the LDAP server from OIDC information.
     # Needs `features.externalUserManagement.ldap.writeable` to be be set to `true`.
     autoprovisionAccounts:
+      # @schema
+      # type: boolean
+      # required: true
+      # @schema
       # -- Enables account auto provisioning.
       # It will create missing users on the LDAP server from OIDC information.
       # Needs `features.externalUserManagement.ldap.writeable` to be be set to `true`.
       enabled: false
+      # @schema
+      # type: string
+      # required: true
+      # @schema
       # -- The name of the OIDC claim that holds the email.
       claimEmail: email
+      # @schema
+      # type: string
+      # required: true
+      # @schema
       # -- The name of the OIDC claim that holds the display name.
       claimDisplayname: name
+      # @schema
+      # type: string
+      # required: true
+      # @schema
       # -- The name of the OIDC claim that holds the groups.
       claimGroups: groups
+      # @schema
+      # type: string
+      # required: true
+      # @schema
       # -- The name of the OIDC claim that holds the username.
       claimUserName: sub
     # OpenID Connect Identity provider related settings.
@@ -625,18 +912,34 @@ features:
       # -- Link to the OIDC provider's user accessible account editing page. This will be shown to the user on the personal account page.
       # When using Keycloak with the a realm named "ocis" this could point to eg. https://keycloak.owncloud.test/realms/ocis/account/
       editAccountLink:
+      # @schema
+      # type: string
+      # required: true
+      # @schema
       # -- Claim to take an unique user identifier from. It will be used to look up the user on the LDAP server.
       userIDClaim: ocis.user.uuid
+      # @schema
+      # type: string
+      # required: true
+      # @schema
       # -- Attribute mapping of for the userIDClaim.
       # Set to `userid` if the claim specified in `...oidc.userIDClaim` holds the value of the ldap user attribute specified in `...ldap.user.schema.id`.
       # Set to `mail` if the claim specified in `...oidc.userIDClaim` holds the value of the ldap user attribute specified in  `...ldap.user.schema.mail`.
       # Set to `username` if the claim specified in `...oidc.userIDClaim` holds the value of the ldap user attribute specified in `...ldap.user.schema.userName`.
       userIDClaimAttributeMapping: userid
 
+      # @schema
+      # type: string
+      # required: true
+      # @schema
       # -- OIDC Acces Token Verify Method
       # Set to "jwt" or "none"
       accessTokenVerifyMethod: "jwt"
 
+      # @schema
+      # type: boolean
+      # required: true
+      # @schema
       # -- Do not look up user claims at the userinfo endpoint and directly read them from the access token.
       # Incompatible with 'accessTokenVerifyMethod=none'
       skipUserInfo: false
@@ -644,10 +947,32 @@ features:
       # Configure OIDC role assignment. If activated, oCIS will read the role assigment from the OIDC token, see
       # xref:{s-path}/proxy.adoc#automatic-role-assignments[Automatic Role Assignments]
       roleAssignment:
+        # @schema
+        # type: boolean
+        # required: true
+        # @schema
         # -- enable OIDC role assignment.
         enabled: false
+        # @schema
+        # type: string
+        # required: true
+        # @schema
         # -- The name of the OIDC claim holding the role assignment
         claim: roles
+        # @schema
+        # type: array
+        # required: true
+        # items:
+        #   type: object
+        #   additionalProperties: false
+        #   properties:
+        #     role_name:
+        #       type: string
+        #       required: true
+        #     claim_value:
+        #       type: string
+        #       required: true
+        # @schema
         # -- Configure the mapping for the role assignment
         mapping:
           - role_name: admin
@@ -660,8 +985,18 @@ features:
             claim_value: ocisGuest
     # LDAP related settings.
     ldap:
+      # @schema
+      # type: boolean
+      # required: true
+      # @schema
       # -- Writeable configures if oCIS is allowed to write to the LDAP server, to eg. create or edit users.
       writeable: true
+      # @schema
+      # type: array
+      # required: true
+      # items:
+      #   type: string
+      # @schema
       # -- If the LDAP server is set to writable in general, some user attributes can be restricted to read only in the UI.
       # Note: This only disables editing in the UI. The readonly permissions need to be enforced in the LDAP server itself.
       readOnlyAttributes:
@@ -673,27 +1008,51 @@ features:
         # - user.appRoleAssignments # role
         # - user.accountEnabled # login allowed
         # - drive.quota # quota
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- URI to connect to the LDAP secure server.
-      uri: ldaps://ldaps.owncloud.test
+      uri:
+      # @schema
+      # type: boolean
+      # required: true
+      # @schema
       # -- Set only to false, if the certificate of your LDAP secure service is not trusted.
       # If set to false, you need to put the CA cert of the LDAP secure server into the secret referenced by "ldapCaRef"
       certTrusted: true
+      # @schema
+      # type: boolean
+      # required: true
+      # @schema
       # -- Disables SSL certificate checking for connections to the LDAP server.
       # -- For self signed certificates, consider to put the CA cert of the LDAP secure server into the secret referenced by "ldapCaRef"
       # Not recommended for production installations.
       insecure: false
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- DN of the user to use to bind to the LDAP server.
       # The password for the user needs to be set in the secret referenced by `secretRefs.ldapSecretRef` as `reva-ldap-bind-password`.
       # The user needs to have permission to list users and groups.
-      bindDN: uid=ocis,ou=system-users,dc=owncloud,dc=test
+      bindDN:
       # @schema
       # type: boolean
       # required: true
       # @schema
       # -- Signals that the LDAP server has the refint plugin enabled, which makes some actions not needed.
       refintEnabled: false
+      # @schema
+      # type: boolean
+      # required: true
+      # @schema
       # -- Use the Password Modify Extended Operation for updating user passwords.
       passwordModifyExOpEnabled: false
+      # @schema
+      # type: boolean
+      # required: true
+      # @schema
       # -- If set to true, rely on the LDAP Server to generate a unique ID for users and groups, like when using 'entryUUID' as the user ID attribute.
       useServerUUID: false
       user:
@@ -864,6 +1223,10 @@ features:
     # Controls the separate GDPR integrations
     integrations:
       keycloak:
+        # @schema
+        # type: boolean
+        # required: true
+        # @schema
         # -- Enable keycloak data export.
         enabled: false
         # @schema
@@ -890,6 +1253,10 @@ features:
         # @schema
         # -- Realm that the users are in.
         userRealm:
+        # @schema
+        # type: boolean
+        # required: true
+        # @schema
         # -- Disables SSL certificate checking for connections to the GDPR export service.
         # Not recommended for production installations.
         insecure: false
@@ -909,6 +1276,12 @@ features:
     # @schema
     # -- Define the roles by providing the JSON text here.
     customRoles:
+    # @schema
+    # type: array
+    # required: true
+    # items:
+    #   type: string
+    # @schema
     # -- Define a list of unified roles to make them available.
     # The default of an empty list means all unified roles are available.
     # You can read about unified roles in https://doc.owncloud.com/ocis/next/deployment/services/s-list/graph.html.
@@ -929,6 +1302,13 @@ features:
     # @schema
     # -- Sets the default quota for spaces in bytes. So 1000 sets the default quota to 1KB. 0 means unlimited.
     default:
+    # @schema
+    # type: object
+    # required: true
+    # patternProperties:
+    #  ".*":
+    #    type: string
+    # @schema
     # -- Sets specific quotas for roles
     roles: {}
     # roles:
@@ -946,6 +1326,10 @@ features:
     # @schema
     # -- Enables virus scanning
     enabled: false
+    # @schema
+    # enum: [delete, continue, abort]
+    # required: true
+    # @schema
     # -- Define what should happen with infected files. Supported options are: 'delete', 'continue' and 'abort '.
     # Delete will delete the file.
     # Continue will mark the file as infected but continues further processing.
@@ -960,12 +1344,24 @@ features:
     maxScanSize:
     # Define icap parameters
     icap:
+      # @schema
+      # type: integer
+      # required: true
+      # @schema
       # -- Sets the timeout for icap scans
       timeout: 300
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Sets the icap url
-      url: icap://127.0.0.1:1344
+      url:
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Sets the service to be used in icap
-      service: avscan
+      service:
   # Define policies
   policies:
     # @schema
@@ -974,9 +1370,27 @@ features:
     # @schema
     # -- Enables policies
     enabled: false
+    # @schema
+    # type: string
+    # required: true
+    # @schema
     # -- Sets the timeout the rego expression evaluation can take. The timeout can be set as number followed by a unit identifier
     # like ms, s, etc. Rules default to deny if the timeout was reached.
     engineTimeout: 10s
+    # @schema
+    # type: array
+    # required: true
+    # items:
+    #   type: object
+    #   additionalProperties: false
+    #   properties:
+    #     fileName:
+    #       type: string
+    #       required: true
+    #     content:
+    #       type: string
+    #       required: true
+    # @schema
     # -- Sets the policies. Each policy file is defined by a `fileName` and a `content`. The content takes the rego script as text.
     # For further information, please have a look at https://doc.owncloud.com/ocis/next/deployment/services/s-list/policies.html
     # Attention: All scripts provided here will end up in a ConfigMap. The data stored in a ConfigMap cannot exceed 1 MiB. see
@@ -992,12 +1406,26 @@ features:
     #     package postprocessing
     #     default granted := true
     #
+  # @schema
+  # enum: [Community, Enterprise]
+  # required: true
+  # @schema
   # -- Edition of ownCloud Infinite Scale.
   edition: "Community"
   # Archiver settings
   archiver:
+    # @schema
+    # type: integer
+    # required: true
+    # minimum: 1
+    # @schema
     # -- Max size in bytes of the zip archive the archiver can create.
     maxSize: 1073741824
+    # @schema
+    # type: integer
+    # required: true
+    # minimum: 1
+    # @schema
     # -- Max number of files that can be packed into an archive.
     maxNumFiles: 10000
   # OCM settings
@@ -1261,14 +1689,33 @@ customCAChain:
 
 # Security context options.
 securityContext:
+  # @schema
+  # type: integer
+  # required: true
+  # minimum: 0
+  # @schema
   # -- File system group for all volumes.
   fsGroup: 1000
+  # @schema
+  # enum: [Always, OnRootMismatch]
+  # required: true
+  # @schema
   # -- File system group change policy for all volumes.
   # Possible values "Always" and "OnRootMismatch".
   # This will also apply to all services' chownInitContainer.
   fsGroupChangePolicy: "OnRootMismatch"
+  # @schema
+  # type: integer
+  # required: true
+  # minimum: 0
+  # @schema
   # -- User ID that all processes within any containers will run with.
   runAsUser: 1000
+  # @schema
+  # type: integer
+  # required: true
+  # minimum: 0
+  # @schema
   # -- Group ID that all processes within any containers will run with.
   runAsGroup: 1000
 
@@ -1336,20 +1783,13 @@ podDisruptionBudget:
   # -- Sets the maxUnavailable or the global PodDisruptionBudget.
   # maxUnavailable: 1
 
+# @schema
+# $ref: schema/templates.json#/autoscalingTemplate
+# @schema
 # Autoscaling settings.
 autoscaling:
-  # @schema
-  # type: boolean
-  # required: true
-  # @schema
   # -- Enables autoscaling. When set to `true`, `replicas` is no longer applied.
-  enabled:
-    false
-    # @schema
-  # type: integer
-  # minimum: 1
-  # required: true
-  # @schema
+  enabled: false
   # -- Sets minimum replicas for autoscaling.
   minReplicas: 3
   # -- Sets maximum replicas for autoscaling.
@@ -1437,10 +1877,12 @@ jobPriorityClassName:
 # -- Default priorityClassName to apply to all services, except per-service priorityClassName configuration in `services.<service-name>.priorityClassName` is set.
 priorityClassName:
 
-  # ocis-low-priority
-  # ocis-medium-priority
-  # ocis-high-priority
-
+# @schema
+# type: array
+# required: true
+# items:
+#   type: string
+# @schema
 # Include arbitrary resources, eg. config maps or a cert-manager issuer (see example below)
 # -- Extra resources to be included.
 extraResources: []
@@ -1482,23 +1924,45 @@ services:
     # @schema
     # -- Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
     priorityClassName:
-    # -- Per-service store configuration for the activitylog service. Overrides the default setting from `store` if set.
-    store:
-      {}
-      # -- Configure the store type for the activitylog service. Might be `memory` (only for testing), `redis-sentinel`, `nats-js-kv`
-      # type:
-      # -- Provide a list of comma-separated addresses of `redis-sentinel` or `nats-js` servers here
-      # if the proper store is selected
-      # addresses:
-      # - "{{ .appNameNats }}:9233"
     # @schema
     # $ref: schema/templates.json#/podDisruptionBudgetTemplate
     # @schema
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
     podDisruptionBudget: {}
+    # @schema
+    # $ref: schema/templates.json#/autoscalingTemplate
+    # @schema
     # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
     autoscaling: {}
-    # -- Affinity settings for the activitylog service. See the documentation of this setting in approvider for examples.
+    # @schema
+    # $ref: schema/templates.json#/affinityTemplate
+    # @schema
+    # -- Per-service affinity.
+    # The value of this key will be passed to the affinity setting of the pod as documented here:
+    # https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#affinity-and-anti-affinity
+    # This example will ensure that the pods will only be scheduled on nodes with the label `topology.kubernetes.io/zone`
+    # set to `eu-west-1` or `eu-east-1`.
+    # nodeAffinity:
+    #   requiredDuringSchedulingIgnoredDuringExecution:
+    #     nodeSelectorTerms:
+    #     - matchExpressions:
+    #       - key: topology.kubernetes.io/zone
+    #         operator: In
+    #         values:
+    #         - eu-east-1
+    #         - eu-west-1
+    #
+    # The following example will make sure that these pods will never be scheduled on the same node.
+    # podAntiAffinity:
+    #   requiredDuringSchedulingIgnoredDuringExecution:
+    #     - labelSelector:
+    #         matchExpressions:
+    #           - key: app
+    #             operator: In
+    #             values:
+    #               - appprovider
+    #       topologyKey: "kubernetes.io/hostname"
+    #
     affinity: {}
     # @schema
     # $ref: schema/templates.json#/labelsTemplate
@@ -1556,36 +2020,16 @@ services:
     # @schema
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
     podDisruptionBudget: {}
+    # @schema
+    # $ref: schema/templates.json#/autoscalingTemplate
+    # @schema
     # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
     autoscaling: {}
-    # -- Affinity settings for the approvider service.
+    # @schema
+    # $ref: schema/templates.json#/affinityTemplate
+    # @schema
+    # -- Per-service affinity.
     affinity: {}
-    # -- Configuration for the appprovider service, every other service will have the same configuration.
-    # The value of this key will be passed to the affinity setting of the pod as documented here:
-    # https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#affinity-and-anti-affinity
-    # This example will ensure that the pods will only be scheduled on nodes with the label `topology.kubernetes.io/zone`
-    # set to `eu-west-1` or `eu-east-1`.
-    # nodeAffinity:
-    #   requiredDuringSchedulingIgnoredDuringExecution:
-    #     nodeSelectorTerms:
-    #     - matchExpressions:
-    #       - key: topology.kubernetes.io/zone
-    #         operator: In
-    #         values:
-    #         - eu-east-1
-    #         - eu-west-1
-    #
-    # The following example will make sure that these pods will never be scheduled on the same node.
-    # podAntiAffinity:
-    #   requiredDuringSchedulingIgnoredDuringExecution:
-    #     - labelSelector:
-    #         matchExpressions:
-    #           - key: app
-    #             operator: In
-    #             values:
-    #               - appprovider
-    #       topologyKey: "kubernetes.io/hostname"
-    #
     # @schema
     # $ref: schema/templates.json#/labelsTemplate
     # @schema
@@ -1638,7 +2082,10 @@ services:
     # @schema
     # -- Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
     priorityClassName:
-    # -- Affinity settings for the appregistry service. See the documentation of this setting in approvider for examples.
+    # @schema
+    # $ref: schema/templates.json#/affinityTemplate
+    # @schema
+    # -- Per-service affinity.
     affinity: {}
     # @schema
     # $ref: schema/templates.json#/labelsTemplate
@@ -1696,9 +2143,15 @@ services:
     # @schema
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
     podDisruptionBudget: {}
+    # @schema
+    # $ref: schema/templates.json#/autoscalingTemplate
+    # @schema
     # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
     autoscaling: {}
-    # -- Affinity settings for the audit service. See the documentation of this setting in approvider for examples.
+    # @schema
+    # $ref: schema/templates.json#/affinityTemplate
+    # @schema
+    # -- Per-service affinity.
     affinity: {}
     # @schema
     # $ref: schema/templates.json#/labelsTemplate
@@ -1756,9 +2209,15 @@ services:
     # @schema
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
     podDisruptionBudget: {}
+    # @schema
+    # $ref: schema/templates.json#/autoscalingTemplate
+    # @schema
     # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
     autoscaling: {}
-    # -- Affinity settings for the authmachine service. See the documentation of this setting in approvider for examples.
+    # @schema
+    # $ref: schema/templates.json#/affinityTemplate
+    # @schema
+    # -- Per-service affinity.
     affinity: {}
     # @schema
     # $ref: schema/templates.json#/labelsTemplate
@@ -1816,9 +2275,15 @@ services:
     # @schema
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
     podDisruptionBudget: {}
+    # @schema
+    # $ref: schema/templates.json#/autoscalingTemplate
+    # @schema
     # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
     autoscaling: {}
-    # -- Affinity settings for the authservice service. See the documentation of this setting in approvider for examples.
+    # @schema
+    # $ref: schema/templates.json#/affinityTemplate
+    # @schema
+    # -- Per-service affinity.
     affinity: {}
     # @schema
     # $ref: schema/templates.json#/labelsTemplate
@@ -1885,9 +2350,15 @@ services:
     # @schema
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
     podDisruptionBudget: {}
+    # @schema
+    # $ref: schema/templates.json#/autoscalingTemplate
+    # @schema
     # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
     autoscaling: {}
-    # -- Affinity settings for the antivirus service. See the documentation of this setting in approvider for examples.
+    # @schema
+    # $ref: schema/templates.json#/affinityTemplate
+    # @schema
+    # -- Per-service affinity.
     affinity: {}
     # @schema
     # $ref: schema/templates.json#/labelsTemplate
@@ -1945,9 +2416,15 @@ services:
     # @schema
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
     podDisruptionBudget: {}
+    # @schema
+    # $ref: schema/templates.json#/autoscalingTemplate
+    # @schema
     # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
     autoscaling: {}
-    # -- Affinity settings for the clientlog service. See the documentation of this setting in approvider for examples.
+    # @schema
+    # $ref: schema/templates.json#/affinityTemplate
+    # @schema
+    # -- Per-service affinity.
     affinity: {}
     # @schema
     # $ref: schema/templates.json#/labelsTemplate
@@ -2000,23 +2477,20 @@ services:
     # @schema
     # -- Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
     priorityClassName:
-    # -- Per-service store configuration for the eventhistory service. Overrides the default setting from `store` if set.
-    store:
-      {}
-      # -- Configure the store type for the eventhistory service. Might be `memory` (only for testing), `redis-sentinel`, `nats-js-kv`
-      #type:
-      # -- Provide a list of comma-separated addresses of `redis-sentinel` or `nats-js` servers here
-      # if the proper store is selected
-      # addresses: []
-      # - "{{ .appNameNats }}:9233"
     # @schema
     # $ref: schema/templates.json#/podDisruptionBudgetTemplate
     # @schema
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
     podDisruptionBudget: {}
+    # @schema
+    # $ref: schema/templates.json#/autoscalingTemplate
+    # @schema
     # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
     autoscaling: {}
-    # -- Affinity settings for the eventhistory service. See the documentation of this setting in approvider for examples.
+    # @schema
+    # $ref: schema/templates.json#/affinityTemplate
+    # @schema
+    # -- Per-service affinity.
     affinity: {}
     # @schema
     # $ref: schema/templates.json#/labelsTemplate
@@ -2083,9 +2557,15 @@ services:
     # @schema
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
     podDisruptionBudget: {}
+    # @schema
+    # $ref: schema/templates.json#/autoscalingTemplate
+    # @schema
     # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
     autoscaling: {}
-    # -- Affinity settings for the frontend service. See the documentation of this setting in approvider for examples.
+    # @schema
+    # $ref: schema/templates.json#/affinityTemplate
+    # @schema
+    # -- Per-service affinity.
     affinity: {}
     # @schema
     # $ref: schema/templates.json#/labelsTemplate
@@ -2143,9 +2623,15 @@ services:
     # @schema
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
     podDisruptionBudget: {}
+    # @schema
+    # $ref: schema/templates.json#/autoscalingTemplate
+    # @schema
     # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
     autoscaling: {}
-    # -- Affinity settings for the gateway service. See the documentation of this setting in approvider for examples.
+    # @schema
+    # $ref: schema/templates.json#/affinityTemplate
+    # @schema
+    # -- Per-service affinity.
     affinity: {}
     # @schema
     # $ref: schema/templates.json#/labelsTemplate
@@ -2203,9 +2689,15 @@ services:
     # @schema
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
     podDisruptionBudget: {}
+    # @schema
+    # $ref: schema/templates.json#/autoscalingTemplate
+    # @schema
     # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
     autoscaling: {}
-    # -- Affinity settings for the graph service. See the documentation of this setting in approvider for examples.
+    # @schema
+    # $ref: schema/templates.json#/affinityTemplate
+    # @schema
+    # -- Per-service affinity.
     affinity: {}
     # @schema
     # $ref: schema/templates.json#/labelsTemplate
@@ -2260,9 +2752,15 @@ services:
     # @schema
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
     podDisruptionBudget: {}
+    # @schema
+    # $ref: schema/templates.json#/autoscalingTemplate
+    # @schema
     # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
     autoscaling: {}
-    # -- Affinity settings for the groups service. See the documentation of this setting in approvider for examples.
+    # @schema
+    # $ref: schema/templates.json#/affinityTemplate
+    # @schema
+    # -- Per-service affinity.
     affinity: {}
     # @schema
     # $ref: schema/templates.json#/labelsTemplate
@@ -2369,7 +2867,10 @@ services:
     # @schema
     # -- Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
     priorityClassName:
-    # -- Affinity settings for the idm service. See the documentation of this setting in approvider for examples.
+    # @schema
+    # $ref: schema/templates.json#/affinityTemplate
+    # @schema
+    # -- Per-service affinity.
     affinity: {}
     # @schema
     # $ref: schema/templates.json#/labelsTemplate
@@ -2421,8 +2922,10 @@ services:
     # required: false
     # @schema
     # -- Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
-    priorityClassName:
-    # -- Affinity settings for the idp service. See the documentation of this setting in approvider for examples.
+    # @schema
+    # $ref: schema/templates.json#/affinityTemplate
+    # @schema
+    # -- Per-service affinity.
     affinity: {}
     # @schema
     # $ref: schema/templates.json#/labelsTemplate
@@ -2532,7 +3035,10 @@ services:
     # @schema
     # -- Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
     priorityClassName:
-    # -- Affinity settings for the nats service. See the documentation of this setting in approvider for examples.
+    # @schema
+    # $ref: schema/templates.json#/affinityTemplate
+    # @schema
+    # -- Per-service affinity.
     affinity: {}
     # @schema
     # $ref: schema/templates.json#/labelsTemplate
@@ -2590,9 +3096,15 @@ services:
     # @schema
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
     podDisruptionBudget: {}
+    # @schema
+    # $ref: schema/templates.json#/autoscalingTemplate
+    # @schema
     # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
     autoscaling: {}
-    # -- Affinity settings for the notifications service. See the documentation of this setting in approvider for examples.
+    # @schema
+    # $ref: schema/templates.json#/affinityTemplate
+    # @schema
+    # -- Per-service affinity.
     affinity: {}
     # @schema
     # $ref: schema/templates.json#/labelsTemplate
@@ -2650,9 +3162,15 @@ services:
     # @schema
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
     podDisruptionBudget: {}
+    # @schema
+    # $ref: schema/templates.json#/autoscalingTemplate
+    # @schema
     # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
     autoscaling: {}
-    # -- Affinity settings for the ocdav service. See the documentation of this setting in approvider for examples.
+    # @schema
+    # $ref: schema/templates.json#/affinityTemplate
+    # @schema
+    # -- Per-service affinity.
     affinity: {}
     # @schema
     # $ref: schema/templates.json#/labelsTemplate
@@ -2705,7 +3223,10 @@ services:
     # @schema
     # -- Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
     priorityClassName:
-    # -- Affinity settings for the ocs service. See the documentation of this setting in approvider for examples.
+    # @schema
+    # $ref: schema/templates.json#/affinityTemplate
+    # @schema
+    # -- Per-service affinity.
     affinity: {}
     # @schema
     # $ref: schema/templates.json#/labelsTemplate
@@ -2817,9 +3338,15 @@ services:
     # @schema
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
     podDisruptionBudget: {}
+    # @schema
+    # $ref: schema/templates.json#/autoscalingTemplate
+    # @schema
     # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
     autoscaling: {}
-    # -- Affinity settings for the ocs service. See the documentation of this setting in approvider for examples.
+    # @schema
+    # $ref: schema/templates.json#/affinityTemplate
+    # @schema
+    # -- Per-service affinity.
     affinity: {}
     # @schema
     # $ref: schema/templates.json#/labelsTemplate
@@ -2877,9 +3404,15 @@ services:
     # @schema
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
     podDisruptionBudget: {}
+    # @schema
+    # $ref: schema/templates.json#/autoscalingTemplate
+    # @schema
     # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
     autoscaling: {}
-    # -- Affinity settings for the policies service. See the documentation of this setting in approvider for examples.
+    # @schema
+    # $ref: schema/templates.json#/affinityTemplate
+    # @schema
+    # -- Per-service affinity.
     affinity: {}
     # @schema
     # $ref: schema/templates.json#/labelsTemplate
@@ -2946,11 +3479,15 @@ services:
     # @schema
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
     podDisruptionBudget: {}
-    # -- Per-service store configuration for the eventhistory service. Overrides the default setting from `store` if set.
-    store: {}
+    # @schema
+    # $ref: schema/templates.json#/autoscalingTemplate
+    # @schema
     # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
     autoscaling: {}
-    # -- Affinity settings for the postprocessing service. See the documentation of this setting in approvider for examples.
+    # @schema
+    # $ref: schema/templates.json#/affinityTemplate
+    # @schema
+    # -- Per-service affinity.
     affinity: {}
     # @schema
     # $ref: schema/templates.json#/labelsTemplate
@@ -3018,9 +3555,15 @@ services:
     # @schema
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
     podDisruptionBudget: {}
+    # @schema
+    # $ref: schema/templates.json#/autoscalingTemplate
+    # @schema
     # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
     autoscaling: {}
-    # -- Affinity settings for the proxy service. See the documentation of this setting in approvider for examples.
+    # @schema
+    # $ref: schema/templates.json#/affinityTemplate
+    # @schema
+    # -- Per-service affinity.
     affinity: {}
     # @schema
     # $ref: schema/templates.json#/labelsTemplate
@@ -3159,7 +3702,10 @@ services:
     # @schema
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
     podDisruptionBudget: {}
-    # -- Affinity settings for the search service. See the documentation of this setting in approvider for examples.
+    # @schema
+    # $ref: schema/templates.json#/affinityTemplate
+    # @schema
+    # -- Per-service affinity.
     affinity: {}
     # @schema
     # $ref: schema/templates.json#/labelsTemplate
@@ -3217,9 +3763,15 @@ services:
     # @schema
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
     podDisruptionBudget: {}
+    # @schema
+    # $ref: schema/templates.json#/autoscalingTemplate
+    # @schema
     # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
     autoscaling: {}
-    # -- Affinity settings for the settings service. See the documentation of this setting in approvider for examples.
+    # @schema
+    # $ref: schema/templates.json#/affinityTemplate
+    # @schema
+    # -- Per-service affinity.
     affinity: {}
     # @schema
     # $ref: schema/templates.json#/labelsTemplate
@@ -3277,9 +3829,15 @@ services:
     # @schema
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
     podDisruptionBudget: {}
+    # @schema
+    # $ref: schema/templates.json#/autoscalingTemplate
+    # @schema
     # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
     autoscaling: {}
-    # -- Affinity settings for the sharing service. See the documentation of this setting in approvider for examples.
+    # @schema
+    # $ref: schema/templates.json#/affinityTemplate
+    # @schema
+    # -- Per-service affinity.
     affinity: {}
     # @schema
     # $ref: schema/templates.json#/labelsTemplate
@@ -3340,11 +3898,15 @@ services:
     # @schema
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
     podDisruptionBudget: {}
-    # -- Per-service store configuration for the eventhistory service. Overrides the default setting from `store` if set.
-    store: {}
+    # @schema
+    # $ref: schema/templates.json#/autoscalingTemplate
+    # @schema
     # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
     autoscaling: {}
-    # -- Affinity settings for the postprocessing service. See the documentation of this setting in approvider for examples.
+    # @schema
+    # $ref: schema/templates.json#/affinityTemplate
+    # @schema
+    # -- Per-service affinity.
     affinity: {}
     # @schema
     # $ref: schema/templates.json#/labelsTemplate
@@ -3402,9 +3964,15 @@ services:
     # @schema
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
     podDisruptionBudget: {}
+    # @schema
+    # $ref: schema/templates.json#/autoscalingTemplate
+    # @schema
     # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
     autoscaling: {}
-    # -- Affinity settings for the storagepubliclink service. See the documentation of this setting in approvider for examples.
+    # @schema
+    # $ref: schema/templates.json#/affinityTemplate
+    # @schema
+    # -- Per-service affinity.
     affinity: {}
     # @schema
     # $ref: schema/templates.json#/labelsTemplate
@@ -3462,9 +4030,15 @@ services:
     # @schema
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
     podDisruptionBudget: {}
+    # @schema
+    # $ref: schema/templates.json#/autoscalingTemplate
+    # @schema
     # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
     autoscaling: {}
-    # -- Affinity settings for the storageshares service. See the documentation of this setting in approvider for examples.
+    # @schema
+    # $ref: schema/templates.json#/affinityTemplate
+    # @schema
+    # -- Per-service affinity.
     affinity: {}
     # @schema
     # $ref: schema/templates.json#/labelsTemplate
@@ -3580,9 +4154,15 @@ services:
     # @schema
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
     podDisruptionBudget: {}
+    # @schema
+    # $ref: schema/templates.json#/autoscalingTemplate
+    # @schema
     # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
     autoscaling: {}
-    # -- Affinity settings for the storagesystem service. See the documentation of this setting in approvider for examples.
+    # @schema
+    # $ref: schema/templates.json#/affinityTemplate
+    # @schema
+    # -- Per-service affinity.
     affinity: {}
     # @schema
     # $ref: schema/templates.json#/labelsTemplate
@@ -3904,9 +4484,15 @@ services:
     # @schema
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
     podDisruptionBudget: {}
+    # @schema
+    # $ref: schema/templates.json#/autoscalingTemplate
+    # @schema
     # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
     autoscaling: {}
-    # -- Affinity settings for the storageusers service. See the documentation of this setting in approvider for examples.
+    # @schema
+    # $ref: schema/templates.json#/affinityTemplate
+    # @schema
+    # -- Per-service affinity.
     affinity: {}
     # @schema
     # $ref: schema/templates.json#/labelsTemplate
@@ -4094,9 +4680,15 @@ services:
         # @schema
         # -- Image pull policy
         pullPolicy: IfNotPresent
+    # @schema
+    # $ref: schema/templates.json#/autoscalingTemplate
+    # @schema
     # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
     autoscaling: {}
-    # -- Affinity settings for the thumbnails service. See the documentation of this setting in approvider for examples.
+    # @schema
+    # $ref: schema/templates.json#/affinityTemplate
+    # @schema
+    # -- Per-service affinity.
     affinity: {}
     # @schema
     # $ref: schema/templates.json#/labelsTemplate
@@ -4149,23 +4741,20 @@ services:
     # @schema
     # -- Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
     priorityClassName:
-    # -- Per-service store configuration for the userlog service. Overrides the default setting from `store` if set.
-    store:
-      {}
-      # -- Configure the store type for the userlog service. Might be `memory` (only for testing), `redis-sentinel`, `nats-js-kv`
-      # type:
-      # -- Provide a list of comma-separated addresses of `redis-sentinel` or `nats-js` servers here
-      # if the proper store is selected
-      # addresses:
-      # - "{{ .appNameNats }}:9233"
     # @schema
     # $ref: schema/templates.json#/podDisruptionBudgetTemplate
     # @schema
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
     podDisruptionBudget: {}
+    # @schema
+    # $ref: schema/templates.json#/autoscalingTemplate
+    # @schema
     # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
     autoscaling: {}
-    # -- Affinity settings for the userlog service. See the documentation of this setting in approvider for examples.
+    # @schema
+    # $ref: schema/templates.json#/affinityTemplate
+    # @schema
+    # -- Per-service affinity.
     affinity: {}
     # @schema
     # $ref: schema/templates.json#/labelsTemplate
@@ -4223,9 +4812,15 @@ services:
     # @schema
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
     podDisruptionBudget: {}
+    # @schema
+    # $ref: schema/templates.json#/autoscalingTemplate
+    # @schema
     # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
     autoscaling: {}
-    # -- Affinity settings for the users service. See the documentation of this setting in approvider for examples.
+    # @schema
+    # $ref: schema/templates.json#/affinityTemplate
+    # @schema
+    # -- Per-service affinity.
     affinity: {}
     # @schema
     # $ref: schema/templates.json#/labelsTemplate
@@ -4516,9 +5111,15 @@ services:
     # @schema
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
     podDisruptionBudget: {}
+    # @schema
+    # $ref: schema/templates.json#/autoscalingTemplate
+    # @schema
     # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
     autoscaling: {}
-    # -- Affinity settings for the web service. See the documentation of this setting in approvider for examples.
+    # @schema
+    # $ref: schema/templates.json#/affinityTemplate
+    # @schema
+    # -- Per-service affinity.
     affinity: {}
     # @schema
     # $ref: schema/templates.json#/labelsTemplate
@@ -4578,9 +5179,15 @@ services:
     # @schema
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
     podDisruptionBudget: {}
+    # @schema
+    # $ref: schema/templates.json#/autoscalingTemplate
+    # @schema
     # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
     autoscaling: {}
-    # -- Affinity settings for the webdav service. See the documentation of this setting in approvider for examples.
+    # @schema
+    # $ref: schema/templates.json#/affinityTemplate
+    # @schema
+    # -- Per-service affinity.
     affinity: {}
     # @schema
     # $ref: schema/templates.json#/labelsTemplate
@@ -4638,9 +5245,15 @@ services:
     # @schema
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
     podDisruptionBudget: {}
+    # @schema
+    # $ref: schema/templates.json#/autoscalingTemplate
+    # @schema
     # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
     autoscaling: {}
-    # -- Affinity settings for the webfinger service. See the documentation of this setting in approvider for examples.
+    # @schema
+    # $ref: schema/templates.json#/affinityTemplate
+    # @schema
+    # -- Per-service affinity.
     affinity: {}
     # @schema
     # $ref: schema/templates.json#/labelsTemplate

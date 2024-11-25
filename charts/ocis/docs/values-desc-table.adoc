@@ -108,12 +108,24 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `false`
 | Profiling enables the http://<pod>:<debug-metrics>/debug/pprof endpoint to inspect various Go runtime internals. You can use the endpoint on your machine by forwarding the port, eg: `kubectl port-forward -n ocis pod/proxy-8587dc9d64-fs24l 9205:9205` and then accessing the port on https://localhost:9147/debug/pprof or using the pprof command line tool: `go tool pprof -web http://localhost:9205/debug/pprof/symbol\?seconds\=10`
-| deploymentStrategy
+| deploymentStrategy.rollingUpdate.maxSurge
 a| [subs=-attributes]
-+object+
++string+
 a| [subs=-attributes]
-`{"type":"RollingUpdate"}`
-| Deployment strategy.
+`"25%"`
+|
+| deploymentStrategy.rollingUpdate.maxUnavailable
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"25%"`
+| The maximum number of pods that can be unavailable during the update. Value can be an absolute number (ex: 5) or a percentage of desired pods (ex: 10%).
+| deploymentStrategy.type
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"RollingUpdate"`
+|
 | externalDomain
 a| [subs=-attributes]
 +string+
@@ -286,7 +298,7 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 +string+
 a| [subs=-attributes]
-`"uid=ocis,ou=system-users,dc=owncloud,dc=test"`
+`nil`
 | DN of the user to use to bind to the LDAP server. The password for the user needs to be set in the secret referenced by `secretRefs.ldapSecretRef` as `reva-ldap-bind-password`. The user needs to have permission to list users and groups.
 | features.externalUserManagement.ldap.certTrusted
 a| [subs=-attributes]
@@ -406,7 +418,7 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 +string+
 a| [subs=-attributes]
-`"ldaps://ldaps.owncloud.test"`
+`nil`
 | URI to connect to the LDAP secure server.
 | features.externalUserManagement.ldap.useServerUUID
 a| [subs=-attributes]
@@ -748,7 +760,7 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 +string+
 a| [subs=-attributes]
-`"avscan"`
+`nil`
 | Sets the service to be used in icap
 | features.virusscan.icap.timeout
 a| [subs=-attributes]
@@ -760,7 +772,7 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 +string+
 a| [subs=-attributes]
-`"icap://127.0.0.1:1344"`
+`nil`
 | Sets the icap url
 | features.virusscan.infectedFileHandling
 a| [subs=-attributes]
@@ -869,7 +881,7 @@ a| [subs=-attributes]
 +list+
 a| [subs=-attributes]
 `[]`
-| Names of the secret containing the credentials to pull an image from the registry. More information how a secret can be defined at https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/  *Note:* These secrets also apply to initContainers, so you need to provide secrets for the initContainer image here as well.
+| Names of the secret containing the credentials to pull an image from the registry. More information how a secret can be defined at https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/ These secrets also apply to initContainers, so you need to provide secrets for the initContainer image here as well.
 | image.repository
 a| [subs=-attributes]
 +string+
@@ -980,9 +992,9 @@ a| [subs=-attributes]
 | Default resources to apply to all jobs in services, except per-service resources configuration in `services.<service-name>.jobResources` is set. Best practice is to: - set memory request == memory limit (compare to https://home.robusta.dev/blog/kubernetes-memory-limit) - set cpu request and omit cpu limit (compare to https://home.robusta.dev/blog/stop-using-cpu-limits)
 | logging.color
 a| [subs=-attributes]
-+string+
++bool+
 a| [subs=-attributes]
-`"false"`
+`false`
 | Activates colorized log output. Not recommended for production installations.
 | logging.level
 a| [subs=-attributes]
@@ -992,15 +1004,15 @@ a| [subs=-attributes]
 | Log level. Valid values: `panic`, `fatal`, `error`, `warn`, `info`, `debug`, `trace`.
 | logging.pretty
 a| [subs=-attributes]
-+string+
++bool+
 a| [subs=-attributes]
-`"false"`
+`false`
 | Activates pretty log output. Not recommended for production installations.
 | messagingSystem.external.cluster
 a| [subs=-attributes]
 +string+
 a| [subs=-attributes]
-`"ocis-cluster"`
+`nil`
 | Cluster name to use with the messaging system.
 | messagingSystem.external.enabled
 a| [subs=-attributes]
@@ -1012,7 +1024,7 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 +string+
 a| [subs=-attributes]
-`"nats.ocis-nats.svc.cluster.local:4222"`
+`nil`
 | Endpoint of the messaging system.
 | messagingSystem.external.tls.certTrusted
 a| [subs=-attributes]
@@ -1265,7 +1277,7 @@ a| [subs=-attributes]
 +object+
 a| [subs=-attributes]
 `{}`
-| Affinity settings for the activitylog service. See the documentation of this setting in approvider for examples.
+| Per-service affinity. The value of this key will be passed to the affinity setting of the pod as documented here: https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#affinity-and-anti-affinity This example will ensure that the pods will only be scheduled on nodes with the label `topology.kubernetes.io/zone` set to `eu-west-1` or `eu-east-1`. nodeAffinity:   requiredDuringSchedulingIgnoredDuringExecution:     nodeSelectorTerms:     - matchExpressions:       - key: topology.kubernetes.io/zone         operator: In         values:         - eu-east-1         - eu-west-1  The following example will make sure that these pods will never be scheduled on the same node. podAntiAffinity:   requiredDuringSchedulingIgnoredDuringExecution:     - labelSelector:         matchExpressions:           - key: app             operator: In             values:               - appprovider       topologyKey: "kubernetes.io/hostname"
 | services.activitylog.autoscaling
 a| [subs=-attributes]
 +object+
@@ -1326,12 +1338,6 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service resources configuration. Overrides the default setting from `resources` if set.
-| services.activitylog.store
-a| [subs=-attributes]
-+object+
-a| [subs=-attributes]
-`{}`
-| Per-service store configuration for the activitylog service. Overrides the default setting from `store` if set.
 | services.antivirus
 a| [subs=-attributes]
 +object+
@@ -1343,7 +1349,7 @@ a| [subs=-attributes]
 +object+
 a| [subs=-attributes]
 `{}`
-| Affinity settings for the antivirus service. See the documentation of this setting in approvider for examples.
+| Per-service affinity.
 | services.antivirus.autoscaling
 a| [subs=-attributes]
 +object+
@@ -1421,7 +1427,7 @@ a| [subs=-attributes]
 +object+
 a| [subs=-attributes]
 `{}`
-| Affinity settings for the appregistry service. See the documentation of this setting in approvider for examples.
+| Per-service affinity.
 | services.appregistry.extraLabels
 a| [subs=-attributes]
 +object+
@@ -1481,7 +1487,7 @@ a| [subs=-attributes]
 +object+
 a| [subs=-attributes]
 `{}`
-| Affinity settings for the audit service. See the documentation of this setting in approvider for examples.
+| Per-service affinity.
 | services.audit.autoscaling
 a| [subs=-attributes]
 +object+
@@ -1553,7 +1559,7 @@ a| [subs=-attributes]
 +object+
 a| [subs=-attributes]
 `{}`
-| Affinity settings for the authmachine service. See the documentation of this setting in approvider for examples.
+| Per-service affinity.
 | services.authmachine.autoscaling
 a| [subs=-attributes]
 +object+
@@ -1625,7 +1631,7 @@ a| [subs=-attributes]
 +object+
 a| [subs=-attributes]
 `{}`
-| Affinity settings for the authservice service. See the documentation of this setting in approvider for examples.
+| Per-service affinity.
 | services.authservice.autoscaling
 a| [subs=-attributes]
 +object+
@@ -1697,7 +1703,7 @@ a| [subs=-attributes]
 +object+
 a| [subs=-attributes]
 `{}`
-| Affinity settings for the clientlog service. See the documentation of this setting in approvider for examples.
+| Per-service affinity.
 | services.clientlog.autoscaling
 a| [subs=-attributes]
 +object+
@@ -1769,7 +1775,7 @@ a| [subs=-attributes]
 +object+
 a| [subs=-attributes]
 `{}`
-| Affinity settings for the approvider service.
+| Per-service affinity.
 | services.collaboration.autoscaling
 a| [subs=-attributes]
 +object+
@@ -1841,7 +1847,7 @@ a| [subs=-attributes]
 +object+
 a| [subs=-attributes]
 `{}`
-| Affinity settings for the eventhistory service. See the documentation of this setting in approvider for examples.
+| Per-service affinity.
 | services.eventhistory.autoscaling
 a| [subs=-attributes]
 +object+
@@ -1902,12 +1908,6 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service resources configuration. Overrides the default setting from `resources` if set.
-| services.eventhistory.store
-a| [subs=-attributes]
-+object+
-a| [subs=-attributes]
-`{}`
-| Per-service store configuration for the eventhistory service. Overrides the default setting from `store` if set.
 | services.frontend
 a| [subs=-attributes]
 +object+
@@ -1919,7 +1919,7 @@ a| [subs=-attributes]
 +object+
 a| [subs=-attributes]
 `{}`
-| Affinity settings for the frontend service. See the documentation of this setting in approvider for examples.
+| Per-service affinity.
 | services.frontend.autoscaling
 a| [subs=-attributes]
 +object+
@@ -1997,7 +1997,7 @@ a| [subs=-attributes]
 +object+
 a| [subs=-attributes]
 `{}`
-| Affinity settings for the gateway service. See the documentation of this setting in approvider for examples.
+| Per-service affinity.
 | services.gateway.autoscaling
 a| [subs=-attributes]
 +object+
@@ -2069,7 +2069,7 @@ a| [subs=-attributes]
 +object+
 a| [subs=-attributes]
 `{}`
-| Affinity settings for the graph service. See the documentation of this setting in approvider for examples.
+| Per-service affinity.
 | services.graph.autoscaling
 a| [subs=-attributes]
 +object+
@@ -2141,7 +2141,7 @@ a| [subs=-attributes]
 +object+
 a| [subs=-attributes]
 `{}`
-| Affinity settings for the groups service. See the documentation of this setting in approvider for examples.
+| Per-service affinity.
 | services.groups.autoscaling
 a| [subs=-attributes]
 +object+
@@ -2213,7 +2213,7 @@ a| [subs=-attributes]
 +object+
 a| [subs=-attributes]
 `{}`
-| Affinity settings for the idm service. See the documentation of this setting in approvider for examples.
+| Per-service affinity.
 | services.idm.extraLabels
 a| [subs=-attributes]
 +object+
@@ -2339,7 +2339,7 @@ a| [subs=-attributes]
 +object+
 a| [subs=-attributes]
 `{}`
-| Affinity settings for the idp service. See the documentation of this setting in approvider for examples.
+| Per-service affinity.
 | services.idp.extraLabels
 a| [subs=-attributes]
 +object+
@@ -2376,12 +2376,6 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
-| services.idp.priorityClassName
-a| [subs=-attributes]
-+string+
-a| [subs=-attributes]
-`nil`
-| Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
 | services.idp.resources
 a| [subs=-attributes]
 +object+
@@ -2399,7 +2393,7 @@ a| [subs=-attributes]
 +object+
 a| [subs=-attributes]
 `{}`
-| Affinity settings for the nats service. See the documentation of this setting in approvider for examples.
+| Per-service affinity.
 | services.nats.extraLabels
 a| [subs=-attributes]
 +object+
@@ -2525,7 +2519,7 @@ a| [subs=-attributes]
 +object+
 a| [subs=-attributes]
 `{}`
-| Affinity settings for the notifications service. See the documentation of this setting in approvider for examples.
+| Per-service affinity.
 | services.notifications.autoscaling
 a| [subs=-attributes]
 +object+
@@ -2597,7 +2591,7 @@ a| [subs=-attributes]
 +object+
 a| [subs=-attributes]
 `{}`
-| Affinity settings for the ocdav service. See the documentation of this setting in approvider for examples.
+| Per-service affinity.
 | services.ocdav.autoscaling
 a| [subs=-attributes]
 +object+
@@ -2669,7 +2663,7 @@ a| [subs=-attributes]
 +object+
 a| [subs=-attributes]
 `{}`
-| Affinity settings for the ocs service. See the documentation of this setting in approvider for examples.
+| Per-service affinity.
 | services.ocm.extraLabels
 a| [subs=-attributes]
 +object+
@@ -2795,7 +2789,7 @@ a| [subs=-attributes]
 +object+
 a| [subs=-attributes]
 `{}`
-| Affinity settings for the ocs service. See the documentation of this setting in approvider for examples.
+| Per-service affinity.
 | services.ocs.autoscaling
 a| [subs=-attributes]
 +object+
@@ -2867,7 +2861,7 @@ a| [subs=-attributes]
 +object+
 a| [subs=-attributes]
 `{}`
-| Affinity settings for the policies service. See the documentation of this setting in approvider for examples.
+| Per-service affinity.
 | services.policies.autoscaling
 a| [subs=-attributes]
 +object+
@@ -2939,7 +2933,7 @@ a| [subs=-attributes]
 +object+
 a| [subs=-attributes]
 `{}`
-| Affinity settings for the postprocessing service. See the documentation of this setting in approvider for examples.
+| Per-service affinity.
 | services.postprocessing.autoscaling
 a| [subs=-attributes]
 +object+
@@ -3006,12 +3000,6 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service resources configuration. Overrides the default setting from `resources` if set.
-| services.postprocessing.store
-a| [subs=-attributes]
-+object+
-a| [subs=-attributes]
-`{}`
-| Per-service store configuration for the eventhistory service. Overrides the default setting from `store` if set.
 | services.proxy
 a| [subs=-attributes]
 +object+
@@ -3029,7 +3017,7 @@ a| [subs=-attributes]
 +object+
 a| [subs=-attributes]
 `{}`
-| Affinity settings for the proxy service. See the documentation of this setting in approvider for examples.
+| Per-service affinity.
 | services.proxy.autoscaling
 a| [subs=-attributes]
 +object+
@@ -3101,7 +3089,7 @@ a| [subs=-attributes]
 +object+
 a| [subs=-attributes]
 `{}`
-| Affinity settings for the search service. See the documentation of this setting in approvider for examples.
+| Per-service affinity.
 | services.search.extraLabels
 a| [subs=-attributes]
 +object+
@@ -3263,7 +3251,7 @@ a| [subs=-attributes]
 +object+
 a| [subs=-attributes]
 `{}`
-| Affinity settings for the settings service. See the documentation of this setting in approvider for examples.
+| Per-service affinity.
 | services.settings.autoscaling
 a| [subs=-attributes]
 +object+
@@ -3335,7 +3323,7 @@ a| [subs=-attributes]
 +object+
 a| [subs=-attributes]
 `{}`
-| Affinity settings for the sharing service. See the documentation of this setting in approvider for examples.
+| Per-service affinity.
 | services.sharing.autoscaling
 a| [subs=-attributes]
 +object+
@@ -3407,7 +3395,7 @@ a| [subs=-attributes]
 +object+
 a| [subs=-attributes]
 `{}`
-| Affinity settings for the postprocessing service. See the documentation of this setting in approvider for examples.
+| Per-service affinity.
 | services.sse.autoscaling
 a| [subs=-attributes]
 +object+
@@ -3474,12 +3462,6 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service resources configuration. Overrides the default setting from `resources` if set.
-| services.sse.store
-a| [subs=-attributes]
-+object+
-a| [subs=-attributes]
-`{}`
-| Per-service store configuration for the eventhistory service. Overrides the default setting from `store` if set.
 | services.storagepubliclink
 a| [subs=-attributes]
 +object+
@@ -3491,7 +3473,7 @@ a| [subs=-attributes]
 +object+
 a| [subs=-attributes]
 `{}`
-| Affinity settings for the storagepubliclink service. See the documentation of this setting in approvider for examples.
+| Per-service affinity.
 | services.storagepubliclink.autoscaling
 a| [subs=-attributes]
 +object+
@@ -3563,7 +3545,7 @@ a| [subs=-attributes]
 +object+
 a| [subs=-attributes]
 `{}`
-| Affinity settings for the storageshares service. See the documentation of this setting in approvider for examples.
+| Per-service affinity.
 | services.storageshares.autoscaling
 a| [subs=-attributes]
 +object+
@@ -3635,7 +3617,7 @@ a| [subs=-attributes]
 +object+
 a| [subs=-attributes]
 `{}`
-| Affinity settings for the storagesystem service. See the documentation of this setting in approvider for examples.
+| Per-service affinity.
 | services.storagesystem.autoscaling
 a| [subs=-attributes]
 +object+
@@ -3773,7 +3755,7 @@ a| [subs=-attributes]
 +object+
 a| [subs=-attributes]
 `{}`
-| Affinity settings for the storageusers service. See the documentation of this setting in approvider for examples.
+| Per-service affinity.
 | services.storageusers.autoscaling
 a| [subs=-attributes]
 +object+
@@ -4103,7 +4085,7 @@ a| [subs=-attributes]
 +object+
 a| [subs=-attributes]
 `{}`
-| Affinity settings for the thumbnails service. See the documentation of this setting in approvider for examples.
+| Per-service affinity.
 | services.thumbnails.autoscaling
 a| [subs=-attributes]
 +object+
@@ -4337,7 +4319,7 @@ a| [subs=-attributes]
 +object+
 a| [subs=-attributes]
 `{}`
-| Affinity settings for the userlog service. See the documentation of this setting in approvider for examples.
+| Per-service affinity.
 | services.userlog.autoscaling
 a| [subs=-attributes]
 +object+
@@ -4398,12 +4380,6 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service resources configuration. Overrides the default setting from `resources` if set.
-| services.userlog.store
-a| [subs=-attributes]
-+object+
-a| [subs=-attributes]
-`{}`
-| Per-service store configuration for the userlog service. Overrides the default setting from `store` if set.
 | services.users
 a| [subs=-attributes]
 +object+
@@ -4415,7 +4391,7 @@ a| [subs=-attributes]
 +object+
 a| [subs=-attributes]
 `{}`
-| Affinity settings for the users service. See the documentation of this setting in approvider for examples.
+| Per-service affinity.
 | services.users.autoscaling
 a| [subs=-attributes]
 +object+
@@ -4493,7 +4469,7 @@ a| [subs=-attributes]
 +object+
 a| [subs=-attributes]
 `{}`
-| Affinity settings for the web service. See the documentation of this setting in approvider for examples.
+| Per-service affinity.
 | services.web.autoscaling
 a| [subs=-attributes]
 +object+
@@ -4733,7 +4709,7 @@ a| [subs=-attributes]
 +object+
 a| [subs=-attributes]
 `{}`
-| Affinity settings for the webdav service. See the documentation of this setting in approvider for examples.
+| Per-service affinity.
 | services.webdav.autoscaling
 a| [subs=-attributes]
 +object+
@@ -4805,7 +4781,7 @@ a| [subs=-attributes]
 +object+
 a| [subs=-attributes]
 `{}`
-| Affinity settings for the webfinger service. See the documentation of this setting in approvider for examples.
+| Per-service affinity.
 | services.webfinger.autoscaling
 a| [subs=-attributes]
 +object+

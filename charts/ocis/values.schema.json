@@ -7,43 +7,25 @@
       "description": "Autoscaling settings.",
       "properties": {
         "enabled": {
-          "default": false,
-          "description": "Enables autoscaling. When set to `true`, `replicas` is no longer applied.",
           "required": [],
-          "title": "enabled",
           "type": "boolean"
         },
         "maxReplicas": {
-          "default": 10,
-          "description": "Sets maximum replicas for autoscaling.",
+          "minimum": 1,
           "required": [],
-          "title": "maxReplicas",
           "type": "integer"
         },
         "metrics": {
-          "description": "Metrics to use for autoscaling",
-          "items": {
-            "required": []
-          },
           "required": [],
-          "title": "metrics",
-          "type": "array"
+          "type": "object"
         },
         "minReplicas": {
-          "default": 3,
-          "description": "Sets minimum replicas for autoscaling.",
           "minimum": 1,
           "required": [],
-          "title": "minReplicas",
           "type": "integer"
         }
       },
-      "required": [
-        "enabled",
-        "minReplicas",
-        "maxReplicas",
-        "metrics"
-      ],
+      "required": [],
       "title": "autoscaling",
       "type": "object"
     },
@@ -101,13 +83,8 @@
         "nodes": {
           "description": "Nodes of the cache to use.",
           "items": {
-            "anyOf": [
-              {
-                "required": [],
-                "type": "string"
-              }
-            ],
-            "required": []
+            "required": [],
+            "type": "string"
           },
           "required": [],
           "title": "nodes",
@@ -122,8 +99,7 @@
         }
       },
       "required": [
-        "type",
-        "nodes"
+        "type"
       ],
       "title": "cache",
       "type": "object"
@@ -237,15 +213,45 @@
       "additionalProperties": false,
       "description": "Deployment strategy.",
       "properties": {
+        "rollingUpdate": {
+          "additionalProperties": false,
+          "properties": {
+            "maxSurge": {
+              "default": "25%",
+              "description": "The maximum number of pods that can be scheduled above the desired number of pods.\nValue can be an absolute number (ex: 5) or a percentage of desired pods (ex: 10%).",
+              "required": [],
+              "title": "maxSurge",
+              "type": "string"
+            },
+            "maxUnavailable": {
+              "default": "25%",
+              "description": "The maximum number of pods that can be unavailable during the update.\nValue can be an absolute number (ex: 5) or a percentage of desired pods (ex: 10%).",
+              "required": [],
+              "title": "maxUnavailable",
+              "type": "string"
+            }
+          },
+          "required": [
+            "maxSurge",
+            "maxUnavailable"
+          ],
+          "title": "rollingUpdate",
+          "type": "object"
+        },
         "type": {
           "default": "RollingUpdate",
+          "description": "deployment strategy type to use. Can be \"RollingUpdate\" or \"Recreate\"",
+          "enum": [
+            "RollingUpdate",
+            "Recreate"
+          ],
           "required": [],
-          "title": "type",
-          "type": "string"
+          "title": "type"
         }
       },
       "required": [
-        "type"
+        "type",
+        "rollingUpdate"
       ],
       "title": "deploymentStrategy",
       "type": "object"
@@ -273,7 +279,8 @@
     "extraResources": {
       "description": "Include arbitrary resources, eg. config maps or a cert-manager issuer (see example below)\nExtra resources to be included.",
       "items": {
-        "required": []
+        "required": [],
+        "type": "string"
       },
       "required": [],
       "title": "extraResources",
@@ -297,7 +304,39 @@
             "mimetypes": {
               "description": "Mimetype configuration.\nLet's you configure a mimetypes' default application, if it is allowed to create a new file and more.",
               "items": {
-                "required": []
+                "additionalProperties": false,
+                "properties": {
+                  "allow_creation": {
+                    "required": [],
+                    "type": "boolean"
+                  },
+                  "default_app": {
+                    "required": [],
+                    "type": "string"
+                  },
+                  "description": {
+                    "required": [],
+                    "type": "string"
+                  },
+                  "extension": {
+                    "required": [],
+                    "type": "string"
+                  },
+                  "icon": {
+                    "required": [],
+                    "type": "string"
+                  },
+                  "mime_type": {
+                    "required": [],
+                    "type": "string"
+                  },
+                  "name": {
+                    "required": [],
+                    "type": "string"
+                  }
+                },
+                "required": [],
+                "type": "object"
               },
               "required": [],
               "title": "mimetypes",
@@ -444,6 +483,7 @@
             "maxNumFiles": {
               "default": 10000,
               "description": "Max number of files that can be packed into an archive.",
+              "minimum": 1,
               "required": [],
               "title": "maxNumFiles",
               "type": "integer"
@@ -451,6 +491,7 @@
             "maxSize": {
               "default": 1073741824,
               "description": "Max size in bytes of the zip archive the archiver can create.",
+              "minimum": 1,
               "required": [],
               "title": "maxSize",
               "type": "integer"
@@ -473,9 +514,12 @@
         "edition": {
           "default": "Community",
           "description": "Edition of ownCloud Infinite Scale.",
+          "enum": [
+            "Community",
+            "Enterprise"
+          ],
           "required": [],
-          "title": "edition",
-          "type": "string"
+          "title": "edition"
         },
         "emailNotifications": {
           "additionalProperties": false,
@@ -682,11 +726,14 @@
               "description": "LDAP related settings.",
               "properties": {
                 "bindDN": {
-                  "default": "uid=ocis,ou=system-users,dc=owncloud,dc=test",
+                  "default": "",
                   "description": "DN of the user to use to bind to the LDAP server.\nThe password for the user needs to be set in the secret referenced by `secretRefs.ldapSecretRef` as `reva-ldap-bind-password`.\nThe user needs to have permission to list users and groups.",
                   "required": [],
                   "title": "bindDN",
-                  "type": "string"
+                  "type": [
+                    "string",
+                    "null"
+                  ]
                 },
                 "certTrusted": {
                   "default": true,
@@ -861,7 +908,8 @@
                 "readOnlyAttributes": {
                   "description": "If the LDAP server is set to writable in general, some user attributes can be restricted to read only in the UI.\nNote: This only disables editing in the UI. The readonly permissions need to be enforced in the LDAP server itself.",
                   "items": {
-                    "required": []
+                    "required": [],
+                    "type": "string"
                   },
                   "required": [],
                   "title": "readOnlyAttributes",
@@ -875,11 +923,14 @@
                   "type": "boolean"
                 },
                 "uri": {
-                  "default": "ldaps://ldaps.owncloud.test",
+                  "default": "",
                   "description": "- user.onPremisesSamAccountName # username\n- user.displayName # display name\n- user.mail # mail\n- user.passwordProfile # password\n- user.appRoleAssignments # role\n- user.accountEnabled # login allowed\n- drive.quota # quota\nURI to connect to the LDAP secure server.",
                   "required": [],
                   "title": "uri",
-                  "type": "string"
+                  "type": [
+                    "string",
+                    "null"
+                  ]
                 },
                 "useServerUUID": {
                   "default": false,
@@ -1019,10 +1070,8 @@
               "required": [
                 "writeable",
                 "readOnlyAttributes",
-                "uri",
                 "certTrusted",
                 "insecure",
-                "bindDN",
                 "refintEnabled",
                 "passwordModifyExOpEnabled",
                 "useServerUUID",
@@ -1085,97 +1134,19 @@
                     "mapping": {
                       "description": "Configure the mapping for the role assignment",
                       "items": {
-                        "anyOf": [
-                          {
-                            "additionalProperties": false,
-                            "properties": {
-                              "claim_value": {
-                                "default": "ocisAdmin",
-                                "required": [],
-                                "title": "claim_value",
-                                "type": "string"
-                              },
-                              "role_name": {
-                                "default": "admin",
-                                "required": [],
-                                "title": "role_name",
-                                "type": "string"
-                              }
-                            },
-                            "required": [
-                              "role_name",
-                              "claim_value"
-                            ],
-                            "type": "object"
+                        "additionalProperties": false,
+                        "properties": {
+                          "claim_value": {
+                            "required": [],
+                            "type": "string"
                           },
-                          {
-                            "additionalProperties": false,
-                            "properties": {
-                              "claim_value": {
-                                "default": "ocisSpaceAdmin",
-                                "required": [],
-                                "title": "claim_value",
-                                "type": "string"
-                              },
-                              "role_name": {
-                                "default": "spaceadmin",
-                                "required": [],
-                                "title": "role_name",
-                                "type": "string"
-                              }
-                            },
-                            "required": [
-                              "role_name",
-                              "claim_value"
-                            ],
-                            "type": "object"
-                          },
-                          {
-                            "additionalProperties": false,
-                            "properties": {
-                              "claim_value": {
-                                "default": "ocisUser",
-                                "required": [],
-                                "title": "claim_value",
-                                "type": "string"
-                              },
-                              "role_name": {
-                                "default": "user",
-                                "required": [],
-                                "title": "role_name",
-                                "type": "string"
-                              }
-                            },
-                            "required": [
-                              "role_name",
-                              "claim_value"
-                            ],
-                            "type": "object"
-                          },
-                          {
-                            "additionalProperties": false,
-                            "properties": {
-                              "claim_value": {
-                                "default": "ocisGuest",
-                                "required": [],
-                                "title": "claim_value",
-                                "type": "string"
-                              },
-                              "role_name": {
-                                "default": "user-light",
-                                "required": [],
-                                "title": "role_name",
-                                "type": "string"
-                              }
-                            },
-                            "required": [
-                              "role_name",
-                              "claim_value"
-                            ],
-                            "type": "object"
+                          "role_name": {
+                            "required": [],
+                            "type": "string"
                           }
-                        ],
-                        "required": []
+                        },
+                        "required": [],
+                        "type": "object"
                       },
                       "required": [],
                       "title": "mapping",
@@ -1412,7 +1383,19 @@
             "policies": {
               "description": "Sets the policies. Each policy file is defined by a `fileName` and a `content`. The content takes the rego script as text.\nFor further information, please have a look at https://doc.owncloud.com/ocis/next/deployment/services/s-list/policies.html\nAttention: All scripts provided here will end up in a ConfigMap. The data stored in a ConfigMap cannot exceed 1 MiB. see\nhttps://kubernetes.io/docs/concepts/configuration/configmap/#:~:text=The%20data%20stored%20in%20a,separate%20database%20or%20file%20service.",
               "items": {
-                "required": []
+                "additionalProperties": false,
+                "properties": {
+                  "content": {
+                    "required": [],
+                    "type": "string"
+                  },
+                  "fileName": {
+                    "required": [],
+                    "type": "string"
+                  }
+                },
+                "required": [],
+                "type": "object"
               },
               "required": [],
               "title": "policies",
@@ -1454,6 +1437,12 @@
             "roles": {
               "additionalProperties": false,
               "description": "Sets specific quotas for roles",
+              "patternProperties": {
+                ".*": {
+                  "required": [],
+                  "type": "string"
+                }
+              },
               "required": [],
               "title": "roles",
               "type": "object"
@@ -1472,7 +1461,8 @@
             "availableUnifiedRoles": {
               "description": "Define a list of unified roles to make them available.\nThe default of an empty list means all unified roles are available.\nYou can read about unified roles in https://doc.owncloud.com/ocis/next/deployment/services/s-list/graph.html.\nThe IDs of the roles and a description can be found by running:\nkubectl -n ocis exec deployments/graph -- ocis graph list-unified-roles",
               "items": {
-                "required": []
+                "required": [],
+                "type": "string"
               },
               "required": [],
               "title": "availableUnifiedRoles",
@@ -1523,7 +1513,8 @@
                 "bannedPasswords": {
                   "description": "list of banned passwords",
                   "items": {
-                    "required": []
+                    "required": [],
+                    "type": "string"
                   },
                   "required": [],
                   "title": "bannedPasswords",
@@ -1532,6 +1523,7 @@
                 "minCharacters": {
                   "default": 0,
                   "description": "the minimum amount of characters the password needs to have",
+                  "minimum": 0,
                   "required": [],
                   "title": "minCharacters",
                   "type": "integer"
@@ -1539,6 +1531,7 @@
                 "minDigits": {
                   "default": 0,
                   "description": "the minimum amount of digits the password needs to have",
+                  "minimum": 0,
                   "required": [],
                   "title": "minDigits",
                   "type": "integer"
@@ -1546,6 +1539,7 @@
                 "minLowerCharacters": {
                   "default": 0,
                   "description": "the minimum amount of lower case characters the password needs to have",
+                  "minimum": 0,
                   "required": [],
                   "title": "minLowerCharacters",
                   "type": "integer"
@@ -1553,6 +1547,7 @@
                 "minSpecialCharacters": {
                   "default": 0,
                   "description": "the minimum amount of special characters the password needs to have",
+                  "minimum": 0,
                   "required": [],
                   "title": "minSpecialCharacters",
                   "type": "integer"
@@ -1560,6 +1555,7 @@
                 "minUpperCharacters": {
                   "default": 0,
                   "description": "the minimum amount of upper case characters the password needs to have",
+                  "minimum": 0,
                   "required": [],
                   "title": "minUpperCharacters",
                   "type": "integer"
@@ -1613,6 +1609,7 @@
                     "minLengthLimit": {
                       "default": 3,
                       "description": "Minimum number of characters to enter before a client should start a search for Share receivers.\nThis setting can be used to customize the user experience if e.g too many results are displayed.",
+                      "minimum": 1,
                       "required": [],
                       "title": "minLengthLimit",
                       "type": "integer"
@@ -1665,11 +1662,14 @@
               "description": "Define icap parameters",
               "properties": {
                 "service": {
-                  "default": "avscan",
+                  "default": "",
                   "description": "Sets the service to be used in icap",
                   "required": [],
                   "title": "service",
-                  "type": "string"
+                  "type": [
+                    "string",
+                    "null"
+                  ]
                 },
                 "timeout": {
                   "default": 300,
@@ -1679,17 +1679,18 @@
                   "type": "integer"
                 },
                 "url": {
-                  "default": "icap://127.0.0.1:1344",
+                  "default": "",
                   "description": "Sets the icap url",
                   "required": [],
                   "title": "url",
-                  "type": "string"
+                  "type": [
+                    "string",
+                    "null"
+                  ]
                 }
               },
               "required": [
-                "timeout",
-                "url",
-                "service"
+                "timeout"
               ],
               "title": "icap",
               "type": "object"
@@ -1697,9 +1698,13 @@
             "infectedFileHandling": {
               "default": "delete",
               "description": "Define what should happen with infected files. Supported options are: 'delete', 'continue' and 'abort '.\nDelete will delete the file.\nContinue will mark the file as infected but continues further processing.\nAbort will keep the file in the uploads folder for further admin inspection and will not move it to its final destination.",
+              "enum": [
+                "delete",
+                "continue",
+                "abort"
+              ],
               "required": [],
-              "title": "infectedFileHandling",
-              "type": "string"
+              "title": "infectedFileHandling"
             },
             "maxScanSize": {
               "default": "",
@@ -1749,7 +1754,23 @@
     "hostAliases": {
       "description": "provide custom hostnames to every oCIS pods",
       "items": {
-        "required": []
+        "additionalProperties": false,
+        "properties": {
+          "hostnames": {
+            "items": {
+              "required": [],
+              "type": "string"
+            },
+            "required": [],
+            "type": "array"
+          },
+          "ip": {
+            "required": [],
+            "type": "string"
+          }
+        },
+        "required": [],
+        "type": "object"
       },
       "required": [],
       "title": "hostAliases",
@@ -1766,16 +1787,15 @@
             "allow_origins": {
               "description": "allow_origins is a list of origins a cross-domain request can be executed from.\nIf the special \"*\" value is present in the list, all origins will be allowed.",
               "items": {
-                "required": []
+                "required": [],
+                "type": "string"
               },
               "required": [],
               "title": "allow_origins",
               "type": "array"
             }
           },
-          "required": [
-            "allow_origins"
-          ],
+          "required": [],
           "title": "cors",
           "type": "object"
         },
@@ -1789,13 +1809,8 @@
                 "childSrc": {
                   "description": "child-src directive, see https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/child-src",
                   "items": {
-                    "anyOf": [
-                      {
-                        "required": [],
-                        "type": "string"
-                      }
-                    ],
-                    "required": []
+                    "required": [],
+                    "type": "string"
                   },
                   "required": [],
                   "title": "childSrc",
@@ -1804,13 +1819,8 @@
                 "connectSrc": {
                   "description": "connect-src directive, see https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/connect-src",
                   "items": {
-                    "anyOf": [
-                      {
-                        "required": [],
-                        "type": "string"
-                      }
-                    ],
-                    "required": []
+                    "required": [],
+                    "type": "string"
                   },
                   "required": [],
                   "title": "connectSrc",
@@ -1819,13 +1829,8 @@
                 "defaultSrc": {
                   "description": "default-src directive, see https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/default-src",
                   "items": {
-                    "anyOf": [
-                      {
-                        "required": [],
-                        "type": "string"
-                      }
-                    ],
-                    "required": []
+                    "required": [],
+                    "type": "string"
                   },
                   "required": [],
                   "title": "defaultSrc",
@@ -1834,13 +1839,8 @@
                 "fontSrc": {
                   "description": "front-src directive, see https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/front-src",
                   "items": {
-                    "anyOf": [
-                      {
-                        "required": [],
-                        "type": "string"
-                      }
-                    ],
-                    "required": []
+                    "required": [],
+                    "type": "string"
                   },
                   "required": [],
                   "title": "fontSrc",
@@ -1849,13 +1849,8 @@
                 "frameAncestors": {
                   "description": "frame-ancestors directive, see https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/frame-ancestors",
                   "items": {
-                    "anyOf": [
-                      {
-                        "required": [],
-                        "type": "string"
-                      }
-                    ],
-                    "required": []
+                    "required": [],
+                    "type": "string"
                   },
                   "required": [],
                   "title": "frameAncestors",
@@ -1883,21 +1878,8 @@
                 "imgSrc": {
                   "description": "img-src directive, see https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/img-src",
                   "items": {
-                    "anyOf": [
-                      {
-                        "required": [],
-                        "type": "string"
-                      },
-                      {
-                        "required": [],
-                        "type": "string"
-                      },
-                      {
-                        "required": [],
-                        "type": "string"
-                      }
-                    ],
-                    "required": []
+                    "required": [],
+                    "type": "string"
                   },
                   "required": [],
                   "title": "imgSrc",
@@ -1906,13 +1888,8 @@
                 "manifestSrc": {
                   "description": "manifest-src directive, see https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/manifest-src",
                   "items": {
-                    "anyOf": [
-                      {
-                        "required": [],
-                        "type": "string"
-                      }
-                    ],
-                    "required": []
+                    "required": [],
+                    "type": "string"
                   },
                   "required": [],
                   "title": "manifestSrc",
@@ -1921,13 +1898,8 @@
                 "mediaSrc": {
                   "description": "media-src directive, see https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/media-src",
                   "items": {
-                    "anyOf": [
-                      {
-                        "required": [],
-                        "type": "string"
-                      }
-                    ],
-                    "required": []
+                    "required": [],
+                    "type": "string"
                   },
                   "required": [],
                   "title": "mediaSrc",
@@ -1936,17 +1908,8 @@
                 "objectSrc": {
                   "description": "object-src directive, see https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/object-src",
                   "items": {
-                    "anyOf": [
-                      {
-                        "required": [],
-                        "type": "string"
-                      },
-                      {
-                        "required": [],
-                        "type": "string"
-                      }
-                    ],
-                    "required": []
+                    "required": [],
+                    "type": "string"
                   },
                   "required": [],
                   "title": "objectSrc",
@@ -1955,17 +1918,8 @@
                 "scriptSrc": {
                   "description": "script-src directive, see https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/script-src",
                   "items": {
-                    "anyOf": [
-                      {
-                        "required": [],
-                        "type": "string"
-                      },
-                      {
-                        "required": [],
-                        "type": "string"
-                      }
-                    ],
-                    "required": []
+                    "required": [],
+                    "type": "string"
                   },
                   "required": [],
                   "title": "scriptSrc",
@@ -1974,17 +1928,8 @@
                 "styleSrc": {
                   "description": "style-src directive, see https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/style-src",
                   "items": {
-                    "anyOf": [
-                      {
-                        "required": [],
-                        "type": "string"
-                      },
-                      {
-                        "required": [],
-                        "type": "string"
-                      }
-                    ],
-                    "required": []
+                    "required": [],
+                    "type": "string"
                   },
                   "required": [],
                   "title": "styleSrc",
@@ -1992,18 +1937,7 @@
                 }
               },
               "required": [
-                "childSrc",
-                "connectSrc",
-                "defaultSrc",
-                "fontSrc",
-                "frameAncestors",
-                "frameSrc",
-                "imgSrc",
-                "manifestSrc",
-                "mediaSrc",
-                "objectSrc",
-                "scriptSrc",
-                "styleSrc"
+                "frameSrc"
               ],
               "title": "directives",
               "type": "object"
@@ -2035,7 +1969,7 @@
           "type": "string"
         },
         "pullSecrets": {
-          "description": "Names of the secret containing the credentials to pull an image from the registry. More\ninformation how a secret can be defined at https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/\n\n*Note:* These secrets also apply to initContainers, so you need to provide secrets for the initContainer image here as well.",
+          "description": "Names of the secret containing the credentials to pull an image from the registry. More\ninformation how a secret can be defined at https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/\nThese secrets also apply to initContainers, so you need to provide secrets for the initContainer image here as well.",
           "items": {
             "additionalProperties": false,
             "properties": {
@@ -2311,25 +2245,33 @@
       "description": "Logging settings for oCIS services",
       "properties": {
         "color": {
-          "default": "false",
+          "default": false,
           "description": "Activates colorized log output.\nNot recommended for production installations.",
           "required": [],
           "title": "color",
-          "type": "string"
+          "type": "boolean"
         },
         "level": {
           "default": "info",
           "description": "Log level. Valid values: `panic`, `fatal`, `error`, `warn`, `info`, `debug`, `trace`.",
+          "enum": [
+            "panic",
+            "fatal",
+            "error",
+            "warn",
+            "info",
+            "debug",
+            "trace"
+          ],
           "required": [],
-          "title": "level",
-          "type": "string"
+          "title": "level"
         },
         "pretty": {
-          "default": "false",
+          "default": false,
           "description": "Activates pretty log output.\nNot recommended for production installations.",
           "required": [],
           "title": "pretty",
-          "type": "string"
+          "type": "boolean"
         }
       },
       "required": [
@@ -2347,11 +2289,14 @@
           "additionalProperties": false,
           "properties": {
             "cluster": {
-              "default": "ocis-cluster",
+              "default": "",
               "description": "Cluster name to use with the messaging system.",
               "required": [],
               "title": "cluster",
-              "type": "string"
+              "type": [
+                "string",
+                "null"
+              ]
             },
             "enabled": {
               "default": false,
@@ -2361,11 +2306,14 @@
               "type": "boolean"
             },
             "endpoint": {
-              "default": "nats.ocis-nats.svc.cluster.local:4222",
+              "default": "",
               "description": "Endpoint of the messaging system.",
               "required": [],
               "title": "endpoint",
-              "type": "string"
+              "type": [
+                "string",
+                "null"
+              ]
             },
             "tls": {
               "additionalProperties": false,
@@ -2403,8 +2351,6 @@
           },
           "required": [
             "enabled",
-            "endpoint",
-            "cluster",
             "tls"
           ],
           "title": "external",
@@ -2507,13 +2453,8 @@
         "nodes": {
           "description": "Nodes of the service registry to use.",
           "items": {
-            "anyOf": [
-              {
-                "required": [],
-                "type": "string"
-              }
-            ],
-            "required": []
+            "required": [],
+            "type": "string"
           },
           "required": [],
           "title": "nodes",
@@ -2528,8 +2469,7 @@
         }
       },
       "required": [
-        "type",
-        "nodes"
+        "type"
       ],
       "title": "registry",
       "type": "object"
@@ -2775,6 +2715,7 @@
         "fsGroup": {
           "default": 1000,
           "description": "File system group for all volumes.",
+          "minimum": 0,
           "required": [],
           "title": "fsGroup",
           "type": "integer"
@@ -2782,13 +2723,17 @@
         "fsGroupChangePolicy": {
           "default": "OnRootMismatch",
           "description": "File system group change policy for all volumes.\nPossible values \"Always\" and \"OnRootMismatch\".\nThis will also apply to all services' chownInitContainer.",
+          "enum": [
+            "Always",
+            "OnRootMismatch"
+          ],
           "required": [],
-          "title": "fsGroupChangePolicy",
-          "type": "string"
+          "title": "fsGroupChangePolicy"
         },
         "runAsGroup": {
           "default": 1000,
           "description": "Group ID that all processes within any containers will run with.",
+          "minimum": 0,
           "required": [],
           "title": "runAsGroup",
           "type": "integer"
@@ -2796,6 +2741,7 @@
         "runAsUser": {
           "default": 1000,
           "description": "User ID that all processes within any containers will run with.",
+          "minimum": 0,
           "required": [],
           "title": "runAsUser",
           "type": "integer"
@@ -2872,14 +2818,33 @@
           "properties": {
             "affinity": {
               "additionalProperties": false,
-              "description": "Affinity settings for the activitylog service. See the documentation of this setting in approvider for examples.",
+              "description": "Per-service affinity.\nThe value of this key will be passed to the affinity setting of the pod as documented here:\nhttps://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#affinity-and-anti-affinity\nThis example will ensure that the pods will only be scheduled on nodes with the label `topology.kubernetes.io/zone`\nset to `eu-west-1` or `eu-east-1`.\nnodeAffinity:\n  requiredDuringSchedulingIgnoredDuringExecution:\n    nodeSelectorTerms:\n    - matchExpressions:\n      - key: topology.kubernetes.io/zone\n        operator: In\n        values:\n        - eu-east-1\n        - eu-west-1\n\nThe following example will make sure that these pods will never be scheduled on the same node.\npodAntiAffinity:\n  requiredDuringSchedulingIgnoredDuringExecution:\n    - labelSelector:\n        matchExpressions:\n          - key: app\n            operator: In\n            values:\n              - appprovider\n      topologyKey: \"kubernetes.io/hostname\"\n",
               "required": [],
-              "title": "affinity",
-              "type": "object"
+              "title": "affinity"
             },
             "autoscaling": {
               "additionalProperties": false,
               "description": "Per-service autoscaling. Overrides the default setting from `autoscaling` if set.",
+              "properties": {
+                "enabled": {
+                  "required": [],
+                  "type": "boolean"
+                },
+                "maxReplicas": {
+                  "minimum": 1,
+                  "required": [],
+                  "type": "integer"
+                },
+                "metrics": {
+                  "required": [],
+                  "type": "object"
+                },
+                "minReplicas": {
+                  "minimum": 1,
+                  "required": [],
+                  "type": "integer"
+                }
+              },
               "required": [],
               "title": "autoscaling",
               "type": "object"
@@ -2961,7 +2926,7 @@
             },
             "podDisruptionBudget": {
               "additionalProperties": false,
-              "description": "Configure the store type for the activitylog service. Might be `memory` (only for testing), `redis-sentinel`, `nats-js-kv`\ntype:\nProvide a list of comma-separated addresses of `redis-sentinel` or `nats-js` servers here\nif the proper store is selected\naddresses:\n- \"{{ .appNameNats }}:9233\"\nPer-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.",
+              "description": "Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.",
               "properties": {
                 "maxUnavailable": {
                   "required": [],
@@ -3022,19 +2987,9 @@
               "required": [],
               "title": "resources",
               "type": "object"
-            },
-            "store": {
-              "additionalProperties": false,
-              "description": "Per-service store configuration for the activitylog service. Overrides the default setting from `store` if set.",
-              "required": [],
-              "title": "store",
-              "type": "object"
             }
           },
           "required": [
-            "store",
-            "autoscaling",
-            "affinity",
             "image"
           ],
           "title": "activitylog",
@@ -3046,14 +3001,33 @@
           "properties": {
             "affinity": {
               "additionalProperties": false,
-              "description": "Affinity settings for the antivirus service. See the documentation of this setting in approvider for examples.",
+              "description": "Per-service affinity.",
               "required": [],
-              "title": "affinity",
-              "type": "object"
+              "title": "affinity"
             },
             "autoscaling": {
               "additionalProperties": false,
               "description": "Per-service autoscaling. Overrides the default setting from `autoscaling` if set.",
+              "properties": {
+                "enabled": {
+                  "required": [],
+                  "type": "boolean"
+                },
+                "maxReplicas": {
+                  "minimum": 1,
+                  "required": [],
+                  "type": "integer"
+                },
+                "metrics": {
+                  "required": [],
+                  "type": "object"
+                },
+                "minReplicas": {
+                  "minimum": 1,
+                  "required": [],
+                  "type": "integer"
+                }
+              },
               "required": [],
               "title": "autoscaling",
               "type": "object"
@@ -3228,8 +3202,6 @@
           },
           "required": [
             "events",
-            "autoscaling",
-            "affinity",
             "image"
           ],
           "title": "antivirus",
@@ -3241,10 +3213,9 @@
           "properties": {
             "affinity": {
               "additionalProperties": false,
-              "description": "Affinity settings for the appregistry service. See the documentation of this setting in approvider for examples.",
+              "description": "Per-service affinity.",
               "required": [],
-              "title": "affinity",
-              "type": "object"
+              "title": "affinity"
             },
             "extraLabels": {
               "additionalProperties": false,
@@ -3370,7 +3341,6 @@
             }
           },
           "required": [
-            "affinity",
             "image"
           ],
           "title": "appregistry",
@@ -3382,14 +3352,33 @@
           "properties": {
             "affinity": {
               "additionalProperties": false,
-              "description": "Affinity settings for the audit service. See the documentation of this setting in approvider for examples.",
+              "description": "Per-service affinity.",
               "required": [],
-              "title": "affinity",
-              "type": "object"
+              "title": "affinity"
             },
             "autoscaling": {
               "additionalProperties": false,
               "description": "Per-service autoscaling. Overrides the default setting from `autoscaling` if set.",
+              "properties": {
+                "enabled": {
+                  "required": [],
+                  "type": "boolean"
+                },
+                "maxReplicas": {
+                  "minimum": 1,
+                  "required": [],
+                  "type": "integer"
+                },
+                "metrics": {
+                  "required": [],
+                  "type": "object"
+                },
+                "minReplicas": {
+                  "minimum": 1,
+                  "required": [],
+                  "type": "integer"
+                }
+              },
               "required": [],
               "title": "autoscaling",
               "type": "object"
@@ -3535,8 +3524,6 @@
             }
           },
           "required": [
-            "autoscaling",
-            "affinity",
             "image"
           ],
           "title": "audit",
@@ -3548,14 +3535,33 @@
           "properties": {
             "affinity": {
               "additionalProperties": false,
-              "description": "Affinity settings for the authmachine service. See the documentation of this setting in approvider for examples.",
+              "description": "Per-service affinity.",
               "required": [],
-              "title": "affinity",
-              "type": "object"
+              "title": "affinity"
             },
             "autoscaling": {
               "additionalProperties": false,
               "description": "Per-service autoscaling. Overrides the default setting from `autoscaling` if set.",
+              "properties": {
+                "enabled": {
+                  "required": [],
+                  "type": "boolean"
+                },
+                "maxReplicas": {
+                  "minimum": 1,
+                  "required": [],
+                  "type": "integer"
+                },
+                "metrics": {
+                  "required": [],
+                  "type": "object"
+                },
+                "minReplicas": {
+                  "minimum": 1,
+                  "required": [],
+                  "type": "integer"
+                }
+              },
               "required": [],
               "title": "autoscaling",
               "type": "object"
@@ -3701,8 +3707,6 @@
             }
           },
           "required": [
-            "autoscaling",
-            "affinity",
             "image"
           ],
           "title": "authmachine",
@@ -3714,14 +3718,33 @@
           "properties": {
             "affinity": {
               "additionalProperties": false,
-              "description": "Affinity settings for the authservice service. See the documentation of this setting in approvider for examples.",
+              "description": "Per-service affinity.",
               "required": [],
-              "title": "affinity",
-              "type": "object"
+              "title": "affinity"
             },
             "autoscaling": {
               "additionalProperties": false,
               "description": "Per-service autoscaling. Overrides the default setting from `autoscaling` if set.",
+              "properties": {
+                "enabled": {
+                  "required": [],
+                  "type": "boolean"
+                },
+                "maxReplicas": {
+                  "minimum": 1,
+                  "required": [],
+                  "type": "integer"
+                },
+                "metrics": {
+                  "required": [],
+                  "type": "object"
+                },
+                "minReplicas": {
+                  "minimum": 1,
+                  "required": [],
+                  "type": "integer"
+                }
+              },
               "required": [],
               "title": "autoscaling",
               "type": "object"
@@ -3867,8 +3890,6 @@
             }
           },
           "required": [
-            "autoscaling",
-            "affinity",
             "image"
           ],
           "title": "authservice",
@@ -3880,14 +3901,33 @@
           "properties": {
             "affinity": {
               "additionalProperties": false,
-              "description": "Affinity settings for the clientlog service. See the documentation of this setting in approvider for examples.",
+              "description": "Per-service affinity.",
               "required": [],
-              "title": "affinity",
-              "type": "object"
+              "title": "affinity"
             },
             "autoscaling": {
               "additionalProperties": false,
               "description": "Per-service autoscaling. Overrides the default setting from `autoscaling` if set.",
+              "properties": {
+                "enabled": {
+                  "required": [],
+                  "type": "boolean"
+                },
+                "maxReplicas": {
+                  "minimum": 1,
+                  "required": [],
+                  "type": "integer"
+                },
+                "metrics": {
+                  "required": [],
+                  "type": "object"
+                },
+                "minReplicas": {
+                  "minimum": 1,
+                  "required": [],
+                  "type": "integer"
+                }
+              },
               "required": [],
               "title": "autoscaling",
               "type": "object"
@@ -4033,8 +4073,6 @@
             }
           },
           "required": [
-            "autoscaling",
-            "affinity",
             "image"
           ],
           "title": "clientlog",
@@ -4046,21 +4084,40 @@
           "properties": {
             "affinity": {
               "additionalProperties": false,
-              "description": "Affinity settings for the approvider service.",
+              "description": "Per-service affinity.",
               "required": [],
-              "title": "affinity",
-              "type": "object"
+              "title": "affinity"
             },
             "autoscaling": {
               "additionalProperties": false,
               "description": "Per-service autoscaling. Overrides the default setting from `autoscaling` if set.",
+              "properties": {
+                "enabled": {
+                  "required": [],
+                  "type": "boolean"
+                },
+                "maxReplicas": {
+                  "minimum": 1,
+                  "required": [],
+                  "type": "integer"
+                },
+                "metrics": {
+                  "required": [],
+                  "type": "object"
+                },
+                "minReplicas": {
+                  "minimum": 1,
+                  "required": [],
+                  "type": "integer"
+                }
+              },
               "required": [],
               "title": "autoscaling",
               "type": "object"
             },
             "extraLabels": {
               "additionalProperties": false,
-              "description": "Configuration for the appprovider service, every other service will have the same configuration.\nThe value of this key will be passed to the affinity setting of the pod as documented here:\nhttps://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#affinity-and-anti-affinity\nThis example will ensure that the pods will only be scheduled on nodes with the label `topology.kubernetes.io/zone`\nset to `eu-west-1` or `eu-east-1`.\nnodeAffinity:\n  requiredDuringSchedulingIgnoredDuringExecution:\n    nodeSelectorTerms:\n    - matchExpressions:\n      - key: topology.kubernetes.io/zone\n        operator: In\n        values:\n        - eu-east-1\n        - eu-west-1\n\nThe following example will make sure that these pods will never be scheduled on the same node.\npodAntiAffinity:\n  requiredDuringSchedulingIgnoredDuringExecution:\n    - labelSelector:\n        matchExpressions:\n          - key: app\n            operator: In\n            values:\n              - appprovider\n      topologyKey: \"kubernetes.io/hostname\"\n\nDo note that the value will be different for each service.\nPer-service custom labels",
+              "description": "Do note that the value will be different for each service.\nPer-service custom labels",
               "patternProperties": {
                 ".*": {
                   "required": [],
@@ -4199,8 +4256,6 @@
             }
           },
           "required": [
-            "autoscaling",
-            "affinity",
             "image"
           ],
           "title": "collaboration",
@@ -4212,14 +4267,33 @@
           "properties": {
             "affinity": {
               "additionalProperties": false,
-              "description": "Affinity settings for the eventhistory service. See the documentation of this setting in approvider for examples.",
+              "description": "Per-service affinity.",
               "required": [],
-              "title": "affinity",
-              "type": "object"
+              "title": "affinity"
             },
             "autoscaling": {
               "additionalProperties": false,
               "description": "Per-service autoscaling. Overrides the default setting from `autoscaling` if set.",
+              "properties": {
+                "enabled": {
+                  "required": [],
+                  "type": "boolean"
+                },
+                "maxReplicas": {
+                  "minimum": 1,
+                  "required": [],
+                  "type": "integer"
+                },
+                "metrics": {
+                  "required": [],
+                  "type": "object"
+                },
+                "minReplicas": {
+                  "minimum": 1,
+                  "required": [],
+                  "type": "integer"
+                }
+              },
               "required": [],
               "title": "autoscaling",
               "type": "object"
@@ -4301,7 +4375,7 @@
             },
             "podDisruptionBudget": {
               "additionalProperties": false,
-              "description": "Configure the store type for the eventhistory service. Might be `memory` (only for testing), `redis-sentinel`, `nats-js-kv`\ntype:\nProvide a list of comma-separated addresses of `redis-sentinel` or `nats-js` servers here\nif the proper store is selected\naddresses: []\n- \"{{ .appNameNats }}:9233\"\nPer-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.",
+              "description": "Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.",
               "properties": {
                 "maxUnavailable": {
                   "required": [],
@@ -4362,19 +4436,9 @@
               "required": [],
               "title": "resources",
               "type": "object"
-            },
-            "store": {
-              "additionalProperties": false,
-              "description": "Per-service store configuration for the eventhistory service. Overrides the default setting from `store` if set.",
-              "required": [],
-              "title": "store",
-              "type": "object"
             }
           },
           "required": [
-            "store",
-            "autoscaling",
-            "affinity",
             "image"
           ],
           "title": "eventhistory",
@@ -4386,14 +4450,33 @@
           "properties": {
             "affinity": {
               "additionalProperties": false,
-              "description": "Affinity settings for the frontend service. See the documentation of this setting in approvider for examples.",
+              "description": "Per-service affinity.",
               "required": [],
-              "title": "affinity",
-              "type": "object"
+              "title": "affinity"
             },
             "autoscaling": {
               "additionalProperties": false,
               "description": "Per-service autoscaling. Overrides the default setting from `autoscaling` if set.",
+              "properties": {
+                "enabled": {
+                  "required": [],
+                  "type": "boolean"
+                },
+                "maxReplicas": {
+                  "minimum": 1,
+                  "required": [],
+                  "type": "integer"
+                },
+                "metrics": {
+                  "required": [],
+                  "type": "object"
+                },
+                "minReplicas": {
+                  "minimum": 1,
+                  "required": [],
+                  "type": "integer"
+                }
+              },
               "required": [],
               "title": "autoscaling",
               "type": "object"
@@ -4568,8 +4651,6 @@
           },
           "required": [
             "events",
-            "autoscaling",
-            "affinity",
             "image"
           ],
           "title": "frontend",
@@ -4581,14 +4662,33 @@
           "properties": {
             "affinity": {
               "additionalProperties": false,
-              "description": "Affinity settings for the gateway service. See the documentation of this setting in approvider for examples.",
+              "description": "Per-service affinity.",
               "required": [],
-              "title": "affinity",
-              "type": "object"
+              "title": "affinity"
             },
             "autoscaling": {
               "additionalProperties": false,
               "description": "Per-service autoscaling. Overrides the default setting from `autoscaling` if set.",
+              "properties": {
+                "enabled": {
+                  "required": [],
+                  "type": "boolean"
+                },
+                "maxReplicas": {
+                  "minimum": 1,
+                  "required": [],
+                  "type": "integer"
+                },
+                "metrics": {
+                  "required": [],
+                  "type": "object"
+                },
+                "minReplicas": {
+                  "minimum": 1,
+                  "required": [],
+                  "type": "integer"
+                }
+              },
               "required": [],
               "title": "autoscaling",
               "type": "object"
@@ -4734,8 +4834,6 @@
             }
           },
           "required": [
-            "autoscaling",
-            "affinity",
             "image"
           ],
           "title": "gateway",
@@ -4747,14 +4845,33 @@
           "properties": {
             "affinity": {
               "additionalProperties": false,
-              "description": "Affinity settings for the graph service. See the documentation of this setting in approvider for examples.",
+              "description": "Per-service affinity.",
               "required": [],
-              "title": "affinity",
-              "type": "object"
+              "title": "affinity"
             },
             "autoscaling": {
               "additionalProperties": false,
               "description": "Per-service autoscaling. Overrides the default setting from `autoscaling` if set.",
+              "properties": {
+                "enabled": {
+                  "required": [],
+                  "type": "boolean"
+                },
+                "maxReplicas": {
+                  "minimum": 1,
+                  "required": [],
+                  "type": "integer"
+                },
+                "metrics": {
+                  "required": [],
+                  "type": "object"
+                },
+                "minReplicas": {
+                  "minimum": 1,
+                  "required": [],
+                  "type": "integer"
+                }
+              },
               "required": [],
               "title": "autoscaling",
               "type": "object"
@@ -4900,8 +5017,6 @@
             }
           },
           "required": [
-            "autoscaling",
-            "affinity",
             "image"
           ],
           "title": "graph",
@@ -4913,14 +5028,33 @@
           "properties": {
             "affinity": {
               "additionalProperties": false,
-              "description": "Affinity settings for the groups service. See the documentation of this setting in approvider for examples.",
+              "description": "Per-service affinity.",
               "required": [],
-              "title": "affinity",
-              "type": "object"
+              "title": "affinity"
             },
             "autoscaling": {
               "additionalProperties": false,
               "description": "Per-service autoscaling. Overrides the default setting from `autoscaling` if set.",
+              "properties": {
+                "enabled": {
+                  "required": [],
+                  "type": "boolean"
+                },
+                "maxReplicas": {
+                  "minimum": 1,
+                  "required": [],
+                  "type": "integer"
+                },
+                "metrics": {
+                  "required": [],
+                  "type": "object"
+                },
+                "minReplicas": {
+                  "minimum": 1,
+                  "required": [],
+                  "type": "integer"
+                }
+              },
               "required": [],
               "title": "autoscaling",
               "type": "object"
@@ -5061,8 +5195,6 @@
           },
           "required": [
             "nodeSelector",
-            "autoscaling",
-            "affinity",
             "image"
           ],
           "title": "groups",
@@ -5074,10 +5206,9 @@
           "properties": {
             "affinity": {
               "additionalProperties": false,
-              "description": "Affinity settings for the idm service. See the documentation of this setting in approvider for examples.",
+              "description": "Per-service affinity.",
               "required": [],
-              "title": "affinity",
-              "type": "object"
+              "title": "affinity"
             },
             "extraLabels": {
               "additionalProperties": false,
@@ -5321,7 +5452,6 @@
           "required": [
             "persistence",
             "nodeSelector",
-            "affinity",
             "image"
           ],
           "title": "idm",
@@ -5333,10 +5463,9 @@
           "properties": {
             "affinity": {
               "additionalProperties": false,
-              "description": "Affinity settings for the idp service. See the documentation of this setting in approvider for examples.",
+              "description": "Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.\nPer-service affinity.",
               "required": [],
-              "title": "affinity",
-              "type": "object"
+              "title": "affinity"
             },
             "extraLabels": {
               "additionalProperties": false,
@@ -5413,16 +5542,6 @@
               "title": "nodeSelector",
               "type": "object"
             },
-            "priorityClassName": {
-              "default": "",
-              "description": "Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.",
-              "required": [],
-              "title": "priorityClassName",
-              "type": [
-                "string",
-                "null"
-              ]
-            },
             "resources": {
               "additionalProperties": false,
               "description": "Per-service resources configuration. Overrides the default setting from `resources` if set.",
@@ -5462,7 +5581,6 @@
             }
           },
           "required": [
-            "affinity",
             "image"
           ],
           "title": "idp",
@@ -5474,10 +5592,9 @@
           "properties": {
             "affinity": {
               "additionalProperties": false,
-              "description": "Affinity settings for the nats service. See the documentation of this setting in approvider for examples.",
+              "description": "Per-service affinity.",
               "required": [],
-              "title": "affinity",
-              "type": "object"
+              "title": "affinity"
             },
             "extraLabels": {
               "additionalProperties": false,
@@ -5726,7 +5843,6 @@
           },
           "required": [
             "persistence",
-            "affinity",
             "image"
           ],
           "title": "nats",
@@ -5738,14 +5854,33 @@
           "properties": {
             "affinity": {
               "additionalProperties": false,
-              "description": "Affinity settings for the notifications service. See the documentation of this setting in approvider for examples.",
+              "description": "Per-service affinity.",
               "required": [],
-              "title": "affinity",
-              "type": "object"
+              "title": "affinity"
             },
             "autoscaling": {
               "additionalProperties": false,
               "description": "Per-service autoscaling. Overrides the default setting from `autoscaling` if set.",
+              "properties": {
+                "enabled": {
+                  "required": [],
+                  "type": "boolean"
+                },
+                "maxReplicas": {
+                  "minimum": 1,
+                  "required": [],
+                  "type": "integer"
+                },
+                "metrics": {
+                  "required": [],
+                  "type": "object"
+                },
+                "minReplicas": {
+                  "minimum": 1,
+                  "required": [],
+                  "type": "integer"
+                }
+              },
               "required": [],
               "title": "autoscaling",
               "type": "object"
@@ -5891,8 +6026,6 @@
             }
           },
           "required": [
-            "autoscaling",
-            "affinity",
             "image"
           ],
           "title": "notifications",
@@ -5904,14 +6037,33 @@
           "properties": {
             "affinity": {
               "additionalProperties": false,
-              "description": "Affinity settings for the ocdav service. See the documentation of this setting in approvider for examples.",
+              "description": "Per-service affinity.",
               "required": [],
-              "title": "affinity",
-              "type": "object"
+              "title": "affinity"
             },
             "autoscaling": {
               "additionalProperties": false,
               "description": "Per-service autoscaling. Overrides the default setting from `autoscaling` if set.",
+              "properties": {
+                "enabled": {
+                  "required": [],
+                  "type": "boolean"
+                },
+                "maxReplicas": {
+                  "minimum": 1,
+                  "required": [],
+                  "type": "integer"
+                },
+                "metrics": {
+                  "required": [],
+                  "type": "object"
+                },
+                "minReplicas": {
+                  "minimum": 1,
+                  "required": [],
+                  "type": "integer"
+                }
+              },
               "required": [],
               "title": "autoscaling",
               "type": "object"
@@ -6057,8 +6209,6 @@
             }
           },
           "required": [
-            "autoscaling",
-            "affinity",
             "image"
           ],
           "title": "ocdav",
@@ -6070,10 +6220,9 @@
           "properties": {
             "affinity": {
               "additionalProperties": false,
-              "description": "Affinity settings for the ocs service. See the documentation of this setting in approvider for examples.",
+              "description": "Per-service affinity.",
               "required": [],
-              "title": "affinity",
-              "type": "object"
+              "title": "affinity"
             },
             "extraLabels": {
               "additionalProperties": false,
@@ -6321,7 +6470,6 @@
             }
           },
           "required": [
-            "affinity",
             "image",
             "persistence"
           ],
@@ -6334,14 +6482,33 @@
           "properties": {
             "affinity": {
               "additionalProperties": false,
-              "description": "Affinity settings for the ocs service. See the documentation of this setting in approvider for examples.",
+              "description": "Per-service affinity.",
               "required": [],
-              "title": "affinity",
-              "type": "object"
+              "title": "affinity"
             },
             "autoscaling": {
               "additionalProperties": false,
               "description": "Per-service autoscaling. Overrides the default setting from `autoscaling` if set.",
+              "properties": {
+                "enabled": {
+                  "required": [],
+                  "type": "boolean"
+                },
+                "maxReplicas": {
+                  "minimum": 1,
+                  "required": [],
+                  "type": "integer"
+                },
+                "metrics": {
+                  "required": [],
+                  "type": "object"
+                },
+                "minReplicas": {
+                  "minimum": 1,
+                  "required": [],
+                  "type": "integer"
+                }
+              },
               "required": [],
               "title": "autoscaling",
               "type": "object"
@@ -6487,8 +6654,6 @@
             }
           },
           "required": [
-            "autoscaling",
-            "affinity",
             "image"
           ],
           "title": "ocs",
@@ -6500,14 +6665,33 @@
           "properties": {
             "affinity": {
               "additionalProperties": false,
-              "description": "Affinity settings for the policies service. See the documentation of this setting in approvider for examples.",
+              "description": "Per-service affinity.",
               "required": [],
-              "title": "affinity",
-              "type": "object"
+              "title": "affinity"
             },
             "autoscaling": {
               "additionalProperties": false,
               "description": "Per-service autoscaling. Overrides the default setting from `autoscaling` if set.",
+              "properties": {
+                "enabled": {
+                  "required": [],
+                  "type": "boolean"
+                },
+                "maxReplicas": {
+                  "minimum": 1,
+                  "required": [],
+                  "type": "integer"
+                },
+                "metrics": {
+                  "required": [],
+                  "type": "object"
+                },
+                "minReplicas": {
+                  "minimum": 1,
+                  "required": [],
+                  "type": "integer"
+                }
+              },
               "required": [],
               "title": "autoscaling",
               "type": "object"
@@ -6653,8 +6837,6 @@
             }
           },
           "required": [
-            "autoscaling",
-            "affinity",
             "image"
           ],
           "title": "policies",
@@ -6666,14 +6848,33 @@
           "properties": {
             "affinity": {
               "additionalProperties": false,
-              "description": "Affinity settings for the postprocessing service. See the documentation of this setting in approvider for examples.",
+              "description": "Per-service affinity.",
               "required": [],
-              "title": "affinity",
-              "type": "object"
+              "title": "affinity"
             },
             "autoscaling": {
               "additionalProperties": false,
               "description": "Per-service autoscaling. Overrides the default setting from `autoscaling` if set.",
+              "properties": {
+                "enabled": {
+                  "required": [],
+                  "type": "boolean"
+                },
+                "maxReplicas": {
+                  "minimum": 1,
+                  "required": [],
+                  "type": "integer"
+                },
+                "metrics": {
+                  "required": [],
+                  "type": "object"
+                },
+                "minReplicas": {
+                  "minimum": 1,
+                  "required": [],
+                  "type": "integer"
+                }
+              },
               "required": [],
               "title": "autoscaling",
               "type": "object"
@@ -6844,20 +7045,10 @@
               "required": [],
               "title": "resources",
               "type": "object"
-            },
-            "store": {
-              "additionalProperties": false,
-              "description": "Per-service store configuration for the eventhistory service. Overrides the default setting from `store` if set.",
-              "required": [],
-              "title": "store",
-              "type": "object"
             }
           },
           "required": [
             "events",
-            "store",
-            "autoscaling",
-            "affinity",
             "image"
           ],
           "title": "postprocessing",
@@ -6878,14 +7069,33 @@
             },
             "affinity": {
               "additionalProperties": false,
-              "description": "Affinity settings for the proxy service. See the documentation of this setting in approvider for examples.",
+              "description": "Per-service affinity.",
               "required": [],
-              "title": "affinity",
-              "type": "object"
+              "title": "affinity"
             },
             "autoscaling": {
               "additionalProperties": false,
               "description": "Per-service autoscaling. Overrides the default setting from `autoscaling` if set.",
+              "properties": {
+                "enabled": {
+                  "required": [],
+                  "type": "boolean"
+                },
+                "maxReplicas": {
+                  "minimum": 1,
+                  "required": [],
+                  "type": "integer"
+                },
+                "metrics": {
+                  "required": [],
+                  "type": "object"
+                },
+                "minReplicas": {
+                  "minimum": 1,
+                  "required": [],
+                  "type": "integer"
+                }
+              },
               "required": [],
               "title": "autoscaling",
               "type": "object"
@@ -7032,8 +7242,6 @@
           },
           "required": [
             "additionalPolicies",
-            "autoscaling",
-            "affinity",
             "image"
           ],
           "title": "proxy",
@@ -7045,10 +7253,9 @@
           "properties": {
             "affinity": {
               "additionalProperties": false,
-              "description": "Affinity settings for the search service. See the documentation of this setting in approvider for examples.",
+              "description": "Per-service affinity.",
               "required": [],
-              "title": "affinity",
-              "type": "object"
+              "title": "affinity"
             },
             "extraLabels": {
               "additionalProperties": false,
@@ -7371,7 +7578,6 @@
           "required": [
             "extractor",
             "persistence",
-            "affinity",
             "image"
           ],
           "title": "search",
@@ -7383,14 +7589,33 @@
           "properties": {
             "affinity": {
               "additionalProperties": false,
-              "description": "Affinity settings for the settings service. See the documentation of this setting in approvider for examples.",
+              "description": "Per-service affinity.",
               "required": [],
-              "title": "affinity",
-              "type": "object"
+              "title": "affinity"
             },
             "autoscaling": {
               "additionalProperties": false,
               "description": "Per-service autoscaling. Overrides the default setting from `autoscaling` if set.",
+              "properties": {
+                "enabled": {
+                  "required": [],
+                  "type": "boolean"
+                },
+                "maxReplicas": {
+                  "minimum": 1,
+                  "required": [],
+                  "type": "integer"
+                },
+                "metrics": {
+                  "required": [],
+                  "type": "object"
+                },
+                "minReplicas": {
+                  "minimum": 1,
+                  "required": [],
+                  "type": "integer"
+                }
+              },
               "required": [],
               "title": "autoscaling",
               "type": "object"
@@ -7536,8 +7761,6 @@
             }
           },
           "required": [
-            "autoscaling",
-            "affinity",
             "image"
           ],
           "title": "settings",
@@ -7549,14 +7772,33 @@
           "properties": {
             "affinity": {
               "additionalProperties": false,
-              "description": "Affinity settings for the sharing service. See the documentation of this setting in approvider for examples.",
+              "description": "Per-service affinity.",
               "required": [],
-              "title": "affinity",
-              "type": "object"
+              "title": "affinity"
             },
             "autoscaling": {
               "additionalProperties": false,
               "description": "Per-service autoscaling. Overrides the default setting from `autoscaling` if set.",
+              "properties": {
+                "enabled": {
+                  "required": [],
+                  "type": "boolean"
+                },
+                "maxReplicas": {
+                  "minimum": 1,
+                  "required": [],
+                  "type": "integer"
+                },
+                "metrics": {
+                  "required": [],
+                  "type": "object"
+                },
+                "minReplicas": {
+                  "minimum": 1,
+                  "required": [],
+                  "type": "integer"
+                }
+              },
               "required": [],
               "title": "autoscaling",
               "type": "object"
@@ -7702,8 +7944,6 @@
             }
           },
           "required": [
-            "autoscaling",
-            "affinity",
             "image"
           ],
           "title": "sharing",
@@ -7715,14 +7955,33 @@
           "properties": {
             "affinity": {
               "additionalProperties": false,
-              "description": "Affinity settings for the postprocessing service. See the documentation of this setting in approvider for examples.",
+              "description": "Per-service affinity.",
               "required": [],
-              "title": "affinity",
-              "type": "object"
+              "title": "affinity"
             },
             "autoscaling": {
               "additionalProperties": false,
               "description": "Per-service autoscaling. Overrides the default setting from `autoscaling` if set.",
+              "properties": {
+                "enabled": {
+                  "required": [],
+                  "type": "boolean"
+                },
+                "maxReplicas": {
+                  "minimum": 1,
+                  "required": [],
+                  "type": "integer"
+                },
+                "metrics": {
+                  "required": [],
+                  "type": "object"
+                },
+                "minReplicas": {
+                  "minimum": 1,
+                  "required": [],
+                  "type": "integer"
+                }
+              },
               "required": [],
               "title": "autoscaling",
               "type": "object"
@@ -7882,20 +8141,10 @@
               "required": [],
               "title": "resources",
               "type": "object"
-            },
-            "store": {
-              "additionalProperties": false,
-              "description": "Per-service store configuration for the eventhistory service. Overrides the default setting from `store` if set.",
-              "required": [],
-              "title": "store",
-              "type": "object"
             }
           },
           "required": [
             "connections",
-            "store",
-            "autoscaling",
-            "affinity",
             "image"
           ],
           "title": "sse",
@@ -7907,14 +8156,33 @@
           "properties": {
             "affinity": {
               "additionalProperties": false,
-              "description": "Affinity settings for the storagepubliclink service. See the documentation of this setting in approvider for examples.",
+              "description": "Per-service affinity.",
               "required": [],
-              "title": "affinity",
-              "type": "object"
+              "title": "affinity"
             },
             "autoscaling": {
               "additionalProperties": false,
               "description": "Per-service autoscaling. Overrides the default setting from `autoscaling` if set.",
+              "properties": {
+                "enabled": {
+                  "required": [],
+                  "type": "boolean"
+                },
+                "maxReplicas": {
+                  "minimum": 1,
+                  "required": [],
+                  "type": "integer"
+                },
+                "metrics": {
+                  "required": [],
+                  "type": "object"
+                },
+                "minReplicas": {
+                  "minimum": 1,
+                  "required": [],
+                  "type": "integer"
+                }
+              },
               "required": [],
               "title": "autoscaling",
               "type": "object"
@@ -8060,8 +8328,6 @@
             }
           },
           "required": [
-            "autoscaling",
-            "affinity",
             "image"
           ],
           "title": "storagepubliclink",
@@ -8073,14 +8339,33 @@
           "properties": {
             "affinity": {
               "additionalProperties": false,
-              "description": "Affinity settings for the storageshares service. See the documentation of this setting in approvider for examples.",
+              "description": "Per-service affinity.",
               "required": [],
-              "title": "affinity",
-              "type": "object"
+              "title": "affinity"
             },
             "autoscaling": {
               "additionalProperties": false,
               "description": "Per-service autoscaling. Overrides the default setting from `autoscaling` if set.",
+              "properties": {
+                "enabled": {
+                  "required": [],
+                  "type": "boolean"
+                },
+                "maxReplicas": {
+                  "minimum": 1,
+                  "required": [],
+                  "type": "integer"
+                },
+                "metrics": {
+                  "required": [],
+                  "type": "object"
+                },
+                "minReplicas": {
+                  "minimum": 1,
+                  "required": [],
+                  "type": "integer"
+                }
+              },
               "required": [],
               "title": "autoscaling",
               "type": "object"
@@ -8226,8 +8511,6 @@
             }
           },
           "required": [
-            "autoscaling",
-            "affinity",
             "image"
           ],
           "title": "storageshares",
@@ -8239,14 +8522,33 @@
           "properties": {
             "affinity": {
               "additionalProperties": false,
-              "description": "Affinity settings for the storagesystem service. See the documentation of this setting in approvider for examples.",
+              "description": "Per-service affinity.",
               "required": [],
-              "title": "affinity",
-              "type": "object"
+              "title": "affinity"
             },
             "autoscaling": {
               "additionalProperties": false,
               "description": "Per-service autoscaling. Overrides the default setting from `autoscaling` if set.",
+              "properties": {
+                "enabled": {
+                  "required": [],
+                  "type": "boolean"
+                },
+                "maxReplicas": {
+                  "minimum": 1,
+                  "required": [],
+                  "type": "integer"
+                },
+                "metrics": {
+                  "required": [],
+                  "type": "object"
+                },
+                "minReplicas": {
+                  "minimum": 1,
+                  "required": [],
+                  "type": "integer"
+                }
+              },
               "required": [],
               "title": "autoscaling",
               "type": "object"
@@ -8515,8 +8817,6 @@
           },
           "required": [
             "persistence",
-            "autoscaling",
-            "affinity",
             "image"
           ],
           "title": "storagesystem",
@@ -8528,14 +8828,33 @@
           "properties": {
             "affinity": {
               "additionalProperties": false,
-              "description": "Affinity settings for the storageusers service. See the documentation of this setting in approvider for examples.",
+              "description": "Per-service affinity.",
               "required": [],
-              "title": "affinity",
-              "type": "object"
+              "title": "affinity"
             },
             "autoscaling": {
               "additionalProperties": false,
               "description": "Per-service autoscaling. Overrides the default setting from `autoscaling` if set.",
+              "properties": {
+                "enabled": {
+                  "required": [],
+                  "type": "boolean"
+                },
+                "maxReplicas": {
+                  "minimum": 1,
+                  "required": [],
+                  "type": "integer"
+                },
+                "metrics": {
+                  "required": [],
+                  "type": "object"
+                },
+                "minReplicas": {
+                  "minimum": 1,
+                  "required": [],
+                  "type": "integer"
+                }
+              },
               "required": [],
               "title": "autoscaling",
               "type": "object"
@@ -9236,8 +9555,6 @@
             "storageBackend",
             "maintenance",
             "persistence",
-            "autoscaling",
-            "affinity",
             "image"
           ],
           "title": "storageusers",
@@ -9249,14 +9566,33 @@
           "properties": {
             "affinity": {
               "additionalProperties": false,
-              "description": "Affinity settings for the thumbnails service. See the documentation of this setting in approvider for examples.",
+              "description": "Per-service affinity.",
               "required": [],
-              "title": "affinity",
-              "type": "object"
+              "title": "affinity"
             },
             "autoscaling": {
               "additionalProperties": false,
               "description": "Per-service autoscaling. Overrides the default setting from `autoscaling` if set.",
+              "properties": {
+                "enabled": {
+                  "required": [],
+                  "type": "boolean"
+                },
+                "maxReplicas": {
+                  "minimum": 1,
+                  "required": [],
+                  "type": "integer"
+                },
+                "metrics": {
+                  "required": [],
+                  "type": "object"
+                },
+                "minReplicas": {
+                  "minimum": 1,
+                  "required": [],
+                  "type": "integer"
+                }
+              },
               "required": [],
               "title": "autoscaling",
               "type": "object"
@@ -9731,8 +10067,6 @@
             "quota",
             "persistence",
             "maintenance",
-            "autoscaling",
-            "affinity",
             "image"
           ],
           "title": "thumbnails",
@@ -9744,14 +10078,33 @@
           "properties": {
             "affinity": {
               "additionalProperties": false,
-              "description": "Affinity settings for the userlog service. See the documentation of this setting in approvider for examples.",
+              "description": "Per-service affinity.",
               "required": [],
-              "title": "affinity",
-              "type": "object"
+              "title": "affinity"
             },
             "autoscaling": {
               "additionalProperties": false,
               "description": "Per-service autoscaling. Overrides the default setting from `autoscaling` if set.",
+              "properties": {
+                "enabled": {
+                  "required": [],
+                  "type": "boolean"
+                },
+                "maxReplicas": {
+                  "minimum": 1,
+                  "required": [],
+                  "type": "integer"
+                },
+                "metrics": {
+                  "required": [],
+                  "type": "object"
+                },
+                "minReplicas": {
+                  "minimum": 1,
+                  "required": [],
+                  "type": "integer"
+                }
+              },
               "required": [],
               "title": "autoscaling",
               "type": "object"
@@ -9833,7 +10186,7 @@
             },
             "podDisruptionBudget": {
               "additionalProperties": false,
-              "description": "Configure the store type for the userlog service. Might be `memory` (only for testing), `redis-sentinel`, `nats-js-kv`\ntype:\nProvide a list of comma-separated addresses of `redis-sentinel` or `nats-js` servers here\nif the proper store is selected\naddresses:\n- \"{{ .appNameNats }}:9233\"\nPer-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.",
+              "description": "Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.",
               "properties": {
                 "maxUnavailable": {
                   "required": [],
@@ -9894,19 +10247,9 @@
               "required": [],
               "title": "resources",
               "type": "object"
-            },
-            "store": {
-              "additionalProperties": false,
-              "description": "Per-service store configuration for the userlog service. Overrides the default setting from `store` if set.",
-              "required": [],
-              "title": "store",
-              "type": "object"
             }
           },
           "required": [
-            "store",
-            "autoscaling",
-            "affinity",
             "image"
           ],
           "title": "userlog",
@@ -9918,14 +10261,33 @@
           "properties": {
             "affinity": {
               "additionalProperties": false,
-              "description": "Affinity settings for the users service. See the documentation of this setting in approvider for examples.",
+              "description": "Per-service affinity.",
               "required": [],
-              "title": "affinity",
-              "type": "object"
+              "title": "affinity"
             },
             "autoscaling": {
               "additionalProperties": false,
               "description": "Per-service autoscaling. Overrides the default setting from `autoscaling` if set.",
+              "properties": {
+                "enabled": {
+                  "required": [],
+                  "type": "boolean"
+                },
+                "maxReplicas": {
+                  "minimum": 1,
+                  "required": [],
+                  "type": "integer"
+                },
+                "metrics": {
+                  "required": [],
+                  "type": "object"
+                },
+                "minReplicas": {
+                  "minimum": 1,
+                  "required": [],
+                  "type": "integer"
+                }
+              },
               "required": [],
               "title": "autoscaling",
               "type": "object"
@@ -10071,8 +10433,6 @@
             }
           },
           "required": [
-            "autoscaling",
-            "affinity",
             "image"
           ],
           "title": "users",
@@ -10093,14 +10453,33 @@
             },
             "affinity": {
               "additionalProperties": false,
-              "description": "Affinity settings for the web service. See the documentation of this setting in approvider for examples.",
+              "description": "Per-service affinity.",
               "required": [],
-              "title": "affinity",
-              "type": "object"
+              "title": "affinity"
             },
             "autoscaling": {
               "additionalProperties": false,
               "description": "Per-service autoscaling. Overrides the default setting from `autoscaling` if set.",
+              "properties": {
+                "enabled": {
+                  "required": [],
+                  "type": "boolean"
+                },
+                "maxReplicas": {
+                  "minimum": 1,
+                  "required": [],
+                  "type": "integer"
+                },
+                "metrics": {
+                  "required": [],
+                  "type": "object"
+                },
+                "minReplicas": {
+                  "minimum": 1,
+                  "required": [],
+                  "type": "integer"
+                }
+              },
               "required": [],
               "title": "autoscaling",
               "type": "object"
@@ -10702,8 +11081,6 @@
           "required": [
             "config",
             "persistence",
-            "autoscaling",
-            "affinity",
             "image",
             "additionalInitContainers"
           ],
@@ -10716,14 +11093,33 @@
           "properties": {
             "affinity": {
               "additionalProperties": false,
-              "description": "Affinity settings for the webdav service. See the documentation of this setting in approvider for examples.",
+              "description": "Per-service affinity.",
               "required": [],
-              "title": "affinity",
-              "type": "object"
+              "title": "affinity"
             },
             "autoscaling": {
               "additionalProperties": false,
               "description": "Per-service autoscaling. Overrides the default setting from `autoscaling` if set.",
+              "properties": {
+                "enabled": {
+                  "required": [],
+                  "type": "boolean"
+                },
+                "maxReplicas": {
+                  "minimum": 1,
+                  "required": [],
+                  "type": "integer"
+                },
+                "metrics": {
+                  "required": [],
+                  "type": "object"
+                },
+                "minReplicas": {
+                  "minimum": 1,
+                  "required": [],
+                  "type": "integer"
+                }
+              },
               "required": [],
               "title": "autoscaling",
               "type": "object"
@@ -10869,8 +11265,6 @@
             }
           },
           "required": [
-            "autoscaling",
-            "affinity",
             "image"
           ],
           "title": "webdav",
@@ -10882,14 +11276,33 @@
           "properties": {
             "affinity": {
               "additionalProperties": false,
-              "description": "Affinity settings for the webfinger service. See the documentation of this setting in approvider for examples.",
+              "description": "Per-service affinity.",
               "required": [],
-              "title": "affinity",
-              "type": "object"
+              "title": "affinity"
             },
             "autoscaling": {
               "additionalProperties": false,
               "description": "Per-service autoscaling. Overrides the default setting from `autoscaling` if set.",
+              "properties": {
+                "enabled": {
+                  "required": [],
+                  "type": "boolean"
+                },
+                "maxReplicas": {
+                  "minimum": 1,
+                  "required": [],
+                  "type": "integer"
+                },
+                "metrics": {
+                  "required": [],
+                  "type": "object"
+                },
+                "minReplicas": {
+                  "minimum": 1,
+                  "required": [],
+                  "type": "integer"
+                }
+              },
               "required": [],
               "title": "autoscaling",
               "type": "object"
@@ -11035,8 +11448,6 @@
             }
           },
           "required": [
-            "autoscaling",
-            "affinity",
             "image"
           ],
           "title": "webfinger",
@@ -11091,13 +11502,8 @@
         "nodes": {
           "description": "Nodes of the store to use.",
           "items": {
-            "anyOf": [
-              {
-                "required": [],
-                "type": "string"
-              }
-            ],
-            "required": []
+            "required": [],
+            "type": "string"
           },
           "required": [],
           "title": "nodes",
@@ -11112,8 +11518,7 @@
         }
       },
       "required": [
-        "type",
-        "nodes"
+        "type"
       ],
       "title": "store",
       "type": "object"
@@ -11162,9 +11567,11 @@
         "type": {
           "default": "jaeger",
           "description": "Type of trace provider to use",
+          "enum": [
+            "jaeger"
+          ],
           "required": [],
-          "title": "type",
-          "type": "string"
+          "title": "type"
         }
       },
       "required": [
@@ -11198,7 +11605,6 @@
     "securityContext",
     "backup",
     "replicas",
-    "autoscaling",
     "extraResources",
     "services",
     "monitoring",

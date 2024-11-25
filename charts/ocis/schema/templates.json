@@ -1,6 +1,7 @@
 {
     "podDisruptionBudgetTemplate": {
         "type": "object",
+        "additonalProperties": false,
         "properties": {
             "maxUnavailable": {
                 "type": "integer"
@@ -12,9 +13,11 @@
     },
     "resourcesTemplate": {
         "type": "object",
+        "additonalProperties": false,
         "properties": {
             "limits": {
                 "type": "object",
+                "additonalProperties": false,
                 "properties": {
                     "memory": {
                         "type": "string"
@@ -26,6 +29,7 @@
             },
             "requests": {
                 "type": "object",
+                "additonalProperties": false,
                 "properties": {
                     "memory": {
                         "type": "string"
@@ -52,5 +56,29 @@
                 "type": "string"
             }
         }
+    },
+    "autoscalingTemplate": {
+        "type": "object",
+        "additonalProperties": true,
+        "properties": {
+            "enabled": {
+                "type": "boolean"
+            },
+            "minReplicas": {
+                "type": "integer",
+                "minimum": 1
+            },
+            "maxReplicas": {
+                "type": "integer",
+                "minimum": 1
+            },
+            "metrics": {
+                "type": "object",
+                "additonalProperties": true
+            }
+        }
+    },
+    "affinityTemplate": {
+        "additonalProperties": true
     }
 }

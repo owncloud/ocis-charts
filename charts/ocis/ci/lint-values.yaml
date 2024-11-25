@@ -31,6 +31,11 @@ image:
   pullSecrets:
     - name: some-pull-secret
 
+http:
+  cors:
+    allow_origins:
+      - https://integration.owncloud.test
+
 nodeSelector:
   kubernetes.io/arch: "amd64"
 hostAliases:
