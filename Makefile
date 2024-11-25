@@ -35,11 +35,11 @@ lint-ci: $(KUBE_LINTER) $(HELM) schema
 	$(KUBE_LINTER) lint charts/ocis/ci/templated.yaml
 
 .PHONE: lint-examples
-lint-examples: ${HELMFILE} schema lint-examples-exec
+lint-examples: ${HELMFILE} ${HELM} schema lint-examples-exec
 
 lint-examples-exec: deployments/*
 	for example in $^ ; do \
-		(cd $${example} && ${HELMFILE} lint --skip-deps --selector ci-lint-skip!=true); \
+		(cd $${example} && ${HELMFILE} --helm-binary ${HELM} lint --skip-deps --selector ci-lint-skip!=true); \
 	done
 
 .PHONY: api
