@@ -46,7 +46,7 @@ lint-examples-exec: deployments/*
 api: api-1.28.0 api-1.29.0 api-1.30.0 api-1.31.0
 
 define api_test
-	$(HELM) template --kube-version $(1) charts/ocis -f 'charts/ocis/ci/values.yaml' > charts/ocis/ci/templated.yaml
+	$(HELM) template --kube-version $(1) charts/ocis -f 'charts/ocis/ci/lint-values.yaml' > charts/ocis/ci/templated.yaml
 	$(KUBECONFORM) -kubernetes-version $(1) -summary -strict charts/ocis/ci/templated.yaml
 endef
 
