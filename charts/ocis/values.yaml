@@ -1,6 +1,10 @@
 ---
 # Image for oCIS services
 image:
+  # @schema
+  # type: string
+  # required: true
+  # @schema
   # -- Image repository
   repository: owncloud/ocis-rolling
   # @schema
@@ -16,11 +20,21 @@ image:
   # -- Image sha / digest (optional).
   sha:
   # @schema
-  # type: [string, null]
+  # type: string
   # required: true
   # @schema
   # -- Image pull policy
   pullPolicy: IfNotPresent
+  # @schema
+  # type: array
+  # items:
+  #   type: object
+  #   required: true
+  #   properties:
+  #     name:
+  #       type: string
+  #       required: true
+  # @schema
   # -- Names of the secret containing the credentials to pull an image from the registry. More
   # information how a secret can be defined at https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
   #
@@ -33,12 +47,24 @@ image:
 # InitContainer image used for oCIS services.
 # Only used if `services.xxx.persistence.chownInitContainer.enabled` is set to true for at least one service.
 initContainerImage:
+  # @schema
+  # type: string
+  # required: true
+  # @schema
   # -- Image repository
   repository: busybox
+  # @schema
+  # type: string
+  # required: true
+  # @schema
   # -- Image tag.
   tag: "stable"
+  # @schema
+  # type: [string, null]
+  # required: false
+  # @schema
   # -- Image sha / digest (optional).
-  sha: ""
+  sha:
   # @schema
   # type: [string, null]
   # required: true
@@ -63,10 +89,18 @@ tracing:
   enabled: false
   # -- Type of trace provider to use
   type: "jaeger"
+  # @schema
+  # type: [string, null]
+  # required: false
+  # @schema
   # -- Endpoint of the tracing system, jaeger-agent.observability.svc.cluster.local:6831 or similar.
-  endpoint: ""
+  endpoint:
+  # @schema
+  # type: [string, null]
+  # required: false
+  # @schema
   # -- The HTTP endpoint for sending spans directly to a collector, i.e. http://jaeger-collector.observability.svc.cluster.local:14268/api/traces. Only used if the tracing endpoint is unset.
-  collector: ""
+  collector:
 
 # HTTP settings for oCIS services.
 http:
@@ -135,8 +169,12 @@ debug:
 deploymentStrategy:
   type: RollingUpdate
 
+# @schema
+# type: string
+# required: true
+# @schema
 # -- Domain where oCIS is reachable for the outside world
-externalDomain: ""
+externalDomain:
 
 # Insecure options.
 # These are useful for some limited environments like CI or on a test cluster.
@@ -442,7 +480,7 @@ features:
         #   # -- URI of the office suite.
         #   uri:
         #   # -- URI for the icon of the office suite. Will be displayed to the users.
-        #   iconURI: ""
+        #   iconURI:
         #   # -- Disables SSL certificate checking for connections to the office suites http api.
         #   # Not recommended for production installations.
         #   insecure: false
@@ -480,9 +518,9 @@ features:
         #   # -- Enables the office suite.
         #   enabled: false
         #   # -- URI of the office suite.
-        #   uri: ""
+        #   uri:
         #   # -- URI for the icon of the office suite. Will be displayed to the users.
-        #   iconURI: ""
+        #   iconURI:
         #   # -- Disables SSL certificate checking for connections to the office suites http api.
         #   # Not recommended for production installations.
         #   insecure: false
@@ -498,7 +536,7 @@ features:
         #     # -- Enables the Ingress. Only needed if the office application is not running within the same cluster.
         #     enabled: false
         #     # -- Domain of the Ingress.
-        #     domain: ""
+        #     domain:
         #     # -- Ingress class to use.
         #     # Uses the default ingress class if not set.
         #     ingressClassName:
@@ -521,8 +559,8 @@ features:
       # extension: odt
       # name: OpenDocument
       # description: OpenDocument text document
-      # icon: ""
-      # default_app: ""
+      # icon:
+      # default_app:
       # allow_creation: true
   # External user management
   externalUserManagement:
@@ -533,11 +571,15 @@ features:
     # -- Enables external user management (and disables internal user management).
     # Needs an external OpenID Connect Identity Provider and an external LDAP server.
     enabled: false
-    # -- UUID of the inital admin user.
+    # @schema
+    # type: [string, null]
+    # required: false
+    # @schema
+    # -- UUID of the initial admin user.
     # If the given value matches a user's value from `features.externalUserManagement.oidc.userIDClaim`, the admin role will be assigned.
     # Consider that the UUID can be encoded in some LDAP deployment configurations like in .ldif files. These need to be decoded beforehand.
     # Note: Enabling `roleAssignment` will disable `adminUUID`.
-    adminUUID: ""
+    adminUUID:
     # -- Enables account auto provisioning.
     # It will create missing users on the LDAP server from OIDC information.
     # Needs `features.externalUserManagement.ldap.writeable` to be be set to `true`.
@@ -556,16 +598,28 @@ features:
       claimUserName: sub
     # OpenID Connect Identity provider related settings.
     oidc:
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Issuer URI of the OpenID Connect Identity Provider.
       # If the IDP doesn't have valid / trusted SSL certificates, certificate validation can be disabled with the `insecure.oidcIdpInsecure` option.
       # The issuerURI will be automatically be added to http.csp.directives.connectSrc
-      issuerURI: ""
+      issuerURI:
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Link to the OIDC provider's user accessible session management. This will be shown to the user on the personal account page.
       # When using Keycloak with the a realm named "ocis" this could point to eg. https://keycloak.owncloud.test/realms/ocis/account/
-      sessionManagementLink: ""
+      sessionManagementLink:
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Link to the OIDC provider's user accessible account editing page. This will be shown to the user on the personal account page.
       # When using Keycloak with the a realm named "ocis" this could point to eg. https://keycloak.owncloud.test/realms/ocis/account/
-      editAccountLink: ""
+      editAccountLink:
       # -- Claim to take an unique user identifier from. It will be used to look up the user on the LDAP server.
       userIDClaim: ocis.user.uuid
       # -- Attribute mapping of for the userIDClaim.
@@ -752,14 +806,14 @@ features:
         # -- Search base DN for looking up LDAP groups.
         baseDN: ou=groups,dc=owncloud,dc=com
         # @schema
-        # type: string
-        # required: true
+        # type: [string, null]
+        # required: false
         # @schema
         # -- BaseDN where new groups are created and are considered as editable.
         # All existing groups with a DN outside the `features.externalUserManagement.ldap.group.createBaseDN` will be treated as read-only groups.
         # Defaults to the value `features.externalUserManagement.ldap.group.baseDN`.
         # Only applicable if `features.externalUserManagement.ldap.writeable` is set to `true`
-        createBaseDN: ""
+        createBaseDN:
         # @schema
         # type: string
         # required: true
@@ -807,14 +861,30 @@ features:
       keycloak:
         # -- Enable keycloak data export.
         enabled: false
+        # @schema
+        # type: [string, null]
+        # required: false
+        # @schema
         # -- Base URI of keycloak.
-        basePath: ""
+        basePath:
+        # @schema
+        # type: [string, null]
+        # required: false
+        # @schema
         # -- Client ID to authenticate against keycloak with.
-        clientID: ""
+        clientID:
+        # @schema
+        # type: [string, null]
+        # required: false
+        # @schema
         # -- Realm that the client ID is configured in, usually master.
-        clientRealm: ""
+        clientRealm:
+        # @schema
+        # type: [string, null]
+        # required: false
+        # @schema
         # -- Realm that the users are in.
-        userRealm: ""
+        userRealm:
         # -- Disables SSL certificate checking for connections to the GDPR export service.
         # Not recommended for production installations.
         insecure: false
@@ -824,16 +894,14 @@ features:
     # type: [string, null]
     # required: false
     # @schema
-    # -- Image pull policy
     # -- Define the roles by specifying a name of a ConfigMap which already contains the the role description (might also be defined in the `extraResources` section).
     # The ConfigMap needs to contain a file named `custom-roles.json` which holds the role description in JSON format
     # Please note that you have to restart the settings service manually if you change the content of you ConfigMap.
     customRolesConfigRef:
-      # @schema
-      # type: [string, null]
-      # required: false
-      # @schema
-      # -- Image pull policy
+    # @schema
+    # type: [string, null]
+    # required: false
+    # @schema
     # -- Define the roles by providing the JSON text here.
     customRoles:
     # -- Define a list of unified roles to make them available.
@@ -929,17 +997,33 @@ features:
     maxNumFiles: 10000
   # OCM settings
   ocm:
+    # @schema
+    # type: boolean
+    # required: true
+    # @schema
     # -- Enables OCM service
     enabled: false
+    # @schema
+    # type: string
+    # required: true
+    # @schema
     # -- Expiry duration for invite tokens.
     invitationExpiry: 24h0m0s
+    # @schema
+    # type: string
+    # required: true
+    # @schema
     # -- Timeout specifies a time limit for requests made to OCM endpoints.
     requestTimeout: 30s
+    # @schema
+    # type: [string, null]
+    # required: false
+    # @schema
     # -- Required reference to an existing provider config.
     # Will be mounted to /etc/ocis
     # Does not get autogenerated.
     # Documentation can be found at https://doc.owncloud.com/ocis/next/deployment/services/s-list/ocm.html#trust-between-instances
-    providersConfigRef: ""
+    providersConfigRef:
 
 # Ingress for oCIS.
 ingress:
@@ -995,22 +1079,42 @@ ingress:
 # with the names of your existing secrets.
 # See https://doc.owncloud.com/ocis/next/deployment/container/orchestration/orchestration.html#customize-the-generic-setup[doc.owncloud.com] for how to generate them.
 configRefs:
+  # @schema
+  # type: [string, null]
+  # required: false
+  # @schema
   # -- Reference to an existing storage-users config.
-  storageusersConfigRef: ""
+  storageusersConfigRef:
+  # @schema
+  # type: [string, null]
+  # required: false
+  # @schema
   # -- Reference to an existing graph config.
-  graphConfigRef: ""
+  graphConfigRef:
+  # @schema
+  # type: [string, null]
+  # required: false
+  # @schema
   # -- Optional reference to an existing web theme config.
   # Will be mounted to /var/lib/ocis/web/assets/themes/owncloud for Web.
   # Does not get autogenerated.
   # Hint: if you set this, you'll no longer be able to change the instance logo via the Web UI.
-  webThemeConfigRef: ""
+  webThemeConfigRef:
+  # @schema
+  # type: [string, null]
+  # required: false
+  # @schema
   # -- Optional reference to an existing web theme assets config.
   # Will be mounted to /var/lib/ocis/web/assets/themes/owncloud/assets for Web.
   # Does not get autogenerated.
   # Hint: if you set this, you'll no longer be able to change the instance logo via the Web UI.
-  webThemeAssetsConfigRef: ""
+  webThemeAssetsConfigRef:
+  # @schema
+  # type: [string, null]
+  # required: false
+  # @schema
   # -- Reference to an existing authservice config.
-  authServiceConfigRef: ""
+  authServiceConfigRef:
 
 # References to secrets.
 # Leave these empty to have them autogenerated by the Helm chart.
@@ -1020,45 +1124,117 @@ configRefs:
 # with the names of your existing secrets.
 # TODO: Update https://doc.owncloud.com/ocis/next/deployment/container/orchestration/orchestration.html#customize-the-generic-setup[doc.owncloud.com] for how to generate them.
 secretRefs:
+  # @schema
+  # type: [string, null]
+  # required: false
+  # @schema
   # -- Reference to an existing admin user secret (see ref:Secrets#secrets). Not used if `features.externalUserManagement.enabled` equals `true`.
-  adminUserSecretRef: ""
+  adminUserSecretRef:
+  # @schema
+  # type: [string, null]
+  # required: false
+  # @schema
   # - Reference to an existing collaboration service WOPI secret (see ref:Secrets#secrets). Not used if `features.appsIntegration.enabled` equals `false`.
-  collaborationWopiSecret: ""
+  collaborationWopiSecret:
+  # @schema
+  # type: [string, null]
+  # required: false
+  # @schema
   # -- Reference to an existing IDP secret (see ref:Secrets#secrets). Not used if `features.externalUserManagement.enabled` equals `true`.
-  idpSecretRef: ""
+  idpSecretRef:
+  # @schema
+  # type: [string, null]
+  # required: false
+  # @schema
   # -- Reference to an existing JWT secret (see ref:Secrets#secrets).
-  jwtSecretRef: ""
+  jwtSecretRef:
+  # @schema
+  # type: [string, null]
+  # required: false
+  # @schema
   # -- Reference to an existing keycloak client secret, used for the GDPR export. Only used if features.externalUserManagement.gdprExport.enabled equals true.
-  gdprExportClientSecretRef: ""
+  gdprExportClientSecretRef:
+  # @schema
+  # type: [string, null]
+  # required: false
+  # @schema
   # -- Reference to an existing LDAP certificate authority secret (see ref:Secrets#secrets)
-  ldapCaRef: ""
+  ldapCaRef:
+  # @schema
+  # type: [string, null]
+  # required: false
+  # @schema
   # -- Reference to an existing LDAP cert secret (see ref:Secrets#secrets). Not used if `features.externalUserManagement.enabled` equals `true`.
-  ldapCertRef: ""
+  ldapCertRef:
+  # @schema
+  # type: [string, null]
+  # required: false
+  # @schema
   # -- Reference to an existing LDAP bind secret (see ref:Secrets#secrets).
-  ldapSecretRef: ""
+  ldapSecretRef:
+  # @schema
+  # type: [string, null]
+  # required: false
+  # @schema
   # -- Reference to an existing machine auth api key secret (see ref:Secrets#secrets)
-  machineAuthApiKeySecretRef: ""
+  machineAuthApiKeySecretRef:
+  # @schema
+  # type: [string, null]
+  # required: false
+  # @schema
   # -- Reference to an existing messaging system certificate authority secret (see ref:Secrets#secrets)
-  messagingSystemCaRef: ""
+  messagingSystemCaRef:
+  # @schema
+  # type: [string, null]
+  # required: false
+  # @schema
   # -- Reference to an existing SMTP email server settings secret (see ref:Secrets#secrets).
   # Not used if `features.emailNotifications.enabled` equals `false`.
   # Not used if `features.emailNotifications.smtp.authentication` equals `none`.
-  notificationsSmtpSecretRef: ""
+  notificationsSmtpSecretRef:
+  # @schema
+  # type: [string, null]
+  # required: false
+  # @schema
   # -- Reference to an existing storage-system JWT secret (see ref:Secrets#secrets)
-  storagesystemJwtSecretRef: ""
+  storagesystemJwtSecretRef:
+  # @schema
+  # type: [string, null]
+  # required: false
+  # @schema
   # -- Reference to an existing storage-system secret (see ref:Secrets#secrets)
-  storagesystemSecretRef: ""
+  storagesystemSecretRef:
+  # @schema
+  # type: [string, null]
+  # required: false
+  # @schema
   # -- Reference to an existing thumbnails transfer secret (see ref:Secrets#secrets)
-  thumbnailsSecretRef: ""
+  thumbnailsSecretRef:
+  # @schema
+  # type: [string, null]
+  # required: false
+  # @schema
   # -- Reference to an existing transfer secret (see ref:Secrets#secrets)
-  transferSecretSecretRef: ""
+  transferSecretSecretRef:
+  # @schema
+  # type: [string, null]
+  # required: false
+  # @schema
   # -- Reference to an existing s3 secret (see ref:Secrets#secrets)
   # If not filled in, will attempt to use values in `.storageusers.storageBackend.s3.driverConfig.s3ng` instead.
-  s3CredentialsSecretRef: ""
+  s3CredentialsSecretRef:
+  # @schema
+  # type: [string, null]
+  # required: false
+  # @schema
   # -- Reference to an existing service account secret (see ref:Secrets#secrets)
-  serviceAccountSecretRef: ""
+  serviceAccountSecretRef:
+  # @schema
+  # type: [string, null]
+  # required: false
+  # @schema
   # -- The secret to secure the global notifications endpoint. Only system admins and users knowing that secret can call the global notifications POST/DELETE endpoints.
-  globalNotificationsSecretRef: ""
+  globalNotificationsSecretRef:
 
 # Custom CA chain
 # If a custom CA chain is needed for the communcation in between services or with external services like S3 or notification services.
@@ -1070,8 +1246,12 @@ customCAChain:
   # @schema
   # -- Custom CA enables SSL_CERT_DIR in pods with the additional path /etc/ssl/custom.
   enabled: false
+  # @schema
+  # type: [string, null]
+  # required: false
+  # @schema
   # -- If custom CA chain is enabled this attribute mounts the existing ConfigMap to /etc/ssl/custom.
-  existingConfigMap: ""
+  existingConfigMap:
 
 # Security context options.
 securityContext:
@@ -1086,10 +1266,14 @@ securityContext:
   # -- Group ID that all processes within any containers will run with.
   runAsGroup: 1000
 
+# @schema
+# type: [string, null]
+# required: false
+# @schema
 # -- TopologySpreadConstraints controls how Pods of a service are spread across the cluster among failure-domains.
 # Defaults to allow skew no more then 1 node per node.
 # Passed through tpl and therefore needs to be configured as string.
-topologySpreadConstraints: "" # |
+topologySpreadConstraints: # |
 #  - maxSkew: 1
 #    topologyKey: kubernetes.io/hostname
 #    whenUnsatisfiable: DoNotSchedule
@@ -1229,16 +1413,24 @@ jobNodeSelector:
   # kubernetes.io/hostname: node-01
   # kubernetes.io/arch: "amd64"
 
+# @schema
+# type: [string, null]
+# required: false
+# @schema
 # -- Default priorityClassName to apply to all services, except per-service jobPriorityClassName configuration in `services.<service-name>.jobPriorityClassName` is set.
 jobPriorityClassName:
-  ""
+
   # ocis-low-priority
   # ocis-medium-priority
   # ocis-high-priority
 
+# @schema
+# type: [string, null]
+# required: false
+# @schema
 # -- Default priorityClassName to apply to all services, except per-service priorityClassName configuration in `services.<service-name>.priorityClassName` is set.
 priorityClassName:
-  ""
+
   # ocis-low-priority
   # ocis-medium-priority
   # ocis-high-priority
@@ -1278,8 +1470,12 @@ services:
     # @schema
     # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
     nodeSelector: {}
+    # @schema
+    # type: [string, null]
+    # required: false
+    # @schema
     # -- Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
-    priorityClassName: ""
+    priorityClassName:
     # -- Per-service store configuration for the activitylog service. Overrides the default setting from `store` if set.
     store:
       {}
@@ -1305,12 +1501,24 @@ services:
     extraLabels: {}
     # Per-service image configuration. Overrides the default setting from `image` if set.
     image:
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Image repository
-      repository: ""
+      repository:
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Image tag.
-      tag: ""
+      tag:
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Image sha / digest (optional).
-      sha: ""
+      sha:
       # @schema
       # type: [string, null]
       # required: false
@@ -1331,8 +1539,12 @@ services:
     # @schema
     # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
     nodeSelector: {}
+    # @schema
+    # type: [string, null]
+    # required: false
+    # @schema
     # -- Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
-    priorityClassName: ""
+    priorityClassName:
     # @schema
     # $ref: schema/templates.json#/podDisruptionBudgetTemplate
     # @schema
@@ -1376,12 +1588,24 @@ services:
     extraLabels: {}
     # Per-service image configuration. Overrides the default setting from `image` if set.
     image:
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Image repository
-      repository: ""
+      repository:
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Image tag.
-      tag: ""
+      tag:
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Image sha / digest (optional).
-      sha: ""
+      sha:
       # @schema
       # type: [string, null]
       # required: false
@@ -1402,8 +1626,12 @@ services:
     # @schema
     # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
     nodeSelector: {}
+    # @schema
+    # type: [string, null]
+    # required: false
+    # @schema
     # -- Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
-    priorityClassName: ""
+    priorityClassName:
     # -- Affinity settings for the appregistry service. See the documentation of this setting in approvider for examples.
     affinity: {}
     # @schema
@@ -1413,12 +1641,24 @@ services:
     extraLabels: {}
     # Per-service image configuration. Overrides the default setting from `image` if set.
     image:
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Image repository
-      repository: ""
+      repository:
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Image tag.
-      tag: ""
+      tag:
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Image sha / digest (optional).
-      sha: ""
+      sha:
       # @schema
       # type: [string, null]
       # required: false
@@ -1439,8 +1679,12 @@ services:
     # @schema
     # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
     nodeSelector: {}
+    # @schema
+    # type: [string, null]
+    # required: false
+    # @schema
     # -- Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
-    priorityClassName: ""
+    priorityClassName:
     # @schema
     # $ref: schema/templates.json#/podDisruptionBudgetTemplate
     # @schema
@@ -1457,12 +1701,24 @@ services:
     extraLabels: {}
     # Per-service image configuration. Overrides the default setting from `image` if set.
     image:
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Image repository
-      repository: ""
+      repository:
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Image tag.
-      tag: ""
+      tag:
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Image sha / digest (optional).
-      sha: ""
+      sha:
       # @schema
       # type: [string, null]
       # required: false
@@ -1483,8 +1739,12 @@ services:
     # @schema
     # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
     nodeSelector: {}
+    # @schema
+    # type: [string, null]
+    # required: false
+    # @schema
     # -- Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
-    priorityClassName: ""
+    priorityClassName:
     # @schema
     # $ref: schema/templates.json#/podDisruptionBudgetTemplate
     # @schema
@@ -1501,12 +1761,24 @@ services:
     extraLabels: {}
     # Per-service image configuration. Overrides the default setting from `image` if set.
     image:
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Image repository
-      repository: ""
+      repository:
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Image tag.
-      tag: ""
+      tag:
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Image sha / digest (optional).
-      sha: ""
+      sha:
       # @schema
       # type: [string, null]
       # required: false
@@ -1527,8 +1799,12 @@ services:
     # @schema
     # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
     nodeSelector: {}
+    # @schema
+    # type: [string, null]
+    # required: false
+    # @schema
     # -- Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
-    priorityClassName: ""
+    priorityClassName:
     # @schema
     # $ref: schema/templates.json#/podDisruptionBudgetTemplate
     # @schema
@@ -1545,12 +1821,24 @@ services:
     extraLabels: {}
     # Per-service image configuration. Overrides the default setting from `image` if set.
     image:
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Image repository
-      repository: ""
+      repository:
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Image tag.
-      tag: ""
+      tag:
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Image sha / digest (optional).
-      sha: ""
+      sha:
       # @schema
       # type: [string, null]
       # required: false
@@ -1580,8 +1868,12 @@ services:
     # @schema
     # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
     nodeSelector: {}
+    # @schema
+    # type: [string, null]
+    # required: false
+    # @schema
     # -- Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
-    priorityClassName: ""
+    priorityClassName:
     # @schema
     # $ref: schema/templates.json#/podDisruptionBudgetTemplate
     # @schema
@@ -1598,12 +1890,24 @@ services:
     extraLabels: {}
     # Per-service image configuration. Overrides the default setting from `image` if set.
     image:
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Image repository
-      repository: ""
+      repository:
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Image tag.
-      tag: ""
+      tag:
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Image sha / digest (optional).
-      sha: ""
+      sha:
       # @schema
       # type: [string, null]
       # required: false
@@ -1624,8 +1928,12 @@ services:
     # @schema
     # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
     nodeSelector: {}
+    # @schema
+    # type: [string, null]
+    # required: false
+    # @schema
     # -- Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
-    priorityClassName: ""
+    priorityClassName:
     # @schema
     # $ref: schema/templates.json#/podDisruptionBudgetTemplate
     # @schema
@@ -1642,12 +1950,24 @@ services:
     extraLabels: {}
     # Per-service image configuration. Overrides the default setting from `image` if set.
     image:
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Image repository
-      repository: ""
+      repository:
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Image tag.
-      tag: ""
+      tag:
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Image sha / digest (optional).
-      sha: ""
+      sha:
       # @schema
       # type: [string, null]
       # required: false
@@ -1668,8 +1988,12 @@ services:
     # @schema
     # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
     nodeSelector: {}
+    # @schema
+    # type: [string, null]
+    # required: false
+    # @schema
     # -- Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
-    priorityClassName: ""
+    priorityClassName:
     # -- Per-service store configuration for the eventhistory service. Overrides the default setting from `store` if set.
     store:
       {}
@@ -1695,12 +2019,24 @@ services:
     extraLabels: {}
     # Per-service image configuration. Overrides the default setting from `image` if set.
     image:
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Image repository
-      repository: ""
+      repository:
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Image tag.
-      tag: ""
+      tag:
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Image sha / digest (optional).
-      sha: ""
+      sha:
       # @schema
       # type: [string, null]
       # required: false
@@ -1730,8 +2066,12 @@ services:
     # @schema
     # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
     nodeSelector: {}
+    # @schema
+    # type: [string, null]
+    # required: false
+    # @schema
     # -- Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
-    priorityClassName: ""
+    priorityClassName:
     # @schema
     # $ref: schema/templates.json#/podDisruptionBudgetTemplate
     # @schema
@@ -1748,12 +2088,24 @@ services:
     extraLabels: {}
     # Per-service image configuration. Overrides the default setting from `image` if set.
     image:
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Image repository
-      repository: ""
+      repository:
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Image tag.
-      tag: ""
+      tag:
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Image sha / digest (optional).
-      sha: ""
+      sha:
       # @schema
       # type: [string, null]
       # required: false
@@ -1774,8 +2126,12 @@ services:
     # @schema
     # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
     nodeSelector: {}
+    # @schema
+    # type: [string, null]
+    # required: false
+    # @schema
     # -- Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
-    priorityClassName: ""
+    priorityClassName:
     # @schema
     # $ref: schema/templates.json#/podDisruptionBudgetTemplate
     # @schema
@@ -1792,12 +2148,24 @@ services:
     extraLabels: {}
     # Per-service image configuration. Overrides the default setting from `image` if set.
     image:
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Image repository
-      repository: ""
+      repository:
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Image tag.
-      tag: ""
+      tag:
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Image sha / digest (optional).
-      sha: ""
+      sha:
       # @schema
       # type: [string, null]
       # required: false
@@ -1818,8 +2186,12 @@ services:
     # @schema
     # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
     nodeSelector: {}
+    # @schema
+    # type: [string, null]
+    # required: false
+    # @schema
     # -- Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
-    priorityClassName: ""
+    priorityClassName:
     # @schema
     # $ref: schema/templates.json#/podDisruptionBudgetTemplate
     # @schema
@@ -1836,12 +2208,24 @@ services:
     extraLabels: {}
     # Per-service image configuration. Overrides the default setting from `image` if set.
     image:
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Image repository
-      repository: ""
+      repository:
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Image tag.
-      tag: ""
+      tag:
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Image sha / digest (optional).
-      sha: ""
+      sha:
       # @schema
       # type: [string, null]
       # required: false
@@ -1859,8 +2243,12 @@ services:
     resources: {}
     # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
     nodeSelector: {}
+    # @schema
+    # type: [string, null]
+    # required: false
+    # @schema
     # -- Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
-    priorityClassName: ""
+    priorityClassName:
     # @schema
     # $ref: schema/templates.json#/podDisruptionBudgetTemplate
     # @schema
@@ -1877,12 +2265,24 @@ services:
     extraLabels: {}
     # Per-service image configuration. Overrides the default setting from `image` if set.
     image:
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Image repository
-      repository: ""
+      repository:
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Image tag.
-      tag: ""
+      tag:
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Image sha / digest (optional).
-      sha: ""
+      sha:
       # @schema
       # type: [string, null]
       # required: false
@@ -1938,8 +2338,12 @@ services:
       # @schema
       # -- Persistent volume selector labels.
       selectorLabels: {}
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Use a custom name for the PVC instead of the default one.
-      claimName: ""
+      claimName:
       # @schema
       # type: [string, null]
       # required: false
@@ -1953,8 +2357,12 @@ services:
     resources: {}
     # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
     nodeSelector: {}
+    # @schema
+    # type: [string, null]
+    # required: false
+    # @schema
     # -- Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
-    priorityClassName: ""
+    priorityClassName:
     # -- Affinity settings for the idm service. See the documentation of this setting in approvider for examples.
     affinity: {}
     # @schema
@@ -1964,12 +2372,24 @@ services:
     extraLabels: {}
     # Per-service image configuration. Overrides the default setting from `image` if set.
     image:
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Image repository
-      repository: ""
+      repository:
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Image tag.
-      tag: ""
+      tag:
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Image sha / digest (optional).
-      sha: ""
+      sha:
       # @schema
       # type: [string, null]
       # required: false
@@ -1990,8 +2410,12 @@ services:
     # @schema
     # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
     nodeSelector: {}
+    # @schema
+    # type: [string, null]
+    # required: false
+    # @schema
     # -- Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
-    priorityClassName: ""
+    priorityClassName:
     # -- Affinity settings for the idp service. See the documentation of this setting in approvider for examples.
     affinity: {}
     # @schema
@@ -2001,12 +2425,24 @@ services:
     extraLabels: {}
     # Per-service image configuration. Overrides the default setting from `image` if set.
     image:
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Image repository
-      repository: ""
+      repository:
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Image tag.
-      tag: ""
+      tag:
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Image sha / digest (optional).
-      sha: ""
+      sha:
       # @schema
       # type: [string, null]
       # required: false
@@ -2062,8 +2498,12 @@ services:
       # @schema
       # -- Persistent volume selector labels.
       selectorLabels: {}
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Use a custom name for the PVC instead of the default one.
-      claimName: ""
+      claimName:
       # @schema
       # type: [string, null]
       # required: false
@@ -2080,8 +2520,12 @@ services:
     # @schema
     # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
     nodeSelector: {}
+    # @schema
+    # type: [string, null]
+    # required: false
+    # @schema
     # -- Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
-    priorityClassName: ""
+    priorityClassName:
     # -- Affinity settings for the nats service. See the documentation of this setting in approvider for examples.
     affinity: {}
     # @schema
@@ -2091,12 +2535,24 @@ services:
     extraLabels: {}
     # Per-service image configuration. Overrides the default setting from `image` if set.
     image:
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Image repository
-      repository: ""
+      repository:
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Image tag.
-      tag: ""
+      tag:
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Image sha / digest (optional).
-      sha: ""
+      sha:
       # @schema
       # type: [string, null]
       # required: false
@@ -2117,8 +2573,12 @@ services:
     # @schema
     # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
     nodeSelector: {}
+    # @schema
+    # type: [string, null]
+    # required: false
+    # @schema
     # -- Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
-    priorityClassName: ""
+    priorityClassName:
     # @schema
     # $ref: schema/templates.json#/podDisruptionBudgetTemplate
     # @schema
@@ -2135,12 +2595,24 @@ services:
     extraLabels: {}
     # Per-service image configuration. Overrides the default setting from `image` if set.
     image:
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Image repository
-      repository: ""
+      repository:
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Image tag.
-      tag: ""
+      tag:
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Image sha / digest (optional).
-      sha: ""
+      sha:
       # @schema
       # type: [string, null]
       # required: false
@@ -2161,8 +2633,12 @@ services:
     # @schema
     # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
     nodeSelector: {}
+    # @schema
+    # type: [string, null]
+    # required: false
+    # @schema
     # -- Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
-    priorityClassName: ""
+    priorityClassName:
     # @schema
     # $ref: schema/templates.json#/podDisruptionBudgetTemplate
     # @schema
@@ -2179,12 +2655,24 @@ services:
     extraLabels: {}
     # Per-service image configuration. Overrides the default setting from `image` if set.
     image:
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Image repository
-      repository: ""
+      repository:
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Image tag.
-      tag: ""
+      tag:
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Image sha / digest (optional).
-      sha: ""
+      sha:
       # @schema
       # type: [string, null]
       # required: false
@@ -2205,8 +2693,12 @@ services:
     # @schema
     # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
     nodeSelector: {}
+    # @schema
+    # type: [string, null]
+    # required: false
+    # @schema
     # -- Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
-    priorityClassName: ""
+    priorityClassName:
     # -- Affinity settings for the ocs service. See the documentation of this setting in approvider for examples.
     affinity: {}
     # @schema
@@ -2216,12 +2708,24 @@ services:
     extraLabels: {}
     # Per-service image configuration. Overrides the default setting from `image` if set.
     image:
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Image repository
-      repository: ""
+      repository:
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Image tag.
-      tag: ""
+      tag:
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Image sha / digest (optional).
-      sha: ""
+      sha:
       # @schema
       # type: [string, null]
       # required: false
@@ -2270,8 +2774,12 @@ services:
       # @schema
       # -- Persistent volume selector labels.
       selectorLabels: {}
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Use a custom name for the PVC instead of the default one.
-      claimName: ""
+      claimName:
       # @schema
       # type: [string, null]
       # required: false
@@ -2292,8 +2800,12 @@ services:
     # @schema
     # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
     nodeSelector: {}
+    # @schema
+    # type: [string, null]
+    # required: false
+    # @schema
     # -- Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
-    priorityClassName: ""
+    priorityClassName:
     # @schema
     # $ref: schema/templates.json#/podDisruptionBudgetTemplate
     # @schema
@@ -2310,12 +2822,24 @@ services:
     extraLabels: {}
     # Per-service image configuration. Overrides the default setting from `image` if set.
     image:
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Image repository
-      repository: ""
+      repository:
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Image tag.
-      tag: ""
+      tag:
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Image sha / digest (optional).
-      sha: ""
+      sha:
       # @schema
       # type: [string, null]
       # required: false
@@ -2336,8 +2860,12 @@ services:
     # @schema
     # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
     nodeSelector: {}
+    # @schema
+    # type: [string, null]
+    # required: false
+    # @schema
     # -- Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
-    priorityClassName: ""
+    priorityClassName:
     # @schema
     # $ref: schema/templates.json#/podDisruptionBudgetTemplate
     # @schema
@@ -2354,12 +2882,24 @@ services:
     extraLabels: {}
     # Per-service image configuration. Overrides the default setting from `image` if set.
     image:
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Image repository
-      repository: ""
+      repository:
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Image tag.
-      tag: ""
+      tag:
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Image sha / digest (optional).
-      sha: ""
+      sha:
       # @schema
       # type: [string, null]
       # required: false
@@ -2389,8 +2929,12 @@ services:
     # @schema
     # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
     nodeSelector: {}
+    # @schema
+    # type: [string, null]
+    # required: false
+    # @schema
     # -- Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
-    priorityClassName: ""
+    priorityClassName:
     # @schema
     # $ref: schema/templates.json#/podDisruptionBudgetTemplate
     # @schema
@@ -2409,12 +2953,24 @@ services:
     extraLabels: {}
     # Per-service image configuration. Overrides the default setting from `image` if set.
     image:
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Image repository
-      repository: ""
+      repository:
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Image tag.
-      tag: ""
+      tag:
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Image sha / digest (optional).
-      sha: ""
+      sha:
       # @schema
       # type: [string, null]
       # required: false
@@ -2445,8 +3001,12 @@ services:
     # @schema
     # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
     nodeSelector: {}
+    # @schema
+    # type: [string, null]
+    # required: false
+    # @schema
     # -- Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
-    priorityClassName: ""
+    priorityClassName:
     # @schema
     # $ref: schema/templates.json#/podDisruptionBudgetTemplate
     # @schema
@@ -2463,12 +3023,24 @@ services:
     extraLabels: {}
     # Per-service image configuration. Overrides the default setting from `image` if set.
     image:
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Image repository
-      repository: ""
+      repository:
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Image tag.
-      tag: ""
+      tag:
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Image sha / digest (optional).
-      sha: ""
+      sha:
       # @schema
       # type: [string, null]
       # required: false
@@ -2495,8 +3067,12 @@ services:
       # For the default value see https://doc.owncloud.com/ocis/next/deployment/services/s-list/search.html
       sizeLimit:
       tika:
+        # @schema
+        # type: [string, null]
+        # required: false
+        # @schema
         # -- Set the URL to Tika. Only applicable if `services.search.extractor.type` == `tika`.
-        url: ""
+        url:
         # -- Defines if stop words should be cleaned or not.
         cleanStopWords: true
     # -- Persistence settings.
@@ -2544,8 +3120,12 @@ services:
       # @schema
       # -- Persistent volume selector labels.
       selectorLabels: {}
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Use a custom name for the PVC instead of the default one.
-      claimName: ""
+      claimName:
       # @schema
       # type: [string, null]
       # required: false
@@ -2562,8 +3142,12 @@ services:
     # @schema
     # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
     nodeSelector: {}
+    # @schema
+    # type: [string, null]
+    # required: false
+    # @schema
     # -- Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
-    priorityClassName: ""
+    priorityClassName:
     # @schema
     # $ref: schema/templates.json#/podDisruptionBudgetTemplate
     # @schema
@@ -2578,12 +3162,24 @@ services:
     extraLabels: {}
     # Per-service image configuration. Overrides the default setting from `image` if set.
     image:
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Image repository
-      repository: ""
+      repository:
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Image tag.
-      tag: ""
+      tag:
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Image sha / digest (optional).
-      sha: ""
+      sha:
       # @schema
       # type: [string, null]
       # required: false
@@ -2604,8 +3200,12 @@ services:
     # @schema
     # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
     nodeSelector: {}
+    # @schema
+    # type: [string, null]
+    # required: false
+    # @schema
     # -- Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
-    priorityClassName: ""
+    priorityClassName:
     # @schema
     # $ref: schema/templates.json#/podDisruptionBudgetTemplate
     # @schema
@@ -2622,12 +3222,24 @@ services:
     extraLabels: {}
     # Per-service image configuration. Overrides the default setting from `image` if set.
     image:
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Image repository
-      repository: ""
+      repository:
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Image tag.
-      tag: ""
+      tag:
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Image sha / digest (optional).
-      sha: ""
+      sha:
       # @schema
       # type: [string, null]
       # required: false
@@ -2648,8 +3260,12 @@ services:
     # @schema
     # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
     nodeSelector: {}
+    # @schema
+    # type: [string, null]
+    # required: false
+    # @schema
     # -- Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
-    priorityClassName: ""
+    priorityClassName:
     # @schema
     # $ref: schema/templates.json#/podDisruptionBudgetTemplate
     # @schema
@@ -2666,12 +3282,24 @@ services:
     extraLabels: {}
     # Per-service image configuration. Overrides the default setting from `image` if set.
     image:
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Image repository
-      repository: ""
+      repository:
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Image tag.
-      tag: ""
+      tag:
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Image sha / digest (optional).
-      sha: ""
+      sha:
       # @schema
       # type: [string, null]
       # required: false
@@ -2695,8 +3323,12 @@ services:
     # @schema
     # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
     nodeSelector: {}
+    # @schema
+    # type: [string, null]
+    # required: false
+    # @schema
     # -- Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
-    priorityClassName: ""
+    priorityClassName:
     # @schema
     # $ref: schema/templates.json#/podDisruptionBudgetTemplate
     # @schema
@@ -2715,12 +3347,24 @@ services:
     extraLabels: {}
     # Per-service image configuration. Overrides the default setting from `image` if set.
     image:
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Image repository
-      repository: ""
+      repository:
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Image tag.
-      tag: ""
+      tag:
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Image sha / digest (optional).
-      sha: ""
+      sha:
       # @schema
       # type: [string, null]
       # required: false
@@ -2741,8 +3385,12 @@ services:
     # @schema
     # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
     nodeSelector: {}
+    # @schema
+    # type: [string, null]
+    # required: false
+    # @schema
     # -- Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
-    priorityClassName: ""
+    priorityClassName:
     # @schema
     # $ref: schema/templates.json#/podDisruptionBudgetTemplate
     # @schema
@@ -2759,12 +3407,24 @@ services:
     extraLabels: {}
     # Per-service image configuration. Overrides the default setting from `image` if set.
     image:
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Image repository
-      repository: ""
+      repository:
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Image tag.
-      tag: ""
+      tag:
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Image sha / digest (optional).
-      sha: ""
+      sha:
       # @schema
       # type: [string, null]
       # required: false
@@ -2785,8 +3445,12 @@ services:
     # @schema
     # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
     nodeSelector: {}
+    # @schema
+    # type: [string, null]
+    # required: false
+    # @schema
     # -- Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
-    priorityClassName: ""
+    priorityClassName:
     # @schema
     # $ref: schema/templates.json#/podDisruptionBudgetTemplate
     # @schema
@@ -2803,12 +3467,24 @@ services:
     extraLabels: {}
     # Per-service image configuration. Overrides the default setting from `image` if set.
     image:
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Image repository
-      repository: ""
+      repository:
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Image tag.
-      tag: ""
+      tag:
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Image sha / digest (optional).
-      sha: ""
+      sha:
       # @schema
       # type: [string, null]
       # required: false
@@ -2865,8 +3541,12 @@ services:
       # @schema
       # -- Persistent volume selector labels.
       selectorLabels: {}
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Use a custom name for the PVC instead of the default one.
-      claimName: ""
+      claimName:
       # @schema
       # type: [string, null]
       # required: false
@@ -2883,8 +3563,12 @@ services:
     # @schema
     # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
     nodeSelector: {}
+    # @schema
+    # type: [string, null]
+    # required: false
+    # @schema
     # -- Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
-    priorityClassName: ""
+    priorityClassName:
     # @schema
     # $ref: schema/templates.json#/podDisruptionBudgetTemplate
     # @schema
@@ -2901,12 +3585,24 @@ services:
     extraLabels: {}
     # Per-service image configuration. Overrides the default setting from `image` if set.
     image:
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Image repository
-      repository: ""
+      repository:
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Image tag.
-      tag: ""
+      tag:
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Image sha / digest (optional).
-      sha: ""
+      sha:
       # @schema
       # type: [string, null]
       # required: false
@@ -2977,12 +3673,24 @@ services:
           #         }
           #     ]
           # }
+          # @schema
+          # type: [string, null]
+          # required: false
+          # @schema
           # -- S3 endpoint to use for the S3NG driver. Only used if driver is set to "s3ng".
-          endpoint: ""
+          endpoint:
+          # @schema
+          # type: string
+          # required: true
+          # @schema
           # -- S3 region to use for the S3NG driver. Only used if driver is set to "s3ng".
           region: default
+          # @schema
+          # type: [string, null]
+          # required: false
+          # @schema
           # -- S3 bucket to use for the S3NG driver. Only used if driver is set to "s3ng".
-          bucket: ""
+          bucket:
           # @schema
           # type: boolean
           # required: true
@@ -3070,12 +3778,24 @@ services:
       # Image for the storageusers service maintenance jobs
       # Defaults to the same values as `image`
       image:
+        # @schema
+        # type: [string, null]
+        # required: false
+        # @schema
         # -- Image repository
-        repository: ""
+        repository:
+        # @schema
+        # type: [string, null]
+        # required: false
+        # @schema
         # -- Image tag.
-        tag: ""
+        tag:
+        # @schema
+        # type: [string, null]
+        # required: false
+        # @schema
         # -- Image sha / digest (optional).
-        sha: ""
+        sha:
         # @schema
         # type: [string, null]
         # required: false
@@ -3129,8 +3849,12 @@ services:
       # @schema
       # -- Persistent volume selector labels.
       selectorLabels: {}
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Use a custom name for the PVC instead of the default one.
-      claimName: ""
+      claimName:
       # @schema
       # type: [string, null]
       # required: false
@@ -3147,10 +3871,18 @@ services:
     # @schema
     # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
     nodeSelector: {}
+    # @schema
+    # type: [string, null]
+    # required: false
+    # @schema
     # -- Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
-    priorityClassName: ""
+    priorityClassName:
+    # @schema
+    # type: [string, null]
+    # required: false
+    # @schema
     # -- Per-service jobPriorityClassName configuration. Overrides the default setting from `jobPriorityClassName` if set.
-    jobPriorityClassName: ""
+    jobPriorityClassName:
     # @schema
     # $ref: schema/templates.json#/resourcesTemplate
     # @schema
@@ -3177,12 +3909,24 @@ services:
     extraLabels: {}
     # Per-service image configuration. Overrides the default setting from `image` if set.
     image:
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Image repository
-      repository: ""
+      repository:
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Image tag.
-      tag: ""
+      tag:
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Image sha / digest (optional).
-      sha: ""
+      sha:
       # @schema
       # type: [string, null]
       # required: false
@@ -3252,8 +3996,12 @@ services:
       # @schema
       # -- Persistent volume selector labels.
       selectorLabels: {}
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Use a custom name for the PVC instead of the default one.
-      claimName: ""
+      claimName:
       # @schema
       # type: [string, null]
       # required: false
@@ -3270,8 +4018,12 @@ services:
     # @schema
     # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
     nodeSelector: {}
+    # @schema
+    # type: [string, null]
+    # required: false
+    # @schema
     # -- Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
-    priorityClassName: ""
+    priorityClassName:
     # @schema
     # $ref: schema/templates.json#/resourcesTemplate
     # @schema
@@ -3282,8 +4034,12 @@ services:
     # @schema
     # -- Per-service jobNodeSelector configuration. Overrides the default setting from `jobNodeSelector` if set.
     jobNodeSelector: {}
+    # @schema
+    # type: [string, null]
+    # required: false
+    # @schema
     # -- Per-service jobPriorityClassName configuration. Overrides the default setting from `jobPriorityClassName` if set.
-    jobPriorityClassName: ""
+    jobPriorityClassName:
     # @schema
     # $ref: schema/templates.json#/podDisruptionBudgetTemplate
     # @schema
@@ -3308,12 +4064,24 @@ services:
         method: atime
       # Image for thumbnails service maintenance jobs
       image:
+        # @schema
+        # type: string
+        # required: true
+        # @schema
         # -- Image repository
         repository: busybox
+        # @schema
+        # type: string
+        # required: true
+        # @schema
         # -- Image tag.
         tag: "stable"
+        # @schema
+        # type: [string, null]
+        # required: false
+        # @schema
         # -- Image sha / digest (optional).
-        sha: ""
+        sha:
         # @schema
         # type: [string, null]
         # required: true
@@ -3331,12 +4099,24 @@ services:
     extraLabels: {}
     # Per-service image configuration. Overrides the default setting from `image` if set.
     image:
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Image repository
-      repository: ""
+      repository:
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Image tag.
-      tag: ""
+      tag:
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Image sha / digest (optional).
-      sha: ""
+      sha:
       # @schema
       # type: [string, null]
       # required: false
@@ -3357,8 +4137,12 @@ services:
     # @schema
     # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
     nodeSelector: {}
+    # @schema
+    # type: [string, null]
+    # required: false
+    # @schema
     # -- Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
-    priorityClassName: ""
+    priorityClassName:
     # -- Per-service store configuration for the userlog service. Overrides the default setting from `store` if set.
     store:
       {}
@@ -3384,12 +4168,24 @@ services:
     extraLabels: {}
     # Per-service image configuration. Overrides the default setting from `image` if set.
     image:
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Image repository
-      repository: ""
+      repository:
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Image tag.
-      tag: ""
+      tag:
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Image sha / digest (optional).
-      sha: ""
+      sha:
       # @schema
       # type: [string, null]
       # required: false
@@ -3410,8 +4206,12 @@ services:
     # @schema
     # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
     nodeSelector: {}
+    # @schema
+    # type: [string, null]
+    # required: false
+    # @schema
     # -- Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
-    priorityClassName: ""
+    priorityClassName:
     # @schema
     # $ref: schema/templates.json#/podDisruptionBudgetTemplate
     # @schema
@@ -3428,12 +4228,24 @@ services:
     extraLabels: {}
     # Per-service image configuration. Overrides the default setting from `image` if set.
     image:
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Image repository
-      repository: ""
+      repository:
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Image tag.
-      tag: ""
+      tag:
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Image sha / digest (optional).
-      sha: ""
+      sha:
       # @schema
       # type: [string, null]
       # required: false
@@ -3469,12 +4281,24 @@ services:
         # @schema
         # -- Enables the feedback link in the Web UI.
         enabled: true
+        # @schema
+        # type: [string, null]
+        # required: false
+        # @schema
         # -- URI where the feedback link points. Uses the ownCloud default href if empty.
-        href: ""
+        href:
+        # @schema
+        # type: [string, null]
+        # required: false
+        # @schema
         # -- Screen reader accessible label for the feedback link. Uses the ownCloud default label if empty.
-        ariaLabel: ""
+        ariaLabel:
+        # @schema
+        # type: [string, null]
+        # required: false
+        # @schema
         # -- Description to be shown for the feedback link. Uses the ownCloud default description if empty.
-        description: ""
+        description:
       # @schema
       # additionalProperties: true
       # @schema
@@ -3506,16 +4330,28 @@ services:
       externalApps: {}
       # Theme settings
       theme:
+        # @schema
+        # type: [string, null]
+        # required: false
+        # @schema
         # -- URL to load themes from. Will be prepended to the theme path. Defaults to the value of "externalDomain".
-        server: ""
+        server:
         # -- URL path to load themes from. The theme server will be prepended. Defaults to the ownCloud Web default theme.
         path: "/themes/owncloud/theme.json"
         # -- Name of the theme you provide via `configRefs.webThemeConfigRef` and `configRefs.webThemeAssetsConfigRef`.
         # If you change this when providing a custom theme, you must also change `theme.path`.
         themeNameConfigRefs: "owncloud"
       oidc:
+        # @schema
+        # type: string
+        # required: true
+        # @schema
         # -- OIDC scopes to request during authentication to authorize access to user details. Defaults to ‘openid profile email’. Values are separated by blank. More example values but not limited to are ‘address’ or ‘phone’ etc.
         webClientScope: "openid profile email"
+        # @schema
+        # type: string
+        # required: true
+        # @schema
         # -- Specify the client ID which the web frontend will use
         webClientID: web
         # @schema
@@ -3544,14 +4380,30 @@ services:
         # @schema
         # Enables the ownCloud Web "embed"-mode.
         enabled: false
-        # Specifies how web is being integrated when running in "embed"-mode. Currently supported values are "location" and "" (default).
-        target: ""
+        # @schema
+        # type: [string, null]
+        # required: false
+        # @schema
+        # Specifies how web is being integrated when running in "embed"-mode. Currently supported values are "location" and  (default).
+        target:
+        # @schema
+        # type: [string, null]
+        # required: false
+        # @schema
         # Specifies a URL under which web can be integrated via iFrame. This needs to be specified when web is running in "embed"-mode.
-        messagesOrigin: ""
-        # Specifies if web delegates the authentication to the embedding parent application. Defaults to not being set (= web handles the authentication).
-        delegateAuthentication: ""
+        messagesOrigin:
+        # @schema
+        # type: boolean
+        # required: true
+        # @schema
+        # Specifies if web delegates the authentication to the embedding parent application.
+        delegateAuthentication: false
+        # @schema
+        # type: [string, null]
+        # required: false
+        # @schema
         # Specifies the allowed message origin host when posting access tokens from the embedding parent application to web. Defaults to not being set, which is only recommended for development environments.
-        delegateAuthenticationOrigin: ""
+        delegateAuthenticationOrigin:
       concurrency:
         # @schema
         # type: [integer, null]
@@ -3625,8 +4477,12 @@ services:
       # @schema
       # -- Persistent volume selector labels.
       selectorLabels: {}
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Use a custom name for the PVC instead of the default one.
-      claimName: ""
+      claimName:
       # @schema
       # type: [string, null]
       # required: false
@@ -3643,8 +4499,12 @@ services:
     # @schema
     # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
     nodeSelector: {}
+    # @schema
+    # type: [string, null]
+    # required: false
+    # @schema
     # -- Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
-    priorityClassName: ""
+    priorityClassName:
     # @schema
     # $ref: schema/templates.json#/podDisruptionBudgetTemplate
     # @schema
@@ -3661,12 +4521,24 @@ services:
     extraLabels: {}
     # Per-service image configuration. Overrides the default setting from `image` if set.
     image:
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Image repository
-      repository: ""
+      repository:
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Image tag.
-      tag: ""
+      tag:
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Image sha / digest (optional).
-      sha: ""
+      sha:
       # @schema
       # type: [string, null]
       # required: false
@@ -3689,8 +4561,12 @@ services:
     # @schema
     # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
     nodeSelector: {}
+    # @schema
+    # type: [string, null]
+    # required: false
+    # @schema
     # -- Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
-    priorityClassName: ""
+    priorityClassName:
     # @schema
     # $ref: schema/templates.json#/podDisruptionBudgetTemplate
     # @schema
@@ -3707,12 +4583,24 @@ services:
     extraLabels: {}
     # Per-service image configuration. Overrides the default setting from `image` if set.
     image:
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Image repository
-      repository: ""
+      repository:
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Image tag.
-      tag: ""
+      tag:
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Image sha / digest (optional).
-      sha: ""
+      sha:
       # @schema
       # type: [string, null]
       # required: false
@@ -3733,8 +4621,12 @@ services:
     # @schema
     # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
     nodeSelector: {}
+    # @schema
+    # type: [string, null]
+    # required: false
+    # @schema
     # -- Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
-    priorityClassName: ""
+    priorityClassName:
     # @schema
     # $ref: schema/templates.json#/podDisruptionBudgetTemplate
     # @schema
@@ -3751,12 +4643,24 @@ services:
     extraLabels: {}
     # Per-service image configuration. Overrides the default setting from `image` if set.
     image:
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Image repository
-      repository: ""
+      repository:
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Image tag.
-      tag: ""
+      tag:
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
       # -- Image sha / digest (optional).
-      sha: ""
+      sha:
       # @schema
       # type: [string, null]
       # required: false
@@ -3772,19 +4676,44 @@ monitoring:
   # @schema
   # -- Enable service monitoring.
   enabled: false
+  # @schema
+  # type: string
+  # required: true
+  # @schema
   # -- Interval at which to scrape metrics.
-  interval: 60s
+  interval:
+    60s
+    # @schema
+  # type: string
+  # required: true
+  # @schema
   # -- Scrape timeout.
   scrapeTimeout: 60s
 
 # Kubernetes service related settings.
 service:
   appProtocol:
+    # @schema
+    # type: string
+    # required: true
+    # @schema
     # -- appProtocol to be used for service ports that use the grpc protocol.
     grpc: grpc
+    # @schema
+    # type: string
+    # required: true
+    # @schema
     # -- appProtocol to be used for service ports that use the http protocol.
     http: http
+    # @schema
+    # type: string
+    # required: true
+    # @schema
     # -- appProtocol to be used for service ports that use the ldaps protocol. Not used if `features.externalUserManagement.enabled` equals `true`.
     ldaps: tcp
+    # @schema
+    # type: string
+    # required: true
+    # @schema
     # -- appProtocol to be used for service ports that use the nats wire protocol. Not used if `messagingSystem.external.enabled` equals `true`.
     nats: tcp

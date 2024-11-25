@@ -27,7 +27,7 @@ lint: lint-ci lint-examples
 
 .PHONY: lint-ci
 lint-ci: $(KUBE_LINTER) $(HELM) schema
-	$(HELM) lint charts/ocis
+	$(HELM) lint charts/ocis -f 'charts/ocis/ci/absolute-minimum-values.yaml'
 	$(HELM) template charts/ocis -f 'charts/ocis/ci/values.yaml' > charts/ocis/ci/templated.yaml
 	$(KUBE_LINTER) lint charts/ocis/ci/templated.yaml
 
