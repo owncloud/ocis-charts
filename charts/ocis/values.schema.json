@@ -54,6 +54,12 @@
         "configMapLabels": {
           "additionalProperties": false,
           "description": "Labels that are added to ConfigMaps that are manged by this Chart and must be included in a backup when backing up Kubernetes resources.",
+          "patternProperties": {
+            ".*": {
+              "required": [],
+              "type": "string"
+            }
+          },
           "required": [],
           "title": "configMapLabels",
           "type": "object"
@@ -61,6 +67,12 @@
         "pvcLabels": {
           "additionalProperties": false,
           "description": "Labels that are added to PVCs that are manged by this Chart and must be included in a backup when backing up Kubernetes resources.",
+          "patternProperties": {
+            ".*": {
+              "required": [],
+              "type": "string"
+            }
+          },
           "required": [],
           "title": "pvcLabels",
           "type": "object"
@@ -68,16 +80,18 @@
         "secretLabels": {
           "additionalProperties": false,
           "description": "Labels that are added to Secrets that are manged by this Chart and must be included in a backup when backing up Kubernetes resources.",
+          "patternProperties": {
+            ".*": {
+              "required": [],
+              "type": "string"
+            }
+          },
           "required": [],
           "title": "secretLabels",
           "type": "object"
         }
       },
-      "required": [
-        "configMapLabels",
-        "secretLabels",
-        "pvcLabels"
-      ],
+      "required": [],
       "title": "backup",
       "type": "object"
     },
@@ -235,6 +249,12 @@
     "extraLabels": {
       "additionalProperties": false,
       "description": "Custom labels for all manifests",
+      "patternProperties": {
+        ".*": {
+          "required": [],
+          "type": "string"
+        }
+      },
       "required": [],
       "title": "extraLabels",
       "type": "object"
@@ -2078,7 +2098,22 @@
         "tls": {
           "description": "Ingress TLS configuration.",
           "items": {
-            "required": []
+            "properties": {
+              "hosts": {
+                "items": {
+                  "required": [],
+                  "type": "string"
+                },
+                "required": [],
+                "type": "array"
+              },
+              "secretName": {
+                "required": [],
+                "type": "string"
+              }
+            },
+            "required": [],
+            "type": "object"
           },
           "required": [],
           "title": "tls",
@@ -2086,10 +2121,7 @@
         }
       },
       "required": [
-        "enabled",
-        "annotations",
-        "labels",
-        "tls"
+        "enabled"
       ],
       "title": "ingress",
       "type": "object"
@@ -2176,6 +2208,12 @@
     "jobNodeSelector": {
       "additionalProperties": false,
       "description": "Default nodeSelector to apply to all jobs, except per-service job nodeSelector configuration in `services.\u003cservice-name\u003e.jobNodeSelector` is set.",
+      "patternProperties": {
+        ".*": {
+          "required": [],
+          "type": "string"
+        }
+      },
       "required": [],
       "title": "jobNodeSelector",
       "type": "object"
@@ -2382,6 +2420,12 @@
     "nodeSelector": {
       "additionalProperties": false,
       "description": "Default nodeSelector to apply to all services, except per-service nodeSelector configuration in `services.\u003cservice-name\u003e.nodeSelector` is set.",
+      "patternProperties": {
+        ".*": {
+          "required": [],
+          "type": "string"
+        }
+      },
       "required": [],
       "title": "nodeSelector",
       "type": "object"
@@ -2761,6 +2805,12 @@
             "extraLabels": {
               "additionalProperties": false,
               "description": "Per-service custom labels",
+              "patternProperties": {
+                ".*": {
+                  "required": [],
+                  "type": "string"
+                }
+              },
               "required": [],
               "title": "extraLabels",
               "type": "object"
@@ -2812,6 +2862,12 @@
             "nodeSelector": {
               "additionalProperties": false,
               "description": "Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.",
+              "patternProperties": {
+                ".*": {
+                  "required": [],
+                  "type": "string"
+                }
+              },
               "required": [],
               "title": "nodeSelector",
               "type": "object"
@@ -2886,12 +2942,10 @@
             }
           },
           "required": [
-            "nodeSelector",
             "priorityClassName",
             "store",
             "autoscaling",
             "affinity",
-            "extraLabels",
             "image"
           ],
           "title": "activitylog",
@@ -2946,6 +3000,12 @@
             "extraLabels": {
               "additionalProperties": false,
               "description": "Per-service custom labels",
+              "patternProperties": {
+                ".*": {
+                  "required": [],
+                  "type": "string"
+                }
+              },
               "required": [],
               "title": "extraLabels",
               "type": "object"
@@ -2997,6 +3057,12 @@
             "nodeSelector": {
               "additionalProperties": false,
               "description": "Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.",
+              "patternProperties": {
+                ".*": {
+                  "required": [],
+                  "type": "string"
+                }
+              },
               "required": [],
               "title": "nodeSelector",
               "type": "object"
@@ -3065,11 +3131,9 @@
           },
           "required": [
             "events",
-            "nodeSelector",
             "priorityClassName",
             "autoscaling",
             "affinity",
-            "extraLabels",
             "image"
           ],
           "title": "antivirus",
@@ -3089,6 +3153,12 @@
             "extraLabels": {
               "additionalProperties": false,
               "description": "Per-service custom labels",
+              "patternProperties": {
+                ".*": {
+                  "required": [],
+                  "type": "string"
+                }
+              },
               "required": [],
               "title": "extraLabels",
               "type": "object"
@@ -3140,6 +3210,12 @@
             "nodeSelector": {
               "additionalProperties": false,
               "description": "Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.",
+              "patternProperties": {
+                ".*": {
+                  "required": [],
+                  "type": "string"
+                }
+              },
               "required": [],
               "title": "nodeSelector",
               "type": "object"
@@ -3190,10 +3266,8 @@
             }
           },
           "required": [
-            "nodeSelector",
             "priorityClassName",
             "affinity",
-            "extraLabels",
             "image"
           ],
           "title": "appregistry",
@@ -3220,6 +3294,12 @@
             "extraLabels": {
               "additionalProperties": false,
               "description": "Per-service custom labels",
+              "patternProperties": {
+                ".*": {
+                  "required": [],
+                  "type": "string"
+                }
+              },
               "required": [],
               "title": "extraLabels",
               "type": "object"
@@ -3271,6 +3351,12 @@
             "nodeSelector": {
               "additionalProperties": false,
               "description": "Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.",
+              "patternProperties": {
+                ".*": {
+                  "required": [],
+                  "type": "string"
+                }
+              },
               "required": [],
               "title": "nodeSelector",
               "type": "object"
@@ -3338,11 +3424,9 @@
             }
           },
           "required": [
-            "nodeSelector",
             "priorityClassName",
             "autoscaling",
             "affinity",
-            "extraLabels",
             "image"
           ],
           "title": "audit",
@@ -3369,6 +3453,12 @@
             "extraLabels": {
               "additionalProperties": false,
               "description": "Per-service custom labels",
+              "patternProperties": {
+                ".*": {
+                  "required": [],
+                  "type": "string"
+                }
+              },
               "required": [],
               "title": "extraLabels",
               "type": "object"
@@ -3420,6 +3510,12 @@
             "nodeSelector": {
               "additionalProperties": false,
               "description": "Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.",
+              "patternProperties": {
+                ".*": {
+                  "required": [],
+                  "type": "string"
+                }
+              },
               "required": [],
               "title": "nodeSelector",
               "type": "object"
@@ -3487,11 +3583,9 @@
             }
           },
           "required": [
-            "nodeSelector",
             "priorityClassName",
             "autoscaling",
             "affinity",
-            "extraLabels",
             "image"
           ],
           "title": "authmachine",
@@ -3518,6 +3612,12 @@
             "extraLabels": {
               "additionalProperties": false,
               "description": "Per-service custom labels",
+              "patternProperties": {
+                ".*": {
+                  "required": [],
+                  "type": "string"
+                }
+              },
               "required": [],
               "title": "extraLabels",
               "type": "object"
@@ -3569,6 +3669,12 @@
             "nodeSelector": {
               "additionalProperties": false,
               "description": "Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.",
+              "patternProperties": {
+                ".*": {
+                  "required": [],
+                  "type": "string"
+                }
+              },
               "required": [],
               "title": "nodeSelector",
               "type": "object"
@@ -3636,11 +3742,9 @@
             }
           },
           "required": [
-            "nodeSelector",
             "priorityClassName",
             "autoscaling",
             "affinity",
-            "extraLabels",
             "image"
           ],
           "title": "authservice",
@@ -3667,6 +3771,12 @@
             "extraLabels": {
               "additionalProperties": false,
               "description": "Per-service custom labels",
+              "patternProperties": {
+                ".*": {
+                  "required": [],
+                  "type": "string"
+                }
+              },
               "required": [],
               "title": "extraLabels",
               "type": "object"
@@ -3718,6 +3828,12 @@
             "nodeSelector": {
               "additionalProperties": false,
               "description": "Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.",
+              "patternProperties": {
+                ".*": {
+                  "required": [],
+                  "type": "string"
+                }
+              },
               "required": [],
               "title": "nodeSelector",
               "type": "object"
@@ -3785,11 +3901,9 @@
             }
           },
           "required": [
-            "nodeSelector",
             "priorityClassName",
             "autoscaling",
             "affinity",
-            "extraLabels",
             "image"
           ],
           "title": "clientlog",
@@ -3816,6 +3930,12 @@
             "extraLabels": {
               "additionalProperties": false,
               "description": "Configuration for the appprovider service, every other service will have the same configuration.\nThe value of this key will be passed to the affinity setting of the pod as documented here:\nhttps://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#affinity-and-anti-affinity\nThis example will ensure that the pods will only be scheduled on nodes with the label `topology.kubernetes.io/zone`\nset to `eu-west-1` or `eu-east-1`.\nnodeAffinity:\n  requiredDuringSchedulingIgnoredDuringExecution:\n    nodeSelectorTerms:\n    - matchExpressions:\n      - key: topology.kubernetes.io/zone\n        operator: In\n        values:\n        - eu-east-1\n        - eu-west-1\n\nThe following example will make sure that these pods will never be scheduled on the same node.\npodAntiAffinity:\n  requiredDuringSchedulingIgnoredDuringExecution:\n    - labelSelector:\n        matchExpressions:\n          - key: app\n            operator: In\n            values:\n              - appprovider\n      topologyKey: \"kubernetes.io/hostname\"\n\nDo note that the value will be different for each service.\nPer-service custom labels",
+              "patternProperties": {
+                ".*": {
+                  "required": [],
+                  "type": "string"
+                }
+              },
               "required": [],
               "title": "extraLabels",
               "type": "object"
@@ -3867,6 +3987,12 @@
             "nodeSelector": {
               "additionalProperties": false,
               "description": "Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.",
+              "patternProperties": {
+                ".*": {
+                  "required": [],
+                  "type": "string"
+                }
+              },
               "required": [],
               "title": "nodeSelector",
               "type": "object"
@@ -3934,11 +4060,9 @@
             }
           },
           "required": [
-            "nodeSelector",
             "priorityClassName",
             "autoscaling",
             "affinity",
-            "extraLabels",
             "image"
           ],
           "title": "collaboration",
@@ -3965,6 +4089,12 @@
             "extraLabels": {
               "additionalProperties": false,
               "description": "Per-service custom labels",
+              "patternProperties": {
+                ".*": {
+                  "required": [],
+                  "type": "string"
+                }
+              },
               "required": [],
               "title": "extraLabels",
               "type": "object"
@@ -4016,6 +4146,12 @@
             "nodeSelector": {
               "additionalProperties": false,
               "description": "Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.",
+              "patternProperties": {
+                ".*": {
+                  "required": [],
+                  "type": "string"
+                }
+              },
               "required": [],
               "title": "nodeSelector",
               "type": "object"
@@ -4090,12 +4226,10 @@
             }
           },
           "required": [
-            "nodeSelector",
             "priorityClassName",
             "store",
             "autoscaling",
             "affinity",
-            "extraLabels",
             "image"
           ],
           "title": "eventhistory",
@@ -4150,6 +4284,12 @@
             "extraLabels": {
               "additionalProperties": false,
               "description": "Per-service custom labels",
+              "patternProperties": {
+                ".*": {
+                  "required": [],
+                  "type": "string"
+                }
+              },
               "required": [],
               "title": "extraLabels",
               "type": "object"
@@ -4201,6 +4341,12 @@
             "nodeSelector": {
               "additionalProperties": false,
               "description": "Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.",
+              "patternProperties": {
+                ".*": {
+                  "required": [],
+                  "type": "string"
+                }
+              },
               "required": [],
               "title": "nodeSelector",
               "type": "object"
@@ -4269,11 +4415,9 @@
           },
           "required": [
             "events",
-            "nodeSelector",
             "priorityClassName",
             "autoscaling",
             "affinity",
-            "extraLabels",
             "image"
           ],
           "title": "frontend",
@@ -4300,6 +4444,12 @@
             "extraLabels": {
               "additionalProperties": false,
               "description": "Per-service custom labels",
+              "patternProperties": {
+                ".*": {
+                  "required": [],
+                  "type": "string"
+                }
+              },
               "required": [],
               "title": "extraLabels",
               "type": "object"
@@ -4351,6 +4501,12 @@
             "nodeSelector": {
               "additionalProperties": false,
               "description": "Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.",
+              "patternProperties": {
+                ".*": {
+                  "required": [],
+                  "type": "string"
+                }
+              },
               "required": [],
               "title": "nodeSelector",
               "type": "object"
@@ -4418,11 +4574,9 @@
             }
           },
           "required": [
-            "nodeSelector",
             "priorityClassName",
             "autoscaling",
             "affinity",
-            "extraLabels",
             "image"
           ],
           "title": "gateway",
@@ -4449,6 +4603,12 @@
             "extraLabels": {
               "additionalProperties": false,
               "description": "Per-service custom labels",
+              "patternProperties": {
+                ".*": {
+                  "required": [],
+                  "type": "string"
+                }
+              },
               "required": [],
               "title": "extraLabels",
               "type": "object"
@@ -4500,6 +4660,12 @@
             "nodeSelector": {
               "additionalProperties": false,
               "description": "Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.",
+              "patternProperties": {
+                ".*": {
+                  "required": [],
+                  "type": "string"
+                }
+              },
               "required": [],
               "title": "nodeSelector",
               "type": "object"
@@ -4567,11 +4733,9 @@
             }
           },
           "required": [
-            "nodeSelector",
             "priorityClassName",
             "autoscaling",
             "affinity",
-            "extraLabels",
             "image"
           ],
           "title": "graph",
@@ -4598,6 +4762,12 @@
             "extraLabels": {
               "additionalProperties": false,
               "description": "Per-service custom labels",
+              "patternProperties": {
+                ".*": {
+                  "required": [],
+                  "type": "string"
+                }
+              },
               "required": [],
               "title": "extraLabels",
               "type": "object"
@@ -4720,7 +4890,6 @@
             "priorityClassName",
             "autoscaling",
             "affinity",
-            "extraLabels",
             "image"
           ],
           "title": "groups",
@@ -4740,6 +4909,12 @@
             "extraLabels": {
               "additionalProperties": false,
               "description": "Per-service custom labels",
+              "patternProperties": {
+                ".*": {
+                  "required": [],
+                  "type": "string"
+                }
+              },
               "required": [],
               "title": "extraLabels",
               "type": "object"
@@ -4817,6 +4992,12 @@
                 "annotations": {
                   "additionalProperties": false,
                   "description": "Persistent volume annotations.",
+                  "patternProperties": {
+                    ".*": {
+                      "required": [],
+                      "type": "string"
+                    }
+                  },
                   "required": [],
                   "title": "annotations",
                   "type": "object"
@@ -4870,6 +5051,12 @@
                 "selectorLabels": {
                   "additionalProperties": false,
                   "description": "Persistent volume selector labels.",
+                  "patternProperties": {
+                    ".*": {
+                      "required": [],
+                      "type": "string"
+                    }
+                  },
                   "required": [],
                   "title": "selectorLabels",
                   "type": "object"
@@ -4897,9 +5084,7 @@
                 "chownInitContainer",
                 "accessModes",
                 "size",
-                "annotations",
                 "finalizers",
-                "selectorLabels",
                 "claimName"
               ],
               "title": "persistence",
@@ -4955,7 +5140,6 @@
             "nodeSelector",
             "priorityClassName",
             "affinity",
-            "extraLabels",
             "image"
           ],
           "title": "idm",
@@ -4975,6 +5159,12 @@
             "extraLabels": {
               "additionalProperties": false,
               "description": "Per-service custom labels",
+              "patternProperties": {
+                ".*": {
+                  "required": [],
+                  "type": "string"
+                }
+              },
               "required": [],
               "title": "extraLabels",
               "type": "object"
@@ -5026,6 +5216,12 @@
             "nodeSelector": {
               "additionalProperties": false,
               "description": "Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.",
+              "patternProperties": {
+                ".*": {
+                  "required": [],
+                  "type": "string"
+                }
+              },
               "required": [],
               "title": "nodeSelector",
               "type": "object"
@@ -5076,10 +5272,8 @@
             }
           },
           "required": [
-            "nodeSelector",
             "priorityClassName",
             "affinity",
-            "extraLabels",
             "image"
           ],
           "title": "idp",
@@ -5099,6 +5293,12 @@
             "extraLabels": {
               "additionalProperties": false,
               "description": "Per-service custom labels",
+              "patternProperties": {
+                ".*": {
+                  "required": [],
+                  "type": "string"
+                }
+              },
               "required": [],
               "title": "extraLabels",
               "type": "object"
@@ -5150,6 +5350,12 @@
             "nodeSelector": {
               "additionalProperties": false,
               "description": "Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.",
+              "patternProperties": {
+                ".*": {
+                  "required": [],
+                  "type": "string"
+                }
+              },
               "required": [],
               "title": "nodeSelector",
               "type": "object"
@@ -5176,6 +5382,12 @@
                 "annotations": {
                   "additionalProperties": false,
                   "description": "Persistent volume annotations.",
+                  "patternProperties": {
+                    ".*": {
+                      "required": [],
+                      "type": "string"
+                    }
+                  },
                   "required": [],
                   "title": "annotations",
                   "type": "object"
@@ -5229,6 +5441,12 @@
                 "selectorLabels": {
                   "additionalProperties": false,
                   "description": "Persistent volume selector labels.",
+                  "patternProperties": {
+                    ".*": {
+                      "required": [],
+                      "type": "string"
+                    }
+                  },
                   "required": [],
                   "title": "selectorLabels",
                   "type": "object"
@@ -5256,9 +5474,7 @@
                 "chownInitContainer",
                 "accessModes",
                 "size",
-                "annotations",
                 "finalizers",
-                "selectorLabels",
                 "claimName"
               ],
               "title": "persistence",
@@ -5311,10 +5527,8 @@
           },
           "required": [
             "persistence",
-            "nodeSelector",
             "priorityClassName",
             "affinity",
-            "extraLabels",
             "image"
           ],
           "title": "nats",
@@ -5341,6 +5555,12 @@
             "extraLabels": {
               "additionalProperties": false,
               "description": "Per-service custom labels",
+              "patternProperties": {
+                ".*": {
+                  "required": [],
+                  "type": "string"
+                }
+              },
               "required": [],
               "title": "extraLabels",
               "type": "object"
@@ -5392,6 +5612,12 @@
             "nodeSelector": {
               "additionalProperties": false,
               "description": "Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.",
+              "patternProperties": {
+                ".*": {
+                  "required": [],
+                  "type": "string"
+                }
+              },
               "required": [],
               "title": "nodeSelector",
               "type": "object"
@@ -5459,11 +5685,9 @@
             }
           },
           "required": [
-            "nodeSelector",
             "priorityClassName",
             "autoscaling",
             "affinity",
-            "extraLabels",
             "image"
           ],
           "title": "notifications",
@@ -5490,6 +5714,12 @@
             "extraLabels": {
               "additionalProperties": false,
               "description": "Per-service custom labels",
+              "patternProperties": {
+                ".*": {
+                  "required": [],
+                  "type": "string"
+                }
+              },
               "required": [],
               "title": "extraLabels",
               "type": "object"
@@ -5541,6 +5771,12 @@
             "nodeSelector": {
               "additionalProperties": false,
               "description": "Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.",
+              "patternProperties": {
+                ".*": {
+                  "required": [],
+                  "type": "string"
+                }
+              },
               "required": [],
               "title": "nodeSelector",
               "type": "object"
@@ -5608,11 +5844,9 @@
             }
           },
           "required": [
-            "nodeSelector",
             "priorityClassName",
             "autoscaling",
             "affinity",
-            "extraLabels",
             "image"
           ],
           "title": "ocdav",
@@ -5632,6 +5866,12 @@
             "extraLabels": {
               "additionalProperties": false,
               "description": "Per-service custom labels",
+              "patternProperties": {
+                ".*": {
+                  "required": [],
+                  "type": "string"
+                }
+              },
               "required": [],
               "title": "extraLabels",
               "type": "object"
@@ -5683,6 +5923,12 @@
             "nodeSelector": {
               "additionalProperties": false,
               "description": "Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.",
+              "patternProperties": {
+                ".*": {
+                  "required": [],
+                  "type": "string"
+                }
+              },
               "required": [],
               "title": "nodeSelector",
               "type": "object"
@@ -5709,6 +5955,12 @@
                 "annotations": {
                   "additionalProperties": false,
                   "description": "Persistent volume annotations.",
+                  "patternProperties": {
+                    ".*": {
+                      "required": [],
+                      "type": "string"
+                    }
+                  },
                   "required": [],
                   "title": "annotations",
                   "type": "object"
@@ -5762,6 +6014,12 @@
                 "selectorLabels": {
                   "additionalProperties": false,
                   "description": "Persistent volume selector labels.",
+                  "patternProperties": {
+                    ".*": {
+                      "required": [],
+                      "type": "string"
+                    }
+                  },
                   "required": [],
                   "title": "selectorLabels",
                   "type": "object"
@@ -5789,9 +6047,7 @@
                 "chownInitContainer",
                 "accessModes",
                 "size",
-                "annotations",
                 "finalizers",
-                "selectorLabels",
                 "claimName"
               ],
               "title": "persistence",
@@ -5843,10 +6099,8 @@
             }
           },
           "required": [
-            "nodeSelector",
             "priorityClassName",
             "affinity",
-            "extraLabels",
             "image",
             "persistence"
           ],
@@ -5874,6 +6128,12 @@
             "extraLabels": {
               "additionalProperties": false,
               "description": "Per-service custom labels",
+              "patternProperties": {
+                ".*": {
+                  "required": [],
+                  "type": "string"
+                }
+              },
               "required": [],
               "title": "extraLabels",
               "type": "object"
@@ -5925,6 +6185,12 @@
             "nodeSelector": {
               "additionalProperties": false,
               "description": "Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.",
+              "patternProperties": {
+                ".*": {
+                  "required": [],
+                  "type": "string"
+                }
+              },
               "required": [],
               "title": "nodeSelector",
               "type": "object"
@@ -5992,11 +6258,9 @@
             }
           },
           "required": [
-            "nodeSelector",
             "priorityClassName",
             "autoscaling",
             "affinity",
-            "extraLabels",
             "image"
           ],
           "title": "ocs",
@@ -6023,6 +6287,12 @@
             "extraLabels": {
               "additionalProperties": false,
               "description": "Per-service custom labels",
+              "patternProperties": {
+                ".*": {
+                  "required": [],
+                  "type": "string"
+                }
+              },
               "required": [],
               "title": "extraLabels",
               "type": "object"
@@ -6074,6 +6344,12 @@
             "nodeSelector": {
               "additionalProperties": false,
               "description": "Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.",
+              "patternProperties": {
+                ".*": {
+                  "required": [],
+                  "type": "string"
+                }
+              },
               "required": [],
               "title": "nodeSelector",
               "type": "object"
@@ -6141,11 +6417,9 @@
             }
           },
           "required": [
-            "nodeSelector",
             "priorityClassName",
             "autoscaling",
             "affinity",
-            "extraLabels",
             "image"
           ],
           "title": "policies",
@@ -6200,6 +6474,12 @@
             "extraLabels": {
               "additionalProperties": false,
               "description": "Per-service custom labels",
+              "patternProperties": {
+                ".*": {
+                  "required": [],
+                  "type": "string"
+                }
+              },
               "required": [],
               "title": "extraLabels",
               "type": "object"
@@ -6251,6 +6531,12 @@
             "nodeSelector": {
               "additionalProperties": false,
               "description": "Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.",
+              "patternProperties": {
+                ".*": {
+                  "required": [],
+                  "type": "string"
+                }
+              },
               "required": [],
               "title": "nodeSelector",
               "type": "object"
@@ -6326,12 +6612,10 @@
           },
           "required": [
             "events",
-            "nodeSelector",
             "priorityClassName",
             "store",
             "autoscaling",
             "affinity",
-            "extraLabels",
             "image"
           ],
           "title": "postprocessing",
@@ -6367,6 +6651,12 @@
             "extraLabels": {
               "additionalProperties": false,
               "description": "Per-service custom labels",
+              "patternProperties": {
+                ".*": {
+                  "required": [],
+                  "type": "string"
+                }
+              },
               "required": [],
               "title": "extraLabels",
               "type": "object"
@@ -6418,6 +6708,12 @@
             "nodeSelector": {
               "additionalProperties": false,
               "description": "Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.",
+              "patternProperties": {
+                ".*": {
+                  "required": [],
+                  "type": "string"
+                }
+              },
               "required": [],
               "title": "nodeSelector",
               "type": "object"
@@ -6486,11 +6782,9 @@
           },
           "required": [
             "additionalPolicies",
-            "nodeSelector",
             "priorityClassName",
             "autoscaling",
             "affinity",
-            "extraLabels",
             "image"
           ],
           "title": "proxy",
@@ -6510,6 +6804,12 @@
             "extraLabels": {
               "additionalProperties": false,
               "description": "Per-service custom labels",
+              "patternProperties": {
+                ".*": {
+                  "required": [],
+                  "type": "string"
+                }
+              },
               "required": [],
               "title": "extraLabels",
               "type": "object"
@@ -6615,6 +6915,12 @@
             "nodeSelector": {
               "additionalProperties": false,
               "description": "Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.",
+              "patternProperties": {
+                ".*": {
+                  "required": [],
+                  "type": "string"
+                }
+              },
               "required": [],
               "title": "nodeSelector",
               "type": "object"
@@ -6641,6 +6947,12 @@
                 "annotations": {
                   "additionalProperties": false,
                   "description": "Persistent volume annotations.",
+                  "patternProperties": {
+                    ".*": {
+                      "required": [],
+                      "type": "string"
+                    }
+                  },
                   "required": [],
                   "title": "annotations",
                   "type": "object"
@@ -6694,6 +7006,12 @@
                 "selectorLabels": {
                   "additionalProperties": false,
                   "description": "Persistent volume selector labels.",
+                  "patternProperties": {
+                    ".*": {
+                      "required": [],
+                      "type": "string"
+                    }
+                  },
                   "required": [],
                   "title": "selectorLabels",
                   "type": "object"
@@ -6721,9 +7039,7 @@
                 "chownInitContainer",
                 "accessModes",
                 "size",
-                "annotations",
                 "finalizers",
-                "selectorLabels",
                 "claimName"
               ],
               "title": "persistence",
@@ -6794,10 +7110,8 @@
           "required": [
             "extractor",
             "persistence",
-            "nodeSelector",
             "priorityClassName",
             "affinity",
-            "extraLabels",
             "image"
           ],
           "title": "search",
@@ -6824,6 +7138,12 @@
             "extraLabels": {
               "additionalProperties": false,
               "description": "Per-service custom labels",
+              "patternProperties": {
+                ".*": {
+                  "required": [],
+                  "type": "string"
+                }
+              },
               "required": [],
               "title": "extraLabels",
               "type": "object"
@@ -6875,6 +7195,12 @@
             "nodeSelector": {
               "additionalProperties": false,
               "description": "Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.",
+              "patternProperties": {
+                ".*": {
+                  "required": [],
+                  "type": "string"
+                }
+              },
               "required": [],
               "title": "nodeSelector",
               "type": "object"
@@ -6942,11 +7268,9 @@
             }
           },
           "required": [
-            "nodeSelector",
             "priorityClassName",
             "autoscaling",
             "affinity",
-            "extraLabels",
             "image"
           ],
           "title": "settings",
@@ -6973,6 +7297,12 @@
             "extraLabels": {
               "additionalProperties": false,
               "description": "Per-service custom labels",
+              "patternProperties": {
+                ".*": {
+                  "required": [],
+                  "type": "string"
+                }
+              },
               "required": [],
               "title": "extraLabels",
               "type": "object"
@@ -7024,6 +7354,12 @@
             "nodeSelector": {
               "additionalProperties": false,
               "description": "Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.",
+              "patternProperties": {
+                ".*": {
+                  "required": [],
+                  "type": "string"
+                }
+              },
               "required": [],
               "title": "nodeSelector",
               "type": "object"
@@ -7091,11 +7427,9 @@
             }
           },
           "required": [
-            "nodeSelector",
             "priorityClassName",
             "autoscaling",
             "affinity",
-            "extraLabels",
             "image"
           ],
           "title": "sharing",
@@ -7139,6 +7473,12 @@
             "extraLabels": {
               "additionalProperties": false,
               "description": "Per-service custom labels",
+              "patternProperties": {
+                ".*": {
+                  "required": [],
+                  "type": "string"
+                }
+              },
               "required": [],
               "title": "extraLabels",
               "type": "object"
@@ -7190,6 +7530,12 @@
             "nodeSelector": {
               "additionalProperties": false,
               "description": "Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.",
+              "patternProperties": {
+                ".*": {
+                  "required": [],
+                  "type": "string"
+                }
+              },
               "required": [],
               "title": "nodeSelector",
               "type": "object"
@@ -7265,12 +7611,10 @@
           },
           "required": [
             "connections",
-            "nodeSelector",
             "priorityClassName",
             "store",
             "autoscaling",
             "affinity",
-            "extraLabels",
             "image"
           ],
           "title": "sse",
@@ -7297,6 +7641,12 @@
             "extraLabels": {
               "additionalProperties": false,
               "description": "Per-service custom labels",
+              "patternProperties": {
+                ".*": {
+                  "required": [],
+                  "type": "string"
+                }
+              },
               "required": [],
               "title": "extraLabels",
               "type": "object"
@@ -7348,6 +7698,12 @@
             "nodeSelector": {
               "additionalProperties": false,
               "description": "Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.",
+              "patternProperties": {
+                ".*": {
+                  "required": [],
+                  "type": "string"
+                }
+              },
               "required": [],
               "title": "nodeSelector",
               "type": "object"
@@ -7415,11 +7771,9 @@
             }
           },
           "required": [
-            "nodeSelector",
             "priorityClassName",
             "autoscaling",
             "affinity",
-            "extraLabels",
             "image"
           ],
           "title": "storagepubliclink",
@@ -7446,6 +7800,12 @@
             "extraLabels": {
               "additionalProperties": false,
               "description": "Per-service custom labels",
+              "patternProperties": {
+                ".*": {
+                  "required": [],
+                  "type": "string"
+                }
+              },
               "required": [],
               "title": "extraLabels",
               "type": "object"
@@ -7497,6 +7857,12 @@
             "nodeSelector": {
               "additionalProperties": false,
               "description": "Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.",
+              "patternProperties": {
+                ".*": {
+                  "required": [],
+                  "type": "string"
+                }
+              },
               "required": [],
               "title": "nodeSelector",
               "type": "object"
@@ -7564,11 +7930,9 @@
             }
           },
           "required": [
-            "nodeSelector",
             "priorityClassName",
             "autoscaling",
             "affinity",
-            "extraLabels",
             "image"
           ],
           "title": "storageshares",
@@ -7595,6 +7959,12 @@
             "extraLabels": {
               "additionalProperties": false,
               "description": "Per-service custom labels",
+              "patternProperties": {
+                ".*": {
+                  "required": [],
+                  "type": "string"
+                }
+              },
               "required": [],
               "title": "extraLabels",
               "type": "object"
@@ -7646,6 +8016,12 @@
             "nodeSelector": {
               "additionalProperties": false,
               "description": "Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.",
+              "patternProperties": {
+                ".*": {
+                  "required": [],
+                  "type": "string"
+                }
+              },
               "required": [],
               "title": "nodeSelector",
               "type": "object"
@@ -7672,6 +8048,12 @@
                 "annotations": {
                   "additionalProperties": false,
                   "description": "Persistent volume annotations.",
+                  "patternProperties": {
+                    ".*": {
+                      "required": [],
+                      "type": "string"
+                    }
+                  },
                   "required": [],
                   "title": "annotations",
                   "type": "object"
@@ -7725,6 +8107,12 @@
                 "selectorLabels": {
                   "additionalProperties": false,
                   "description": "Persistent volume selector labels.",
+                  "patternProperties": {
+                    ".*": {
+                      "required": [],
+                      "type": "string"
+                    }
+                  },
                   "required": [],
                   "title": "selectorLabels",
                   "type": "object"
@@ -7752,9 +8140,7 @@
                 "chownInitContainer",
                 "accessModes",
                 "size",
-                "annotations",
                 "finalizers",
-                "selectorLabels",
                 "claimName"
               ],
               "title": "persistence",
@@ -7824,11 +8210,9 @@
           },
           "required": [
             "persistence",
-            "nodeSelector",
             "priorityClassName",
             "autoscaling",
             "affinity",
-            "extraLabels",
             "image"
           ],
           "title": "storagesystem",
@@ -7883,6 +8267,12 @@
             "extraLabels": {
               "additionalProperties": false,
               "description": "Per-service custom labels",
+              "patternProperties": {
+                ".*": {
+                  "required": [],
+                  "type": "string"
+                }
+              },
               "required": [],
               "title": "extraLabels",
               "type": "object"
@@ -7934,6 +8324,12 @@
             "jobNodeSelector": {
               "additionalProperties": false,
               "description": "Per-service jobNodeSelector configuration. Overrides the default setting from `jobNodeSelector` if set.",
+              "patternProperties": {
+                ".*": {
+                  "required": [],
+                  "type": "string"
+                }
+              },
               "required": [],
               "title": "jobNodeSelector",
               "type": "object"
@@ -8168,6 +8564,12 @@
             "nodeSelector": {
               "additionalProperties": false,
               "description": "Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.",
+              "patternProperties": {
+                ".*": {
+                  "required": [],
+                  "type": "string"
+                }
+              },
               "required": [],
               "title": "nodeSelector",
               "type": "object"
@@ -8194,6 +8596,12 @@
                 "annotations": {
                   "additionalProperties": false,
                   "description": "Persistent volume annotations.",
+                  "patternProperties": {
+                    ".*": {
+                      "required": [],
+                      "type": "string"
+                    }
+                  },
                   "required": [],
                   "title": "annotations",
                   "type": "object"
@@ -8247,6 +8655,12 @@
                 "selectorLabels": {
                   "additionalProperties": false,
                   "description": "Persistent volume selector labels.",
+                  "patternProperties": {
+                    ".*": {
+                      "required": [],
+                      "type": "string"
+                    }
+                  },
                   "required": [],
                   "title": "selectorLabels",
                   "type": "object"
@@ -8274,9 +8688,7 @@
                 "chownInitContainer",
                 "accessModes",
                 "size",
-                "annotations",
                 "finalizers",
-                "selectorLabels",
                 "claimName"
               ],
               "title": "persistence",
@@ -8498,13 +8910,10 @@
             "storageBackend",
             "maintenance",
             "persistence",
-            "nodeSelector",
             "priorityClassName",
             "jobPriorityClassName",
-            "jobNodeSelector",
             "autoscaling",
             "affinity",
-            "extraLabels",
             "image"
           ],
           "title": "storageusers",
@@ -8531,6 +8940,12 @@
             "extraLabels": {
               "additionalProperties": false,
               "description": "Per-service custom labels",
+              "patternProperties": {
+                ".*": {
+                  "required": [],
+                  "type": "string"
+                }
+              },
               "required": [],
               "title": "extraLabels",
               "type": "object"
@@ -8582,6 +8997,12 @@
             "jobNodeSelector": {
               "additionalProperties": false,
               "description": "Per-service jobNodeSelector configuration. Overrides the default setting from `jobNodeSelector` if set.",
+              "patternProperties": {
+                ".*": {
+                  "required": [],
+                  "type": "string"
+                }
+              },
               "required": [],
               "title": "jobNodeSelector",
               "type": "object"
@@ -8739,6 +9160,12 @@
             "nodeSelector": {
               "additionalProperties": false,
               "description": "Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.",
+              "patternProperties": {
+                ".*": {
+                  "required": [],
+                  "type": "string"
+                }
+              },
               "required": [],
               "title": "nodeSelector",
               "type": "object"
@@ -8765,6 +9192,12 @@
                 "annotations": {
                   "additionalProperties": false,
                   "description": "Persistent volume annotations.",
+                  "patternProperties": {
+                    ".*": {
+                      "required": [],
+                      "type": "string"
+                    }
+                  },
                   "required": [],
                   "title": "annotations",
                   "type": "object"
@@ -8812,6 +9245,12 @@
                 "selectorLabels": {
                   "additionalProperties": false,
                   "description": "Persistent volume selector labels.",
+                  "patternProperties": {
+                    ".*": {
+                      "required": [],
+                      "type": "string"
+                    }
+                  },
                   "required": [],
                   "title": "selectorLabels",
                   "type": "object"
@@ -8839,9 +9278,7 @@
                 "chownInitContainer",
                 "accessModes",
                 "size",
-                "annotations",
                 "finalizers",
-                "selectorLabels",
                 "claimName"
               ],
               "title": "persistence",
@@ -8954,14 +9391,11 @@
           "required": [
             "quota",
             "persistence",
-            "nodeSelector",
             "priorityClassName",
-            "jobNodeSelector",
             "jobPriorityClassName",
             "maintenance",
             "autoscaling",
             "affinity",
-            "extraLabels",
             "image"
           ],
           "title": "thumbnails",
@@ -8988,6 +9422,12 @@
             "extraLabels": {
               "additionalProperties": false,
               "description": "Per-service custom labels",
+              "patternProperties": {
+                ".*": {
+                  "required": [],
+                  "type": "string"
+                }
+              },
               "required": [],
               "title": "extraLabels",
               "type": "object"
@@ -9039,6 +9479,12 @@
             "nodeSelector": {
               "additionalProperties": false,
               "description": "Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.",
+              "patternProperties": {
+                ".*": {
+                  "required": [],
+                  "type": "string"
+                }
+              },
               "required": [],
               "title": "nodeSelector",
               "type": "object"
@@ -9113,12 +9559,10 @@
             }
           },
           "required": [
-            "nodeSelector",
             "priorityClassName",
             "store",
             "autoscaling",
             "affinity",
-            "extraLabels",
             "image"
           ],
           "title": "userlog",
@@ -9145,6 +9589,12 @@
             "extraLabels": {
               "additionalProperties": false,
               "description": "Per-service custom labels",
+              "patternProperties": {
+                ".*": {
+                  "required": [],
+                  "type": "string"
+                }
+              },
               "required": [],
               "title": "extraLabels",
               "type": "object"
@@ -9196,6 +9646,12 @@
             "nodeSelector": {
               "additionalProperties": false,
               "description": "Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.",
+              "patternProperties": {
+                ".*": {
+                  "required": [],
+                  "type": "string"
+                }
+              },
               "required": [],
               "title": "nodeSelector",
               "type": "object"
@@ -9263,11 +9719,9 @@
             }
           },
           "required": [
-            "nodeSelector",
             "priorityClassName",
             "autoscaling",
             "affinity",
-            "extraLabels",
             "image"
           ],
           "title": "users",
@@ -9383,13 +9837,13 @@
                   "type": "object"
                 },
                 "customTranslations": {
+                  "additionalProperties": true,
                   "description": "- src: /theme/foo.js\n  async: true\nConfigure custom translations",
                   "items": {
                     "required": []
                   },
                   "required": [],
-                  "title": "customTranslations",
-                  "type": "array"
+                  "title": "customTranslations"
                 },
                 "embed": {
                   "additionalProperties": false,
@@ -9442,11 +9896,10 @@
                   "type": "object"
                 },
                 "externalApps": {
-                  "additionalProperties": false,
+                  "additionalProperties": true,
                   "description": "Configure external apps in Web's app.yaml",
                   "required": [],
-                  "title": "externalApps",
-                  "type": "object"
+                  "title": "externalApps"
                 },
                 "feedbackLink": {
                   "additionalProperties": false,
@@ -9535,22 +9988,22 @@
                   "type": "object"
                 },
                 "scripts": {
+                  "additionalProperties": true,
                   "description": "- href: /theme/foo.css\nConfigure the {\"styles\": []} section in the Web config.json.",
                   "items": {
                     "required": []
                   },
                   "required": [],
-                  "title": "scripts",
-                  "type": "array"
+                  "title": "scripts"
                 },
                 "styles": {
+                  "additionalProperties": true,
                   "description": "Configure the {\"styles\": []} section in the Web config.json.",
                   "items": {
                     "required": []
                   },
                   "required": [],
-                  "title": "styles",
-                  "type": "array"
+                  "title": "styles"
                 },
                 "theme": {
                   "additionalProperties": false,
@@ -9615,11 +10068,7 @@
                 "tokenStorageLocal",
                 "contextHelpersReadMore",
                 "feedbackLink",
-                "styles",
-                "scripts",
-                "customTranslations",
                 "apps",
-                "externalApps",
                 "theme",
                 "oidc",
                 "userListRequiresFilter",
@@ -9632,6 +10081,12 @@
             "extraLabels": {
               "additionalProperties": false,
               "description": "Per-service custom labels",
+              "patternProperties": {
+                ".*": {
+                  "required": [],
+                  "type": "string"
+                }
+              },
               "required": [],
               "title": "extraLabels",
               "type": "object"
@@ -9683,6 +10138,12 @@
             "nodeSelector": {
               "additionalProperties": false,
               "description": "Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.",
+              "patternProperties": {
+                ".*": {
+                  "required": [],
+                  "type": "string"
+                }
+              },
               "required": [],
               "title": "nodeSelector",
               "type": "object"
@@ -9709,6 +10170,12 @@
                 "annotations": {
                   "additionalProperties": false,
                   "description": "Persistent volume annotations.",
+                  "patternProperties": {
+                    ".*": {
+                      "required": [],
+                      "type": "string"
+                    }
+                  },
                   "required": [],
                   "title": "annotations",
                   "type": "object"
@@ -9756,6 +10223,12 @@
                 "selectorLabels": {
                   "additionalProperties": false,
                   "description": "Persistent volume selector labels.",
+                  "patternProperties": {
+                    ".*": {
+                      "required": [],
+                      "type": "string"
+                    }
+                  },
                   "required": [],
                   "title": "selectorLabels",
                   "type": "object"
@@ -9783,9 +10256,7 @@
                 "chownInitContainer",
                 "accessModes",
                 "size",
-                "annotations",
                 "finalizers",
-                "selectorLabels",
                 "claimName"
               ],
               "title": "persistence",
@@ -9856,11 +10327,9 @@
           "required": [
             "config",
             "persistence",
-            "nodeSelector",
             "priorityClassName",
             "autoscaling",
             "affinity",
-            "extraLabels",
             "image",
             "additionalInitContainers"
           ],
@@ -9888,6 +10357,12 @@
             "extraLabels": {
               "additionalProperties": false,
               "description": "Per-service custom labels",
+              "patternProperties": {
+                ".*": {
+                  "required": [],
+                  "type": "string"
+                }
+              },
               "required": [],
               "title": "extraLabels",
               "type": "object"
@@ -9939,6 +10414,12 @@
             "nodeSelector": {
               "additionalProperties": false,
               "description": "Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.",
+              "patternProperties": {
+                ".*": {
+                  "required": [],
+                  "type": "string"
+                }
+              },
               "required": [],
               "title": "nodeSelector",
               "type": "object"
@@ -10006,11 +10487,9 @@
             }
           },
           "required": [
-            "nodeSelector",
             "priorityClassName",
             "autoscaling",
             "affinity",
-            "extraLabels",
             "image"
           ],
           "title": "webdav",
@@ -10037,6 +10516,12 @@
             "extraLabels": {
               "additionalProperties": false,
               "description": "Per-service custom labels",
+              "patternProperties": {
+                ".*": {
+                  "required": [],
+                  "type": "string"
+                }
+              },
               "required": [],
               "title": "extraLabels",
               "type": "object"
@@ -10088,6 +10573,12 @@
             "nodeSelector": {
               "additionalProperties": false,
               "description": "Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.",
+              "patternProperties": {
+                ".*": {
+                  "required": [],
+                  "type": "string"
+                }
+              },
               "required": [],
               "title": "nodeSelector",
               "type": "object"
@@ -10155,11 +10646,9 @@
             }
           },
           "required": [
-            "nodeSelector",
             "priorityClassName",
             "autoscaling",
             "affinity",
-            "extraLabels",
             "image"
           ],
           "title": "webfinger",
@@ -10313,12 +10802,9 @@
     "customCAChain",
     "securityContext",
     "topologySpreadConstraints",
-    "extraLabels",
     "backup",
     "replicas",
     "autoscaling",
-    "nodeSelector",
-    "jobNodeSelector",
     "jobPriorityClassName",
     "priorityClassName",
     "extraResources",

@@ -36,5 +36,21 @@
                 }
             }
         }
+    },
+    "labelsTemplate": {
+        "type": "object",
+        "patternProperties": {
+            ".*": {
+                "type": "string"
+            }
+        }
+    },
+    "annotationsTemplate": {
+        "type": "object",
+        "patternProperties": {
+            ".*": {
+                "type": "string"
+            }
+        }
     }
 }

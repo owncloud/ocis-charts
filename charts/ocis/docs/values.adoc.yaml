@@ -958,23 +958,29 @@ ingress:
   # Uses the default ingress class if not set.
   ingressClassName:
   # @schema
-  # type: object
-  # required: true
-  # patternProperties:
-  #  ".*":
-  #    type: string
+  # $ref: schema/templates.json#/annotationsTemplate
   # @schema
   # -- Ingress annotations.
   annotations: {}
   # @schema
-  # type: object
-  # required: true
-  # patternProperties:
-  #  ".*":
-  #    type: string
+  # $ref: schema/templates.json#/labelsTemplate
   # @schema
   # -- Labels for the ingress.
   labels: {}
+  # @schema
+  # type: array
+  # items:
+  #   type: object
+  #   required: true
+  #   properties:
+  #     secretName:
+  #       type: string
+  #       required: true
+  #     hosts:
+  #       type: array
+  #       items:
+  #         type: string
+  # @schema
   # -- Ingress TLS configuration.
   tls: []
   #  - secretName: chart-example-tls
@@ -1092,16 +1098,28 @@ topologySpreadConstraints: "" # |
 #      matchLabels:
 #        app: {{ .appName }}
 
+# @schema
+# $ref: schema/templates.json#/labelsTemplate
+# @schema
 # -- Custom labels for all manifests
 extraLabels: {}
 
 # Backup related settings
 # Compare to https://doc.owncloud.com/ocis/next/maintenance/b-r/backup_considerations.html
 backup:
+  # @schema
+  # $ref: schema/templates.json#/labelsTemplate
+  # @schema
   # -- Labels that are added to ConfigMaps that are manged by this Chart and must be included in a backup when backing up Kubernetes resources.
   configMapLabels: {}
+  # @schema
+  # $ref: schema/templates.json#/labelsTemplate
+  # @schema
   # -- Labels that are added to Secrets that are manged by this Chart and must be included in a backup when backing up Kubernetes resources.
   secretLabels: {}
+  # @schema
+  # $ref: schema/templates.json#/labelsTemplate
+  # @schema
   # -- Labels that are added to PVCs that are manged by this Chart and must be included in a backup when backing up Kubernetes resources.
   pvcLabels: {}
 
@@ -1178,6 +1196,9 @@ resources:
   #   cpu: 100m
   #   memory: 128Mi
 
+# @schema
+# $ref: schema/templates.json#/labelsTemplate
+# @schema
 # -- Default nodeSelector to apply to all services, except per-service nodeSelector configuration in `services.<service-name>.nodeSelector` is set.
 nodeSelector:
   {}
@@ -1200,6 +1221,9 @@ jobResources:
   #   cpu: 100m
   #   memory: 128Mi
 
+# @schema
+# $ref: schema/templates.json#/labelsTemplate
+# @schema
 # -- Default nodeSelector to apply to all jobs, except per-service job nodeSelector configuration in `services.<service-name>.jobNodeSelector` is set.
 jobNodeSelector:
   {}
@@ -1250,6 +1274,9 @@ services:
     # @schema
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
+    # @schema
+    # $ref: schema/templates.json#/labelsTemplate
+    # @schema
     # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
     nodeSelector: {}
     # -- Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
@@ -1272,6 +1299,9 @@ services:
     autoscaling: {}
     # -- Affinity settings for the activitylog service. See the documentation of this setting in approvider for examples.
     affinity: {}
+    # @schema
+    # $ref: schema/templates.json#/labelsTemplate
+    # @schema
     # -- Per-service custom labels
     extraLabels: {}
     # Per-service image configuration. Overrides the default setting from `image` if set.
@@ -1297,6 +1327,9 @@ services:
     # @schema
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
+    # @schema
+    # $ref: schema/templates.json#/labelsTemplate
+    # @schema
     # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
     nodeSelector: {}
     # -- Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
@@ -1336,6 +1369,9 @@ services:
     #               - appprovider
     #       topologyKey: "kubernetes.io/hostname"
     #
+    # @schema
+    # $ref: schema/templates.json#/labelsTemplate
+    # @schema
     # Do note that the value will be different for each service.
     # -- Per-service custom labels
     extraLabels: {}
@@ -1362,12 +1398,18 @@ services:
     # @schema
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
+    # @schema
+    # $ref: schema/templates.json#/labelsTemplate
+    # @schema
     # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
     nodeSelector: {}
     # -- Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
     priorityClassName: ""
     # -- Affinity settings for the appregistry service. See the documentation of this setting in approvider for examples.
     affinity: {}
+    # @schema
+    # $ref: schema/templates.json#/labelsTemplate
+    # @schema
     # -- Per-service custom labels
     extraLabels: {}
     # Per-service image configuration. Overrides the default setting from `image` if set.
@@ -1393,6 +1435,9 @@ services:
     # @schema
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
+    # @schema
+    # $ref: schema/templates.json#/labelsTemplate
+    # @schema
     # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
     nodeSelector: {}
     # -- Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
@@ -1406,6 +1451,9 @@ services:
     autoscaling: {}
     # -- Affinity settings for the audit service. See the documentation of this setting in approvider for examples.
     affinity: {}
+    # @schema
+    # $ref: schema/templates.json#/labelsTemplate
+    # @schema
     # -- Per-service custom labels
     extraLabels: {}
     # Per-service image configuration. Overrides the default setting from `image` if set.
@@ -1431,6 +1479,9 @@ services:
     # @schema
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
+    # @schema
+    # $ref: schema/templates.json#/labelsTemplate
+    # @schema
     # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
     nodeSelector: {}
     # -- Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
@@ -1444,6 +1495,9 @@ services:
     autoscaling: {}
     # -- Affinity settings for the authmachine service. See the documentation of this setting in approvider for examples.
     affinity: {}
+    # @schema
+    # $ref: schema/templates.json#/labelsTemplate
+    # @schema
     # -- Per-service custom labels
     extraLabels: {}
     # Per-service image configuration. Overrides the default setting from `image` if set.
@@ -1469,6 +1523,9 @@ services:
     # @schema
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
+    # @schema
+    # $ref: schema/templates.json#/labelsTemplate
+    # @schema
     # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
     nodeSelector: {}
     # -- Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
@@ -1482,6 +1539,9 @@ services:
     autoscaling: {}
     # -- Affinity settings for the authservice service. See the documentation of this setting in approvider for examples.
     affinity: {}
+    # @schema
+    # $ref: schema/templates.json#/labelsTemplate
+    # @schema
     # -- Per-service custom labels
     extraLabels: {}
     # Per-service image configuration. Overrides the default setting from `image` if set.
@@ -1516,6 +1576,9 @@ services:
     # @schema
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
+    # @schema
+    # $ref: schema/templates.json#/labelsTemplate
+    # @schema
     # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
     nodeSelector: {}
     # -- Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
@@ -1529,6 +1592,9 @@ services:
     autoscaling: {}
     # -- Affinity settings for the antivirus service. See the documentation of this setting in approvider for examples.
     affinity: {}
+    # @schema
+    # $ref: schema/templates.json#/labelsTemplate
+    # @schema
     # -- Per-service custom labels
     extraLabels: {}
     # Per-service image configuration. Overrides the default setting from `image` if set.
@@ -1554,6 +1620,9 @@ services:
     # @schema
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
+    # @schema
+    # $ref: schema/templates.json#/labelsTemplate
+    # @schema
     # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
     nodeSelector: {}
     # -- Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
@@ -1567,6 +1636,9 @@ services:
     autoscaling: {}
     # -- Affinity settings for the clientlog service. See the documentation of this setting in approvider for examples.
     affinity: {}
+    # @schema
+    # $ref: schema/templates.json#/labelsTemplate
+    # @schema
     # -- Per-service custom labels
     extraLabels: {}
     # Per-service image configuration. Overrides the default setting from `image` if set.
@@ -1592,6 +1664,9 @@ services:
     # @schema
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
+    # @schema
+    # $ref: schema/templates.json#/labelsTemplate
+    # @schema
     # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
     nodeSelector: {}
     # -- Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
@@ -1614,6 +1689,9 @@ services:
     autoscaling: {}
     # -- Affinity settings for the eventhistory service. See the documentation of this setting in approvider for examples.
     affinity: {}
+    # @schema
+    # $ref: schema/templates.json#/labelsTemplate
+    # @schema
     # -- Per-service custom labels
     extraLabels: {}
     # Per-service image configuration. Overrides the default setting from `image` if set.
@@ -1648,6 +1726,9 @@ services:
     # @schema
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
+    # @schema
+    # $ref: schema/templates.json#/labelsTemplate
+    # @schema
     # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
     nodeSelector: {}
     # -- Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
@@ -1661,6 +1742,9 @@ services:
     autoscaling: {}
     # -- Affinity settings for the frontend service. See the documentation of this setting in approvider for examples.
     affinity: {}
+    # @schema
+    # $ref: schema/templates.json#/labelsTemplate
+    # @schema
     # -- Per-service custom labels
     extraLabels: {}
     # Per-service image configuration. Overrides the default setting from `image` if set.
@@ -1686,6 +1770,9 @@ services:
     # @schema
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
+    # @schema
+    # $ref: schema/templates.json#/labelsTemplate
+    # @schema
     # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
     nodeSelector: {}
     # -- Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
@@ -1699,6 +1786,9 @@ services:
     autoscaling: {}
     # -- Affinity settings for the gateway service. See the documentation of this setting in approvider for examples.
     affinity: {}
+    # @schema
+    # $ref: schema/templates.json#/labelsTemplate
+    # @schema
     # -- Per-service custom labels
     extraLabels: {}
     # Per-service image configuration. Overrides the default setting from `image` if set.
@@ -1724,6 +1814,9 @@ services:
     # @schema
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
+    # @schema
+    # $ref: schema/templates.json#/labelsTemplate
+    # @schema
     # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
     nodeSelector: {}
     # -- Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
@@ -1737,6 +1830,9 @@ services:
     autoscaling: {}
     # -- Affinity settings for the graph service. See the documentation of this setting in approvider for examples.
     affinity: {}
+    # @schema
+    # $ref: schema/templates.json#/labelsTemplate
+    # @schema
     # -- Per-service custom labels
     extraLabels: {}
     # Per-service image configuration. Overrides the default setting from `image` if set.
@@ -1775,6 +1871,9 @@ services:
     autoscaling: {}
     # -- Affinity settings for the groups service. See the documentation of this setting in approvider for examples.
     affinity: {}
+    # @schema
+    # $ref: schema/templates.json#/labelsTemplate
+    # @schema
     # -- Per-service custom labels
     extraLabels: {}
     # Per-service image configuration. Overrides the default setting from `image` if set.
@@ -1827,11 +1926,17 @@ services:
         - ReadWriteOnce
       # -- Size of the persistent volume.
       size: 10Gi
+      # @schema
+      # $ref: schema/templates.json#/annotationsTemplate
+      # @schema
       # -- Persistent volume annotations.
       annotations: {}
       # -- Persistent volume finalizers.
       finalizers:
         - kubernetes.io/pvc-protection
+      # @schema
+      # $ref: schema/templates.json#/labelsTemplate
+      # @schema
       # -- Persistent volume selector labels.
       selectorLabels: {}
       # -- Use a custom name for the PVC instead of the default one.
@@ -1853,6 +1958,9 @@ services:
     priorityClassName: ""
     # -- Affinity settings for the idm service. See the documentation of this setting in approvider for examples.
     affinity: {}
+    # @schema
+    # $ref: schema/templates.json#/labelsTemplate
+    # @schema
     # -- Per-service custom labels
     extraLabels: {}
     # Per-service image configuration. Overrides the default setting from `image` if set.
@@ -1878,12 +1986,18 @@ services:
     # @schema
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
+    # @schema
+    # $ref: schema/templates.json#/labelsTemplate
+    # @schema
     # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
     nodeSelector: {}
     # -- Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
     priorityClassName: ""
     # -- Affinity settings for the idp service. See the documentation of this setting in approvider for examples.
     affinity: {}
+    # @schema
+    # $ref: schema/templates.json#/labelsTemplate
+    # @schema
     # -- Per-service custom labels
     extraLabels: {}
     # Per-service image configuration. Overrides the default setting from `image` if set.
@@ -1936,11 +2050,17 @@ services:
         - ReadWriteOnce
       # -- Size of the persistent volume.
       size: 10Gi
+      # @schema
+      # $ref: schema/templates.json#/annotationsTemplate
+      # @schema
       # -- Persistent volume annotations.
       annotations: {}
       # -- Persistent volume finalizers.
       finalizers:
         - kubernetes.io/pvc-protection
+      # @schema
+      # $ref: schema/templates.json#/labelsTemplate
+      # @schema
       # -- Persistent volume selector labels.
       selectorLabels: {}
       # -- Use a custom name for the PVC instead of the default one.
@@ -1956,12 +2076,18 @@ services:
     # @schema
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
+    # @schema
+    # $ref: schema/templates.json#/labelsTemplate
+    # @schema
     # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
     nodeSelector: {}
     # -- Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
     priorityClassName: ""
     # -- Affinity settings for the nats service. See the documentation of this setting in approvider for examples.
     affinity: {}
+    # @schema
+    # $ref: schema/templates.json#/labelsTemplate
+    # @schema
     # -- Per-service custom labels
     extraLabels: {}
     # Per-service image configuration. Overrides the default setting from `image` if set.
@@ -1987,6 +2113,9 @@ services:
     # @schema
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
+    # @schema
+    # $ref: schema/templates.json#/labelsTemplate
+    # @schema
     # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
     nodeSelector: {}
     # -- Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
@@ -2000,6 +2129,9 @@ services:
     autoscaling: {}
     # -- Affinity settings for the notifications service. See the documentation of this setting in approvider for examples.
     affinity: {}
+    # @schema
+    # $ref: schema/templates.json#/labelsTemplate
+    # @schema
     # -- Per-service custom labels
     extraLabels: {}
     # Per-service image configuration. Overrides the default setting from `image` if set.
@@ -2025,6 +2157,9 @@ services:
     # @schema
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
+    # @schema
+    # $ref: schema/templates.json#/labelsTemplate
+    # @schema
     # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
     nodeSelector: {}
     # -- Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
@@ -2038,6 +2173,9 @@ services:
     autoscaling: {}
     # -- Affinity settings for the ocdav service. See the documentation of this setting in approvider for examples.
     affinity: {}
+    # @schema
+    # $ref: schema/templates.json#/labelsTemplate
+    # @schema
     # -- Per-service custom labels
     extraLabels: {}
     # Per-service image configuration. Overrides the default setting from `image` if set.
@@ -2063,12 +2201,18 @@ services:
     # @schema
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
+    # @schema
+    # $ref: schema/templates.json#/labelsTemplate
+    # @schema
     # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
     nodeSelector: {}
     # -- Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
     priorityClassName: ""
     # -- Affinity settings for the ocs service. See the documentation of this setting in approvider for examples.
     affinity: {}
+    # @schema
+    # $ref: schema/templates.json#/labelsTemplate
+    # @schema
     # -- Per-service custom labels
     extraLabels: {}
     # Per-service image configuration. Overrides the default setting from `image` if set.
@@ -2114,11 +2258,17 @@ services:
         - ReadWriteOnce
       # -- Size of the persistent volume.
       size: 1Gi
+      # @schema
+      # $ref: schema/templates.json#/annotationsTemplate
+      # @schema
       # -- Persistent volume annotations.
       annotations: {}
       # -- Persistent volume finalizers.
       finalizers:
         - kubernetes.io/pvc-protection
+      # @schema
+      # $ref: schema/templates.json#/labelsTemplate
+      # @schema
       # -- Persistent volume selector labels.
       selectorLabels: {}
       # -- Use a custom name for the PVC instead of the default one.
@@ -2138,6 +2288,9 @@ services:
     # @schema
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
+    # @schema
+    # $ref: schema/templates.json#/labelsTemplate
+    # @schema
     # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
     nodeSelector: {}
     # -- Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
@@ -2151,6 +2304,9 @@ services:
     autoscaling: {}
     # -- Affinity settings for the ocs service. See the documentation of this setting in approvider for examples.
     affinity: {}
+    # @schema
+    # $ref: schema/templates.json#/labelsTemplate
+    # @schema
     # -- Per-service custom labels
     extraLabels: {}
     # Per-service image configuration. Overrides the default setting from `image` if set.
@@ -2176,6 +2332,9 @@ services:
     # @schema
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
+    # @schema
+    # $ref: schema/templates.json#/labelsTemplate
+    # @schema
     # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
     nodeSelector: {}
     # -- Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
@@ -2189,6 +2348,9 @@ services:
     autoscaling: {}
     # -- Affinity settings for the policies service. See the documentation of this setting in approvider for examples.
     affinity: {}
+    # @schema
+    # $ref: schema/templates.json#/labelsTemplate
+    # @schema
     # -- Per-service custom labels
     extraLabels: {}
     # Per-service image configuration. Overrides the default setting from `image` if set.
@@ -2223,6 +2385,9 @@ services:
     # @schema
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
+    # @schema
+    # $ref: schema/templates.json#/labelsTemplate
+    # @schema
     # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
     nodeSelector: {}
     # -- Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
@@ -2238,6 +2403,9 @@ services:
     autoscaling: {}
     # -- Affinity settings for the postprocessing service. See the documentation of this setting in approvider for examples.
     affinity: {}
+    # @schema
+    # $ref: schema/templates.json#/labelsTemplate
+    # @schema
     # -- Per-service custom labels
     extraLabels: {}
     # Per-service image configuration. Overrides the default setting from `image` if set.
@@ -2273,6 +2441,9 @@ services:
     # @schema
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
+    # @schema
+    # $ref: schema/templates.json#/labelsTemplate
+    # @schema
     # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
     nodeSelector: {}
     # -- Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
@@ -2286,6 +2457,9 @@ services:
     autoscaling: {}
     # -- Affinity settings for the proxy service. See the documentation of this setting in approvider for examples.
     affinity: {}
+    # @schema
+    # $ref: schema/templates.json#/labelsTemplate
+    # @schema
     # -- Per-service custom labels
     extraLabels: {}
     # Per-service image configuration. Overrides the default setting from `image` if set.
@@ -2358,11 +2532,17 @@ services:
         - ReadWriteOnce
       # -- Size of the persistent volume.
       size: 10Gi
+      # @schema
+      # $ref: schema/templates.json#/annotationsTemplate
+      # @schema
       # -- Persistent volume annotations.
       annotations: {}
       # -- Persistent volume finalizers.
       finalizers:
         - kubernetes.io/pvc-protection
+      # @schema
+      # $ref: schema/templates.json#/labelsTemplate
+      # @schema
       # -- Persistent volume selector labels.
       selectorLabels: {}
       # -- Use a custom name for the PVC instead of the default one.
@@ -2378,6 +2558,9 @@ services:
     # @schema
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
+    # @schema
+    # $ref: schema/templates.json#/labelsTemplate
+    # @schema
     # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
     nodeSelector: {}
     # -- Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
@@ -2389,6 +2572,9 @@ services:
     podDisruptionBudget: {}
     # -- Affinity settings for the search service. See the documentation of this setting in approvider for examples.
     affinity: {}
+    # @schema
+    # $ref: schema/templates.json#/labelsTemplate
+    # @schema
     # -- Per-service custom labels
     extraLabels: {}
     # Per-service image configuration. Overrides the default setting from `image` if set.
@@ -2414,6 +2600,9 @@ services:
     # @schema
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
+    # @schema
+    # $ref: schema/templates.json#/labelsTemplate
+    # @schema
     # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
     nodeSelector: {}
     # -- Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
@@ -2427,6 +2616,9 @@ services:
     autoscaling: {}
     # -- Affinity settings for the settings service. See the documentation of this setting in approvider for examples.
     affinity: {}
+    # @schema
+    # $ref: schema/templates.json#/labelsTemplate
+    # @schema
     # -- Per-service custom labels
     extraLabels: {}
     # Per-service image configuration. Overrides the default setting from `image` if set.
@@ -2452,6 +2644,9 @@ services:
     # @schema
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
+    # @schema
+    # $ref: schema/templates.json#/labelsTemplate
+    # @schema
     # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
     nodeSelector: {}
     # -- Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
@@ -2465,6 +2660,9 @@ services:
     autoscaling: {}
     # -- Affinity settings for the sharing service. See the documentation of this setting in approvider for examples.
     affinity: {}
+    # @schema
+    # $ref: schema/templates.json#/labelsTemplate
+    # @schema
     # -- Per-service custom labels
     extraLabels: {}
     # Per-service image configuration. Overrides the default setting from `image` if set.
@@ -2493,6 +2691,9 @@ services:
     # @schema
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
+    # @schema
+    # $ref: schema/templates.json#/labelsTemplate
+    # @schema
     # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
     nodeSelector: {}
     # -- Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
@@ -2508,6 +2709,9 @@ services:
     autoscaling: {}
     # -- Affinity settings for the postprocessing service. See the documentation of this setting in approvider for examples.
     affinity: {}
+    # @schema
+    # $ref: schema/templates.json#/labelsTemplate
+    # @schema
     # -- Per-service custom labels
     extraLabels: {}
     # Per-service image configuration. Overrides the default setting from `image` if set.
@@ -2533,6 +2737,9 @@ services:
     # @schema
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
+    # @schema
+    # $ref: schema/templates.json#/labelsTemplate
+    # @schema
     # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
     nodeSelector: {}
     # -- Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
@@ -2546,6 +2753,9 @@ services:
     autoscaling: {}
     # -- Affinity settings for the storagepubliclink service. See the documentation of this setting in approvider for examples.
     affinity: {}
+    # @schema
+    # $ref: schema/templates.json#/labelsTemplate
+    # @schema
     # -- Per-service custom labels
     extraLabels: {}
     # Per-service image configuration. Overrides the default setting from `image` if set.
@@ -2571,6 +2781,9 @@ services:
     # @schema
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
+    # @schema
+    # $ref: schema/templates.json#/labelsTemplate
+    # @schema
     # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
     nodeSelector: {}
     # -- Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
@@ -2584,6 +2797,9 @@ services:
     autoscaling: {}
     # -- Affinity settings for the storageshares service. See the documentation of this setting in approvider for examples.
     affinity: {}
+    # @schema
+    # $ref: schema/templates.json#/labelsTemplate
+    # @schema
     # -- Per-service custom labels
     extraLabels: {}
     # Per-service image configuration. Overrides the default setting from `image` if set.
@@ -2637,11 +2853,17 @@ services:
         - ReadWriteMany
       # -- Size of the persistent volume.
       size: 5Gi
+      # @schema
+      # $ref: schema/templates.json#/annotationsTemplate
+      # @schema
       # -- Persistent volume annotations.
       annotations: {}
       # -- Persistent volume finalizers.
       finalizers:
         - kubernetes.io/pvc-protection
+      # @schema
+      # $ref: schema/templates.json#/labelsTemplate
+      # @schema
       # -- Persistent volume selector labels.
       selectorLabels: {}
       # -- Use a custom name for the PVC instead of the default one.
@@ -2657,6 +2879,9 @@ services:
     # @schema
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
+    # @schema
+    # $ref: schema/templates.json#/labelsTemplate
+    # @schema
     # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
     nodeSelector: {}
     # -- Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
@@ -2670,6 +2895,9 @@ services:
     autoscaling: {}
     # -- Affinity settings for the storagesystem service. See the documentation of this setting in approvider for examples.
     affinity: {}
+    # @schema
+    # $ref: schema/templates.json#/labelsTemplate
+    # @schema
     # -- Per-service custom labels
     extraLabels: {}
     # Per-service image configuration. Overrides the default setting from `image` if set.
@@ -2889,11 +3117,17 @@ services:
         - ReadWriteMany
       # -- Size of the persistent volume.
       size: 50Gi
+      # @schema
+      # $ref: schema/templates.json#/annotationsTemplate
+      # @schema
       # -- Persistent volume annotations.
       annotations: {}
       # -- Persistent volume finalizers.
       finalizers:
         - kubernetes.io/pvc-protection
+      # @schema
+      # $ref: schema/templates.json#/labelsTemplate
+      # @schema
       # -- Persistent volume selector labels.
       selectorLabels: {}
       # -- Use a custom name for the PVC instead of the default one.
@@ -2909,6 +3143,9 @@ services:
     # @schema
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
+    # @schema
+    # $ref: schema/templates.json#/labelsTemplate
+    # @schema
     # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
     nodeSelector: {}
     # -- Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
@@ -2920,6 +3157,9 @@ services:
     # @schema
     # -- Per-service jobResources configuration. Overrides the default setting from `jobResources` if set.
     jobResources: {}
+    # @schema
+    # $ref: schema/templates.json#/labelsTemplate
+    # @schema
     # -- Per-service jobNodeSelector configuration. Overrides the default setting from `jobNodeSelector` if set.
     jobNodeSelector: {}
     # @schema
@@ -2931,6 +3171,9 @@ services:
     autoscaling: {}
     # -- Affinity settings for the storageusers service. See the documentation of this setting in approvider for examples.
     affinity: {}
+    # @schema
+    # $ref: schema/templates.json#/labelsTemplate
+    # @schema
     # -- Per-service custom labels
     extraLabels: {}
     # Per-service image configuration. Overrides the default setting from `image` if set.
@@ -2998,10 +3241,16 @@ services:
         - ReadWriteMany
       # -- Size of the persistent volume.
       size: 10Gi
+      # @schema
+      # $ref: schema/templates.json#/annotationsTemplate
+      # @schema
       # -- Persistent volume annotations.
       annotations: {}
       # -- Persistent volume finalizers.
       finalizers: []
+      # @schema
+      # $ref: schema/templates.json#/labelsTemplate
+      # @schema
       # -- Persistent volume selector labels.
       selectorLabels: {}
       # -- Use a custom name for the PVC instead of the default one.
@@ -3017,6 +3266,9 @@ services:
     # @schema
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
+    # @schema
+    # $ref: schema/templates.json#/labelsTemplate
+    # @schema
     # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
     nodeSelector: {}
     # -- Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
@@ -3026,6 +3278,9 @@ services:
     # @schema
     # -- Per-service jobResources configuration. Overrides the default setting from `jobResources` if set.
     jobResources: {}
+    # @schema
+    # $ref: schema/templates.json#/labelsTemplate
+    # @schema
     # -- Per-service jobNodeSelector configuration. Overrides the default setting from `jobNodeSelector` if set.
     jobNodeSelector: {}
     # -- Per-service jobPriorityClassName configuration. Overrides the default setting from `jobPriorityClassName` if set.
@@ -3070,6 +3325,9 @@ services:
     autoscaling: {}
     # -- Affinity settings for the thumbnails service. See the documentation of this setting in approvider for examples.
     affinity: {}
+    # @schema
+    # $ref: schema/templates.json#/labelsTemplate
+    # @schema
     # -- Per-service custom labels
     extraLabels: {}
     # Per-service image configuration. Overrides the default setting from `image` if set.
@@ -3095,6 +3353,9 @@ services:
     # @schema
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
+    # @schema
+    # $ref: schema/templates.json#/labelsTemplate
+    # @schema
     # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
     nodeSelector: {}
     # -- Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
@@ -3117,6 +3378,9 @@ services:
     autoscaling: {}
     # -- Affinity settings for the userlog service. See the documentation of this setting in approvider for examples.
     affinity: {}
+    # @schema
+    # $ref: schema/templates.json#/labelsTemplate
+    # @schema
     # -- Per-service custom labels
     extraLabels: {}
     # Per-service image configuration. Overrides the default setting from `image` if set.
@@ -3142,6 +3406,9 @@ services:
     # @schema
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
+    # @schema
+    # $ref: schema/templates.json#/labelsTemplate
+    # @schema
     # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
     nodeSelector: {}
     # -- Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
@@ -3155,6 +3422,9 @@ services:
     autoscaling: {}
     # -- Affinity settings for the users service. See the documentation of this setting in approvider for examples.
     affinity: {}
+    # @schema
+    # $ref: schema/templates.json#/labelsTemplate
+    # @schema
     # -- Per-service custom labels
     extraLabels: {}
     # Per-service image configuration. Overrides the default setting from `image` if set.
@@ -3206,21 +3476,33 @@ services:
         ariaLabel: ""
         # -- Description to be shown for the feedback link. Uses the ownCloud default description if empty.
         description: ""
+      # @schema
+      # additionalProperties: true
+      # @schema
       # -- Configure the {"styles": []} section in the Web config.json.
       styles:
         []
         # - href: /theme/foo.css
+      # @schema
+      # additionalProperties: true
+      # @schema
       # -- Configure the {"styles": []} section in the Web config.json.
       scripts:
         []
         # - src: /theme/foo.js
         #   async: true
+      # @schema
+      # additionalProperties: true
+      # @schema
       # -- Configure custom translations
       customTranslations:
         []
         # - url: https://ocis.kube.owncloud.test/custom_translations.json
       # -- Configure the {"apps": []} section in the Web config.json.
       apps: []
+      # @schema
+      # additionalProperties: true
+      # @schema
       # -- Configure external apps in Web's app.yaml
       externalApps: {}
       # Theme settings
@@ -3332,10 +3614,16 @@ services:
         - ReadWriteMany
       # -- Size of the persistent volume.
       size: 1Gi
+      # @schema
+      # $ref: schema/templates.json#/annotationsTemplate
+      # @schema
       # -- Persistent volume annotations.
       annotations: {}
       # -- Persistent volume finalizers.
       finalizers: []
+      # @schema
+      # $ref: schema/templates.json#/labelsTemplate
+      # @schema
       # -- Persistent volume selector labels.
       selectorLabels: {}
       # -- Use a custom name for the PVC instead of the default one.
@@ -3351,6 +3639,9 @@ services:
     # @schema
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
+    # @schema
+    # $ref: schema/templates.json#/labelsTemplate
+    # @schema
     # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
     nodeSelector: {}
     # -- Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
@@ -3364,6 +3655,9 @@ services:
     autoscaling: {}
     # -- Affinity settings for the web service. See the documentation of this setting in approvider for examples.
     affinity: {}
+    # @schema
+    # $ref: schema/templates.json#/labelsTemplate
+    # @schema
     # -- Per-service custom labels
     extraLabels: {}
     # Per-service image configuration. Overrides the default setting from `image` if set.
@@ -3391,6 +3685,9 @@ services:
     # @schema
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
+    # @schema
+    # $ref: schema/templates.json#/labelsTemplate
+    # @schema
     # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
     nodeSelector: {}
     # -- Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
@@ -3404,6 +3701,9 @@ services:
     autoscaling: {}
     # -- Affinity settings for the webdav service. See the documentation of this setting in approvider for examples.
     affinity: {}
+    # @schema
+    # $ref: schema/templates.json#/labelsTemplate
+    # @schema
     # -- Per-service custom labels
     extraLabels: {}
     # Per-service image configuration. Overrides the default setting from `image` if set.
@@ -3429,6 +3729,9 @@ services:
     # @schema
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
+    # @schema
+    # $ref: schema/templates.json#/labelsTemplate
+    # @schema
     # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
     nodeSelector: {}
     # -- Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
@@ -3442,6 +3745,9 @@ services:
     autoscaling: {}
     # -- Affinity settings for the webfinger service. See the documentation of this setting in approvider for examples.
     affinity: {}
+    # @schema
+    # $ref: schema/templates.json#/labelsTemplate
+    # @schema
     # -- Per-service custom labels
     extraLabels: {}
     # Per-service image configuration. Overrides the default setting from `image` if set.
