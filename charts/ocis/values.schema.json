@@ -3,7 +3,7 @@
   "additionalProperties": false,
   "properties": {
     "autoscaling": {
-      "additionalProperties": false,
+      "additionalProperties": true,
       "description": "Autoscaling settings.",
       "properties": {
         "enabled": {
@@ -16,6 +16,7 @@
           "type": "integer"
         },
         "metrics": {
+          "additionalProperties": true,
           "required": []
         },
         "minReplicas": {
@@ -1439,7 +1440,7 @@
               "patternProperties": {
                 ".*": {
                   "required": [],
-                  "type": "string"
+                  "type": "integer"
                 }
               },
               "required": [],
@@ -2207,6 +2208,7 @@
       "description": "Default resources to apply to all jobs in services, except per-service resources configuration in `services.\u003cservice-name\u003e.jobResources` is set.\nBest practice is to:\n- set memory request == memory limit (compare to https://home.robusta.dev/blog/kubernetes-memory-limit)\n- set cpu request and omit cpu limit (compare to https://home.robusta.dev/blog/stop-using-cpu-limits)",
       "properties": {
         "limits": {
+          "additionalProperties": false,
           "properties": {
             "cpu": {
               "required": [],
@@ -2221,6 +2223,7 @@
           "type": "object"
         },
         "requests": {
+          "additionalProperties": false,
           "properties": {
             "cpu": {
               "required": [],
@@ -2424,12 +2427,30 @@
       "description": "Default PodDisruptionBudget to apply to all services, except per-service PodDisruptionBudget configuration in `services.\u003cservice-name\u003e.podDisruptionBudget` is set.",
       "properties": {
         "maxUnavailable": {
-          "required": [],
-          "type": "integer"
+          "oneOf": [
+            {
+              "required": [],
+              "type": "integer"
+            },
+            {
+              "required": [],
+              "type": "string"
+            }
+          ],
+          "required": []
         },
         "minAvailable": {
-          "required": [],
-          "type": "integer"
+          "oneOf": [
+            {
+              "required": [],
+              "type": "integer"
+            },
+            {
+              "required": [],
+              "type": "string"
+            }
+          ],
+          "required": []
         }
       },
       "required": [],
@@ -2486,6 +2507,7 @@
       "description": "Default resources to apply to all services, except per-service resources configuration in `services.\u003cservice-name\u003e.resources` is set.\nBest practice is to:\n- set memory request == memory limit (compare to https://home.robusta.dev/blog/kubernetes-memory-limit)\n- set cpu request and omit cpu limit (compare to https://home.robusta.dev/blog/stop-using-cpu-limits)",
       "properties": {
         "limits": {
+          "additionalProperties": false,
           "properties": {
             "cpu": {
               "required": [],
@@ -2500,6 +2522,7 @@
           "type": "object"
         },
         "requests": {
+          "additionalProperties": false,
           "properties": {
             "cpu": {
               "required": [],
@@ -2816,13 +2839,14 @@
           "description": "ACTIVITYLOG service.",
           "properties": {
             "affinity": {
-              "additionalProperties": false,
+              "additionalProperties": true,
               "description": "Per-service affinity.\nThe value of this key will be passed to the affinity setting of the pod as documented here:\nhttps://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#affinity-and-anti-affinity\nThis example will ensure that the pods will only be scheduled on nodes with the label `topology.kubernetes.io/zone`\nset to `eu-west-1` or `eu-east-1`.\nnodeAffinity:\n  requiredDuringSchedulingIgnoredDuringExecution:\n    nodeSelectorTerms:\n    - matchExpressions:\n      - key: topology.kubernetes.io/zone\n        operator: In\n        values:\n        - eu-east-1\n        - eu-west-1\n\nThe following example will make sure that these pods will never be scheduled on the same node.\npodAntiAffinity:\n  requiredDuringSchedulingIgnoredDuringExecution:\n    - labelSelector:\n        matchExpressions:\n          - key: app\n            operator: In\n            values:\n              - appprovider\n      topologyKey: \"kubernetes.io/hostname\"\n",
               "required": [],
-              "title": "affinity"
+              "title": "affinity",
+              "type": "object"
             },
             "autoscaling": {
-              "additionalProperties": false,
+              "additionalProperties": true,
               "description": "Per-service autoscaling. Overrides the default setting from `autoscaling` if set.",
               "properties": {
                 "enabled": {
@@ -2835,6 +2859,7 @@
                   "type": "integer"
                 },
                 "metrics": {
+                  "additionalProperties": true,
                   "required": []
                 },
                 "minReplicas": {
@@ -2927,12 +2952,30 @@
               "description": "Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.",
               "properties": {
                 "maxUnavailable": {
-                  "required": [],
-                  "type": "integer"
+                  "oneOf": [
+                    {
+                      "required": [],
+                      "type": "integer"
+                    },
+                    {
+                      "required": [],
+                      "type": "string"
+                    }
+                  ],
+                  "required": []
                 },
                 "minAvailable": {
-                  "required": [],
-                  "type": "integer"
+                  "oneOf": [
+                    {
+                      "required": [],
+                      "type": "integer"
+                    },
+                    {
+                      "required": [],
+                      "type": "string"
+                    }
+                  ],
+                  "required": []
                 }
               },
               "required": [],
@@ -2954,6 +2997,7 @@
               "description": "Per-service resources configuration. Overrides the default setting from `resources` if set.",
               "properties": {
                 "limits": {
+                  "additionalProperties": false,
                   "properties": {
                     "cpu": {
                       "required": [],
@@ -2968,6 +3012,7 @@
                   "type": "object"
                 },
                 "requests": {
+                  "additionalProperties": false,
                   "properties": {
                     "cpu": {
                       "required": [],
@@ -2998,13 +3043,14 @@
           "description": "ANTIVIRUS service. Not used if `features.virusscan.enabled` equals `false`.",
           "properties": {
             "affinity": {
-              "additionalProperties": false,
+              "additionalProperties": true,
               "description": "Per-service affinity.",
               "required": [],
-              "title": "affinity"
+              "title": "affinity",
+              "type": "object"
             },
             "autoscaling": {
-              "additionalProperties": false,
+              "additionalProperties": true,
               "description": "Per-service autoscaling. Overrides the default setting from `autoscaling` if set.",
               "properties": {
                 "enabled": {
@@ -3017,6 +3063,7 @@
                   "type": "integer"
                 },
                 "metrics": {
+                  "additionalProperties": true,
                   "required": []
                 },
                 "minReplicas": {
@@ -3137,12 +3184,30 @@
               "description": "Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.",
               "properties": {
                 "maxUnavailable": {
-                  "required": [],
-                  "type": "integer"
+                  "oneOf": [
+                    {
+                      "required": [],
+                      "type": "integer"
+                    },
+                    {
+                      "required": [],
+                      "type": "string"
+                    }
+                  ],
+                  "required": []
                 },
                 "minAvailable": {
-                  "required": [],
-                  "type": "integer"
+                  "oneOf": [
+                    {
+                      "required": [],
+                      "type": "integer"
+                    },
+                    {
+                      "required": [],
+                      "type": "string"
+                    }
+                  ],
+                  "required": []
                 }
               },
               "required": [],
@@ -3164,6 +3229,7 @@
               "description": "Per-service resources configuration. Overrides the default setting from `resources` if set.",
               "properties": {
                 "limits": {
+                  "additionalProperties": false,
                   "properties": {
                     "cpu": {
                       "required": [],
@@ -3178,6 +3244,7 @@
                   "type": "object"
                 },
                 "requests": {
+                  "additionalProperties": false,
                   "properties": {
                     "cpu": {
                       "required": [],
@@ -3209,10 +3276,11 @@
           "description": "APP REGISTRY service. Not used if `features.appsIntegration.enabled` equals `false`.",
           "properties": {
             "affinity": {
-              "additionalProperties": false,
+              "additionalProperties": true,
               "description": "Per-service affinity.",
               "required": [],
-              "title": "affinity"
+              "title": "affinity",
+              "type": "object"
             },
             "extraLabels": {
               "additionalProperties": false,
@@ -3304,6 +3372,7 @@
               "description": "Per-service resources configuration. Overrides the default setting from `resources` if set.",
               "properties": {
                 "limits": {
+                  "additionalProperties": false,
                   "properties": {
                     "cpu": {
                       "required": [],
@@ -3318,6 +3387,7 @@
                   "type": "object"
                 },
                 "requests": {
+                  "additionalProperties": false,
                   "properties": {
                     "cpu": {
                       "required": [],
@@ -3348,13 +3418,14 @@
           "description": "AUDIT service.",
           "properties": {
             "affinity": {
-              "additionalProperties": false,
+              "additionalProperties": true,
               "description": "Per-service affinity.",
               "required": [],
-              "title": "affinity"
+              "title": "affinity",
+              "type": "object"
             },
             "autoscaling": {
-              "additionalProperties": false,
+              "additionalProperties": true,
               "description": "Per-service autoscaling. Overrides the default setting from `autoscaling` if set.",
               "properties": {
                 "enabled": {
@@ -3367,6 +3438,7 @@
                   "type": "integer"
                 },
                 "metrics": {
+                  "additionalProperties": true,
                   "required": []
                 },
                 "minReplicas": {
@@ -3459,12 +3531,30 @@
               "description": "Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.",
               "properties": {
                 "maxUnavailable": {
-                  "required": [],
-                  "type": "integer"
+                  "oneOf": [
+                    {
+                      "required": [],
+                      "type": "integer"
+                    },
+                    {
+                      "required": [],
+                      "type": "string"
+                    }
+                  ],
+                  "required": []
                 },
                 "minAvailable": {
-                  "required": [],
-                  "type": "integer"
+                  "oneOf": [
+                    {
+                      "required": [],
+                      "type": "integer"
+                    },
+                    {
+                      "required": [],
+                      "type": "string"
+                    }
+                  ],
+                  "required": []
                 }
               },
               "required": [],
@@ -3486,6 +3576,7 @@
               "description": "Per-service resources configuration. Overrides the default setting from `resources` if set.",
               "properties": {
                 "limits": {
+                  "additionalProperties": false,
                   "properties": {
                     "cpu": {
                       "required": [],
@@ -3500,6 +3591,7 @@
                   "type": "object"
                 },
                 "requests": {
+                  "additionalProperties": false,
                   "properties": {
                     "cpu": {
                       "required": [],
@@ -3530,13 +3622,14 @@
           "description": "AUTH MACHINE service.",
           "properties": {
             "affinity": {
-              "additionalProperties": false,
+              "additionalProperties": true,
               "description": "Per-service affinity.",
               "required": [],
-              "title": "affinity"
+              "title": "affinity",
+              "type": "object"
             },
             "autoscaling": {
-              "additionalProperties": false,
+              "additionalProperties": true,
               "description": "Per-service autoscaling. Overrides the default setting from `autoscaling` if set.",
               "properties": {
                 "enabled": {
@@ -3549,6 +3642,7 @@
                   "type": "integer"
                 },
                 "metrics": {
+                  "additionalProperties": true,
                   "required": []
                 },
                 "minReplicas": {
@@ -3641,12 +3735,30 @@
               "description": "Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.",
               "properties": {
                 "maxUnavailable": {
-                  "required": [],
-                  "type": "integer"
+                  "oneOf": [
+                    {
+                      "required": [],
+                      "type": "integer"
+                    },
+                    {
+                      "required": [],
+                      "type": "string"
+                    }
+                  ],
+                  "required": []
                 },
                 "minAvailable": {
-                  "required": [],
-                  "type": "integer"
+                  "oneOf": [
+                    {
+                      "required": [],
+                      "type": "integer"
+                    },
+                    {
+                      "required": [],
+                      "type": "string"
+                    }
+                  ],
+                  "required": []
                 }
               },
               "required": [],
@@ -3668,6 +3780,7 @@
               "description": "Per-service resources configuration. Overrides the default setting from `resources` if set.",
               "properties": {
                 "limits": {
+                  "additionalProperties": false,
                   "properties": {
                     "cpu": {
                       "required": [],
@@ -3682,6 +3795,7 @@
                   "type": "object"
                 },
                 "requests": {
+                  "additionalProperties": false,
                   "properties": {
                     "cpu": {
                       "required": [],
@@ -3712,13 +3826,14 @@
           "description": "AUTH SERVICE service.",
           "properties": {
             "affinity": {
-              "additionalProperties": false,
+              "additionalProperties": true,
               "description": "Per-service affinity.",
               "required": [],
-              "title": "affinity"
+              "title": "affinity",
+              "type": "object"
             },
             "autoscaling": {
-              "additionalProperties": false,
+              "additionalProperties": true,
               "description": "Per-service autoscaling. Overrides the default setting from `autoscaling` if set.",
               "properties": {
                 "enabled": {
@@ -3731,6 +3846,7 @@
                   "type": "integer"
                 },
                 "metrics": {
+                  "additionalProperties": true,
                   "required": []
                 },
                 "minReplicas": {
@@ -3823,12 +3939,30 @@
               "description": "Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.",
               "properties": {
                 "maxUnavailable": {
-                  "required": [],
-                  "type": "integer"
+                  "oneOf": [
+                    {
+                      "required": [],
+                      "type": "integer"
+                    },
+                    {
+                      "required": [],
+                      "type": "string"
+                    }
+                  ],
+                  "required": []
                 },
                 "minAvailable": {
-                  "required": [],
-                  "type": "integer"
+                  "oneOf": [
+                    {
+                      "required": [],
+                      "type": "integer"
+                    },
+                    {
+                      "required": [],
+                      "type": "string"
+                    }
+                  ],
+                  "required": []
                 }
               },
               "required": [],
@@ -3850,6 +3984,7 @@
               "description": "Per-service resources configuration. Overrides the default setting from `resources` if set.",
               "properties": {
                 "limits": {
+                  "additionalProperties": false,
                   "properties": {
                     "cpu": {
                       "required": [],
@@ -3864,6 +3999,7 @@
                   "type": "object"
                 },
                 "requests": {
+                  "additionalProperties": false,
                   "properties": {
                     "cpu": {
                       "required": [],
@@ -3894,13 +4030,14 @@
           "description": "CLIENTLOG service.",
           "properties": {
             "affinity": {
-              "additionalProperties": false,
+              "additionalProperties": true,
               "description": "Per-service affinity.",
               "required": [],
-              "title": "affinity"
+              "title": "affinity",
+              "type": "object"
             },
             "autoscaling": {
-              "additionalProperties": false,
+              "additionalProperties": true,
               "description": "Per-service autoscaling. Overrides the default setting from `autoscaling` if set.",
               "properties": {
                 "enabled": {
@@ -3913,6 +4050,7 @@
                   "type": "integer"
                 },
                 "metrics": {
+                  "additionalProperties": true,
                   "required": []
                 },
                 "minReplicas": {
@@ -4005,12 +4143,30 @@
               "description": "Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.",
               "properties": {
                 "maxUnavailable": {
-                  "required": [],
-                  "type": "integer"
+                  "oneOf": [
+                    {
+                      "required": [],
+                      "type": "integer"
+                    },
+                    {
+                      "required": [],
+                      "type": "string"
+                    }
+                  ],
+                  "required": []
                 },
                 "minAvailable": {
-                  "required": [],
-                  "type": "integer"
+                  "oneOf": [
+                    {
+                      "required": [],
+                      "type": "integer"
+                    },
+                    {
+                      "required": [],
+                      "type": "string"
+                    }
+                  ],
+                  "required": []
                 }
               },
               "required": [],
@@ -4032,6 +4188,7 @@
               "description": "Per-service resources configuration. Overrides the default setting from `resources` if set.",
               "properties": {
                 "limits": {
+                  "additionalProperties": false,
                   "properties": {
                     "cpu": {
                       "required": [],
@@ -4046,6 +4203,7 @@
                   "type": "object"
                 },
                 "requests": {
+                  "additionalProperties": false,
                   "properties": {
                     "cpu": {
                       "required": [],
@@ -4076,13 +4234,14 @@
           "description": "COLLABORATION service. Not used if `features.appsIntegration.enabled` equals `false`.",
           "properties": {
             "affinity": {
-              "additionalProperties": false,
+              "additionalProperties": true,
               "description": "Per-service affinity.",
               "required": [],
-              "title": "affinity"
+              "title": "affinity",
+              "type": "object"
             },
             "autoscaling": {
-              "additionalProperties": false,
+              "additionalProperties": true,
               "description": "Per-service autoscaling. Overrides the default setting from `autoscaling` if set.",
               "properties": {
                 "enabled": {
@@ -4095,6 +4254,7 @@
                   "type": "integer"
                 },
                 "metrics": {
+                  "additionalProperties": true,
                   "required": []
                 },
                 "minReplicas": {
@@ -4187,12 +4347,30 @@
               "description": "Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.",
               "properties": {
                 "maxUnavailable": {
-                  "required": [],
-                  "type": "integer"
+                  "oneOf": [
+                    {
+                      "required": [],
+                      "type": "integer"
+                    },
+                    {
+                      "required": [],
+                      "type": "string"
+                    }
+                  ],
+                  "required": []
                 },
                 "minAvailable": {
-                  "required": [],
-                  "type": "integer"
+                  "oneOf": [
+                    {
+                      "required": [],
+                      "type": "integer"
+                    },
+                    {
+                      "required": [],
+                      "type": "string"
+                    }
+                  ],
+                  "required": []
                 }
               },
               "required": [],
@@ -4214,6 +4392,7 @@
               "description": "Per-service resources configuration. Overrides the default setting from `resources` if set.",
               "properties": {
                 "limits": {
+                  "additionalProperties": false,
                   "properties": {
                     "cpu": {
                       "required": [],
@@ -4228,6 +4407,7 @@
                   "type": "object"
                 },
                 "requests": {
+                  "additionalProperties": false,
                   "properties": {
                     "cpu": {
                       "required": [],
@@ -4258,13 +4438,14 @@
           "description": "EVENT HISTORY service.",
           "properties": {
             "affinity": {
-              "additionalProperties": false,
+              "additionalProperties": true,
               "description": "Per-service affinity.",
               "required": [],
-              "title": "affinity"
+              "title": "affinity",
+              "type": "object"
             },
             "autoscaling": {
-              "additionalProperties": false,
+              "additionalProperties": true,
               "description": "Per-service autoscaling. Overrides the default setting from `autoscaling` if set.",
               "properties": {
                 "enabled": {
@@ -4277,6 +4458,7 @@
                   "type": "integer"
                 },
                 "metrics": {
+                  "additionalProperties": true,
                   "required": []
                 },
                 "minReplicas": {
@@ -4369,12 +4551,30 @@
               "description": "Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.",
               "properties": {
                 "maxUnavailable": {
-                  "required": [],
-                  "type": "integer"
+                  "oneOf": [
+                    {
+                      "required": [],
+                      "type": "integer"
+                    },
+                    {
+                      "required": [],
+                      "type": "string"
+                    }
+                  ],
+                  "required": []
                 },
                 "minAvailable": {
-                  "required": [],
-                  "type": "integer"
+                  "oneOf": [
+                    {
+                      "required": [],
+                      "type": "integer"
+                    },
+                    {
+                      "required": [],
+                      "type": "string"
+                    }
+                  ],
+                  "required": []
                 }
               },
               "required": [],
@@ -4396,6 +4596,7 @@
               "description": "Per-service resources configuration. Overrides the default setting from `resources` if set.",
               "properties": {
                 "limits": {
+                  "additionalProperties": false,
                   "properties": {
                     "cpu": {
                       "required": [],
@@ -4410,6 +4611,7 @@
                   "type": "object"
                 },
                 "requests": {
+                  "additionalProperties": false,
                   "properties": {
                     "cpu": {
                       "required": [],
@@ -4440,13 +4642,14 @@
           "description": "FRONTEND service.",
           "properties": {
             "affinity": {
-              "additionalProperties": false,
+              "additionalProperties": true,
               "description": "Per-service affinity.",
               "required": [],
-              "title": "affinity"
+              "title": "affinity",
+              "type": "object"
             },
             "autoscaling": {
-              "additionalProperties": false,
+              "additionalProperties": true,
               "description": "Per-service autoscaling. Overrides the default setting from `autoscaling` if set.",
               "properties": {
                 "enabled": {
@@ -4459,6 +4662,7 @@
                   "type": "integer"
                 },
                 "metrics": {
+                  "additionalProperties": true,
                   "required": []
                 },
                 "minReplicas": {
@@ -4579,12 +4783,30 @@
               "description": "Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.",
               "properties": {
                 "maxUnavailable": {
-                  "required": [],
-                  "type": "integer"
+                  "oneOf": [
+                    {
+                      "required": [],
+                      "type": "integer"
+                    },
+                    {
+                      "required": [],
+                      "type": "string"
+                    }
+                  ],
+                  "required": []
                 },
                 "minAvailable": {
-                  "required": [],
-                  "type": "integer"
+                  "oneOf": [
+                    {
+                      "required": [],
+                      "type": "integer"
+                    },
+                    {
+                      "required": [],
+                      "type": "string"
+                    }
+                  ],
+                  "required": []
                 }
               },
               "required": [],
@@ -4606,6 +4828,7 @@
               "description": "Per-service resources configuration. Overrides the default setting from `resources` if set.",
               "properties": {
                 "limits": {
+                  "additionalProperties": false,
                   "properties": {
                     "cpu": {
                       "required": [],
@@ -4620,6 +4843,7 @@
                   "type": "object"
                 },
                 "requests": {
+                  "additionalProperties": false,
                   "properties": {
                     "cpu": {
                       "required": [],
@@ -4651,13 +4875,14 @@
           "description": "GATEWAY service.",
           "properties": {
             "affinity": {
-              "additionalProperties": false,
+              "additionalProperties": true,
               "description": "Per-service affinity.",
               "required": [],
-              "title": "affinity"
+              "title": "affinity",
+              "type": "object"
             },
             "autoscaling": {
-              "additionalProperties": false,
+              "additionalProperties": true,
               "description": "Per-service autoscaling. Overrides the default setting from `autoscaling` if set.",
               "properties": {
                 "enabled": {
@@ -4670,6 +4895,7 @@
                   "type": "integer"
                 },
                 "metrics": {
+                  "additionalProperties": true,
                   "required": []
                 },
                 "minReplicas": {
@@ -4762,12 +4988,30 @@
               "description": "Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.",
               "properties": {
                 "maxUnavailable": {
-                  "required": [],
-                  "type": "integer"
+                  "oneOf": [
+                    {
+                      "required": [],
+                      "type": "integer"
+                    },
+                    {
+                      "required": [],
+                      "type": "string"
+                    }
+                  ],
+                  "required": []
                 },
                 "minAvailable": {
-                  "required": [],
-                  "type": "integer"
+                  "oneOf": [
+                    {
+                      "required": [],
+                      "type": "integer"
+                    },
+                    {
+                      "required": [],
+                      "type": "string"
+                    }
+                  ],
+                  "required": []
                 }
               },
               "required": [],
@@ -4789,6 +5033,7 @@
               "description": "Per-service resources configuration. Overrides the default setting from `resources` if set.",
               "properties": {
                 "limits": {
+                  "additionalProperties": false,
                   "properties": {
                     "cpu": {
                       "required": [],
@@ -4803,6 +5048,7 @@
                   "type": "object"
                 },
                 "requests": {
+                  "additionalProperties": false,
                   "properties": {
                     "cpu": {
                       "required": [],
@@ -4833,13 +5079,14 @@
           "description": "GRAPH service.",
           "properties": {
             "affinity": {
-              "additionalProperties": false,
+              "additionalProperties": true,
               "description": "Per-service affinity.",
               "required": [],
-              "title": "affinity"
+              "title": "affinity",
+              "type": "object"
             },
             "autoscaling": {
-              "additionalProperties": false,
+              "additionalProperties": true,
               "description": "Per-service autoscaling. Overrides the default setting from `autoscaling` if set.",
               "properties": {
                 "enabled": {
@@ -4852,6 +5099,7 @@
                   "type": "integer"
                 },
                 "metrics": {
+                  "additionalProperties": true,
                   "required": []
                 },
                 "minReplicas": {
@@ -4944,12 +5192,30 @@
               "description": "Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.",
               "properties": {
                 "maxUnavailable": {
-                  "required": [],
-                  "type": "integer"
+                  "oneOf": [
+                    {
+                      "required": [],
+                      "type": "integer"
+                    },
+                    {
+                      "required": [],
+                      "type": "string"
+                    }
+                  ],
+                  "required": []
                 },
                 "minAvailable": {
-                  "required": [],
-                  "type": "integer"
+                  "oneOf": [
+                    {
+                      "required": [],
+                      "type": "integer"
+                    },
+                    {
+                      "required": [],
+                      "type": "string"
+                    }
+                  ],
+                  "required": []
                 }
               },
               "required": [],
@@ -4971,6 +5237,7 @@
               "description": "Per-service resources configuration. Overrides the default setting from `resources` if set.",
               "properties": {
                 "limits": {
+                  "additionalProperties": false,
                   "properties": {
                     "cpu": {
                       "required": [],
@@ -4985,6 +5252,7 @@
                   "type": "object"
                 },
                 "requests": {
+                  "additionalProperties": false,
                   "properties": {
                     "cpu": {
                       "required": [],
@@ -5015,13 +5283,14 @@
           "description": "GROUPS service.",
           "properties": {
             "affinity": {
-              "additionalProperties": false,
+              "additionalProperties": true,
               "description": "Per-service affinity.",
               "required": [],
-              "title": "affinity"
+              "title": "affinity",
+              "type": "object"
             },
             "autoscaling": {
-              "additionalProperties": false,
+              "additionalProperties": true,
               "description": "Per-service autoscaling. Overrides the default setting from `autoscaling` if set.",
               "properties": {
                 "enabled": {
@@ -5034,6 +5303,7 @@
                   "type": "integer"
                 },
                 "metrics": {
+                  "additionalProperties": true,
                   "required": []
                 },
                 "minReplicas": {
@@ -5120,12 +5390,30 @@
               "description": "Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.",
               "properties": {
                 "maxUnavailable": {
-                  "required": [],
-                  "type": "integer"
+                  "oneOf": [
+                    {
+                      "required": [],
+                      "type": "integer"
+                    },
+                    {
+                      "required": [],
+                      "type": "string"
+                    }
+                  ],
+                  "required": []
                 },
                 "minAvailable": {
-                  "required": [],
-                  "type": "integer"
+                  "oneOf": [
+                    {
+                      "required": [],
+                      "type": "integer"
+                    },
+                    {
+                      "required": [],
+                      "type": "string"
+                    }
+                  ],
+                  "required": []
                 }
               },
               "required": [],
@@ -5147,6 +5435,7 @@
               "description": "Per-service resources configuration. Overrides the default setting from `resources` if set.",
               "properties": {
                 "limits": {
+                  "additionalProperties": false,
                   "properties": {
                     "cpu": {
                       "required": [],
@@ -5161,6 +5450,7 @@
                   "type": "object"
                 },
                 "requests": {
+                  "additionalProperties": false,
                   "properties": {
                     "cpu": {
                       "required": [],
@@ -5192,10 +5482,11 @@
           "description": "IDM service. Not used if `features.externalUserManagement.enabled` equals `true`.",
           "properties": {
             "affinity": {
-              "additionalProperties": false,
+              "additionalProperties": true,
               "description": "Per-service affinity.",
               "required": [],
-              "title": "affinity"
+              "title": "affinity",
+              "type": "object"
             },
             "extraLabels": {
               "additionalProperties": false,
@@ -5397,6 +5688,7 @@
               "description": "Per-service resources configuration. Overrides the default setting from `resources` if set.",
               "properties": {
                 "limits": {
+                  "additionalProperties": false,
                   "properties": {
                     "cpu": {
                       "required": [],
@@ -5411,6 +5703,7 @@
                   "type": "object"
                 },
                 "requests": {
+                  "additionalProperties": false,
                   "properties": {
                     "cpu": {
                       "required": [],
@@ -5442,10 +5735,11 @@
           "description": "IDP service. Not used if `features.externalUserManagement.enabled` equals `true`.",
           "properties": {
             "affinity": {
-              "additionalProperties": false,
+              "additionalProperties": true,
               "description": "Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.\nPer-service affinity.",
               "required": [],
-              "title": "affinity"
+              "title": "affinity",
+              "type": "object"
             },
             "extraLabels": {
               "additionalProperties": false,
@@ -5527,6 +5821,7 @@
               "description": "Per-service resources configuration. Overrides the default setting from `resources` if set.",
               "properties": {
                 "limits": {
+                  "additionalProperties": false,
                   "properties": {
                     "cpu": {
                       "required": [],
@@ -5541,6 +5836,7 @@
                   "type": "object"
                 },
                 "requests": {
+                  "additionalProperties": false,
                   "properties": {
                     "cpu": {
                       "required": [],
@@ -5571,10 +5867,11 @@
           "description": "NATS service. Not used if `messagingSystem.external.enabled` equals `true`.",
           "properties": {
             "affinity": {
-              "additionalProperties": false,
+              "additionalProperties": true,
               "description": "Per-service affinity.",
               "required": [],
-              "title": "affinity"
+              "title": "affinity",
+              "type": "object"
             },
             "extraLabels": {
               "additionalProperties": false,
@@ -5776,6 +6073,7 @@
               "description": "Per-service resources configuration. Overrides the default setting from `resources` if set.",
               "properties": {
                 "limits": {
+                  "additionalProperties": false,
                   "properties": {
                     "cpu": {
                       "required": [],
@@ -5790,6 +6088,7 @@
                   "type": "object"
                 },
                 "requests": {
+                  "additionalProperties": false,
                   "properties": {
                     "cpu": {
                       "required": [],
@@ -5821,13 +6120,14 @@
           "description": "NOTIFICATIONS service. Not used if `features.emailNotifications.enabled` equals `true`.",
           "properties": {
             "affinity": {
-              "additionalProperties": false,
+              "additionalProperties": true,
               "description": "Per-service affinity.",
               "required": [],
-              "title": "affinity"
+              "title": "affinity",
+              "type": "object"
             },
             "autoscaling": {
-              "additionalProperties": false,
+              "additionalProperties": true,
               "description": "Per-service autoscaling. Overrides the default setting from `autoscaling` if set.",
               "properties": {
                 "enabled": {
@@ -5840,6 +6140,7 @@
                   "type": "integer"
                 },
                 "metrics": {
+                  "additionalProperties": true,
                   "required": []
                 },
                 "minReplicas": {
@@ -5932,12 +6233,30 @@
               "description": "Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.",
               "properties": {
                 "maxUnavailable": {
-                  "required": [],
-                  "type": "integer"
+                  "oneOf": [
+                    {
+                      "required": [],
+                      "type": "integer"
+                    },
+                    {
+                      "required": [],
+                      "type": "string"
+                    }
+                  ],
+                  "required": []
                 },
                 "minAvailable": {
-                  "required": [],
-                  "type": "integer"
+                  "oneOf": [
+                    {
+                      "required": [],
+                      "type": "integer"
+                    },
+                    {
+                      "required": [],
+                      "type": "string"
+                    }
+                  ],
+                  "required": []
                 }
               },
               "required": [],
@@ -5959,6 +6278,7 @@
               "description": "Per-service resources configuration. Overrides the default setting from `resources` if set.",
               "properties": {
                 "limits": {
+                  "additionalProperties": false,
                   "properties": {
                     "cpu": {
                       "required": [],
@@ -5973,6 +6293,7 @@
                   "type": "object"
                 },
                 "requests": {
+                  "additionalProperties": false,
                   "properties": {
                     "cpu": {
                       "required": [],
@@ -6003,13 +6324,14 @@
           "description": "OCDAV service.",
           "properties": {
             "affinity": {
-              "additionalProperties": false,
+              "additionalProperties": true,
               "description": "Per-service affinity.",
               "required": [],
-              "title": "affinity"
+              "title": "affinity",
+              "type": "object"
             },
             "autoscaling": {
-              "additionalProperties": false,
+              "additionalProperties": true,
               "description": "Per-service autoscaling. Overrides the default setting from `autoscaling` if set.",
               "properties": {
                 "enabled": {
@@ -6022,6 +6344,7 @@
                   "type": "integer"
                 },
                 "metrics": {
+                  "additionalProperties": true,
                   "required": []
                 },
                 "minReplicas": {
@@ -6114,12 +6437,30 @@
               "description": "Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.",
               "properties": {
                 "maxUnavailable": {
-                  "required": [],
-                  "type": "integer"
+                  "oneOf": [
+                    {
+                      "required": [],
+                      "type": "integer"
+                    },
+                    {
+                      "required": [],
+                      "type": "string"
+                    }
+                  ],
+                  "required": []
                 },
                 "minAvailable": {
-                  "required": [],
-                  "type": "integer"
+                  "oneOf": [
+                    {
+                      "required": [],
+                      "type": "integer"
+                    },
+                    {
+                      "required": [],
+                      "type": "string"
+                    }
+                  ],
+                  "required": []
                 }
               },
               "required": [],
@@ -6141,6 +6482,7 @@
               "description": "Per-service resources configuration. Overrides the default setting from `resources` if set.",
               "properties": {
                 "limits": {
+                  "additionalProperties": false,
                   "properties": {
                     "cpu": {
                       "required": [],
@@ -6155,6 +6497,7 @@
                   "type": "object"
                 },
                 "requests": {
+                  "additionalProperties": false,
                   "properties": {
                     "cpu": {
                       "required": [],
@@ -6185,10 +6528,11 @@
           "description": "OCM service.",
           "properties": {
             "affinity": {
-              "additionalProperties": false,
+              "additionalProperties": true,
               "description": "Per-service affinity.",
               "required": [],
-              "title": "affinity"
+              "title": "affinity",
+              "type": "object"
             },
             "extraLabels": {
               "additionalProperties": false,
@@ -6390,6 +6734,7 @@
               "description": "Per-service resources configuration. Overrides the default setting from `resources` if set.",
               "properties": {
                 "limits": {
+                  "additionalProperties": false,
                   "properties": {
                     "cpu": {
                       "required": [],
@@ -6404,6 +6749,7 @@
                   "type": "object"
                 },
                 "requests": {
+                  "additionalProperties": false,
                   "properties": {
                     "cpu": {
                       "required": [],
@@ -6435,13 +6781,14 @@
           "description": "OCS service.",
           "properties": {
             "affinity": {
-              "additionalProperties": false,
+              "additionalProperties": true,
               "description": "Per-service affinity.",
               "required": [],
-              "title": "affinity"
+              "title": "affinity",
+              "type": "object"
             },
             "autoscaling": {
-              "additionalProperties": false,
+              "additionalProperties": true,
               "description": "Per-service autoscaling. Overrides the default setting from `autoscaling` if set.",
               "properties": {
                 "enabled": {
@@ -6454,6 +6801,7 @@
                   "type": "integer"
                 },
                 "metrics": {
+                  "additionalProperties": true,
                   "required": []
                 },
                 "minReplicas": {
@@ -6546,12 +6894,30 @@
               "description": "Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.",
               "properties": {
                 "maxUnavailable": {
-                  "required": [],
-                  "type": "integer"
+                  "oneOf": [
+                    {
+                      "required": [],
+                      "type": "integer"
+                    },
+                    {
+                      "required": [],
+                      "type": "string"
+                    }
+                  ],
+                  "required": []
                 },
                 "minAvailable": {
-                  "required": [],
-                  "type": "integer"
+                  "oneOf": [
+                    {
+                      "required": [],
+                      "type": "integer"
+                    },
+                    {
+                      "required": [],
+                      "type": "string"
+                    }
+                  ],
+                  "required": []
                 }
               },
               "required": [],
@@ -6573,6 +6939,7 @@
               "description": "Per-service resources configuration. Overrides the default setting from `resources` if set.",
               "properties": {
                 "limits": {
+                  "additionalProperties": false,
                   "properties": {
                     "cpu": {
                       "required": [],
@@ -6587,6 +6954,7 @@
                   "type": "object"
                 },
                 "requests": {
+                  "additionalProperties": false,
                   "properties": {
                     "cpu": {
                       "required": [],
@@ -6617,13 +6985,14 @@
           "description": "POLICIES service.",
           "properties": {
             "affinity": {
-              "additionalProperties": false,
+              "additionalProperties": true,
               "description": "Per-service affinity.",
               "required": [],
-              "title": "affinity"
+              "title": "affinity",
+              "type": "object"
             },
             "autoscaling": {
-              "additionalProperties": false,
+              "additionalProperties": true,
               "description": "Per-service autoscaling. Overrides the default setting from `autoscaling` if set.",
               "properties": {
                 "enabled": {
@@ -6636,6 +7005,7 @@
                   "type": "integer"
                 },
                 "metrics": {
+                  "additionalProperties": true,
                   "required": []
                 },
                 "minReplicas": {
@@ -6728,12 +7098,30 @@
               "description": "Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.",
               "properties": {
                 "maxUnavailable": {
-                  "required": [],
-                  "type": "integer"
+                  "oneOf": [
+                    {
+                      "required": [],
+                      "type": "integer"
+                    },
+                    {
+                      "required": [],
+                      "type": "string"
+                    }
+                  ],
+                  "required": []
                 },
                 "minAvailable": {
-                  "required": [],
-                  "type": "integer"
+                  "oneOf": [
+                    {
+                      "required": [],
+                      "type": "integer"
+                    },
+                    {
+                      "required": [],
+                      "type": "string"
+                    }
+                  ],
+                  "required": []
                 }
               },
               "required": [],
@@ -6755,6 +7143,7 @@
               "description": "Per-service resources configuration. Overrides the default setting from `resources` if set.",
               "properties": {
                 "limits": {
+                  "additionalProperties": false,
                   "properties": {
                     "cpu": {
                       "required": [],
@@ -6769,6 +7158,7 @@
                   "type": "object"
                 },
                 "requests": {
+                  "additionalProperties": false,
                   "properties": {
                     "cpu": {
                       "required": [],
@@ -6799,13 +7189,14 @@
           "description": "POSTPROCESSING service.",
           "properties": {
             "affinity": {
-              "additionalProperties": false,
+              "additionalProperties": true,
               "description": "Per-service affinity.",
               "required": [],
-              "title": "affinity"
+              "title": "affinity",
+              "type": "object"
             },
             "autoscaling": {
-              "additionalProperties": false,
+              "additionalProperties": true,
               "description": "Per-service autoscaling. Overrides the default setting from `autoscaling` if set.",
               "properties": {
                 "enabled": {
@@ -6818,6 +7209,7 @@
                   "type": "integer"
                 },
                 "metrics": {
+                  "additionalProperties": true,
                   "required": []
                 },
                 "minReplicas": {
@@ -6938,12 +7330,30 @@
               "description": "Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.",
               "properties": {
                 "maxUnavailable": {
-                  "required": [],
-                  "type": "integer"
+                  "oneOf": [
+                    {
+                      "required": [],
+                      "type": "integer"
+                    },
+                    {
+                      "required": [],
+                      "type": "string"
+                    }
+                  ],
+                  "required": []
                 },
                 "minAvailable": {
-                  "required": [],
-                  "type": "integer"
+                  "oneOf": [
+                    {
+                      "required": [],
+                      "type": "integer"
+                    },
+                    {
+                      "required": [],
+                      "type": "string"
+                    }
+                  ],
+                  "required": []
                 }
               },
               "required": [],
@@ -6965,6 +7375,7 @@
               "description": "Per-service resources configuration. Overrides the default setting from `resources` if set.",
               "properties": {
                 "limits": {
+                  "additionalProperties": false,
                   "properties": {
                     "cpu": {
                       "required": [],
@@ -6979,6 +7390,7 @@
                   "type": "object"
                 },
                 "requests": {
+                  "additionalProperties": false,
                   "properties": {
                     "cpu": {
                       "required": [],
@@ -7019,13 +7431,14 @@
               "title": "additionalPolicies"
             },
             "affinity": {
-              "additionalProperties": false,
+              "additionalProperties": true,
               "description": "Per-service affinity.",
               "required": [],
-              "title": "affinity"
+              "title": "affinity",
+              "type": "object"
             },
             "autoscaling": {
-              "additionalProperties": false,
+              "additionalProperties": true,
               "description": "Per-service autoscaling. Overrides the default setting from `autoscaling` if set.",
               "properties": {
                 "enabled": {
@@ -7038,6 +7451,7 @@
                   "type": "integer"
                 },
                 "metrics": {
+                  "additionalProperties": true,
                   "required": []
                 },
                 "minReplicas": {
@@ -7130,12 +7544,30 @@
               "description": "Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.",
               "properties": {
                 "maxUnavailable": {
-                  "required": [],
-                  "type": "integer"
+                  "oneOf": [
+                    {
+                      "required": [],
+                      "type": "integer"
+                    },
+                    {
+                      "required": [],
+                      "type": "string"
+                    }
+                  ],
+                  "required": []
                 },
                 "minAvailable": {
-                  "required": [],
-                  "type": "integer"
+                  "oneOf": [
+                    {
+                      "required": [],
+                      "type": "integer"
+                    },
+                    {
+                      "required": [],
+                      "type": "string"
+                    }
+                  ],
+                  "required": []
                 }
               },
               "required": [],
@@ -7157,6 +7589,7 @@
               "description": " - name: ocis\n   routes:\n     - endpoint: /some-service/endpoint\n       service: com.owncloud.some-namespace.some-service\n       unprotected: true\n\nPer-service resources configuration. Overrides the default setting from `resources` if set.",
               "properties": {
                 "limits": {
+                  "additionalProperties": false,
                   "properties": {
                     "cpu": {
                       "required": [],
@@ -7171,6 +7604,7 @@
                   "type": "object"
                 },
                 "requests": {
+                  "additionalProperties": false,
                   "properties": {
                     "cpu": {
                       "required": [],
@@ -7201,10 +7635,11 @@
           "description": "SEARCH service.",
           "properties": {
             "affinity": {
-              "additionalProperties": false,
+              "additionalProperties": true,
               "description": "Per-service affinity.",
               "required": [],
-              "title": "affinity"
+              "title": "affinity",
+              "type": "object"
             },
             "extraLabels": {
               "additionalProperties": false,
@@ -7454,12 +7889,30 @@
               "description": "Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.",
               "properties": {
                 "maxUnavailable": {
-                  "required": [],
-                  "type": "integer"
+                  "oneOf": [
+                    {
+                      "required": [],
+                      "type": "integer"
+                    },
+                    {
+                      "required": [],
+                      "type": "string"
+                    }
+                  ],
+                  "required": []
                 },
                 "minAvailable": {
-                  "required": [],
-                  "type": "integer"
+                  "oneOf": [
+                    {
+                      "required": [],
+                      "type": "integer"
+                    },
+                    {
+                      "required": [],
+                      "type": "string"
+                    }
+                  ],
+                  "required": []
                 }
               },
               "required": [],
@@ -7481,6 +7934,7 @@
               "description": "Per-service resources configuration. Overrides the default setting from `resources` if set.",
               "properties": {
                 "limits": {
+                  "additionalProperties": false,
                   "properties": {
                     "cpu": {
                       "required": [],
@@ -7495,6 +7949,7 @@
                   "type": "object"
                 },
                 "requests": {
+                  "additionalProperties": false,
                   "properties": {
                     "cpu": {
                       "required": [],
@@ -7527,13 +7982,14 @@
           "description": "SETTINGS service.",
           "properties": {
             "affinity": {
-              "additionalProperties": false,
+              "additionalProperties": true,
               "description": "Per-service affinity.",
               "required": [],
-              "title": "affinity"
+              "title": "affinity",
+              "type": "object"
             },
             "autoscaling": {
-              "additionalProperties": false,
+              "additionalProperties": true,
               "description": "Per-service autoscaling. Overrides the default setting from `autoscaling` if set.",
               "properties": {
                 "enabled": {
@@ -7546,6 +8002,7 @@
                   "type": "integer"
                 },
                 "metrics": {
+                  "additionalProperties": true,
                   "required": []
                 },
                 "minReplicas": {
@@ -7638,12 +8095,30 @@
               "description": "Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.",
               "properties": {
                 "maxUnavailable": {
-                  "required": [],
-                  "type": "integer"
+                  "oneOf": [
+                    {
+                      "required": [],
+                      "type": "integer"
+                    },
+                    {
+                      "required": [],
+                      "type": "string"
+                    }
+                  ],
+                  "required": []
                 },
                 "minAvailable": {
-                  "required": [],
-                  "type": "integer"
+                  "oneOf": [
+                    {
+                      "required": [],
+                      "type": "integer"
+                    },
+                    {
+                      "required": [],
+                      "type": "string"
+                    }
+                  ],
+                  "required": []
                 }
               },
               "required": [],
@@ -7665,6 +8140,7 @@
               "description": "Per-service resources configuration. Overrides the default setting from `resources` if set.",
               "properties": {
                 "limits": {
+                  "additionalProperties": false,
                   "properties": {
                     "cpu": {
                       "required": [],
@@ -7679,6 +8155,7 @@
                   "type": "object"
                 },
                 "requests": {
+                  "additionalProperties": false,
                   "properties": {
                     "cpu": {
                       "required": [],
@@ -7709,13 +8186,14 @@
           "description": "SHARING service.",
           "properties": {
             "affinity": {
-              "additionalProperties": false,
+              "additionalProperties": true,
               "description": "Per-service affinity.",
               "required": [],
-              "title": "affinity"
+              "title": "affinity",
+              "type": "object"
             },
             "autoscaling": {
-              "additionalProperties": false,
+              "additionalProperties": true,
               "description": "Per-service autoscaling. Overrides the default setting from `autoscaling` if set.",
               "properties": {
                 "enabled": {
@@ -7728,6 +8206,7 @@
                   "type": "integer"
                 },
                 "metrics": {
+                  "additionalProperties": true,
                   "required": []
                 },
                 "minReplicas": {
@@ -7820,12 +8299,30 @@
               "description": "Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.",
               "properties": {
                 "maxUnavailable": {
-                  "required": [],
-                  "type": "integer"
+                  "oneOf": [
+                    {
+                      "required": [],
+                      "type": "integer"
+                    },
+                    {
+                      "required": [],
+                      "type": "string"
+                    }
+                  ],
+                  "required": []
                 },
                 "minAvailable": {
-                  "required": [],
-                  "type": "integer"
+                  "oneOf": [
+                    {
+                      "required": [],
+                      "type": "integer"
+                    },
+                    {
+                      "required": [],
+                      "type": "string"
+                    }
+                  ],
+                  "required": []
                 }
               },
               "required": [],
@@ -7847,6 +8344,7 @@
               "description": "Per-service resources configuration. Overrides the default setting from `resources` if set.",
               "properties": {
                 "limits": {
+                  "additionalProperties": false,
                   "properties": {
                     "cpu": {
                       "required": [],
@@ -7861,6 +8359,7 @@
                   "type": "object"
                 },
                 "requests": {
+                  "additionalProperties": false,
                   "properties": {
                     "cpu": {
                       "required": [],
@@ -7891,13 +8390,14 @@
           "description": "SSE service",
           "properties": {
             "affinity": {
-              "additionalProperties": false,
+              "additionalProperties": true,
               "description": "Per-service affinity.",
               "required": [],
-              "title": "affinity"
+              "title": "affinity",
+              "type": "object"
             },
             "autoscaling": {
-              "additionalProperties": false,
+              "additionalProperties": true,
               "description": "Per-service autoscaling. Overrides the default setting from `autoscaling` if set.",
               "properties": {
                 "enabled": {
@@ -7910,6 +8410,7 @@
                   "type": "integer"
                 },
                 "metrics": {
+                  "additionalProperties": true,
                   "required": []
                 },
                 "minReplicas": {
@@ -8019,12 +8520,30 @@
               "description": "Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.",
               "properties": {
                 "maxUnavailable": {
-                  "required": [],
-                  "type": "integer"
+                  "oneOf": [
+                    {
+                      "required": [],
+                      "type": "integer"
+                    },
+                    {
+                      "required": [],
+                      "type": "string"
+                    }
+                  ],
+                  "required": []
                 },
                 "minAvailable": {
-                  "required": [],
-                  "type": "integer"
+                  "oneOf": [
+                    {
+                      "required": [],
+                      "type": "integer"
+                    },
+                    {
+                      "required": [],
+                      "type": "string"
+                    }
+                  ],
+                  "required": []
                 }
               },
               "required": [],
@@ -8046,6 +8565,7 @@
               "description": "Per-service resources configuration. Overrides the default setting from `resources` if set.",
               "properties": {
                 "limits": {
+                  "additionalProperties": false,
                   "properties": {
                     "cpu": {
                       "required": [],
@@ -8060,6 +8580,7 @@
                   "type": "object"
                 },
                 "requests": {
+                  "additionalProperties": false,
                   "properties": {
                     "cpu": {
                       "required": [],
@@ -8091,13 +8612,14 @@
           "description": "STORAGE-PUBLICLINK service.",
           "properties": {
             "affinity": {
-              "additionalProperties": false,
+              "additionalProperties": true,
               "description": "Per-service affinity.",
               "required": [],
-              "title": "affinity"
+              "title": "affinity",
+              "type": "object"
             },
             "autoscaling": {
-              "additionalProperties": false,
+              "additionalProperties": true,
               "description": "Per-service autoscaling. Overrides the default setting from `autoscaling` if set.",
               "properties": {
                 "enabled": {
@@ -8110,6 +8632,7 @@
                   "type": "integer"
                 },
                 "metrics": {
+                  "additionalProperties": true,
                   "required": []
                 },
                 "minReplicas": {
@@ -8202,12 +8725,30 @@
               "description": "Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.",
               "properties": {
                 "maxUnavailable": {
-                  "required": [],
-                  "type": "integer"
+                  "oneOf": [
+                    {
+                      "required": [],
+                      "type": "integer"
+                    },
+                    {
+                      "required": [],
+                      "type": "string"
+                    }
+                  ],
+                  "required": []
                 },
                 "minAvailable": {
-                  "required": [],
-                  "type": "integer"
+                  "oneOf": [
+                    {
+                      "required": [],
+                      "type": "integer"
+                    },
+                    {
+                      "required": [],
+                      "type": "string"
+                    }
+                  ],
+                  "required": []
                 }
               },
               "required": [],
@@ -8229,6 +8770,7 @@
               "description": "Per-service resources configuration. Overrides the default setting from `resources` if set.",
               "properties": {
                 "limits": {
+                  "additionalProperties": false,
                   "properties": {
                     "cpu": {
                       "required": [],
@@ -8243,6 +8785,7 @@
                   "type": "object"
                 },
                 "requests": {
+                  "additionalProperties": false,
                   "properties": {
                     "cpu": {
                       "required": [],
@@ -8273,13 +8816,14 @@
           "description": "STORAGE-SHARES service.",
           "properties": {
             "affinity": {
-              "additionalProperties": false,
+              "additionalProperties": true,
               "description": "Per-service affinity.",
               "required": [],
-              "title": "affinity"
+              "title": "affinity",
+              "type": "object"
             },
             "autoscaling": {
-              "additionalProperties": false,
+              "additionalProperties": true,
               "description": "Per-service autoscaling. Overrides the default setting from `autoscaling` if set.",
               "properties": {
                 "enabled": {
@@ -8292,6 +8836,7 @@
                   "type": "integer"
                 },
                 "metrics": {
+                  "additionalProperties": true,
                   "required": []
                 },
                 "minReplicas": {
@@ -8384,12 +8929,30 @@
               "description": "Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.",
               "properties": {
                 "maxUnavailable": {
-                  "required": [],
-                  "type": "integer"
+                  "oneOf": [
+                    {
+                      "required": [],
+                      "type": "integer"
+                    },
+                    {
+                      "required": [],
+                      "type": "string"
+                    }
+                  ],
+                  "required": []
                 },
                 "minAvailable": {
-                  "required": [],
-                  "type": "integer"
+                  "oneOf": [
+                    {
+                      "required": [],
+                      "type": "integer"
+                    },
+                    {
+                      "required": [],
+                      "type": "string"
+                    }
+                  ],
+                  "required": []
                 }
               },
               "required": [],
@@ -8411,6 +8974,7 @@
               "description": "Per-service resources configuration. Overrides the default setting from `resources` if set.",
               "properties": {
                 "limits": {
+                  "additionalProperties": false,
                   "properties": {
                     "cpu": {
                       "required": [],
@@ -8425,6 +8989,7 @@
                   "type": "object"
                 },
                 "requests": {
+                  "additionalProperties": false,
                   "properties": {
                     "cpu": {
                       "required": [],
@@ -8455,13 +9020,14 @@
           "description": "STORAGE-SYSTEM service.",
           "properties": {
             "affinity": {
-              "additionalProperties": false,
+              "additionalProperties": true,
               "description": "Per-service affinity.",
               "required": [],
-              "title": "affinity"
+              "title": "affinity",
+              "type": "object"
             },
             "autoscaling": {
-              "additionalProperties": false,
+              "additionalProperties": true,
               "description": "Per-service autoscaling. Overrides the default setting from `autoscaling` if set.",
               "properties": {
                 "enabled": {
@@ -8474,6 +9040,7 @@
                   "type": "integer"
                 },
                 "metrics": {
+                  "additionalProperties": true,
                   "required": []
                 },
                 "minReplicas": {
@@ -8676,12 +9243,30 @@
               "description": "Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.",
               "properties": {
                 "maxUnavailable": {
-                  "required": [],
-                  "type": "integer"
+                  "oneOf": [
+                    {
+                      "required": [],
+                      "type": "integer"
+                    },
+                    {
+                      "required": [],
+                      "type": "string"
+                    }
+                  ],
+                  "required": []
                 },
                 "minAvailable": {
-                  "required": [],
-                  "type": "integer"
+                  "oneOf": [
+                    {
+                      "required": [],
+                      "type": "integer"
+                    },
+                    {
+                      "required": [],
+                      "type": "string"
+                    }
+                  ],
+                  "required": []
                 }
               },
               "required": [],
@@ -8703,6 +9288,7 @@
               "description": "Per-service resources configuration. Overrides the default setting from `resources` if set.",
               "properties": {
                 "limits": {
+                  "additionalProperties": false,
                   "properties": {
                     "cpu": {
                       "required": [],
@@ -8717,6 +9303,7 @@
                   "type": "object"
                 },
                 "requests": {
+                  "additionalProperties": false,
                   "properties": {
                     "cpu": {
                       "required": [],
@@ -8748,13 +9335,14 @@
           "description": "STORAGE-USERS service.",
           "properties": {
             "affinity": {
-              "additionalProperties": false,
+              "additionalProperties": true,
               "description": "Per-service affinity.",
               "required": [],
-              "title": "affinity"
+              "title": "affinity",
+              "type": "object"
             },
             "autoscaling": {
-              "additionalProperties": false,
+              "additionalProperties": true,
               "description": "Per-service autoscaling. Overrides the default setting from `autoscaling` if set.",
               "properties": {
                 "enabled": {
@@ -8767,6 +9355,7 @@
                   "type": "integer"
                 },
                 "metrics": {
+                  "additionalProperties": true,
                   "required": []
                 },
                 "minReplicas": {
@@ -8897,6 +9486,7 @@
               "description": "Per-service jobResources configuration. Overrides the default setting from `jobResources` if set.",
               "properties": {
                 "limits": {
+                  "additionalProperties": false,
                   "properties": {
                     "cpu": {
                       "required": [],
@@ -8911,6 +9501,7 @@
                   "type": "object"
                 },
                 "requests": {
+                  "additionalProperties": false,
                   "properties": {
                     "cpu": {
                       "required": [],
@@ -9249,12 +9840,30 @@
               "description": "Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.",
               "properties": {
                 "maxUnavailable": {
-                  "required": [],
-                  "type": "integer"
+                  "oneOf": [
+                    {
+                      "required": [],
+                      "type": "integer"
+                    },
+                    {
+                      "required": [],
+                      "type": "string"
+                    }
+                  ],
+                  "required": []
                 },
                 "minAvailable": {
-                  "required": [],
-                  "type": "integer"
+                  "oneOf": [
+                    {
+                      "required": [],
+                      "type": "integer"
+                    },
+                    {
+                      "required": [],
+                      "type": "string"
+                    }
+                  ],
+                  "required": []
                 }
               },
               "required": [],
@@ -9276,6 +9885,7 @@
               "description": "Per-service resources configuration. Overrides the default setting from `resources` if set.",
               "properties": {
                 "limits": {
+                  "additionalProperties": false,
                   "properties": {
                     "cpu": {
                       "required": [],
@@ -9290,6 +9900,7 @@
                   "type": "object"
                 },
                 "requests": {
+                  "additionalProperties": false,
                   "properties": {
                     "cpu": {
                       "required": [],
@@ -9480,13 +10091,14 @@
           "description": "THUMBNAILS service.",
           "properties": {
             "affinity": {
-              "additionalProperties": false,
+              "additionalProperties": true,
               "description": "Per-service affinity.",
               "required": [],
-              "title": "affinity"
+              "title": "affinity",
+              "type": "object"
             },
             "autoscaling": {
-              "additionalProperties": false,
+              "additionalProperties": true,
               "description": "Per-service autoscaling. Overrides the default setting from `autoscaling` if set.",
               "properties": {
                 "enabled": {
@@ -9499,6 +10111,7 @@
                   "type": "integer"
                 },
                 "metrics": {
+                  "additionalProperties": true,
                   "required": []
                 },
                 "minReplicas": {
@@ -9601,6 +10214,7 @@
               "description": "Per-service jobResources configuration. Overrides the default setting from `jobResources` if set.",
               "properties": {
                 "limits": {
+                  "additionalProperties": false,
                   "properties": {
                     "cpu": {
                       "required": [],
@@ -9615,6 +10229,7 @@
                   "type": "object"
                 },
                 "requests": {
+                  "additionalProperties": false,
                   "properties": {
                     "cpu": {
                       "required": [],
@@ -9875,12 +10490,30 @@
               "description": "Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.",
               "properties": {
                 "maxUnavailable": {
-                  "required": [],
-                  "type": "integer"
+                  "oneOf": [
+                    {
+                      "required": [],
+                      "type": "integer"
+                    },
+                    {
+                      "required": [],
+                      "type": "string"
+                    }
+                  ],
+                  "required": []
                 },
                 "minAvailable": {
-                  "required": [],
-                  "type": "integer"
+                  "oneOf": [
+                    {
+                      "required": [],
+                      "type": "integer"
+                    },
+                    {
+                      "required": [],
+                      "type": "string"
+                    }
+                  ],
+                  "required": []
                 }
               },
               "required": [],
@@ -9946,6 +10579,7 @@
               "description": "Per-service resources configuration. Overrides the default setting from `resources` if set.",
               "properties": {
                 "limits": {
+                  "additionalProperties": false,
                   "properties": {
                     "cpu": {
                       "required": [],
@@ -9960,6 +10594,7 @@
                   "type": "object"
                 },
                 "requests": {
+                  "additionalProperties": false,
                   "properties": {
                     "cpu": {
                       "required": [],
@@ -9993,13 +10628,14 @@
           "description": "USERLOG service.",
           "properties": {
             "affinity": {
-              "additionalProperties": false,
+              "additionalProperties": true,
               "description": "Per-service affinity.",
               "required": [],
-              "title": "affinity"
+              "title": "affinity",
+              "type": "object"
             },
             "autoscaling": {
-              "additionalProperties": false,
+              "additionalProperties": true,
               "description": "Per-service autoscaling. Overrides the default setting from `autoscaling` if set.",
               "properties": {
                 "enabled": {
@@ -10012,6 +10648,7 @@
                   "type": "integer"
                 },
                 "metrics": {
+                  "additionalProperties": true,
                   "required": []
                 },
                 "minReplicas": {
@@ -10104,12 +10741,30 @@
               "description": "Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.",
               "properties": {
                 "maxUnavailable": {
-                  "required": [],
-                  "type": "integer"
+                  "oneOf": [
+                    {
+                      "required": [],
+                      "type": "integer"
+                    },
+                    {
+                      "required": [],
+                      "type": "string"
+                    }
+                  ],
+                  "required": []
                 },
                 "minAvailable": {
-                  "required": [],
-                  "type": "integer"
+                  "oneOf": [
+                    {
+                      "required": [],
+                      "type": "integer"
+                    },
+                    {
+                      "required": [],
+                      "type": "string"
+                    }
+                  ],
+                  "required": []
                 }
               },
               "required": [],
@@ -10131,6 +10786,7 @@
               "description": "Per-service resources configuration. Overrides the default setting from `resources` if set.",
               "properties": {
                 "limits": {
+                  "additionalProperties": false,
                   "properties": {
                     "cpu": {
                       "required": [],
@@ -10145,6 +10801,7 @@
                   "type": "object"
                 },
                 "requests": {
+                  "additionalProperties": false,
                   "properties": {
                     "cpu": {
                       "required": [],
@@ -10175,13 +10832,14 @@
           "description": "USERS service.",
           "properties": {
             "affinity": {
-              "additionalProperties": false,
+              "additionalProperties": true,
               "description": "Per-service affinity.",
               "required": [],
-              "title": "affinity"
+              "title": "affinity",
+              "type": "object"
             },
             "autoscaling": {
-              "additionalProperties": false,
+              "additionalProperties": true,
               "description": "Per-service autoscaling. Overrides the default setting from `autoscaling` if set.",
               "properties": {
                 "enabled": {
@@ -10194,6 +10852,7 @@
                   "type": "integer"
                 },
                 "metrics": {
+                  "additionalProperties": true,
                   "required": []
                 },
                 "minReplicas": {
@@ -10286,12 +10945,30 @@
               "description": "Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.",
               "properties": {
                 "maxUnavailable": {
-                  "required": [],
-                  "type": "integer"
+                  "oneOf": [
+                    {
+                      "required": [],
+                      "type": "integer"
+                    },
+                    {
+                      "required": [],
+                      "type": "string"
+                    }
+                  ],
+                  "required": []
                 },
                 "minAvailable": {
-                  "required": [],
-                  "type": "integer"
+                  "oneOf": [
+                    {
+                      "required": [],
+                      "type": "integer"
+                    },
+                    {
+                      "required": [],
+                      "type": "string"
+                    }
+                  ],
+                  "required": []
                 }
               },
               "required": [],
@@ -10313,6 +10990,7 @@
               "description": "Per-service resources configuration. Overrides the default setting from `resources` if set.",
               "properties": {
                 "limits": {
+                  "additionalProperties": false,
                   "properties": {
                     "cpu": {
                       "required": [],
@@ -10327,6 +11005,7 @@
                   "type": "object"
                 },
                 "requests": {
+                  "additionalProperties": false,
                   "properties": {
                     "cpu": {
                       "required": [],
@@ -10366,13 +11045,14 @@
               "title": "additionalInitContainers"
             },
             "affinity": {
-              "additionalProperties": false,
+              "additionalProperties": true,
               "description": "Per-service affinity.",
               "required": [],
-              "title": "affinity"
+              "title": "affinity",
+              "type": "object"
             },
             "autoscaling": {
-              "additionalProperties": false,
+              "additionalProperties": true,
               "description": "Per-service autoscaling. Overrides the default setting from `autoscaling` if set.",
               "properties": {
                 "enabled": {
@@ -10385,6 +11065,7 @@
                   "type": "integer"
                 },
                 "metrics": {
+                  "additionalProperties": true,
                   "required": []
                 },
                 "minReplicas": {
@@ -10924,12 +11605,30 @@
               "description": "Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.",
               "properties": {
                 "maxUnavailable": {
-                  "required": [],
-                  "type": "integer"
+                  "oneOf": [
+                    {
+                      "required": [],
+                      "type": "integer"
+                    },
+                    {
+                      "required": [],
+                      "type": "string"
+                    }
+                  ],
+                  "required": []
                 },
                 "minAvailable": {
-                  "required": [],
-                  "type": "integer"
+                  "oneOf": [
+                    {
+                      "required": [],
+                      "type": "integer"
+                    },
+                    {
+                      "required": [],
+                      "type": "string"
+                    }
+                  ],
+                  "required": []
                 }
               },
               "required": [],
@@ -10951,6 +11650,7 @@
               "description": "Per-service resources configuration. Overrides the default setting from `resources` if set.",
               "properties": {
                 "limits": {
+                  "additionalProperties": false,
                   "properties": {
                     "cpu": {
                       "required": [],
@@ -10965,6 +11665,7 @@
                   "type": "object"
                 },
                 "requests": {
+                  "additionalProperties": false,
                   "properties": {
                     "cpu": {
                       "required": [],
@@ -10997,13 +11698,14 @@
           "description": "WEBDAV service.",
           "properties": {
             "affinity": {
-              "additionalProperties": false,
+              "additionalProperties": true,
               "description": "Per-service affinity.",
               "required": [],
-              "title": "affinity"
+              "title": "affinity",
+              "type": "object"
             },
             "autoscaling": {
-              "additionalProperties": false,
+              "additionalProperties": true,
               "description": "Per-service autoscaling. Overrides the default setting from `autoscaling` if set.",
               "properties": {
                 "enabled": {
@@ -11016,6 +11718,7 @@
                   "type": "integer"
                 },
                 "metrics": {
+                  "additionalProperties": true,
                   "required": []
                 },
                 "minReplicas": {
@@ -11108,12 +11811,30 @@
               "description": "Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.",
               "properties": {
                 "maxUnavailable": {
-                  "required": [],
-                  "type": "integer"
+                  "oneOf": [
+                    {
+                      "required": [],
+                      "type": "integer"
+                    },
+                    {
+                      "required": [],
+                      "type": "string"
+                    }
+                  ],
+                  "required": []
                 },
                 "minAvailable": {
-                  "required": [],
-                  "type": "integer"
+                  "oneOf": [
+                    {
+                      "required": [],
+                      "type": "integer"
+                    },
+                    {
+                      "required": [],
+                      "type": "string"
+                    }
+                  ],
+                  "required": []
                 }
               },
               "required": [],
@@ -11135,6 +11856,7 @@
               "description": "Per-service resources configuration. Overrides the default setting from `resources` if set.",
               "properties": {
                 "limits": {
+                  "additionalProperties": false,
                   "properties": {
                     "cpu": {
                       "required": [],
@@ -11149,6 +11871,7 @@
                   "type": "object"
                 },
                 "requests": {
+                  "additionalProperties": false,
                   "properties": {
                     "cpu": {
                       "required": [],
@@ -11179,13 +11902,14 @@
           "description": "WEBFINGER service.",
           "properties": {
             "affinity": {
-              "additionalProperties": false,
+              "additionalProperties": true,
               "description": "Per-service affinity.",
               "required": [],
-              "title": "affinity"
+              "title": "affinity",
+              "type": "object"
             },
             "autoscaling": {
-              "additionalProperties": false,
+              "additionalProperties": true,
               "description": "Per-service autoscaling. Overrides the default setting from `autoscaling` if set.",
               "properties": {
                 "enabled": {
@@ -11198,6 +11922,7 @@
                   "type": "integer"
                 },
                 "metrics": {
+                  "additionalProperties": true,
                   "required": []
                 },
                 "minReplicas": {
@@ -11290,12 +12015,30 @@
               "description": "Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.",
               "properties": {
                 "maxUnavailable": {
-                  "required": [],
-                  "type": "integer"
+                  "oneOf": [
+                    {
+                      "required": [],
+                      "type": "integer"
+                    },
+                    {
+                      "required": [],
+                      "type": "string"
+                    }
+                  ],
+                  "required": []
                 },
                 "minAvailable": {
-                  "required": [],
-                  "type": "integer"
+                  "oneOf": [
+                    {
+                      "required": [],
+                      "type": "integer"
+                    },
+                    {
+                      "required": [],
+                      "type": "string"
+                    }
+                  ],
+                  "required": []
                 }
               },
               "required": [],
@@ -11317,6 +12060,7 @@
               "description": "Per-service resources configuration. Overrides the default setting from `resources` if set.",
               "properties": {
                 "limits": {
+                  "additionalProperties": false,
                   "properties": {
                     "cpu": {
                       "required": [],
@@ -11331,6 +12075,7 @@
                   "type": "object"
                 },
                 "requests": {
+                  "additionalProperties": false,
                   "properties": {
                     "cpu": {
                       "required": [],

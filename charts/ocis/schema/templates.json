@@ -1,23 +1,37 @@
 {
     "podDisruptionBudgetTemplate": {
         "type": "object",
-        "additonalProperties": false,
+        "additionalProperties": false,
         "properties": {
             "maxUnavailable": {
-                "type": "integer"
+                "oneOf": [
+                    {
+                        "type": "integer"
+                    },
+                    {
+                        "type": "string"
+                    }
+                ]
             },
             "minAvailable": {
-                "type": "integer"
+                "oneOf": [
+                    {
+                        "type": "integer"
+                    },
+                    {
+                        "type": "string"
+                    }
+                ]
             }
         }
     },
     "resourcesTemplate": {
         "type": "object",
-        "additonalProperties": false,
+        "additionalProperties": false,
         "properties": {
             "limits": {
                 "type": "object",
-                "additonalProperties": false,
+                "additionalProperties": false,
                 "properties": {
                     "memory": {
                         "type": "string"
@@ -29,7 +43,7 @@
             },
             "requests": {
                 "type": "object",
-                "additonalProperties": false,
+                "additionalProperties": false,
                 "properties": {
                     "memory": {
                         "type": "string"
@@ -59,7 +73,7 @@
     },
     "autoscalingTemplate": {
         "type": "object",
-        "additonalProperties": true,
+        "additionalProperties": true,
         "properties": {
             "enabled": {
                 "type": "boolean"
@@ -73,12 +87,13 @@
                 "minimum": 1
             },
             "metrics": {
-                "additonalProperties": true
+                "additionalProperties": true
             }
         }
     },
     "affinityTemplate": {
-        "additonalProperties": true
+        "type": "object",
+        "additionalProperties": true
     },
     "finalizersTemplate": {
         "type": "array",
