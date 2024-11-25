@@ -280,8 +280,6 @@ features:
     wopiIntegration:
       # -- URL of the https://github.com/cs3org/wopiserver[cs3org/wopiserver]. Can be deployed https://artifacthub.io/packages/helm/cs3org/wopiserver[with this Chart].
       wopiServerURI: ""
-      # -- Base url to navigate back from the app to the containing folder in the file list.
-      wopiFolderURI: https://{{ .Values.externalDomain }}
       # -- Path template for the url to navigate back from the app to the containing folder in the file list.
       # null uses the default value of oCIS, so that one also can set it to "" to not have a path template.
       wopiFolderURIPathTemplate: null
