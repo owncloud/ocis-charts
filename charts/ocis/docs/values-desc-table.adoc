@@ -324,12 +324,6 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `""`
 | URI of the office suite.
-| features.appsIntegration.wopiIntegration.wopiFolderURI
-a| [subs=-attributes]
-+string+
-a| [subs=-attributes]
-`"https://{{ .Values.externalDomain }}"`
-| Base url to navigate back from the app to the containing folder in the file list.
 | features.appsIntegration.wopiIntegration.wopiFolderURIPathTemplate
 a| [subs=-attributes]
 +string+
