@@ -91,6 +91,9 @@ spec:
                   name: {{ include "secrets.jwtSecret" . }}
                   key: jwt-secret
 
+            - name: USERLOG_MAX_CONCURRENCY
+              value: {{ .Values.services.userlog.maxConcurrency | quote }}
+
             {{- include "ocis.caEnv" $ | nindent 12}}
 
           {{- include "ocis.livenessProbe" . | nindent 10 }}

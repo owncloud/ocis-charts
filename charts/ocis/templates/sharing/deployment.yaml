@@ -104,6 +104,9 @@ spec:
                   name: {{ include "secrets.storageSystemSecret" . }}
                   key: user-id
 
+            - name: SHARING_USER_JSONCS3_MAX_CONCURRENCY
+              value: {{ .Values.services.sharing.maxConcurrency | quote }}
+
             {{- include "ocis.caEnv" $ | nindent 12}}
 
           {{- include "ocis.livenessProbe" . | nindent 10 }}

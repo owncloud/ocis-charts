@@ -169,6 +169,9 @@ spec:
             - name: OCIS_ENABLE_OCM
               value: {{ .Values.features.ocm.enabled | quote }}
 
+            - name: FRONTEND_MAX_CONCURRENCY
+              value: {{ .Values.services.frontend.maxConcurrency | quote }}
+
             {{- include "ocis.caEnv" $ | nindent 12}}
 
           {{- include "ocis.livenessProbe" . | nindent 10 }}
