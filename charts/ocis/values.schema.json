@@ -16,8 +16,7 @@
           "type": "integer"
         },
         "metrics": {
-          "required": [],
-          "type": "object"
+          "required": []
         },
         "minReplicas": {
           "minimum": 1,
@@ -2836,8 +2835,7 @@
                   "type": "integer"
                 },
                 "metrics": {
-                  "required": [],
-                  "type": "object"
+                  "required": []
                 },
                 "minReplicas": {
                   "minimum": 1,
@@ -3019,8 +3017,7 @@
                   "type": "integer"
                 },
                 "metrics": {
-                  "required": [],
-                  "type": "object"
+                  "required": []
                 },
                 "minReplicas": {
                   "minimum": 1,
@@ -3370,8 +3367,7 @@
                   "type": "integer"
                 },
                 "metrics": {
-                  "required": [],
-                  "type": "object"
+                  "required": []
                 },
                 "minReplicas": {
                   "minimum": 1,
@@ -3553,8 +3549,7 @@
                   "type": "integer"
                 },
                 "metrics": {
-                  "required": [],
-                  "type": "object"
+                  "required": []
                 },
                 "minReplicas": {
                   "minimum": 1,
@@ -3736,8 +3731,7 @@
                   "type": "integer"
                 },
                 "metrics": {
-                  "required": [],
-                  "type": "object"
+                  "required": []
                 },
                 "minReplicas": {
                   "minimum": 1,
@@ -3919,8 +3913,7 @@
                   "type": "integer"
                 },
                 "metrics": {
-                  "required": [],
-                  "type": "object"
+                  "required": []
                 },
                 "minReplicas": {
                   "minimum": 1,
@@ -4102,8 +4095,7 @@
                   "type": "integer"
                 },
                 "metrics": {
-                  "required": [],
-                  "type": "object"
+                  "required": []
                 },
                 "minReplicas": {
                   "minimum": 1,
@@ -4285,8 +4277,7 @@
                   "type": "integer"
                 },
                 "metrics": {
-                  "required": [],
-                  "type": "object"
+                  "required": []
                 },
                 "minReplicas": {
                   "minimum": 1,
@@ -4468,8 +4459,7 @@
                   "type": "integer"
                 },
                 "metrics": {
-                  "required": [],
-                  "type": "object"
+                  "required": []
                 },
                 "minReplicas": {
                   "minimum": 1,
@@ -4680,8 +4670,7 @@
                   "type": "integer"
                 },
                 "metrics": {
-                  "required": [],
-                  "type": "object"
+                  "required": []
                 },
                 "minReplicas": {
                   "minimum": 1,
@@ -4863,8 +4852,7 @@
                   "type": "integer"
                 },
                 "metrics": {
-                  "required": [],
-                  "type": "object"
+                  "required": []
                 },
                 "minReplicas": {
                   "minimum": 1,
@@ -5046,8 +5034,7 @@
                   "type": "integer"
                 },
                 "metrics": {
-                  "required": [],
-                  "type": "object"
+                  "required": []
                 },
                 "minReplicas": {
                   "minimum": 1,
@@ -5275,6 +5262,12 @@
             "nodeSelector": {
               "additionalProperties": false,
               "description": "Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.",
+              "patternProperties": {
+                ".*": {
+                  "required": [],
+                  "type": "string"
+                }
+              },
               "required": [],
               "title": "nodeSelector",
               "type": "object"
@@ -5286,13 +5279,8 @@
                 "accessModes": {
                   "description": "Persistent volume access modes.",
                   "items": {
-                    "anyOf": [
-                      {
-                        "required": [],
-                        "type": "string"
-                      }
-                    ],
-                    "required": []
+                    "required": [],
+                    "type": "string"
                   },
                   "required": [],
                   "title": "accessModes",
@@ -5348,13 +5336,8 @@
                 "finalizers": {
                   "description": "Persistent volume finalizers.",
                   "items": {
-                    "anyOf": [
-                      {
-                        "required": [],
-                        "type": "string"
-                      }
-                    ],
-                    "required": []
+                    "required": [],
+                    "type": "string"
                   },
                   "required": [],
                   "title": "finalizers",
@@ -5394,9 +5377,7 @@
               "required": [
                 "enabled",
                 "chownInitContainer",
-                "accessModes",
-                "size",
-                "finalizers"
+                "size"
               ],
               "title": "persistence",
               "type": "object"
@@ -5451,7 +5432,6 @@
           },
           "required": [
             "persistence",
-            "nodeSelector",
             "image"
           ],
           "title": "idm",
@@ -5678,13 +5658,8 @@
                 "accessModes": {
                   "description": "Persistent volume access modes.",
                   "items": {
-                    "anyOf": [
-                      {
-                        "required": [],
-                        "type": "string"
-                      }
-                    ],
-                    "required": []
+                    "required": [],
+                    "type": "string"
                   },
                   "required": [],
                   "title": "accessModes",
@@ -5740,13 +5715,8 @@
                 "finalizers": {
                   "description": "Persistent volume finalizers.",
                   "items": {
-                    "anyOf": [
-                      {
-                        "required": [],
-                        "type": "string"
-                      }
-                    ],
-                    "required": []
+                    "required": [],
+                    "type": "string"
                   },
                   "required": [],
                   "title": "finalizers",
@@ -5786,9 +5756,7 @@
               "required": [
                 "enabled",
                 "chownInitContainer",
-                "accessModes",
-                "size",
-                "finalizers"
+                "size"
               ],
               "title": "persistence",
               "type": "object"
@@ -5872,8 +5840,7 @@
                   "type": "integer"
                 },
                 "metrics": {
-                  "required": [],
-                  "type": "object"
+                  "required": []
                 },
                 "minReplicas": {
                   "minimum": 1,
@@ -6055,8 +6022,7 @@
                   "type": "integer"
                 },
                 "metrics": {
-                  "required": [],
-                  "type": "object"
+                  "required": []
                 },
                 "minReplicas": {
                   "minimum": 1,
@@ -6306,13 +6272,8 @@
                 "accessModes": {
                   "description": "Persistent volume access modes.",
                   "items": {
-                    "anyOf": [
-                      {
-                        "required": [],
-                        "type": "string"
-                      }
-                    ],
-                    "required": []
+                    "required": [],
+                    "type": "string"
                   },
                   "required": [],
                   "title": "accessModes",
@@ -6368,13 +6329,8 @@
                 "finalizers": {
                   "description": "Persistent volume finalizers.",
                   "items": {
-                    "anyOf": [
-                      {
-                        "required": [],
-                        "type": "string"
-                      }
-                    ],
-                    "required": []
+                    "required": [],
+                    "type": "string"
                   },
                   "required": [],
                   "title": "finalizers",
@@ -6414,9 +6370,7 @@
               "required": [
                 "enabled",
                 "chownInitContainer",
-                "accessModes",
-                "size",
-                "finalizers"
+                "size"
               ],
               "title": "persistence",
               "type": "object"
@@ -6500,8 +6454,7 @@
                   "type": "integer"
                 },
                 "metrics": {
-                  "required": [],
-                  "type": "object"
+                  "required": []
                 },
                 "minReplicas": {
                   "minimum": 1,
@@ -6683,8 +6636,7 @@
                   "type": "integer"
                 },
                 "metrics": {
-                  "required": [],
-                  "type": "object"
+                  "required": []
                 },
                 "minReplicas": {
                   "minimum": 1,
@@ -6866,8 +6818,7 @@
                   "type": "integer"
                 },
                 "metrics": {
-                  "required": [],
-                  "type": "object"
+                  "required": []
                 },
                 "minReplicas": {
                   "minimum": 1,
@@ -7059,13 +7010,13 @@
           "description": "PROXY service.",
           "properties": {
             "additionalPolicies": {
+              "additionalProperties": true,
               "description": "Specifies additional policies for the proxy service.\nRoutes are appended to the default routes of specified policies.\nThe policy name should always be 'ocis'.",
               "items": {
                 "required": []
               },
               "required": [],
-              "title": "additionalPolicies",
-              "type": "array"
+              "title": "additionalPolicies"
             },
             "affinity": {
               "additionalProperties": false,
@@ -7087,8 +7038,7 @@
                   "type": "integer"
                 },
                 "metrics": {
-                  "required": [],
-                  "type": "object"
+                  "required": []
                 },
                 "minReplicas": {
                   "minimum": 1,
@@ -7241,7 +7191,6 @@
             }
           },
           "required": [
-            "additionalPolicies",
             "image"
           ],
           "title": "proxy",
@@ -7314,13 +7263,15 @@
                 "type": {
                   "default": "basic",
                   "description": "Configures the search extractor type to be used. Possible extractors:\n- `basic`: the default search extractor.\n- `tika`: the Tika search extractor. If set to this value, additional settings in the `tika` section apply.",
+                  "enum": [
+                    "basic",
+                    "tika"
+                  ],
                   "required": [],
-                  "title": "type",
-                  "type": "string"
+                  "title": "type"
                 }
               },
               "required": [
-                "type",
                 "tika"
               ],
               "title": "extractor",
@@ -7395,13 +7346,8 @@
                 "accessModes": {
                   "description": "Persistent volume access modes.",
                   "items": {
-                    "anyOf": [
-                      {
-                        "required": [],
-                        "type": "string"
-                      }
-                    ],
-                    "required": []
+                    "required": [],
+                    "type": "string"
                   },
                   "required": [],
                   "title": "accessModes",
@@ -7457,13 +7403,8 @@
                 "finalizers": {
                   "description": "Persistent volume finalizers.",
                   "items": {
-                    "anyOf": [
-                      {
-                        "required": [],
-                        "type": "string"
-                      }
-                    ],
-                    "required": []
+                    "required": [],
+                    "type": "string"
                   },
                   "required": [],
                   "title": "finalizers",
@@ -7503,9 +7444,7 @@
               "required": [
                 "enabled",
                 "chownInitContainer",
-                "accessModes",
-                "size",
-                "finalizers"
+                "size"
               ],
               "title": "persistence",
               "type": "object"
@@ -7607,8 +7546,7 @@
                   "type": "integer"
                 },
                 "metrics": {
-                  "required": [],
-                  "type": "object"
+                  "required": []
                 },
                 "minReplicas": {
                   "minimum": 1,
@@ -7790,8 +7728,7 @@
                   "type": "integer"
                 },
                 "metrics": {
-                  "required": [],
-                  "type": "object"
+                  "required": []
                 },
                 "minReplicas": {
                   "minimum": 1,
@@ -7973,8 +7910,7 @@
                   "type": "integer"
                 },
                 "metrics": {
-                  "required": [],
-                  "type": "object"
+                  "required": []
                 },
                 "minReplicas": {
                   "minimum": 1,
@@ -8174,8 +8110,7 @@
                   "type": "integer"
                 },
                 "metrics": {
-                  "required": [],
-                  "type": "object"
+                  "required": []
                 },
                 "minReplicas": {
                   "minimum": 1,
@@ -8357,8 +8292,7 @@
                   "type": "integer"
                 },
                 "metrics": {
-                  "required": [],
-                  "type": "object"
+                  "required": []
                 },
                 "minReplicas": {
                   "minimum": 1,
@@ -8540,8 +8474,7 @@
                   "type": "integer"
                 },
                 "metrics": {
-                  "required": [],
-                  "type": "object"
+                  "required": []
                 },
                 "minReplicas": {
                   "minimum": 1,
@@ -8635,13 +8568,8 @@
                 "accessModes": {
                   "description": "Persistent volume access modes. Needs to be `[\"ReadWriteMany\"]` when having more than one replica for this service.",
                   "items": {
-                    "anyOf": [
-                      {
-                        "required": [],
-                        "type": "string"
-                      }
-                    ],
-                    "required": []
+                    "required": [],
+                    "type": "string"
                   },
                   "required": [],
                   "title": "accessModes",
@@ -8697,13 +8625,8 @@
                 "finalizers": {
                   "description": "Persistent volume finalizers.",
                   "items": {
-                    "anyOf": [
-                      {
-                        "required": [],
-                        "type": "string"
-                      }
-                    ],
-                    "required": []
+                    "required": [],
+                    "type": "string"
                   },
                   "required": [],
                   "title": "finalizers",
@@ -8743,9 +8666,7 @@
               "required": [
                 "enabled",
                 "chownInitContainer",
-                "accessModes",
-                "size",
-                "finalizers"
+                "size"
               ],
               "title": "persistence",
               "type": "object"
@@ -8846,8 +8767,7 @@
                   "type": "integer"
                 },
                 "metrics": {
-                  "required": [],
-                  "type": "object"
+                  "required": []
                 },
                 "minReplicas": {
                   "minimum": 1,
@@ -9033,6 +8953,7 @@
                     "startingDeadlineSeconds": {
                       "default": 600,
                       "description": "Defines the a deadline (in whole seconds) for starting the Job, if that Job misses its scheduled time for any reason.",
+                      "minimum": 1,
                       "required": [],
                       "title": "startingDeadlineSeconds",
                       "type": "integer"
@@ -9040,6 +8961,7 @@
                     "uploadExpiration": {
                       "default": 86400,
                       "description": "Duration in seconds after which uploads will expire.\n   WARNING: Setting this to a low number will lead to uploads being cancelled before they are finished and returning a 403 to the user.",
+                      "minimum": 1,
                       "required": [],
                       "title": "uploadExpiration",
                       "type": "integer"
@@ -9138,6 +9060,7 @@
                     "startingDeadlineSeconds": {
                       "default": 600,
                       "description": "Defines the a deadline (in whole seconds) for starting the Job, if that Job misses its scheduled time for any reason.",
+                      "minimum": 1,
                       "required": [],
                       "title": "startingDeadlineSeconds",
                       "type": "integer"
@@ -9174,6 +9097,7 @@
                     "startingDeadlineSeconds": {
                       "default": 600,
                       "description": "Defines the a deadline (in whole seconds) for starting the Job, if that Job misses its scheduled time for any reason.",
+                      "minimum": 1,
                       "required": [],
                       "title": "startingDeadlineSeconds",
                       "type": "integer"
@@ -9217,13 +9141,8 @@
                 "accessModes": {
                   "description": "Persistent volume access modes. Needs to be `[\"ReadWriteMany\"]` when having more than one replica for this service.",
                   "items": {
-                    "anyOf": [
-                      {
-                        "required": [],
-                        "type": "string"
-                      }
-                    ],
-                    "required": []
+                    "required": [],
+                    "type": "string"
                   },
                   "required": [],
                   "title": "accessModes",
@@ -9279,13 +9198,8 @@
                 "finalizers": {
                   "description": "Persistent volume finalizers.",
                   "items": {
-                    "anyOf": [
-                      {
-                        "required": [],
-                        "type": "string"
-                      }
-                    ],
-                    "required": []
+                    "required": [],
+                    "type": "string"
                   },
                   "required": [],
                   "title": "finalizers",
@@ -9325,9 +9239,7 @@
               "required": [
                 "enabled",
                 "chownInitContainer",
-                "accessModes",
-                "size",
-                "finalizers"
+                "size"
               ],
               "title": "persistence",
               "type": "object"
@@ -9402,9 +9314,12 @@
                 "driver": {
                   "default": "ocis",
                   "description": "Configures the storage driver. Possible values are \"ocis\" and \"s3ng\".\nThe oCIS driver stores all data in the persistent volume if persistence is enabled.\nThe S3NG driver stores all metadata in the persistent volume and uploads blobs to s3 if persistence is enabled.",
+                  "enum": [
+                    "ocis",
+                    "s3ng"
+                  ],
                   "required": [],
-                  "title": "driver",
-                  "type": "string"
+                  "title": "driver"
                 },
                 "driverConfig": {
                   "additionalProperties": false,
@@ -9584,8 +9499,7 @@
                   "type": "integer"
                 },
                 "metrics": {
-                  "required": [],
-                  "type": "object"
+                  "required": []
                 },
                 "minReplicas": {
                   "minimum": 1,
@@ -9729,6 +9643,7 @@
                     "deleteBefore": {
                       "default": 30,
                       "description": "Setting that makes the command delete all thumbnails older than the value. The value is a number in days.",
+                      "minimum": 1,
                       "required": [],
                       "title": "deleteBefore",
                       "type": "integer"
@@ -9743,9 +9658,13 @@
                     "method": {
                       "default": "atime",
                       "description": "Method to use with BusyBox \"find\" for finding old thumbnails. Can be mtime, atime or ctime.",
+                      "enum": [
+                        "mtime",
+                        "atime",
+                        "ctime"
+                      ],
                       "required": [],
-                      "title": "method",
-                      "type": "string"
+                      "title": "method"
                     },
                     "schedule": {
                       "default": "0 * * * *",
@@ -9757,6 +9676,7 @@
                     "startingDeadlineSeconds": {
                       "default": 600,
                       "description": "Defines the a deadline (in whole seconds) for starting the Job, if that Job misses its scheduled time for any reason.",
+                      "minimum": 1,
                       "required": [],
                       "title": "startingDeadlineSeconds",
                       "type": "integer"
@@ -9847,13 +9767,8 @@
                 "accessModes": {
                   "description": "Persistent volume access modes. Needs to be `[\"ReadWriteMany\"]` when having more than one replica for this service or persistence needs to be disabled.",
                   "items": {
-                    "anyOf": [
-                      {
-                        "required": [],
-                        "type": "string"
-                      }
-                    ],
-                    "required": []
+                    "required": [],
+                    "type": "string"
                   },
                   "required": [],
                   "title": "accessModes",
@@ -9909,7 +9824,8 @@
                 "finalizers": {
                   "description": "Persistent volume finalizers.",
                   "items": {
-                    "required": []
+                    "required": [],
+                    "type": "string"
                   },
                   "required": [],
                   "title": "finalizers",
@@ -9949,9 +9865,7 @@
               "required": [
                 "enabled",
                 "chownInitContainer",
-                "accessModes",
-                "size",
-                "finalizers"
+                "size"
               ],
               "title": "persistence",
               "type": "object"
@@ -10004,6 +9918,7 @@
                 "maxInputHeight": {
                   "default": 7680,
                   "description": "Sets a maximium height of an imput image which is being processed.",
+                  "minimum": 1,
                   "required": [],
                   "title": "maxInputHeight",
                   "type": "integer"
@@ -10011,6 +9926,7 @@
                 "maxInputWidth": {
                   "default": 7680,
                   "description": "Sets a maximium width of an imput image which is being processed.",
+                  "minimum": 1,
                   "required": [],
                   "title": "maxInputWidth",
                   "type": "integer"
@@ -10096,8 +10012,7 @@
                   "type": "integer"
                 },
                 "metrics": {
-                  "required": [],
-                  "type": "object"
+                  "required": []
                 },
                 "minReplicas": {
                   "minimum": 1,
@@ -10279,8 +10194,7 @@
                   "type": "integer"
                 },
                 "metrics": {
-                  "required": [],
-                  "type": "object"
+                  "required": []
                 },
                 "minReplicas": {
                   "minimum": 1,
@@ -10443,13 +10357,13 @@
           "description": "ownCloud WEB service.",
           "properties": {
             "additionalInitContainers": {
+              "additionalProperties": true,
               "description": "Additional init containers for the Web pods.",
               "items": {
                 "required": []
               },
               "required": [],
-              "title": "additionalInitContainers",
-              "type": "array"
+              "title": "additionalInitContainers"
             },
             "affinity": {
               "additionalProperties": false,
@@ -10471,8 +10385,7 @@
                   "type": "integer"
                 },
                 "metrics": {
-                  "required": [],
-                  "type": "object"
+                  "required": []
                 },
                 "minReplicas": {
                   "minimum": 1,
@@ -10489,13 +10402,13 @@
               "description": "Configuration for web, that ends up in the config.json file.",
               "properties": {
                 "apps": {
+                  "additionalProperties": true,
                   "description": "- url: https://ocis.kube.owncloud.test/custom_translations.json\nConfigure the {\"apps\": []} section in the Web config.json.",
                   "items": {
                     "required": []
                   },
                   "required": [],
-                  "title": "apps",
-                  "type": "array"
+                  "title": "apps"
                 },
                 "concurrency": {
                   "additionalProperties": false,
@@ -10812,7 +10725,6 @@
                 "tokenStorageLocal",
                 "contextHelpersReadMore",
                 "feedbackLink",
-                "apps",
                 "theme",
                 "oidc",
                 "userListRequiresFilter",
@@ -10904,13 +10816,8 @@
                 "accessModes": {
                   "description": "Persistent volume access modes. Needs to be `[\"ReadWriteMany\"]` when having more than one replica for this service or persistence needs to be disabled.",
                   "items": {
-                    "anyOf": [
-                      {
-                        "required": [],
-                        "type": "string"
-                      }
-                    ],
-                    "required": []
+                    "required": [],
+                    "type": "string"
                   },
                   "required": [],
                   "title": "accessModes",
@@ -10966,7 +10873,8 @@
                 "finalizers": {
                   "description": "Persistent volume finalizers.",
                   "items": {
-                    "required": []
+                    "required": [],
+                    "type": "string"
                   },
                   "required": [],
                   "title": "finalizers",
@@ -11006,9 +10914,7 @@
               "required": [
                 "enabled",
                 "chownInitContainer",
-                "accessModes",
-                "size",
-                "finalizers"
+                "size"
               ],
               "title": "persistence",
               "type": "object"
@@ -11081,8 +10987,7 @@
           "required": [
             "config",
             "persistence",
-            "image",
-            "additionalInitContainers"
+            "image"
           ],
           "title": "web",
           "type": "object"
@@ -11111,8 +11016,7 @@
                   "type": "integer"
                 },
                 "metrics": {
-                  "required": [],
-                  "type": "object"
+                  "required": []
                 },
                 "minReplicas": {
                   "minimum": 1,
@@ -11294,8 +11198,7 @@
                   "type": "integer"
                 },
                 "metrics": {
-                  "required": [],
-                  "type": "object"
+                  "required": []
                 },
                 "minReplicas": {
                   "minimum": 1,

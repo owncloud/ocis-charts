@@ -73,12 +73,17 @@
                 "minimum": 1
             },
             "metrics": {
-                "type": "object",
                 "additonalProperties": true
             }
         }
     },
     "affinityTemplate": {
         "additonalProperties": true
+    },
+    "finalizersTemplate": {
+        "type": "array",
+        "items": {
+            "type": "string"
+        }
     }
 }

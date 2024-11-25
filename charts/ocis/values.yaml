@@ -2823,9 +2823,19 @@ services:
       # -- Storage class to use.
       # Uses the default storage class if not set.
       storageClassName:
+      # @schema
+      # type: array
+      # items:
+      #   type: string
+      #   required: true
+      # @schema
       # -- Persistent volume access modes.
       accessModes:
         - ReadWriteOnce
+      # @schema
+      # type: string
+      # required: true
+      # @schema
       # -- Size of the persistent volume.
       size: 10Gi
       # @schema
@@ -2833,6 +2843,9 @@ services:
       # @schema
       # -- Persistent volume annotations.
       annotations: {}
+      # @schema
+      # $ref: schema/templates.json#/finalizersTemplate
+      # @schema
       # -- Persistent volume finalizers.
       finalizers:
         - kubernetes.io/pvc-protection
@@ -2858,6 +2871,9 @@ services:
     # @schema
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
+    # @schema
+    # $ref: schema/templates.json#/labelsTemplate
+    # @schema
     # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
     nodeSelector: {}
     # @schema
@@ -2988,9 +3004,19 @@ services:
       # -- Storage class to use.
       # Uses the default storage class if not set.
       storageClassName:
+      # @schema
+      # type: array
+      # items:
+      #   type: string
+      #   required: true
+      # @schema
       # -- Persistent volume access modes.
       accessModes:
         - ReadWriteOnce
+      # @schema
+      # type: string
+      # required: true
+      # @schema
       # -- Size of the persistent volume.
       size: 10Gi
       # @schema
@@ -2998,6 +3024,9 @@ services:
       # @schema
       # -- Persistent volume annotations.
       annotations: {}
+      # @schema
+      # $ref: schema/templates.json#/finalizersTemplate
+      # @schema
       # -- Persistent volume finalizers.
       finalizers:
         - kubernetes.io/pvc-protection
@@ -3270,6 +3299,10 @@ services:
       # If not enabled, pod restarts will lead to data loss.
       # Also scaling this service to more than one replica is not possible if the pods don't share the same volume.
       enabled: false
+      # @schema
+      # type: boolean
+      # required: true
+      # @schema
       # -- Enables an initContainer to chown the volume.
       # The initContainer is run as root.
       # This is not needed if the driver applies the fsGroup from the securityContext.
@@ -3282,9 +3315,19 @@ services:
       # -- Storage class to use.
       # Uses the default storage class if not set.
       storageClassName:
+      # @schema
+      # type: array
+      # items:
+      #   type: string
+      #   required: true
+      # @schema
       # -- Persistent volume access modes.
       accessModes:
         - ReadWriteOnce
+      # @schema
+      # type: string
+      # required: true
+      # @schema
       # -- Size of the persistent volume.
       size: 1Gi
       # @schema
@@ -3292,6 +3335,9 @@ services:
       # @schema
       # -- Persistent volume annotations.
       annotations: {}
+      # @schema
+      # $ref: schema/templates.json#/finalizersTemplate
+      # @schema
       # -- Persistent volume finalizers.
       finalizers:
         - kubernetes.io/pvc-protection
@@ -3523,6 +3569,9 @@ services:
   # -- PROXY service.
   # @default -- see detailed service configuration options below
   proxy:
+    # @schema
+    # additionalProperties: true
+    # @schema
     # -- Specifies additional policies for the proxy service.
     # Routes are appended to the default routes of specified policies.
     # The policy name should always be 'ocis'.
@@ -3602,6 +3651,10 @@ services:
     # -- Search Extractor settings.
     # @default -- see detailed search extractor configuration options below
     extractor:
+      # @schema
+      # enum: [basic, tika]
+      # required: false
+      # @schema
       # -- Configures the search extractor type to be used. Possible extractors:
       # - `basic`: the default search extractor.
       # - `tika`: the Tika search extractor. If set to this value, additional settings in the `tika` section apply.
@@ -3621,6 +3674,10 @@ services:
         # @schema
         # -- Set the URL to Tika. Only applicable if `services.search.extractor.type` == `tika`.
         url:
+        # @schema
+        # type: boolean
+        # required: true
+        # @schema
         # -- Defines if stop words should be cleaned or not.
         cleanStopWords: true
     # -- Persistence settings.
@@ -3650,9 +3707,19 @@ services:
       # -- Storage class to use.
       # Uses the default storage class if not set.
       storageClassName:
+      # @schema
+      # type: array
+      # items:
+      #   type: string
+      #   required: true
+      # @schema
       # -- Persistent volume access modes.
       accessModes:
         - ReadWriteOnce
+      # @schema
+      # type: string
+      # required: true
+      # @schema
       # -- Size of the persistent volume.
       size: 10Gi
       # @schema
@@ -3660,6 +3727,9 @@ services:
       # @schema
       # -- Persistent volume annotations.
       annotations: {}
+      # @schema
+      # $ref: schema/templates.json#/finalizersTemplate
+      # @schema
       # -- Persistent volume finalizers.
       finalizers:
         - kubernetes.io/pvc-protection
@@ -3874,6 +3944,10 @@ services:
   # @default -- see detailed service configuration options below
   sse:
     connections:
+      # @schema
+      # type: string
+      # required: true
+      # @schema
       # -- To prevent intermediate proxies from closing the SSE connection, send periodic SSE comments to keep it open.
       keepaliveInterval: 30s
     # @schema
@@ -4102,9 +4176,19 @@ services:
       # -- Storage class to use.
       # Uses the default storage class if not set.
       storageClassName:
+      # @schema
+      # type: array
+      # items:
+      #   type: string
+      #   required: true
+      # @schema
       # -- Persistent volume access modes. Needs to be `["ReadWriteMany"]` when having more than one replica for this service.
       accessModes:
         - ReadWriteMany
+      # @schema
+      # type: string
+      # required: true
+      # @schema
       # -- Size of the persistent volume.
       size: 5Gi
       # @schema
@@ -4112,6 +4196,9 @@ services:
       # @schema
       # -- Persistent volume annotations.
       annotations: {}
+      # @schema
+      # $ref: schema/templates.json#/finalizersTemplate
+      # @schema
       # -- Persistent volume finalizers.
       finalizers:
         - kubernetes.io/pvc-protection
@@ -4209,6 +4296,10 @@ services:
         concurrency: 10
 
     storageBackend:
+      # @schema
+      # enum: [ocis, s3ng]
+      # required: true
+      # @schema
       # -- Configures the storage driver. Possible values are "ocis" and "s3ng".
       # The oCIS driver stores all data in the persistent volume if persistence is enabled.
       # The S3NG driver stores all metadata in the persistent volume and uploads blobs to s3 if persistence is enabled.
@@ -4325,10 +4416,24 @@ services:
         # @schema
         # -- Enables a job, that cleans up expired uploads. Requires persistence to be enabled and RWX storage.
         enabled: false
+        # @schema
+        # type: string
+        # required: true
+        # @schema
         # -- Cron pattern for the job to be run.
         schedule: "0 * * * *"
+        # @schema
+        # type: integer
+        # minimum: 1
+        # required: true
+        # @schema
         # -- Defines the a deadline (in whole seconds) for starting the Job, if that Job misses its scheduled time for any reason.
         startingDeadlineSeconds: 600
+        # @schema
+        # type: integer
+        # minimum: 1
+        # required: true
+        # @schema
         # -- Duration in seconds after which uploads will expire.
         #    WARNING: Setting this to a low number will lead to uploads being cancelled before they are finished and returning a 403 to the user.
         uploadExpiration: 86400
@@ -4340,12 +4445,29 @@ services:
         # @schema
         # -- Enables a job, that purges expired trash bin items. Requires persistence to be enabled.
         enabled: false
+        # @schema
+        # type: string
+        # required: true
+        # @schema
         # -- Cron pattern for the job to be run.
         schedule: "0 * * * *"
+        # @schema
+        # type: integer
+        # minimum: 1
+        # required: true
+        # @schema
         # -- Defines the a deadline (in whole seconds) for starting the Job, if that Job misses its scheduled time for any reason.
         startingDeadlineSeconds: 600
+        # @schema
+        # type: string
+        # required: true
+        # @schema
         # -- Setting that makes the command delete all trashed personal files older than the value. The value is a number and a unit "d", "h", "m", "s".
         personalDeleteBefore: 30d
+        # @schema
+        # type: string
+        # required: true
+        # @schema
         # -- Setting that makes the command delete all trashed project files older than the value. The value is a number and a unit "d", "h", "m", "s".
         projectDeleteBefore: 30d
       # Uploads that were not postprocessed can be automatically processed again by enabling the restart job.
@@ -4356,8 +4478,17 @@ services:
         # @schema
         # -- Enables a job, that restarts postprocessing for uploads that are currently in postprocessing state. Requires persistence to be enabled.
         enabled: false
+        # @schema
+        # type: string
+        # required: true
+        # @schema
         # -- Cron pattern for the job to be run.
         schedule: "0 * * * *"
+        # @schema
+        # type: integer
+        # minimum: 1
+        # required: true
+        # @schema
         # -- Defines the a deadline (in whole seconds) for starting the Job, if that Job misses its scheduled time for any reason.
         startingDeadlineSeconds: 600
       # Image for the storageusers service maintenance jobs
@@ -4416,9 +4547,19 @@ services:
       # -- Storage class to use.
       # Uses the default storage class if not set.
       storageClassName:
+      # @schema
+      # type: array
+      # items:
+      #   type: string
+      #   required: true
+      # @schema
       # -- Persistent volume access modes. Needs to be `["ReadWriteMany"]` when having more than one replica for this service.
       accessModes:
         - ReadWriteMany
+      # @schema
+      # type: string
+      # required: true
+      # @schema
       # -- Size of the persistent volume.
       size: 50Gi
       # @schema
@@ -4426,6 +4567,9 @@ services:
       # @schema
       # -- Persistent volume annotations.
       annotations: {}
+      # @schema
+      # $ref: schema/templates.json#/finalizersTemplate
+      # @schema
       # -- Persistent volume finalizers.
       finalizers:
         - kubernetes.io/pvc-protection
@@ -4536,10 +4680,24 @@ services:
       # @schema
       # -- Number of maximum concurrent thumbnail requests. Default is 0 which is unlimited.
       maxConcurrencyRequests: 0
+      # @schema
+      # type: string
+      # required: true
+      # @schema
       # -- Sets a maximum file size of an input image which is being processed. Usable common abbreviations: [KB, KiB, MB, MiB, GB, GiB, TB, TiB, PB, PiB, EB, EiB], example: 2GB.
       maxFileSize: 50MB
+      # @schema
+      # type: integer
+      # minimum: 1
+      # required: true
+      # @schema
       # -- Sets a maximium width of an imput image which is being processed.
       maxInputWidth: 7680
+      # @schema
+      # type: integer
+      # minimum: 1
+      # required: true
+      # @schema
       # -- Sets a maximium height of an imput image which is being processed.
       maxInputHeight: 7680
     # -- Persistence settings.
@@ -4570,9 +4728,19 @@ services:
       # -- Storage class to use.
       # Uses the default storage class if not set.
       storageClassName:
+      # @schema
+      # type: array
+      # items:
+      #   type: string
+      #   required: true
+      # @schema
       # -- Persistent volume access modes. Needs to be `["ReadWriteMany"]` when having more than one replica for this service or persistence needs to be disabled.
       accessModes:
         - ReadWriteMany
+      # @schema
+      # type: string
+      # required: true
+      # @schema
       # -- Size of the persistent volume.
       size: 10Gi
       # @schema
@@ -4580,6 +4748,9 @@ services:
       # @schema
       # -- Persistent volume annotations.
       annotations: {}
+      # @schema
+      # $ref: schema/templates.json#/finalizersTemplate
+      # @schema
       # -- Persistent volume finalizers.
       finalizers: []
       # @schema
@@ -4645,12 +4816,30 @@ services:
         # @schema
         # -- Enables a job, that cleans up old thumbnails. Requires persistence to be enabled.
         enabled: false
+        # @schema
+        # type: string
+        # required: true
+        # @schema
         # -- Cron pattern for the job to be run.
         schedule: "0 * * * *"
+        # @schema
+        # type: integer
+        # minimum: 1
+        # required: true
+        # @schema
         # -- Defines the a deadline (in whole seconds) for starting the Job, if that Job misses its scheduled time for any reason.
         startingDeadlineSeconds: 600
+        # @schema
+        # type: integer
+        # minimum: 1
+        # required: true
+        # @schema
         # -- Setting that makes the command delete all thumbnails older than the value. The value is a number in days.
         deleteBefore: 30
+        # @schema
+        # enum: [mtime, atime, ctime]
+        # required: true
+        # @schema
         # -- Method to use with BusyBox "find" for finding old thumbnails. Can be mtime, atime or ctime.
         method: atime
       # Image for thumbnails service maintenance jobs
@@ -4921,6 +5110,9 @@ services:
       customTranslations:
         []
         # - url: https://ocis.kube.owncloud.test/custom_translations.json
+      # @schema
+      # additionalProperties: true
+      # @schema
       # -- Configure the {"apps": []} section in the Web config.json.
       apps: []
       # @schema
@@ -4936,8 +5128,16 @@ services:
         # @schema
         # -- URL to load themes from. Will be prepended to the theme path. Defaults to the value of "externalDomain".
         server:
+        # @schema
+        # type: string
+        # required: true
+        # @schema
         # -- URL path to load themes from. The theme server will be prepended. Defaults to the ownCloud Web default theme.
         path: "/themes/owncloud/theme.json"
+        # @schema
+        # type: string
+        # required: true
+        # @schema
         # -- Name of the theme you provide via `configRefs.webThemeConfigRef` and `configRefs.webThemeAssetsConfigRef`.
         # If you change this when providing a custom theme, you must also change `theme.path`.
         themeNameConfigRefs: "owncloud"
@@ -5060,9 +5260,19 @@ services:
       # -- Storage class to use.
       # Uses the default storage class if not set.
       storageClassName:
+      # @schema
+      # type: array
+      # items:
+      #   type: string
+      #   required: true
+      # @schema
       # -- Persistent volume access modes. Needs to be `["ReadWriteMany"]` when having more than one replica for this service or persistence needs to be disabled.
       accessModes:
         - ReadWriteMany
+      # @schema
+      # type: string
+      # required: true
+      # @schema
       # -- Size of the persistent volume.
       size: 1Gi
       # @schema
@@ -5070,6 +5280,9 @@ services:
       # @schema
       # -- Persistent volume annotations.
       annotations: {}
+      # @schema
+      # $ref: schema/templates.json#/finalizersTemplate
+      # @schema
       # -- Persistent volume finalizers.
       finalizers: []
       # @schema
@@ -5151,6 +5364,9 @@ services:
       # @schema
       # -- Image pull policy
       pullPolicy:
+    # @schema
+    # additionalProperties: true
+    # @schema
     # -- Additional init containers for the Web pods.
     additionalInitContainers: []
 
@@ -5299,9 +5515,8 @@ monitoring:
   # required: true
   # @schema
   # -- Interval at which to scrape metrics.
-  interval:
-    60s
-    # @schema
+  interval: 60s
+  # @schema
   # type: string
   # required: true
   # @schema
