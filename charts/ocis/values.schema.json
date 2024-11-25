@@ -310,6 +310,7 @@
                 "officeSuites": {
                   "description": "List of WOPI compliant office suites.",
                   "items": {
+                    "additionalProperties": false,
                     "properties": {
                       "disableChat": {
                         "required": [],
@@ -328,6 +329,7 @@
                         "type": "string"
                       },
                       "ingress": {
+                        "additionalProperties": false,
                         "properties": {
                           "annotations": {
                             "patternProperties": {
@@ -366,6 +368,7 @@
                           },
                           "tls": {
                             "items": {
+                              "additionalProperties": false,
                               "properties": {
                                 "hosts": {
                                   "items": {
@@ -2034,6 +2037,7 @@
         "pullSecrets": {
           "description": "Names of the secret containing the credentials to pull an image from the registry. More\ninformation how a secret can be defined at https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/\n\n*Note:* These secrets also apply to initContainers, so you need to provide secrets for the initContainer image here as well.",
           "items": {
+            "additionalProperties": false,
             "properties": {
               "name": {
                 "required": [],
@@ -2132,6 +2136,7 @@
         "tls": {
           "description": "Ingress TLS configuration.",
           "items": {
+            "additionalProperties": false,
             "properties": {
               "hosts": {
                 "items": {

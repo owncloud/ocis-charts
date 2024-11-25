@@ -30,6 +30,7 @@ backup:
 image:
   pullSecrets:
     - name: some-pull-secret
+
 nodeSelector:
   kubernetes.io/arch: "amd64"
 hostAliases:

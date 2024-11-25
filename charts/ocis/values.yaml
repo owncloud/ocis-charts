@@ -30,6 +30,7 @@ image:
   # items:
   #   type: object
   #   required: true
+  #   additionalProperties: false
   #   properties:
   #     name:
   #       type: string
@@ -401,6 +402,7 @@ features:
       # required: true
       # items:
       #   type: object
+      #   additionalProperties: false
       #   properties:
       #     name:
       #       type: string
@@ -431,6 +433,7 @@ features:
       #       required: true
       #     ingress:
       #       type: object
+      #       additionalProperties: false
       #       properties:
       #         enabled:
       #           type: boolean
@@ -458,6 +461,7 @@ features:
       #           items:
       #             type: object
       #             required: true
+      #             additionalProperties: false
       #             properties:
       #               secretName:
       #                 type: string
@@ -1055,6 +1059,7 @@ ingress:
   # items:
   #   type: object
   #   required: true
+  #   additionalProperties: false
   #   properties:
   #     secretName:
   #       type: string
