@@ -1229,6 +1229,9 @@ services:
       sha: ""
       # -- Image pull policy
       pullPolicy:
+    # -- Maximum number of concurrent go-routines. Higher values can potentially get work done faster but will also cause 
+    # more load on the system. Values of 0 or below will be ignored and the default value will be used.
+    maxConcurrency: "1"
 
   # -- GATEWAY service.
   # @default -- see detailed service configuration options below
@@ -1816,6 +1819,9 @@ services:
       sha: ""
       # -- Image pull policy
       pullPolicy:
+    # -- Maximum number of concurrent go-routines. Higher values can potentially get work done faster but will also cause 
+    # more load on the system. Values of 0 or below will be ignored and the default value will be used.
+    maxConcurrency: "1"
 
   # -- SSE service
   # @default -- see detailed service configuration options below
@@ -2274,6 +2280,9 @@ services:
       sha: ""
       # -- Image pull policy
       pullPolicy:
+    # -- Maximum number of concurrent go-routines. Higher values can potentially get work done faster but will also cause 
+    # more load on the system. Values of 0 or below will be ignored and the default value will be used.
+    maxConcurrency: "1"
 
   # -- USERS service.
   # @default -- see detailed service configuration options below
