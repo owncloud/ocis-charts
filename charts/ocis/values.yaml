@@ -3,10 +3,18 @@
 image:
   # -- Image repository
   repository: owncloud/ocis-rolling
+  # @schema
+  # type: [string, null]
+  # required: false
+  # @schema
   # -- Image tag. Defaults to the chart's appVersion.
-  tag: ""
+  tag:
+  # @schema
+  # type: [string, null]
+  # required: false
+  # @schema
   # -- Image sha / digest (optional).
-  sha: ""
+  sha:
   # @schema
   # type: [string, null]
   # required: true
@@ -350,155 +358,160 @@ features:
     enabled: false
     # WOPI (office suite integration) needs an https://github.com/cs3org/wopiserver[cs3org/wopiserver] and at least one office suite.
     wopiIntegration:
+      # @schema
+      # type: array
+      # required: true
+      # items:
+      #   type: object
+      #   properties:
+      #     name:
+      #       type: string
+      #       required: true
+      #     product:
+      #       type: string
+      #       required: true
+      #     enabled:
+      #       type: boolean
+      #       required: true
+      #     uri:
+      #       type: string
+      #       required: true
+      #     iconURI:
+      #       type: string
+      #       required: false
+      #     insecure:
+      #       type: boolean
+      #       required: true
+      #     disableProof:
+      #       type: boolean
+      #       required: true
+      #     secureViewEnabled:
+      #       type: boolean
+      #       required: true
+      #     disableChat:
+      #       type: boolean
+      #       required: true
+      #     ingress:
+      #       type: object
+      #       properties:
+      #         enabled:
+      #           type: boolean
+      #           required: true
+      #         domain:
+      #           type: string
+      #           required: true
+      #         ingressClassName:
+      #           type: [string, null]
+      #           required: true
+      #         annotations:
+      #           type: object
+      #           required: true
+      #           patternProperties:
+      #            ".*":
+      #              type: string
+      #         labels:
+      #           type: object
+      #           required: true
+      #           patternProperties:
+      #            ".*":
+      #              type: string
+      #         tls:
+      #           type: array
+      #           items:
+      #             type: object
+      #             required: true
+      #             properties:
+      #               secretName:
+      #                 type: string
+      #                 required: true
+      #               hosts:
+      #                 type: array
+      #                 items:
+      #                   type: string
+      # @schema
       # List of WOPI compliant office suites.
       officeSuites:
-        - # @schema
-          # type: string
-          # required: true
-          # @schema
-          # -- Name of the office suite. Will be displayed to the users.
-          name: Collabora
-          # @schema
-          # type: string
-          # required: true
-          # @schema
-          # -- Product type of the office suite. Will be used to determine certain product specifics.
-          # Supports "Collabora", "OnlyOffice", "Microsoft365" or "MicrosoftOfficeOnline".
-          product: Collabora
-          # @schema
-          # type: boolean
-          # required: true
-          # @schema
-          # -- Enables the office suite.
-          enabled: false
-          # @schema
-          # type: [string, null]
-          # required: true
-          # @schema
-          # -- URI of the office suite.
-          uri:
-          # -- URI for the icon of the office suite. Will be displayed to the users.
-          iconURI: ""
-          # @schema
-          # type: boolean
-          # required: true
-          # @schema
-          # -- Disables SSL certificate checking for connections to the office suites http api.
-          # Not recommended for production installations.
-          insecure: false
-          # @schema
-          # type: boolean
-          # required: true
-          # @schema
-          # -- Disables verifying requests via WOPI proof keys.
-          # Not recommended to be disabled for production installations.
-          disableProof: false
-          # @schema
-          # type: boolean
-          # required: true
-          # @schema
-          # -- Enable secure view for this office suite
-          secureViewEnabled: false
-          # @schema
-          # type: boolean
-          # required: true
-          # @schema
-          # -- Disables the chat in the office suite. Note: This currently only applies to OnlyOffice
-          disableChat: false
-          # Ingress for collaboration service.
-          ingress:
-            # @schema
-            # type: boolean
-            # required: true
-            # @schema
-            # -- Enables the Ingress. Only needed if the office application is not running within the same cluster.
-            enabled: false
-            # @schema
-            # type: [string, null]
-            # required: true
-            # @schema
-            # -- Domain of the Ingress.
-            domain:
-            # @schema
-            # type: [string, null]
-            # required: false
-            # @schema
-            # -- Ingress class to use.
-            # Uses the default ingress class if not set.
-            ingressClassName:
-            # -- Ingress annotations.
-            annotations: {}
-            # -- Labels for the ingress.
-            labels: {}
-            # -- Ingress TLS configuration.
-            tls: []
-            #  - secretName: chart-example-tls
-            #    hosts:
-            #      - collabora-wopi.owncloud.test
+        []
+        # - # -- Name of the office suite. Will be displayed to the users.
+        #   name: Collabora
+        #   # -- Product type of the office suite. Will be used to determine certain product specifics.
+        #   # Supports "Collabora", "OnlyOffice", "Microsoft365" or "MicrosoftOfficeOnline".
+        #   product: Collabora
+        #   # -- Enables the office suite.
+        #   enabled: false
+        #   # -- URI of the office suite.
+        #   uri:
+        #   # -- URI for the icon of the office suite. Will be displayed to the users.
+        #   iconURI: ""
+        #   # -- Disables SSL certificate checking for connections to the office suites http api.
+        #   # Not recommended for production installations.
+        #   insecure: false
+        #   # -- Disables verifying requests via WOPI proof keys.
+        #   # Not recommended to be disabled for production installations.
+        #   disableProof: false
+        #   # -- Enable secure view for this office suite
+        #   secureViewEnabled: false
+        #   # -- Disables the chat in the office suite. Note: This currently only applies to OnlyOffice
+        #   disableChat: false
+        #   # Ingress for collaboration service.
+        #   ingress:
+        #     # -- Enables the Ingress. Only needed if the office application is not running within the same cluster.
+        #     enabled: false
+        #     # -- Domain of the Ingress.
+        #     domain:
+        #     # -- Ingress class to use.
+        #     # Uses the default ingress class if not set.
+        #     ingressClassName:
+        #     # -- Ingress annotations.
+        #     annotations: {}
+        #     # -- Labels for the ingress.
+        #     labels: {}
+        #     # -- Ingress TLS configuration.
+        #     tls: []
+        #     #  - secretName: chart-example-tls
+        #     #    hosts:
+        #     #      - collabora-wopi.owncloud.test
 
-        - # -- Name of the office suite. Will be displayed to the users.
-          name: OnlyOffice
-          # -- Product type of the office suite. Will be used to determine certain product specifics.
-          # Supports "Collabora", "OnlyOffice", "Microsoft365" or "MicrosoftOfficeOnline".
-          product: OnlyOffice
-          # @schema
-          # type: boolean
-          # required: true
-          # @schema
-          # -- Enables the office suite.
-          enabled: false
-          # -- URI of the office suite.
-          uri: ""
-          # -- URI for the icon of the office suite. Will be displayed to the users.
-          iconURI: ""
-          # @schema
-          # type: boolean
-          # required: true
-          # @schema
-          # -- Disables SSL certificate checking for connections to the office suites http api.
-          # Not recommended for production installations.
-          insecure: false
-          # @schema
-          # type: boolean
-          # required: true
-          # @schema
-          # -- Disables verifying requests via WOPI proof keys.
-          # Not recommended to be disabled for production installations.
-          disableProof: false
-          # -- Enable secure view for this office suite. Note: OnlyOffice doesn't support secureView right now
-          secureViewEnabled: false
-          # @schema
-          # type: boolean
-          # required: true
-          # @schema
-          # -- Disables the chat in the office suite. Note: This currently only applies to OnlyOffice
-          disableChat: false
-          # Ingress for collaboration service.
-          ingress:
-            # @schema
-            # type: boolean
-            # required: true
-            # @schema
-            # -- Enables the Ingress. Only needed if the office application is not running within the same cluster.
-            enabled: false
-            # -- Domain of the Ingress.
-            domain: ""
-            # @schema
-            # type: string
-            # required: false
-            # @schema
-            # -- Ingress class to use.
-            # Uses the default ingress class if not set.
-            ingressClassName:
-            # -- Ingress annotations.
-            annotations: {}
-            # -- Labels for the ingress.
-            labels: {}
-            # -- Ingress TLS configuration.
-            tls: []
-            #  - secretName: chart-example-tls
-            #    hosts:
-            #      - onlyoffice-wopi.owncloud.test
+        # - # -- Name of the office suite. Will be displayed to the users.
+        #   name: OnlyOffice
+        #   # -- Product type of the office suite. Will be used to determine certain product specifics.
+        #   # Supports "Collabora", "OnlyOffice", "Microsoft365" or "MicrosoftOfficeOnline".
+        #   product: OnlyOffice
+        #   # -- Enables the office suite.
+        #   enabled: false
+        #   # -- URI of the office suite.
+        #   uri: ""
+        #   # -- URI for the icon of the office suite. Will be displayed to the users.
+        #   iconURI: ""
+        #   # -- Disables SSL certificate checking for connections to the office suites http api.
+        #   # Not recommended for production installations.
+        #   insecure: false
+        #   # -- Disables verifying requests via WOPI proof keys.
+        #   # Not recommended to be disabled for production installations.
+        #   disableProof: false
+        #   # -- Enable secure view for this office suite. Note: OnlyOffice doesn't support secureView right now
+        #   secureViewEnabled: false
+        #   # -- Disables the chat in the office suite. Note: This currently only applies to OnlyOffice
+        #   disableChat: false
+        #   # Ingress for collaboration service.
+        #   ingress:
+        #     # -- Enables the Ingress. Only needed if the office application is not running within the same cluster.
+        #     enabled: false
+        #     # -- Domain of the Ingress.
+        #     domain: ""
+        #     # -- Ingress class to use.
+        #     # Uses the default ingress class if not set.
+        #     ingressClassName:
+        #     # -- Ingress annotations.
+        #     annotations: {}
+        #     # -- Labels for the ingress.
+        #     labels: {}
+        #     # -- Ingress TLS configuration.
+        #     tls: []
+        #     #  - secretName: chart-example-tls
+        #     #    hosts:
+        #     #      - onlyoffice-wopi.owncloud.test
+
     # -- Mimetype configuration.
     # Let's you configure a mimetypes' default application, if it is allowed to create a new file and more.
     # @default -- default configuration of oCIS, see https://doc.owncloud.com/ocis/next/deployment/services/s-list/app-registry.html#yaml-example[doc.owncloud.com]

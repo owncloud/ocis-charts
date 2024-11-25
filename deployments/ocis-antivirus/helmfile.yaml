@@ -67,6 +67,8 @@ releases:
     chart: opendesk-clamav/opendesk-clamav
     namespace: clamav
     version: 4.0.6
+    labels:
+      ci-lint-skip: true # skip linting this chart in CI
     values:
       - persistence:
           accessModes:
@@ -74,7 +76,7 @@ releases:
           size: "10Gi"
 
       - freshclam:
-          containerSecurityContext:	
+          containerSecurityContext:
             readOnlyRootFilesystem: false
           image:
             tag: "1.4.0" # newer version of clamav/clamav than default chart

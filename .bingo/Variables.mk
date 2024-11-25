@@ -47,6 +47,12 @@ $(HELM): $(BINGO_DIR)/helm.mod
 	@echo "(re)installing $(GOBIN)/helm-v3.16.2"
 	@cd $(BINGO_DIR) && GOWORK=off $(GO) build -mod=mod -modfile=helm.mod -o=$(GOBIN)/helm-v3.16.2 "helm.sh/helm/v3/cmd/helm"
 
+HELMFILE := $(GOBIN)/helmfile-v0.169.1
+$(HELMFILE): $(BINGO_DIR)/helmfile.mod
+	@# Install binary/ries using Go 1.14+ build command. This is using bwplotka/bingo-controlled, separate go module with pinned dependencies.
+	@echo "(re)installing $(GOBIN)/helmfile-v0.169.1"
+	@cd $(BINGO_DIR) && GOWORK=off $(GO) build -mod=mod -modfile=helmfile.mod -o=$(GOBIN)/helmfile-v0.169.1 "github.com/helmfile/helmfile"
+
 KUBE_LINTER := $(GOBIN)/kube-linter-v0.6.8
 $(KUBE_LINTER): $(BINGO_DIR)/kube-linter.mod
 	@# Install binary/ries using Go 1.14+ build command. This is using bwplotka/bingo-controlled, separate go module with pinned dependencies.

@@ -144,186 +144,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 default configuration of oCIS, see https://doc.owncloud.com/ocis/next/deployment/services/s-list/app-registry.html#yaml-example[doc.owncloud.com]
 | Mimetype configuration. Let's you configure a mimetypes' default application, if it is allowed to create a new file and more.
-| features.appsIntegration.wopiIntegration.officeSuites[0].disableChat
-a| [subs=-attributes]
-+bool+
-a| [subs=-attributes]
-`false`
-| Disables the chat in the office suite. Note: This currently only applies to OnlyOffice
-| features.appsIntegration.wopiIntegration.officeSuites[0].disableProof
-a| [subs=-attributes]
-+bool+
-a| [subs=-attributes]
-`false`
-| Disables verifying requests via WOPI proof keys. Not recommended to be disabled for production installations.
-| features.appsIntegration.wopiIntegration.officeSuites[0].enabled
-a| [subs=-attributes]
-+bool+
-a| [subs=-attributes]
-`false`
-| Enables the office suite.
-| features.appsIntegration.wopiIntegration.officeSuites[0].iconURI
-a| [subs=-attributes]
-+string+
-a| [subs=-attributes]
-`""`
-| URI for the icon of the office suite. Will be displayed to the users.
-| features.appsIntegration.wopiIntegration.officeSuites[0].ingress.annotations
-a| [subs=-attributes]
-+object+
-a| [subs=-attributes]
-`{}`
-| Ingress annotations.
-| features.appsIntegration.wopiIntegration.officeSuites[0].ingress.domain
-a| [subs=-attributes]
-+string+
-a| [subs=-attributes]
-`nil`
-| Domain of the Ingress.
-| features.appsIntegration.wopiIntegration.officeSuites[0].ingress.enabled
-a| [subs=-attributes]
-+bool+
-a| [subs=-attributes]
-`false`
-| Enables the Ingress. Only needed if the office application is not running within the same cluster.
-| features.appsIntegration.wopiIntegration.officeSuites[0].ingress.ingressClassName
-a| [subs=-attributes]
-+string+
-a| [subs=-attributes]
-`nil`
-| Ingress class to use. Uses the default ingress class if not set.
-| features.appsIntegration.wopiIntegration.officeSuites[0].ingress.labels
-a| [subs=-attributes]
-+object+
-a| [subs=-attributes]
-`{}`
-| Labels for the ingress.
-| features.appsIntegration.wopiIntegration.officeSuites[0].ingress.tls
+| features.appsIntegration.wopiIntegration.officeSuites
 a| [subs=-attributes]
 +list+
 a| [subs=-attributes]
 `[]`
-| Ingress TLS configuration.
-| features.appsIntegration.wopiIntegration.officeSuites[0].insecure
-a| [subs=-attributes]
-+bool+
-a| [subs=-attributes]
-`false`
-| Disables SSL certificate checking for connections to the office suites http api. Not recommended for production installations.
-| features.appsIntegration.wopiIntegration.officeSuites[0].name
-a| [subs=-attributes]
-+string+
-a| [subs=-attributes]
-`"Collabora"`
-| Name of the office suite. Will be displayed to the users.
-| features.appsIntegration.wopiIntegration.officeSuites[0].product
-a| [subs=-attributes]
-+string+
-a| [subs=-attributes]
-`"Collabora"`
-| Product type of the office suite. Will be used to determine certain product specifics. Supports "Collabora", "OnlyOffice", "Microsoft365" or "MicrosoftOfficeOnline".
-| features.appsIntegration.wopiIntegration.officeSuites[0].secureViewEnabled
-a| [subs=-attributes]
-+bool+
-a| [subs=-attributes]
-`false`
-| Enable secure view for this office suite
-| features.appsIntegration.wopiIntegration.officeSuites[0].uri
-a| [subs=-attributes]
-+string+
-a| [subs=-attributes]
-`nil`
-| URI of the office suite.
-| features.appsIntegration.wopiIntegration.officeSuites[1].disableChat
-a| [subs=-attributes]
-+bool+
-a| [subs=-attributes]
-`false`
-| Disables the chat in the office suite. Note: This currently only applies to OnlyOffice
-| features.appsIntegration.wopiIntegration.officeSuites[1].disableProof
-a| [subs=-attributes]
-+bool+
-a| [subs=-attributes]
-`false`
-| Disables verifying requests via WOPI proof keys. Not recommended to be disabled for production installations.
-| features.appsIntegration.wopiIntegration.officeSuites[1].enabled
-a| [subs=-attributes]
-+bool+
-a| [subs=-attributes]
-`false`
-| Enables the office suite.
-| features.appsIntegration.wopiIntegration.officeSuites[1].iconURI
-a| [subs=-attributes]
-+string+
-a| [subs=-attributes]
-`""`
-| URI for the icon of the office suite. Will be displayed to the users.
-| features.appsIntegration.wopiIntegration.officeSuites[1].ingress.annotations
-a| [subs=-attributes]
-+object+
-a| [subs=-attributes]
-`{}`
-| Ingress annotations.
-| features.appsIntegration.wopiIntegration.officeSuites[1].ingress.domain
-a| [subs=-attributes]
-+string+
-a| [subs=-attributes]
-`""`
-| Domain of the Ingress.
-| features.appsIntegration.wopiIntegration.officeSuites[1].ingress.enabled
-a| [subs=-attributes]
-+bool+
-a| [subs=-attributes]
-`false`
-| Enables the Ingress. Only needed if the office application is not running within the same cluster.
-| features.appsIntegration.wopiIntegration.officeSuites[1].ingress.ingressClassName
-a| [subs=-attributes]
-+string+
-a| [subs=-attributes]
-`nil`
-| Ingress class to use. Uses the default ingress class if not set.
-| features.appsIntegration.wopiIntegration.officeSuites[1].ingress.labels
-a| [subs=-attributes]
-+object+
-a| [subs=-attributes]
-`{}`
-| Labels for the ingress.
-| features.appsIntegration.wopiIntegration.officeSuites[1].ingress.tls
-a| [subs=-attributes]
-+list+
-a| [subs=-attributes]
-`[]`
-| Ingress TLS configuration.
-| features.appsIntegration.wopiIntegration.officeSuites[1].insecure
-a| [subs=-attributes]
-+bool+
-a| [subs=-attributes]
-`false`
-| Disables SSL certificate checking for connections to the office suites http api. Not recommended for production installations.
-| features.appsIntegration.wopiIntegration.officeSuites[1].name
-a| [subs=-attributes]
-+string+
-a| [subs=-attributes]
-`"OnlyOffice"`
-| Name of the office suite. Will be displayed to the users.
-| features.appsIntegration.wopiIntegration.officeSuites[1].product
-a| [subs=-attributes]
-+string+
-a| [subs=-attributes]
-`"OnlyOffice"`
-| Product type of the office suite. Will be used to determine certain product specifics. Supports "Collabora", "OnlyOffice", "Microsoft365" or "MicrosoftOfficeOnline".
-| features.appsIntegration.wopiIntegration.officeSuites[1].secureViewEnabled
-a| [subs=-attributes]
-+bool+
-a| [subs=-attributes]
-`false`
-| Enable secure view for this office suite. Note: OnlyOffice doesn't support secureView right now
-| features.appsIntegration.wopiIntegration.officeSuites[1].uri
-a| [subs=-attributes]
-+string+
-a| [subs=-attributes]
-`""`
-| URI of the office suite.
+|
 | features.archiver.maxNumFiles
 a| [subs=-attributes]
 +int+
@@ -1054,13 +880,13 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 +string+
 a| [subs=-attributes]
-`""`
+`nil`
 | Image sha / digest (optional).
 | image.tag
 a| [subs=-attributes]
 +string+
 a| [subs=-attributes]
-`""`
+`nil`
 | Image tag. Defaults to the chart's appVersion.
 | ingress.annotations
 a| [subs=-attributes]

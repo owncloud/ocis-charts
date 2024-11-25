@@ -279,298 +279,109 @@
                 "officeSuites": {
                   "description": "List of WOPI compliant office suites.",
                   "items": {
-                    "anyOf": [
-                      {
-                        "additionalProperties": false,
+                    "properties": {
+                      "disableChat": {
+                        "required": [],
+                        "type": "boolean"
+                      },
+                      "disableProof": {
+                        "required": [],
+                        "type": "boolean"
+                      },
+                      "enabled": {
+                        "required": [],
+                        "type": "boolean"
+                      },
+                      "iconURI": {
+                        "required": [],
+                        "type": "string"
+                      },
+                      "ingress": {
                         "properties": {
-                          "disableChat": {
-                            "default": false,
-                            "description": "Disables the chat in the office suite. Note: This currently only applies to OnlyOffice",
-                            "required": [],
-                            "title": "disableChat",
-                            "type": "boolean"
-                          },
-                          "disableProof": {
-                            "default": false,
-                            "description": "Disables verifying requests via WOPI proof keys.\nNot recommended to be disabled for production installations.",
-                            "required": [],
-                            "title": "disableProof",
-                            "type": "boolean"
-                          },
-                          "enabled": {
-                            "default": false,
-                            "description": "Enables the office suite.",
-                            "required": [],
-                            "title": "enabled",
-                            "type": "boolean"
-                          },
-                          "iconURI": {
-                            "default": "",
-                            "description": "URI for the icon of the office suite. Will be displayed to the users.",
-                            "required": [],
-                            "title": "iconURI",
-                            "type": "string"
-                          },
-                          "ingress": {
-                            "additionalProperties": false,
-                            "description": "Ingress for collaboration service.",
-                            "properties": {
-                              "annotations": {
-                                "additionalProperties": false,
-                                "description": "Ingress annotations.",
+                          "annotations": {
+                            "patternProperties": {
+                              ".*": {
                                 "required": [],
-                                "title": "annotations",
-                                "type": "object"
-                              },
-                              "domain": {
-                                "default": "",
-                                "description": "Domain of the Ingress.",
-                                "required": [],
-                                "title": "domain",
-                                "type": [
-                                  "string",
-                                  "null"
-                                ]
-                              },
-                              "enabled": {
-                                "default": false,
-                                "description": "Enables the Ingress. Only needed if the office application is not running within the same cluster.",
-                                "required": [],
-                                "title": "enabled",
-                                "type": "boolean"
-                              },
-                              "ingressClassName": {
-                                "default": "",
-                                "description": "Ingress class to use.\nUses the default ingress class if not set.",
-                                "required": [],
-                                "title": "ingressClassName",
-                                "type": [
-                                  "string",
-                                  "null"
-                                ]
-                              },
-                              "labels": {
-                                "additionalProperties": false,
-                                "description": "Labels for the ingress.",
-                                "required": [],
-                                "title": "labels",
-                                "type": "object"
-                              },
-                              "tls": {
-                                "description": "Ingress TLS configuration.",
-                                "items": {
-                                  "required": []
-                                },
-                                "required": [],
-                                "title": "tls",
-                                "type": "array"
+                                "type": "string"
                               }
                             },
-                            "required": [
-                              "enabled",
-                              "domain",
-                              "annotations",
-                              "labels",
-                              "tls"
-                            ],
-                            "title": "ingress",
+                            "required": [],
                             "type": "object"
                           },
-                          "insecure": {
-                            "default": false,
-                            "description": "Disables SSL certificate checking for connections to the office suites http api.\nNot recommended for production installations.",
+                          "domain": {
                             "required": [],
-                            "title": "insecure",
-                            "type": "boolean"
-                          },
-                          "name": {
-                            "default": "Collabora",
-                            "description": "Name of the office suite. Will be displayed to the users.",
-                            "required": [],
-                            "title": "name",
                             "type": "string"
                           },
-                          "product": {
-                            "default": "Collabora",
-                            "description": "Product type of the office suite. Will be used to determine certain product specifics.\nSupports \"Collabora\", \"OnlyOffice\", \"Microsoft365\" or \"MicrosoftOfficeOnline\".",
+                          "enabled": {
                             "required": [],
-                            "title": "product",
-                            "type": "string"
-                          },
-                          "secureViewEnabled": {
-                            "default": false,
-                            "description": "Enable secure view for this office suite",
-                            "required": [],
-                            "title": "secureViewEnabled",
                             "type": "boolean"
                           },
-                          "uri": {
-                            "default": "",
-                            "description": "URI of the office suite.",
+                          "ingressClassName": {
                             "required": [],
-                            "title": "uri",
                             "type": [
                               "string",
                               "null"
                             ]
-                          }
-                        },
-                        "required": [
-                          "name",
-                          "product",
-                          "enabled",
-                          "uri",
-                          "iconURI",
-                          "insecure",
-                          "disableProof",
-                          "secureViewEnabled",
-                          "disableChat",
-                          "ingress"
-                        ],
-                        "type": "object"
-                      },
-                      {
-                        "additionalProperties": false,
-                        "properties": {
-                          "disableChat": {
-                            "default": false,
-                            "description": "Disables the chat in the office suite. Note: This currently only applies to OnlyOffice",
-                            "required": [],
-                            "title": "disableChat",
-                            "type": "boolean"
                           },
-                          "disableProof": {
-                            "default": false,
-                            "description": "Disables verifying requests via WOPI proof keys.\nNot recommended to be disabled for production installations.",
-                            "required": [],
-                            "title": "disableProof",
-                            "type": "boolean"
-                          },
-                          "enabled": {
-                            "default": false,
-                            "description": "Enables the office suite.",
-                            "required": [],
-                            "title": "enabled",
-                            "type": "boolean"
-                          },
-                          "iconURI": {
-                            "default": "",
-                            "description": "URI for the icon of the office suite. Will be displayed to the users.",
-                            "required": [],
-                            "title": "iconURI",
-                            "type": "string"
-                          },
-                          "ingress": {
-                            "additionalProperties": false,
-                            "description": "Ingress for collaboration service.",
-                            "properties": {
-                              "annotations": {
-                                "additionalProperties": false,
-                                "description": "Ingress annotations.",
+                          "labels": {
+                            "patternProperties": {
+                              ".*": {
                                 "required": [],
-                                "title": "annotations",
-                                "type": "object"
-                              },
-                              "domain": {
-                                "default": "",
-                                "description": "Domain of the Ingress.",
-                                "required": [],
-                                "title": "domain",
                                 "type": "string"
-                              },
-                              "enabled": {
-                                "default": false,
-                                "description": "Enables the Ingress. Only needed if the office application is not running within the same cluster.",
-                                "required": [],
-                                "title": "enabled",
-                                "type": "boolean"
-                              },
-                              "ingressClassName": {
-                                "default": "",
-                                "description": "Ingress class to use.\nUses the default ingress class if not set.",
-                                "required": [],
-                                "title": "ingressClassName",
-                                "type": "string"
-                              },
-                              "labels": {
-                                "additionalProperties": false,
-                                "description": "Labels for the ingress.",
-                                "required": [],
-                                "title": "labels",
-                                "type": "object"
-                              },
-                              "tls": {
-                                "description": "Ingress TLS configuration.",
-                                "items": {
-                                  "required": []
-                                },
-                                "required": [],
-                                "title": "tls",
-                                "type": "array"
                               }
                             },
-                            "required": [
-                              "enabled",
-                              "domain",
-                              "annotations",
-                              "labels",
-                              "tls"
-                            ],
-                            "title": "ingress",
+                            "required": [],
                             "type": "object"
                           },
-                          "insecure": {
-                            "default": false,
-                            "description": "Disables SSL certificate checking for connections to the office suites http api.\nNot recommended for production installations.",
+                          "tls": {
+                            "items": {
+                              "properties": {
+                                "hosts": {
+                                  "items": {
+                                    "required": [],
+                                    "type": "string"
+                                  },
+                                  "required": [],
+                                  "type": "array"
+                                },
+                                "secretName": {
+                                  "required": [],
+                                  "type": "string"
+                                }
+                              },
+                              "required": [],
+                              "type": "object"
+                            },
                             "required": [],
-                            "title": "insecure",
-                            "type": "boolean"
-                          },
-                          "name": {
-                            "default": "OnlyOffice",
-                            "description": "Name of the office suite. Will be displayed to the users.",
-                            "required": [],
-                            "title": "name",
-                            "type": "string"
-                          },
-                          "product": {
-                            "default": "OnlyOffice",
-                            "description": "Product type of the office suite. Will be used to determine certain product specifics.\nSupports \"Collabora\", \"OnlyOffice\", \"Microsoft365\" or \"MicrosoftOfficeOnline\".",
-                            "required": [],
-                            "title": "product",
-                            "type": "string"
-                          },
-                          "secureViewEnabled": {
-                            "default": false,
-                            "description": "Enable secure view for this office suite. Note: OnlyOffice doesn't support secureView right now",
-                            "required": [],
-                            "title": "secureViewEnabled",
-                            "type": "boolean"
-                          },
-                          "uri": {
-                            "default": "",
-                            "description": "URI of the office suite.",
-                            "required": [],
-                            "title": "uri",
-                            "type": "string"
+                            "type": "array"
                           }
                         },
-                        "required": [
-                          "name",
-                          "product",
-                          "enabled",
-                          "uri",
-                          "iconURI",
-                          "insecure",
-                          "disableProof",
-                          "secureViewEnabled",
-                          "disableChat",
-                          "ingress"
-                        ],
+                        "required": [],
                         "type": "object"
+                      },
+                      "insecure": {
+                        "required": [],
+                        "type": "boolean"
+                      },
+                      "name": {
+                        "required": [],
+                        "type": "string"
+                      },
+                      "product": {
+                        "required": [],
+                        "type": "string"
+                      },
+                      "secureViewEnabled": {
+                        "required": [],
+                        "type": "boolean"
+                      },
+                      "uri": {
+                        "required": [],
+                        "type": "string"
                       }
-                    ],
-                    "required": []
+                    },
+                    "required": [],
+                    "type": "object"
                   },
                   "required": [],
                   "title": "officeSuites",
@@ -2193,20 +2004,24 @@
           "description": "Image sha / digest (optional).",
           "required": [],
           "title": "sha",
-          "type": "string"
+          "type": [
+            "string",
+            "null"
+          ]
         },
         "tag": {
           "default": "",
           "description": "Image tag. Defaults to the chart's appVersion.",
           "required": [],
           "title": "tag",
-          "type": "string"
+          "type": [
+            "string",
+            "null"
+          ]
         }
       },
       "required": [
         "repository",
-        "tag",
-        "sha",
         "pullPolicy",
         "pullSecrets"
       ],
