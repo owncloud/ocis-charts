@@ -181,7 +181,7 @@ services:
                 - key: app
                   operator: In
                   values:
-                    - appprovider
+                    - storagesystem
             topologyKey: "kubernetes.io/hostname"
 
   storageusers:

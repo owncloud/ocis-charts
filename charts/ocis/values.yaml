@@ -1959,7 +1959,7 @@ services:
     #           - key: app
     #             operator: In
     #             values:
-    #               - appprovider
+    #               - activitylog
     #       topologyKey: "kubernetes.io/hostname"
     #
     affinity: {}
