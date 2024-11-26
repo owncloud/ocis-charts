@@ -225,6 +225,7 @@ services:
 
 secretRefs:
   notificationsSmtpSecretRef: "smtp-secret"
+  globalNotificationsSecretRef: "global-notification-secret"
 
 customCAChain:
   enabled: true
