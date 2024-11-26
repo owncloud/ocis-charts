@@ -113,7 +113,7 @@ a| [subs=-attributes]
 +string+
 a| [subs=-attributes]
 `"25%"`
-|
+| The maximum number of pods that can be scheduled above the desired number of pods. Value can be an absolute number (ex: 5) or a percentage of desired pods (ex: 10%).
 | deploymentStrategy.rollingUpdate.maxUnavailable
 a| [subs=-attributes]
 +string+
@@ -125,7 +125,7 @@ a| [subs=-attributes]
 +string+
 a| [subs=-attributes]
 `"RollingUpdate"`
-|
+| deployment strategy type to use. Can be "RollingUpdate" or "Recreate"
 | externalDomain
 a| [subs=-attributes]
 +string+
@@ -161,7 +161,7 @@ a| [subs=-attributes]
 +list+
 a| [subs=-attributes]
 `[]`
-|
+| List of WOPI compliant office suites to be used. Example configurations can be found in https://github.com/owncloud/ocis-charts/blob/main/deployments/ocis-office/helmfile.yaml This are the available config options: - # -- Name of the office suite. Will be displayed to the users.   name:   # Product type of the office suite. Will be used to determine certain product specifics.   # Supports "Collabora", "OnlyOffice", "Microsoft365" or "MicrosoftOfficeOnline".   product:   # -- Enables the office suite.   enabled: false   # -- URI of the office suite.   uri:   # -- URI for the icon of the office suite. Will be displayed to the users.   iconURI:   # -- Disables SSL certificate checking for connections to the office suites http api.   # Not recommended for production installations.   insecure: false   # -- Disables verifying requests via WOPI proof keys.   # Not recommended to be disabled for production installations.   disableProof: false   # -- Enable secure view for this office suite   secureViewEnabled: false   # -- Disables the chat in the office suite. Note: This currently only applies to OnlyOffice   disableChat: false   # Ingress for collaboration service.   ingress:       # -- Enables the Ingress. Only needed if the office application is not running within the same cluster.       enabled: false       # -- Domain of the Ingress.       domain:       # -- Ingress class to use.       # Uses the default ingress class if not set.       ingressClassName:       # -- Ingress annotations.       annotations: {}       # -- Labels for the ingress.       labels: {}       # -- Ingress TLS configuration.       tls: []       #  - secretName: chart-example-tls       #    hosts:       #      - wopi.owncloud.test
 | features.archiver.maxNumFiles
 a| [subs=-attributes]
 +int+
@@ -252,12 +252,6 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `nil`
 | UUID of the initial admin user. If the given value matches a user's value from `features.externalUserManagement.oidc.userIDClaim`, the admin role will be assigned. Consider that the UUID can be encoded in some LDAP deployment configurations like in .ldif files. These need to be decoded beforehand. Note: Enabling `roleAssignment` will disable `adminUUID`.
-| features.externalUserManagement.autoprovisionAccounts
-a| [subs=-attributes]
-+object+
-a| [subs=-attributes]
-`{"claimDisplayname":"name","claimEmail":"email","claimGroups":"groups","claimUserName":"sub","enabled":false}`
-| Enables account auto provisioning. It will create missing users on the LDAP server from OIDC information. Needs `features.externalUserManagement.ldap.writeable` to be be set to `true`.
 | features.externalUserManagement.autoprovisionAccounts.claimDisplayname
 a| [subs=-attributes]
 +string+
@@ -538,8 +532,8 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 +list+
 a| [subs=-attributes]
-`[{"claim_value":"ocisAdmin","role_name":"admin"},{"claim_value":"ocisSpaceAdmin","role_name":"spaceadmin"},{"claim_value":"ocisUser","role_name":"user"},{"claim_value":"ocisGuest","role_name":"user-light"}]`
-| Configure the mapping for the role assignment
+`[]`
+| Configure the mapping for the role assignment. Example configuration: - role_name: admin   claim_value: ocisAdmin - role_name: spaceadmin   claim_value: ocisSpaceAdmin - role_name: user   claim_value: ocisUser - role_name: user-light   claim_value: ocisGuest
 | features.externalUserManagement.oidc.sessionManagementLink
 a| [subs=-attributes]
 +string+
@@ -797,7 +791,7 @@ a| [subs=-attributes]
 +list+
 a| [subs=-attributes]
 `[]`
-|
+| allow_origins is a list of origins a cross-domain request can be executed from. If the special "*" value is present in the list, all origins will be allowed.
 | http.csp.directives.childSrc
 a| [subs=-attributes]
 +list+
@@ -1121,7 +1115,7 @@ a| [subs=-attributes]
 +string+
 a| [subs=-attributes]
 `nil`
-|
+| Reference to an existing collaboration service WOPI secret (see xref:{secrets}[Secrets]). Not used if `features.appsIntegration.enabled` equals `false`.
 | secretRefs.gdprExportClientSecretRef
 a| [subs=-attributes]
 +string+

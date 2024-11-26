@@ -133,7 +133,7 @@ http:
     #   type: string
     #   required: true
     # @schema
-    #-- allow_origins is a list of origins a cross-domain request can be executed from.
+    # -- allow_origins is a list of origins a cross-domain request can be executed from.
     # If the special "*" value is present in the list, all origins will be allowed.
     allow_origins: []
   # CSP settings for oCIS services.
@@ -268,14 +268,14 @@ deploymentStrategy:
   # enum: [RollingUpdate, Recreate]
   # required: true
   # @schema
-  # deployment strategy type to use. Can be "RollingUpdate" or "Recreate"
+  # -- deployment strategy type to use. Can be "RollingUpdate" or "Recreate"
   type: RollingUpdate
   rollingUpdate:
     # @schema
     # type: string
     # required: true
     # @schema
-    #-- The maximum number of pods that can be scheduled above the desired number of pods.
+    # -- The maximum number of pods that can be scheduled above the desired number of pods.
     # Value can be an absolute number (ex: 5) or a percentage of desired pods (ex: 10%).
     maxSurge: 25%
     # @schema
@@ -647,7 +647,7 @@ features:
       #       type: string
       #       required: true
       #     product:
-      #       type: string
+      #       enum: [Collabora, OnlyOffice, Microsoft365, MicrosoftOfficeOnline]
       #       required: true
       #     enabled:
       #       type: boolean
@@ -710,88 +710,49 @@ features:
       #                 items:
       #                   type: string
       # @schema
-      # List of WOPI compliant office suites.
-      officeSuites:
-        []
-        # - # -- Name of the office suite. Will be displayed to the users.
-        #   name: Collabora
-        #   # -- Product type of the office suite. Will be used to determine certain product specifics.
-        #   # Supports "Collabora", "OnlyOffice", "Microsoft365" or "MicrosoftOfficeOnline".
-        #   product: Collabora
-        #   # -- Enables the office suite.
-        #   enabled: false
-        #   # -- URI of the office suite.
-        #   uri:
-        #   # -- URI for the icon of the office suite. Will be displayed to the users.
-        #   iconURI:
-        #   # -- Disables SSL certificate checking for connections to the office suites http api.
-        #   # Not recommended for production installations.
-        #   insecure: false
-        #   # -- Disables verifying requests via WOPI proof keys.
-        #   # Not recommended to be disabled for production installations.
-        #   disableProof: false
-        #   # -- Enable secure view for this office suite
-        #   secureViewEnabled: false
-        #   # -- Disables the chat in the office suite. Note: This currently only applies to OnlyOffice
-        #   disableChat: false
-        #   # Ingress for collaboration service.
-        #   ingress:
-        #     # -- Enables the Ingress. Only needed if the office application is not running within the same cluster.
-        #     enabled: false
-        #     # -- Domain of the Ingress.
-        #     domain:
-        #     # -- Ingress class to use.
-        #     # Uses the default ingress class if not set.
-        #     ingressClassName:
-        #     # -- Ingress annotations.
-        #     annotations: {}
-        #     # -- Labels for the ingress.
-        #     labels: {}
-        #     # -- Ingress TLS configuration.
-        #     tls: []
-        #     #  - secretName: chart-example-tls
-        #     #    hosts:
-        #     #      - collabora-wopi.owncloud.test
-
-        # - # -- Name of the office suite. Will be displayed to the users.
-        #   name: OnlyOffice
-        #   # -- Product type of the office suite. Will be used to determine certain product specifics.
-        #   # Supports "Collabora", "OnlyOffice", "Microsoft365" or "MicrosoftOfficeOnline".
-        #   product: OnlyOffice
-        #   # -- Enables the office suite.
-        #   enabled: false
-        #   # -- URI of the office suite.
-        #   uri:
-        #   # -- URI for the icon of the office suite. Will be displayed to the users.
-        #   iconURI:
-        #   # -- Disables SSL certificate checking for connections to the office suites http api.
-        #   # Not recommended for production installations.
-        #   insecure: false
-        #   # -- Disables verifying requests via WOPI proof keys.
-        #   # Not recommended to be disabled for production installations.
-        #   disableProof: false
-        #   # -- Enable secure view for this office suite. Note: OnlyOffice doesn't support secureView right now
-        #   secureViewEnabled: false
-        #   # -- Disables the chat in the office suite. Note: This currently only applies to OnlyOffice
-        #   disableChat: false
-        #   # Ingress for collaboration service.
-        #   ingress:
-        #     # -- Enables the Ingress. Only needed if the office application is not running within the same cluster.
-        #     enabled: false
-        #     # -- Domain of the Ingress.
-        #     domain:
-        #     # -- Ingress class to use.
-        #     # Uses the default ingress class if not set.
-        #     ingressClassName:
-        #     # -- Ingress annotations.
-        #     annotations: {}
-        #     # -- Labels for the ingress.
-        #     labels: {}
-        #     # -- Ingress TLS configuration.
-        #     tls: []
-        #     #  - secretName: chart-example-tls
-        #     #    hosts:
-        #     #      - onlyoffice-wopi.owncloud.test
+      # -- List of WOPI compliant office suites to be used.
+      # Example configurations can be found in https://github.com/owncloud/ocis-charts/blob/main/deployments/ocis-office/helmfile.yaml
+      # This are the available config options:
+      # - # -- Name of the office suite. Will be displayed to the users.
+      #   name:
+      #   # Product type of the office suite. Will be used to determine certain product specifics.
+      #   # Supports "Collabora", "OnlyOffice", "Microsoft365" or "MicrosoftOfficeOnline".
+      #   product:
+      #   # -- Enables the office suite.
+      #   enabled: false
+      #   # -- URI of the office suite.
+      #   uri:
+      #   # -- URI for the icon of the office suite. Will be displayed to the users.
+      #   iconURI:
+      #   # -- Disables SSL certificate checking for connections to the office suites http api.
+      #   # Not recommended for production installations.
+      #   insecure: false
+      #   # -- Disables verifying requests via WOPI proof keys.
+      #   # Not recommended to be disabled for production installations.
+      #   disableProof: false
+      #   # -- Enable secure view for this office suite
+      #   secureViewEnabled: false
+      #   # -- Disables the chat in the office suite. Note: This currently only applies to OnlyOffice
+      #   disableChat: false
+      #   # Ingress for collaboration service.
+      #   ingress:
+      #       # -- Enables the Ingress. Only needed if the office application is not running within the same cluster.
+      #       enabled: false
+      #       # -- Domain of the Ingress.
+      #       domain:
+      #       # -- Ingress class to use.
+      #       # Uses the default ingress class if not set.
+      #       ingressClassName:
+      #       # -- Ingress annotations.
+      #       annotations: {}
+      #       # -- Labels for the ingress.
+      #       labels: {}
+      #       # -- Ingress TLS configuration.
+      #       tls: []
+      #       #  - secretName: chart-example-tls
+      #       #    hosts:
+      #       #      - wopi.owncloud.test
+      officeSuites: []
 
     # @schema
     # type: array
@@ -852,9 +813,7 @@ features:
     # Consider that the UUID can be encoded in some LDAP deployment configurations like in .ldif files. These need to be decoded beforehand.
     # Note: Enabling `roleAssignment` will disable `adminUUID`.
     adminUUID:
-    # -- Enables account auto provisioning.
-    # It will create missing users on the LDAP server from OIDC information.
-    # Needs `features.externalUserManagement.ldap.writeable` to be be set to `true`.
+    # Autoprovisioning of user accounts via OIDC
     autoprovisionAccounts:
       # @schema
       # type: boolean
@@ -973,16 +932,17 @@ features:
         #       type: string
         #       required: true
         # @schema
-        # -- Configure the mapping for the role assignment
-        mapping:
-          - role_name: admin
-            claim_value: ocisAdmin
-          - role_name: spaceadmin
-            claim_value: ocisSpaceAdmin
-          - role_name: user
-            claim_value: ocisUser
-          - role_name: user-light
-            claim_value: ocisGuest
+        # -- Configure the mapping for the role assignment.
+        # Example configuration:
+        # - role_name: admin
+        #   claim_value: ocisAdmin
+        # - role_name: spaceadmin
+        #   claim_value: ocisSpaceAdmin
+        # - role_name: user
+        #   claim_value: ocisUser
+        # - role_name: user-light
+        #   claim_value: ocisGuest
+        mapping: []
     # LDAP related settings.
     ldap:
       # @schema
@@ -1568,7 +1528,7 @@ secretRefs:
   # type: [string, null]
   # required: false
   # @schema
-  # - Reference to an existing collaboration service WOPI secret (see xref:{secrets}[Secrets]). Not used if `features.appsIntegration.enabled` equals `false`.
+  # -- Reference to an existing collaboration service WOPI secret (see xref:{secrets}[Secrets]). Not used if `features.appsIntegration.enabled` equals `false`.
   collaborationWopiSecret:
   # @schema
   # type: [string, null]

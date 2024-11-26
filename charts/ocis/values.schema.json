@@ -347,7 +347,7 @@
               "description": "WOPI (office suite integration) needs an https://github.com/cs3org/wopiserver[cs3org/wopiserver] and at least one office suite.",
               "properties": {
                 "officeSuites": {
-                  "description": "List of WOPI compliant office suites.",
+                  "description": "List of WOPI compliant office suites to be used.\nExample configurations can be found in https://github.com/owncloud/ocis-charts/blob/main/deployments/ocis-office/helmfile.yaml\nThis are the available config options:\n- # -- Name of the office suite. Will be displayed to the users.\n  name:\n  # Product type of the office suite. Will be used to determine certain product specifics.\n  # Supports \"Collabora\", \"OnlyOffice\", \"Microsoft365\" or \"MicrosoftOfficeOnline\".\n  product:\n  # -- Enables the office suite.\n  enabled: false\n  # -- URI of the office suite.\n  uri:\n  # -- URI for the icon of the office suite. Will be displayed to the users.\n  iconURI:\n  # -- Disables SSL certificate checking for connections to the office suites http api.\n  # Not recommended for production installations.\n  insecure: false\n  # -- Disables verifying requests via WOPI proof keys.\n  # Not recommended to be disabled for production installations.\n  disableProof: false\n  # -- Enable secure view for this office suite\n  secureViewEnabled: false\n  # -- Disables the chat in the office suite. Note: This currently only applies to OnlyOffice\n  disableChat: false\n  # Ingress for collaboration service.\n  ingress:\n      # -- Enables the Ingress. Only needed if the office application is not running within the same cluster.\n      enabled: false\n      # -- Domain of the Ingress.\n      domain:\n      # -- Ingress class to use.\n      # Uses the default ingress class if not set.\n      ingressClassName:\n      # -- Ingress annotations.\n      annotations: {}\n      # -- Labels for the ingress.\n      labels: {}\n      # -- Ingress TLS configuration.\n      tls: []\n      #  - secretName: chart-example-tls\n      #    hosts:\n      #      - wopi.owncloud.test",
                   "items": {
                     "additionalProperties": false,
                     "properties": {
@@ -441,8 +441,13 @@
                         "type": "string"
                       },
                       "product": {
-                        "required": [],
-                        "type": "string"
+                        "enum": [
+                          "Collabora",
+                          "OnlyOffice",
+                          "Microsoft365",
+                          "MicrosoftOfficeOnline"
+                        ],
+                        "required": []
                       },
                       "secureViewEnabled": {
                         "required": [],
@@ -666,7 +671,7 @@
             },
             "autoprovisionAccounts": {
               "additionalProperties": false,
-              "description": "Enables account auto provisioning.\nIt will create missing users on the LDAP server from OIDC information.\nNeeds `features.externalUserManagement.ldap.writeable` to be be set to `true`.",
+              "description": "Autoprovisioning of user accounts via OIDC",
               "properties": {
                 "claimDisplayname": {
                   "default": "name",
@@ -1132,7 +1137,7 @@
                       "type": "boolean"
                     },
                     "mapping": {
-                      "description": "Configure the mapping for the role assignment",
+                      "description": "Configure the mapping for the role assignment.\nExample configuration:\n- role_name: admin\n  claim_value: ocisAdmin\n- role_name: spaceadmin\n  claim_value: ocisSpaceAdmin\n- role_name: user\n  claim_value: ocisUser\n- role_name: user-light\n  claim_value: ocisGuest",
                       "items": {
                         "additionalProperties": false,
                         "properties": {
@@ -2557,7 +2562,7 @@
         },
         "collaborationWopiSecret": {
           "default": "",
-          "description": "- Reference to an existing collaboration service WOPI secret (see ref:Secrets#secrets). Not used if `features.appsIntegration.enabled` equals `false`.",
+          "description": "Reference to an existing collaboration service WOPI secret (see ref:Secrets#secrets). Not used if `features.appsIntegration.enabled` equals `false`.",
           "required": [],
           "title": "collaborationWopiSecret",
           "type": [
