@@ -1815,9 +1815,9 @@ services:
       sha: ""
       # -- Image pull policy
       pullPolicy:
-    # -- Maximum number of concurrent go-routines. Higher values can potentially get work done faster but will also cause 
+    # -- Maximum number of concurrent go-routines. Higher values can potentially get work done faster but will also cause
     # more load on the system. Values of 0 or below will be ignored and the default value will be used.
-    maxConcurrency: "1"
+    maxConcurrency: "20" # this differs from the oCIS product, see https://github.com/owncloud/ocis/issues/10647#issuecomment-2498338980
 
   # -- SSE service
   # @default -- see detailed service configuration options below
@@ -2276,7 +2276,7 @@ services:
       sha: ""
       # -- Image pull policy
       pullPolicy:
-    # -- Maximum number of concurrent go-routines. Higher values can potentially get work done faster but will also cause 
+    # -- Maximum number of concurrent go-routines. Higher values can potentially get work done faster but will also cause
     # more load on the system. Values of 0 or below will be ignored and the default value will be used.
     maxConcurrency: "1"
 

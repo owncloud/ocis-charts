@@ -3562,8 +3562,8 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 +string+
 a| [subs=-attributes]
-`"1"`
-| Maximum number of concurrent go-routines. Higher values can potentially get work done faster but will also cause  more load on the system. Values of 0 or below will be ignored and the default value will be used.
+`"20"`
+| Maximum number of concurrent go-routines. Higher values can potentially get work done faster but will also cause more load on the system. Values of 0 or below will be ignored and the default value will be used.
 | services.sharing.nodeSelector
 a| [subs=-attributes]
 +object+
@@ -4571,7 +4571,7 @@ a| [subs=-attributes]
 +string+
 a| [subs=-attributes]
 `"1"`
-| Maximum number of concurrent go-routines. Higher values can potentially get work done faster but will also cause  more load on the system. Values of 0 or below will be ignored and the default value will be used.
+| Maximum number of concurrent go-routines. Higher values can potentially get work done faster but will also cause more load on the system. Values of 0 or below will be ignored and the default value will be used.
 | services.userlog.nodeSelector
 a| [subs=-attributes]
 +object+
