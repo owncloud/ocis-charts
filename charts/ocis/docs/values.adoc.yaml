@@ -294,6 +294,8 @@ features:
           enabled: false
           # -- URI of the office suite.
           uri: ""
+          # -- Description of the office suite
+          description: "Open office documents with Collabora"
           # -- URI for the icon of the office suite. Will be displayed to the users.
           iconURI: ""
           # -- Disables SSL certificate checking for connections to the office suites http api.
@@ -334,6 +336,8 @@ features:
           enabled: false
           # -- URI of the office suite.
           uri: ""
+          # -- Description of the office suite
+          description: "Open office documents with OnlyOffice"
           # -- URI for the icon of the office suite. Will be displayed to the users.
           iconURI: ""
           # -- Disables SSL certificate checking for connections to the office suites http api.
