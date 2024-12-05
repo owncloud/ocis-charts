@@ -251,7 +251,7 @@ spec:
           emptyDir: {}
           {{ end }}
         - name: ldap-ca
-          {{ if not .Values.features.externalUserManagement.enabled }}
+          {{ if or (not .Values.features.externalUserManagement.enabled) (not .Values.features.externalUserManagement.ldap.certTrusted) }}
           secret:
             secretName: {{ include "secrets.ldapCASecret" . }}
           {{ else }}
