@@ -1,0 +1,10 @@
+remoteMimirHost: ""
+remoteLokiHost: ""
+
+
+image:
+  repository: "docker.io"
+  name: grafana/agent
+  tag: v0.35.1
+
+clusterName: ""
