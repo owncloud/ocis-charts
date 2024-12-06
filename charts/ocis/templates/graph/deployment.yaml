@@ -55,6 +55,9 @@ spec:
             - name: GRAPH_SPACES_WEBDAV_BASE
               value: "https://{{ .Values.externalDomain }}"
 
+            - name: GRAPH_IDENTITY_SEARCH_MIN_LENGTH
+              value: {{ .Values.features.sharing.users.search.minLengthLimit | quote }}
+
             {{- if .Values.features.roles.availableUnifiedRoles }}
             - name: GRAPH_AVAILABLE_ROLES
               value: {{ tpl (join "," .Values.features.roles.availableUnifiedRoles) . | quote }}

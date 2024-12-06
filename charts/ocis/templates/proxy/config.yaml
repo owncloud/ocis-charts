@@ -78,7 +78,7 @@ data:
         {{- end }}
         {{- if .Values.features.appsIntegration.enabled }}
         {{- range $officeSuite := .Values.features.appsIntegration.wopiIntegration.officeSuites }}
-        {{- if and $officeSuite.enabled (ne $officeSuite.iconURI "")}}
+        {{- if and $officeSuite.enabled $officeSuite.iconURI}}
         - {{ $officeSuite.iconURI | quote }}
         {{- end }}
         {{- end }}

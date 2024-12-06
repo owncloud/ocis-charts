@@ -69,6 +69,9 @@ spec:
             - name: COLLABORATION_CS3API_DATAGATEWAY_INSECURE
               value: {{ $.Values.insecure.ocisHttpApiInsecure | quote }}
 
+            - name: COLLABORATION_APP_DESCRIPTION
+              value: {{ $officeSuite.description | quote }}
+
             - name: COLLABORATION_APP_ICON
               value: {{ $officeSuite.iconURI | quote }}
 

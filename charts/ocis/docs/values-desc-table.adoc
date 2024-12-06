@@ -161,7 +161,7 @@ a| [subs=-attributes]
 +list+
 a| [subs=-attributes]
 `[]`
-| List of WOPI compliant office suites to be used. Example configurations can be found in https://github.com/owncloud/ocis-charts/blob/main/deployments/ocis-office/helmfile.yaml This are the available config options: - # Name of the office suite. Will be displayed to the users.   name:   # Product type of the office suite. Will be used to determine certain product specifics.   # Supports "Collabora", "OnlyOffice", "Microsoft365" or "MicrosoftOfficeOnline".   product:   # Enables the office suite.   enabled: false   # URI of the office suite.   uri:   # URI for the icon of the office suite. Will be displayed to the users.   iconURI:   # Disables SSL certificate checking for connections to the office suites http api.   # Not recommended for production installations.   insecure: false   # Disables verifying requests via WOPI proof keys.   # Not recommended to be disabled for production installations.   disableProof: false   # Enable secure view for this office suite   secureViewEnabled: false   # Disables the chat in the office suite. Note: This currently only applies to OnlyOffice   disableChat: false   # Ingress for collaboration service.   ingress:     # Enables the Ingress. Only needed if the office application is not running within the same cluster.     enabled: false     # Domain of the Ingress.     domain:     # Ingress class to use.     # Uses the default ingress class if not set.     ingressClassName:     # Ingress annotations.     annotations: {}     # Labels for the ingress.     labels: {}     # Ingress TLS configuration.     tls: []     #  - secretName: chart-example-tls     #    hosts:     #      - wopi.owncloud.test
+| List of WOPI compliant office suites to be used. Example configurations can be found in https://github.com/owncloud/ocis-charts/blob/main/deployments/ocis-office/helmfile.yaml This are the available config options: - # Name of the office suite. Will be displayed to the users.   name:   # Product type of the office suite. Will be used to determine certain product specifics.   # Supports "Collabora", "OnlyOffice", "Microsoft365" or "MicrosoftOfficeOnline".   product:   # Enables the office suite.   enabled: false   # URI of the office suite.   uri:   # URI for the icon of the office suite. Will be displayed to the users.   iconURI:   # Description of the office suite   description: "Open office documents with Office X"   # Disables SSL certificate checking for connections to the office suites http api.   # Not recommended for production installations.   insecure: false   # Disables verifying requests via WOPI proof keys.   # Not recommended to be disabled for production installations.   disableProof: false   # Enable secure view for this office suite   secureViewEnabled: false   # Disables the chat in the office suite. Note: This currently only applies to OnlyOffice   disableChat: false   # Ingress for collaboration service.   ingress:     # Enables the Ingress. Only needed if the office application is not running within the same cluster.     enabled: false     # Domain of the Ingress.     domain:     # Ingress class to use.     # Uses the default ingress class if not set.     ingressClassName:     # Ingress annotations.     annotations: {}     # Labels for the ingress.     labels: {}     # Ingress TLS configuration.     tls: []     #  - secretName: chart-example-tls     #    hosts:     #      - wopi.owncloud.test
 | features.archiver.maxNumFiles
 a| [subs=-attributes]
 +int+
@@ -3354,6 +3354,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `nil`
 | Image tag.
+| services.sharing.maxConcurrency
+a| [subs=-attributes]
++int+
+a| [subs=-attributes]
+`20`
+| Maximum number of concurrent go-routines. Higher values can potentially get work done faster but will also cause more load on the system. Values of 0 or below will be ignored and the default value will be used.
 | services.sharing.nodeSelector
 a| [subs=-attributes]
 +object+
@@ -4350,6 +4356,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `nil`
 | Image tag.
+| services.userlog.maxConcurrency
+a| [subs=-attributes]
++int+
+a| [subs=-attributes]
+`1`
+| Maximum number of concurrent go-routines. Higher values can potentially get work done faster but will also cause more load on the system. Values of 0 or below will be ignored and the default value will be used.
 | services.userlog.nodeSelector
 a| [subs=-attributes]
 +object+

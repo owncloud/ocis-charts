@@ -654,6 +654,9 @@ features:
       #     uri:
       #       type: string
       #       required: true
+      #     description:
+      #       type: string
+      #       required: false
       #     iconURI:
       #       type: string
       #       required: false
@@ -723,6 +726,8 @@ features:
       #   uri:
       #   # URI for the icon of the office suite. Will be displayed to the users.
       #   iconURI:
+      #   # Description of the office suite
+      #   description: "Open office documents with Office X"
       #   # Disables SSL certificate checking for connections to the office suites http api.
       #   # Not recommended for production installations.
       #   insecure: false
@@ -3898,6 +3903,14 @@ services:
       # @schema
       # -- Image pull policy
       pullPolicy:
+    # @schema
+    # type: integer
+    # minimum: 1
+    # required: true
+    # @schema
+    # -- Maximum number of concurrent go-routines. Higher values can potentially get work done faster but will also cause
+    # more load on the system. Values of 0 or below will be ignored and the default value will be used.
+    maxConcurrency: 20 # this differs from the oCIS product, see https://github.com/owncloud/ocis/issues/10647#issuecomment-2498338980
 
   # -- SSE service
   # @default -- see detailed service configuration options below
@@ -4934,6 +4947,14 @@ services:
       # @schema
       # -- Image pull policy
       pullPolicy:
+    # @schema
+    # type: integer
+    # minimum: 1
+    # required: true
+    # @schema
+    # -- Maximum number of concurrent go-routines. Higher values can potentially get work done faster but will also cause
+    # more load on the system. Values of 0 or below will be ignored and the default value will be used.
+    maxConcurrency: 1
 
   # -- USERS service.
   # @default -- see detailed service configuration options below
