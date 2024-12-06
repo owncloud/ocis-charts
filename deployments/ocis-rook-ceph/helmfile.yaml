@@ -3,17 +3,20 @@ repositories:
     url: https://charts.rook.io/release
 
 releases:
-
   - name: rook-ceph-operator
     namespace: rook-ceph
     chart: rook/rook-ceph
     version: v1.15.4
+    labels:
+      ci-lint-skip: true # skip linting this chart in CI
 
   - name: rook-ceph-storage
     namespace: rook-ceph
     chart: addons/rook-ceph
     needs:
       - rook-ceph/rook-ceph-operator
+    labels:
+      ci-lint-skip: true # skip linting this chart in CI
 
   - name: ocis
     chart: ../../charts/ocis

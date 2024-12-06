@@ -3,10 +3,11 @@ repositories:
     url: https://charts.bitnami.com/bitnami
 
 releases:
-
   - name: redis
     namespace: ocis-redis
     chart: bitnami/redis
+    labels:
+      ci-lint-skip: true # skip linting this chart in CI
     values:
       - metrics:
           enabled: false
@@ -14,7 +15,7 @@ releases:
           enabled: false
       - architecture: replication
       - sentinel:
-         enabled: true
+          enabled: true
 
   - name: ocis
     chart: ../../charts/ocis
