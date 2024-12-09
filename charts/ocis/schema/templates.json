@@ -1,0 +1,104 @@
+{
+    "podDisruptionBudgetTemplate": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+            "maxUnavailable": {
+                "oneOf": [
+                    {
+                        "type": "integer"
+                    },
+                    {
+                        "type": "string"
+                    }
+                ]
+            },
+            "minAvailable": {
+                "oneOf": [
+                    {
+                        "type": "integer"
+                    },
+                    {
+                        "type": "string"
+                    }
+                ]
+            }
+        }
+    },
+    "resourcesTemplate": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+            "limits": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                    "memory": {
+                        "type": "string"
+                    },
+                    "cpu": {
+                        "type": "string"
+                    }
+                }
+            },
+            "requests": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                    "memory": {
+                        "type": "string"
+                    },
+                    "cpu": {
+                        "type": "string"
+                    }
+                }
+            }
+        }
+    },
+    "labelsTemplate": {
+        "type": "object",
+        "patternProperties": {
+            ".*": {
+                "type": "string"
+            }
+        }
+    },
+    "annotationsTemplate": {
+        "type": "object",
+        "patternProperties": {
+            ".*": {
+                "type": "string"
+            }
+        }
+    },
+    "autoscalingTemplate": {
+        "type": "object",
+        "additionalProperties": true,
+        "properties": {
+            "enabled": {
+                "type": "boolean"
+            },
+            "minReplicas": {
+                "type": "integer",
+                "minimum": 1
+            },
+            "maxReplicas": {
+                "type": "integer",
+                "minimum": 1
+            },
+            "metrics": {
+                "additionalProperties": true
+            }
+        }
+    },
+    "affinityTemplate": {
+        "type": "object",
+        "additionalProperties": true
+    },
+    "finalizersTemplate": {
+        "type": "array",
+        "items": {
+            "type": "string"
+        }
+    }
+}

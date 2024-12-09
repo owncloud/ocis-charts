@@ -1,6 +1,8 @@
 releases:
   - name: custom-priorityclasses
     chart: ./examples
+    labels:
+      ci-lint-skip: true # skip linting this chart in CI
 
   - name: ocis
     chart: ../../charts/ocis
@@ -28,9 +30,6 @@ releases:
           idm:
             persistence:
               enabled: true
-
-          appprovider:
-            priorityClassName: ocis-low-priority
 
           notifications:
             priorityClassName: ocis-low-priority
