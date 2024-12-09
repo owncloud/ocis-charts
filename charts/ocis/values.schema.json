@@ -2856,7 +2856,7 @@
           "properties": {
             "affinity": {
               "additionalProperties": true,
-              "description": "Per-service affinity.\nThe value of this key will be passed to the affinity setting of the pod as documented here:\nhttps://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#affinity-and-anti-affinity\nThis example will ensure that the pods will only be scheduled on nodes with the label `topology.kubernetes.io/zone`\nset to `eu-west-1` or `eu-east-1`.\nnodeAffinity:\n  requiredDuringSchedulingIgnoredDuringExecution:\n    nodeSelectorTerms:\n    - matchExpressions:\n      - key: topology.kubernetes.io/zone\n        operator: In\n        values:\n        - eu-east-1\n        - eu-west-1\n\nThe following example will make sure that these pods will never be scheduled on the same node.\npodAntiAffinity:\n  requiredDuringSchedulingIgnoredDuringExecution:\n    - labelSelector:\n        matchExpressions:\n          - key: app\n            operator: In\n            values:\n              - activitylog\n      topologyKey: \"kubernetes.io/hostname\"\n",
+              "description": "Per-service affinity.\nThe value of this key will be passed to the affinity setting of the pod as documented here:\nhttps://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#affinity-and-anti-affinity\nThis example will ensure that the pods will only be scheduled on nodes with the label `topology.kubernetes.io/zone`\nset to `eu-west-1` or `eu-east-1`.\nnodeAffinity:\n  requiredDuringSchedulingIgnoredDuringExecution:\n    nodeSelectorTerms:\n    - matchExpressions:\n      - key: topology.kubernetes.io/zone\n        operator: In\n        values:\n        - eu-east-1\n        - eu-west-1\n\nThe following example will make sure that these pods will never be scheduled on the same node.\npodAntiAffinity:\n  requiredDuringSchedulingIgnoredDuringExecution:\n    - labelSelector:\n        matchExpressions:\n          - key: app\n            operator: In\n            values:\n              - activitylog\n      topologyKey: kubernetes.io/hostname\n",
               "required": [],
               "title": "affinity",
               "type": "object"
@@ -9158,7 +9158,7 @@
               "description": "Persistence settings.",
               "properties": {
                 "accessModes": {
-                  "description": "Persistent volume access modes. Needs to be `[\"ReadWriteMany\"]` when having more than one replica for this service.",
+                  "description": "Persistent volume access modes. Needs to be `[ReadWriteMany]` when having more than one replica for this service.",
                   "items": {
                     "required": [],
                     "type": "string"
@@ -9755,7 +9755,7 @@
               "description": "Persistence settings.",
               "properties": {
                 "accessModes": {
-                  "description": "Persistent volume access modes. Needs to be `[\"ReadWriteMany\"]` when having more than one replica for this service.",
+                  "description": "Persistent volume access modes. Needs to be `[ReadWriteMany]` when having more than one replica for this service.",
                   "items": {
                     "required": [],
                     "type": "string"
@@ -10405,7 +10405,7 @@
               "description": "Persistence settings.",
               "properties": {
                 "accessModes": {
-                  "description": "Persistent volume access modes. Needs to be `[\"ReadWriteMany\"]` when having more than one replica for this service or persistence needs to be disabled.",
+                  "description": "Persistent volume access modes. Needs to be `[ReadWriteMany]` when having more than one replica for this service or persistence needs to be disabled.",
                   "items": {
                     "required": [],
                     "type": "string"
@@ -11529,7 +11529,7 @@
               "description": "Persistence settings.",
               "properties": {
                 "accessModes": {
-                  "description": "Persistent volume access modes. Needs to be `[\"ReadWriteMany\"]` when having more than one replica for this service or persistence needs to be disabled.",
+                  "description": "Persistent volume access modes. Needs to be `[ReadWriteMany]` when having more than one replica for this service or persistence needs to be disabled.",
                   "items": {
                     "required": [],
                     "type": "string"

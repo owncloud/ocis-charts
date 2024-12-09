@@ -1271,7 +1271,7 @@ a| [subs=-attributes]
 +object+
 a| [subs=-attributes]
 `{}`
-| Per-service affinity. The value of this key will be passed to the affinity setting of the pod as documented here: https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#affinity-and-anti-affinity This example will ensure that the pods will only be scheduled on nodes with the label `topology.kubernetes.io/zone` set to `eu-west-1` or `eu-east-1`. nodeAffinity:   requiredDuringSchedulingIgnoredDuringExecution:     nodeSelectorTerms:     - matchExpressions:       - key: topology.kubernetes.io/zone         operator: In         values:         - eu-east-1         - eu-west-1  The following example will make sure that these pods will never be scheduled on the same node. podAntiAffinity:   requiredDuringSchedulingIgnoredDuringExecution:     - labelSelector:         matchExpressions:           - key: app             operator: In             values:               - activitylog       topologyKey: "kubernetes.io/hostname"
+| Per-service affinity. The value of this key will be passed to the affinity setting of the pod as documented here: https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#affinity-and-anti-affinity This example will ensure that the pods will only be scheduled on nodes with the label `topology.kubernetes.io/zone` set to `eu-west-1` or `eu-east-1`. nodeAffinity:   requiredDuringSchedulingIgnoredDuringExecution:     nodeSelectorTerms:     - matchExpressions:       - key: topology.kubernetes.io/zone         operator: In         values:         - eu-east-1         - eu-west-1  The following example will make sure that these pods will never be scheduled on the same node. podAntiAffinity:   requiredDuringSchedulingIgnoredDuringExecution:     - labelSelector:         matchExpressions:           - key: app             operator: In             values:               - activitylog       topologyKey: kubernetes.io/hostname
 | services.activitylog.autoscaling
 a| [subs=-attributes]
 +object+
@@ -3671,7 +3671,7 @@ a| [subs=-attributes]
 +list+
 a| [subs=-attributes]
 `["ReadWriteMany"]`
-| Persistent volume access modes. Needs to be `["ReadWriteMany"]` when having more than one replica for this service.
+| Persistent volume access modes. Needs to be `[ReadWriteMany]` when having more than one replica for this service.
 | services.storagesystem.persistence.annotations
 a| [subs=-attributes]
 +object+
@@ -3929,7 +3929,7 @@ a| [subs=-attributes]
 +list+
 a| [subs=-attributes]
 `["ReadWriteMany"]`
-| Persistent volume access modes. Needs to be `["ReadWriteMany"]` when having more than one replica for this service.
+| Persistent volume access modes. Needs to be `[ReadWriteMany]` when having more than one replica for this service.
 | services.storageusers.persistence.annotations
 a| [subs=-attributes]
 +object+
@@ -4211,7 +4211,7 @@ a| [subs=-attributes]
 +list+
 a| [subs=-attributes]
 `["ReadWriteMany"]`
-| Persistent volume access modes. Needs to be `["ReadWriteMany"]` when having more than one replica for this service or persistence needs to be disabled.
+| Persistent volume access modes. Needs to be `[ReadWriteMany]` when having more than one replica for this service or persistence needs to be disabled.
 | services.thumbnails.persistence.annotations
 a| [subs=-attributes]
 +object+
@@ -4631,7 +4631,7 @@ a| [subs=-attributes]
 +list+
 a| [subs=-attributes]
 `["ReadWriteMany"]`
-| Persistent volume access modes. Needs to be `["ReadWriteMany"]` when having more than one replica for this service or persistence needs to be disabled.
+| Persistent volume access modes. Needs to be `[ReadWriteMany]` when having more than one replica for this service or persistence needs to be disabled.
 | services.web.persistence.annotations
 a| [subs=-attributes]
 +object+

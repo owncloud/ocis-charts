@@ -58,7 +58,7 @@ initContainerImage:
   # required: true
   # @schema
   # -- Image tag.
-  tag: "stable"
+  tag: stable
   # @schema
   # type: [string, null]
   # required: false
@@ -79,7 +79,7 @@ logging:
   # required: true
   # @schema
   # -- Log level. Valid values: `panic`, `fatal`, `error`, `warn`, `info`, `debug`, `trace`.
-  level: "info"
+  level: info
   # @schema
   # type: boolean
   # required: true
@@ -108,7 +108,7 @@ tracing:
   # required: true
   # @schema
   # -- Type of trace provider to use
-  type: "jaeger"
+  type: jaeger
   # @schema
   # type: [string, null]
   # required: false
@@ -335,7 +335,7 @@ cache:
   # -- Type of the cache to use.
   # Can be set to "nats-js-kv" or "redis-sentinel". There are also the non-recommended options "memory" and "noop".
   # The address of NATS / Redis Sentinel node(s) needs to be set to `cache.nodes`.
-  type: "nats-js-kv"
+  type: nats-js-kv
   # @schema
   # type: array
   # items:
@@ -450,9 +450,9 @@ messagingSystem:
 # @schema
 # -- provide custom hostnames to every oCIS pods
 hostAliases: []
-# - ip: "192.168.49.2"
+# - ip: 192.168.49.2
 #   hostnames:
-#   - "ocis.kube.owncloud.test"
+#   - ocis.kube.owncloud.test
 
 # Feature options.
 # Enable or disable features of oCIS.
@@ -471,7 +471,7 @@ features:
     # required: true
     # @schema
     # -- The default language. If not defined, English will be used as default. See the documentation for more details.
-    default: "en"
+    default: en
   # Email related settings
   emailNotifications:
     # @schema
@@ -528,7 +528,7 @@ features:
       # -- Reference to a ConfigMap containing the text mail template.
       # The template file must be named "email.text.tmpl".
       # The default template can be seen here: https://github.com/owncloud/ocis/blob/master/services/notifications/pkg/email/templates/text/email.text.tmpl
-      textMailTemplatesConfigRef: "text-mail-templates"
+      textMailTemplatesConfigRef: text-mail-templates
       # @schema
       # type: string
       # required: true
@@ -536,14 +536,14 @@ features:
       # -- Reference to a ConfigMap containing the html mail template.
       # The template file must be named "email.html.tmpl".
       # The default template can be seen here: https://github.com/owncloud/ocis/blob/master/services/notifications/pkg/email/templates/html/email.html.tmpl
-      htmlMailTemplatesConfigRef: "html-mail-templates"
+      htmlMailTemplatesConfigRef: html-mail-templates
       # @schema
       # type: string
       # required: true
       # @schema
       # -- Reference to a ConfigMap containing images that can be referenced from the html mail template.
       # This ConfigMap is optional and can be omitted when images are not used.
-      htmlMailImagesConfigRef: "html-mail-images"
+      htmlMailImagesConfigRef: html-mail-images
 
   # Sharing related settings
   sharing:
@@ -906,7 +906,7 @@ features:
       # @schema
       # -- OIDC Acces Token Verify Method
       # Set to "jwt" or "none"
-      accessTokenVerifyMethod: "jwt"
+      accessTokenVerifyMethod: jwt
 
       # @schema
       # type: boolean
@@ -1188,7 +1188,7 @@ features:
         # required: true
         # @schema
         # -- Group that a user can be added to and by that being marked as disabled.
-        disabledUsersGroupDN: "cn=DisabledUsersGroup,ou=groups,o=libregraph-idm"
+        disabledUsersGroupDN: cn=DisabledUsersGroup,ou=groups,o=libregraph-idm
 
   # GDPR report related settings.
   gdprReport:
@@ -1384,7 +1384,7 @@ features:
   # required: true
   # @schema
   # -- Edition of ownCloud Infinite Scale.
-  edition: "Community"
+  edition: Community
   # Archiver settings
   archiver:
     # @schema
@@ -1676,7 +1676,7 @@ securityContext:
   # -- File system group change policy for all volumes.
   # Possible values "Always" and "OnRootMismatch".
   # This will also apply to all services' chownInitContainer.
-  fsGroupChangePolicy: "OnRootMismatch"
+  fsGroupChangePolicy: OnRootMismatch
   # @schema
   # type: integer
   # required: true
@@ -1805,7 +1805,7 @@ resources:
 nodeSelector:
   {}
   # kubernetes.io/hostname: node-01
-  # kubernetes.io/arch: "amd64"
+  # kubernetes.io/arch: amd64
 
 # @schema
 # $ref: schema/templates.json#/resourcesTemplate
@@ -1830,7 +1830,7 @@ jobResources:
 jobNodeSelector:
   {}
   # kubernetes.io/hostname: node-01
-  # kubernetes.io/arch: "amd64"
+  # kubernetes.io/arch: amd64
 
 # @schema
 # type: [string, null]
@@ -1934,7 +1934,7 @@ services:
     #             operator: In
     #             values:
     #               - activitylog
-    #       topologyKey: "kubernetes.io/hostname"
+    #       topologyKey: kubernetes.io/hostname
     #
     affinity: {}
     # @schema
@@ -4164,7 +4164,7 @@ services:
       #   type: string
       #   required: true
       # @schema
-      # -- Persistent volume access modes. Needs to be `["ReadWriteMany"]` when having more than one replica for this service.
+      # -- Persistent volume access modes. Needs to be `[ReadWriteMany]` when having more than one replica for this service.
       accessModes:
         - ReadWriteMany
       # @schema
@@ -4403,7 +4403,7 @@ services:
         # required: true
         # @schema
         # -- Cron pattern for the job to be run.
-        schedule: "0 * * * *"
+        schedule: 0 * * * *
         # @schema
         # type: integer
         # minimum: 1
@@ -4432,7 +4432,7 @@ services:
         # required: true
         # @schema
         # -- Cron pattern for the job to be run.
-        schedule: "0 * * * *"
+        schedule: 0 * * * *
         # @schema
         # type: integer
         # minimum: 1
@@ -4465,7 +4465,7 @@ services:
         # required: true
         # @schema
         # -- Cron pattern for the job to be run.
-        schedule: "0 * * * *"
+        schedule: 0 * * * *
         # @schema
         # type: integer
         # minimum: 1
@@ -4535,7 +4535,7 @@ services:
       #   type: string
       #   required: true
       # @schema
-      # -- Persistent volume access modes. Needs to be `["ReadWriteMany"]` when having more than one replica for this service.
+      # -- Persistent volume access modes. Needs to be `[ReadWriteMany]` when having more than one replica for this service.
       accessModes:
         - ReadWriteMany
       # @schema
@@ -4716,7 +4716,7 @@ services:
       #   type: string
       #   required: true
       # @schema
-      # -- Persistent volume access modes. Needs to be `["ReadWriteMany"]` when having more than one replica for this service or persistence needs to be disabled.
+      # -- Persistent volume access modes. Needs to be `[ReadWriteMany]` when having more than one replica for this service or persistence needs to be disabled.
       accessModes:
         - ReadWriteMany
       # @schema
@@ -4803,7 +4803,7 @@ services:
         # required: true
         # @schema
         # -- Cron pattern for the job to be run.
-        schedule: "0 * * * *"
+        schedule: 0 * * * *
         # @schema
         # type: integer
         # minimum: 1
@@ -4837,7 +4837,7 @@ services:
         # required: true
         # @schema
         # -- Image tag.
-        tag: "stable"
+        tag: stable
         # @schema
         # type: [string, null]
         # required: false
@@ -5123,21 +5123,21 @@ services:
         # required: true
         # @schema
         # -- URL path to load themes from. The theme server will be prepended. Defaults to the ownCloud Web default theme.
-        path: "/themes/owncloud/theme.json"
+        path: /themes/owncloud/theme.json
         # @schema
         # type: string
         # required: true
         # @schema
         # -- Name of the theme you provide via `configRefs.webThemeConfigRef` and `configRefs.webThemeAssetsConfigRef`.
         # If you change this when providing a custom theme, you must also change `theme.path`.
-        themeNameConfigRefs: "owncloud"
+        themeNameConfigRefs: owncloud
       oidc:
         # @schema
         # type: string
         # required: true
         # @schema
         # -- OIDC scopes to request during authentication to authorize access to user details. Defaults to ‘openid profile email’. Values are separated by blank. More example values but not limited to are ‘address’ or ‘phone’ etc.
-        webClientScope: "openid profile email"
+        webClientScope: openid profile email
         # @schema
         # type: string
         # required: true
@@ -5256,7 +5256,7 @@ services:
       #   type: string
       #   required: true
       # @schema
-      # -- Persistent volume access modes. Needs to be `["ReadWriteMany"]` when having more than one replica for this service or persistence needs to be disabled.
+      # -- Persistent volume access modes. Needs to be `[ReadWriteMany]` when having more than one replica for this service or persistence needs to be disabled.
       accessModes:
         - ReadWriteMany
       # @schema
