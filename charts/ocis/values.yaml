@@ -669,12 +669,14 @@ features:
       #       required: true
       #     uri:
       #       type: string
+      #       format: uri
       #       required: true
       #     description:
       #       type: string
       #       required: false
       #     iconURI:
       #       type: string
+      #       format: uri
       #       required: false
       #     insecure:
       #       type: boolean
@@ -727,6 +729,7 @@ features:
       #                 type: array
       #                 items:
       #                   type: string
+      #                   format: hostname
       # @schema
       # -- List of WOPI compliant office suites to be used.
       # Example configurations can be found in https://github.com/owncloud/ocis-charts/blob/main/deployments/ocis-office/helmfile.yaml
