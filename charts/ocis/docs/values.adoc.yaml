@@ -187,6 +187,12 @@ http:
       # -- frame-ancestors directive, see https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/frame-ancestors
       frameAncestors:
         - "'self'"
+      # @schema
+      # type: array
+      # items:
+      #   type: string
+      #   required: true
+      # @schema
       # -- frame-src directive, see https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/frame-src
       frameSrc:
         - "'self'"

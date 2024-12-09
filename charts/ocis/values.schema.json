@@ -1868,17 +1868,8 @@
                 "frameSrc": {
                   "description": "frame-src directive, see https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/frame-src",
                   "items": {
-                    "anyOf": [
-                      {
-                        "required": [],
-                        "type": "string"
-                      },
-                      {
-                        "required": [],
-                        "type": "string"
-                      }
-                    ],
-                    "required": []
+                    "required": [],
+                    "type": "string"
                   },
                   "required": [],
                   "title": "frameSrc",
@@ -1945,9 +1936,7 @@
                   "type": "array"
                 }
               },
-              "required": [
-                "frameSrc"
-              ],
+              "required": [],
               "title": "directives",
               "type": "object"
             }
