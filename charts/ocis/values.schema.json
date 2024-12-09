@@ -1784,6 +1784,7 @@
         "additionalProperties": false,
         "properties": {
           "hostnames": {
+            "format": "hostnames",
             "items": {
               "required": [],
               "type": "string"
@@ -1792,8 +1793,19 @@
             "type": "array"
           },
           "ip": {
-            "required": [],
-            "type": "string"
+            "anyOf": [
+              {
+                "format": "ivp4",
+                "required": [],
+                "type": "string"
+              },
+              {
+                "format": "ivp4",
+                "required": [],
+                "type": "string"
+              }
+            ],
+            "required": []
           }
         },
         "required": [],

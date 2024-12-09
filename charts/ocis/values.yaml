@@ -439,11 +439,16 @@ messagingSystem:
 #   additionalProperties: false
 #   properties:
 #     ip:
-#       type: string
+#       anyOf:
+#         - format: ivp4
+#           type: string
+#         - format: ivp4
+#           type: string
 #       required: true
 #     hostnames:
 #       type: array
 #       required: true
+#       format: hostnames
 #       items:
 #         type: string
 #         required: true
