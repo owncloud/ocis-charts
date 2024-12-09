@@ -632,6 +632,7 @@
                 "host": {
                   "default": "",
                   "description": "SMTP host to connect to.",
+                  "format": "hostname",
                   "required": [],
                   "title": "host",
                   "type": [

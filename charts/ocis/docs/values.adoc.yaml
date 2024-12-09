@@ -489,6 +489,7 @@ features:
     smtp:
       # @schema
       # type: [string, null]
+      # format: hostname
       # required: false
       # @schema
       # -- SMTP host to connect to.
