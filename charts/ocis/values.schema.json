@@ -219,16 +219,34 @@
             "maxSurge": {
               "default": "25%",
               "description": "The maximum number of pods that can be scheduled above the desired number of pods.\nValue can be an absolute number (ex: 5) or a percentage of desired pods (ex: 10%).",
+              "oneOf": [
+                {
+                  "required": [],
+                  "type": "string"
+                },
+                {
+                  "required": [],
+                  "type": "integer"
+                }
+              ],
               "required": [],
-              "title": "maxSurge",
-              "type": "string"
+              "title": "maxSurge"
             },
             "maxUnavailable": {
               "default": "25%",
               "description": "The maximum number of pods that can be unavailable during the update.\nValue can be an absolute number (ex: 5) or a percentage of desired pods (ex: 10%).",
+              "oneOf": [
+                {
+                  "required": [],
+                  "type": "string"
+                },
+                {
+                  "required": [],
+                  "type": "integer"
+                }
+              ],
               "required": [],
-              "title": "maxUnavailable",
-              "type": "string"
+              "title": "maxUnavailable"
             }
           },
           "required": [

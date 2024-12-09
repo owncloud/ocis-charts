@@ -277,14 +277,18 @@ deploymentStrategy:
   type: RollingUpdate
   rollingUpdate:
     # @schema
-    # type: string
+    # oneOf:
+    #  - type: string
+    #  - type: integer
     # required: true
     # @schema
     # -- The maximum number of pods that can be scheduled above the desired number of pods.
     # Value can be an absolute number (ex: 5) or a percentage of desired pods (ex: 10%).
     maxSurge: 25%
     # @schema
-    # type: string
+    # oneOf:
+    #  - type: string
+    #  - type: integer
     # required: true
     # @schema
     # -- The maximum number of pods that can be unavailable during the update.
