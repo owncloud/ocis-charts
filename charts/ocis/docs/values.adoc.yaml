@@ -449,10 +449,10 @@ messagingSystem:
 #     hostnames:
 #       type: array
 #       required: true
-#       format: hostnames
 #       items:
 #         type: string
 #         required: true
+#         format: hostname
 # @schema
 # -- provide custom hostnames to every oCIS pods
 hostAliases: []

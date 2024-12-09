@@ -1784,8 +1784,8 @@
         "additionalProperties": false,
         "properties": {
           "hostnames": {
-            "format": "hostnames",
             "items": {
+              "format": "hostname",
               "required": [],
               "type": "string"
             },
