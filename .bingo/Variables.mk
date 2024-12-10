@@ -35,11 +35,11 @@ $(HELM_DOCS): $(BINGO_DIR)/helm-docs.mod
 	@echo "(re)installing $(GOBIN)/helm-docs-v1.14.2"
 	@cd $(BINGO_DIR) && GOWORK=off $(GO) build -mod=mod -modfile=helm-docs.mod -o=$(GOBIN)/helm-docs-v1.14.2 "github.com/norwoodj/helm-docs/cmd/helm-docs"
 
-HELM_SCHEMA := $(GOBIN)/helm-schema-v0.0.0-20240923180621-13682905ed27
+HELM_SCHEMA := $(GOBIN)/helm-schema-v0.0.0-20241209221051-c63ec14eef38
 $(HELM_SCHEMA): $(BINGO_DIR)/helm-schema.mod
 	@# Install binary/ries using Go 1.14+ build command. This is using bwplotka/bingo-controlled, separate go module with pinned dependencies.
-	@echo "(re)installing $(GOBIN)/helm-schema-v0.0.0-20240923180621-13682905ed27"
-	@cd $(BINGO_DIR) && GOWORK=off $(GO) build -mod=mod -modfile=helm-schema.mod -o=$(GOBIN)/helm-schema-v0.0.0-20240923180621-13682905ed27 "github.com/dadav/helm-schema/cmd/helm-schema"
+	@echo "(re)installing $(GOBIN)/helm-schema-v0.0.0-20241209221051-c63ec14eef38"
+	@cd $(BINGO_DIR) && GOWORK=off $(GO) build -mod=mod -modfile=helm-schema.mod -o=$(GOBIN)/helm-schema-v0.0.0-20241209221051-c63ec14eef38 "github.com/dadav/helm-schema/cmd/helm-schema"
 
 HELM := $(GOBIN)/helm-v3.16.2
 $(HELM): $(BINGO_DIR)/helm.mod
@@ -64,4 +64,3 @@ $(KUBECONFORM): $(BINGO_DIR)/kubeconform.mod
 	@# Install binary/ries using Go 1.14+ build command. This is using bwplotka/bingo-controlled, separate go module with pinned dependencies.
 	@echo "(re)installing $(GOBIN)/kubeconform-v0.6.7"
 	@cd $(BINGO_DIR) && GOWORK=off $(GO) build -mod=mod -modfile=kubeconform.mod -o=$(GOBIN)/kubeconform-v0.6.7 "github.com/yannh/kubeconform/cmd/kubeconform"
-
