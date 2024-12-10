@@ -1,0 +1,171 @@
+---
+
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: grafana-agent
+
+---
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: grafana-agent
+rules:
+- apiGroups:
+  - ""
+  resources:
+  - nodes
+  - nodes/proxy
+  - nodes/metrics
+  - services
+  - endpoints
+  - pods
+  - events
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - networking.k8s.io
+  resources:
+  - ingresses
+  verbs:
+  - get
+  - list
+  - watch
+- nonResourceURLs:
+  - /metrics
+  - /metrics/cadvisor
+  verbs:
+  - get
+
+---
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: grafana-agent
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: grafana-agent
+subjects:
+- kind: ServiceAccount
+  name: grafana-agent
+  namespace: grafana-agent
+
+---
+apiVersion: monitoring.grafana.com/v1alpha1
+kind: GrafanaAgent
+metadata:
+  name: grafana-agent-metrics
+  labels:
+    app: grafana-agent-metrics
+spec:
+  {{- with .Values.imagePullSecrets }}
+  imagePullSecrets:
+    {{- toYaml . | nindent 8 }}
+  {{- end }}
+  # resources:
+  #   requests:
+  #     cpu: 500m
+  #     memory: 11Gi
+  image: "{{ .Values.image.repository }}/{{ .Values.image.name }}:{{ .Values.image.tag }}"
+  logLevel: info
+  serviceAccountName: grafana-agent
+  metrics:
+    instanceSelector:
+      matchLabels:
+        agent: grafana-agent-metrics
+    externalLabels:
+      cluster: {{ .Values.clusterName }}
+
+  integrations:
+    selector:
+      matchLabels:
+        agent: grafana-agent-integrations
+
+---
+apiVersion: monitoring.grafana.com/v1alpha1
+kind: GrafanaAgent
+metadata:
+  name: grafana-agent-logs
+  labels:
+    app: grafana-agent-logs
+spec:
+  {{- with .Values.imagePullSecrets }}
+  imagePullSecrets:
+    {{- toYaml . | nindent 8 }}
+  {{- end }}
+  image: "{{ .Values.image.repository }}/{{ .Values.image.name }}:{{ .Values.image.tag }}"
+  logLevel: info
+  resources:
+    requests:
+      cpu: 100m
+      memory: 300Mi
+  serviceAccountName: grafana-agent
+
+  logs:
+    instanceSelector:
+      matchLabels:
+        agent: grafana-agent-logs
+    clients:
+      # default value, is overwritten in LogsInstance
+      - url: http://{{ .Values.remoteLokiHost }}/loki/api/v1/push
+        externalLabels:
+          cluster: {{ .Values.clusterName }}
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: extra-jobs
+stringData:
+  jobs.yaml: |
+    - bearer_token_file: /var/run/secrets/kubernetes.io/serviceaccount/token
+      job_name: integrations/kubernetes/kubelet
+      kubernetes_sd_configs:
+      - role: node
+      relabel_configs:
+      - replacement: kubernetes.default.svc:443
+        target_label: __address__
+      - regex: (.+)
+        source_labels: [__meta_kubernetes_node_name]
+        replacement: /api/v1/nodes/$1/proxy/metrics
+        target_label: __metrics_path__
+      - action: hashmod
+        modulus: $(SHARDS)
+        source_labels:
+        - __address__
+        target_label: __tmp_hash
+      - action: keep
+        regex: $(SHARD)
+        source_labels:
+        - __tmp_hash
+      scheme: https
+      tls_config:
+        ca_file: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+    - bearer_token_file: /var/run/secrets/kubernetes.io/serviceaccount/token
+      job_name: integrations/kubernetes/cadvisor
+      kubernetes_sd_configs:
+      - role: node
+      relabel_configs:
+      - replacement: kubernetes.default.svc:443
+        target_label: __address__
+      - regex: (.+)
+        replacement: /api/v1/nodes/$1/proxy/metrics/cadvisor
+        source_labels:
+        - __meta_kubernetes_node_name
+        target_label: __metrics_path__
+      - action: hashmod
+        modulus: $(SHARDS)
+        source_labels:
+        - __address__
+        target_label: __tmp_hash
+      - action: keep
+        regex: $(SHARD)
+        source_labels:
+        - __tmp_hash
+      scheme: https
+      tls_config:
+        ca_file: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
