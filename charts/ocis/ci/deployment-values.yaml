@@ -54,11 +54,6 @@ services:
       enabled: true
       accessModes:
         - ReadWriteOnce
-  store:
-    persistence:
-      enabled: true
-      accessModes:
-        - ReadWriteOnce
   thumbnails:
     persistence:
       enabled: true
