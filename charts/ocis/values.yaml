@@ -2025,6 +2025,8 @@ services:
         enabled: false
         # -- Cron pattern for the job to be run.
         schedule: "0 * * * *"
+        # -- Timezone to be applied to the cron pattern.
+        timezone:
         # -- Defines the a deadline (in whole seconds) for starting the Job, if that Job misses its scheduled time for any reason.
         startingDeadlineSeconds: 600
         # -- Duration in seconds after which uploads will expire.
@@ -2036,6 +2038,8 @@ services:
         enabled: false
         # -- Cron pattern for the job to be run.
         schedule: "0 * * * *"
+        # -- Timezone to be applied to the cron pattern.
+        timezone:
         # -- Defines the a deadline (in whole seconds) for starting the Job, if that Job misses its scheduled time for any reason.
         startingDeadlineSeconds: 600
         # -- Setting that makes the command delete all trashed personal files older than the value. The value is a number and a unit "d", "h", "m", "s".
@@ -2048,6 +2052,8 @@ services:
         enabled: false
         # -- Cron pattern for the job to be run.
         schedule: "0 * * * *"
+        # -- Timezone to be applied to the cron pattern.
+        timezone:
         # -- Defines the a deadline (in whole seconds) for starting the Job, if that Job misses its scheduled time for any reason.
         startingDeadlineSeconds: 600
       # Image for the storageusers service maintenance jobs
@@ -2189,6 +2195,8 @@ services:
         enabled: false
         # -- Cron pattern for the job to be run.
         schedule: "0 * * * *"
+        # -- Timezone to be applied to the cron pattern.
+        timezone:
         # -- Defines the a deadline (in whole seconds) for starting the Job, if that Job misses its scheduled time for any reason.
         startingDeadlineSeconds: 600
         # -- Setting that makes the command delete all thumbnails older than the value. The value is a number in days.

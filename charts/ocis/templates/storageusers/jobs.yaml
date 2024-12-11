@@ -9,7 +9,10 @@ metadata:
   labels:
     {{- include "ocis.labels" . | nindent 4 }}
 spec:
-  schedule: "{{ .Values.services.storageusers.maintenance.cleanUpExpiredUploads.schedule }}"
+  schedule: {{ .Values.services.storageusers.maintenance.cleanUpExpiredUploads.schedule | quote }}
+  {{- with .Values.services.storageusers.maintenance.cleanUpExpiredUploads.timezone }}
+  timeZone: {{ . | quote }}
+  {{- end }}
   successfulJobsHistoryLimit: 3
   failedJobsHistoryLimit: 3
   concurrencyPolicy: Forbid
@@ -136,7 +139,10 @@ metadata:
   labels:
     {{- include "ocis.labels" . | nindent 4 }}
 spec:
-  schedule: "{{ .Values.services.storageusers.maintenance.purgeExpiredTrashBinItems.schedule }}"
+  schedule: {{ .Values.services.storageusers.maintenance.purgeExpiredTrashBinItems.schedule | quote }}
+  {{- with .Values.services.storageusers.maintenance.purgeExpiredTrashBinItems.timezone }}
+  timeZone: {{ . | quote }}
+  {{- end }}
   successfulJobsHistoryLimit: 3
   failedJobsHistoryLimit: 3
   concurrencyPolicy: Forbid
@@ -239,7 +245,10 @@ metadata:
   labels:
     {{- include "ocis.labels" . | nindent 4 }}
 spec:
-  schedule: "{{ .Values.services.storageusers.maintenance.restartPostprocessing.schedule }}"
+  schedule: {{ .Values.services.storageusers.maintenance.restartPostprocessing.schedule | quote }}
+  {{- with .Values.services.storageusers.maintenance.restartPostprocessing.timezone }}
+  timeZone: {{ . | quote }}
+  {{- end }}
   successfulJobsHistoryLimit: 3
   failedJobsHistoryLimit: 3
   concurrencyPolicy: Forbid
