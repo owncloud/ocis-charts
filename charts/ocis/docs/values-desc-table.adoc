@@ -4032,6 +4032,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `600`
 | Defines the a deadline (in whole seconds) for starting the Job, if that Job misses its scheduled time for any reason.
+| services.storageusers.maintenance.cleanUpExpiredUploads.timezone
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`nil`
+| Timezone to be applied to the cron pattern.
 | services.storageusers.maintenance.cleanUpExpiredUploads.uploadExpiration
 a| [subs=-attributes]
 +int+
@@ -4092,6 +4098,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `600`
 | Defines the a deadline (in whole seconds) for starting the Job, if that Job misses its scheduled time for any reason.
+| services.storageusers.maintenance.purgeExpiredTrashBinItems.timezone
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`nil`
+| Timezone to be applied to the cron pattern.
 | services.storageusers.maintenance.restartPostprocessing.enabled
 a| [subs=-attributes]
 +bool+
@@ -4110,6 +4122,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `600`
 | Defines the a deadline (in whole seconds) for starting the Job, if that Job misses its scheduled time for any reason.
+| services.storageusers.maintenance.restartPostprocessing.timezone
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`nil`
+| Timezone to be applied to the cron pattern.
 | services.storageusers.nodeSelector
 a| [subs=-attributes]
 +object+
@@ -4368,6 +4386,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `600`
 | Defines the a deadline (in whole seconds) for starting the Job, if that Job misses its scheduled time for any reason.
+| services.thumbnails.maintenance.cleanUpOldThumbnails.timezone
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`nil`
+| Timezone to be applied to the cron pattern.
 | services.thumbnails.maintenance.image.pullPolicy
 a| [subs=-attributes]
 +string+

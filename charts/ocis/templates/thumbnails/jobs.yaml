@@ -11,7 +11,10 @@ metadata:
   annotations:
     ignore-check.kube-linter.io/latest-tag: "using the stable tag on this busybox image is better than having an outdated image"
 spec:
-  schedule: "{{ .Values.services.thumbnails.maintenance.cleanUpOldThumbnails.schedule }}"
+  schedule: {{ .Values.services.thumbnails.maintenance.cleanUpOldThumbnails.schedule | quote }}
+  {{- with .Values.services.thumbnails.maintenance.cleanUpOldThumbnails.timezone }}
+  timeZone: {{ . | quote }}
+  {{- end }}
   successfulJobsHistoryLimit: 3
   failedJobsHistoryLimit: 3
   concurrencyPolicy: Forbid
