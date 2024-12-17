@@ -6,7 +6,7 @@ image:
   # required: true
   # @schema
   # -- Image repository
-  repository: owncloud/ocis-rolling
+  repository: owncloud/ocis
   # @schema
   # type: [string, null]
   # required: false
@@ -4414,6 +4414,12 @@ services:
         # -- Cron pattern for the job to be run.
         schedule: 0 * * * *
         # @schema
+        # type: [string, null]
+        # required: false
+        # @schema
+        # -- Timezone to be applied to the cron pattern.
+        timezone:
+        # @schema
         # type: integer
         # minimum: 1
         # required: true
@@ -4442,6 +4448,12 @@ services:
         # @schema
         # -- Cron pattern for the job to be run.
         schedule: 0 * * * *
+        # @schema
+        # type: [string, null]
+        # required: false
+        # @schema
+        # -- Timezone to be applied to the cron pattern.
+        timezone:
         # @schema
         # type: integer
         # minimum: 1
@@ -4475,6 +4487,12 @@ services:
         # @schema
         # -- Cron pattern for the job to be run.
         schedule: 0 * * * *
+        # @schema
+        # type: [string, null]
+        # required: false
+        # @schema
+        # -- Timezone to be applied to the cron pattern.
+        timezone:
         # @schema
         # type: integer
         # minimum: 1
@@ -4813,6 +4831,12 @@ services:
         # @schema
         # -- Cron pattern for the job to be run.
         schedule: 0 * * * *
+        # @schema
+        # type: [string, null]
+        # required: false
+        # @schema
+        # -- Timezone to be applied to the cron pattern.
+        timezone:
         # @schema
         # type: integer
         # minimum: 1

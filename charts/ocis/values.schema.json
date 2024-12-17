@@ -2018,7 +2018,7 @@
           "type": "array"
         },
         "repository": {
-          "default": "owncloud/ocis-rolling",
+          "default": "owncloud/ocis",
           "description": "Image repository",
           "required": [],
           "title": "repository",
@@ -9590,6 +9590,16 @@
                       "title": "startingDeadlineSeconds",
                       "type": "integer"
                     },
+                    "timezone": {
+                      "default": "",
+                      "description": "Timezone to be applied to the cron pattern.",
+                      "required": [],
+                      "title": "timezone",
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
                     "uploadExpiration": {
                       "default": 86400,
                       "description": "Duration in seconds after which uploads will expire.\n   WARNING: Setting this to a low number will lead to uploads being cancelled before they are finished and returning a 403 to the user.",
@@ -9696,6 +9706,16 @@
                       "required": [],
                       "title": "startingDeadlineSeconds",
                       "type": "integer"
+                    },
+                    "timezone": {
+                      "default": "",
+                      "description": "Timezone to be applied to the cron pattern.",
+                      "required": [],
+                      "title": "timezone",
+                      "type": [
+                        "string",
+                        "null"
+                      ]
                     }
                   },
                   "required": [
@@ -9733,6 +9753,16 @@
                       "required": [],
                       "title": "startingDeadlineSeconds",
                       "type": "integer"
+                    },
+                    "timezone": {
+                      "default": "",
+                      "description": "Timezone to be applied to the cron pattern.",
+                      "required": [],
+                      "title": "timezone",
+                      "type": [
+                        "string",
+                        "null"
+                      ]
                     }
                   },
                   "required": [
@@ -10336,6 +10366,16 @@
                       "required": [],
                       "title": "startingDeadlineSeconds",
                       "type": "integer"
+                    },
+                    "timezone": {
+                      "default": "",
+                      "description": "Timezone to be applied to the cron pattern.",
+                      "required": [],
+                      "title": "timezone",
+                      "type": [
+                        "string",
+                        "null"
+                      ]
                     }
                   },
                   "required": [

@@ -210,10 +210,14 @@ services:
     maintenance:
       cleanUpExpiredUploads:
         enabled: true
+        timezone: Europe/Berlin
       purgeExpiredTrashBinItems:
         enabled: true
+        timezone: Etc/GMT-5
       restartPostprocessing:
         enabled: true
+        timezone: GMT+0
+
     affinity:
       podAntiAffinity:
         preferredDuringSchedulingIgnoredDuringExecution:
