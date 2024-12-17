@@ -30,6 +30,12 @@ backup:
 image:
   pullSecrets:
     - name: some-pull-secret
+
+http:
+  cors:
+    allow_origins:
+      - https://integration.owncloud.test
+
 nodeSelector:
   kubernetes.io/arch: "amd64"
 hostAliases:
@@ -44,7 +50,6 @@ features:
   appsIntegration:
     enabled: true
     wopiIntegration:
-      wopiServerURI: https://wopiserver.owncloud.test
       officeSuites:
         - name: Collabora
           enabled: true
@@ -94,10 +99,23 @@ features:
         allow_creation: true
   virusscan:
     enabled: true
+    infectedFileHandling: abort
+    maxScanSize: 50000KB
+    icap:
+      timeout: 300
+      url: icap://clamav.clamav.svc:1344
+      service: avscan
   policies:
     enabled: true
   ocm:
     enabled: true
+  quotas:
+    max: "250000000000"
+    default: "0"
+    roles:
+      d7beeea8-8ff4-406b-8fb6-ab2dd81e6b11: 2000000000
+      71881883-1768-46bd-a24d-a356a2afdf7f: 100000000000
+      2aadd357-682c-406b-8874-293091995fdd: 100000000000
 
 extraLabels:
   extra1: lorem
@@ -133,15 +151,6 @@ resources:
     memory: 128Mi
 
 services:
-  postprocessing:
-    jobResources:
-      limits:
-        cpu: 100m
-        memory: 128Mi
-      requests:
-        cpu: 100m
-        memory: 128Mi
-
   storagesystem:
     persistence:
       enabled: true
@@ -155,8 +164,29 @@ services:
         - kubernetes.io/pvc-protection
       selectorLabels:
         selector1: foobar
+    affinity:
+      nodeAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+            - matchExpressions:
+                - key: topology.kubernetes.io/zone
+                  operator: In
+                  values:
+                    - eu-east-1
+                    - eu-west-1
+      podAntiAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+                - key: app
+                  operator: In
+                  values:
+                    - storagesystem
+            topologyKey: "kubernetes.io/hostname"
 
   storageusers:
+    podDisruptionBudget:
+      maxUnavailable: 1
     storageBackend:
       driver: ocis
     persistence:
@@ -188,6 +218,19 @@ services:
         enabled: true
         timezone: GMT+0
 
+    affinity:
+      podAntiAffinity:
+        preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 1
+            podAffinityTerm:
+              labelSelector:
+                matchExpressions:
+                  - key: app
+                    operator: In
+                    values:
+                      - storageusers
+              topologyKey: "kubernetes.io/hostname"
+
   thumbnails:
     persistence:
       enabled: true
@@ -212,6 +255,8 @@ services:
     maintenance:
       cleanUpOldThumbnails:
         enabled: true
+    podDisruptionBudget:
+      maxUnavailable: 100%
 
   ocm:
     persistence:

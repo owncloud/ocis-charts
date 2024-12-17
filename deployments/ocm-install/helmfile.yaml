@@ -6,6 +6,8 @@ releases:
   - name: inbucket
     chart: inbucket/inbucket
     namespace: inbucket
+    labels:
+      ci-lint-skip: true # skip linting this chart in CI
     values:
       - ingress:
           enabled: true
