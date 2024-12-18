@@ -24,6 +24,11 @@ features:
   ocm:
     enabled: true
 services:
+  authapp:
+    persistence:
+      enabled: true
+      accessModes:
+        - ReadWriteOnce
   idm:
     persistence:
       enabled: true
