@@ -96,7 +96,7 @@ releases:
   - name: collabora
     namespace: collabora
     chart: collabora/collabora-online
-    version: 1.1.25
+    version: 1.1.28
     values:
       - collabora:
           aliasgroups:
