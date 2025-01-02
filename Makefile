@@ -12,7 +12,7 @@ docs: $(HELM_DOCS) $(GOMPLATE) schema
 
 .PHONY: schema
 schema: $(HELM_SCHEMA)
-	$(HELM_SCHEMA) -a -c ./charts/ocis
+	$(HELM_SCHEMA) -g -a -c ./charts/ocis
 
 .PHONY: clean
 clean:
