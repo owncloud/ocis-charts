@@ -22,6 +22,10 @@ releases:
     chart: ../../charts/ocis
     namespace: ocis
     values:
+      - image:
+          repository: owncloud/ocis-rolling
+          tag: master
+          sha: 8b434a3add7dad4043f741ab69de40ee9acde3ea4670ca693eb4329584ceb510
       - externalDomain: ocis.kube.owncloud.test
       - ingress:
           enabled: true
@@ -145,71 +149,35 @@ releases:
                       "name": "oCIS Test",
                       "full_name": "oCIS Test provider",
                       "organization": "oCIS",
-                      "domain": "ocis.kube.owncloud.test",
-                      "homepage": "https://ocis.kube.owncloud.test",
+                      "domain": "*.kube.owncloud.test",
+                      "homepage": "https://some.owncloud.test",
                       "description": "oCIS Example cloud storage",
                       "services": [
                           {
                               "endpoint": {
                                   "type": {
                                       "name": "OCM",
-                                      "description": "ocis.kube.owncloud.test Open Cloud Mesh API"
+                                      "description": "Open Cloud Mesh API"
                                   },
-                                  "name": "ocis.kube.owncloud.test - OCM API",
-                                  "path": "https://ocis.kube.owncloud.test/ocm/",
+                                  "name": "OCM API",
+                                  "path": "https://*.kube.owncloud.test/ocm/",
                                   "is_monitored": true
                               },
                               "api_version": "0.0.1",
-                              "host": "https://ocis.kube.owncloud.test"
+                              "host": "https://*.kube.owncloud.test"
                           },
                           {
                               "endpoint": {
                                   "type": {
                                       "name": "Webdav",
-                                      "description": "ocis.kube.owncloud.test Webdav API"
+                                      "description": "Webdav API"
                                   },
-                                  "name": "ocis.kube.owncloud.test Example - Webdav API",
-                                  "path": "https://ocis.kube.owncloud.test/dav/",
+                                  "name": "Webdav API",
+                                  "path": "https://*.kube.owncloud.test/dav/",
                                   "is_monitored": true
                               },
                               "api_version": "0.0.1",
-                              "host": "https://ocis.kube.owncloud.test/"
-                          }
-                      ]
-                  },
-                  {
-                      "name": "oCIS Test",
-                      "full_name": "oCIS Test provider",
-                      "organization": "oCIS",
-                      "domain": "ocis2.kube.owncloud.test",
-                      "homepage": "https://ocis2.kube.owncloud.test",
-                      "description": "oCIS Example cloud storage",
-                      "services": [
-                          {
-                              "endpoint": {
-                                  "type": {
-                                      "name": "OCM",
-                                      "description": "ocis2.kube.owncloud.test Open Cloud Mesh API"
-                                  },
-                                  "name": "ocis2.kube.owncloud.test - OCM API",
-                                  "path": "https://ocis2.kube.owncloud.test/ocm/",
-                                  "is_monitored": true
-                              },
-                              "api_version": "0.0.1",
-                              "host": "https://ocis2.kube.owncloud.test"
-                          },
-                          {
-                              "endpoint": {
-                                  "type": {
-                                      "name": "Webdav",
-                                      "description": "ocis2.kube.owncloud.test Webdav API"
-                                  },
-                                  "name": "ocis2.kube.owncloud.test Example - Webdav API",
-                                  "path": "https://ocis2.kube.owncloud.test/dav/",
-                                  "is_monitored": true
-                              },
-                              "api_version": "0.0.1",
-                              "host": "https://ocis2.kube.owncloud.test/"
+                              "host": "https://*.kube.owncloud.test/"
                           }
                       ]
                   }
@@ -219,6 +187,10 @@ releases:
     chart: ../../charts/ocis
     namespace: ocis2
     values:
+      - image:
+          repository: owncloud/ocis-rolling
+          tag: master
+          sha: 8b434a3add7dad4043f741ab69de40ee9acde3ea4670ca693eb4329584ceb510
       - externalDomain: ocis2.kube.owncloud.test
       - ingress:
           enabled: true
