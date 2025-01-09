@@ -432,6 +432,54 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `nil`
 | Sender address of emails that will be sent. Example: 'ownCloud <noreply@example.com>'
+| features.emailNotifications.summary.daily.enabled
+a| [subs=-attributes]
++bool+
+a| [subs=-attributes]
+`false`
+| Enables a job, that sends out a summary for the day.
+| features.emailNotifications.summary.daily.schedule
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"0 0 * * *"`
+| Cron pattern for the job to be run.
+| features.emailNotifications.summary.daily.startingDeadlineSeconds
+a| [subs=-attributes]
++int+
+a| [subs=-attributes]
+`600`
+| Defines the a deadline (in whole seconds) for starting the Job, if that Job misses its scheduled time for any reason.
+| features.emailNotifications.summary.daily.timezone
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`nil`
+| Timezone to be applied to the cron pattern.
+| features.emailNotifications.summary.weekly.enabled
+a| [subs=-attributes]
++bool+
+a| [subs=-attributes]
+`false`
+| Enables a job, that sends out a summary for the week.
+| features.emailNotifications.summary.weekly.schedule
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"0 0 * * 0"`
+| Cron pattern for the job to be run.
+| features.emailNotifications.summary.weekly.startingDeadlineSeconds
+a| [subs=-attributes]
++int+
+a| [subs=-attributes]
+`600`
+| Defines the a deadline (in whole seconds) for starting the Job, if that Job misses its scheduled time for any reason.
+| features.emailNotifications.summary.weekly.timezone
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`nil`
+| Timezone to be applied to the cron pattern.
 | features.externalUserManagement.adminUUID
 a| [subs=-attributes]
 +string+
@@ -2748,6 +2796,24 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `""`
 | Image tag.
+| services.notifications.jobNodeSelector
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service jobNodeSelector configuration. Overrides the default setting from `jobNodeSelector` if set.
+| services.notifications.jobPriorityClassName
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| Per-service jobPriorityClassName configuration. Overrides the default setting from `jobPriorityClassName` if set.
+| services.notifications.jobResources
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service jobResources configuration. Overrides the default setting from `jobResources` if set.
 | services.notifications.nodeSelector
 a| [subs=-attributes]
 +object+
