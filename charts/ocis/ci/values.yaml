@@ -226,6 +226,15 @@ services:
       selectorLabels:
         selector1: foobar
 
+  notifications:
+    jobResources:
+      limits:
+        cpu: 123m
+        memory: 123Mi
+      requests:
+        cpu: 123m
+        memory: 123Mi
+
 secretRefs:
   notificationsSmtpSecretRef: "smtp-secret"
   globalNotificationsSecretRef: "global-notification-secret"
