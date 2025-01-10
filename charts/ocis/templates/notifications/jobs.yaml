@@ -45,6 +45,7 @@ spec:
                 readOnlyRootFilesystem: true
               env:
                 {{- include "ocis.serviceRegistry" . | nindent 16 }}
+                {{- include "ocis.events" . | nindent 16 }}
                 # logging
                 - name: NOTIFICATIONS_LOG_COLOR
                   value: {{ .Values.logging.color | quote }}
@@ -52,6 +53,9 @@ spec:
                   value: {{ .Values.logging.level | quote }}
                 - name: NOTIFICATIONS_PRETTY
                   value: {{ .Values.logging.pretty | quote }}
+
+                - name: NOTIFICATIONS_SMTP_SENDER #TODO: only needed to satisfy config checks!?
+                  value: {{ .Values.features.emailNotifications.smtp.sender | quote }}
 
               resources: {{ toYaml .jobResources | nindent 16 }}
 
@@ -121,6 +125,7 @@ spec:
                 readOnlyRootFilesystem: true
               env:
                 {{- include "ocis.serviceRegistry" . | nindent 16 }}
+                {{- include "ocis.events" . | nindent 16 }}
                 # logging
                 - name: NOTIFICATIONS_LOG_COLOR
                   value: {{ .Values.logging.color | quote }}
@@ -128,6 +133,9 @@ spec:
                   value: {{ .Values.logging.level | quote }}
                 - name: NOTIFICATIONS_PRETTY
                   value: {{ .Values.logging.pretty | quote }}
+
+                - name: NOTIFICATIONS_SMTP_SENDER #TODO: only needed to satisfy config checks!?
+                  value: {{ .Values.features.emailNotifications.smtp.sender | quote }}
 
               resources: {{ toYaml .jobResources | nindent 16 }}
 
