@@ -5,7 +5,7 @@ repositories:
 releases:
   - name: cert-manager
     chart: jetstack/cert-manager
-    version: v1.16.2
+    version: v1.16.3
     namespace: cert-manager
     values:
       - crds:
