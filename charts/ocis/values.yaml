@@ -927,6 +927,7 @@ features:
     oidc:
       # @schema
       # type: [string, null]
+      # format: uri
       # required: false
       # @schema
       # -- Issuer URI of the OpenID Connect Identity Provider.
@@ -1046,6 +1047,7 @@ features:
         # - drive.quota # quota
       # @schema
       # type: [string, null]
+      # format: uri
       # required: false
       # @schema
       # -- URI to connect to the LDAP secure server.
@@ -1136,13 +1138,19 @@ features:
         # -- Search base DN for looking up LDAP users.
         baseDN: ou=users,dc=owncloud,dc=com
         # @schema
-        # type: string
+        # enum:
+        #   - base
+        #   - sub
+        #   - one
         # required: true
         # @schema
         # -- LDAP search scope to use when looking up users. Supported values are `base`, `one` and `sub`.
         scope: sub
         # @schema
-        # type: string
+        # enum:
+        #   - initial
+        #   - final
+        #   - any
         # required: true
         # @schema
         # -- Type of substring search filter to use for substring searches for users. Possible values: `initial` for doing prefix only searches, `final` for doing suffix only searches or `any` for doing full substring searches
@@ -1153,10 +1161,14 @@ features:
         # @schema
         # -- LDAP filter to add to the default filters for user search like `(objectclass=ownCloud)`.
         filter:
+        # @schema
+        # type: string
+        # required: true
+        # @schema
         # -- The object class to use for users in the default user search filter like `inetOrgPerson`.
         objectClass: inetOrgPerson
         # @schema
-        # enum: [default, none]
+        # type: string
         # required: true
         # @schema
         # -- Apply restrictions to usernames. Supported values are 'default' and 'none'. When set to 'default', user names must not start with a number and are restricted to ASCII characters. When set to 'none', no restrictions are applied. The default value is 'default'.
@@ -1388,6 +1400,7 @@ features:
       timeout: 300
       # @schema
       # type: [string, null]
+      # format: uri
       # required: false
       # @schema
       # -- Sets the icap url
@@ -5132,7 +5145,6 @@ services:
       # type: [string, null]
       # required: false
       # @schema
-      # -- Image pull policy
       # -- Image pull policy
       pullPolicy:
 

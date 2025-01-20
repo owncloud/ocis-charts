@@ -1056,6 +1056,7 @@
                 "uri": {
                   "default": "",
                   "description": "- user.onPremisesSamAccountName # username\n- user.displayName # display name\n- user.mail # mail\n- user.passwordProfile # password\n- user.appRoleAssignments # role\n- user.accountEnabled # login allowed\n- drive.quota # quota\nURI to connect to the LDAP secure server.",
+                  "format": "uri",
                   "required": [],
                   "title": "uri",
                   "type": [
@@ -1157,26 +1158,31 @@
                     "scope": {
                       "default": "sub",
                       "description": "LDAP search scope to use when looking up users. Supported values are `base`, `one` and `sub`.",
+                      "enum": [
+                        "base",
+                        "sub",
+                        "one"
+                      ],
                       "required": [],
-                      "title": "scope",
-                      "type": "string"
+                      "title": "scope"
                     },
                     "substringFilterType": {
                       "default": "any",
                       "description": "Type of substring search filter to use for substring searches for users. Possible values: `initial` for doing prefix only searches, `final` for doing suffix only searches or `any` for doing full substring searches",
+                      "enum": [
+                        "initial",
+                        "final",
+                        "any"
+                      ],
                       "required": [],
-                      "title": "substringFilterType",
-                      "type": "string"
+                      "title": "substringFilterType"
                     },
                     "userNameMatch": {
                       "default": "default",
                       "description": "Apply restrictions to usernames. Supported values are 'default' and 'none'. When set to 'default', user names must not start with a number and are restricted to ASCII characters. When set to 'none', no restrictions are applied. The default value is 'default'.",
-                      "enum": [
-                        "default",
-                        "none"
-                      ],
                       "required": [],
-                      "title": "userNameMatch"
+                      "title": "userNameMatch",
+                      "type": "string"
                     }
                   },
                   "required": [
@@ -1237,6 +1243,7 @@
                 "issuerURI": {
                   "default": "",
                   "description": "Issuer URI of the OpenID Connect Identity Provider.\nIf the IDP doesn't have valid / trusted SSL certificates, certificate validation can be disabled with the `insecure.oidcIdpInsecure` option.\nThe issuerURI will be automatically be added to http.csp.directives.connectSrc",
+                  "format": "uri",
                   "required": [],
                   "title": "issuerURI",
                   "type": [
@@ -1812,6 +1819,7 @@
                 "url": {
                   "default": "",
                   "description": "Sets the icap url",
+                  "format": "uri",
                   "required": [],
                   "title": "url",
                   "type": [
