@@ -442,7 +442,7 @@ messagingSystem:
 #       anyOf:
 #         - format: ivp4
 #           type: string
-#         - format: ivp4
+#         - format: ivp6
 #           type: string
 #       required: true
 #     hostnames:
@@ -521,21 +521,55 @@ features:
       encryption: ssltls
     summary:
       daily:
+        # @schema
+        # type: boolean
+        # required: true
+        # @schema
         # -- Enables a job, that sends out a summary for the day.
         enabled: false
+        # @schema
+        # type: string
+        # required: true
+        # @schema
         # -- Cron pattern for the job to be run.
         schedule: "0 0 * * *"
+        # @schema
+        # type: [string, null]
+        # required: false
+        # @schema
         # -- Timezone to be applied to the cron pattern.
         timezone:
+        # @schema
+        # type: integer
+        # minimum: 1
+        # required: true
+        # @schema
         # -- Defines the a deadline (in whole seconds) for starting the Job, if that Job misses its scheduled time for any reason.
         startingDeadlineSeconds: 600
       weekly:
+        # @schema
+        # type: boolean
+        # required: true
+        # @schema
         # -- Enables a job, that sends out a summary for the week.
         enabled: false
+        # @schema
+        # type: string
+        # required: true
+        # @schema
         # -- Cron pattern for the job to be run.
         schedule: "0 0 * * 0"
+        # @schema
+        # type: [string, null]
+        # required: false
+        # @schema
         # -- Timezone to be applied to the cron pattern.
         timezone:
+        # @schema
+        # type: integer
+        # minimum: 1
+        # required: true
+        # @schema
         # -- Defines the a deadline (in whole seconds) for starting the Job, if that Job misses its scheduled time for any reason.
         startingDeadlineSeconds: 600
 
@@ -3168,10 +3202,20 @@ services:
       # @schema
       # -- Image pull policy
       pullPolicy:
+    # @schema
+    # $ref: schema/templates.json#/resourcesTemplate
+    # @schema
     # -- Per-service jobResources configuration. Overrides the default setting from `jobResources` if set.
     jobResources: {}
+    # @schema
+    # $ref: schema/templates.json#/labelsTemplate
+    # @schema
     # -- Per-service jobNodeSelector configuration. Overrides the default setting from `jobNodeSelector` if set.
     jobNodeSelector: {}
+    # @schema
+    # type: [string, null]
+    # required: false
+    # @schema
     # -- Per-service jobPriorityClassName configuration. Overrides the default setting from `jobPriorityClassName` if set.
     jobPriorityClassName: ""
 

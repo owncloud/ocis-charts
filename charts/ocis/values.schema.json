@@ -671,11 +671,111 @@
               ],
               "title": "smtp",
               "type": "object"
+            },
+            "summary": {
+              "additionalProperties": false,
+              "properties": {
+                "daily": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "enabled": {
+                      "default": false,
+                      "description": "Enables a job, that sends out a summary for the day.",
+                      "required": [],
+                      "title": "enabled",
+                      "type": "boolean"
+                    },
+                    "schedule": {
+                      "default": "0 0 * * *",
+                      "description": "Cron pattern for the job to be run.",
+                      "required": [],
+                      "title": "schedule",
+                      "type": "string"
+                    },
+                    "startingDeadlineSeconds": {
+                      "default": 600,
+                      "description": "Defines the a deadline (in whole seconds) for starting the Job, if that Job misses its scheduled time for any reason.",
+                      "minimum": 1,
+                      "required": [],
+                      "title": "startingDeadlineSeconds",
+                      "type": "integer"
+                    },
+                    "timezone": {
+                      "default": "",
+                      "description": "Timezone to be applied to the cron pattern.",
+                      "required": [],
+                      "title": "timezone",
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "enabled",
+                    "schedule",
+                    "startingDeadlineSeconds"
+                  ],
+                  "title": "daily",
+                  "type": "object"
+                },
+                "weekly": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "enabled": {
+                      "default": false,
+                      "description": "Enables a job, that sends out a summary for the week.",
+                      "required": [],
+                      "title": "enabled",
+                      "type": "boolean"
+                    },
+                    "schedule": {
+                      "default": "0 0 * * 0",
+                      "description": "Cron pattern for the job to be run.",
+                      "required": [],
+                      "title": "schedule",
+                      "type": "string"
+                    },
+                    "startingDeadlineSeconds": {
+                      "default": 600,
+                      "description": "Defines the a deadline (in whole seconds) for starting the Job, if that Job misses its scheduled time for any reason.",
+                      "minimum": 1,
+                      "required": [],
+                      "title": "startingDeadlineSeconds",
+                      "type": "integer"
+                    },
+                    "timezone": {
+                      "default": "",
+                      "description": "Timezone to be applied to the cron pattern.",
+                      "required": [],
+                      "title": "timezone",
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "enabled",
+                    "schedule",
+                    "startingDeadlineSeconds"
+                  ],
+                  "title": "weekly",
+                  "type": "object"
+                }
+              },
+              "required": [
+                "daily",
+                "weekly"
+              ],
+              "title": "summary",
+              "type": "object"
             }
           },
           "required": [
             "enabled",
             "smtp",
+            "summary",
             "branding"
           ],
           "title": "emailNotifications",
@@ -1798,7 +1898,7 @@
                 "type": "string"
               },
               {
-                "format": "ivp4",
+                "format": "ivp6",
                 "required": [],
                 "type": "string"
               }
@@ -6239,6 +6339,68 @@
               },
               "required": [],
               "title": "image",
+              "type": "object"
+            },
+            "jobNodeSelector": {
+              "additionalProperties": false,
+              "description": "Per-service jobNodeSelector configuration. Overrides the default setting from `jobNodeSelector` if set.",
+              "patternProperties": {
+                ".*": {
+                  "required": [],
+                  "type": "string"
+                }
+              },
+              "required": [],
+              "title": "jobNodeSelector",
+              "type": "object"
+            },
+            "jobPriorityClassName": {
+              "default": "",
+              "description": "Per-service jobPriorityClassName configuration. Overrides the default setting from `jobPriorityClassName` if set.",
+              "required": [],
+              "title": "jobPriorityClassName",
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "jobResources": {
+              "additionalProperties": false,
+              "description": "Per-service jobResources configuration. Overrides the default setting from `jobResources` if set.",
+              "properties": {
+                "limits": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "cpu": {
+                      "required": [],
+                      "type": "string"
+                    },
+                    "memory": {
+                      "required": [],
+                      "type": "string"
+                    }
+                  },
+                  "required": [],
+                  "type": "object"
+                },
+                "requests": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "cpu": {
+                      "required": [],
+                      "type": "string"
+                    },
+                    "memory": {
+                      "required": [],
+                      "type": "string"
+                    }
+                  },
+                  "required": [],
+                  "type": "object"
+                }
+              },
+              "required": [],
+              "title": "jobResources",
               "type": "object"
             },
             "nodeSelector": {
