@@ -38,21 +38,21 @@ releases:
   - name: rabbitmq
     namespace: onlyoffice
     chart: bitnami/rabbitmq
-    version: 15.0.4
+    version: 15.2.1
     labels:
       ci-lint-skip: true # skip linting this chart in CI
 
   - name: redis
     namespace: onlyoffice
     chart: bitnami/redis
-    version: 20.2.1
+    version: 20.6.2
     labels:
       ci-lint-skip: true # skip linting this chart in CI
 
   - name: postgres-operator
     namespace: onlyoffice
     chart: postgres-operator/postgres-operator
-    version: 1.13.0
+    version: 1.14.0
     labels:
       ci-lint-skip: true # skip linting this chart in CI
     values:
@@ -112,7 +112,7 @@ releases:
   - name: collabora
     namespace: collabora
     chart: collabora/collabora-online
-    version: 1.1.25
+    version: 1.1.28
     labels:
       ci-lint-skip: true # skip linting this chart in CI
     values:

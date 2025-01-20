@@ -26,6 +26,7 @@ spec:
           env:
             {{- include "ocis.serviceRegistry" . | nindent 12 }}
             {{- include "ocis.events" . | nindent 12 }}
+            {{- include "ocis.persistentStore" . | nindent 12 }}
 
             - name: OCIS_DEFAULT_LANGUAGE
               value: {{ default "en" .Values.features.language.default | quote }}

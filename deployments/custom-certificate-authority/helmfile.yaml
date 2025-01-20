@@ -5,7 +5,7 @@ repositories:
 releases:
   - name: cert-manager
     chart: jetstack/cert-manager
-    version: v1.16.1
+    version: v1.16.2
     namespace: cert-manager
     labels:
       ci-lint-skip: true # skip linting this chart in CI
@@ -23,7 +23,7 @@ releases:
 
   - name: trust-manager
     chart: jetstack/trust-manager
-    version: v0.13.0
+    version: v0.14.0
     namespace: cert-manager
     labels:
       ci-lint-skip: true # skip linting this chart in CI

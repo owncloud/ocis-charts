@@ -520,6 +520,26 @@ features:
       # @schema
       # -- Encryption method for the SMTP communication. Possible values are `starttls`, `ssl`, `ssltls`, `tls` and `none`
       encryption: ssltls
+    summary:
+      daily:
+        # -- Enables a job, that sends out a summary for the day.
+        enabled: false
+        # -- Cron pattern for the job to be run.
+        schedule: "0 0 * * *"
+        # -- Timezone to be applied to the cron pattern.
+        timezone:
+        # -- Defines the a deadline (in whole seconds) for starting the Job, if that Job misses its scheduled time for any reason.
+        startingDeadlineSeconds: 600
+      weekly:
+        # -- Enables a job, that sends out a summary for the week.
+        enabled: false
+        # -- Cron pattern for the job to be run.
+        schedule: "0 0 * * 0"
+        # -- Timezone to be applied to the cron pattern.
+        timezone:
+        # -- Defines the a deadline (in whole seconds) for starting the Job, if that Job misses its scheduled time for any reason.
+        startingDeadlineSeconds: 600
+
     branding:
       # @schema
       # type: boolean
@@ -3149,6 +3169,12 @@ services:
       # @schema
       # -- Image pull policy
       pullPolicy:
+    # -- Per-service jobResources configuration. Overrides the default setting from `jobResources` if set.
+    jobResources: {}
+    # -- Per-service jobNodeSelector configuration. Overrides the default setting from `jobNodeSelector` if set.
+    jobNodeSelector: {}
+    # -- Per-service jobPriorityClassName configuration. Overrides the default setting from `jobPriorityClassName` if set.
+    jobPriorityClassName: ""
 
   # -- OCDAV service.
   # @default -- see detailed service configuration options below

@@ -8,7 +8,7 @@ releases:
   - name: postgres-operator
     namespace: postgres-operator
     chart: postgres-operator/postgres-operator
-    version: 1.13.0
+    version: 1.14.0
     labels:
       ci-lint-skip: true # skip linting this chart in CI
     values:
