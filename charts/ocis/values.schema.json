@@ -5704,8 +5704,13 @@
                 "accessModes": {
                   "description": "Persistent volume access modes.",
                   "items": {
-                    "required": [],
-                    "type": "string"
+                    "enum": [
+                      "ReadWriteOnce",
+                      "ReadOnlyMany",
+                      "ReadWriteMany",
+                      "ReadWriteOncePod"
+                    ],
+                    "required": []
                   },
                   "required": [],
                   "title": "accessModes",
@@ -6089,8 +6094,13 @@
                 "accessModes": {
                   "description": "Persistent volume access modes.",
                   "items": {
-                    "required": [],
-                    "type": "string"
+                    "enum": [
+                      "ReadWriteOnce",
+                      "ReadOnlyMany",
+                      "ReadWriteMany",
+                      "ReadWriteOncePod"
+                    ],
+                    "required": []
                   },
                   "required": [],
                   "title": "accessModes",
@@ -6812,8 +6822,13 @@
                 "accessModes": {
                   "description": "Persistent volume access modes.",
                   "items": {
-                    "required": [],
-                    "type": "string"
+                    "enum": [
+                      "ReadWriteOnce",
+                      "ReadOnlyMany",
+                      "ReadWriteMany",
+                      "ReadWriteOncePod"
+                    ],
+                    "required": []
                   },
                   "required": [],
                   "title": "accessModes",
@@ -7977,8 +7992,13 @@
                 "accessModes": {
                   "description": "Persistent volume access modes.",
                   "items": {
-                    "required": [],
-                    "type": "string"
+                    "enum": [
+                      "ReadWriteOnce",
+                      "ReadOnlyMany",
+                      "ReadWriteMany",
+                      "ReadWriteOncePod"
+                    ],
+                    "required": []
                   },
                   "required": [],
                   "title": "accessModes",
@@ -9340,8 +9360,13 @@
                 "accessModes": {
                   "description": "Persistent volume access modes. Needs to be `[ReadWriteMany]` when having more than one replica for this service.",
                   "items": {
-                    "required": [],
-                    "type": "string"
+                    "enum": [
+                      "ReadWriteOnce",
+                      "ReadOnlyMany",
+                      "ReadWriteMany",
+                      "ReadWriteOncePod"
+                    ],
+                    "required": []
                   },
                   "required": [],
                   "title": "accessModes",
@@ -9967,8 +9992,13 @@
                 "accessModes": {
                   "description": "Persistent volume access modes. Needs to be `[ReadWriteMany]` when having more than one replica for this service.",
                   "items": {
-                    "required": [],
-                    "type": "string"
+                    "enum": [
+                      "ReadWriteOnce",
+                      "ReadOnlyMany",
+                      "ReadWriteMany",
+                      "ReadWriteOncePod"
+                    ],
+                    "required": []
                   },
                   "required": [],
                   "title": "accessModes",
@@ -10627,8 +10657,13 @@
                 "accessModes": {
                   "description": "Persistent volume access modes. Needs to be `[ReadWriteMany]` when having more than one replica for this service or persistence needs to be disabled.",
                   "items": {
-                    "required": [],
-                    "type": "string"
+                    "enum": [
+                      "ReadWriteOnce",
+                      "ReadOnlyMany",
+                      "ReadWriteMany",
+                      "ReadWriteOncePod"
+                    ],
+                    "required": []
                   },
                   "required": [],
                   "title": "accessModes",
@@ -11138,7 +11173,7 @@
               "properties": {
                 "pullPolicy": {
                   "default": "",
-                  "description": "Image pull policy\nImage pull policy",
+                  "description": "Image pull policy",
                   "required": [],
                   "title": "pullPolicy",
                   "type": [
@@ -11751,8 +11786,13 @@
                 "accessModes": {
                   "description": "Persistent volume access modes. Needs to be `[ReadWriteMany]` when having more than one replica for this service or persistence needs to be disabled.",
                   "items": {
-                    "required": [],
-                    "type": "string"
+                    "enum": [
+                      "ReadWriteOnce",
+                      "ReadOnlyMany",
+                      "ReadWriteMany",
+                      "ReadWriteOncePod"
+                    ],
+                    "required": []
                   },
                   "required": [],
                   "title": "accessModes",

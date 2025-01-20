@@ -2302,7 +2302,7 @@ see detailed persistence configuration options below
 a| [subs=-attributes]
 +list+
 a| [subs=-attributes]
-`["ReadWriteOnce"]`
+`["ReadWriteOncePod"]`
 | Persistent volume access modes.
 | services.idm.persistence.annotations
 a| [subs=-attributes]
@@ -2482,7 +2482,7 @@ see detailed persistence configuration options below
 a| [subs=-attributes]
 +list+
 a| [subs=-attributes]
-`["ReadWriteOnce"]`
+`["ReadWriteOncePod"]`
 | Persistent volume access modes.
 | services.nats.persistence.annotations
 a| [subs=-attributes]
@@ -2770,7 +2770,7 @@ see detailed persistence configuration options below
 a| [subs=-attributes]
 +list+
 a| [subs=-attributes]
-`["ReadWriteOnce"]`
+`["ReadWriteOncePod"]`
 | Persistent volume access modes.
 | services.ocm.persistence.annotations
 a| [subs=-attributes]
@@ -3226,7 +3226,7 @@ see detailed persistence configuration options below
 a| [subs=-attributes]
 +list+
 a| [subs=-attributes]
-`["ReadWriteOnce"]`
+`["ReadWriteOncePod"]`
 | Persistent volume access modes.
 | services.search.persistence.annotations
 a| [subs=-attributes]

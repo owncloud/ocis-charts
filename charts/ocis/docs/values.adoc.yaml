@@ -2877,12 +2877,16 @@ services:
       # @schema
       # type: array
       # items:
-      #   type: string
+      #   enum:
+      #     - ReadWriteOnce
+      #     - ReadOnlyMany
+      #     - ReadWriteMany
+      #     - ReadWriteOncePod
       #   required: true
       # @schema
       # -- Persistent volume access modes.
       accessModes:
-        - ReadWriteOnce
+        - ReadWriteOncePod
       # @schema
       # type: string
       # required: true
@@ -3058,12 +3062,16 @@ services:
       # @schema
       # type: array
       # items:
-      #   type: string
+      #   enum:
+      #     - ReadWriteOnce
+      #     - ReadOnlyMany
+      #     - ReadWriteMany
+      #     - ReadWriteOncePod
       #   required: true
       # @schema
       # -- Persistent volume access modes.
       accessModes:
-        - ReadWriteOnce
+        - ReadWriteOncePod
       # @schema
       # type: string
       # required: true
@@ -3385,12 +3393,16 @@ services:
       # @schema
       # type: array
       # items:
-      #   type: string
+      #   enum:
+      #     - ReadWriteOnce
+      #     - ReadOnlyMany
+      #     - ReadWriteMany
+      #     - ReadWriteOncePod
       #   required: true
       # @schema
       # -- Persistent volume access modes.
       accessModes:
-        - ReadWriteOnce
+        - ReadWriteOncePod
       # @schema
       # type: string
       # required: true
@@ -3777,12 +3789,16 @@ services:
       # @schema
       # type: array
       # items:
-      #   type: string
+      #   enum:
+      #     - ReadWriteOnce
+      #     - ReadOnlyMany
+      #     - ReadWriteMany
+      #     - ReadWriteOncePod
       #   required: true
       # @schema
       # -- Persistent volume access modes.
       accessModes:
-        - ReadWriteOnce
+        - ReadWriteOncePod
       # @schema
       # type: string
       # required: true
@@ -4254,7 +4270,11 @@ services:
       # @schema
       # type: array
       # items:
-      #   type: string
+      #   enum:
+      #     - ReadWriteOnce
+      #     - ReadOnlyMany
+      #     - ReadWriteMany
+      #     - ReadWriteOncePod
       #   required: true
       # @schema
       # -- Persistent volume access modes. Needs to be `[ReadWriteMany]` when having more than one replica for this service.
@@ -4643,7 +4663,11 @@ services:
       # @schema
       # type: array
       # items:
-      #   type: string
+      #   enum:
+      #     - ReadWriteOnce
+      #     - ReadOnlyMany
+      #     - ReadWriteMany
+      #     - ReadWriteOncePod
       #   required: true
       # @schema
       # -- Persistent volume access modes. Needs to be `[ReadWriteMany]` when having more than one replica for this service.
@@ -4824,7 +4848,11 @@ services:
       # @schema
       # type: array
       # items:
-      #   type: string
+      #   enum:
+      #     - ReadWriteOnce
+      #     - ReadOnlyMany
+      #     - ReadWriteMany
+      #     - ReadWriteOncePod
       #   required: true
       # @schema
       # -- Persistent volume access modes. Needs to be `[ReadWriteMany]` when having more than one replica for this service or persistence needs to be disabled.
@@ -5147,7 +5175,6 @@ services:
       # required: false
       # @schema
       # -- Image pull policy
-      # -- Image pull policy
       pullPolicy:
 
   # -- ownCloud WEB service.
@@ -5370,7 +5397,11 @@ services:
       # @schema
       # type: array
       # items:
-      #   type: string
+      #   enum:
+      #     - ReadWriteOnce
+      #     - ReadOnlyMany
+      #     - ReadWriteMany
+      #     - ReadWriteOncePod
       #   required: true
       # @schema
       # -- Persistent volume access modes. Needs to be `[ReadWriteMany]` when having more than one replica for this service or persistence needs to be disabled.
