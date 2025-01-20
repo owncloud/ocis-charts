@@ -11553,6 +11553,7 @@
                     "href": {
                       "default": "",
                       "description": "URI where the feedback link points. Uses the ownCloud default href if empty.",
+                      "format": "uri",
                       "required": [],
                       "title": "href",
                       "type": [
@@ -11573,6 +11574,7 @@
                     "loginURL": {
                       "default": "",
                       "description": "Specifies the target url valid for the logged out / access denied page.",
+                      "format": "uri",
                       "required": [],
                       "title": "loginURL",
                       "type": [
@@ -11583,6 +11585,7 @@
                     "postLogoutRedirectURI": {
                       "default": "",
                       "description": "URI where to redirect the user after a logout was performed. Defaults to the URI of the login page.",
+                      "format": "uri",
                       "required": [],
                       "title": "postLogoutRedirectURI",
                       "type": [
@@ -11614,7 +11617,7 @@
                 },
                 "scripts": {
                   "additionalProperties": true,
-                  "description": "- href: /theme/foo.css\nConfigure the {\"styles\": []} section in the Web config.json.",
+                  "description": "- href: /theme/foo.css\nConfigure the {\"scripts\": []} section in the Web config.json.",
                   "items": {
                     "required": []
                   },

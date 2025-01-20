@@ -5205,6 +5205,7 @@ services:
         enabled: true
         # @schema
         # type: [string, null]
+        # format: uri
         # required: false
         # @schema
         # -- URI where the feedback link points. Uses the ownCloud default href if empty.
@@ -5231,7 +5232,7 @@ services:
       # @schema
       # additionalProperties: true
       # @schema
-      # -- Configure the {"styles": []} section in the Web config.json.
+      # -- Configure the {"scripts": []} section in the Web config.json.
       scripts:
         []
         # - src: /theme/foo.js
@@ -5289,12 +5290,14 @@ services:
         webClientID: web
         # @schema
         # type: [string, null]
+        # format: uri
         # required: false
         # @schema
         # -- URI where to redirect the user after a logout was performed. Defaults to the URI of the login page.
         postLogoutRedirectURI:
         # @schema
         # type: [string, null]
+        # format: uri
         # required: false
         # @schema
         # -- Specifies the target url valid for the logged out / access denied page.

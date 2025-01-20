@@ -4649,7 +4649,7 @@ a| [subs=-attributes]
 +list+
 a| [subs=-attributes]
 `[]`
-| Configure the {"styles": []} section in the Web config.json.
+| Configure the {"scripts": []} section in the Web config.json.
 | services.web.config.styles
 a| [subs=-attributes]
 +list+
