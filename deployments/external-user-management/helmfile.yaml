@@ -9,6 +9,8 @@ releases:
     namespace: postgres-operator
     chart: postgres-operator/postgres-operator
     version: 1.14.0
+    labels:
+      ci-lint-skip: true # skip linting this chart in CI
     values:
       - configConnectionPooler:
           connection_pooler_max_db_connections: 300
@@ -18,16 +20,22 @@ releases:
   - name: postgres
     chart: ./charts/postgresql
     namespace: keycloak
+    labels:
+      ci-lint-skip: true # skip linting this chart in CI
     needs:
       - postgres-operator/postgres-operator
 
   - name: keycloak-operator
     chart: ./charts/keycloak-k8s-resources/kubernetes
     namespace: keycloak
+    labels:
+      ci-lint-skip: true # skip linting this chart in CI
 
   - name: keycloak
     chart: ./charts/keycloak
     namespace: keycloak
+    labels:
+      ci-lint-skip: true # skip linting this chart in CI
     needs:
       - keycloak/keycloak-operator
       - keycloak/postgres
@@ -36,6 +44,8 @@ releases:
     namespace: openldap
     chart: openldap/openldap-stack-ha
     version: 4.3.1
+    labels:
+      ci-lint-skip: true # skip linting this chart in CI
     values:
       - ltb-passwd:
           enabled: false

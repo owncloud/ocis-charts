@@ -35,11 +35,23 @@ $(HELM_DOCS): $(BINGO_DIR)/helm-docs.mod
 	@echo "(re)installing $(GOBIN)/helm-docs-v1.14.2"
 	@cd $(BINGO_DIR) && GOWORK=off $(GO) build -mod=mod -modfile=helm-docs.mod -o=$(GOBIN)/helm-docs-v1.14.2 "github.com/norwoodj/helm-docs/cmd/helm-docs"
 
+HELM_SCHEMA := $(GOBIN)/helm-schema-v0.0.0-20241230184257-6f2eeb34f592
+$(HELM_SCHEMA): $(BINGO_DIR)/helm-schema.mod
+	@# Install binary/ries using Go 1.14+ build command. This is using bwplotka/bingo-controlled, separate go module with pinned dependencies.
+	@echo "(re)installing $(GOBIN)/helm-schema-v0.0.0-20241230184257-6f2eeb34f592"
+	@cd $(BINGO_DIR) && GOWORK=off $(GO) build -mod=mod -modfile=helm-schema.mod -o=$(GOBIN)/helm-schema-v0.0.0-20241230184257-6f2eeb34f592 "github.com/dadav/helm-schema/cmd/helm-schema"
+
 HELM := $(GOBIN)/helm-v3.16.2
 $(HELM): $(BINGO_DIR)/helm.mod
 	@# Install binary/ries using Go 1.14+ build command. This is using bwplotka/bingo-controlled, separate go module with pinned dependencies.
 	@echo "(re)installing $(GOBIN)/helm-v3.16.2"
 	@cd $(BINGO_DIR) && GOWORK=off $(GO) build -mod=mod -modfile=helm.mod -o=$(GOBIN)/helm-v3.16.2 "helm.sh/helm/v3/cmd/helm"
+
+HELMFILE := $(GOBIN)/helmfile-v0.169.1
+$(HELMFILE): $(BINGO_DIR)/helmfile.mod
+	@# Install binary/ries using Go 1.14+ build command. This is using bwplotka/bingo-controlled, separate go module with pinned dependencies.
+	@echo "(re)installing $(GOBIN)/helmfile-v0.169.1"
+	@cd $(BINGO_DIR) && GOWORK=off $(GO) build -mod=mod -modfile=helmfile.mod -o=$(GOBIN)/helmfile-v0.169.1 "github.com/helmfile/helmfile"
 
 KUBE_LINTER := $(GOBIN)/kube-linter-v0.6.8
 $(KUBE_LINTER): $(BINGO_DIR)/kube-linter.mod
