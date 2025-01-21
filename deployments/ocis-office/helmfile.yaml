@@ -38,7 +38,7 @@ releases:
   - name: rabbitmq
     namespace: onlyoffice
     chart: bitnami/rabbitmq
-    version: 15.2.1
+    version: 15.2.3
     labels:
       ci-lint-skip: true # skip linting this chart in CI
 
