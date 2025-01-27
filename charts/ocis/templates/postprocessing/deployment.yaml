@@ -1,5 +1,4 @@
 {{- include "ocis.basicServiceTemplates" (dict "scope" . "appName" "appNamePostprocessing" "appNameSuffix" "") -}}
-{{- $_ := set . "store" (default (default (dict) .Values.store) .Values.services.postprocessing.store) -}}
 apiVersion: apps/v1
 kind: Deployment
 {{ include "ocis.metadata" . }}
@@ -51,6 +50,9 @@ spec:
             - name: POSTPROCESSING_DEBUG_ADDR
               value: 0.0.0.0:9255
 
+            - name: POSTPROCESSING_WORKERS
+              value: {{ .Values.services.postprocessing.events.consumer.concurrency | quote }}
+
             {{- $_ := set . "postprocessingSteps" list -}}
             {{/*
             # We currently don't support enforcing policies as a postprocessing step.
@@ -67,6 +69,8 @@ spec:
               value: {{ join "," .postprocessingSteps | quote }}
             {{- end }}
 
+            {{- include "ocis.caEnv" $ | nindent 12}}
+
           {{- include "ocis.livenessProbe" . | nindent 10 }}
 
           resources: {{ toYaml .resources | nindent 12 }}
@@ -76,12 +80,17 @@ spec:
               containerPort: 9255
 
           volumeMounts:
+            - name: tmp-volume
+              mountPath: /tmp
             - name: messaging-system-ca
               mountPath: /etc/ocis/messaging-system-ca
               readOnly: true
+            {{- include "ocis.caPath" $ | nindent 12}}
 
       {{- include "ocis.imagePullSecrets" $ | nindent 6 }}
       volumes:
+        - name: tmp-volume
+          emptyDir: {}
         - name: messaging-system-ca
           {{ if and (.Values.messagingSystem.external.enabled) (not .Values.messagingSystem.external.tls.certTrusted) }}
           secret:
@@ -89,3 +98,4 @@ spec:
           {{ else }}
           emptyDir: {}
           {{ end }}
+        {{- include "ocis.caVolume" $ | nindent 8}}

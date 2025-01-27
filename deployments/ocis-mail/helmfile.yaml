@@ -6,6 +6,9 @@ releases:
   - name: inbucket
     chart: inbucket/inbucket
     namespace: inbucket
+    version: 2.5.0
+    labels:
+      ci-lint-skip: true # skip linting this chart in CI
     values:
       - ingress:
           enabled: true
@@ -45,6 +48,11 @@ releases:
               encryption: none
             branding:
               enabled: false # you can set this to true if you first run `kubectl -n ocis apply -f mail-templates.yaml`
+            summary:
+              daily:
+                enabled: true
+              weekly:
+                enabled: true
 
       - services:
           idm:

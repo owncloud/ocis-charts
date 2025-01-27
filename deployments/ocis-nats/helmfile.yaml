@@ -6,7 +6,9 @@ releases:
   - name: nats
     namespace: ocis-nats
     chart: nats/nats
-    version: 1.2.4
+    version: 1.2.9
+    labels:
+      ci-lint-skip: true # skip linting this chart in CI
     values:
       - config:
           cluster:
@@ -51,10 +53,14 @@ releases:
   - name: nack-crds
     namespace: ocis-nack
     chart: ./crds
+    labels:
+      ci-lint-skip: true # skip linting this chart in CI
 
   - name: nack-streams
     namespace: ocis-nats
     chart: ./streams
+    labels:
+      ci-lint-skip: true # skip linting this chart in CI
     needs:
       - ocis-nats/nats
       - ocis-nack/nack-crds
@@ -62,7 +68,9 @@ releases:
   - name: nack
     namespace: ocis-nack
     chart: nats/nack
-    version: 0.26.1
+    version: 0.27.1
+    labels:
+      ci-lint-skip: true # skip linting this chart in CI
     values:
       - namespaced: false
       - readOnly: false

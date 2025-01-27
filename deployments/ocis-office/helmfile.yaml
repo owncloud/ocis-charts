@@ -14,6 +14,8 @@ releases:
     namespace: tika
     chart: tika/tika
     version: 2.9.0
+    labels:
+      ci-lint-skip: true # skip linting this chart in CI
     values:
       - image:
           tag: "latest-full" # using "full" tag for OCR func.
@@ -21,11 +23,15 @@ releases:
   - name: addons-onlyoffice
     chart: addons/onlyoffice
     namespace: onlyoffice
+    labels:
+      ci-lint-skip: true # skip linting this chart in CI
 
   - name: redis
     namespace: onlyoffice
     chart: bitnami/redis
     version: 20.1.0
+    labels:
+      ci-lint-skip: true # skip linting this chart in CI
     values:
       - replica:
           replicaCount: 0
@@ -36,6 +42,8 @@ releases:
     # version: 1.0.1
     needs:
       - onlyoffice/redis
+    labels:
+      ci-lint-skip: true # skip linting this chart in CI
     values:
       - ingress-nginx:
           enabled: false
@@ -75,16 +83,25 @@ releases:
             image:
               tag: 8.2.0-1
 
+  - name: addons-collabora
+    chart: addons/collabora
+    namespace: collabora
+    labels:
+      ci-lint-skip: true # skip linting this chart in CI
+
   - name: collabora
     namespace: collabora
     chart: collabora/collabora-online
-    version: 1.1.20
+    version: 1.1.30
+    labels:
+      ci-lint-skip: true # skip linting this chart in CI
     values:
       - collabora:
           aliasgroups:
             - host: "wopi-collabora.kube.owncloud.test" # needed because we connect via the ingress to the collaboration service
             # - host: "collaboration-collabora.ocis.svc.cluster.local" # needed if we would use the cluster internal Service to connect to the collaboration service
           extra_params: --o:ssl.enable=false --o:ssl.termination=true --o:net.frame_ancestors=ocis.kube.owncloud.test
+          proofKeysSecretRef: proofkey
       - ingress:
           enabled: true
           className: "nginx"
@@ -127,10 +144,12 @@ releases:
             enabled: true
             wopiIntegration:
               officeSuites:
-                - name: Collabora
+                - name: DemoCollabora
+                  product: Collabora
                   enabled: true
                   uri: "https://collabora.kube.owncloud.test"
                   insecure: true
+                  disableProof: false
                   iconURI: https://collabora.kube.owncloud.test/favicon.ico
                   ingress:
                     # Collabora connects to the collaboration service via Ingress in this case
@@ -143,11 +162,12 @@ releases:
                       - secretName: ocis-dev-tls
                         hosts:
                           - wopi-collabora.kube.owncloud.test
-                - name: OnlyOffice
+                - name: DemoOnlyOffice
+                  product: OnlyOffice
                   enabled: true
                   uri: "https://onlyoffice.kube.owncloud.test"
                   insecure: true
-                  disableProof: true # to be resolved in https://github.com/owncloud/ocis/issues/10022
+                  disableProof: false
                   iconURI: https://onlyoffice.kube.owncloud.test/web-apps/apps/documenteditor/main/resources/img/favicon.ico
                   ingress:
                     # OnlyOffice connects to the collaboration service via the cluster internal Service in this case

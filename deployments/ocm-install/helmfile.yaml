@@ -1,0 +1,244 @@
+repositories:
+  - name: inbucket
+    url: https://inbucket.github.io/inbucket-community
+
+releases:
+  - name: inbucket
+    chart: inbucket/inbucket
+    namespace: inbucket
+    labels:
+      ci-lint-skip: true # skip linting this chart in CI
+    values:
+      - ingress:
+          enabled: true
+          hosts:
+            - host: inbucket.kube.owncloud.test
+              paths:
+                - path: /
+          tls:
+            - secretName: inbucket-tls
+              hosts:
+                - inbucket.kube.owncloud.test
+
+  - name: ocis
+    chart: ../../charts/ocis
+    namespace: ocis
+    values:
+      - externalDomain: ocis.kube.owncloud.test
+      - ingress:
+          enabled: true
+          annotations:
+            nginx.ingress.kubernetes.io/proxy-body-size: 1024m
+          tls:
+            - secretName: ocis-dev-tls
+              hosts:
+                - ocis.kube.owncloud.test
+
+      - logging: &logging
+          level: debug
+
+      - insecure: &insecure
+          oidcIdpInsecure: true
+          ocisHttpApiInsecure: true
+          ocmInsecure: true
+
+      - features: &features
+          demoUsers: true
+          emailNotifications: # OCM invitations may be sent via email
+            enabled: true
+            smtp:
+              host: inbucket.inbucket.svc.cluster.local
+              port: 2500
+              sender: "ownCloud <noreply@ocis.kube.owncloud.test>"
+              authentication: none
+              encryption: none
+          ocm:
+            enabled: true
+            providersConfigRef: "ocmproviders"
+
+      - services: &services
+          idm:
+            persistence:
+              enabled: true
+              accessModes:
+                - ReadWriteOnce
+
+          nats:
+            persistence:
+              enabled: true
+              accessModes:
+                - ReadWriteOnce
+
+          search:
+            persistence:
+              enabled: true
+              accessModes:
+                - ReadWriteOnce
+
+          storagesystem:
+            persistence:
+              enabled: true
+              accessModes:
+                - ReadWriteOnce
+
+          ocm:
+            persistence:
+              enabled: true
+              accessModes:
+                - ReadWriteOnce
+
+          storageusers:
+            persistence:
+              enabled: true
+              accessModes:
+                - ReadWriteOnce
+            maintenance:
+              cleanUpExpiredUploads:
+                enabled: true
+                schedule: "* * * * *"
+              purgeExpiredTrashBinItems:
+                enabled: true
+                schedule: "* * * * *"
+              restartPostprocessing:
+                enabled: true
+                schedule: "* * * * *"
+
+          thumbnails:
+            persistence:
+              enabled: true
+              accessModes:
+                - ReadWriteOnce
+            maintenance:
+              cleanUpOldThumbnails:
+                enabled: true
+                schedule: "* * * * *"
+
+          web:
+            persistence:
+              enabled: true
+              accessModes:
+                - ReadWriteOnce
+            config:
+              apps:
+                - files
+                - search
+                - text-editor
+                - pdf-viewer
+                - external
+                - admin-settings
+                - epub-reader
+                - preview
+                - app-store
+                - ocm
+
+      - extraResources:
+          - &ocmproviders |
+            apiVersion: v1
+            kind: ConfigMap
+            metadata:
+              name: ocmproviders
+              namespace: {{ "{{" }} template "ocis.namespace" . {{ "}}" }}
+              labels:
+                {{ "{{" }}- include "ocis.labels" . | nindent 4 {{ "}}" }}
+            data:
+              ocmproviders.json: |
+                [
+                  {
+                      "name": "oCIS Test",
+                      "full_name": "oCIS Test provider",
+                      "organization": "oCIS",
+                      "domain": "ocis.kube.owncloud.test",
+                      "homepage": "https://ocis.kube.owncloud.test",
+                      "description": "oCIS Example cloud storage",
+                      "services": [
+                          {
+                              "endpoint": {
+                                  "type": {
+                                      "name": "OCM",
+                                      "description": "ocis.kube.owncloud.test Open Cloud Mesh API"
+                                  },
+                                  "name": "ocis.kube.owncloud.test - OCM API",
+                                  "path": "https://ocis.kube.owncloud.test/ocm/",
+                                  "is_monitored": true
+                              },
+                              "api_version": "0.0.1",
+                              "host": "https://ocis.kube.owncloud.test"
+                          },
+                          {
+                              "endpoint": {
+                                  "type": {
+                                      "name": "Webdav",
+                                      "description": "ocis.kube.owncloud.test Webdav API"
+                                  },
+                                  "name": "ocis.kube.owncloud.test Example - Webdav API",
+                                  "path": "https://ocis.kube.owncloud.test/dav/",
+                                  "is_monitored": true
+                              },
+                              "api_version": "0.0.1",
+                              "host": "https://ocis.kube.owncloud.test/"
+                          }
+                      ]
+                  },
+                  {
+                      "name": "oCIS Test",
+                      "full_name": "oCIS Test provider",
+                      "organization": "oCIS",
+                      "domain": "ocis2.kube.owncloud.test",
+                      "homepage": "https://ocis2.kube.owncloud.test",
+                      "description": "oCIS Example cloud storage",
+                      "services": [
+                          {
+                              "endpoint": {
+                                  "type": {
+                                      "name": "OCM",
+                                      "description": "ocis2.kube.owncloud.test Open Cloud Mesh API"
+                                  },
+                                  "name": "ocis2.kube.owncloud.test - OCM API",
+                                  "path": "https://ocis2.kube.owncloud.test/ocm/",
+                                  "is_monitored": true
+                              },
+                              "api_version": "0.0.1",
+                              "host": "https://ocis2.kube.owncloud.test"
+                          },
+                          {
+                              "endpoint": {
+                                  "type": {
+                                      "name": "Webdav",
+                                      "description": "ocis2.kube.owncloud.test Webdav API"
+                                  },
+                                  "name": "ocis2.kube.owncloud.test Example - Webdav API",
+                                  "path": "https://ocis2.kube.owncloud.test/dav/",
+                                  "is_monitored": true
+                              },
+                              "api_version": "0.0.1",
+                              "host": "https://ocis2.kube.owncloud.test/"
+                          }
+                      ]
+                  }
+                ]
+
+  - name: ocis2
+    chart: ../../charts/ocis
+    namespace: ocis2
+    values:
+      - externalDomain: ocis2.kube.owncloud.test
+      - ingress:
+          enabled: true
+          annotations:
+            nginx.ingress.kubernetes.io/proxy-body-size: 1024m
+          tls:
+            - secretName: ocis-dev-tls
+              hosts:
+                - ocis2.kube.owncloud.test
+
+      # for the following configuration, see the other oCIS release
+      - logging:
+          <<: *logging
+      - insecure:
+          <<: *insecure
+      - features:
+          <<: *features
+      - services:
+          <<: *services
+      - extraResources:
+          - *ocmproviders

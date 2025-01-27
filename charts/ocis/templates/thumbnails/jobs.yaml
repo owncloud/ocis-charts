@@ -11,7 +11,10 @@ metadata:
   annotations:
     ignore-check.kube-linter.io/latest-tag: "using the stable tag on this busybox image is better than having an outdated image"
 spec:
-  schedule: "{{ .Values.services.thumbnails.maintenance.cleanUpOldThumbnails.schedule }}"
+  schedule: {{ .Values.services.thumbnails.maintenance.cleanUpOldThumbnails.schedule | quote }}
+  {{- with .Values.services.thumbnails.maintenance.cleanUpOldThumbnails.timezone }}
+  timeZone: {{ . | quote }}
+  {{- end }}
   successfulJobsHistoryLimit: 3
   failedJobsHistoryLimit: 3
   concurrencyPolicy: Forbid
@@ -37,11 +40,16 @@ spec:
               {{- include "ocis.jobContainerImage" . | nindent 14 }}
               {{- include "ocis.containerSecurityContext" . | nindent 14 }}
               command: [ "/bin/sh", "/script/thumbnails-cleanup-script.sh" ]
+              {{- if .Values.customCAChain.enabled }}
+              env:
+                {{- include "ocis.caEnv" $ | nindent 16}}
+              {{ end }}
               volumeMounts:
-              - name: {{ include "ocis.persistence.dataVolumeName" . }}
-                mountPath: /var/lib/ocis
-              - name: script
-                mountPath: "/script"
+                - name: {{ include "ocis.persistence.dataVolumeName" . }}
+                  mountPath: /var/lib/ocis
+                - name: script
+                  mountPath: "/script"
+                {{- include "ocis.caPath" $ | nindent 16}}
 
               resources: {{ toYaml .jobResources | nindent 16 }}
 
@@ -52,6 +60,7 @@ spec:
               configMap:
                 name: thumbnails-cleanup-script-configmap
                 defaultMode: 0500
+            {{- include "ocis.caVolume" $ | nindent 12}}
 ---
 apiVersion: v1
 kind: ConfigMap

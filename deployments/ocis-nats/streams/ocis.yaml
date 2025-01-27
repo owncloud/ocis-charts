@@ -55,7 +55,7 @@ spec:
   maxMsgsPerSubject: 1
   name: KV_cache-userinfo
   noAck: false
-  allowDirect: true
+  allowDirect: false # differs from the oCIS product default, but it needs to be like this, reasoning see: https://github.com/owncloud/ocis/issues/8432
   preventDelete: false
   preventUpdate: false
   replicas: 3
@@ -84,7 +84,7 @@ spec:
   maxMsgsPerSubject: 1
   name: KV_userlog
   noAck: false
-  allowDirect: true
+  allowDirect: false # differs from the oCIS product default, but it needs to be like this, reasoning see: https://github.com/owncloud/ocis/issues/8432
   preventDelete: false
   preventUpdate: false
   replicas: 3
@@ -113,7 +113,7 @@ spec:
   maxMsgsPerSubject: 1
   name: KV_activitylog
   noAck: false
-  allowDirect: true
+  allowDirect: false # differs from the oCIS product default, but it needs to be like this, reasoning see: https://github.com/owncloud/ocis/issues/8432
   preventDelete: false
   preventUpdate: false
   replicas: 3
@@ -142,7 +142,7 @@ spec:
   maxMsgsPerSubject: 1
   name: KV_postprocessing
   noAck: false
-  allowDirect: true
+  allowDirect: false # differs from the oCIS product default, but it needs to be like this, reasoning see: https://github.com/owncloud/ocis/issues/8432
   preventDelete: false
   preventUpdate: false
   replicas: 3
@@ -171,7 +171,7 @@ spec:
   maxMsgsPerSubject: 1
   name: KV_ids-storage-users
   noAck: false
-  allowDirect: true
+  allowDirect: false # differs from the oCIS product default, but it needs to be like this, reasoning see: https://github.com/owncloud/ocis/issues/8432
   preventDelete: false
   preventUpdate: false
   replicas: 3
@@ -200,7 +200,7 @@ spec:
   maxMsgsPerSubject: 1
   name: KV_storage-users
   noAck: false
-  allowDirect: true
+  allowDirect: false # differs from the oCIS product default, but it needs to be like this, reasoning see: https://github.com/owncloud/ocis/issues/8432
   preventDelete: false
   preventUpdate: false
   replicas: 3
@@ -229,7 +229,7 @@ spec:
   maxMsgsPerSubject: 1
   name: KV_eventhistory
   noAck: false
-  allowDirect: true
+  allowDirect: false # differs from the oCIS product default, but it needs to be like this, reasoning see: https://github.com/owncloud/ocis/issues/8432
   preventDelete: false
   preventUpdate: false
   replicas: 3
@@ -258,7 +258,7 @@ spec:
   maxMsgsPerSubject: 1
   name: KV_service-registry
   noAck: false
-  allowDirect: true
+  allowDirect: false # differs from the oCIS product default, but it needs to be like this, reasoning see: https://github.com/owncloud/ocis/issues/8432
   preventDelete: false
   preventUpdate: false
   replicas: 3
@@ -287,7 +287,7 @@ spec:
   maxMsgsPerSubject: 1
   name: KV_settings-cache
   noAck: false
-  allowDirect: true
+  allowDirect: false # differs from the oCIS product default, but it needs to be like this, reasoning see: https://github.com/owncloud/ocis/issues/8432
   preventDelete: false
   preventUpdate: false
   replicas: 3
@@ -316,7 +316,7 @@ spec:
   maxMsgsPerSubject: 1
   name: KV_storage-system
   noAck: false
-  allowDirect: true
+  allowDirect: false # differs from the oCIS product default, but it needs to be like this, reasoning see: https://github.com/owncloud/ocis/issues/8432
   preventDelete: false
   preventUpdate: false
   replicas: 3
@@ -345,7 +345,7 @@ spec:
   maxMsgsPerSubject: 1
   name: KV_cache-roles
   noAck: false
-  allowDirect: true
+  allowDirect: false # differs from the oCIS product default, but it needs to be like this, reasoning see: https://github.com/owncloud/ocis/issues/8432
   preventDelete: false
   preventUpdate: false
   replicas: 3
@@ -374,7 +374,7 @@ spec:
   maxMsgsPerSubject: 1
   name: KV_proxy
   noAck: false
-  allowDirect: true
+  allowDirect: false # differs from the oCIS product default, but it needs to be like this, reasoning see: https://github.com/owncloud/ocis/issues/8432
   preventDelete: false
   preventUpdate: false
   replicas: 3
@@ -403,7 +403,7 @@ spec:
   maxMsgsPerSubject: 1
   name: KV_ocis-pkg
   noAck: false
-  allowDirect: true
+  allowDirect: false # differs from the oCIS product default, but it needs to be like this, reasoning see: https://github.com/owncloud/ocis/issues/8432
   preventDelete: false
   preventUpdate: false
   replicas: 3

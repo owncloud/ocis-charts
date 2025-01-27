@@ -57,6 +57,8 @@ spec:
 
             - name: COLLABORATION_APP_NAME
               value: {{ $officeSuite.name | quote }}
+            - name: COLLABORATION_APP_PRODUCT
+              value: {{ default $officeSuite.name $officeSuite.product | quote }}
 
             - name: COLLABORATION_APP_LOCKNAME
               value: com.github.owncloud.collaboration-{{ $officeSuite.name }}
@@ -66,6 +68,9 @@ spec:
 
             - name: COLLABORATION_CS3API_DATAGATEWAY_INSECURE
               value: {{ $.Values.insecure.ocisHttpApiInsecure | quote }}
+
+            - name: COLLABORATION_APP_DESCRIPTION
+              value: {{ $officeSuite.description | quote }}
 
             - name: COLLABORATION_APP_ICON
               value: {{ $officeSuite.iconURI | quote }}
@@ -101,6 +106,8 @@ spec:
             - name: OCIS_URL
               value: "https://{{ $.Values.externalDomain }}"
 
+            {{- include "ocis.caEnv" $ | nindent 12}}
+
           livenessProbe:
             exec:
               command:
@@ -122,7 +129,17 @@ spec:
             - name: metrics-debug
               containerPort: 9304
 
+          volumeMounts:
+            - name: tmp-volume
+              mountPath: /tmp
+            {{- include "ocis.caPath" $ | nindent 12}}
+
       {{- include "ocis.imagePullSecrets" $ | nindent 6 }}
+
+      volumes:
+        - name: tmp-volume
+          emptyDir: {}
+        {{- include "ocis.caVolume" $ | nindent 8}}
 {{ end }}
 {{ end }}
 {{ end }}

@@ -4,13 +4,13 @@ oCIS store configuration
 
 {{- define "ocis.persistentStore" -}}
 {{- $valid := list "memory" "redis-sentinel" "nats-js-kv" -}}
-{{- if not (has .store.type $valid) -}}
+{{- if not (has .Values.store.type $valid) -}}
 {{- fail "invalid store.type set" -}}
 {{- end -}}
 - name: OCIS_PERSISTENT_STORE
-  value: {{ .store.type | quote }}
+  value: {{ .Values.store.type | quote }}
 - name: OCIS_PERSISTENT_STORE_NODES
-  value: {{ tpl (join "," .store.nodes) . | quote }}
+  value: {{ tpl (join "," .Values.store.nodes) . | quote }}
 {{- end -}}
 
 {{- define "ocis.cacheStore" -}}

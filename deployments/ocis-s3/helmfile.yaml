@@ -5,8 +5,10 @@ repositories:
 releases:
   - name: minio
     chart: minio/minio
-    version: 5.2.0
+    version: 5.4.0
     namespace: minio
+    labels:
+      ci-lint-skip: true # skip linting this chart in CI
     values:
       - mode: standalone
       - rootUser: ocis

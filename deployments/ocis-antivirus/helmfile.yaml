@@ -1,0 +1,96 @@
+repositories:
+  - name: opendesk-clamav
+    url: https://gitlab.opencode.de/api/v4/projects/1381/packages/helm/stable
+
+releases:
+  - name: ocis
+    chart: ../../charts/ocis
+    namespace: ocis
+    values:
+      - externalDomain: ocis.kube.owncloud.test
+      - ingress:
+          enabled: true
+          ingressClassName: nginx
+          annotations:
+            nginx.ingress.kubernetes.io/proxy-body-size: 1024m
+          tls:
+            - secretName: ocis-dev-tls
+              hosts:
+                - ocis.kube.owncloud.test
+
+      - logging:
+          level: debug
+
+      - insecure:
+          oidcIdpInsecure: true
+          ocisHttpApiInsecure: true
+
+      - features:
+          demoUsers: true
+          virusscan:
+            enabled: true
+            infectedFileHandling: abort
+            icap:
+              url: http://opendesk-clamav-icap.clamav:1344
+              service: avscan
+
+      - services:
+          idm:
+            persistence:
+              enabled: true
+
+          nats:
+            persistence:
+              enabled: true
+
+          search:
+            persistence:
+              enabled: true
+
+          storagesystem:
+            persistence:
+              enabled: true
+
+          storageusers:
+            persistence:
+              enabled: true
+
+          thumbnails:
+            persistence:
+              enabled: true
+
+          web:
+            persistence:
+              enabled: true
+
+  - name: opendesk-clamav
+    chart: opendesk-clamav/opendesk-clamav
+    namespace: clamav
+    version: 4.0.6
+    labels:
+      ci-lint-skip: true # skip linting this chart in CI
+    values:
+      - persistence:
+          accessModes:
+            - "ReadWriteMany" # it needs to be shared between freshclam and clamav
+          size: "10Gi"
+
+      - freshclam:
+          containerSecurityContext:
+            readOnlyRootFilesystem: false
+          image:
+            tag: "1.4.0" # newer version of clamav/clamav than default chart
+
+      - clamd:
+          image:
+            tag: "1.4.0" # newer version of clamav/clamav than default chart
+
+      - icap:
+          image:
+            tag: "0.5.10" # overwrite incorrect digest pin from default chart
+          settings:
+            clamdModClamdHost: "opendesk-clamav-clamd"
+
+      - milter: # not really needed, but can't be disabled right now
+          settings:
+            clamdHost: "opendesk-clamav-clamd"

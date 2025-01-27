@@ -1,12 +1,12 @@
-# oCIS with Rook-Ceph
+# oCIS development deployment example
 
 ## Introduction
 
-This example shows how to deploy oCIS with Rook-Ceph providing RWX storage.
-It will deploy an oCIS instance and Rook-Ceph, preconfigured to work together.
+This example will deploy a mostly default oCIS setup to Kubernetes. The intent is that this will
+work "out of the box" after a `helmfile sync`.
 
 ***Note***: This example is not intended for production use. It is intended to get a working oCIS
-with Rook-Ceph running in Kubernetes as quickly as possible. It is not hardened in any way.
+development running in Kubernetes as quickly as possible. It is not hardened in any way.
 
 ## Getting started
 
@@ -14,7 +14,7 @@ with Rook-Ceph running in Kubernetes as quickly as possible. It is not hardened 
 
 This example requires the following things to be installed:
 
-- [Kubernetes](https://kubernetes.io/) cluster, with an ingress controller installed. It must have support for PersistenVolumes in the `Block` mode.
+- [Kubernetes](https://kubernetes.io/) cluster, with an ingress controller installed.
 - [Helm](https://helm.sh/) v3
 - [Helmfile](https://github.com/helmfile/helmfile)
 
@@ -35,7 +35,7 @@ In this directory, run the following commands:
 $ helmfile sync
 ```
 
-This will deploy oCIS and Rook-Ceph.
+This will deploy all the needed steps.
 
 ### Logging in
 
@@ -46,3 +46,13 @@ $ kubectl -n ocis get secrets/admin-user --template='{{.data.password | base64de
 ```
 
 You can use this password to login with the user `admin`.
+
+### Limitations
+
+As this is deployed with a `ReadWriteOnce` storage access mode, the deployments persistence will be limited to
+a single pod. If you want to scale the pods, you will need to change the storage access mode to `ReadWriteMany`.
+If you do this, please check if your storage provider supports this access mode.
+
+### Development
+
+Note this chart is made for development, therefore both `demoUsers` is set to true. Using this chart in production is not recommended.

@@ -63,6 +63,8 @@ spec:
             - name: NATS_DEBUG_ADDR
               value: 0.0.0.0:9234
 
+            {{- include "ocis.caEnv" $ | nindent 12}}
+
           {{- include "ocis.livenessProbe" . | nindent 10 }}
 
           resources: {{ toYaml .resources | nindent 12 }}
@@ -74,10 +76,16 @@ spec:
               containerPort: 9234
 
           volumeMounts:
+            - name: tmp-volume
+              mountPath: /tmp
             - name: {{ include "ocis.persistence.dataVolumeName" . }}
               mountPath: /var/lib/ocis
+            {{- include "ocis.caPath" $ | nindent 12}}
 
       {{- include "ocis.imagePullSecrets" $ | nindent 6 }}
       volumes:
+        - name: tmp-volume
+          emptyDir: {}
+        {{- include "ocis.caVolume" $ | nindent 8}}
         {{- include "ocis.persistence.dataVolume" . | nindent 8 }}
 {{- end }}

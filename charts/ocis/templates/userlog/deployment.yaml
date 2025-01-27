@@ -1,5 +1,4 @@
 {{- include "ocis.basicServiceTemplates" (dict "scope" . "appName" "appNameUserlog" "appNameSuffix" "") -}}
-{{- $_ := set . "store" (default (default (dict) .Values.store) .Values.services.userlog.store) -}}
 apiVersion: apps/v1
 kind: Deployment
 {{ include "ocis.metadata" . }}
@@ -77,19 +76,16 @@ spec:
                   key: notifications-secret
             {{- end }}
 
-            {{- if .Values.secretRefs.globalNotificationsSecretRef }}
-            - name: USERLOG_GLOBAL_NOTIFICATIONS_SECRET
-              valueFrom:
-                secretKeyRef:
-                  name: {{ include "secrets.globalNotificationsSecret" . }}
-                  key: notifications-secret
-            {{- end }}
-
             - name: USERLOG_JWT_SECRET
               valueFrom:
                 secretKeyRef:
                   name: {{ include "secrets.jwtSecret" . }}
                   key: jwt-secret
+
+            - name: USERLOG_MAX_CONCURRENCY
+              value: {{ .Values.services.userlog.maxConcurrency | quote }}
+
+            {{- include "ocis.caEnv" $ | nindent 12}}
 
           {{- include "ocis.livenessProbe" . | nindent 10 }}
 
@@ -102,12 +98,17 @@ spec:
               containerPort: 9210
 
           volumeMounts:
+            - name: tmp-volume
+              mountPath: /tmp
             - name: messaging-system-ca
               mountPath: /etc/ocis/messaging-system-ca
               readOnly: true
+            {{- include "ocis.caPath" $ | nindent 12}}
 
       {{- include "ocis.imagePullSecrets" $ | nindent 6 }}
       volumes:
+        - name: tmp-volume
+          emptyDir: {}
         - name: messaging-system-ca
           {{ if and (.Values.messagingSystem.external.enabled) (not .Values.messagingSystem.external.tls.certTrusted) }}
           secret:
@@ -115,3 +116,4 @@ spec:
           {{ else }}
           emptyDir: {}
           {{ end }}
+        {{- include "ocis.caVolume" $ | nindent 8}}

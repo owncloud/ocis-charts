@@ -48,12 +48,15 @@ releases:
               cleanUpExpiredUploads:
                 enabled: true
                 schedule: "* * * * *"
+                timezone: Europe/Berlin
               purgeExpiredTrashBinItems:
                 enabled: true
                 schedule: "* * * * *"
+                timezone: Etc/GMT-5
               restartPostprocessing:
                 enabled: true
                 schedule: "* * * * *"
+                timezone: GMT+0
 
           thumbnails:
             persistence:
