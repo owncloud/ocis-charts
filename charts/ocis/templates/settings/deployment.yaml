@@ -108,10 +108,7 @@ spec:
             - name: metrics-debug
               containerPort: 9194
 
-
           volumeMounts:
-            - name: tmp-volume
-              mountPath: /tmp
           {{- if or .Values.features.roles.customRoles .Values.features.roles.customRolesConfigRef }}
             - name: ocis-role-config
               mountPath: /etc/ocis
@@ -121,8 +118,6 @@ spec:
       {{- include "ocis.imagePullSecrets" $ | nindent 6 }}
 
       volumes:
-        - name: tmp-volume
-          emptyDir: {}
       {{- if .Values.features.roles.customRoles }}
         - name: ocis-role-config
           configMap:

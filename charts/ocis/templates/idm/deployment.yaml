@@ -122,8 +122,6 @@ spec:
               containerPort: 9239
 
           volumeMounts:
-            - name: tmp-volume
-              mountPath: /tmp
             - name: ldap-cert
               mountPath: /etc/ocis/ldap-cert
               readOnly: true
@@ -133,8 +131,6 @@ spec:
 
       {{- include "ocis.imagePullSecrets" $ | nindent 6 }}
       volumes:
-        - name: tmp-volume
-          emptyDir: {}
         - name: ldap-cert
           secret:
             secretName: {{ include "secrets.ldapCertSecret" . }}
