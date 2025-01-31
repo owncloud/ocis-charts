@@ -4612,7 +4612,7 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 +bool+
 a| [subs=-attributes]
-`true`
+`false`
 | Enables the feedback link in the Web UI.
 | services.web.config.feedbackLink.href
 a| [subs=-attributes]
