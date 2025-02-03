@@ -204,8 +204,6 @@ spec:
               containerPort: 9104
 
           volumeMounts:
-            - name: tmp-volume
-              mountPath: /tmp
             - name: configs
               mountPath: /etc/ocis
             {{- if .Values.configRefs.webThemeConfigRef }}
@@ -224,8 +222,6 @@ spec:
 
       {{- include "ocis.imagePullSecrets" $ | nindent 6 }}
       volumes:
-        - name: tmp-volume
-          emptyDir: {}
         - name: configs
           configMap:
             name: {{ .appName }}-config
