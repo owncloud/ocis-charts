@@ -45,7 +45,7 @@ releases:
   - name: redis
     namespace: onlyoffice
     chart: bitnami/redis
-    version: 20.6.3
+    version: 20.7.0
     labels:
       ci-lint-skip: true # skip linting this chart in CI
 
