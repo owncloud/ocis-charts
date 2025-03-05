@@ -43,7 +43,7 @@ releases:
   - name: openldap
     namespace: openldap
     chart: openldap/openldap-stack-ha
-    version: 4.3.2
+    version: 4.3.3
     labels:
       ci-lint-skip: true # skip linting this chart in CI
     values:
