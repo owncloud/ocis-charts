@@ -68,7 +68,7 @@ releases:
   - name: nack
     namespace: ocis-nack
     chart: nats/nack
-    version: 0.27.1
+    version: 0.28.0
     labels:
       ci-lint-skip: true # skip linting this chart in CI
     values:
