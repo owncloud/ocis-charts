@@ -85,8 +85,6 @@ spec:
               containerPort: 9134
 
           volumeMounts:
-            - name: tmp-volume
-              mountPath: /tmp
             - name: ocis-data-tmp
               mountPath: /var/lib/ocis # we mount that volume to apply fsGroup to that path, so that the idp can write the temporary idp/tmp/identifier-registration.yaml file
             - name: ldap-ca
@@ -99,8 +97,6 @@ spec:
 
       {{- include "ocis.imagePullSecrets" $ | nindent 6 }}
       volumes:
-        - name: tmp-volume
-          emptyDir: {}
         - name: ocis-data-tmp
           emptyDir: {}
         - name: ldap-ca

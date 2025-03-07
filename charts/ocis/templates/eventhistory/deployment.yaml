@@ -66,8 +66,6 @@ spec:
               containerPort: 9270
 
           volumeMounts:
-            - name: tmp-volume
-              mountPath: /tmp
             - name: messaging-system-ca
               mountPath: /etc/ocis/messaging-system-ca
               readOnly: true
@@ -75,8 +73,6 @@ spec:
 
       {{- include "ocis.imagePullSecrets" $ | nindent 6 }}
       volumes:
-        - name: tmp-volume
-          emptyDir: {}
         - name: messaging-system-ca
           {{ if and (.Values.messagingSystem.external.enabled) (not .Values.messagingSystem.external.tls.certTrusted) }}
           secret:
