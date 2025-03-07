@@ -5203,7 +5203,7 @@ services:
         # required: true
         # @schema
         # -- Enables the feedback link in the Web UI.
-        enabled: true
+        enabled: false
         # @schema
         # type: [string, null]
         # format: uri

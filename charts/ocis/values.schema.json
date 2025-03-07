@@ -11544,7 +11544,7 @@
                       ]
                     },
                     "enabled": {
-                      "default": true,
+                      "default": false,
                       "description": "Enables the feedback link in the Web UI.",
                       "required": [],
                       "title": "enabled",
