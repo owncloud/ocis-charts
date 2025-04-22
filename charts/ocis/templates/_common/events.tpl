@@ -7,10 +7,12 @@ oCIS events configuration
 - name: OCIS_EVENTS_ENDPOINT
   value: {{ .appNameNats }}:9233
 {{- else }}
+{{- $ocis_events_endpoint := .Values.messagingSystem.external.endpoint | required ".Values.messagingSystem.external.endpoint is required when .Values.messagingSystem.external.enabled is set to true." -}}
+{{- $ocis_events_cluster := .Values.messagingSystem.external.cluster | required ".Values.messagingSystem.external.cluster is required when .Values.messagingSystem.external.enabled is set to true." -}}
 - name: OCIS_EVENTS_ENDPOINT
-  value: {{ .Values.messagingSystem.external.endpoint | quote }}
+  value: {{ $ocis_events_endpoint | quote }}
 - name: OCIS_EVENTS_CLUSTER
-  value: {{ .Values.messagingSystem.external.cluster | quote }}
+  value: {{ $ocis_events_cluster | quote }}
 - name: OCIS_EVENTS_ENABLE_TLS
   value: {{ .Values.messagingSystem.external.tls.enabled | quote }}
 - name: OCIS_EVENTS_TLS_INSECURE
