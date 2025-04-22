@@ -5692,3 +5692,12 @@ service:
     # -- appProtocol to be used for service ports that use the nats wire protocol. Not used if `messagingSystem.external.enabled` equals `true`.
     nats: tcp
 
+# @schema
+# type: object
+# required: false
+# additionalProperties: true
+# @schema
+# Needs to be added to the schema, so that this chart can be used as subchart when `global` is set.
+# see https://github.com/owncloud/ocis-charts/issues/872
+global: {}
+
