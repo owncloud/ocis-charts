@@ -1884,6 +1884,13 @@
       "title": "features",
       "type": "object"
     },
+    "global": {
+      "additionalProperties": true,
+      "description": "Needs to be added to the schema, so that this chart can be used as subchart when `global` is set.\nsee https://github.com/owncloud/ocis-charts/issues/872",
+      "required": [],
+      "title": "global",
+      "type": "object"
+    },
     "hostAliases": {
       "description": "provide custom hostnames to every oCIS pods",
       "items": {

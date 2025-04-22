@@ -828,6 +828,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `nil`
 | Sets a maximum file size for scans. Only this many bytes of a file will be scanned. 0 means unlimited and is the default. Usable common abbreviations: [KB, KiB, MB, MiB, GB, GiB, TB, TiB, PB, PiB, EB, EiB], example: 2GB.
+| global
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+|
 | hostAliases
 a| [subs=-attributes]
 +list+
