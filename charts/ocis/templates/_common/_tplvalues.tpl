@@ -227,7 +227,11 @@ oCIS deployment strategy
 {{- define "ocis.deploymentStrategy" -}}
   {{- with $.Values.deploymentStrategy }}
 strategy:
-  {{- toYaml . | nindent 2 }}
+  type: {{ .type }}
+  {{- if eq .type "RollingUpdate" }}
+  rollingUpdate:
+  {{- toYaml .rollingUpdate | nindent 4 }}
+  {{- end }}
   {{- end }}
 {{- end -}}
 
