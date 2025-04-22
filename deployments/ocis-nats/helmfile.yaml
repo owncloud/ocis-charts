@@ -99,6 +99,7 @@ releases:
       - messagingSystem:
           external:
             enabled: true
+            cluster: ocis-cluster
             endpoint: nats.ocis-nats.svc.cluster.local:4222
             tls:
               enabled: false
