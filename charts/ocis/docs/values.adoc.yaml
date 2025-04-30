@@ -1021,6 +1021,44 @@ features:
         # - role_name: user-light
         #   claim_value: ocisGuest
         mapping: []
+
+      # Configure OIDC space assignment. If activate, oCIS will read the space assignements from the oidc token
+      # @schema
+      # type: object
+      # required: false
+      # @schema
+      spaceAssignment:
+        # @schema
+        # type: boolean
+        # required: true
+        # @schema
+        # -- enable OIDC space assignment.
+        enabled: false
+        # @schema
+        # type: string
+        # required: true
+        # @schema
+        # -- The name of the OIDC claim holding the space assignment
+        claim: ""
+        # @schema
+        # type: string
+        # required: true
+        # @schema
+        # -- The regexp extracting the spaceid and the -role from the claim
+        regexp: (.*)
+        # @schema
+        # type: array
+        # required: false
+        # items:
+        #   type: string
+        # @schema
+        # -- Configure the mapping for the role assignment.
+        # Example configuration:
+        # - oidcRoleA:manager
+        # - oidcRoleB:editor
+        # - oidcRoleC:viewer
+        mapping: []
+
     # LDAP related settings.
     ldap:
       # @schema
