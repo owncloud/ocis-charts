@@ -294,6 +294,19 @@
       "title": "extraLabels",
       "type": "object"
     },
+    "extraAnnotations": {
+      "additionalProperties": false,
+      "description": "Custom annotations for all deployments",
+      "patternProperties": {
+        ".*": {
+          "required": [],
+          "type": "string"
+        }
+      },
+      "required": [],
+      "title": "extraAnnotations",
+      "type": "object"
+    },
     "extraResources": {
       "description": "Include arbitrary resources, eg. config maps or a cert-manager issuer (see example below)\nExtra resources to be included.",
       "items": {
