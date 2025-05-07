@@ -281,19 +281,6 @@
       "title": "externalDomain",
       "type": "string"
     },
-    "extraLabels": {
-      "additionalProperties": false,
-      "description": "Custom labels for all manifests",
-      "patternProperties": {
-        ".*": {
-          "required": [],
-          "type": "string"
-        }
-      },
-      "required": [],
-      "title": "extraLabels",
-      "type": "object"
-    },
     "extraAnnotations": {
       "additionalProperties": false,
       "description": "Custom annotations for all deployments",
@@ -305,6 +292,19 @@
       },
       "required": [],
       "title": "extraAnnotations",
+      "type": "object"
+    },
+    "extraLabels": {
+      "additionalProperties": false,
+      "description": "Custom labels for all manifests",
+      "patternProperties": {
+        ".*": {
+          "required": [],
+          "type": "string"
+        }
+      },
+      "required": [],
+      "title": "extraLabels",
       "type": "object"
     },
     "extraResources": {
