@@ -132,6 +132,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `nil`
 | Domain where oCIS is reachable for the outside world
+| extraAnnotations
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Custom annotations for all deployments
 | extraLabels
 a| [subs=-attributes]
 +object+

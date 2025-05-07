@@ -281,6 +281,19 @@
       "title": "externalDomain",
       "type": "string"
     },
+    "extraAnnotations": {
+      "additionalProperties": false,
+      "description": "Custom annotations for all deployments",
+      "patternProperties": {
+        ".*": {
+          "required": [],
+          "type": "string"
+        }
+      },
+      "required": [],
+      "title": "extraAnnotations",
+      "type": "object"
+    },
     "extraLabels": {
       "additionalProperties": false,
       "description": "Custom labels for all manifests",

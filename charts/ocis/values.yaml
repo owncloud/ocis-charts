@@ -1789,6 +1789,12 @@ topologySpreadConstraints: # |
 # -- Custom labels for all manifests
 extraLabels: {}
 
+# @schema
+# $ref: schema/templates.json#/annotationsTemplate
+# @schema
+# -- Custom annotations for all deployments
+extraAnnotations: {}
+
 # Backup related settings
 # Compare to https://doc.owncloud.com/ocis/next/maintenance/b-r/backup_considerations.html
 backup:
