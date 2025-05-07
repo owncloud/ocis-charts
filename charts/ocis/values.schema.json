@@ -284,6 +284,12 @@
     "extraAnnotations": {
       "additionalProperties": false,
       "description": "Custom annotations for all deployments",
+      "patternProperties": {
+        ".*": {
+          "required": [],
+          "type": "string"
+        }
+      },
       "required": [],
       "title": "extraAnnotations",
       "type": "object"
