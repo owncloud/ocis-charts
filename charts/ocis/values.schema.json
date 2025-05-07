@@ -12561,7 +12561,6 @@
     "secretRefs",
     "customCAChain",
     "securityContext",
-    "extraAnnotations",
     "backup",
     "replicas",
     "extraResources",
