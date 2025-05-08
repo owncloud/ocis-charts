@@ -125,6 +125,17 @@ spec:
               value: {{ .Values.features.externalUserManagement.autoprovisionAccounts.claimUserName | quote }}
             {{- end }}
 
+            {{- if .Values.features.externalUserManagement.oidc.spaceAssignment.enabled }}
+            - name: OCIS_CLAIM_MANAGED_SPACES_ENABLED
+              value: {{ .Values.features.externalUserManagement.oidc.spaceAssignment.enabled | quote }}
+            - name: OCIS_CLAIM_MANAGED_SPACES_CLAIMNAME
+              value: {{ .Values.features.externalUserManagement.oidc.spaceAssignment.claim | quote }}
+            - name: OCIS_CLAIM_MANAGED_SPACES_REGEXP
+              value: {{ .Values.features.externalUserManagement.oidc.spaceAssignment.regexp | quote }}
+            - name: OCIS_CLAIM_MANAGED_SPACES_MAPPING
+              value: {{ join "," .Values.features.externalUserManagement.oidc.spaceAssignment.mapping | quote }}
+            {{- end }}
+
             {{- include "ocis.caEnv" $ | nindent 12}}
 
           {{- include "ocis.livenessProbe" . | nindent 10 }}

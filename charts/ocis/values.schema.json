@@ -1329,6 +1329,50 @@
                   "title": "skipUserInfo",
                   "type": "boolean"
                 },
+                "spaceAssignment": {
+                  "additionalProperties": false,
+                  "description": "Configure OIDC space assignment. If activate, oCIS will read the space assignements from the oidc token",
+                  "properties": {
+                    "claim": {
+                      "default": "",
+                      "description": "The name of the OIDC claim holding the space assignment",
+                      "required": [],
+                      "title": "claim",
+                      "type": "string"
+                    },
+                    "enabled": {
+                      "default": false,
+                      "description": "enable OIDC space assignment.",
+                      "required": [],
+                      "title": "enabled",
+                      "type": "boolean"
+                    },
+                    "mapping": {
+                      "description": "Configure the mapping for the role assignment.\nExample configuration:\n- oidcRoleA:manager\n- oidcRoleB:editor\n- oidcRoleC:viewer",
+                      "items": {
+                        "required": [],
+                        "type": "string"
+                      },
+                      "required": [],
+                      "title": "mapping",
+                      "type": "array"
+                    },
+                    "regexp": {
+                      "default": "(.*)",
+                      "description": "The regexp extracting the spaceid and the -role from the claim",
+                      "required": [],
+                      "title": "regexp",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "enabled",
+                    "claim",
+                    "regexp"
+                  ],
+                  "title": "spaceAssignment",
+                  "type": "object"
+                },
                 "userIDClaim": {
                   "default": "ocis.user.uuid",
                   "description": "Claim to take an unique user identifier from. It will be used to look up the user on the LDAP server.",

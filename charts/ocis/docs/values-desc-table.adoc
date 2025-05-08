@@ -600,6 +600,30 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `false`
 | Do not look up user claims at the userinfo endpoint and directly read them from the access token. Incompatible with 'accessTokenVerifyMethod=none'
+| features.externalUserManagement.oidc.spaceAssignment.claim
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`""`
+| The name of the OIDC claim holding the space assignment
+| features.externalUserManagement.oidc.spaceAssignment.enabled
+a| [subs=-attributes]
++bool+
+a| [subs=-attributes]
+`false`
+| enable OIDC space assignment.
+| features.externalUserManagement.oidc.spaceAssignment.mapping
+a| [subs=-attributes]
++list+
+a| [subs=-attributes]
+`[]`
+| Configure the mapping for the role assignment. Example configuration: - oidcRoleA:manager - oidcRoleB:editor - oidcRoleC:viewer
+| features.externalUserManagement.oidc.spaceAssignment.regexp
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"(.*)"`
+| The regexp extracting the spaceid and the -role from the claim
 | features.externalUserManagement.oidc.userIDClaim
 a| [subs=-attributes]
 +string+
