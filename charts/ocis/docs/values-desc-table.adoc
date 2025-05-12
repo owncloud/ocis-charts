@@ -3983,13 +3983,13 @@ a| [subs=-attributes]
 +string+
 a| [subs=-attributes]
 `"720h"`
-| Setting that makes the command delete all trashed personal files older than the value. The value is a number and a unit "h", "m", "s".
+| Setting that makes the command delete all trashed personal files older than the value. The value is a number and a unit "h", "m", "s", "ms".
 | services.storageusers.maintenance.purgeExpiredTrashBinItems.projectDeleteBefore
 a| [subs=-attributes]
 +string+
 a| [subs=-attributes]
 `"720h"`
-| Setting that makes the command delete all trashed project files older than the value. The value is a number and a unit "h", "m", "s".
+| Setting that makes the command delete all trashed project files older than the value. The value is a number and a unit "h", "m", "s", "ms".
 | services.storageusers.maintenance.purgeExpiredTrashBinItems.schedule
 a| [subs=-attributes]
 +string+

@@ -9933,14 +9933,16 @@
                     },
                     "personalDeleteBefore": {
                       "default": "720h",
-                      "description": "Setting that makes the command delete all trashed personal files older than the value. The value is a number and a unit \"h\", \"m\", \"s\".",
+                      "description": "Setting that makes the command delete all trashed personal files older than the value. The value is a number and a unit \"h\", \"m\", \"s\", \"ms\".",
+                      "pattern": "^[0-9]*([hms]|ms)$",
                       "required": [],
                       "title": "personalDeleteBefore",
                       "type": "string"
                     },
                     "projectDeleteBefore": {
                       "default": "720h",
-                      "description": "Setting that makes the command delete all trashed project files older than the value. The value is a number and a unit \"h\", \"m\", \"s\".",
+                      "description": "Setting that makes the command delete all trashed project files older than the value. The value is a number and a unit \"h\", \"m\", \"s\", \"ms\".",
+                      "pattern": "^[0-9]*([hms]|ms)$",
                       "required": [],
                       "title": "projectDeleteBefore",
                       "type": "string"
