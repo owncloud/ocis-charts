@@ -4610,16 +4610,18 @@ services:
         startingDeadlineSeconds: 600
         # @schema
         # type: string
+        # pattern: ^[0-9]*([hms]|ms)$
         # required: true
         # @schema
-        # -- Setting that makes the command delete all trashed personal files older than the value. The value is a number and a unit "d", "h", "m", "s".
-        personalDeleteBefore: 30d
+        # -- Setting that makes the command delete all trashed personal files older than the value. The value is a number and a unit "h", "m", "s", "ms".
+        personalDeleteBefore: 720h
         # @schema
         # type: string
+        # pattern: ^[0-9]*([hms]|ms)$
         # required: true
         # @schema
-        # -- Setting that makes the command delete all trashed project files older than the value. The value is a number and a unit "d", "h", "m", "s".
-        projectDeleteBefore: 30d
+        # -- Setting that makes the command delete all trashed project files older than the value. The value is a number and a unit "h", "m", "s", "ms".
+        projectDeleteBefore: 720h
       # Uploads that were not postprocessed can be automatically processed again by enabling the restart job.
       restartPostprocessing:
         # @schema
