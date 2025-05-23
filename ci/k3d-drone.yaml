@@ -3,7 +3,7 @@ kind: Simple
 metadata:
   name: drone
 servers: 1
-image: rancher/k3s:v1.32.3-k3s1
+image: rancher/k3s:v1.33.1-k3s1
 options:
   k3s:
     extraArgs:
