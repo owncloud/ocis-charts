@@ -136,6 +136,11 @@ spec:
               value: {{ join "," .Values.features.externalUserManagement.oidc.spaceAssignment.mapping | quote }}
             {{- end }}
 
+            {{- with .Values.features.authapp.enabled }}
+            - name: PROXY_ENABLE_APP_AUTH
+              value: {{ . | quote }}
+            {{- end }}
+
             {{- include "ocis.caEnv" $ | nindent 12}}
 
           {{- include "ocis.livenessProbe" . | nindent 10 }}
