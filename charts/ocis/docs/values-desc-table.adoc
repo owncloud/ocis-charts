@@ -180,6 +180,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `1073741824`
 | Max size in bytes of the zip archive the archiver can create.
+| features.authapp.enabled
+a| [subs=-attributes]
++bool+
+a| [subs=-attributes]
+`false`
+| Enables Auth app service
 | features.demoUsers
 a| [subs=-attributes]
 +bool+
@@ -1621,6 +1627,78 @@ a| [subs=-attributes]
 `nil`
 | Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
 | services.audit.resources
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service resources configuration. Overrides the default setting from `resources` if set.
+| services.authapp
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+see detailed service configuration options below
+| AUTH SERVICE service.
+| services.authapp.affinity
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service affinity.
+| services.authapp.autoscaling
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
+| services.authapp.extraLabels
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service custom labels
+| services.authapp.image.pullPolicy
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`nil`
+| Image pull policy
+| services.authapp.image.repository
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`nil`
+| Image repository
+| services.authapp.image.sha
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`nil`
+| Image sha / digest (optional).
+| services.authapp.image.tag
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`nil`
+| Image tag.
+| services.authapp.nodeSelector
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
+| services.authapp.podDisruptionBudget
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
+| services.authapp.priorityClassName
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`nil`
+| Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
+| services.authapp.resources
 a| [subs=-attributes]
 +object+
 a| [subs=-attributes]

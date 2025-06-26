@@ -547,6 +547,24 @@
           "title": "archiver",
           "type": "object"
         },
+        "authapp": {
+          "additionalProperties": false,
+          "description": "Auth app settings",
+          "properties": {
+            "enabled": {
+              "default": false,
+              "description": "Enables Auth app service",
+              "required": [],
+              "title": "enabled",
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "enabled"
+          ],
+          "title": "authapp",
+          "type": "object"
+        },
         "demoUsers": {
           "default": false,
           "description": "Create demo users on the first startup.\nNot recommended for production installations.",
@@ -1936,7 +1954,8 @@
         "policies",
         "edition",
         "archiver",
-        "ocm"
+        "ocm",
+        "authapp"
       ],
       "title": "features",
       "type": "object"
@@ -3813,6 +3832,210 @@
             "image"
           ],
           "title": "audit",
+          "type": "object"
+        },
+        "authapp": {
+          "additionalProperties": false,
+          "description": "AUTH SERVICE service.",
+          "properties": {
+            "affinity": {
+              "additionalProperties": true,
+              "description": "Per-service affinity.",
+              "required": [],
+              "title": "affinity",
+              "type": "object"
+            },
+            "autoscaling": {
+              "additionalProperties": true,
+              "description": "Per-service autoscaling. Overrides the default setting from `autoscaling` if set.",
+              "properties": {
+                "enabled": {
+                  "required": [],
+                  "type": "boolean"
+                },
+                "maxReplicas": {
+                  "minimum": 1,
+                  "required": [],
+                  "type": "integer"
+                },
+                "metrics": {
+                  "additionalProperties": true,
+                  "required": []
+                },
+                "minReplicas": {
+                  "minimum": 1,
+                  "required": [],
+                  "type": "integer"
+                }
+              },
+              "required": [],
+              "title": "autoscaling",
+              "type": "object"
+            },
+            "extraLabels": {
+              "additionalProperties": false,
+              "description": "Per-service custom labels",
+              "patternProperties": {
+                ".*": {
+                  "required": [],
+                  "type": "string"
+                }
+              },
+              "required": [],
+              "title": "extraLabels",
+              "type": "object"
+            },
+            "image": {
+              "additionalProperties": false,
+              "description": "Per-service image configuration. Overrides the default setting from `image` if set.",
+              "properties": {
+                "pullPolicy": {
+                  "default": "",
+                  "description": "Image pull policy",
+                  "required": [],
+                  "title": "pullPolicy",
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "repository": {
+                  "default": "",
+                  "description": "Image repository",
+                  "required": [],
+                  "title": "repository",
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "sha": {
+                  "default": "",
+                  "description": "Image sha / digest (optional).",
+                  "required": [],
+                  "title": "sha",
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "tag": {
+                  "default": "",
+                  "description": "Image tag.",
+                  "required": [],
+                  "title": "tag",
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                }
+              },
+              "required": [],
+              "title": "image",
+              "type": "object"
+            },
+            "nodeSelector": {
+              "additionalProperties": false,
+              "description": "Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.",
+              "patternProperties": {
+                ".*": {
+                  "required": [],
+                  "type": "string"
+                }
+              },
+              "required": [],
+              "title": "nodeSelector",
+              "type": "object"
+            },
+            "podDisruptionBudget": {
+              "additionalProperties": false,
+              "description": "Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.",
+              "properties": {
+                "maxUnavailable": {
+                  "oneOf": [
+                    {
+                      "required": [],
+                      "type": "integer"
+                    },
+                    {
+                      "required": [],
+                      "type": "string"
+                    }
+                  ],
+                  "required": []
+                },
+                "minAvailable": {
+                  "oneOf": [
+                    {
+                      "required": [],
+                      "type": "integer"
+                    },
+                    {
+                      "required": [],
+                      "type": "string"
+                    }
+                  ],
+                  "required": []
+                }
+              },
+              "required": [],
+              "title": "podDisruptionBudget",
+              "type": "object"
+            },
+            "priorityClassName": {
+              "default": "",
+              "description": "Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.",
+              "required": [],
+              "title": "priorityClassName",
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "resources": {
+              "additionalProperties": false,
+              "description": "Per-service resources configuration. Overrides the default setting from `resources` if set.",
+              "properties": {
+                "limits": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "cpu": {
+                      "required": [],
+                      "type": "string"
+                    },
+                    "memory": {
+                      "required": [],
+                      "type": "string"
+                    }
+                  },
+                  "required": [],
+                  "type": "object"
+                },
+                "requests": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "cpu": {
+                      "required": [],
+                      "type": "string"
+                    },
+                    "memory": {
+                      "required": [],
+                      "type": "string"
+                    }
+                  },
+                  "required": [],
+                  "type": "object"
+                }
+              },
+              "required": [],
+              "title": "resources",
+              "type": "object"
+            }
+          },
+          "required": [
+            "image"
+          ],
+          "title": "authapp",
           "type": "object"
         },
         "authmachine": {
@@ -12472,6 +12695,7 @@
         "audit",
         "authmachine",
         "authservice",
+        "authapp",
         "antivirus",
         "clientlog",
         "eventhistory",
