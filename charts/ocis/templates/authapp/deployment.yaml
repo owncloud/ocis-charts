@@ -6,7 +6,8 @@ kind: Deployment
 spec:
   {{- include "ocis.selector" . | nindent 2 }}
   replicas: 1 # OCM service cannot be scaled right now
-  {{- include "ocis.deploymentStrategy" . | nindent 2 }}
+  strategy:
+    type: Recreate
   template:
     {{- include "ocis.templateMetadata" (dict "scope" $ "configCheck" false) | nindent 4 }}
     spec:
