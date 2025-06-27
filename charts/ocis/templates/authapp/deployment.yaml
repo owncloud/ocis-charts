@@ -55,7 +55,16 @@ spec:
                 secretKeyRef:
                   name: {{ include "secrets.jwtSecret" . }}
                   key: jwt-secret
-
+            - name: AUTH_APP_ACCOUNT_ID
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ include "config.authService" . }}
+                  key: service-account-id
+            - name: AUTH_APP_ACCOUNT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "secrets.serviceAccountSecret" . }}
+                  key: service-account-secret
             - name: AUTH_APP_MACHINE_AUTH_API_KEY
               valueFrom:
                 secretKeyRef:
