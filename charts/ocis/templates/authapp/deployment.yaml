@@ -85,6 +85,8 @@ spec:
               containerPort: 9617
 
           volumeMounts:
+            - name: {{ include "ocis.persistence.dataVolumeName" . }}
+              mountPath: /var/lib/ocis
             - name: tmp-volume
               mountPath: /tmp
             {{- include "ocis.caPath" $ | nindent 12}}
@@ -93,5 +95,6 @@ spec:
       volumes:
         - name: tmp-volume
           emptyDir: {}
+        {{- include "ocis.persistence.dataVolume" . | nindent 8 }}
         {{- include "ocis.caVolume" $ | nindent 8}}
 {{ end }}
