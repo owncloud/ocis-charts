@@ -3934,6 +3934,121 @@
               "title": "image",
               "type": "object"
             },
+            "persistence": {
+              "additionalProperties": false,
+              "description": "Persistence settings.",
+              "properties": {
+                "accessModes": {
+                  "description": "Persistent volume access modes.",
+                  "items": {
+                    "enum": [
+                      "ReadWriteOnce",
+                      "ReadOnlyMany",
+                      "ReadWriteMany",
+                      "ReadWriteOncePod"
+                    ],
+                    "required": []
+                  },
+                  "required": [],
+                  "title": "accessModes",
+                  "type": "array"
+                },
+                "annotations": {
+                  "additionalProperties": false,
+                  "description": "Persistent volume annotations.",
+                  "patternProperties": {
+                    ".*": {
+                      "required": [],
+                      "type": "string"
+                    }
+                  },
+                  "required": [],
+                  "title": "annotations",
+                  "type": "object"
+                },
+                "chownInitContainer": {
+                  "default": false,
+                  "description": "Enables an initContainer to chown the volume.\nThe initContainer is run as root.\nThis is not needed if the driver applies the fsGroup from the securityContext.\nThe image specified in `initContainerImage` will be used for this container.",
+                  "required": [],
+                  "title": "chownInitContainer",
+                  "type": "boolean"
+                },
+                "claimName": {
+                  "default": "",
+                  "description": "Use a custom name for the PVC instead of the default one.",
+                  "required": [],
+                  "title": "claimName",
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "enabled": {
+                  "default": false,
+                  "description": "Enables persistence.\nNeeds to be enabled on production installations.\nIf not enabled, pod restarts will lead to data loss.\nAlso scaling this service to more than one replica is not possible if the pods don't share the same volume.",
+                  "required": [],
+                  "title": "enabled",
+                  "type": "boolean"
+                },
+                "existingClaim": {
+                  "default": "",
+                  "description": "Use an existing PersistentVolumeClaim for persistence.",
+                  "required": [],
+                  "title": "existingClaim",
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "finalizers": {
+                  "description": "Persistent volume finalizers.",
+                  "items": {
+                    "required": [],
+                    "type": "string"
+                  },
+                  "required": [],
+                  "title": "finalizers",
+                  "type": "array"
+                },
+                "selectorLabels": {
+                  "additionalProperties": false,
+                  "description": "Persistent volume selector labels.",
+                  "patternProperties": {
+                    ".*": {
+                      "required": [],
+                      "type": "string"
+                    }
+                  },
+                  "required": [],
+                  "title": "selectorLabels",
+                  "type": "object"
+                },
+                "size": {
+                  "default": "1Gi",
+                  "description": "Size of the persistent volume.",
+                  "required": [],
+                  "title": "size",
+                  "type": "string"
+                },
+                "storageClassName": {
+                  "default": "",
+                  "description": "Storage class to use.\nUses the default storage class if not set.",
+                  "required": [],
+                  "title": "storageClassName",
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                }
+              },
+              "required": [
+                "enabled",
+                "chownInitContainer",
+                "size"
+              ],
+              "title": "persistence",
+              "type": "object"
+            },
             "nodeSelector": {
               "additionalProperties": false,
               "description": "Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.",
@@ -4033,7 +4148,8 @@
             }
           },
           "required": [
-            "image"
+            "image",
+            "persistence"
           ],
           "title": "authapp",
           "type": "object"
