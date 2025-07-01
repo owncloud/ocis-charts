@@ -3934,6 +3934,19 @@
               "title": "image",
               "type": "object"
             },
+            "nodeSelector": {
+              "additionalProperties": false,
+              "description": "Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.",
+              "patternProperties": {
+                ".*": {
+                  "required": [],
+                  "type": "string"
+                }
+              },
+              "required": [],
+              "title": "nodeSelector",
+              "type": "object"
+            },
             "persistence": {
               "additionalProperties": false,
               "description": "Persistence settings.",
@@ -4047,19 +4060,6 @@
                 "size"
               ],
               "title": "persistence",
-              "type": "object"
-            },
-            "nodeSelector": {
-              "additionalProperties": false,
-              "description": "Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.",
-              "patternProperties": {
-                ".*": {
-                  "required": [],
-                  "type": "string"
-                }
-              },
-              "required": [],
-              "title": "nodeSelector",
               "type": "object"
             },
             "podDisruptionBudget": {

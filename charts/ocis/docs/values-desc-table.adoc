@@ -1686,6 +1686,72 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
+| services.authapp.persistence
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+see detailed persistence configuration options below
+| Persistence settings.
+| services.authapp.persistence.accessModes
+a| [subs=-attributes]
++list+
+a| [subs=-attributes]
+`["ReadWriteOncePod"]`
+| Persistent volume access modes.
+| services.authapp.persistence.annotations
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Persistent volume annotations.
+| services.authapp.persistence.chownInitContainer
+a| [subs=-attributes]
++bool+
+a| [subs=-attributes]
+`false`
+| Enables an initContainer to chown the volume. The initContainer is run as root. This is not needed if the driver applies the fsGroup from the securityContext. The image specified in `initContainerImage` will be used for this container.
+| services.authapp.persistence.claimName
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`nil`
+| Use a custom name for the PVC instead of the default one.
+| services.authapp.persistence.enabled
+a| [subs=-attributes]
++bool+
+a| [subs=-attributes]
+`false`
+| Enables persistence. Needs to be enabled on production installations. If not enabled, pod restarts will lead to data loss. Also scaling this service to more than one replica is not possible if the pods don't share the same volume.
+| services.authapp.persistence.existingClaim
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`nil`
+| Use an existing PersistentVolumeClaim for persistence.
+| services.authapp.persistence.finalizers
+a| [subs=-attributes]
++list+
+a| [subs=-attributes]
+`["kubernetes.io/pvc-protection"]`
+| Persistent volume finalizers.
+| services.authapp.persistence.selectorLabels
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Persistent volume selector labels.
+| services.authapp.persistence.size
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"1Gi"`
+| Size of the persistent volume.
+| services.authapp.persistence.storageClassName
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`nil`
+| Storage class to use. Uses the default storage class if not set.
 | services.authapp.podDisruptionBudget
 a| [subs=-attributes]
 +object+
