@@ -2497,15 +2497,6 @@ services:
       # Also scaling this service to more than one replica is not possible if the pods don't share the same volume.
       enabled: false
       # @schema
-      # type: boolean
-      # required: true
-      # @schema
-      # -- Enables an initContainer to chown the volume.
-      # The initContainer is run as root.
-      # This is not needed if the driver applies the fsGroup from the securityContext.
-      # The image specified in `initContainerImage` will be used for this container.
-      chownInitContainer: false
-      # @schema
       # type: [string, null]
       # required: false
       # @schema

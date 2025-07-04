@@ -3979,13 +3979,6 @@
                   "title": "annotations",
                   "type": "object"
                 },
-                "chownInitContainer": {
-                  "default": false,
-                  "description": "Enables an initContainer to chown the volume.\nThe initContainer is run as root.\nThis is not needed if the driver applies the fsGroup from the securityContext.\nThe image specified in `initContainerImage` will be used for this container.",
-                  "required": [],
-                  "title": "chownInitContainer",
-                  "type": "boolean"
-                },
                 "claimName": {
                   "default": "",
                   "description": "Use a custom name for the PVC instead of the default one.",
@@ -4056,7 +4049,6 @@
               },
               "required": [
                 "enabled",
-                "chownInitContainer",
                 "size"
               ],
               "title": "persistence",

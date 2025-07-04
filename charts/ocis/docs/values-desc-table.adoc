@@ -1704,12 +1704,6 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Persistent volume annotations.
-| services.authapp.persistence.chownInitContainer
-a| [subs=-attributes]
-+bool+
-a| [subs=-attributes]
-`false`
-| Enables an initContainer to chown the volume. The initContainer is run as root. This is not needed if the driver applies the fsGroup from the securityContext. The image specified in `initContainerImage` will be used for this container.
 | services.authapp.persistence.claimName
 a| [subs=-attributes]
 +string+
