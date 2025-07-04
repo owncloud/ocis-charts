@@ -67,6 +67,7 @@ kubectl -n {{ .Release.Namespace }} get secrets/{{ .Values.secretRefs.adminUserS
 {{- $webUnpersisted := not .Values.services.web.persistence.enabled -}}
 {{- $storageusersUnpersisted := not .Values.services.storageusers.persistence.enabled -}}
 {{- $ocmUnpersisted := not .Values.services.ocm.persistence.enabled -}}
+{{- $authAppUnpersisted := not .Values.services.authapp.persistence.enabled -}}
 
 {{ if or $storagesystemUnpersisted $webUnpersisted $storageusersUnpersisted $idmUnpersisted $searchUnpersisted $natsUnpersisted $ocmUnpersisted }}
 #################################################################################
@@ -93,7 +94,10 @@ kubectl -n {{ .Release.Namespace }} get secrets/{{ .Values.secretRefs.adminUserS
 ######     - nats                                                           #####
 {{- end }}
 {{- if $ocmUnpersisted }}
-######     - ocm                                                           #####
+######     - ocm                                                            #####
+{{- end }}
+{{- if $authAppUnpersisted }}
+######     - authApp                                                        #####
 {{- end }}
 #################################################################################
 {{- end }}
