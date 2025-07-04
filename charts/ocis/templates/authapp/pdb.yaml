@@ -1,0 +1,4 @@
+{{ if .Values.features.authapp.enabled }}
+{{- include "ocis.basicServiceTemplates" (dict "scope" . "appName" "appNameAuthApp" "appNameSuffix" "") -}}
+{{ include "ocis.pdb" . }}
+{{ end }}
