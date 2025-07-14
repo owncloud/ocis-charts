@@ -14,11 +14,15 @@ spec:
     app: {{ .appName }}
   ports:
     - name: grpc
-      port: 9616
+      port: 9246
       protocol: TCP
       appProtocol: {{ .Values.service.appProtocol.grpc | quote}}
+    - name: http
+      port: 9247
+      protocol: TCP
+      appProtocol: {{ .Values.service.appProtocol.http | quote}}
     - name: metrics-debug
-      port: 9617
+      port: 9245
       protocol: TCP
       appProtocol: {{ .Values.service.appProtocol.http | quote}}
 {{ end }}
