@@ -46,10 +46,12 @@ spec:
               value: {{ .Values.debug.profiling | quote }}
 
             - name: AUTH_APP_GRPC_ADDR
-              value: 0.0.0.0:9616
+              value: 0.0.0.0:9246
             - name: AUTH_APP_DEBUG_ADDR
-              value: 0.0.0.0:9617
-
+              value: 0.0.0.0:9245
+            - name: AUTH_APP_HTTP_ADDR
+              value: 0.0.0.0:9247
+  
             - name: AUTH_APP_JWT_SECRET
               valueFrom:
                 secretKeyRef:
@@ -80,9 +82,12 @@ spec:
 
           ports:
             - name: grpc
-              containerPort: 9616
+              containerPort: 9246
             - name: metrics-debug
-              containerPort: 9617
+              containerPort: 9245
+            - name: http
+              containerPort: 9247
+
 
           volumeMounts:
             - name: {{ include "ocis.persistence.dataVolumeName" . }}
