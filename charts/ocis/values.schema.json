@@ -6213,6 +6213,7 @@
               "required": [
                 "enabled",
                 "chownInitContainer",
+                "accessModes",
                 "size"
               ],
               "title": "persistence",
@@ -6603,6 +6604,7 @@
               "required": [
                 "enabled",
                 "chownInitContainer",
+                "accessModes",
                 "size"
               ],
               "title": "persistence",
@@ -7331,6 +7333,7 @@
               "required": [
                 "enabled",
                 "chownInitContainer",
+                "accessModes",
                 "size"
               ],
               "title": "persistence",
@@ -8501,6 +8504,7 @@
               "required": [
                 "enabled",
                 "chownInitContainer",
+                "accessModes",
                 "size"
               ],
               "title": "persistence",
@@ -9869,6 +9873,7 @@
               "required": [
                 "enabled",
                 "chownInitContainer",
+                "accessModes",
                 "size"
               ],
               "title": "persistence",
@@ -10503,6 +10508,7 @@
               "required": [
                 "enabled",
                 "chownInitContainer",
+                "accessModes",
                 "size"
               ],
               "title": "persistence",
@@ -11168,6 +11174,7 @@
               "required": [
                 "enabled",
                 "chownInitContainer",
+                "accessModes",
                 "size"
               ],
               "title": "persistence",
@@ -12300,6 +12307,7 @@
               "required": [
                 "enabled",
                 "chownInitContainer",
+                "accessModes",
                 "size"
               ],
               "title": "persistence",
