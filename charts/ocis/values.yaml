@@ -2519,7 +2519,7 @@ services:
       #     - ReadOnlyMany
       #     - ReadWriteMany
       #     - ReadWriteOncePod
-      #   required: true
+      # required: true
       # @schema
       # -- Persistent volume access modes.
       accessModes:
@@ -3074,7 +3074,7 @@ services:
       #     - ReadOnlyMany
       #     - ReadWriteMany
       #     - ReadWriteOncePod
-      #   required: true
+      # required: true
       # @schema
       # -- Persistent volume access modes.
       accessModes:
@@ -3259,7 +3259,7 @@ services:
       #     - ReadOnlyMany
       #     - ReadWriteMany
       #     - ReadWriteOncePod
-      #   required: true
+      # required: true
       # @schema
       # -- Persistent volume access modes.
       accessModes:
@@ -3590,7 +3590,7 @@ services:
       #     - ReadOnlyMany
       #     - ReadWriteMany
       #     - ReadWriteOncePod
-      #   required: true
+      # required: true
       # @schema
       # -- Persistent volume access modes.
       accessModes:
@@ -3986,7 +3986,7 @@ services:
       #     - ReadOnlyMany
       #     - ReadWriteMany
       #     - ReadWriteOncePod
-      #   required: true
+      # required: true
       # @schema
       # -- Persistent volume access modes.
       accessModes:
@@ -4467,7 +4467,7 @@ services:
       #     - ReadOnlyMany
       #     - ReadWriteMany
       #     - ReadWriteOncePod
-      #   required: true
+      # required: true
       # @schema
       # -- Persistent volume access modes. Needs to be `[ReadWriteMany]` when having more than one replica for this service.
       accessModes:
@@ -4862,7 +4862,7 @@ services:
       #     - ReadOnlyMany
       #     - ReadWriteMany
       #     - ReadWriteOncePod
-      #   required: true
+      # required: true
       # @schema
       # -- Persistent volume access modes. Needs to be `[ReadWriteMany]` when having more than one replica for this service.
       accessModes:
@@ -5047,7 +5047,7 @@ services:
       #     - ReadOnlyMany
       #     - ReadWriteMany
       #     - ReadWriteOncePod
-      #   required: true
+      # required: true
       # @schema
       # -- Persistent volume access modes. Needs to be `[ReadWriteMany]` when having more than one replica for this service or persistence needs to be disabled.
       accessModes:
@@ -5599,7 +5599,7 @@ services:
       #     - ReadOnlyMany
       #     - ReadWriteMany
       #     - ReadWriteOncePod
-      #   required: true
+      # required: true
       # @schema
       # -- Persistent volume access modes. Needs to be `[ReadWriteMany]` when having more than one replica for this service or persistence needs to be disabled.
       accessModes:

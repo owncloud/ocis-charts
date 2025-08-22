@@ -4059,6 +4059,7 @@
               },
               "required": [
                 "enabled",
+                "accessModes",
                 "size"
               ],
               "title": "persistence",

@@ -2520,7 +2520,7 @@ services:
       #     - ReadOnlyMany
       #     - ReadWriteMany
       #     - ReadWriteOncePod
-      #   required: true
+      # required: true
       # @schema
       # -- Persistent volume access modes.
       accessModes:
