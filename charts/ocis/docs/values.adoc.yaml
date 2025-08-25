@@ -1549,7 +1549,7 @@ features:
   authapp:
     # @schema
     # type: boolean
-    # required: true
+    # required: false
     # @schema
     # -- Enables Auth app service
     enabled: false

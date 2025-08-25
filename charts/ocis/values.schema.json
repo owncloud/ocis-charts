@@ -569,9 +569,7 @@
               "type": "boolean"
             }
           },
-          "required": [
-            "enabled"
-          ],
+          "required": [],
           "title": "authapp",
           "type": "object"
         },
