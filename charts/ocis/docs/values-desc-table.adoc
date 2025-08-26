@@ -186,6 +186,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `1073741824`
 | Max size in bytes of the zip archive the archiver can create.
+| features.authapp
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{"enabled":false}`
+| Auth app feature
 | features.authapp.enabled
 a| [subs=-attributes]
 +bool+
@@ -1642,8 +1648,8 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 +object+
 a| [subs=-attributes]
-see detailed service configuration options below
-| AUTH SERVICE service.
+`{"affinity":{},"autoscaling":{},"extraLabels":{},"image":{"pullPolicy":null,"repository":null,"sha":null,"tag":null},"nodeSelector":{},"persistence":{"accessModes":["ReadWriteOncePod"],"annotations":{},"claimName":null,"enabled":false,"existingClaim":null,"finalizers":["kubernetes.io/pvc-protection"],"selectorLabels":{},"size":"1Gi","storageClassName":null},"podDisruptionBudget":{},"priorityClassName":null,"resources":{}}`
+| Auth app service
 | services.authapp.affinity
 a| [subs=-attributes]
 +object+

@@ -1546,6 +1546,11 @@ features:
     # Documentation can be found at https://doc.owncloud.com/ocis/next/deployment/services/s-list/ocm.html#trust-between-instances
     providersConfigRef:
   # Auth app settings
+  # @schema
+  # type: boolean
+  # required: false
+  # @schema
+  # -- Auth app feature
   authapp:
     # @schema
     # type: boolean
@@ -2430,6 +2435,11 @@ services:
 
   # -- AUTH SERVICE service.
   # @default -- see detailed service configuration options below
+  # @schema
+  # type: boolean
+  # required: false
+  # @schema
+  # -- Auth app service
   authapp:
     # @schema
     # $ref: schema/templates.json#/resourcesTemplate
@@ -2498,7 +2508,7 @@ services:
     persistence:
       # @schema
       # type: boolean
-      # required: true
+      # required: false
       # @schema
       # -- Enables persistence.
       # Needs to be enabled on production installations.
@@ -2527,7 +2537,7 @@ services:
         - ReadWriteOncePod
       # @schema
       # type: string
-      # required: true
+      # required: false
       # @schema
       # -- Size of the persistent volume.
       size: 1Gi
