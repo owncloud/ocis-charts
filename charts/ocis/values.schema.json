@@ -559,7 +559,7 @@
         },
         "authapp": {
           "additionalProperties": false,
-          "description": "Auth app settings",
+          "description": "Auth app settings\nAuth app feature",
           "properties": {
             "enabled": {
               "default": false,
@@ -571,7 +571,7 @@
           },
           "required": [],
           "title": "authapp",
-          "type": "object"
+          "type": "boolean"
         },
         "demoUsers": {
           "default": false,
@@ -1962,8 +1962,7 @@
         "policies",
         "edition",
         "archiver",
-        "ocm",
-        "authapp"
+        "ocm"
       ],
       "title": "features",
       "type": "object"
@@ -3844,7 +3843,7 @@
         },
         "authapp": {
           "additionalProperties": false,
-          "description": "AUTH SERVICE service.",
+          "description": "AUTH SERVICE service.\nAuth app service",
           "properties": {
             "affinity": {
               "additionalProperties": true,
@@ -4055,10 +4054,7 @@
                   ]
                 }
               },
-              "required": [
-                "enabled",
-                "size"
-              ],
+              "required": [],
               "title": "persistence",
               "type": "object"
             },
@@ -4152,7 +4148,7 @@
             "persistence"
           ],
           "title": "authapp",
-          "type": "object"
+          "type": "boolean"
         },
         "authmachine": {
           "additionalProperties": false,
@@ -12811,7 +12807,6 @@
         "audit",
         "authmachine",
         "authservice",
-        "authapp",
         "antivirus",
         "clientlog",
         "eventhistory",
