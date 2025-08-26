@@ -214,6 +214,10 @@ spec:
             - name: theme-assets
               mountPath: "/var/lib/ocis/web/assets/themes/{{ .Values.services.web.config.theme.themeNameConfigRefs }}/assets"
             {{- end }}
+            {{- if .Values.configRefs.webCoreIconsConfigRef }}
+            - name: core-icon-assets
+              mountPath: "/var/lib/ocis/web/assets/core/icons"
+            {{- end }}
             - name: apps
               mountPath: /var/lib/ocis/web/assets/apps
             - name: {{ include "ocis.persistence.dataVolumeName" . }}
@@ -232,6 +236,11 @@ spec:
         {{- end }}
         {{- with .Values.configRefs.webThemeAssetsConfigRef }}
         - name: theme-assets
+          configMap:
+            name: {{ . | quote }}
+        {{- end }}
+        {{- with .Values.configRefs.webCoreIconsConfigRef }}
+        - name: core-icon-assets
           configMap:
             name: {{ . | quote }}
         {{- end }}
