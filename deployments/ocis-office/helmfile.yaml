@@ -112,7 +112,7 @@ releases:
   - name: collabora
     namespace: collabora
     chart: collabora/collabora-online
-    version: 1.1.37
+    version: 1.1.48
     labels:
       ci-lint-skip: true # skip linting this chart in CI
     values:
