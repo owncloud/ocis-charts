@@ -71,7 +71,7 @@ spec:
             - name: OCM_JWT_SECRET
               valueFrom:
                 secretKeyRef:
-                  name: "jwt-secret"
+                  name: {{ include "secrets.jwtSecret" . }}
                   key: jwt-secret
 
             - name: OCM_OCM_INVITE_MANAGER_INSECURE
