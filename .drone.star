@@ -1,3 +1,4 @@
+K3D_IMAGE = "ghcr.io/k3d-io/k3d:5-dind"
 config = {
     "branches": [
         "main",
@@ -208,7 +209,7 @@ def install(ctx):
 def wait(config):
     return [{
         "name": "wait",
-        "image": "docker.io/bitnami/kubectl:1.31",
+        "image": K3D_IMAGE,
         "user": "root",
         "commands": [
             "export KUBECONFIG=kubeconfig-$${DRONE_BUILD_NUMBER}.yaml",
@@ -221,7 +222,7 @@ def wait(config):
 def showPodsAfterInstall(config):
     return [{
         "name": "testPodsAfterInstall",
-        "image": "docker.io/bitnami/kubectl:1.31",
+        "image": K3D_IMAGE,
         "user": "root",
         "commands": [
             "export KUBECONFIG=kubeconfig-$${DRONE_BUILD_NUMBER}.yaml",
