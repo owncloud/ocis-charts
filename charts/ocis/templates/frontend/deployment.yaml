@@ -110,6 +110,11 @@ spec:
 
             - name: OCIS_SHOW_USER_EMAIL_IN_RESULTS
               value: {{ .Values.features.sharing.users.search.showUserEmail | quote }}
+              
+            {{- if .Values.features.sharing.users.search.showUserEmail }}
+            - name: OCIS_USER_SEARCH_DISPLAYED_ATTRIBUTES
+              value: "mail"
+            {{- end }}
 
             # cache
             # the stat cache is disabled for now for performance reasons, see https://github.com/owncloud/ocis-charts/issues/214
