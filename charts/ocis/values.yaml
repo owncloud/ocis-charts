@@ -3113,6 +3113,8 @@ services:
       # @schema
       # -- Use an existing PersistentVolumeClaim for persistence.
       existingClaim:
+      # -- Optional subPath to use on the volume mount. Allows sharing a single PVC across services.
+      subPath: ""
     # @schema
     # $ref: schema/templates.json#/resourcesTemplate
     # @schema
@@ -3298,6 +3300,8 @@ services:
       # @schema
       # -- Use an existing PersistentVolumeClaim for persistence.
       existingClaim:
+      # -- Optional subPath to use on the volume mount. Allows sharing a single PVC across services.
+      subPath: ""
     # @schema
     # $ref: schema/templates.json#/resourcesTemplate
     # @schema
@@ -4025,6 +4029,8 @@ services:
       # @schema
       # -- Use an existing PersistentVolumeClaim for persistence.
       existingClaim:
+      # -- Optional subPath to use on the volume mount. Allows sharing a single PVC across services.
+      subPath: ""
     # @schema
     # $ref: schema/templates.json#/resourcesTemplate
     # @schema
@@ -4901,6 +4907,8 @@ services:
       # @schema
       # -- Use an existing PersistentVolumeClaim for persistence.
       existingClaim:
+      # -- Optional subPath to use on the volume mount. Allows sharing a single PVC across services.
+      subPath: ""
     # @schema
     # $ref: schema/templates.json#/resourcesTemplate
     # @schema
@@ -5085,6 +5093,8 @@ services:
       # @schema
       # -- Use an existing PersistentVolumeClaim for persistence.
       existingClaim:
+      # -- Optional subPath to use on the volume mount. Allows sharing a single PVC across services.
+      subPath: ""
     # @schema
     # $ref: schema/templates.json#/resourcesTemplate
     # @schema
@@ -5637,6 +5647,8 @@ services:
       # @schema
       # -- Use an existing PersistentVolumeClaim for persistence.
       existingClaim:
+      # -- Optional subPath to use on the volume mount. Allows sharing a single PVC across services.
+      subPath: ""
     # @schema
     # $ref: schema/templates.json#/resourcesTemplate
     # @schema
