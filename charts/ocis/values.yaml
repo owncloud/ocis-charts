@@ -1303,6 +1303,40 @@ features:
         # -- Group that a user can be added to and by that being marked as disabled.
         disabledUsersGroupDN: cn=DisabledUsersGroup,ou=groups,o=libregraph-idm
 
+  # External OIDC provider configuration.
+  # Use this when you want to authenticate users via an external OIDC provider (e.g. Authentik, Keycloak)
+  # while keeping the built-in IDM (LDAP) for user management.
+  # This is different from externalUserManagement which replaces both OIDC and LDAP.
+  externalOIDC:
+    # -- Enable external OIDC provider. When enabled, the built-in IDP is disabled
+    # and the proxy + web are configured to use the external OIDC provider.
+    # The built-in IDM (LDAP) remains active for user management.
+    enabled: false
+    # -- Issuer URI of the external OIDC provider.
+    issuerURI: ""
+    # -- OIDC Access Token Verify Method. Set to "none" for providers like Authentik.
+    accessTokenVerifyMethod: jwt
+    # -- Claim to use as user ID.
+    userIDClaim: preferred_username
+    # -- Attribute mapping for the user ID claim.
+    userIDClaimAttributeMapping: username
+    # -- Skip the client ID check on the proxy.
+    skipClientIdCheck: true
+    # -- Skip fetching user info from the userinfo endpoint.
+    skipUserInfo: false
+    # Autoprovisioning of user accounts via OIDC.
+    autoprovisionAccounts:
+      # -- Enable account auto provisioning from OIDC claims.
+      enabled: true
+      # -- The OIDC claim for the user's email.
+      claimEmail: email
+      # -- The OIDC claim for the user's display name.
+      claimDisplayname: name
+      # -- The OIDC claim for the user's groups.
+      claimGroups: groups
+      # -- The OIDC claim for the user's username.
+      claimUsername: preferred_username
+
   # GDPR report related settings.
   gdprReport:
     # Enables the GDPR report feature

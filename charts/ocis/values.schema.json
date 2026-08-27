@@ -1436,6 +1436,55 @@
           "title": "externalUserManagement",
           "type": "object"
         },
+        "externalOIDC": {
+          "additionalProperties": false,
+          "description": "External OIDC provider configuration.",
+          "properties": {
+            "enabled": {
+              "default": false,
+              "type": "boolean"
+            },
+            "issuerURI": {
+              "default": "",
+              "type": "string"
+            },
+            "accessTokenVerifyMethod": {
+              "default": "jwt",
+              "type": "string"
+            },
+            "userIDClaim": {
+              "default": "preferred_username",
+              "type": "string"
+            },
+            "userIDClaimAttributeMapping": {
+              "default": "username",
+              "type": "string"
+            },
+            "skipClientIdCheck": {
+              "default": true,
+              "type": "boolean"
+            },
+            "skipUserInfo": {
+              "default": false,
+              "type": "boolean"
+            },
+            "autoprovisionAccounts": {
+              "additionalProperties": false,
+              "properties": {
+                "enabled": { "default": true, "type": "boolean" },
+                "claimEmail": { "default": "email", "type": "string" },
+                "claimDisplayname": { "default": "name", "type": "string" },
+                "claimGroups": { "default": "groups", "type": "string" },
+                "claimUsername": { "default": "preferred_username", "type": "string" }
+              },
+              "required": ["enabled"],
+              "type": "object"
+            }
+          },
+          "required": ["enabled"],
+          "title": "externalOIDC",
+          "type": "object"
+        },
         "gdprReport": {
           "additionalProperties": false,
           "description": "GDPR report related settings.",
@@ -1957,6 +2006,7 @@
         "sharing",
         "appsIntegration",
         "externalUserManagement",
+        "externalOIDC",
         "gdprReport",
         "roles",
         "quotas",
