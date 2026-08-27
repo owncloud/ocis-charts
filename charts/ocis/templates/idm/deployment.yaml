@@ -22,8 +22,7 @@ spec:
             runAsUser: 0
           {{- include "ocis.initChownDataCommand" $ | nindent 10 }}
           volumeMounts:
-          - name: {{ include "ocis.persistence.dataVolumeName" . }}
-            mountPath: /var/lib/ocis
+          {{- include "ocis.persistence.dataVolumeMount" . | nindent 10 }}
       {{ end }}
         - name: init-dir #TODO: that should not be needed, needs fix in the idm service
           {{- include "ocis.initContainerImage" $ | nindent 10 }}
@@ -31,8 +30,7 @@ spec:
           command: ["mkdir", "-p", "/var/lib/ocis/idm"]
           resources: {{ toYaml .resources | nindent 12 }}
           volumeMounts:
-          - name: {{ include "ocis.persistence.dataVolumeName" . }}
-            mountPath: /var/lib/ocis
+          {{- include "ocis.persistence.dataVolumeMount" . | nindent 10 }}
       {{- include "ocis.priorityClassName" $.priorityClassName | nindent 6 }}
       {{- include "ocis.hostAliases" $ | nindent 6 }}
       nodeSelector: {{ toYaml $.nodeSelector | nindent 8 }}
@@ -125,8 +123,7 @@ spec:
             - name: ldap-cert
               mountPath: /etc/ocis/ldap-cert
               readOnly: true
-            - name: {{ include "ocis.persistence.dataVolumeName" . }}
-              mountPath: /var/lib/ocis
+            {{- include "ocis.persistence.dataVolumeMount" . | nindent 12 }}
             {{- include "ocis.caPath" $ | nindent 12}}
 
       {{- include "ocis.imagePullSecrets" $ | nindent 6 }}
