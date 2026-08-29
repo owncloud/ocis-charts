@@ -621,11 +621,15 @@ features:
         # This setting can be used to customize the user experience if e.g too many results are displayed.
         minLengthLimit: 3
         # @schema
-        # type: boolean
+        # type: array
         # required: true
+        # items:
+        #   type: string
         # @schema
-        # -- Show user email when searching for other users to share with.
-        showUserEmail: false
+        # -- Ordered list of user attributes to display when searching for other users to share with.
+        # Include `mail` to expose user email addresses in search results. An empty list keeps email addresses hidden.
+        # To migrate from `showUserEmail`, use `[]` for `false` or `[mail]` for `true`.
+        displayedAttributes: []
     # Sharing per public link related setings
     publiclink:
       # @schema

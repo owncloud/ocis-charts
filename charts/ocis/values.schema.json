@@ -1829,6 +1829,16 @@
                   "additionalProperties": false,
                   "description": "Search settings for finding users to share with.",
                   "properties": {
+                    "displayedAttributes": {
+                      "description": "Ordered list of user attributes to display when searching for other users to share with.\nInclude `mail` to expose user email addresses in search results. An empty list keeps email addresses hidden.\nTo migrate from `showUserEmail`, use `[]` for `false` or `[mail]` for `true`.",
+                      "items": {
+                        "required": [],
+                        "type": "string"
+                      },
+                      "required": [],
+                      "title": "displayedAttributes",
+                      "type": "array"
+                    },
                     "minLengthLimit": {
                       "default": 3,
                       "description": "Minimum number of characters to enter before a client should start a search for Share receivers.\nThis setting can be used to customize the user experience if e.g too many results are displayed.",
@@ -1836,18 +1846,11 @@
                       "required": [],
                       "title": "minLengthLimit",
                       "type": "integer"
-                    },
-                    "showUserEmail": {
-                      "default": false,
-                      "description": "Show user email when searching for other users to share with.",
-                      "required": [],
-                      "title": "showUserEmail",
-                      "type": "boolean"
                     }
                   },
                   "required": [
                     "minLengthLimit",
-                    "showUserEmail"
+                    "displayedAttributes"
                   ],
                   "title": "search",
                   "type": "object"
