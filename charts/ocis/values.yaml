@@ -477,13 +477,23 @@ features:
     # @schema
     # -- The default language. If not defined, English will be used as default. See the documentation for more details.
     default: en
+  # Notifications service settings
+  notifications:
+    # @schema
+    # type: boolean
+    # required: true
+    # @schema
+    # -- Enables the notifications service for server-side notification processing.
+    # This service is required even when email notifications are disabled.
+    enabled: true
   # Email related settings
   emailNotifications:
     # @schema
     # type: boolean
     # required: true
     # @schema
-    # -- Enables email notifications.
+    # -- Enables SMTP email delivery and mail-summary jobs.
+    # Requires `features.notifications.enabled` to be `true`.
     enabled: false
     smtp:
       # @schema
@@ -504,7 +514,8 @@ features:
       # type: [string, null]
       # required: false
       # @schema
-      # -- Sender address of emails that will be sent. Example: 'ownCloud <noreply@example.com>'
+      # -- Sender address of emails that will be sent.
+      # Defaults to 'oCIS notifications <notifications@<externalDomain>>'.
       sender:
       # @schema
       # enum: [auto, login, plain, crammd5, none]
@@ -3351,7 +3362,7 @@ services:
       # -- Image pull policy
       pullPolicy:
 
-  # -- NOTIFICATIONS service. Not used if `features.emailNotifications.enabled` equals `true`.
+  # -- NOTIFICATIONS service. Not used if `features.notifications.enabled` equals `false`.
   # @default -- see detailed service configuration options below
   notifications:
     # @schema

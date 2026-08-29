@@ -1,4 +1,4 @@
-{{- if .Values.features.emailNotifications.enabled }}
+{{- if and .Values.features.notifications.enabled .Values.features.emailNotifications.enabled }}
 {{- include "ocis.basicServiceTemplates" (dict "scope" . "appName" "appNameNotifications" "appNameSuffix" "") -}}
 ---
 apiVersion: batch/v1
@@ -54,8 +54,9 @@ spec:
                 - name: NOTIFICATIONS_PRETTY
                   value: {{ .Values.logging.pretty | quote }}
 
-                - name: NOTIFICATIONS_SMTP_SENDER #TODO: only needed to satisfy config checks!?
-                  value: {{ .Values.features.emailNotifications.smtp.sender | quote }}
+                # oCIS validates the sender for the mail command.
+                - name: NOTIFICATIONS_SMTP_SENDER
+                  value: {{ default (printf "oCIS notifications <notifications@%s>" .Values.externalDomain) .Values.features.emailNotifications.smtp.sender | quote }}
 
               resources: {{ toYaml .jobResources | nindent 16 }}
 
@@ -134,8 +135,9 @@ spec:
                 - name: NOTIFICATIONS_PRETTY
                   value: {{ .Values.logging.pretty | quote }}
 
-                - name: NOTIFICATIONS_SMTP_SENDER #TODO: only needed to satisfy config checks!?
-                  value: {{ .Values.features.emailNotifications.smtp.sender | quote }}
+                # oCIS validates the sender for the mail command.
+                - name: NOTIFICATIONS_SMTP_SENDER
+                  value: {{ default (printf "oCIS notifications <notifications@%s>" .Values.externalDomain) .Values.features.emailNotifications.smtp.sender | quote }}
 
               resources: {{ toYaml .jobResources | nindent 16 }}
 
