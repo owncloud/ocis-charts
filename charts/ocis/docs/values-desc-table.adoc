@@ -822,18 +822,18 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `false`
 | Enforce a password only on writable public link shares. Is already enforced if `features.sharing.publiclink.shareMustHavePassword` option is set to `true``.
+| features.sharing.users.search.displayedAttributes
+a| [subs=-attributes]
++list+
+a| [subs=-attributes]
+`[]`
+| Ordered list of user attributes to display when searching for other users to share with. Include `mail` to expose user email addresses in search results. An empty list keeps email addresses hidden. To migrate from `showUserEmail`, use `[]` for `false` or `[mail]` for `true`.
 | features.sharing.users.search.minLengthLimit
 a| [subs=-attributes]
 +int+
 a| [subs=-attributes]
 `3`
 | Minimum number of characters to enter before a client should start a search for Share receivers. This setting can be used to customize the user experience if e.g too many results are displayed.
-| features.sharing.users.search.showUserEmail
-a| [subs=-attributes]
-+bool+
-a| [subs=-attributes]
-`false`
-| Show user email when searching for other users to share with.
 | features.virusscan.enabled
 a| [subs=-attributes]
 +bool+
