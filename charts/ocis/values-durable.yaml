@@ -1,0 +1,34 @@
+---
+# Durable-state profile for oCIS.
+#
+# The ocis_full deployment persists /var/lib/ocis. This profile maps that state
+# to the service-specific PersistentVolumeClaims provided by this chart.
+#
+# The cluster's default StorageClass must support each service's configured
+# access modes. Override storageClassName or existingClaim per service when it
+# does not, especially for services whose default access mode is ReadWriteMany.
+services:
+  idm:
+    persistence:
+      enabled: true
+  nats:
+    persistence:
+      enabled: true
+  ocm:
+    persistence:
+      enabled: true
+  search:
+    persistence:
+      enabled: true
+  storagesystem:
+    persistence:
+      enabled: true
+  storageusers:
+    persistence:
+      enabled: true
+  thumbnails:
+    persistence:
+      enabled: true
+  web:
+    persistence:
+      enabled: true
