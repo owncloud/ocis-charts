@@ -1,4 +1,4 @@
-{{- if .Values.features.emailNotifications.enabled }}
+{{- if .Values.features.notifications.enabled }}
 {{- include "ocis.basicServiceTemplates" (dict "scope" . "appName" "appNameNotifications" "appNameSuffix" "") -}}
 apiVersion: apps/v1
 kind: Deployment
@@ -54,12 +54,15 @@ spec:
             - name: NOTIFICATIONS_DEBUG_ADDR
               value: 0.0.0.0:9174
 
+            # oCIS validates the sender even when no SMTP host is configured.
+            - name: NOTIFICATIONS_SMTP_SENDER
+              value: {{ default (printf "oCIS notifications <notifications@%s>" .Values.externalDomain) .Values.features.emailNotifications.smtp.sender | quote }}
+
+            {{- if .Values.features.emailNotifications.enabled }}
             - name: NOTIFICATIONS_SMTP_HOST
               value: {{ .Values.features.emailNotifications.smtp.host | quote }}
             - name: NOTIFICATIONS_SMTP_PORT
               value: {{ .Values.features.emailNotifications.smtp.port | quote }}
-            - name: NOTIFICATIONS_SMTP_SENDER
-              value: {{ .Values.features.emailNotifications.smtp.sender | quote }}
             - name: NOTIFICATIONS_SMTP_AUTHENTICATION
               value: {{ .Values.features.emailNotifications.smtp.authentication | quote }}
             - name: NOTIFICATIONS_SMTP_ENCRYPTION
@@ -78,6 +81,7 @@ spec:
                   name: {{ include "secrets.notificationsSMTPSecret" . }}
                   key: smtp-password
             {{- end }}
+            {{- end }}
 
             - name: NOTIFICATIONS_WEB_UI_URL
               value: "https://{{ .Values.externalDomain }}"
@@ -93,7 +97,7 @@ spec:
                   name: {{ include "secrets.serviceAccountSecret" . }}
                   key: service-account-secret
 
-            {{- if .Values.features.emailNotifications.branding.enabled }}
+            {{- if and .Values.features.emailNotifications.enabled .Values.features.emailNotifications.branding.enabled }}
             # Mail theming
             - name: NOTIFICATIONS_EMAIL_TEMPLATE_PATH
               value: /etc/ocis/notifications
@@ -112,7 +116,7 @@ spec:
             - name: messaging-system-ca
               mountPath: /etc/ocis/messaging-system-ca
               readOnly: true
-            {{- if .Values.features.emailNotifications.branding.enabled }}
+            {{- if and .Values.features.emailNotifications.enabled .Values.features.emailNotifications.branding.enabled }}
             - name: text-mail-templates
               mountPath: /etc/ocis/notifications/templates/text
             - name: html-mail-templates
@@ -131,7 +135,7 @@ spec:
           {{ else }}
           emptyDir: {}
           {{ end }}
-        {{- if .Values.features.emailNotifications.branding.enabled }}
+        {{- if and .Values.features.emailNotifications.enabled .Values.features.emailNotifications.branding.enabled }}
         - name: text-mail-templates
           configMap:
             name: {{ .Values.features.emailNotifications.branding.textMailTemplatesConfigRef | quote }}

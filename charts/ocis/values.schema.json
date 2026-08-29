@@ -639,7 +639,7 @@
             },
             "enabled": {
               "default": false,
-              "description": "Enables email notifications.",
+              "description": "Enables SMTP email delivery and mail-summary jobs.\nRequires `features.notifications.enabled` to be `true`.",
               "required": [],
               "title": "enabled",
               "type": "boolean"
@@ -697,7 +697,7 @@
                 },
                 "sender": {
                   "default": "",
-                  "description": "Sender address of emails that will be sent. Example: 'ownCloud \u003cnoreply",
+                  "description": "Sender address of emails that will be sent.\nDefaults to 'oCIS notifications \u003cnotifications@\u003cexternalDomain\u003e\u003e'.",
                   "required": [],
                   "title": "sender",
                   "type": [
@@ -1541,6 +1541,24 @@
           "title": "language",
           "type": "object"
         },
+        "notifications": {
+          "additionalProperties": false,
+          "description": "Notifications service settings",
+          "properties": {
+            "enabled": {
+              "default": true,
+              "description": "Enables the notifications service for server-side notification processing.\nThis service is required even when email notifications are disabled.",
+              "required": [],
+              "title": "enabled",
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "enabled"
+          ],
+          "title": "notifications",
+          "type": "object"
+        },
         "ocm": {
           "additionalProperties": false,
           "description": "OCM settings",
@@ -1953,6 +1971,7 @@
       "required": [
         "demoUsers",
         "language",
+        "notifications",
         "emailNotifications",
         "sharing",
         "appsIntegration",
@@ -6669,7 +6688,7 @@
         },
         "notifications": {
           "additionalProperties": false,
-          "description": "NOTIFICATIONS service. Not used if `features.emailNotifications.enabled` equals `true`.",
+          "description": "NOTIFICATIONS service. Not used if `features.notifications.enabled` equals `false`.",
           "properties": {
             "affinity": {
               "additionalProperties": true,
