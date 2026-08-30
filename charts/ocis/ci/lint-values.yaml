@@ -45,6 +45,7 @@ hostAliases:
 priorityClassName: ocis-middle-priority
 jobPriorityClassName: ocis-job-middle-priority
 features:
+  basicAuthentication: true
   emailNotifications:
     enabled: true
   appsIntegration:
