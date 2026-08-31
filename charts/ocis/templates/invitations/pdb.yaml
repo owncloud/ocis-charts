@@ -1,0 +1,4 @@
+{{ if .Values.features.invitations.enabled }}
+{{- include "ocis.basicServiceTemplates" (dict "scope" . "appName" "appNameInvitations" "appNameSuffix" "") -}}
+{{ include "ocis.pdb" . }}
+{{ end }}
