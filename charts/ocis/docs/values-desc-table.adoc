@@ -690,6 +690,24 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `"en"`
 | The default language. If not defined, English will be used as default. See the documentation for more details.
+| features.mfa.authLevelNames
+a| [subs=-attributes]
++list+
+a| [subs=-attributes]
+`["advanced"]`
+| Authentication level names that indicate successful MFA. The first entry is requested for step-up authentication.
+| features.mfa.enabled
+a| [subs=-attributes]
++bool+
+a| [subs=-attributes]
+`false`
+| Enables multi-factor authentication enforcement in the frontend and proxy services. Requires oCIS 8.1.0 or newer and an OIDC identity provider that supports step-up authentication and issues a matching `acr` claim.
+| features.mfa.sessionDuration
+a| [subs=-attributes]
++int+
+a| [subs=-attributes]
+`3600`
+| Duration in seconds for which an MFA session remains valid before re-authentication is required.
 | features.ocm.enabled
 a| [subs=-attributes]
 +bool+
@@ -834,6 +852,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `false`
 | Show user email when searching for other users to share with.
+| features.vault.enabled
+a| [subs=-attributes]
++bool+
+a| [subs=-attributes]
+`false`
+| Enables the MFA-protected Vault and its dedicated storage-users service. Requires `features.mfa.enabled` and an oCIS image that supports Vault mode (8.1.0 or newer).
 | features.virusscan.enabled
 a| [subs=-attributes]
 +bool+
@@ -1296,6 +1320,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `nil`
 | Reference to an existing storage-system secret (see xref:{secrets}[Secrets])
+| secretRefs.storageusersVaultS3CredentialsSecretRef
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`nil`
+| Reference to an existing Secret containing the dedicated Vault S3 credentials in the `accessKey` and `secretKey` keys. Required when `features.vault.enabled` is true and `services.storageusersvault.storageBackend.driver` is set to `s3ng`.
 | secretRefs.thumbnailsSecretRef
 a| [subs=-attributes]
 +string+
@@ -4338,6 +4368,222 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `"default"`
 | S3 region to use for the S3NG driver. Only used if driver is set to "s3ng".
+| services.storageusersvault
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+see detailed service configuration options below
+| Dedicated STORAGE-USERS service for Vault data.
+| services.storageusersvault.affinity
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service affinity.
+| services.storageusersvault.autoscaling
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
+| services.storageusersvault.events.consumer.concurrency
+a| [subs=-attributes]
++int+
+a| [subs=-attributes]
+`10`
+| Number of event consumers that concurrently process Vault storage events.
+| services.storageusersvault.extraLabels
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service custom labels.
+| services.storageusersvault.image.pullPolicy
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`nil`
+| Image pull policy.
+| services.storageusersvault.image.repository
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`nil`
+| Image repository.
+| services.storageusersvault.image.sha
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`nil`
+| Image SHA or digest.
+| services.storageusersvault.image.tag
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`nil`
+| Image tag.
+| services.storageusersvault.nodeSelector
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
+| services.storageusersvault.persistence
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+see detailed persistence configuration options below
+| Persistence settings for the dedicated Vault storage root.
+| services.storageusersvault.persistence.accessModes
+a| [subs=-attributes]
++list+
+a| [subs=-attributes]
+`["ReadWriteMany"]`
+| Persistent volume access modes. Use `[ReadWriteMany]` when running more than one Vault storage replica.
+| services.storageusersvault.persistence.annotations
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Vault persistent volume annotations.
+| services.storageusersvault.persistence.chownInitContainer
+a| [subs=-attributes]
++bool+
+a| [subs=-attributes]
+`false`
+| Enables an initContainer that changes ownership of the Vault volume. The initContainer runs as root and is unnecessary when the storage driver applies the pod fsGroup.
+| services.storageusersvault.persistence.claimName
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`nil`
+| Custom name for the Vault PVC instead of the generated name.
+| services.storageusersvault.persistence.enabled
+a| [subs=-attributes]
++bool+
+a| [subs=-attributes]
+`true`
+| Enables persistence for Vault data and metadata. Disabling this causes Vault data loss when the storageusersvault pod is terminated.
+| services.storageusersvault.persistence.existingClaim
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`nil`
+| Existing PersistentVolumeClaim used for Vault persistence.
+| services.storageusersvault.persistence.finalizers
+a| [subs=-attributes]
++list+
+a| [subs=-attributes]
+`["kubernetes.io/pvc-protection"]`
+| Vault persistent volume finalizers.
+| services.storageusersvault.persistence.selectorLabels
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Vault persistent volume selector labels.
+| services.storageusersvault.persistence.size
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"50Gi"`
+| Size of the dedicated Vault persistent volume.
+| services.storageusersvault.persistence.storageClassName
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`nil`
+| Storage class used by the Vault PVC. Uses the default storage class if unset.
+| services.storageusersvault.podDisruptionBudget
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
+| services.storageusersvault.priorityClassName
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`nil`
+| Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
+| services.storageusersvault.resources
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service resources configuration. Overrides the default setting from `resources` if set.
+| services.storageusersvault.storageBackend.driver
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"ocis"`
+| Configures the dedicated Vault storage driver. Possible values are "ocis" and "s3ng". Vault data and metadata must use storage separate from the primary storage-users service.
+| services.storageusersvault.storageBackend.driverConfig.ocis.maxConcurrency
+a| [subs=-attributes]
++int+
+a| [subs=-attributes]
+`100`
+| Maximum number of concurrent go-routines used by the Vault oCIS storage driver.
+| services.storageusersvault.storageBackend.driverConfig.s3ng.bucket
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`nil`
+| Dedicated S3 bucket used by the Vault S3NG driver. Only used if the driver is set to "s3ng". Credentials are read from the dedicated secret configured by `secretRefs.storageusersVaultS3CredentialsSecretRef`.
+| services.storageusersvault.storageBackend.driverConfig.s3ng.disableContentSHA256
+a| [subs=-attributes]
++bool+
+a| [subs=-attributes]
+`false`
+| Disable sending content SHA256 when copying Vault objects to S3.
+| services.storageusersvault.storageBackend.driverConfig.s3ng.endpoint
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`nil`
+| S3 endpoint used by the Vault S3NG driver. Only used if the driver is set to "s3ng".
+| services.storageusersvault.storageBackend.driverConfig.s3ng.maxConcurrency
+a| [subs=-attributes]
++int+
+a| [subs=-attributes]
+`100`
+| Maximum number of concurrent go-routines used by the Vault S3NG storage driver.
+| services.storageusersvault.storageBackend.driverConfig.s3ng.putObject.concurrentStreamParts
+a| [subs=-attributes]
++bool+
+a| [subs=-attributes]
+`true`
+| Always precreate parts when copying Vault objects to S3.
+| services.storageusersvault.storageBackend.driverConfig.s3ng.putObject.disableMultipart
+a| [subs=-attributes]
++bool+
+a| [subs=-attributes]
+`false`
+| Disable multipart uploads when copying Vault objects to S3.
+| services.storageusersvault.storageBackend.driverConfig.s3ng.putObject.numThreads
+a| [subs=-attributes]
++int+
+a| [subs=-attributes]
+`4`
+| Number of concurrent uploads used when copying Vault objects to S3.
+| services.storageusersvault.storageBackend.driverConfig.s3ng.putObject.partSize
+a| [subs=-attributes]
++int+
+a| [subs=-attributes]
+`0`
+| Part size for concurrent Vault uploads to S3.
+| services.storageusersvault.storageBackend.driverConfig.s3ng.putObject.sendContentMD5
+a| [subs=-attributes]
++bool+
+a| [subs=-attributes]
+`true`
+| Send a Content-MD5 header when copying Vault objects to S3.
+| services.storageusersvault.storageBackend.driverConfig.s3ng.region
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"default"`
+| S3 region used by the Vault S3NG driver. Only used if the driver is set to "s3ng".
 | services.thumbnails
 a| [subs=-attributes]
 +object+
@@ -4823,7 +5069,7 @@ a| [subs=-attributes]
 +string+
 a| [subs=-attributes]
 `"openid profile email"`
-| OIDC scopes to request during authentication to authorize access to user details. Defaults to ‘openid profile email’. Values are separated by blank. More example values but not limited to are ‘address’ or ‘phone’ etc.
+| OIDC scopes to request during authentication to authorize access to user details. Defaults to ‘openid profile email’. Values are separated by blank. More example values but not limited to are ‘address’ or ‘phone’ etc. The `acr` scope is added automatically when `features.mfa.enabled` is true.
 | services.web.config.scripts
 a| [subs=-attributes]
 +list+

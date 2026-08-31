@@ -1404,6 +1404,43 @@ features:
     #   71881883-1768-46bd-a24d-a356a2afdf7f: 100000000000
     #   # Space Administrator Role set to 100GB
     #   2aadd357-682c-406b-8874-293091995fdd: 100000000000
+  # Multi-factor authentication settings.
+  # The configured authentication level names must match the `acr` claim issued by the OIDC identity provider.
+  mfa:
+    # @schema
+    # type: boolean
+    # required: true
+    # @schema
+    # -- Enables multi-factor authentication enforcement in the frontend and proxy services.
+    # Requires oCIS 8.1.0 or newer and an OIDC identity provider that supports step-up authentication and issues a matching `acr` claim.
+    enabled: false
+    # @schema
+    # type: array
+    # minItems: 1
+    # required: true
+    # items:
+    #   type: string
+    #   minLength: 1
+    # @schema
+    # -- Authentication level names that indicate successful MFA. The first entry is requested for step-up authentication.
+    authLevelNames:
+      - advanced
+    # @schema
+    # type: integer
+    # minimum: 1
+    # required: true
+    # @schema
+    # -- Duration in seconds for which an MFA session remains valid before re-authentication is required.
+    sessionDuration: 3600
+  # Vault storage settings.
+  vault:
+    # @schema
+    # type: boolean
+    # required: true
+    # @schema
+    # -- Enables the MFA-protected Vault and its dedicated storage-users service.
+    # Requires `features.mfa.enabled` and an oCIS image that supports Vault mode (8.1.0 or newer).
+    enabled: false
   # Define virus scanning
   virusscan:
     # @schema
@@ -1761,6 +1798,13 @@ secretRefs:
   # -- Reference to an existing s3 secret (see ref:Secrets#secrets)
   # If not filled in, will attempt to use values in `.storageusers.storageBackend.s3.driverConfig.s3ng` instead.
   s3CredentialsSecretRef:
+  # @schema
+  # type: [string, null]
+  # required: false
+  # @schema
+  # -- Reference to an existing Secret containing the dedicated Vault S3 credentials in the `accessKey` and `secretKey` keys.
+  # Required when `features.vault.enabled` is true and `services.storageusersvault.storageBackend.driver` is set to `s3ng`.
+  storageusersVaultS3CredentialsSecretRef:
   # @schema
   # type: [string, null]
   # required: false
@@ -4980,6 +5024,236 @@ services:
       # -- Image pull policy
       pullPolicy:
 
+  # -- Dedicated STORAGE-USERS service for Vault data.
+  # @default -- see detailed service configuration options below
+  storageusersvault:
+    events:
+      consumer:
+        # @schema
+        # type: integer
+        # minimum: 1
+        # required: true
+        # @schema
+        # -- Number of event consumers that concurrently process Vault storage events.
+        concurrency: 10
+
+    storageBackend:
+      # @schema
+      # enum: [ocis, s3ng]
+      # required: true
+      # @schema
+      # -- Configures the dedicated Vault storage driver. Possible values are "ocis" and "s3ng".
+      # Vault data and metadata must use storage separate from the primary storage-users service.
+      driver: ocis
+      driverConfig:
+        ocis:
+          # @schema
+          # type: integer
+          # minimum: 1
+          # required: true
+          # @schema
+          # -- Maximum number of concurrent go-routines used by the Vault oCIS storage driver.
+          maxConcurrency: 100
+        s3ng:
+          # @schema
+          # type: integer
+          # minimum: 1
+          # required: true
+          # @schema
+          # -- Maximum number of concurrent go-routines used by the Vault S3NG storage driver.
+          maxConcurrency: 100
+          # @schema
+          # type: [string, null]
+          # required: false
+          # @schema
+          # -- S3 endpoint used by the Vault S3NG driver. Only used if the driver is set to "s3ng".
+          endpoint:
+          # @schema
+          # type: string
+          # required: true
+          # @schema
+          # -- S3 region used by the Vault S3NG driver. Only used if the driver is set to "s3ng".
+          region: default
+          # @schema
+          # type: [string, null]
+          # required: false
+          # @schema
+          # -- Dedicated S3 bucket used by the Vault S3NG driver. Only used if the driver is set to "s3ng".
+          # Credentials are read from the dedicated secret configured by `secretRefs.storageusersVaultS3CredentialsSecretRef`.
+          bucket:
+          # @schema
+          # type: boolean
+          # required: true
+          # @schema
+          # -- Disable sending content SHA256 when copying Vault objects to S3.
+          disableContentSHA256: false
+          putObject:
+            # @schema
+            # type: boolean
+            # required: true
+            # @schema
+            # -- Disable multipart uploads when copying Vault objects to S3.
+            disableMultipart: false
+            # @schema
+            # type: boolean
+            # required: true
+            # @schema
+            # -- Send a Content-MD5 header when copying Vault objects to S3.
+            sendContentMD5: true
+            # @schema
+            # type: boolean
+            # required: true
+            # @schema
+            # -- Always precreate parts when copying Vault objects to S3.
+            concurrentStreamParts: true
+            # @schema
+            # type: integer
+            # minimum: 1
+            # required: true
+            # @schema
+            # -- Number of concurrent uploads used when copying Vault objects to S3.
+            numThreads: 4
+            # @schema
+            # type: integer
+            # minimum: 0
+            # required: true
+            # @schema
+            # -- Part size for concurrent Vault uploads to S3.
+            partSize: 0
+
+    # -- Persistence settings for the dedicated Vault storage root.
+    # @default -- see detailed persistence configuration options below
+    persistence:
+      # @schema
+      # type: boolean
+      # required: true
+      # @schema
+      # -- Enables persistence for Vault data and metadata.
+      # Disabling this causes Vault data loss when the storageusersvault pod is terminated.
+      enabled: true
+      # @schema
+      # type: boolean
+      # required: true
+      # @schema
+      # -- Enables an initContainer that changes ownership of the Vault volume.
+      # The initContainer runs as root and is unnecessary when the storage driver applies the pod fsGroup.
+      chownInitContainer: false
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
+      # -- Storage class used by the Vault PVC. Uses the default storage class if unset.
+      storageClassName:
+      # @schema
+      # type: array
+      # items:
+      #   enum:
+      #     - ReadWriteOnce
+      #     - ReadOnlyMany
+      #     - ReadWriteMany
+      #     - ReadWriteOncePod
+      # required: true
+      # @schema
+      # -- Persistent volume access modes. Use `[ReadWriteMany]` when running more than one Vault storage replica.
+      accessModes:
+        - ReadWriteMany
+      # @schema
+      # type: string
+      # required: true
+      # @schema
+      # -- Size of the dedicated Vault persistent volume.
+      size: 50Gi
+      # @schema
+      # $ref: schema/templates.json#/annotationsTemplate
+      # @schema
+      # -- Vault persistent volume annotations.
+      annotations: {}
+      # @schema
+      # $ref: schema/templates.json#/finalizersTemplate
+      # @schema
+      # -- Vault persistent volume finalizers.
+      finalizers:
+        - kubernetes.io/pvc-protection
+      # @schema
+      # $ref: schema/templates.json#/labelsTemplate
+      # @schema
+      # -- Vault persistent volume selector labels.
+      selectorLabels: {}
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
+      # -- Custom name for the Vault PVC instead of the generated name.
+      claimName:
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
+      # -- Existing PersistentVolumeClaim used for Vault persistence.
+      existingClaim:
+    # @schema
+    # $ref: schema/templates.json#/resourcesTemplate
+    # @schema
+    # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
+    resources: {}
+    # @schema
+    # $ref: schema/templates.json#/labelsTemplate
+    # @schema
+    # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
+    nodeSelector: {}
+    # @schema
+    # type: [string, null]
+    # required: false
+    # @schema
+    # -- Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
+    priorityClassName:
+    # @schema
+    # $ref: schema/templates.json#/podDisruptionBudgetTemplate
+    # @schema
+    # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
+    podDisruptionBudget: {}
+    # @schema
+    # $ref: schema/templates.json#/autoscalingTemplate
+    # @schema
+    # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
+    autoscaling: {}
+    # @schema
+    # $ref: schema/templates.json#/affinityTemplate
+    # @schema
+    # -- Per-service affinity.
+    affinity: {}
+    # @schema
+    # $ref: schema/templates.json#/labelsTemplate
+    # @schema
+    # -- Per-service custom labels.
+    extraLabels: {}
+    # Per-service image configuration. Overrides the default setting from `image` if set.
+    image:
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
+      # -- Image repository.
+      repository:
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
+      # -- Image tag.
+      tag:
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
+      # -- Image SHA or digest.
+      sha:
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
+      # -- Image pull policy.
+      pullPolicy:
+
   # -- THUMBNAILS service.
   # @default -- see detailed service configuration options below
   thumbnails:
@@ -5476,6 +5750,7 @@ services:
         # required: true
         # @schema
         # -- OIDC scopes to request during authentication to authorize access to user details. Defaults to ‘openid profile email’. Values are separated by blank. More example values but not limited to are ‘address’ or ‘phone’ etc.
+        # The `acr` scope is added automatically when `features.mfa.enabled` is true.
         webClientScope: openid profile email
         # @schema
         # type: string

@@ -28,6 +28,7 @@ backup:
     backup.test/pvc: "test"
 
 image:
+  tag: 8.2.0
   pullSecrets:
     - name: some-pull-secret
 
@@ -45,6 +46,14 @@ hostAliases:
 priorityClassName: ocis-middle-priority
 jobPriorityClassName: ocis-job-middle-priority
 features:
+  mfa:
+    enabled: true
+    authLevelNames:
+      - advanced
+      - silver
+    sessionDuration: 7200
+  vault:
+    enabled: true
   emailNotifications:
     enabled: true
   appsIntegration:
@@ -229,6 +238,35 @@ services:
                     operator: In
                     values:
                       - storageusers
+              topologyKey: "kubernetes.io/hostname"
+
+  storageusersvault:
+    podDisruptionBudget:
+      maxUnavailable: 1
+    storageBackend:
+      driver: ocis
+    persistence:
+      enabled: true
+      storageClassName: default-storage
+      accessModes:
+        - ReadWriteMany
+      size: 50Gi
+      annotations:
+        anno-1: test
+      finalizers:
+        - kubernetes.io/pvc-protection
+      selectorLabels: {}
+    affinity:
+      podAntiAffinity:
+        preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 1
+            podAffinityTerm:
+              labelSelector:
+                matchExpressions:
+                  - key: app
+                    operator: In
+                    values:
+                      - storageusersvault
               topologyKey: "kubernetes.io/hostname"
 
   thumbnails:

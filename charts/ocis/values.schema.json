@@ -1541,6 +1541,46 @@
           "title": "language",
           "type": "object"
         },
+        "mfa": {
+          "additionalProperties": false,
+          "description": "Multi-factor authentication settings.\nThe configured authentication level names must match the `acr` claim issued by the OIDC identity provider.",
+          "properties": {
+            "authLevelNames": {
+              "description": "Authentication level names that indicate successful MFA. The first entry is requested for step-up authentication.",
+              "items": {
+                "minLength": 1,
+                "required": [],
+                "type": "string"
+              },
+              "minItems": 1,
+              "required": [],
+              "title": "authLevelNames",
+              "type": "array"
+            },
+            "enabled": {
+              "default": false,
+              "description": "Enables multi-factor authentication enforcement in the frontend and proxy services.\nRequires oCIS 8.1.0 or newer and an OIDC identity provider that supports step-up authentication and issues a matching `acr` claim.",
+              "required": [],
+              "title": "enabled",
+              "type": "boolean"
+            },
+            "sessionDuration": {
+              "default": 3600,
+              "description": "Duration in seconds for which an MFA session remains valid before re-authentication is required.",
+              "minimum": 1,
+              "required": [],
+              "title": "sessionDuration",
+              "type": "integer"
+            }
+          },
+          "required": [
+            "enabled",
+            "authLevelNames",
+            "sessionDuration"
+          ],
+          "title": "mfa",
+          "type": "object"
+        },
         "ocm": {
           "additionalProperties": false,
           "description": "OCM settings",
@@ -1869,6 +1909,24 @@
           "title": "sharing",
           "type": "object"
         },
+        "vault": {
+          "additionalProperties": false,
+          "description": "Vault storage settings.",
+          "properties": {
+            "enabled": {
+              "default": false,
+              "description": "Enables the MFA-protected Vault and its dedicated storage-users service.\nRequires `features.mfa.enabled` and an oCIS image that supports Vault mode (8.1.0 or newer).",
+              "required": [],
+              "title": "enabled",
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "enabled"
+          ],
+          "title": "vault",
+          "type": "object"
+        },
         "virusscan": {
           "additionalProperties": false,
           "description": "Define virus scanning",
@@ -1960,6 +2018,8 @@
         "gdprReport",
         "roles",
         "quotas",
+        "mfa",
+        "vault",
         "virusscan",
         "policies",
         "edition",
@@ -2927,6 +2987,16 @@
           "description": "Reference to an existing storage-system secret (see ref:Secrets#secrets)",
           "required": [],
           "title": "storagesystemSecretRef",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "storageusersVaultS3CredentialsSecretRef": {
+          "default": "",
+          "description": "Reference to an existing Secret containing the dedicated Vault S3 credentials in the `accessKey` and `secretKey` keys.\nRequired when `features.vault.enabled` is true and `services.storageusersvault.storageBackend.driver` is set to `s3ng`.",
+          "required": [],
+          "title": "storageusersVaultS3CredentialsSecretRef",
           "type": [
             "string",
             "null"
@@ -10765,6 +10835,513 @@
           "title": "storageusers",
           "type": "object"
         },
+        "storageusersvault": {
+          "additionalProperties": false,
+          "description": "Dedicated STORAGE-USERS service for Vault data.",
+          "properties": {
+            "affinity": {
+              "additionalProperties": true,
+              "description": "Per-service affinity.",
+              "required": [],
+              "title": "affinity",
+              "type": "object"
+            },
+            "autoscaling": {
+              "additionalProperties": true,
+              "description": "Per-service autoscaling. Overrides the default setting from `autoscaling` if set.",
+              "properties": {
+                "enabled": {
+                  "required": [],
+                  "type": "boolean"
+                },
+                "maxReplicas": {
+                  "minimum": 1,
+                  "required": [],
+                  "type": "integer"
+                },
+                "metrics": {
+                  "additionalProperties": true,
+                  "required": []
+                },
+                "minReplicas": {
+                  "minimum": 1,
+                  "required": [],
+                  "type": "integer"
+                }
+              },
+              "required": [],
+              "title": "autoscaling",
+              "type": "object"
+            },
+            "events": {
+              "additionalProperties": false,
+              "properties": {
+                "consumer": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "concurrency": {
+                      "default": 10,
+                      "description": "Number of event consumers that concurrently process Vault storage events.",
+                      "minimum": 1,
+                      "required": [],
+                      "title": "concurrency",
+                      "type": "integer"
+                    }
+                  },
+                  "required": [
+                    "concurrency"
+                  ],
+                  "title": "consumer",
+                  "type": "object"
+                }
+              },
+              "required": [
+                "consumer"
+              ],
+              "title": "events",
+              "type": "object"
+            },
+            "extraLabels": {
+              "additionalProperties": false,
+              "description": "Per-service custom labels.",
+              "patternProperties": {
+                ".*": {
+                  "required": [],
+                  "type": "string"
+                }
+              },
+              "required": [],
+              "title": "extraLabels",
+              "type": "object"
+            },
+            "image": {
+              "additionalProperties": false,
+              "description": "Per-service image configuration. Overrides the default setting from `image` if set.",
+              "properties": {
+                "pullPolicy": {
+                  "default": "",
+                  "description": "Image pull policy.",
+                  "required": [],
+                  "title": "pullPolicy",
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "repository": {
+                  "default": "",
+                  "description": "Image repository.",
+                  "required": [],
+                  "title": "repository",
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "sha": {
+                  "default": "",
+                  "description": "Image SHA or digest.",
+                  "required": [],
+                  "title": "sha",
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "tag": {
+                  "default": "",
+                  "description": "Image tag.",
+                  "required": [],
+                  "title": "tag",
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                }
+              },
+              "required": [],
+              "title": "image",
+              "type": "object"
+            },
+            "nodeSelector": {
+              "additionalProperties": false,
+              "description": "Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.",
+              "patternProperties": {
+                ".*": {
+                  "required": [],
+                  "type": "string"
+                }
+              },
+              "required": [],
+              "title": "nodeSelector",
+              "type": "object"
+            },
+            "persistence": {
+              "additionalProperties": false,
+              "description": "Persistence settings for the dedicated Vault storage root.",
+              "properties": {
+                "accessModes": {
+                  "description": "Persistent volume access modes. Use `[ReadWriteMany]` when running more than one Vault storage replica.",
+                  "items": {
+                    "enum": [
+                      "ReadWriteOnce",
+                      "ReadOnlyMany",
+                      "ReadWriteMany",
+                      "ReadWriteOncePod"
+                    ],
+                    "required": []
+                  },
+                  "required": [],
+                  "title": "accessModes",
+                  "type": "array"
+                },
+                "annotations": {
+                  "additionalProperties": false,
+                  "description": "Vault persistent volume annotations.",
+                  "patternProperties": {
+                    ".*": {
+                      "required": [],
+                      "type": "string"
+                    }
+                  },
+                  "required": [],
+                  "title": "annotations",
+                  "type": "object"
+                },
+                "chownInitContainer": {
+                  "default": false,
+                  "description": "Enables an initContainer that changes ownership of the Vault volume.\nThe initContainer runs as root and is unnecessary when the storage driver applies the pod fsGroup.",
+                  "required": [],
+                  "title": "chownInitContainer",
+                  "type": "boolean"
+                },
+                "claimName": {
+                  "default": "",
+                  "description": "Custom name for the Vault PVC instead of the generated name.",
+                  "required": [],
+                  "title": "claimName",
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "enabled": {
+                  "default": true,
+                  "description": "Enables persistence for Vault data and metadata.\nDisabling this causes Vault data loss when the storageusersvault pod is terminated.",
+                  "required": [],
+                  "title": "enabled",
+                  "type": "boolean"
+                },
+                "existingClaim": {
+                  "default": "",
+                  "description": "Existing PersistentVolumeClaim used for Vault persistence.",
+                  "required": [],
+                  "title": "existingClaim",
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "finalizers": {
+                  "description": "Vault persistent volume finalizers.",
+                  "items": {
+                    "required": [],
+                    "type": "string"
+                  },
+                  "required": [],
+                  "title": "finalizers",
+                  "type": "array"
+                },
+                "selectorLabels": {
+                  "additionalProperties": false,
+                  "description": "Vault persistent volume selector labels.",
+                  "patternProperties": {
+                    ".*": {
+                      "required": [],
+                      "type": "string"
+                    }
+                  },
+                  "required": [],
+                  "title": "selectorLabels",
+                  "type": "object"
+                },
+                "size": {
+                  "default": "50Gi",
+                  "description": "Size of the dedicated Vault persistent volume.",
+                  "required": [],
+                  "title": "size",
+                  "type": "string"
+                },
+                "storageClassName": {
+                  "default": "",
+                  "description": "Storage class used by the Vault PVC. Uses the default storage class if unset.",
+                  "required": [],
+                  "title": "storageClassName",
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                }
+              },
+              "required": [
+                "enabled",
+                "chownInitContainer",
+                "accessModes",
+                "size"
+              ],
+              "title": "persistence",
+              "type": "object"
+            },
+            "podDisruptionBudget": {
+              "additionalProperties": false,
+              "description": "Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.",
+              "properties": {
+                "maxUnavailable": {
+                  "oneOf": [
+                    {
+                      "required": [],
+                      "type": "integer"
+                    },
+                    {
+                      "required": [],
+                      "type": "string"
+                    }
+                  ],
+                  "required": []
+                },
+                "minAvailable": {
+                  "oneOf": [
+                    {
+                      "required": [],
+                      "type": "integer"
+                    },
+                    {
+                      "required": [],
+                      "type": "string"
+                    }
+                  ],
+                  "required": []
+                }
+              },
+              "required": [],
+              "title": "podDisruptionBudget",
+              "type": "object"
+            },
+            "priorityClassName": {
+              "default": "",
+              "description": "Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.",
+              "required": [],
+              "title": "priorityClassName",
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "resources": {
+              "additionalProperties": false,
+              "description": "Per-service resources configuration. Overrides the default setting from `resources` if set.",
+              "properties": {
+                "limits": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "cpu": {
+                      "required": [],
+                      "type": "string"
+                    },
+                    "memory": {
+                      "required": [],
+                      "type": "string"
+                    }
+                  },
+                  "required": [],
+                  "type": "object"
+                },
+                "requests": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "cpu": {
+                      "required": [],
+                      "type": "string"
+                    },
+                    "memory": {
+                      "required": [],
+                      "type": "string"
+                    }
+                  },
+                  "required": [],
+                  "type": "object"
+                }
+              },
+              "required": [],
+              "title": "resources",
+              "type": "object"
+            },
+            "storageBackend": {
+              "additionalProperties": false,
+              "properties": {
+                "driver": {
+                  "default": "ocis",
+                  "description": "Configures the dedicated Vault storage driver. Possible values are \"ocis\" and \"s3ng\".\nVault data and metadata must use storage separate from the primary storage-users service.",
+                  "enum": [
+                    "ocis",
+                    "s3ng"
+                  ],
+                  "required": [],
+                  "title": "driver"
+                },
+                "driverConfig": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "ocis": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "maxConcurrency": {
+                          "default": 100,
+                          "description": "Maximum number of concurrent go-routines used by the Vault oCIS storage driver.",
+                          "minimum": 1,
+                          "required": [],
+                          "title": "maxConcurrency",
+                          "type": "integer"
+                        }
+                      },
+                      "required": [
+                        "maxConcurrency"
+                      ],
+                      "title": "ocis",
+                      "type": "object"
+                    },
+                    "s3ng": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "bucket": {
+                          "default": "",
+                          "description": "Dedicated S3 bucket used by the Vault S3NG driver. Only used if the driver is set to \"s3ng\".\nCredentials are read from the dedicated secret configured by `secretRefs.storageusersVaultS3CredentialsSecretRef`.",
+                          "required": [],
+                          "title": "bucket",
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "disableContentSHA256": {
+                          "default": false,
+                          "description": "Disable sending content SHA256 when copying Vault objects to S3.",
+                          "required": [],
+                          "title": "disableContentSHA256",
+                          "type": "boolean"
+                        },
+                        "endpoint": {
+                          "default": "",
+                          "description": "S3 endpoint used by the Vault S3NG driver. Only used if the driver is set to \"s3ng\".",
+                          "required": [],
+                          "title": "endpoint",
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "maxConcurrency": {
+                          "default": 100,
+                          "description": "Maximum number of concurrent go-routines used by the Vault S3NG storage driver.",
+                          "minimum": 1,
+                          "required": [],
+                          "title": "maxConcurrency",
+                          "type": "integer"
+                        },
+                        "putObject": {
+                          "additionalProperties": false,
+                          "properties": {
+                            "concurrentStreamParts": {
+                              "default": true,
+                              "description": "Always precreate parts when copying Vault objects to S3.",
+                              "required": [],
+                              "title": "concurrentStreamParts",
+                              "type": "boolean"
+                            },
+                            "disableMultipart": {
+                              "default": false,
+                              "description": "Disable multipart uploads when copying Vault objects to S3.",
+                              "required": [],
+                              "title": "disableMultipart",
+                              "type": "boolean"
+                            },
+                            "numThreads": {
+                              "default": 4,
+                              "description": "Number of concurrent uploads used when copying Vault objects to S3.",
+                              "minimum": 1,
+                              "required": [],
+                              "title": "numThreads",
+                              "type": "integer"
+                            },
+                            "partSize": {
+                              "default": 0,
+                              "description": "Part size for concurrent Vault uploads to S3.",
+                              "minimum": 0,
+                              "required": [],
+                              "title": "partSize",
+                              "type": "integer"
+                            },
+                            "sendContentMD5": {
+                              "default": true,
+                              "description": "Send a Content-MD5 header when copying Vault objects to S3.",
+                              "required": [],
+                              "title": "sendContentMD5",
+                              "type": "boolean"
+                            }
+                          },
+                          "required": [
+                            "disableMultipart",
+                            "sendContentMD5",
+                            "concurrentStreamParts",
+                            "numThreads",
+                            "partSize"
+                          ],
+                          "title": "putObject",
+                          "type": "object"
+                        },
+                        "region": {
+                          "default": "default",
+                          "description": "S3 region used by the Vault S3NG driver. Only used if the driver is set to \"s3ng\".",
+                          "required": [],
+                          "title": "region",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "maxConcurrency",
+                        "region",
+                        "disableContentSHA256",
+                        "putObject"
+                      ],
+                      "title": "s3ng",
+                      "type": "object"
+                    }
+                  },
+                  "required": [
+                    "ocis",
+                    "s3ng"
+                  ],
+                  "title": "driverConfig",
+                  "type": "object"
+                }
+              },
+              "required": [
+                "driver",
+                "driverConfig"
+              ],
+              "title": "storageBackend",
+              "type": "object"
+            }
+          },
+          "required": [
+            "events",
+            "storageBackend",
+            "persistence",
+            "image"
+          ],
+          "title": "storageusersvault",
+          "type": "object"
+        },
         "thumbnails": {
           "additionalProperties": false,
           "description": "THUMBNAILS service.",
@@ -12017,7 +12594,7 @@
                     },
                     "webClientScope": {
                       "default": "openid profile email",
-                      "description": "OIDC scopes to request during authentication to authorize access to user details. Defaults to ‘openid profile email’. Values are separated by blank. More example values but not limited to are ‘address’ or ‘phone’ etc.",
+                      "description": "OIDC scopes to request during authentication to authorize access to user details. Defaults to ‘openid profile email’. Values are separated by blank. More example values but not limited to are ‘address’ or ‘phone’ etc.\nThe `acr` scope is added automatically when `features.mfa.enabled` is true.",
                       "required": [],
                       "title": "webClientScope",
                       "type": "string"
@@ -12848,6 +13425,7 @@
         "storageshares",
         "storagesystem",
         "storageusers",
+        "storageusersvault",
         "thumbnails",
         "userlog",
         "users",

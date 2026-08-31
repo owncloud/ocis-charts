@@ -52,6 +52,20 @@ spec:
             - name: PROXY_DEBUG_ADDR
               value: 0.0.0.0:9205
 
+            {{- if .Values.features.mfa.enabled }}
+            - name: OCIS_MFA_ENABLED
+              value: "true"
+            - name: OCIS_MFA_AUTH_LEVEL_NAMES
+              value: {{ join "," .Values.features.mfa.authLevelNames | quote }}
+            - name: OCIS_MFA_SESSION_DURATION
+              value: {{ .Values.features.mfa.sessionDuration | quote }}
+            {{- end }}
+
+            {{- if .Values.features.vault.enabled }}
+            - name: OCIS_ENABLE_VAULT_MODE
+              value: "true"
+            {{- end }}
+
             - name: PROXY_OIDC_ISSUER
             {{- if not .Values.features.externalUserManagement.enabled }}
               value: "https://{{ .Values.externalDomain }}"

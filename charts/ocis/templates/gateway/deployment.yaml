@@ -52,6 +52,13 @@ spec:
             - name: GATEWAY_FRONTEND_PUBLIC_URL
               value: "https://{{ .Values.externalDomain }}"
 
+            {{- if .Values.features.vault.enabled }}
+            - name: OCIS_ENABLE_VAULT_MODE
+              value: "true"
+            - name: GATEWAY_STORAGE_USERS_VAULT_ENDPOINT
+              value: com.owncloud.api.storage-users-vault
+            {{- end }}
+
             # cache
             # the stat cache is disabled for now for performance reasons, see https://github.com/owncloud/ocis-charts/issues/214
             - name: GATEWAY_STAT_CACHE_STORE

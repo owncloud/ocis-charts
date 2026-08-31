@@ -68,6 +68,20 @@ spec:
             - name: FRONTEND_PUBLIC_URL
               value: "https://{{ .Values.externalDomain }}"
 
+            {{- if .Values.features.mfa.enabled }}
+            - name: OCIS_MFA_ENABLED
+              value: "true"
+            - name: OCIS_MFA_AUTH_LEVEL_NAMES
+              value: {{ join "," .Values.features.mfa.authLevelNames | quote }}
+            - name: OCIS_MFA_SESSION_DURATION
+              value: {{ .Values.features.mfa.sessionDuration | quote }}
+            {{- end }}
+
+            {{- if .Values.features.vault.enabled }}
+            - name: OCIS_ENABLE_VAULT_MODE
+              value: "true"
+            {{- end }}
+
             - name: OCIS_LDAP_SERVER_WRITE_ENABLED
               value: {{ .Values.features.externalUserManagement.ldap.writeable | quote }}
 

@@ -64,6 +64,7 @@ Adds the app names to the scope and set the name of the app based on the input p
   {{- $_ := set .scope "appNameStoragePubliclink" "storagepubliclink" -}}
   {{- $_ := set .scope "appNameStorageShares" "storageshares" -}}
   {{- $_ := set .scope "appNameStorageUsers" "storageusers" -}}
+  {{- $_ := set .scope "appNameStorageUsersVault" "storageusersvault" -}}
   {{- $_ := set .scope "appNameStorageSystem" "storagesystem" -}}
   {{- $_ := set .scope "appNameStore" "store" -}}
   {{- $_ := set .scope "appNameThumbnails" "thumbnails" -}}
