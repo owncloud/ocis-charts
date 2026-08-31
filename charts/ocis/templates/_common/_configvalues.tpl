@@ -76,6 +76,10 @@ All take the scope as the first and only parameter.
 {{ .Values.secretRefs.s3CredentialsSecretRef | default "s3-credentials-secret" | quote }}
 {{- end -}}
 
+{{- define "secrets.storageUsersVaultS3CredentialsSecret" -}}
+{{ required "secretRefs.storageusersVaultS3CredentialsSecretRef must be set when features.vault.enabled is true and services.storageusersvault.storageBackend.driver is set to s3ng" .Values.secretRefs.storageusersVaultS3CredentialsSecretRef | quote }}
+{{- end -}}
+
 {{- define "config.authService" -}}
 {{ .Values.configRefs.authServiceConfigRef | default "auth-service" | quote }}
 {{- end -}}

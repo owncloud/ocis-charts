@@ -1,0 +1,4 @@
+{{- if .Values.features.vault.enabled }}
+{{- include "ocis.basicServiceTemplates" (dict "scope" . "appName" "appNameStorageUsersVault" "appNameSuffix" "") -}}
+{{ include "ocis.pdb" . }}
+{{- end }}

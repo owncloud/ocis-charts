@@ -66,10 +66,11 @@ kubectl -n {{ .Release.Namespace }} get secrets/{{ .Values.secretRefs.adminUserS
 {{- $storagesystemUnpersisted := not .Values.services.storagesystem.persistence.enabled -}}
 {{- $webUnpersisted := not .Values.services.web.persistence.enabled -}}
 {{- $storageusersUnpersisted := not .Values.services.storageusers.persistence.enabled -}}
+{{- $storageusersVaultUnpersisted := and .Values.features.vault.enabled (not .Values.services.storageusersvault.persistence.enabled) -}}
 {{- $ocmUnpersisted := not .Values.services.ocm.persistence.enabled -}}
 {{- $authAppUnpersisted := not .Values.services.authapp.persistence.enabled -}}
 
-{{ if or $storagesystemUnpersisted $webUnpersisted $storageusersUnpersisted $idmUnpersisted $searchUnpersisted $natsUnpersisted $ocmUnpersisted }}
+{{ if or $storagesystemUnpersisted $webUnpersisted $storageusersUnpersisted $storageusersVaultUnpersisted $idmUnpersisted $searchUnpersisted $natsUnpersisted $ocmUnpersisted }}
 #################################################################################
 ######   WARNING: Persistence is disabled for some services.                #####
 ######   You will lose your data when a service's pod is terminated.        #####
@@ -77,6 +78,9 @@ kubectl -n {{ .Release.Namespace }} get secrets/{{ .Values.secretRefs.adminUserS
 ######   Following services don't use persistence:                          #####
 {{- if $storageusersUnpersisted }}
 ######     - storageusers                                                   #####
+{{- end }}
+{{- if $storageusersVaultUnpersisted }}
+######     - storageusersvault                                              #####
 {{- end }}
 {{- if $storagesystemUnpersisted }}
 ######     - storagesystem                                                  #####
@@ -99,6 +103,14 @@ kubectl -n {{ .Release.Namespace }} get secrets/{{ .Values.secretRefs.adminUserS
 {{- if $authAppUnpersisted }}
 ######     - authApp                                                        #####
 {{- end }}
+#################################################################################
+{{- end }}
+
+{{- if .Values.features.mfa.enabled }}
+#################################################################################
+######   WARNING: MFA requires an OIDC identity provider configured for     #####
+######   step-up authentication. Its access token must contain an `acr`     #####
+######   claim matching one of `features.mfa.authLevelNames`.               #####
 #################################################################################
 {{- end }}
 
