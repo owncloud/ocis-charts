@@ -1,0 +1,37 @@
+{{- if and .Values.features.vault.enabled .Values.services.storageusersvault.persistence.enabled (not .Values.services.storageusersvault.persistence.existingClaim) }}
+{{- include "ocis.basicServiceTemplates" (dict "scope" . "appName" "appNameStorageUsersVault" "appNameSuffix" "") -}}
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ include "ocis.persistence.dataVolumeName" . }}
+  namespace: {{ template "ocis.namespace" . }}
+  labels:
+    {{- include "ocis.labels" . | nindent 4 }}
+    {{- with .Values.backup.pvcLabels }}
+    {{ toYaml . | nindent 4 }}
+    {{- end }}
+  {{- with .Values.services.storageusersvault.persistence.annotations }}
+  annotations:
+{{ toYaml . | indent 4 }}
+  {{- end }}
+  {{- with .Values.services.storageusersvault.persistence.finalizers }}
+  finalizers:
+{{ toYaml . | indent 4 }}
+  {{- end }}
+spec:
+  accessModes:
+    {{- range .Values.services.storageusersvault.persistence.accessModes }}
+    - {{ . | quote }}
+    {{- end }}
+  resources:
+    requests:
+      storage: {{ .Values.services.storageusersvault.persistence.size | quote }}
+  {{- if .Values.services.storageusersvault.persistence.storageClassName }}
+  storageClassName: {{ .Values.services.storageusersvault.persistence.storageClassName }}
+  {{- end }}
+  {{- with .Values.services.storageusersvault.persistence.selectorLabels }}
+  selector:
+    matchLabels:
+{{ toYaml . | indent 6 }}
+  {{- end }}
+{{- end }}
