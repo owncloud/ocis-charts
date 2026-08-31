@@ -107,6 +107,14 @@ features:
       service: avscan
   policies:
     enabled: true
+  invitations:
+    enabled: true
+    keycloak:
+      basePath: https://keycloak.owncloud.test
+      clientID: invitations
+      clientRealm: ocis
+      userRealm: ocis
+      insecure: false
   ocm:
     enabled: true
   quotas:
@@ -281,6 +289,7 @@ services:
         memory: 123Mi
 
 secretRefs:
+  invitationsKeycloakClientSecretRef: "invitations-keycloak-client-secret"
   notificationsSmtpSecretRef: "smtp-secret"
   globalNotificationsSecretRef: "global-notification-secret"
 

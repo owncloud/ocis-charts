@@ -19,6 +19,7 @@ You're now running
 {{- $ocisHttpApiInsecure := .Values.insecure.ocisHttpApiInsecure -}}
 {{- $ocmInsecure := .Values.insecure.ocmInsecure -}}
 {{- $externalLDAPinsecure := and .Values.features.externalUserManagement.enabled .Values.features.externalUserManagement.ldap.insecure -}}
+{{- $invitationsKeycloakInsecure := and .Values.features.invitations.enabled .Values.features.invitations.keycloak.insecure -}}
 {{- $noSMTPencryption := and .Values.features.emailNotifications.enabled (eq .Values.features.emailNotifications.smtp.encryption "none") -}}
 
 {{- if $noExternalUserManagement }}
@@ -26,7 +27,7 @@ You can get the initial "admin" administrator user password by running:
 kubectl -n {{ .Release.Namespace }} get secrets/{{ .Values.secretRefs.adminUserSecretRef | default "admin-user" }} --template='{{"{{"}}.data.password | base64decode | printf "%s\n" {{"}}"}}'
 {{- end }}
 
-{{ if or $noExternalUserManagement $demoUsers $oidcIdpInsecure $ocisHttpApiInsecure $externalLDAPinsecure $noSMTPencryption $ocmInsecure }}
+{{ if or $noExternalUserManagement $demoUsers $oidcIdpInsecure $ocisHttpApiInsecure $externalLDAPinsecure $invitationsKeycloakInsecure $noSMTPencryption $ocmInsecure }}
 #################################################################################
 ######   WARNING: Your deployment of oCIS does not follow all best          #####
 ######   practices for production deployments of oCIS.                      #####
@@ -51,6 +52,10 @@ kubectl -n {{ .Release.Namespace }} get secrets/{{ .Values.secretRefs.adminUserS
 {{- if $externalLDAPinsecure}}
 ######     - `features.externalUserManagement.ldap.insecure` should         #####
 ######        be set to `false`                                             #####
+{{- end }}
+{{- if $invitationsKeycloakInsecure}}
+######     - `features.invitations.keycloak.insecure` should be set to      #####
+######       `false`                                                        #####
 {{- end }}
 {{- if $noSMTPencryption}}
 ######     - `features.emailNotifications.smtp.encryption` should           #####

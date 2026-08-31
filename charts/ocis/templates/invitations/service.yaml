@@ -1,0 +1,24 @@
+{{ if .Values.features.invitations.enabled }}
+{{- include "ocis.basicServiceTemplates" (dict "scope" . "appName" "appNameInvitations" "appNameSuffix" "") -}}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .appName }}
+  namespace: {{ template "ocis.namespace" . }}
+  labels:
+    app: {{ .appName }}
+    ocis-metrics: enabled
+    {{- include "ocis.labels" . | nindent 4 }}
+spec:
+  selector:
+    app: {{ .appName }}
+  ports:
+    - name: http
+      port: 9265
+      protocol: TCP
+      appProtocol: {{ .Values.service.appProtocol.http | quote}}
+    - name: metrics-debug
+      port: 9269
+      protocol: TCP
+      appProtocol: {{ .Values.service.appProtocol.http | quote}}
+{{ end }}

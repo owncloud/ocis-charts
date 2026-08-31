@@ -1553,6 +1553,51 @@ features:
     # -- Enables Auth app service
     enabled: false
 
+  # Invitations settings.
+  # The invitations service implements the Microsoft Graph invitations endpoint and currently supports Keycloak as its only backend.
+  invitations:
+    # @schema
+    # type: boolean
+    # required: true
+    # @schema
+    # -- Enables the invitations service.
+    # A Keycloak client with service-account permissions to manage users and send execute-actions emails must be provisioned separately.
+    # Use this service with external user management configured for the same Keycloak-backed user realm.
+    # The Keycloak realm must provide the `OWNCLOUD_ID` and `OWNCLOUD_USER_TYPE` mappers and working SMTP settings.
+    enabled: false
+    # -- Keycloak backend configuration.
+    keycloak:
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
+      # -- URL used to access Keycloak. Required when `features.invitations.enabled` equals `true`.
+      basePath:
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
+      # -- Client ID used to authenticate to Keycloak. Required when `features.invitations.enabled` equals `true`.
+      clientID:
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
+      # -- Realm in which the Keycloak client is defined. Required when `features.invitations.enabled` equals `true`.
+      clientRealm:
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
+      # -- Realm in which invited users are created. Required when `features.invitations.enabled` equals `true`.
+      userRealm:
+      # @schema
+      # type: boolean
+      # required: true
+      # @schema
+      # -- Disables Keycloak TLS certificate verification. Do not enable in production.
+      insecure: false
+
 # Ingress for oCIS.
 ingress:
   # @schema
@@ -1692,6 +1737,12 @@ secretRefs:
   # @schema
   # -- Reference to an existing keycloak client secret, used for the GDPR export. Only used if features.externalUserManagement.gdprExport.enabled equals true.
   gdprExportClientSecretRef:
+  # @schema
+  # type: [string, null]
+  # required: false
+  # @schema
+  # -- Reference to an existing Secret containing the Keycloak client secret under the `oidc-secret` key. Required when `features.invitations.enabled` equals `true`.
+  invitationsKeycloakClientSecretRef:
   # @schema
   # type: [string, null]
   # required: false
@@ -3184,6 +3235,72 @@ services:
     # required: false
     # @schema
     # -- Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
+    # @schema
+    # $ref: schema/templates.json#/affinityTemplate
+    # @schema
+    # -- Per-service affinity.
+    affinity: {}
+    # @schema
+    # $ref: schema/templates.json#/labelsTemplate
+    # @schema
+    # -- Per-service custom labels
+    extraLabels: {}
+    # Per-service image configuration. Overrides the default setting from `image` if set.
+    image:
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
+      # -- Image repository
+      repository:
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
+      # -- Image tag.
+      tag:
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
+      # -- Image sha / digest (optional).
+      sha:
+      # @schema
+      # type: [string, null]
+      # required: false
+      # @schema
+      # -- Image pull policy
+      pullPolicy:
+
+  # -- INVITATIONS service. Only used if `features.invitations.enabled` equals `true`.
+  # @default -- see detailed service configuration options below
+  invitations:
+    # @schema
+    # $ref: schema/templates.json#/resourcesTemplate
+    # @schema
+    # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
+    resources: {}
+    # @schema
+    # $ref: schema/templates.json#/labelsTemplate
+    # @schema
+    # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
+    nodeSelector: {}
+    # @schema
+    # type: [string, null]
+    # required: false
+    # @schema
+    # -- Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
+    priorityClassName:
+    # @schema
+    # $ref: schema/templates.json#/podDisruptionBudgetTemplate
+    # @schema
+    # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
+    podDisruptionBudget: {}
+    # @schema
+    # $ref: schema/templates.json#/autoscalingTemplate
+    # @schema
+    # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
+    autoscaling: {}
     # @schema
     # $ref: schema/templates.json#/affinityTemplate
     # @schema

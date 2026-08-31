@@ -1523,6 +1523,83 @@
           "title": "gdprReport",
           "type": "object"
         },
+        "invitations": {
+          "additionalProperties": false,
+          "description": "Invitations settings.\nThe invitations service implements the Microsoft Graph invitations endpoint and currently supports Keycloak as its only backend.",
+          "properties": {
+            "enabled": {
+              "default": false,
+              "description": "Enables the invitations service.\nA Keycloak client with service-account permissions to manage users and send execute-actions emails must be provisioned separately.\nUse this service with external user management configured for the same Keycloak-backed user realm.\nThe Keycloak realm must provide the `OWNCLOUD_ID` and `OWNCLOUD_USER_TYPE` mappers and working SMTP settings.",
+              "required": [],
+              "title": "enabled",
+              "type": "boolean"
+            },
+            "keycloak": {
+              "additionalProperties": false,
+              "description": "Keycloak backend configuration.",
+              "properties": {
+                "basePath": {
+                  "default": "",
+                  "description": "URL used to access Keycloak. Required when `features.invitations.enabled` equals `true`.",
+                  "required": [],
+                  "title": "basePath",
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "clientID": {
+                  "default": "",
+                  "description": "Client ID used to authenticate to Keycloak. Required when `features.invitations.enabled` equals `true`.",
+                  "required": [],
+                  "title": "clientID",
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "clientRealm": {
+                  "default": "",
+                  "description": "Realm in which the Keycloak client is defined. Required when `features.invitations.enabled` equals `true`.",
+                  "required": [],
+                  "title": "clientRealm",
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "insecure": {
+                  "default": false,
+                  "description": "Disables Keycloak TLS certificate verification. Do not enable in production.",
+                  "required": [],
+                  "title": "insecure",
+                  "type": "boolean"
+                },
+                "userRealm": {
+                  "default": "",
+                  "description": "Realm in which invited users are created. Required when `features.invitations.enabled` equals `true`.",
+                  "required": [],
+                  "title": "userRealm",
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                }
+              },
+              "required": [
+                "insecure"
+              ],
+              "title": "keycloak",
+              "type": "object"
+            }
+          },
+          "required": [
+            "enabled",
+            "keycloak"
+          ],
+          "title": "invitations",
+          "type": "object"
+        },
         "language": {
           "additionalProperties": false,
           "description": "Language related settings",
@@ -1965,7 +2042,8 @@
         "edition",
         "archiver",
         "ocm",
-        "authapp"
+        "authapp",
+        "invitations"
       ],
       "title": "features",
       "type": "object"
@@ -2817,6 +2895,16 @@
           "description": "Reference to an existing IDP secret (see ref:Secrets#secrets). Not used if `features.externalUserManagement.enabled` equals `true`.",
           "required": [],
           "title": "idpSecretRef",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "invitationsKeycloakClientSecretRef": {
+          "default": "",
+          "description": "Reference to an existing Secret containing the Keycloak client secret under the `oidc-secret` key. Required when `features.invitations.enabled` equals `true`.",
+          "required": [],
+          "title": "invitationsKeycloakClientSecretRef",
           "type": [
             "string",
             "null"
@@ -6406,6 +6494,210 @@
             "image"
           ],
           "title": "idp",
+          "type": "object"
+        },
+        "invitations": {
+          "additionalProperties": false,
+          "description": "INVITATIONS service. Only used if `features.invitations.enabled` equals `true`.",
+          "properties": {
+            "affinity": {
+              "additionalProperties": true,
+              "description": "Per-service affinity.",
+              "required": [],
+              "title": "affinity",
+              "type": "object"
+            },
+            "autoscaling": {
+              "additionalProperties": true,
+              "description": "Per-service autoscaling. Overrides the default setting from `autoscaling` if set.",
+              "properties": {
+                "enabled": {
+                  "required": [],
+                  "type": "boolean"
+                },
+                "maxReplicas": {
+                  "minimum": 1,
+                  "required": [],
+                  "type": "integer"
+                },
+                "metrics": {
+                  "additionalProperties": true,
+                  "required": []
+                },
+                "minReplicas": {
+                  "minimum": 1,
+                  "required": [],
+                  "type": "integer"
+                }
+              },
+              "required": [],
+              "title": "autoscaling",
+              "type": "object"
+            },
+            "extraLabels": {
+              "additionalProperties": false,
+              "description": "Per-service custom labels",
+              "patternProperties": {
+                ".*": {
+                  "required": [],
+                  "type": "string"
+                }
+              },
+              "required": [],
+              "title": "extraLabels",
+              "type": "object"
+            },
+            "image": {
+              "additionalProperties": false,
+              "description": "Per-service image configuration. Overrides the default setting from `image` if set.",
+              "properties": {
+                "pullPolicy": {
+                  "default": "",
+                  "description": "Image pull policy",
+                  "required": [],
+                  "title": "pullPolicy",
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "repository": {
+                  "default": "",
+                  "description": "Image repository",
+                  "required": [],
+                  "title": "repository",
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "sha": {
+                  "default": "",
+                  "description": "Image sha / digest (optional).",
+                  "required": [],
+                  "title": "sha",
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "tag": {
+                  "default": "",
+                  "description": "Image tag.",
+                  "required": [],
+                  "title": "tag",
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                }
+              },
+              "required": [],
+              "title": "image",
+              "type": "object"
+            },
+            "nodeSelector": {
+              "additionalProperties": false,
+              "description": "Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.",
+              "patternProperties": {
+                ".*": {
+                  "required": [],
+                  "type": "string"
+                }
+              },
+              "required": [],
+              "title": "nodeSelector",
+              "type": "object"
+            },
+            "podDisruptionBudget": {
+              "additionalProperties": false,
+              "description": "Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.",
+              "properties": {
+                "maxUnavailable": {
+                  "oneOf": [
+                    {
+                      "required": [],
+                      "type": "integer"
+                    },
+                    {
+                      "required": [],
+                      "type": "string"
+                    }
+                  ],
+                  "required": []
+                },
+                "minAvailable": {
+                  "oneOf": [
+                    {
+                      "required": [],
+                      "type": "integer"
+                    },
+                    {
+                      "required": [],
+                      "type": "string"
+                    }
+                  ],
+                  "required": []
+                }
+              },
+              "required": [],
+              "title": "podDisruptionBudget",
+              "type": "object"
+            },
+            "priorityClassName": {
+              "default": "",
+              "description": "Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.",
+              "required": [],
+              "title": "priorityClassName",
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "resources": {
+              "additionalProperties": false,
+              "description": "Per-service resources configuration. Overrides the default setting from `resources` if set.",
+              "properties": {
+                "limits": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "cpu": {
+                      "required": [],
+                      "type": "string"
+                    },
+                    "memory": {
+                      "required": [],
+                      "type": "string"
+                    }
+                  },
+                  "required": [],
+                  "type": "object"
+                },
+                "requests": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "cpu": {
+                      "required": [],
+                      "type": "string"
+                    },
+                    "memory": {
+                      "required": [],
+                      "type": "string"
+                    }
+                  },
+                  "required": [],
+                  "type": "object"
+                }
+              },
+              "required": [],
+              "title": "resources",
+              "type": "object"
+            }
+          },
+          "required": [
+            "image"
+          ],
+          "title": "invitations",
           "type": "object"
         },
         "nats": {
@@ -12832,6 +13124,7 @@
         "groups",
         "idm",
         "idp",
+        "invitations",
         "nats",
         "notifications",
         "ocdav",
