@@ -1283,6 +1283,19 @@ features:
         # @schema
         # -- The object class to use for groups in the default group search filter like `groupOfNames`.
         objectClass: groupOfNames
+        # @schema
+        # type: array
+        # required: true
+        # items:
+        #   type: string
+        #   minLength: 1
+        #   pattern: '^[^,\s]+$'
+        # @schema
+        # -- Additional LDAP object classes to set when creating new groups, for example `posixGroup`. Requires oCIS 8.1.0 or newer.
+        # The configured primary `objectClass` and `top` are always included, so they do not need to be repeated here.
+        # This setting affects LDAP group entries created by Graph; it does not change group search filtering.
+        # When selecting the graph image by SHA, ensure that the digest contains oCIS 8.1.0 or newer because the chart cannot infer its version.
+        additionalObjectClasses: []
       # When using external user management, users can be set as disabled by either belonging to a group or using an ldap attribute.
       disableUsers:
         # @schema
