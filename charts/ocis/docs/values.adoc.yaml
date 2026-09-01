@@ -632,6 +632,16 @@ features:
       # type: boolean
       # required: true
       # @schema
+      # -- Enable public link sharing for regular resources. Requires oCIS 8.2.0 or newer when disabled.
+      # When disabled, the frontend stops advertising public links and the sharing service rejects creation of new external public links.
+      # Existing public links are not revoked by this setting.
+      # Direct sharing with users and groups is unaffected. Vault resources never allow public links, regardless of this value.
+      # When selecting the frontend or sharing image by SHA, ensure that the digest contains oCIS 8.2.0 or newer because the chart cannot infer its version.
+      enabled: true
+      # @schema
+      # type: boolean
+      # required: true
+      # @schema
       # -- Enforce a password on all public link shares.
       shareMustHavePassword: false
       # @schema
