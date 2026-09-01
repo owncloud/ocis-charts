@@ -968,9 +968,24 @@ features:
       # type: string
       # required: true
       # @schema
-      # -- OIDC Acces Token Verify Method
+      # -- OIDC Access Token Verify Method
       # Set to "jwt" or "none"
       accessTokenVerifyMethod: jwt
+
+      # @schema
+      # type: array
+      # required: true
+      # items:
+      #   type: string
+      #   minLength: 1
+      #   pattern: '^[^,\s]+$'
+      # @schema
+      # -- Accepted audiences for OIDC access tokens. Requires oCIS 8.2.0 or newer and `accessTokenVerifyMethod: jwt`.
+      # A token is accepted when one of these values occurs in its `aud` claim or matches its `azp` claim.
+      # Configure every OIDC client ID that is allowed to access oCIS, especially when the identity provider is shared with other applications.
+      # When selecting the proxy image by SHA, ensure that the digest contains oCIS 8.2.0 or newer because the chart cannot infer its version.
+      # An empty list disables audience validation for backward compatibility.
+      accessTokenVerifyAudiences: []
 
       # @schema
       # type: boolean

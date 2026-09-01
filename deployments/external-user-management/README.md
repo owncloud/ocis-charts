@@ -51,3 +51,14 @@ browser before you can login to oCIS.
 The Keycloak admin account username and password can be found in the `ocis-keycloak-initial-admin` secret.
 
 The oCIS `admin` user has the password `admin`.
+
+### Access-token audience validation
+
+This example only accepts OIDC access tokens whose `aud` or `azp` claim matches one of the four
+ownCloud clients configured in its Keycloak realm: Web, Desktop, Android, or iOS. This prevents an
+access token issued for another application in the same realm from being accepted by oCIS.
+
+For another identity provider, set
+`features.externalUserManagement.oidc.accessTokenVerifyAudiences` to every OIDC client ID that is
+allowed to access oCIS. The setting requires `accessTokenVerifyMethod: jwt` and oCIS 8.2.0 or newer.
+Leaving the list empty disables audience validation.

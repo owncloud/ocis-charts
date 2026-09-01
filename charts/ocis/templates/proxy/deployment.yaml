@@ -1,3 +1,17 @@
+{{- $accessTokenVerifyAudiences := .Values.features.externalUserManagement.oidc.accessTokenVerifyAudiences -}}
+{{- $proxyImageTag := default (default .Chart.AppVersion .Values.image.tag) .Values.services.proxy.image.tag -}}
+{{- $proxyImageSHA := default .Values.image.sha .Values.services.proxy.image.sha -}}
+{{- if and .Values.features.externalUserManagement.enabled $accessTokenVerifyAudiences (ne .Values.features.externalUserManagement.oidc.accessTokenVerifyMethod "jwt") -}}
+{{- fail "features.externalUserManagement.oidc.accessTokenVerifyAudiences requires features.externalUserManagement.oidc.accessTokenVerifyMethod to be set to jwt" -}}
+{{- end -}}
+{{- if and .Values.features.externalUserManagement.enabled $accessTokenVerifyAudiences (empty $proxyImageSHA) -}}
+{{- if not (regexMatch `^v?[0-9]+\.[0-9]+\.[0-9]+([-+].*)?$` $proxyImageTag) -}}
+{{- fail (printf "features.externalUserManagement.oidc.accessTokenVerifyAudiences requires a semver-compatible oCIS 8.2.0 or newer proxy image tag or an explicit image SHA; effective proxy image tag %q cannot be verified" $proxyImageTag) -}}
+{{- end -}}
+{{- if not (semverCompare ">=8.2.0-0" $proxyImageTag) -}}
+{{- fail (printf "features.externalUserManagement.oidc.accessTokenVerifyAudiences requires oCIS 8.2.0 or newer; effective proxy image tag %q is too old" $proxyImageTag) -}}
+{{- end -}}
+{{- end -}}
 {{- include "ocis.basicServiceTemplates" (dict "scope" . "appName" "appNameProxy" "appNameSuffix" "") -}}
 apiVersion: apps/v1
 kind: Deployment
@@ -70,6 +84,11 @@ spec:
 
             - name: PROXY_OIDC_ACCESS_TOKEN_VERIFY_METHOD
               value: {{ .Values.features.externalUserManagement.oidc.accessTokenVerifyMethod | quote }}
+
+            {{- with $accessTokenVerifyAudiences }}
+            - name: PROXY_OIDC_ACCESS_TOKEN_VERIFY_AUD
+              value: {{ join "," . | quote }}
+            {{- end }}
 
             - name: PROXY_OIDC_SKIP_USER_INFO
               value: {{ .Values.features.externalUserManagement.oidc.skipUserInfo | quote }}
