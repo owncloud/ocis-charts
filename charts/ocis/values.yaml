@@ -1061,6 +1061,53 @@ features:
     # LDAP related settings.
     ldap:
       # @schema
+      # type: integer
+      # minimum: 1
+      # required: true
+      # @schema
+      # -- Maximum number of retries after the initial attempt for failed LDAP operations.
+      # Applies to both the bundled IDM and external LDAP. Non-default values require oCIS 8.2.0 or newer.
+      retryMaxCount: 1
+      # @schema
+      # type: string
+      # pattern: '^(0|(([0-9]+(\.[0-9]*)?|\.[0-9]+)(ns|us|µs|μs|ms|s|m|h))+)$'
+      # required: true
+      # @schema
+      # -- Base delay for exponential backoff between LDAP retries. `0s` disables backoff.
+      # Applies to both the bundled IDM and external LDAP. Non-default values require oCIS 8.2.0 or newer.
+      retryBaseDelay: 0s
+      # @schema
+      # type: string
+      # pattern: '^(0|(([0-9]+(\.[0-9]*)?|\.[0-9]+)(ns|us|µs|μs|ms|s|m|h))+)$'
+      # required: true
+      # @schema
+      # -- Maximum delay cap for exponential backoff between LDAP retries. `0s` uses the oCIS default cap of 60s.
+      # Applies to both the bundled IDM and external LDAP. Non-default values require oCIS 8.2.0 or newer.
+      retryMaxDelay: 0s
+      # @schema
+      # type: boolean
+      # required: true
+      # @schema
+      # -- Enables a bounded LDAP connection pool so concurrent directory requests do not serialize on one connection.
+      # Applies to both the bundled IDM and external LDAP. Enabling it requires oCIS 8.2.0 or newer.
+      poolEnabled: false
+      # @schema
+      # type: integer
+      # minimum: 1
+      # required: true
+      # @schema
+      # -- Maximum number of concurrently open LDAP connections when the pool is enabled.
+      # Applies to both the bundled IDM and external LDAP. Non-default values require oCIS 8.2.0 or newer.
+      poolSize: 5
+      # @schema
+      # type: string
+      # pattern: '^([0-9]*[1-9][0-9]*(\.[0-9]*)?|[0-9]*\.[0-9]*[1-9][0-9]*)(ns|us|µs|μs|ms|s|m|h)(([0-9]+(\.[0-9]*)?|\.[0-9]+)(ns|us|µs|μs|ms|s|m|h))*$'
+      # required: true
+      # @schema
+      # -- Maximum time to wait for a pooled LDAP connection after the pool is exhausted.
+      # Applies to both the bundled IDM and external LDAP. Non-default values require oCIS 8.2.0 or newer.
+      poolCheckoutTimeout: 30s
+      # @schema
       # type: boolean
       # required: true
       # @schema

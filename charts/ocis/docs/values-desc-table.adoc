@@ -462,6 +462,24 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `false`
 | Use the Password Modify Extended Operation for updating user passwords.
+| features.externalUserManagement.ldap.poolCheckoutTimeout
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"30s"`
+| Maximum time to wait for a pooled LDAP connection after the pool is exhausted. Applies to both the bundled IDM and external LDAP. Non-default values require oCIS 8.2.0 or newer.
+| features.externalUserManagement.ldap.poolEnabled
+a| [subs=-attributes]
++bool+
+a| [subs=-attributes]
+`false`
+| Enables a bounded LDAP connection pool so concurrent directory requests do not serialize on one connection. Applies to both the bundled IDM and external LDAP. Enabling it requires oCIS 8.2.0 or newer.
+| features.externalUserManagement.ldap.poolSize
+a| [subs=-attributes]
++int+
+a| [subs=-attributes]
+`5`
+| Maximum number of concurrently open LDAP connections when the pool is enabled. Applies to both the bundled IDM and external LDAP. Non-default values require oCIS 8.2.0 or newer.
 | features.externalUserManagement.ldap.readOnlyAttributes
 a| [subs=-attributes]
 +list+
@@ -474,6 +492,24 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `false`
 | Signals that the LDAP server has the refint plugin enabled, which makes some actions not needed.
+| features.externalUserManagement.ldap.retryBaseDelay
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"0s"`
+| Base delay for exponential backoff between LDAP retries. `0s` disables backoff. Applies to both the bundled IDM and external LDAP. Non-default values require oCIS 8.2.0 or newer.
+| features.externalUserManagement.ldap.retryMaxCount
+a| [subs=-attributes]
++int+
+a| [subs=-attributes]
+`1`
+| Maximum number of retries after the initial attempt for failed LDAP operations. Applies to both the bundled IDM and external LDAP. Non-default values require oCIS 8.2.0 or newer.
+| features.externalUserManagement.ldap.retryMaxDelay
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"0s"`
+| Maximum delay cap for exponential backoff between LDAP retries. `0s` uses the oCIS default cap of 60s. Applies to both the bundled IDM and external LDAP. Non-default values require oCIS 8.2.0 or newer.
 | features.externalUserManagement.ldap.uri
 a| [subs=-attributes]
 +string+

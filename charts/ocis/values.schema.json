@@ -1077,6 +1077,29 @@
                   "title": "passwordModifyExOpEnabled",
                   "type": "boolean"
                 },
+                "poolCheckoutTimeout": {
+                  "default": "30s",
+                  "description": "Maximum time to wait for a pooled LDAP connection after the pool is exhausted.\nApplies to both the bundled IDM and external LDAP. Non-default values require oCIS 8.2.0 or newer.",
+                  "pattern": "^([0-9]*[1-9][0-9]*(\\.[0-9]*)?|[0-9]*\\.[0-9]*[1-9][0-9]*)(ns|us|µs|μs|ms|s|m|h)(([0-9]+(\\.[0-9]*)?|\\.[0-9]+)(ns|us|µs|μs|ms|s|m|h))*$",
+                  "required": [],
+                  "title": "poolCheckoutTimeout",
+                  "type": "string"
+                },
+                "poolEnabled": {
+                  "default": false,
+                  "description": "Enables a bounded LDAP connection pool so concurrent directory requests do not serialize on one connection.\nApplies to both the bundled IDM and external LDAP. Enabling it requires oCIS 8.2.0 or newer.",
+                  "required": [],
+                  "title": "poolEnabled",
+                  "type": "boolean"
+                },
+                "poolSize": {
+                  "default": 5,
+                  "description": "Maximum number of concurrently open LDAP connections when the pool is enabled.\nApplies to both the bundled IDM and external LDAP. Non-default values require oCIS 8.2.0 or newer.",
+                  "minimum": 1,
+                  "required": [],
+                  "title": "poolSize",
+                  "type": "integer"
+                },
                 "readOnlyAttributes": {
                   "description": "If the LDAP server is set to writable in general, some user attributes can be restricted to read only in the UI.\nNote: This only disables editing in the UI. The readonly permissions need to be enforced in the LDAP server itself.",
                   "items": {
@@ -1093,6 +1116,30 @@
                   "required": [],
                   "title": "refintEnabled",
                   "type": "boolean"
+                },
+                "retryBaseDelay": {
+                  "default": "0s",
+                  "description": "Base delay for exponential backoff between LDAP retries. `0s` disables backoff.\nApplies to both the bundled IDM and external LDAP. Non-default values require oCIS 8.2.0 or newer.",
+                  "pattern": "^(0|(([0-9]+(\\.[0-9]*)?|\\.[0-9]+)(ns|us|µs|μs|ms|s|m|h))+)$",
+                  "required": [],
+                  "title": "retryBaseDelay",
+                  "type": "string"
+                },
+                "retryMaxCount": {
+                  "default": 1,
+                  "description": "Maximum number of retries after the initial attempt for failed LDAP operations.\nApplies to both the bundled IDM and external LDAP. Non-default values require oCIS 8.2.0 or newer.",
+                  "minimum": 1,
+                  "required": [],
+                  "title": "retryMaxCount",
+                  "type": "integer"
+                },
+                "retryMaxDelay": {
+                  "default": "0s",
+                  "description": "Maximum delay cap for exponential backoff between LDAP retries. `0s` uses the oCIS default cap of 60s.\nApplies to both the bundled IDM and external LDAP. Non-default values require oCIS 8.2.0 or newer.",
+                  "pattern": "^(0|(([0-9]+(\\.[0-9]*)?|\\.[0-9]+)(ns|us|µs|μs|ms|s|m|h))+)$",
+                  "required": [],
+                  "title": "retryMaxDelay",
+                  "type": "string"
                 },
                 "uri": {
                   "default": "",
@@ -1246,6 +1293,12 @@
                 }
               },
               "required": [
+                "retryMaxCount",
+                "retryBaseDelay",
+                "retryMaxDelay",
+                "poolEnabled",
+                "poolSize",
+                "poolCheckoutTimeout",
                 "writeable",
                 "readOnlyAttributes",
                 "certTrusted",
