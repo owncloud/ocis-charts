@@ -231,6 +231,16 @@ services:
                       - storageusers
               topologyKey: "kubernetes.io/hostname"
 
+  storagepubliclink:
+    image:
+      tag: 8.2.0
+    bruteForce:
+      timeGap: 30m
+      maxAttempts: 10
+    store:
+      database: storage-publiclink-ci
+      table: brute-force-protection-ci
+
   thumbnails:
     persistence:
       enabled: true
@@ -283,6 +293,7 @@ services:
 secretRefs:
   notificationsSmtpSecretRef: "smtp-secret"
   globalNotificationsSecretRef: "global-notification-secret"
+  storagepubliclinkStoreSecretRef: "storagepubliclink-store-auth"
 
 customCAChain:
   enabled: true
