@@ -1,3 +1,21 @@
+{{- $storagePubliclink := .Values.services.storagepubliclink -}}
+{{- $bruteForce := $storagePubliclink.bruteForce -}}
+{{- $store := $storagePubliclink.store -}}
+{{- $storeSecretRef := .Values.secretRefs.storagepubliclinkStoreSecretRef -}}
+{{- $customized := or (ne $bruteForce.timeGap "1h") (ne (int $bruteForce.maxAttempts) 5) (ne $store.database "storage-publiclink") (ne $store.table "brute-force-protection") (not (empty $storeSecretRef)) -}}
+{{- $imageTag := default (default .Chart.AppVersion .Values.image.tag) $storagePubliclink.image.tag -}}
+{{- $imageSHA := default .Values.image.sha $storagePubliclink.image.sha -}}
+{{- if and $storeSecretRef (ne .Values.store.type "nats-js-kv") -}}
+{{- fail "secretRefs.storagepubliclinkStoreSecretRef requires store.type=nats-js-kv" -}}
+{{- end -}}
+{{- if and $customized (empty $imageSHA) -}}
+{{- if not (regexMatch `^v?[0-9]+\.[0-9]+\.[0-9]+([-+].*)?$` $imageTag) -}}
+{{- fail (printf "services.storagepubliclink brute-force and store settings require a semver-compatible oCIS 8.0.0 or newer storagepubliclink image tag or an explicit image SHA; effective storagepubliclink image tag %q cannot be verified" $imageTag) -}}
+{{- end -}}
+{{- if not (semverCompare ">=8.0.0-0" $imageTag) -}}
+{{- fail (printf "services.storagepubliclink brute-force and store settings require oCIS 8.0.0 or newer; effective storagepubliclink image tag %q is too old" $imageTag) -}}
+{{- end -}}
+{{- end -}}
 {{- include "ocis.basicServiceTemplates" (dict "scope" . "appName" "appNameStoragePubliclink" "appNameSuffix" "") -}}
 apiVersion: apps/v1
 kind: Deployment
@@ -25,6 +43,29 @@ spec:
           env:
             {{- include "ocis.serviceRegistry" . | nindent 12 }}
             {{- include "ocis.persistentStore" . | nindent 12 }}
+            {{- if $customized }}
+
+            - name: STORAGE_PUBLICLINK_BRUTEFORCE_TIMEGAP
+              value: {{ $bruteForce.timeGap | quote }}
+            - name: STORAGE_PUBLICLINK_BRUTEFORCE_MAXATTEMPTS
+              value: {{ $bruteForce.maxAttempts | quote }}
+            - name: STORAGE_PUBLICLINK_STORE_DATABASE
+              value: {{ $store.database | quote }}
+            - name: STORAGE_PUBLICLINK_STORE_TABLE
+              value: {{ $store.table | quote }}
+            {{- if $storeSecretRef }}
+            - name: STORAGE_PUBLICLINK_STORE_AUTH_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "secrets.storagePubliclinkStore" . }}
+                  key: username
+            - name: STORAGE_PUBLICLINK_STORE_AUTH_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "secrets.storagePubliclinkStore" . }}
+                  key: password
+            {{- end }}
+            {{- end }}
 
             - name: STORAGE_PUBLICLINK_LOG_COLOR
               value: {{ .Values.logging.color | quote }}
