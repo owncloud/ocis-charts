@@ -1,4 +1,19 @@
+repositories:
+  - name: tika
+    url: https://apache.jfrog.io/artifactory/tika
+
 releases:
+  # Keep Tika enabled: the Photo add-on and Advanced Search extensions require it.
+  - name: tika
+    namespace: tika
+    chart: tika/tika
+    version: 2.9.0
+    labels:
+      ci-lint-skip: true # skip linting this external chart in CI
+    values:
+      - image:
+          tag: latest-full # use the full image for OCR support
+
   - name: ocis
     chart: ../../charts/ocis
     namespace: ocis
@@ -33,6 +48,10 @@ releases:
           search:
             persistence:
               enabled: true
+            extractor:
+              type: tika
+              tika:
+                url: http://tika.tika.svc.cluster.local:9998
 
           storagesystem:
             persistence:
