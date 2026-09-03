@@ -31,6 +31,11 @@ image:
   pullSecrets:
     - name: some-pull-secret
 
+tracing:
+  enabled: true
+  type: otlp
+  endpoint: jaeger:4317
+
 http:
   cors:
     allow_origins:
