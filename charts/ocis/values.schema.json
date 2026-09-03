@@ -12901,7 +12901,7 @@
       "properties": {
         "collector": {
           "default": "",
-          "description": "The HTTP endpoint for sending spans directly to a collector, i.e. http://jaeger-collector.observability.svc.cluster.local:14268/api/traces. Only used if the tracing endpoint is unset.",
+          "description": "Jaeger HTTP collector endpoint, for example `http://jaeger-collector.observability.svc.cluster.local:14268/api/traces`. Only used with `type: jaeger` when the tracing endpoint is unset; ignored with `type: otlp`.",
           "required": [],
           "title": "collector",
           "type": [
@@ -12918,7 +12918,7 @@
         },
         "endpoint": {
           "default": "",
-          "description": "Endpoint of the tracing system, jaeger-agent.observability.svc.cluster.local:6831 or similar.",
+          "description": "Endpoint of the tracing system. Use a Jaeger agent address such as `jaeger-agent.observability.svc.cluster.local:6831` or an OTLP gRPC collector address such as `jaeger.observability.svc.cluster.local:4317`.",
           "required": [],
           "title": "endpoint",
           "type": [
@@ -12928,9 +12928,10 @@
         },
         "type": {
           "default": "jaeger",
-          "description": "Type of trace provider to use",
+          "description": "Type of trace provider to use. Supported values are `jaeger` and `otlp`.",
           "enum": [
-            "jaeger"
+            "jaeger",
+            "otlp"
           ],
           "required": [],
           "title": "type"
