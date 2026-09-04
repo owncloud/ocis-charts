@@ -1,4 +1,22 @@
 {{ if .Values.features.virusscan.enabled }}
+{{- $scannerType := .Values.features.virusscan.scannerType -}}
+{{- $clamavSocket := .Values.features.virusscan.clamav.socket -}}
+{{- $clamavSocketPath := "" -}}
+{{- if eq $scannerType "clamav" -}}
+  {{- if hasPrefix "/" $clamavSocket -}}
+    {{- $clamavSocketPath = $clamavSocket -}}
+  {{- else if hasPrefix "unix:///" $clamavSocket -}}
+    {{- $clamavSocketPath = trimPrefix "unix://" $clamavSocket -}}
+  {{- else if not (hasPrefix "tcp://" $clamavSocket) -}}
+    {{- fail "features.virusscan.clamav.socket must be a tcp:// address, unix:/// URI, or absolute Unix socket path" -}}
+  {{- end -}}
+  {{- if $clamavSocketPath -}}
+    {{- if eq (dir $clamavSocketPath) "/" -}}
+      {{- fail "features.virusscan.clamav.socket must name a socket inside a directory below /" -}}
+    {{- end -}}
+    {{- $_ := required "features.virusscan.clamav.existingClaim is required for a Unix socket" .Values.features.virusscan.clamav.existingClaim -}}
+  {{- end -}}
+{{- end -}}
 {{- include "ocis.basicServiceTemplates" (dict "scope" . "appName" "appNameAntivirus" "appNameSuffix" "") -}}
 apiVersion: apps/v1
 kind: Deployment
@@ -51,13 +69,18 @@ spec:
             - name: ANTIVIRUS_INFECTED_FILE_HANDLING
               value: {{ .Values.features.virusscan.infectedFileHandling | quote }}
             - name: ANTIVIRUS_SCANNER_TYPE
-              value: "icap"
+              value: {{ $scannerType | quote }}
+            {{- if eq $scannerType "clamav" }}
+            - name: ANTIVIRUS_CLAMAV_SOCKET
+              value: {{ $clamavSocket | quote }}
+            {{- else }}
             - name: ANTIVIRUS_ICAP_SCAN_TIMEOUT
               value: {{ .Values.features.virusscan.icap.timeout | quote }}
             - name: ANTIVIRUS_ICAP_URL
               value: {{ .Values.features.virusscan.icap.url | quote }}
             - name: ANTIVIRUS_ICAP_SERVICE
               value: {{ .Values.features.virusscan.icap.service | quote }}
+            {{- end }}
             - name: ANTIVIRUS_MAX_SCAN_SIZE
               value: {{ .Values.features.virusscan.maxScanSize | quote }}
             - name: ANTIVIRUS_WORKERS
@@ -77,6 +100,10 @@ spec:
             - name: messaging-system-ca
               mountPath: /etc/ocis/messaging-system-ca
               readOnly: true
+            {{- if $clamavSocketPath }}
+            - name: clamav-socket
+              mountPath: {{ dir $clamavSocketPath | quote }}
+            {{- end }}
             {{- include "ocis.caPath" $ | nindent 12}}
 
       {{- include "ocis.imagePullSecrets" $ | nindent 6 }}
@@ -88,5 +115,10 @@ spec:
           {{ else }}
           emptyDir: {}
           {{ end }}
+        {{- if $clamavSocketPath }}
+        - name: clamav-socket
+          persistentVolumeClaim:
+            claimName: {{ .Values.features.virusscan.clamav.existingClaim | quote }}
+        {{- end }}
         {{- include "ocis.caVolume" $ | nindent 8}}
 {{ end }}

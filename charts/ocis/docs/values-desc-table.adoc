@@ -834,6 +834,18 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `false`
 | Show user email when searching for other users to share with.
+| features.virusscan.clamav.existingClaim
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`nil`
+| Existing PVC in the oCIS namespace used to share the ClamAV Unix socket. Required for Unix socket addresses and unused for TCP. The ClamAV Pod must mount the same claim, be co-located with Antivirus on the same node, and expose a socket accessible to the configured runAsUser/runAsGroup (1000 by default); a cross-node network volume cannot transport a Unix socket.
+| features.virusscan.clamav.socket
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"/var/run/clamav/clamd.sock"`
+| ClamAV daemon address. Use `tcp://host:3310`, `unix:///path/to/clamd.sock`, or an absolute Unix socket path such as `/var/run/clamav/clamd.sock`.
 | features.virusscan.enabled
 a| [subs=-attributes]
 +bool+
@@ -870,6 +882,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `nil`
 | Sets a maximum file size for scans. Only this many bytes of a file will be scanned. 0 means unlimited and is the default. Usable common abbreviations: [KB, KiB, MB, MiB, GB, GiB, TB, TiB, PB, PiB, EB, EiB], example: 2GB.
+| features.virusscan.scannerType
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`"icap"`
+| Scanner type to use for virus scanning. `icap` preserves the existing network integration; `clamav` uses the native ClamAV protocol.
 | global
 a| [subs=-attributes]
 +object+

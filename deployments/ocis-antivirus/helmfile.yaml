@@ -30,6 +30,7 @@ releases:
           virusscan:
             enabled: true
             infectedFileHandling: abort
+            scannerType: icap
             icap:
               url: http://opendesk-clamav-icap.clamav:1344
               service: avscan

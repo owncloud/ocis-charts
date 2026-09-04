@@ -1873,6 +1873,36 @@
           "additionalProperties": false,
           "description": "Define virus scanning",
           "properties": {
+            "clamav": {
+              "additionalProperties": false,
+              "description": "Define native ClamAV parameters",
+              "properties": {
+                "existingClaim": {
+                  "default": "",
+                  "description": "Existing PVC in the oCIS namespace used to share the ClamAV Unix socket. Required for Unix socket addresses and unused for TCP. The ClamAV Pod must mount the same claim, be co-located with Antivirus on the same node, and expose a socket accessible to the configured runAsUser/runAsGroup (1000 by default); a cross-node network volume cannot transport a Unix socket.",
+                  "minLength": 1,
+                  "required": [],
+                  "title": "existingClaim",
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "socket": {
+                  "default": "/var/run/clamav/clamd.sock",
+                  "description": "ClamAV daemon address. Use `tcp://host:3310`, `unix:///path/to/clamd.sock`, or an absolute Unix socket path such as `/var/run/clamav/clamd.sock`.",
+                  "minLength": 1,
+                  "required": [],
+                  "title": "socket",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "socket"
+              ],
+              "title": "clamav",
+              "type": "object"
+            },
             "enabled": {
               "default": false,
               "description": "Enables virus scanning",
@@ -1939,11 +1969,23 @@
                 "string",
                 "null"
               ]
+            },
+            "scannerType": {
+              "default": "icap",
+              "description": "Scanner type to use for virus scanning. `icap` preserves the existing network integration; `clamav` uses the native ClamAV protocol.",
+              "enum": [
+                "icap",
+                "clamav"
+              ],
+              "required": [],
+              "title": "scannerType"
             }
           },
           "required": [
             "enabled",
             "infectedFileHandling",
+            "scannerType",
+            "clamav",
             "icap"
           ],
           "title": "virusscan",

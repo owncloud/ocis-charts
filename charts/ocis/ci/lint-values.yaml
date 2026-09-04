@@ -101,6 +101,10 @@ features:
     enabled: true
     infectedFileHandling: abort
     maxScanSize: 50000KB
+    scannerType: clamav
+    clamav:
+      socket: /var/run/clamav/clamd.sock
+      existingClaim: clamav-socket
     icap:
       timeout: 300
       url: icap://clamav.clamav.svc:1344
