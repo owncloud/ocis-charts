@@ -888,6 +888,24 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `[]`
 | allow_origins is a list of origins a cross-domain request can be executed from. If the special "*" value is present in the list, all origins will be allowed.
+| http.csp.additionalDirectives.connectSrc
+a| [subs=-attributes]
++list+
+a| [subs=-attributes]
+`[]`
+| Additional connect-src sources, for example Companion HTTPS/WebSocket origins or OpenStreetMap tile hosts.
+| http.csp.additionalDirectives.frameSrc
+a| [subs=-attributes]
++list+
+a| [subs=-attributes]
+`[]`
+| Additional frame-src sources, for example sites embedded through the external-sites Web extension.
+| http.csp.additionalDirectives.imgSrc
+a| [subs=-attributes]
++list+
+a| [subs=-attributes]
+`[]`
+| Additional img-src sources, for example OpenStreetMap tile hosts used by the Photo Add-on.
 | http.csp.directives.childSrc
 a| [subs=-attributes]
 +list+
@@ -898,7 +916,7 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 +list+
 a| [subs=-attributes]
-`["'self'"]`
+`["'self'","blob:","https://raw.githubusercontent.com/owncloud/awesome-ocis/","https://marketplace.owncloud.com/"]`
 | connect-src directive, see https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/connect-src
 | http.csp.directives.defaultSrc
 a| [subs=-attributes]
@@ -910,8 +928,8 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 +list+
 a| [subs=-attributes]
-`["'self'"]`
-| front-src directive, see https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/front-src
+`["'self'","data:"]`
+| font-src directive, see https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/font-src
 | http.csp.directives.frameAncestors
 a| [subs=-attributes]
 +list+
@@ -922,13 +940,13 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 +list+
 a| [subs=-attributes]
-`["'self'","blob:"]`
+`["'self'","blob:","https://embed.diagrams.net/"]`
 | frame-src directive, see https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/frame-src
 | http.csp.directives.imgSrc
 a| [subs=-attributes]
 +list+
 a| [subs=-attributes]
-`["'self'","data:","blob:"]`
+`["'self'","data:","blob:","https://raw.githubusercontent.com/owncloud/awesome-ocis/","https://marketplace.owncloud.com/"]`
 | img-src directive, see https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/img-src
 | http.csp.directives.manifestSrc
 a| [subs=-attributes]

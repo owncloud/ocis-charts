@@ -2041,6 +2041,45 @@
           "additionalProperties": false,
           "description": "CSP settings for oCIS services.",
           "properties": {
+            "additionalDirectives": {
+              "additionalProperties": false,
+              "description": "Additional CSP sources for optional integrations.\nThese sources are appended to the corresponding base directives above and duplicate entries are removed.",
+              "properties": {
+                "connectSrc": {
+                  "description": "Additional connect-src sources, for example Companion HTTPS/WebSocket origins or OpenStreetMap tile hosts.",
+                  "items": {
+                    "required": [],
+                    "type": "string"
+                  },
+                  "required": [],
+                  "title": "connectSrc",
+                  "type": "array"
+                },
+                "frameSrc": {
+                  "description": "Additional frame-src sources, for example sites embedded through the external-sites Web extension.",
+                  "items": {
+                    "required": [],
+                    "type": "string"
+                  },
+                  "required": [],
+                  "title": "frameSrc",
+                  "type": "array"
+                },
+                "imgSrc": {
+                  "description": "Additional img-src sources, for example OpenStreetMap tile hosts used by the Photo Add-on.",
+                  "items": {
+                    "required": [],
+                    "type": "string"
+                  },
+                  "required": [],
+                  "title": "imgSrc",
+                  "type": "array"
+                }
+              },
+              "required": [],
+              "title": "additionalDirectives",
+              "type": "object"
+            },
             "directives": {
               "additionalProperties": false,
               "properties": {
@@ -2075,7 +2114,7 @@
                   "type": "array"
                 },
                 "fontSrc": {
-                  "description": "front-src directive, see https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/front-src",
+                  "description": "font-src directive, see https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/font-src",
                   "items": {
                     "required": [],
                     "type": "string"
@@ -2171,7 +2210,8 @@
             }
           },
           "required": [
-            "directives"
+            "directives",
+            "additionalDirectives"
           ],
           "title": "csp",
           "type": "object"

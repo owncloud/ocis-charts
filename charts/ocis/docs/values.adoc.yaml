@@ -157,9 +157,12 @@ http:
       # -- connect-src directive, see https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/connect-src
       connectSrc:
         - "'self'"
-        # If Uppy Companion is used, you need to add it with your URI:
+        - "blob:"
+        - "https://raw.githubusercontent.com/owncloud/awesome-ocis/"
+        - "https://marketplace.owncloud.com/"
+        # If Uppy Companion is used, add its origins to http.csp.additionalDirectives.connectSrc:
         # - "https://companion.kube.owncloud.test/"
-        # - "wss:///companion.kube.owncloud.test/"
+        # - "wss://companion.kube.owncloud.test/"
       # @schema
       # type: array
       # items:
@@ -175,9 +178,10 @@ http:
       #   type: string
       #   required: true
       # @schema
-      # -- front-src directive, see https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/front-src
+      # -- font-src directive, see https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/font-src
       fontSrc:
         - "'self'"
+        - "data:"
       # @schema
       # type: array
       # items:
@@ -197,6 +201,7 @@ http:
       frameSrc:
         - "'self'"
         - "blob:"
+        - "https://embed.diagrams.net/"
       # @schema
       # type: array
       # items:
@@ -208,6 +213,8 @@ http:
         - "'self'"
         - "data:"
         - "blob:"
+        - "https://raw.githubusercontent.com/owncloud/awesome-ocis/"
+        - "https://marketplace.owncloud.com/"
       # @schema
       # type: array
       # items:
@@ -256,6 +263,33 @@ http:
       styleSrc:
         - "'self'"
         - "'unsafe-inline'"
+    # Additional CSP sources for optional integrations.
+    # These sources are appended to the corresponding base directives above and duplicate entries are removed.
+    additionalDirectives:
+      # @schema
+      # type: array
+      # items:
+      #   type: string
+      #   required: true
+      # @schema
+      # -- Additional connect-src sources, for example Companion HTTPS/WebSocket origins or OpenStreetMap tile hosts.
+      connectSrc: []
+      # @schema
+      # type: array
+      # items:
+      #   type: string
+      #   required: true
+      # @schema
+      # -- Additional frame-src sources, for example sites embedded through the external-sites Web extension.
+      frameSrc: []
+      # @schema
+      # type: array
+      # items:
+      #   type: string
+      #   required: true
+      # @schema
+      # -- Additional img-src sources, for example OpenStreetMap tile hosts used by the Photo Add-on.
+      imgSrc: []
 
 # Debug settings for the oCIS service
 debug:
