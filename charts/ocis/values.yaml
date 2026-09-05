@@ -133,7 +133,7 @@ http:
     #   required: true
     # @schema
     # -- allow_origins is a list of origins a cross-domain request can be executed from.
-    # If the special "*" value is present in the list, all origins will be allowed.
+    # -- If the special "*" value is present in the list, all origins will be allowed.
     allow_origins: []
   # CSP settings for oCIS services.
   csp:
@@ -283,7 +283,7 @@ deploymentStrategy:
     # required: true
     # @schema
     # -- The maximum number of pods that can be scheduled above the desired number of pods.
-    # Value can be an absolute number (ex: 5) or a percentage of desired pods (ex: 10%).
+    # -- Value can be an absolute number (ex: 5) or a percentage of desired pods (ex: 10%).
     maxSurge: 25%
     # @schema
     # oneOf:
@@ -292,7 +292,7 @@ deploymentStrategy:
     # required: true
     # @schema
     # -- The maximum number of pods that can be unavailable during the update.
-    # Value can be an absolute number (ex: 5) or a percentage of desired pods (ex: 10%).
+    # -- Value can be an absolute number (ex: 5) or a percentage of desired pods (ex: 10%).
     maxUnavailable: 25%
 
 # @schema
@@ -391,9 +391,9 @@ messagingSystem:
     # required: true
     # @schema
     # -- Use an external NATS messaging system instead of the internal one.
-    # Recommended for all production instances.
-    # Needs to be used if HighAvailability is needed.
-    # Needs to be used if oCIS shall be used by more than a 2-digit user count.
+    # -- Recommended for all production instances.
+    # -- Needs to be used if HighAvailability is needed.
+    # -- Needs to be used if oCIS shall be used by more than a 2-digit user count.
     enabled: false
     # @schema
     # type: [string, null]
@@ -607,7 +607,7 @@ features:
 
   # Sharing related settings
   sharing:
-    # Sharing with users related settings
+    # -- Sharing with users related settings
     users:
       # Search settings for finding users to share with.
       search:
@@ -625,7 +625,7 @@ features:
         # @schema
         # -- Show user email when searching for other users to share with.
         showUserEmail: false
-    # Sharing per public link related setings
+    # -- Sharing per public link related setings
     publiclink:
       # @schema
       # type: boolean
@@ -647,7 +647,7 @@ features:
     # @schema
     # -- automatically accept incoming shares
     autoAcceptShares: true
-    # password policies for share passwords
+    # -- password policies for share passwords
     passwordPolicies:
       # @schema
       # type: integer
@@ -703,7 +703,7 @@ features:
     # @schema
     # -- Enables the apps integration.
     enabled: false
-    # WOPI (office suite integration) needs an https://github.com/cs3org/wopiserver[cs3org/wopiserver] and at least one office suite.
+    # -- WOPI (office suite integration) needs an https://github.com/cs3org/wopiserver[cs3org/wopiserver] and at least one office suite.
     wopiIntegration:
       # @schema
       # type: array
@@ -860,8 +860,8 @@ features:
     #       required: false
     # @schema
     # -- Mimetype configuration.
-    # Let's you configure a mimetypes' default application, if it is allowed to create a new file and more.
-    # @default -- default configuration of oCIS, see https://doc.owncloud.com/ocis/next/deployment/services/s-list/app-registry.html#yaml-example[doc.owncloud.com]
+    # -- Let's you configure a mimetypes' default application, if it is allowed to create a new file and more.
+    # -- @default -- default configuration of oCIS, see https://doc.owncloud.com/ocis/next/deployment/services/s-list/app-registry.html#yaml-example[doc.owncloud.com]
     mimetypes:
       []
       # - mime_type: application/vnd.oasis.opendocument.text
@@ -878,18 +878,18 @@ features:
     # required: true
     # @schema
     # -- Enables external user management (and disables internal user management).
-    # Needs an external OpenID Connect Identity Provider and an external LDAP server.
+    # -- Needs an external OpenID Connect Identity Provider and an external LDAP server.
     enabled: false
     # @schema
     # type: [string, null]
     # required: false
     # @schema
     # -- UUID of the initial admin user.
-    # If the given value matches a user's value from `features.externalUserManagement.oidc.userIDClaim`, the admin role will be assigned.
-    # Consider that the UUID can be encoded in some LDAP deployment configurations like in .ldif files. These need to be decoded beforehand.
-    # Note: Enabling `roleAssignment` will disable `adminUUID`.
+    # -- If the given value matches a user's value from `features.externalUserManagement.oidc.userIDClaim`, the admin role will be assigned.
+    # -- Consider that the UUID can be encoded in some LDAP deployment configurations like in .ldif files. These need to be decoded beforehand.
+    # -- Note: Enabling `roleAssignment` will disable `adminUUID`.
     adminUUID:
-    # Autoprovisioning of user accounts via OIDC
+    # -- Autoprovisioning of user accounts via OIDC
     autoprovisionAccounts:
       # @schema
       # type: boolean
@@ -923,7 +923,7 @@ features:
       # @schema
       # -- The name of the OIDC claim that holds the username.
       claimUserName: sub
-    # OpenID Connect Identity provider related settings.
+    # -- OpenID Connect Identity provider related settings.
     oidc:
       # @schema
       # type: [string, null]
@@ -1058,7 +1058,7 @@ features:
         # - oidcRoleC:viewer
         mapping: []
 
-    # LDAP related settings.
+    # -- LDAP related settings.
     ldap:
       # @schema
       # type: boolean
@@ -1305,8 +1305,8 @@ features:
 
   # GDPR report related settings.
   gdprReport:
-    # Enables the GDPR report feature
-    # Controls the separate GDPR integrations
+    # -- Enables the GDPR report feature
+    # -- Controls the separate GDPR integrations
     integrations:
       keycloak:
         # @schema
@@ -1353,8 +1353,8 @@ features:
     # required: false
     # @schema
     # -- Define the roles by specifying a name of a ConfigMap which already contains the the role description (might also be defined in the `extraResources` section).
-    # The ConfigMap needs to contain a file named `custom-roles.json` which holds the role description in JSON format
-    # Please note that you have to restart the settings service manually if you change the content of you ConfigMap.
+    # -- The ConfigMap needs to contain a file named `custom-roles.json` which holds the role description in JSON format
+    # -- Please note that you have to restart the settings service manually if you change the content of you ConfigMap.
     customRolesConfigRef:
     # @schema
     # type: [string, null]
@@ -1369,10 +1369,10 @@ features:
     #   type: string
     # @schema
     # -- Define a list of unified roles to make them available.
-    # The default of an empty list means all unified roles are available.
-    # You can read about unified roles in https://doc.owncloud.com/ocis/next/deployment/services/s-list/graph.html.
-    # The IDs of the roles and a description can be found by running:
-    # kubectl -n ocis exec deployments/graph -- ocis graph list-unified-roles
+    # -- The default of an empty list means all unified roles are available.
+    # -- You can read about unified roles in https://doc.owncloud.com/ocis/next/deployment/services/s-list/graph.html.
+    # -- The IDs of the roles and a description can be found by running:
+    # -- kubectl -n ocis exec deployments/graph -- ocis graph list-unified-roles
     availableUnifiedRoles: []
   # Define quota settings.
   quotas:
@@ -1391,13 +1391,13 @@ features:
     # @schema
     # type: object
     # required: true
-    # patternProperties:
+    # -- patternProperties:
     #  ".*":
     #    type: integer
     # @schema
     # -- Sets specific quotas for roles
     roles: {}
-    # roles:
+    # -- roles:
     #   # User Role set to 2GB
     #   d7beeea8-8ff4-406b-8fb6-ab2dd81e6b11: 2000000000
     #   # Administrator Role set to 100GB
@@ -1417,18 +1417,18 @@ features:
     # required: true
     # @schema
     # -- Define what should happen with infected files. Supported options are: 'delete', 'continue' and 'abort '.
-    # Delete will delete the file.
-    # Continue will mark the file as infected but continues further processing.
-    # Abort will keep the file in the uploads folder for further admin inspection and will not move it to its final destination.
+    # -- Delete will delete the file.
+    # -- Continue will mark the file as infected but continues further processing.
+    # -- Abort will keep the file in the uploads folder for further admin inspection and will not move it to its final destination.
     infectedFileHandling: delete
     # @schema
     # type: [string, null]
     # required: false
     # @schema
     # -- Sets a maximum file size for scans. Only this many bytes of a file will be scanned. 0 means unlimited and is the default.
-    # Usable common abbreviations: [KB, KiB, MB, MiB, GB, GiB, TB, TiB, PB, PiB, EB, EiB], example: 2GB.
+    # -- Usable common abbreviations: [KB, KiB, MB, MiB, GB, GiB, TB, TiB, PB, PiB, EB, EiB], example: 2GB.
     maxScanSize:
-    # Define icap parameters
+    # -- Define icap parameters
     icap:
       # @schema
       # type: integer
@@ -1462,7 +1462,7 @@ features:
     # required: true
     # @schema
     # -- Sets the timeout the rego expression evaluation can take. The timeout can be set as number followed by a unit identifier
-    # like ms, s, etc. Rules default to deny if the timeout was reached.
+    # -- like ms, s, etc. Rules default to deny if the timeout was reached.
     engineTimeout: 10s
     # @schema
     # type: array
@@ -1479,16 +1479,16 @@ features:
     #       required: true
     # @schema
     # -- Sets the policies. Each policy file is defined by a `fileName` and a `content`. The content takes the rego script as text.
-    # For further information, please have a look at https://doc.owncloud.com/ocis/next/deployment/services/s-list/policies.html
-    # Attention: All scripts provided here will end up in a ConfigMap. The data stored in a ConfigMap cannot exceed 1 MiB. see
-    # https://kubernetes.io/docs/concepts/configuration/configmap/#:~:text=The%20data%20stored%20in%20a,separate%20database%20or%20file%20service.
+    # -- For further information, please have a look at https://doc.owncloud.com/ocis/next/deployment/services/s-list/policies.html
+    # -- Attention: All scripts provided here will end up in a ConfigMap. The data stored in a ConfigMap cannot exceed 1 MiB. see
+    # -- https://kubernetes.io/docs/concepts/configuration/configmap/#:~:text=The%20data%20stored%20in%20a,separate%20database%20or%20file%20service.
     policies: []
-    # - fileName: proxy.rego
+    # -- - fileName: proxy.rego
     #   content: |-
     #     package proxy
     #     default granted := true
     #
-    # - fileName: postprocessing.rego
+    # -- - fileName: postprocessing.rego
     #   content: |-
     #     package postprocessing
     #     default granted := true
@@ -1540,9 +1540,9 @@ features:
     # required: false
     # @schema
     # -- Required reference to an existing provider config.
-    # Will be mounted to /etc/ocis
-    # Does not get autogenerated.
-    # Documentation can be found at https://doc.owncloud.com/ocis/next/deployment/services/s-list/ocm.html#trust-between-instances
+    # -- Will be mounted to /etc/ocis
+    # -- Does not get autogenerated.
+    # -- Documentation can be found at https://doc.owncloud.com/ocis/next/deployment/services/s-list/ocm.html#trust-between-instances
     providersConfigRef:
   # Auth app settings
   authapp:
@@ -2019,12 +2019,12 @@ services:
   # @default -- see detailed service configuration options below
   activitylog:
     # @schema
-    # $ref: schema/templates.json#/resourcesTemplate
+    # -- $ref: schema/templates.json#/resourcesTemplate
     # @schema
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
     # @schema
-    # $ref: schema/templates.json#/labelsTemplate
+    # -- $ref: schema/templates.json#/labelsTemplate
     # @schema
     # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
     nodeSelector: {}
@@ -2035,24 +2035,24 @@ services:
     # -- Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
     priorityClassName:
     # @schema
-    # $ref: schema/templates.json#/podDisruptionBudgetTemplate
+    # -- $ref: schema/templates.json#/podDisruptionBudgetTemplate
     # @schema
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
     podDisruptionBudget: {}
     # @schema
-    # $ref: schema/templates.json#/autoscalingTemplate
+    # -- $ref: schema/templates.json#/autoscalingTemplate
     # @schema
     # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
     autoscaling: {}
     # @schema
-    # $ref: schema/templates.json#/affinityTemplate
+    # -- $ref: schema/templates.json#/affinityTemplate
     # @schema
     # -- Per-service affinity.
-    # The value of this key will be passed to the affinity setting of the pod as documented here:
-    # https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#affinity-and-anti-affinity
-    # This example will ensure that the pods will only be scheduled on nodes with the label `topology.kubernetes.io/zone`
-    # set to `eu-west-1` or `eu-east-1`.
-    # nodeAffinity:
+    # -- The value of this key will be passed to the affinity setting of the pod as documented here:
+    # -- https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#affinity-and-anti-affinity
+    # -- This example will ensure that the pods will only be scheduled on nodes with the label `topology.kubernetes.io/zone`
+    # -- set to `eu-west-1` or `eu-east-1`.
+    # -- nodeAffinity:
     #   requiredDuringSchedulingIgnoredDuringExecution:
     #     nodeSelectorTerms:
     #     - matchExpressions:
@@ -2062,8 +2062,8 @@ services:
     #         - eu-east-1
     #         - eu-west-1
     #
-    # The following example will make sure that these pods will never be scheduled on the same node.
-    # podAntiAffinity:
+    # -- The following example will make sure that these pods will never be scheduled on the same node.
+    # -- podAntiAffinity:
     #   requiredDuringSchedulingIgnoredDuringExecution:
     #     - labelSelector:
     #         matchExpressions:
@@ -2075,11 +2075,11 @@ services:
     #
     affinity: {}
     # @schema
-    # $ref: schema/templates.json#/labelsTemplate
+    # -- $ref: schema/templates.json#/labelsTemplate
     # @schema
     # -- Per-service custom labels
     extraLabels: {}
-    # Per-service image configuration. Overrides the default setting from `image` if set.
+    # -- Per-service image configuration. Overrides the default setting from `image` if set.
     image:
       # @schema
       # type: [string, null]
@@ -2110,12 +2110,12 @@ services:
   # @default -- see detailed service configuration options below
   collaboration:
     # @schema
-    # $ref: schema/templates.json#/resourcesTemplate
+    # -- $ref: schema/templates.json#/resourcesTemplate
     # @schema
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
     # @schema
-    # $ref: schema/templates.json#/labelsTemplate
+    # -- $ref: schema/templates.json#/labelsTemplate
     # @schema
     # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
     nodeSelector: {}
@@ -2126,27 +2126,27 @@ services:
     # -- Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
     priorityClassName:
     # @schema
-    # $ref: schema/templates.json#/podDisruptionBudgetTemplate
+    # -- $ref: schema/templates.json#/podDisruptionBudgetTemplate
     # @schema
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
     podDisruptionBudget: {}
     # @schema
-    # $ref: schema/templates.json#/autoscalingTemplate
+    # -- $ref: schema/templates.json#/autoscalingTemplate
     # @schema
     # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
     autoscaling: {}
     # @schema
-    # $ref: schema/templates.json#/affinityTemplate
+    # -- $ref: schema/templates.json#/affinityTemplate
     # @schema
     # -- Per-service affinity.
     affinity: {}
     # @schema
-    # $ref: schema/templates.json#/labelsTemplate
+    # -- $ref: schema/templates.json#/labelsTemplate
     # @schema
-    # Do note that the value will be different for each service.
+    # -- Do note that the value will be different for each service.
     # -- Per-service custom labels
     extraLabels: {}
-    # Per-service image configuration. Overrides the default setting from `image` if set.
+    # -- Per-service image configuration. Overrides the default setting from `image` if set.
     image:
       # @schema
       # type: [string, null]
@@ -2177,12 +2177,12 @@ services:
   # @default -- see detailed service configuration options below
   appregistry:
     # @schema
-    # $ref: schema/templates.json#/resourcesTemplate
+    # -- $ref: schema/templates.json#/resourcesTemplate
     # @schema
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
     # @schema
-    # $ref: schema/templates.json#/labelsTemplate
+    # -- $ref: schema/templates.json#/labelsTemplate
     # @schema
     # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
     nodeSelector: {}
@@ -2193,16 +2193,16 @@ services:
     # -- Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
     priorityClassName:
     # @schema
-    # $ref: schema/templates.json#/affinityTemplate
+    # -- $ref: schema/templates.json#/affinityTemplate
     # @schema
     # -- Per-service affinity.
     affinity: {}
     # @schema
-    # $ref: schema/templates.json#/labelsTemplate
+    # -- $ref: schema/templates.json#/labelsTemplate
     # @schema
     # -- Per-service custom labels
     extraLabels: {}
-    # Per-service image configuration. Overrides the default setting from `image` if set.
+    # -- Per-service image configuration. Overrides the default setting from `image` if set.
     image:
       # @schema
       # type: [string, null]
@@ -2233,12 +2233,12 @@ services:
   # @default -- see detailed service configuration options below
   audit:
     # @schema
-    # $ref: schema/templates.json#/resourcesTemplate
+    # -- $ref: schema/templates.json#/resourcesTemplate
     # @schema
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
     # @schema
-    # $ref: schema/templates.json#/labelsTemplate
+    # -- $ref: schema/templates.json#/labelsTemplate
     # @schema
     # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
     nodeSelector: {}
@@ -2249,26 +2249,26 @@ services:
     # -- Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
     priorityClassName:
     # @schema
-    # $ref: schema/templates.json#/podDisruptionBudgetTemplate
+    # -- $ref: schema/templates.json#/podDisruptionBudgetTemplate
     # @schema
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
     podDisruptionBudget: {}
     # @schema
-    # $ref: schema/templates.json#/autoscalingTemplate
+    # -- $ref: schema/templates.json#/autoscalingTemplate
     # @schema
     # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
     autoscaling: {}
     # @schema
-    # $ref: schema/templates.json#/affinityTemplate
+    # -- $ref: schema/templates.json#/affinityTemplate
     # @schema
     # -- Per-service affinity.
     affinity: {}
     # @schema
-    # $ref: schema/templates.json#/labelsTemplate
+    # -- $ref: schema/templates.json#/labelsTemplate
     # @schema
     # -- Per-service custom labels
     extraLabels: {}
-    # Per-service image configuration. Overrides the default setting from `image` if set.
+    # -- Per-service image configuration. Overrides the default setting from `image` if set.
     image:
       # @schema
       # type: [string, null]
@@ -2299,12 +2299,12 @@ services:
   # @default -- see detailed service configuration options below
   authmachine:
     # @schema
-    # $ref: schema/templates.json#/resourcesTemplate
+    # -- $ref: schema/templates.json#/resourcesTemplate
     # @schema
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
     # @schema
-    # $ref: schema/templates.json#/labelsTemplate
+    # -- $ref: schema/templates.json#/labelsTemplate
     # @schema
     # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
     nodeSelector: {}
@@ -2315,26 +2315,26 @@ services:
     # -- Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
     priorityClassName:
     # @schema
-    # $ref: schema/templates.json#/podDisruptionBudgetTemplate
+    # -- $ref: schema/templates.json#/podDisruptionBudgetTemplate
     # @schema
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
     podDisruptionBudget: {}
     # @schema
-    # $ref: schema/templates.json#/autoscalingTemplate
+    # -- $ref: schema/templates.json#/autoscalingTemplate
     # @schema
     # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
     autoscaling: {}
     # @schema
-    # $ref: schema/templates.json#/affinityTemplate
+    # -- $ref: schema/templates.json#/affinityTemplate
     # @schema
     # -- Per-service affinity.
     affinity: {}
     # @schema
-    # $ref: schema/templates.json#/labelsTemplate
+    # -- $ref: schema/templates.json#/labelsTemplate
     # @schema
     # -- Per-service custom labels
     extraLabels: {}
-    # Per-service image configuration. Overrides the default setting from `image` if set.
+    # -- Per-service image configuration. Overrides the default setting from `image` if set.
     image:
       # @schema
       # type: [string, null]
@@ -2365,12 +2365,12 @@ services:
   # @default -- see detailed service configuration options below
   authservice:
     # @schema
-    # $ref: schema/templates.json#/resourcesTemplate
+    # -- $ref: schema/templates.json#/resourcesTemplate
     # @schema
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
     # @schema
-    # $ref: schema/templates.json#/labelsTemplate
+    # -- $ref: schema/templates.json#/labelsTemplate
     # @schema
     # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
     nodeSelector: {}
@@ -2381,26 +2381,26 @@ services:
     # -- Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
     priorityClassName:
     # @schema
-    # $ref: schema/templates.json#/podDisruptionBudgetTemplate
+    # -- $ref: schema/templates.json#/podDisruptionBudgetTemplate
     # @schema
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
     podDisruptionBudget: {}
     # @schema
-    # $ref: schema/templates.json#/autoscalingTemplate
+    # -- $ref: schema/templates.json#/autoscalingTemplate
     # @schema
     # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
     autoscaling: {}
     # @schema
-    # $ref: schema/templates.json#/affinityTemplate
+    # -- $ref: schema/templates.json#/affinityTemplate
     # @schema
     # -- Per-service affinity.
     affinity: {}
     # @schema
-    # $ref: schema/templates.json#/labelsTemplate
+    # -- $ref: schema/templates.json#/labelsTemplate
     # @schema
     # -- Per-service custom labels
     extraLabels: {}
-    # Per-service image configuration. Overrides the default setting from `image` if set.
+    # -- Per-service image configuration. Overrides the default setting from `image` if set.
     image:
       # @schema
       # type: [string, null]
@@ -2431,12 +2431,12 @@ services:
   # @default -- see detailed service configuration options below
   authapp:
     # @schema
-    # $ref: schema/templates.json#/resourcesTemplate
+    # -- $ref: schema/templates.json#/resourcesTemplate
     # @schema
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
     # @schema
-    # $ref: schema/templates.json#/labelsTemplate
+    # -- $ref: schema/templates.json#/labelsTemplate
     # @schema
     # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
     nodeSelector: {}
@@ -2447,26 +2447,26 @@ services:
     # -- Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
     priorityClassName:
     # @schema
-    # $ref: schema/templates.json#/podDisruptionBudgetTemplate
+    # -- $ref: schema/templates.json#/podDisruptionBudgetTemplate
     # @schema
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
     podDisruptionBudget: {}
     # @schema
-    # $ref: schema/templates.json#/autoscalingTemplate
+    # -- $ref: schema/templates.json#/autoscalingTemplate
     # @schema
     # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
     autoscaling: {}
     # @schema
-    # $ref: schema/templates.json#/affinityTemplate
+    # -- $ref: schema/templates.json#/affinityTemplate
     # @schema
     # -- Per-service affinity.
     affinity: {}
     # @schema
-    # $ref: schema/templates.json#/labelsTemplate
+    # -- $ref: schema/templates.json#/labelsTemplate
     # @schema
     # -- Per-service custom labels
     extraLabels: {}
-    # Per-service image configuration. Overrides the default setting from `image` if set.
+    # -- Per-service image configuration. Overrides the default setting from `image` if set.
     image:
       # @schema
       # type: [string, null]
@@ -2493,7 +2493,7 @@ services:
       # -- Image pull policy
       pullPolicy:
     # -- Persistence settings.
-    # @default -- see detailed persistence configuration options below
+    # -- @default -- see detailed persistence configuration options below
     persistence:
       # @schema
       # type: boolean
@@ -2572,12 +2572,12 @@ services:
         # -- Number of event consumers to be started that concurrently consume events.
         concurrency: 10
     # @schema
-    # $ref: schema/templates.json#/resourcesTemplate
+    # -- $ref: schema/templates.json#/resourcesTemplate
     # @schema
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
     # @schema
-    # $ref: schema/templates.json#/labelsTemplate
+    # -- $ref: schema/templates.json#/labelsTemplate
     # @schema
     # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
     nodeSelector: {}
@@ -2588,26 +2588,26 @@ services:
     # -- Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
     priorityClassName:
     # @schema
-    # $ref: schema/templates.json#/podDisruptionBudgetTemplate
+    # -- $ref: schema/templates.json#/podDisruptionBudgetTemplate
     # @schema
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
     podDisruptionBudget: {}
     # @schema
-    # $ref: schema/templates.json#/autoscalingTemplate
+    # -- $ref: schema/templates.json#/autoscalingTemplate
     # @schema
     # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
     autoscaling: {}
     # @schema
-    # $ref: schema/templates.json#/affinityTemplate
+    # -- $ref: schema/templates.json#/affinityTemplate
     # @schema
     # -- Per-service affinity.
     affinity: {}
     # @schema
-    # $ref: schema/templates.json#/labelsTemplate
+    # -- $ref: schema/templates.json#/labelsTemplate
     # @schema
     # -- Per-service custom labels
     extraLabels: {}
-    # Per-service image configuration. Overrides the default setting from `image` if set.
+    # -- Per-service image configuration. Overrides the default setting from `image` if set.
     image:
       # @schema
       # type: [string, null]
@@ -2638,12 +2638,12 @@ services:
   # @default -- see detailed service configuration options below
   clientlog:
     # @schema
-    # $ref: schema/templates.json#/resourcesTemplate
+    # -- $ref: schema/templates.json#/resourcesTemplate
     # @schema
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
     # @schema
-    # $ref: schema/templates.json#/labelsTemplate
+    # -- $ref: schema/templates.json#/labelsTemplate
     # @schema
     # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
     nodeSelector: {}
@@ -2654,26 +2654,26 @@ services:
     # -- Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
     priorityClassName:
     # @schema
-    # $ref: schema/templates.json#/podDisruptionBudgetTemplate
+    # -- $ref: schema/templates.json#/podDisruptionBudgetTemplate
     # @schema
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
     podDisruptionBudget: {}
     # @schema
-    # $ref: schema/templates.json#/autoscalingTemplate
+    # -- $ref: schema/templates.json#/autoscalingTemplate
     # @schema
     # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
     autoscaling: {}
     # @schema
-    # $ref: schema/templates.json#/affinityTemplate
+    # -- $ref: schema/templates.json#/affinityTemplate
     # @schema
     # -- Per-service affinity.
     affinity: {}
     # @schema
-    # $ref: schema/templates.json#/labelsTemplate
+    # -- $ref: schema/templates.json#/labelsTemplate
     # @schema
     # -- Per-service custom labels
     extraLabels: {}
-    # Per-service image configuration. Overrides the default setting from `image` if set.
+    # -- Per-service image configuration. Overrides the default setting from `image` if set.
     image:
       # @schema
       # type: [string, null]
@@ -2704,12 +2704,12 @@ services:
   # @default -- see detailed service configuration options below
   eventhistory:
     # @schema
-    # $ref: schema/templates.json#/resourcesTemplate
+    # -- $ref: schema/templates.json#/resourcesTemplate
     # @schema
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
     # @schema
-    # $ref: schema/templates.json#/labelsTemplate
+    # -- $ref: schema/templates.json#/labelsTemplate
     # @schema
     # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
     nodeSelector: {}
@@ -2720,26 +2720,26 @@ services:
     # -- Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
     priorityClassName:
     # @schema
-    # $ref: schema/templates.json#/podDisruptionBudgetTemplate
+    # -- $ref: schema/templates.json#/podDisruptionBudgetTemplate
     # @schema
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
     podDisruptionBudget: {}
     # @schema
-    # $ref: schema/templates.json#/autoscalingTemplate
+    # -- $ref: schema/templates.json#/autoscalingTemplate
     # @schema
     # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
     autoscaling: {}
     # @schema
-    # $ref: schema/templates.json#/affinityTemplate
+    # -- $ref: schema/templates.json#/affinityTemplate
     # @schema
     # -- Per-service affinity.
     affinity: {}
     # @schema
-    # $ref: schema/templates.json#/labelsTemplate
+    # -- $ref: schema/templates.json#/labelsTemplate
     # @schema
     # -- Per-service custom labels
     extraLabels: {}
-    # Per-service image configuration. Overrides the default setting from `image` if set.
+    # -- Per-service image configuration. Overrides the default setting from `image` if set.
     image:
       # @schema
       # type: [string, null]
@@ -2779,12 +2779,12 @@ services:
         # -- Number of event consumers to be started that concurrently consume events (used for auto-accepting shares, see `features.sharing.autoAcceptShares`)
         concurrency: 100
     # @schema
-    # $ref: schema/templates.json#/resourcesTemplate
+    # -- $ref: schema/templates.json#/resourcesTemplate
     # @schema
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
     # @schema
-    # $ref: schema/templates.json#/labelsTemplate
+    # -- $ref: schema/templates.json#/labelsTemplate
     # @schema
     # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
     nodeSelector: {}
@@ -2795,26 +2795,26 @@ services:
     # -- Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
     priorityClassName:
     # @schema
-    # $ref: schema/templates.json#/podDisruptionBudgetTemplate
+    # -- $ref: schema/templates.json#/podDisruptionBudgetTemplate
     # @schema
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
     podDisruptionBudget: {}
     # @schema
-    # $ref: schema/templates.json#/autoscalingTemplate
+    # -- $ref: schema/templates.json#/autoscalingTemplate
     # @schema
     # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
     autoscaling: {}
     # @schema
-    # $ref: schema/templates.json#/affinityTemplate
+    # -- $ref: schema/templates.json#/affinityTemplate
     # @schema
     # -- Per-service affinity.
     affinity: {}
     # @schema
-    # $ref: schema/templates.json#/labelsTemplate
+    # -- $ref: schema/templates.json#/labelsTemplate
     # @schema
     # -- Per-service custom labels
     extraLabels: {}
-    # Per-service image configuration. Overrides the default setting from `image` if set.
+    # -- Per-service image configuration. Overrides the default setting from `image` if set.
     image:
       # @schema
       # type: [string, null]
@@ -2845,12 +2845,12 @@ services:
   # @default -- see detailed service configuration options below
   gateway:
     # @schema
-    # $ref: schema/templates.json#/resourcesTemplate
+    # -- $ref: schema/templates.json#/resourcesTemplate
     # @schema
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
     # @schema
-    # $ref: schema/templates.json#/labelsTemplate
+    # -- $ref: schema/templates.json#/labelsTemplate
     # @schema
     # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
     nodeSelector: {}
@@ -2861,26 +2861,26 @@ services:
     # -- Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
     priorityClassName:
     # @schema
-    # $ref: schema/templates.json#/podDisruptionBudgetTemplate
+    # -- $ref: schema/templates.json#/podDisruptionBudgetTemplate
     # @schema
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
     podDisruptionBudget: {}
     # @schema
-    # $ref: schema/templates.json#/autoscalingTemplate
+    # -- $ref: schema/templates.json#/autoscalingTemplate
     # @schema
     # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
     autoscaling: {}
     # @schema
-    # $ref: schema/templates.json#/affinityTemplate
+    # -- $ref: schema/templates.json#/affinityTemplate
     # @schema
     # -- Per-service affinity.
     affinity: {}
     # @schema
-    # $ref: schema/templates.json#/labelsTemplate
+    # -- $ref: schema/templates.json#/labelsTemplate
     # @schema
     # -- Per-service custom labels
     extraLabels: {}
-    # Per-service image configuration. Overrides the default setting from `image` if set.
+    # -- Per-service image configuration. Overrides the default setting from `image` if set.
     image:
       # @schema
       # type: [string, null]
@@ -2911,12 +2911,12 @@ services:
   # @default -- see detailed service configuration options below
   graph:
     # @schema
-    # $ref: schema/templates.json#/resourcesTemplate
+    # -- $ref: schema/templates.json#/resourcesTemplate
     # @schema
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
     # @schema
-    # $ref: schema/templates.json#/labelsTemplate
+    # -- $ref: schema/templates.json#/labelsTemplate
     # @schema
     # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
     nodeSelector: {}
@@ -2927,26 +2927,26 @@ services:
     # -- Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
     priorityClassName:
     # @schema
-    # $ref: schema/templates.json#/podDisruptionBudgetTemplate
+    # -- $ref: schema/templates.json#/podDisruptionBudgetTemplate
     # @schema
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
     podDisruptionBudget: {}
     # @schema
-    # $ref: schema/templates.json#/autoscalingTemplate
+    # -- $ref: schema/templates.json#/autoscalingTemplate
     # @schema
     # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
     autoscaling: {}
     # @schema
-    # $ref: schema/templates.json#/affinityTemplate
+    # -- $ref: schema/templates.json#/affinityTemplate
     # @schema
     # -- Per-service affinity.
     affinity: {}
     # @schema
-    # $ref: schema/templates.json#/labelsTemplate
+    # -- $ref: schema/templates.json#/labelsTemplate
     # @schema
     # -- Per-service custom labels
     extraLabels: {}
-    # Per-service image configuration. Overrides the default setting from `image` if set.
+    # -- Per-service image configuration. Overrides the default setting from `image` if set.
     image:
       # @schema
       # type: [string, null]
@@ -2977,7 +2977,7 @@ services:
   # @default -- see detailed service configuration options below
   groups:
     # @schema
-    # $ref: schema/templates.json#/resourcesTemplate
+    # -- $ref: schema/templates.json#/resourcesTemplate
     # @schema
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
@@ -2990,26 +2990,26 @@ services:
     # -- Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
     priorityClassName:
     # @schema
-    # $ref: schema/templates.json#/podDisruptionBudgetTemplate
+    # -- $ref: schema/templates.json#/podDisruptionBudgetTemplate
     # @schema
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
     podDisruptionBudget: {}
     # @schema
-    # $ref: schema/templates.json#/autoscalingTemplate
+    # -- $ref: schema/templates.json#/autoscalingTemplate
     # @schema
     # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
     autoscaling: {}
     # @schema
-    # $ref: schema/templates.json#/affinityTemplate
+    # -- $ref: schema/templates.json#/affinityTemplate
     # @schema
     # -- Per-service affinity.
     affinity: {}
     # @schema
-    # $ref: schema/templates.json#/labelsTemplate
+    # -- $ref: schema/templates.json#/labelsTemplate
     # @schema
     # -- Per-service custom labels
     extraLabels: {}
-    # Per-service image configuration. Overrides the default setting from `image` if set.
+    # -- Per-service image configuration. Overrides the default setting from `image` if set.
     image:
       # @schema
       # type: [string, null]
@@ -3040,7 +3040,7 @@ services:
   # @default -- see detailed service configuration options below
   idm:
     # -- Persistence settings.
-    # @default -- see detailed persistence configuration options below
+    # -- @default -- see detailed persistence configuration options below
     persistence:
       # @schema
       # type: boolean
@@ -3114,12 +3114,12 @@ services:
       # -- Use an existing PersistentVolumeClaim for persistence.
       existingClaim:
     # @schema
-    # $ref: schema/templates.json#/resourcesTemplate
+    # -- $ref: schema/templates.json#/resourcesTemplate
     # @schema
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
     # @schema
-    # $ref: schema/templates.json#/labelsTemplate
+    # -- $ref: schema/templates.json#/labelsTemplate
     # @schema
     # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
     nodeSelector: {}
@@ -3130,16 +3130,16 @@ services:
     # -- Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
     priorityClassName:
     # @schema
-    # $ref: schema/templates.json#/affinityTemplate
+    # -- $ref: schema/templates.json#/affinityTemplate
     # @schema
     # -- Per-service affinity.
     affinity: {}
     # @schema
-    # $ref: schema/templates.json#/labelsTemplate
+    # -- $ref: schema/templates.json#/labelsTemplate
     # @schema
     # -- Per-service custom labels
     extraLabels: {}
-    # Per-service image configuration. Overrides the default setting from `image` if set.
+    # -- Per-service image configuration. Overrides the default setting from `image` if set.
     image:
       # @schema
       # type: [string, null]
@@ -3170,12 +3170,12 @@ services:
   # @default -- see detailed service configuration options below
   idp:
     # @schema
-    # $ref: schema/templates.json#/resourcesTemplate
+    # -- $ref: schema/templates.json#/resourcesTemplate
     # @schema
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
     # @schema
-    # $ref: schema/templates.json#/labelsTemplate
+    # -- $ref: schema/templates.json#/labelsTemplate
     # @schema
     # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
     nodeSelector: {}
@@ -3185,16 +3185,16 @@ services:
     # @schema
     # -- Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
     # @schema
-    # $ref: schema/templates.json#/affinityTemplate
+    # -- $ref: schema/templates.json#/affinityTemplate
     # @schema
     # -- Per-service affinity.
     affinity: {}
     # @schema
-    # $ref: schema/templates.json#/labelsTemplate
+    # -- $ref: schema/templates.json#/labelsTemplate
     # @schema
     # -- Per-service custom labels
     extraLabels: {}
-    # Per-service image configuration. Overrides the default setting from `image` if set.
+    # -- Per-service image configuration. Overrides the default setting from `image` if set.
     image:
       # @schema
       # type: [string, null]
@@ -3225,7 +3225,7 @@ services:
   # @default -- see detailed service configuration options below
   nats:
     # -- Persistence settings.
-    # @default -- see detailed persistence configuration options below
+    # -- @default -- see detailed persistence configuration options below
     persistence:
       # @schema
       # type: boolean
@@ -3299,12 +3299,12 @@ services:
       # -- Use an existing PersistentVolumeClaim for persistence.
       existingClaim:
     # @schema
-    # $ref: schema/templates.json#/resourcesTemplate
+    # -- $ref: schema/templates.json#/resourcesTemplate
     # @schema
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
     # @schema
-    # $ref: schema/templates.json#/labelsTemplate
+    # -- $ref: schema/templates.json#/labelsTemplate
     # @schema
     # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
     nodeSelector: {}
@@ -3315,16 +3315,16 @@ services:
     # -- Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
     priorityClassName:
     # @schema
-    # $ref: schema/templates.json#/affinityTemplate
+    # -- $ref: schema/templates.json#/affinityTemplate
     # @schema
     # -- Per-service affinity.
     affinity: {}
     # @schema
-    # $ref: schema/templates.json#/labelsTemplate
+    # -- $ref: schema/templates.json#/labelsTemplate
     # @schema
     # -- Per-service custom labels
     extraLabels: {}
-    # Per-service image configuration. Overrides the default setting from `image` if set.
+    # -- Per-service image configuration. Overrides the default setting from `image` if set.
     image:
       # @schema
       # type: [string, null]
@@ -3355,12 +3355,12 @@ services:
   # @default -- see detailed service configuration options below
   notifications:
     # @schema
-    # $ref: schema/templates.json#/resourcesTemplate
+    # -- $ref: schema/templates.json#/resourcesTemplate
     # @schema
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
     # @schema
-    # $ref: schema/templates.json#/labelsTemplate
+    # -- $ref: schema/templates.json#/labelsTemplate
     # @schema
     # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
     nodeSelector: {}
@@ -3371,26 +3371,26 @@ services:
     # -- Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
     priorityClassName:
     # @schema
-    # $ref: schema/templates.json#/podDisruptionBudgetTemplate
+    # -- $ref: schema/templates.json#/podDisruptionBudgetTemplate
     # @schema
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
     podDisruptionBudget: {}
     # @schema
-    # $ref: schema/templates.json#/autoscalingTemplate
+    # -- $ref: schema/templates.json#/autoscalingTemplate
     # @schema
     # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
     autoscaling: {}
     # @schema
-    # $ref: schema/templates.json#/affinityTemplate
+    # -- $ref: schema/templates.json#/affinityTemplate
     # @schema
     # -- Per-service affinity.
     affinity: {}
     # @schema
-    # $ref: schema/templates.json#/labelsTemplate
+    # -- $ref: schema/templates.json#/labelsTemplate
     # @schema
     # -- Per-service custom labels
     extraLabels: {}
-    # Per-service image configuration. Overrides the default setting from `image` if set.
+    # -- Per-service image configuration. Overrides the default setting from `image` if set.
     image:
       # @schema
       # type: [string, null]
@@ -3417,12 +3417,12 @@ services:
       # -- Image pull policy
       pullPolicy:
     # @schema
-    # $ref: schema/templates.json#/resourcesTemplate
+    # -- $ref: schema/templates.json#/resourcesTemplate
     # @schema
     # -- Per-service jobResources configuration. Overrides the default setting from `jobResources` if set.
     jobResources: {}
     # @schema
-    # $ref: schema/templates.json#/labelsTemplate
+    # -- $ref: schema/templates.json#/labelsTemplate
     # @schema
     # -- Per-service jobNodeSelector configuration. Overrides the default setting from `jobNodeSelector` if set.
     jobNodeSelector: {}
@@ -3437,12 +3437,12 @@ services:
   # @default -- see detailed service configuration options below
   ocdav:
     # @schema
-    # $ref: schema/templates.json#/resourcesTemplate
+    # -- $ref: schema/templates.json#/resourcesTemplate
     # @schema
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
     # @schema
-    # $ref: schema/templates.json#/labelsTemplate
+    # -- $ref: schema/templates.json#/labelsTemplate
     # @schema
     # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
     nodeSelector: {}
@@ -3453,26 +3453,26 @@ services:
     # -- Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
     priorityClassName:
     # @schema
-    # $ref: schema/templates.json#/podDisruptionBudgetTemplate
+    # -- $ref: schema/templates.json#/podDisruptionBudgetTemplate
     # @schema
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
     podDisruptionBudget: {}
     # @schema
-    # $ref: schema/templates.json#/autoscalingTemplate
+    # -- $ref: schema/templates.json#/autoscalingTemplate
     # @schema
     # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
     autoscaling: {}
     # @schema
-    # $ref: schema/templates.json#/affinityTemplate
+    # -- $ref: schema/templates.json#/affinityTemplate
     # @schema
     # -- Per-service affinity.
     affinity: {}
     # @schema
-    # $ref: schema/templates.json#/labelsTemplate
+    # -- $ref: schema/templates.json#/labelsTemplate
     # @schema
     # -- Per-service custom labels
     extraLabels: {}
-    # Per-service image configuration. Overrides the default setting from `image` if set.
+    # -- Per-service image configuration. Overrides the default setting from `image` if set.
     image:
       # @schema
       # type: [string, null]
@@ -3503,12 +3503,12 @@ services:
   # @default -- see detailed service configuration options below
   ocm:
     # @schema
-    # $ref: schema/templates.json#/resourcesTemplate
+    # -- $ref: schema/templates.json#/resourcesTemplate
     # @schema
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
     # @schema
-    # $ref: schema/templates.json#/labelsTemplate
+    # -- $ref: schema/templates.json#/labelsTemplate
     # @schema
     # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
     nodeSelector: {}
@@ -3519,16 +3519,16 @@ services:
     # -- Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
     priorityClassName:
     # @schema
-    # $ref: schema/templates.json#/affinityTemplate
+    # -- $ref: schema/templates.json#/affinityTemplate
     # @schema
     # -- Per-service affinity.
     affinity: {}
     # @schema
-    # $ref: schema/templates.json#/labelsTemplate
+    # -- $ref: schema/templates.json#/labelsTemplate
     # @schema
     # -- Per-service custom labels
     extraLabels: {}
-    # Per-service image configuration. Overrides the default setting from `image` if set.
+    # -- Per-service image configuration. Overrides the default setting from `image` if set.
     image:
       # @schema
       # type: [string, null]
@@ -3555,7 +3555,7 @@ services:
       # -- Image pull policy
       pullPolicy:
     # -- Persistence settings.
-    # @default -- see detailed persistence configuration options below
+    # -- @default -- see detailed persistence configuration options below
     persistence:
       # @schema
       # type: boolean
@@ -3634,12 +3634,12 @@ services:
   # @default -- see detailed service configuration options below
   ocs:
     # @schema
-    # $ref: schema/templates.json#/resourcesTemplate
+    # -- $ref: schema/templates.json#/resourcesTemplate
     # @schema
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
     # @schema
-    # $ref: schema/templates.json#/labelsTemplate
+    # -- $ref: schema/templates.json#/labelsTemplate
     # @schema
     # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
     nodeSelector: {}
@@ -3650,26 +3650,26 @@ services:
     # -- Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
     priorityClassName:
     # @schema
-    # $ref: schema/templates.json#/podDisruptionBudgetTemplate
+    # -- $ref: schema/templates.json#/podDisruptionBudgetTemplate
     # @schema
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
     podDisruptionBudget: {}
     # @schema
-    # $ref: schema/templates.json#/autoscalingTemplate
+    # -- $ref: schema/templates.json#/autoscalingTemplate
     # @schema
     # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
     autoscaling: {}
     # @schema
-    # $ref: schema/templates.json#/affinityTemplate
+    # -- $ref: schema/templates.json#/affinityTemplate
     # @schema
     # -- Per-service affinity.
     affinity: {}
     # @schema
-    # $ref: schema/templates.json#/labelsTemplate
+    # -- $ref: schema/templates.json#/labelsTemplate
     # @schema
     # -- Per-service custom labels
     extraLabels: {}
-    # Per-service image configuration. Overrides the default setting from `image` if set.
+    # -- Per-service image configuration. Overrides the default setting from `image` if set.
     image:
       # @schema
       # type: [string, null]
@@ -3700,12 +3700,12 @@ services:
   # @default -- see detailed service configuration options below
   policies:
     # @schema
-    # $ref: schema/templates.json#/resourcesTemplate
+    # -- $ref: schema/templates.json#/resourcesTemplate
     # @schema
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
     # @schema
-    # $ref: schema/templates.json#/labelsTemplate
+    # -- $ref: schema/templates.json#/labelsTemplate
     # @schema
     # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
     nodeSelector: {}
@@ -3716,26 +3716,26 @@ services:
     # -- Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
     priorityClassName:
     # @schema
-    # $ref: schema/templates.json#/podDisruptionBudgetTemplate
+    # -- $ref: schema/templates.json#/podDisruptionBudgetTemplate
     # @schema
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
     podDisruptionBudget: {}
     # @schema
-    # $ref: schema/templates.json#/autoscalingTemplate
+    # -- $ref: schema/templates.json#/autoscalingTemplate
     # @schema
     # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
     autoscaling: {}
     # @schema
-    # $ref: schema/templates.json#/affinityTemplate
+    # -- $ref: schema/templates.json#/affinityTemplate
     # @schema
     # -- Per-service affinity.
     affinity: {}
     # @schema
-    # $ref: schema/templates.json#/labelsTemplate
+    # -- $ref: schema/templates.json#/labelsTemplate
     # @schema
     # -- Per-service custom labels
     extraLabels: {}
-    # Per-service image configuration. Overrides the default setting from `image` if set.
+    # -- Per-service image configuration. Overrides the default setting from `image` if set.
     image:
       # @schema
       # type: [string, null]
@@ -3775,12 +3775,12 @@ services:
         # -- Number of event consumers to be started that concurrently consume events
         concurrency: 3
     # @schema
-    # $ref: schema/templates.json#/resourcesTemplate
+    # -- $ref: schema/templates.json#/resourcesTemplate
     # @schema
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
     # @schema
-    # $ref: schema/templates.json#/labelsTemplate
+    # -- $ref: schema/templates.json#/labelsTemplate
     # @schema
     # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
     nodeSelector: {}
@@ -3791,26 +3791,26 @@ services:
     # -- Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
     priorityClassName:
     # @schema
-    # $ref: schema/templates.json#/podDisruptionBudgetTemplate
+    # -- $ref: schema/templates.json#/podDisruptionBudgetTemplate
     # @schema
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
     podDisruptionBudget: {}
     # @schema
-    # $ref: schema/templates.json#/autoscalingTemplate
+    # -- $ref: schema/templates.json#/autoscalingTemplate
     # @schema
     # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
     autoscaling: {}
     # @schema
-    # $ref: schema/templates.json#/affinityTemplate
+    # -- $ref: schema/templates.json#/affinityTemplate
     # @schema
     # -- Per-service affinity.
     affinity: {}
     # @schema
-    # $ref: schema/templates.json#/labelsTemplate
+    # -- $ref: schema/templates.json#/labelsTemplate
     # @schema
     # -- Per-service custom labels
     extraLabels: {}
-    # Per-service image configuration. Overrides the default setting from `image` if set.
+    # -- Per-service image configuration. Overrides the default setting from `image` if set.
     image:
       # @schema
       # type: [string, null]
@@ -3841,11 +3841,11 @@ services:
   # @default -- see detailed service configuration options below
   proxy:
     # @schema
-    # additionalProperties: true
+    # -- additionalProperties: true
     # @schema
     # -- Specifies additional policies for the proxy service.
-    # Routes are appended to the default routes of specified policies.
-    # The policy name should always be 'ocis'.
+    # -- Routes are appended to the default routes of specified policies.
+    # -- The policy name should always be 'ocis'.
     additionalPolicies: []
     #  - name: ocis
     #    routes:
@@ -3854,12 +3854,12 @@ services:
     #        unprotected: true
     #
     # @schema
-    # $ref: schema/templates.json#/resourcesTemplate
+    # -- $ref: schema/templates.json#/resourcesTemplate
     # @schema
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
     # @schema
-    # $ref: schema/templates.json#/labelsTemplate
+    # -- $ref: schema/templates.json#/labelsTemplate
     # @schema
     # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
     nodeSelector: {}
@@ -3870,26 +3870,26 @@ services:
     # -- Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
     priorityClassName:
     # @schema
-    # $ref: schema/templates.json#/podDisruptionBudgetTemplate
+    # -- $ref: schema/templates.json#/podDisruptionBudgetTemplate
     # @schema
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
     podDisruptionBudget: {}
     # @schema
-    # $ref: schema/templates.json#/autoscalingTemplate
+    # -- $ref: schema/templates.json#/autoscalingTemplate
     # @schema
     # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
     autoscaling: {}
     # @schema
-    # $ref: schema/templates.json#/affinityTemplate
+    # -- $ref: schema/templates.json#/affinityTemplate
     # @schema
     # -- Per-service affinity.
     affinity: {}
     # @schema
-    # $ref: schema/templates.json#/labelsTemplate
+    # -- $ref: schema/templates.json#/labelsTemplate
     # @schema
     # -- Per-service custom labels
     extraLabels: {}
-    # Per-service image configuration. Overrides the default setting from `image` if set.
+    # -- Per-service image configuration. Overrides the default setting from `image` if set.
     image:
       # @schema
       # type: [string, null]
@@ -3920,7 +3920,7 @@ services:
   # @default -- see detailed service configuration options below
   search:
     # -- Search Extractor settings.
-    # @default -- see detailed search extractor configuration options below
+    # -- @default -- see detailed search extractor configuration options below
     extractor:
       # @schema
       # enum: [basic, tika]
@@ -3952,7 +3952,7 @@ services:
         # -- Defines if stop words should be cleaned or not.
         cleanStopWords: true
     # -- Persistence settings.
-    # @default -- see detailed persistence configuration options below
+    # -- @default -- see detailed persistence configuration options below
     persistence:
       # @schema
       # type: boolean
@@ -4026,12 +4026,12 @@ services:
       # -- Use an existing PersistentVolumeClaim for persistence.
       existingClaim:
     # @schema
-    # $ref: schema/templates.json#/resourcesTemplate
+    # -- $ref: schema/templates.json#/resourcesTemplate
     # @schema
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
     # @schema
-    # $ref: schema/templates.json#/labelsTemplate
+    # -- $ref: schema/templates.json#/labelsTemplate
     # @schema
     # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
     nodeSelector: {}
@@ -4042,21 +4042,21 @@ services:
     # -- Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
     priorityClassName:
     # @schema
-    # $ref: schema/templates.json#/podDisruptionBudgetTemplate
+    # -- $ref: schema/templates.json#/podDisruptionBudgetTemplate
     # @schema
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
     podDisruptionBudget: {}
     # @schema
-    # $ref: schema/templates.json#/affinityTemplate
+    # -- $ref: schema/templates.json#/affinityTemplate
     # @schema
     # -- Per-service affinity.
     affinity: {}
     # @schema
-    # $ref: schema/templates.json#/labelsTemplate
+    # -- $ref: schema/templates.json#/labelsTemplate
     # @schema
     # -- Per-service custom labels
     extraLabels: {}
-    # Per-service image configuration. Overrides the default setting from `image` if set.
+    # -- Per-service image configuration. Overrides the default setting from `image` if set.
     image:
       # @schema
       # type: [string, null]
@@ -4087,12 +4087,12 @@ services:
   # @default -- see detailed service configuration options below
   settings:
     # @schema
-    # $ref: schema/templates.json#/resourcesTemplate
+    # -- $ref: schema/templates.json#/resourcesTemplate
     # @schema
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
     # @schema
-    # $ref: schema/templates.json#/labelsTemplate
+    # -- $ref: schema/templates.json#/labelsTemplate
     # @schema
     # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
     nodeSelector: {}
@@ -4103,26 +4103,26 @@ services:
     # -- Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
     priorityClassName:
     # @schema
-    # $ref: schema/templates.json#/podDisruptionBudgetTemplate
+    # -- $ref: schema/templates.json#/podDisruptionBudgetTemplate
     # @schema
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
     podDisruptionBudget: {}
     # @schema
-    # $ref: schema/templates.json#/autoscalingTemplate
+    # -- $ref: schema/templates.json#/autoscalingTemplate
     # @schema
     # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
     autoscaling: {}
     # @schema
-    # $ref: schema/templates.json#/affinityTemplate
+    # -- $ref: schema/templates.json#/affinityTemplate
     # @schema
     # -- Per-service affinity.
     affinity: {}
     # @schema
-    # $ref: schema/templates.json#/labelsTemplate
+    # -- $ref: schema/templates.json#/labelsTemplate
     # @schema
     # -- Per-service custom labels
     extraLabels: {}
-    # Per-service image configuration. Overrides the default setting from `image` if set.
+    # -- Per-service image configuration. Overrides the default setting from `image` if set.
     image:
       # @schema
       # type: [string, null]
@@ -4153,12 +4153,12 @@ services:
   # @default -- see detailed service configuration options below
   sharing:
     # @schema
-    # $ref: schema/templates.json#/resourcesTemplate
+    # -- $ref: schema/templates.json#/resourcesTemplate
     # @schema
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
     # @schema
-    # $ref: schema/templates.json#/labelsTemplate
+    # -- $ref: schema/templates.json#/labelsTemplate
     # @schema
     # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
     nodeSelector: {}
@@ -4169,26 +4169,26 @@ services:
     # -- Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
     priorityClassName:
     # @schema
-    # $ref: schema/templates.json#/podDisruptionBudgetTemplate
+    # -- $ref: schema/templates.json#/podDisruptionBudgetTemplate
     # @schema
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
     podDisruptionBudget: {}
     # @schema
-    # $ref: schema/templates.json#/autoscalingTemplate
+    # -- $ref: schema/templates.json#/autoscalingTemplate
     # @schema
     # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
     autoscaling: {}
     # @schema
-    # $ref: schema/templates.json#/affinityTemplate
+    # -- $ref: schema/templates.json#/affinityTemplate
     # @schema
     # -- Per-service affinity.
     affinity: {}
     # @schema
-    # $ref: schema/templates.json#/labelsTemplate
+    # -- $ref: schema/templates.json#/labelsTemplate
     # @schema
     # -- Per-service custom labels
     extraLabels: {}
-    # Per-service image configuration. Overrides the default setting from `image` if set.
+    # -- Per-service image configuration. Overrides the default setting from `image` if set.
     image:
       # @schema
       # type: [string, null]
@@ -4220,7 +4220,7 @@ services:
     # required: true
     # @schema
     # -- Maximum number of concurrent go-routines. Higher values can potentially get work done faster but will also cause
-    # more load on the system. Values of 0 or below will be ignored and the default value will be used.
+    # -- more load on the system. Values of 0 or below will be ignored and the default value will be used.
     maxConcurrency: 20 # this differs from the oCIS product, see https://github.com/owncloud/ocis/issues/10647#issuecomment-2498338980
 
   # -- SSE service
@@ -4234,12 +4234,12 @@ services:
       # -- To prevent intermediate proxies from closing the SSE connection, send periodic SSE comments to keep it open.
       keepaliveInterval: 30s
     # @schema
-    # $ref: schema/templates.json#/resourcesTemplate
+    # -- $ref: schema/templates.json#/resourcesTemplate
     # @schema
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
     # @schema
-    # $ref: schema/templates.json#/labelsTemplate
+    # -- $ref: schema/templates.json#/labelsTemplate
     # @schema
     # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
     nodeSelector: {}
@@ -4250,26 +4250,26 @@ services:
     # -- Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
     priorityClassName:
     # @schema
-    # $ref: schema/templates.json#/podDisruptionBudgetTemplate
+    # -- $ref: schema/templates.json#/podDisruptionBudgetTemplate
     # @schema
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
     podDisruptionBudget: {}
     # @schema
-    # $ref: schema/templates.json#/autoscalingTemplate
+    # -- $ref: schema/templates.json#/autoscalingTemplate
     # @schema
     # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
     autoscaling: {}
     # @schema
-    # $ref: schema/templates.json#/affinityTemplate
+    # -- $ref: schema/templates.json#/affinityTemplate
     # @schema
     # -- Per-service affinity.
     affinity: {}
     # @schema
-    # $ref: schema/templates.json#/labelsTemplate
+    # -- $ref: schema/templates.json#/labelsTemplate
     # @schema
     # -- Per-service custom labels
     extraLabels: {}
-    # Per-service image configuration. Overrides the default setting from `image` if set.
+    # -- Per-service image configuration. Overrides the default setting from `image` if set.
     image:
       # @schema
       # type: [string, null]
@@ -4300,12 +4300,12 @@ services:
   # @default -- see detailed service configuration options below
   storagepubliclink:
     # @schema
-    # $ref: schema/templates.json#/resourcesTemplate
+    # -- $ref: schema/templates.json#/resourcesTemplate
     # @schema
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
     # @schema
-    # $ref: schema/templates.json#/labelsTemplate
+    # -- $ref: schema/templates.json#/labelsTemplate
     # @schema
     # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
     nodeSelector: {}
@@ -4316,26 +4316,26 @@ services:
     # -- Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
     priorityClassName:
     # @schema
-    # $ref: schema/templates.json#/podDisruptionBudgetTemplate
+    # -- $ref: schema/templates.json#/podDisruptionBudgetTemplate
     # @schema
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
     podDisruptionBudget: {}
     # @schema
-    # $ref: schema/templates.json#/autoscalingTemplate
+    # -- $ref: schema/templates.json#/autoscalingTemplate
     # @schema
     # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
     autoscaling: {}
     # @schema
-    # $ref: schema/templates.json#/affinityTemplate
+    # -- $ref: schema/templates.json#/affinityTemplate
     # @schema
     # -- Per-service affinity.
     affinity: {}
     # @schema
-    # $ref: schema/templates.json#/labelsTemplate
+    # -- $ref: schema/templates.json#/labelsTemplate
     # @schema
     # -- Per-service custom labels
     extraLabels: {}
-    # Per-service image configuration. Overrides the default setting from `image` if set.
+    # -- Per-service image configuration. Overrides the default setting from `image` if set.
     image:
       # @schema
       # type: [string, null]
@@ -4366,12 +4366,12 @@ services:
   # @default -- see detailed service configuration options below
   storageshares:
     # @schema
-    # $ref: schema/templates.json#/resourcesTemplate
+    # -- $ref: schema/templates.json#/resourcesTemplate
     # @schema
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
     # @schema
-    # $ref: schema/templates.json#/labelsTemplate
+    # -- $ref: schema/templates.json#/labelsTemplate
     # @schema
     # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
     nodeSelector: {}
@@ -4382,26 +4382,26 @@ services:
     # -- Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
     priorityClassName:
     # @schema
-    # $ref: schema/templates.json#/podDisruptionBudgetTemplate
+    # -- $ref: schema/templates.json#/podDisruptionBudgetTemplate
     # @schema
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
     podDisruptionBudget: {}
     # @schema
-    # $ref: schema/templates.json#/autoscalingTemplate
+    # -- $ref: schema/templates.json#/autoscalingTemplate
     # @schema
     # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
     autoscaling: {}
     # @schema
-    # $ref: schema/templates.json#/affinityTemplate
+    # -- $ref: schema/templates.json#/affinityTemplate
     # @schema
     # -- Per-service affinity.
     affinity: {}
     # @schema
-    # $ref: schema/templates.json#/labelsTemplate
+    # -- $ref: schema/templates.json#/labelsTemplate
     # @schema
     # -- Per-service custom labels
     extraLabels: {}
-    # Per-service image configuration. Overrides the default setting from `image` if set.
+    # -- Per-service image configuration. Overrides the default setting from `image` if set.
     image:
       # @schema
       # type: [string, null]
@@ -4432,7 +4432,7 @@ services:
   # @default -- see detailed service configuration options below
   storagesystem:
     # -- Persistence settings.
-    # @default -- see detailed persistence configuration options below
+    # -- @default -- see detailed persistence configuration options below
     persistence:
       # @schema
       # type: boolean
@@ -4507,12 +4507,12 @@ services:
       # -- Use an existing PersistentVolumeClaim for persistence.
       existingClaim:
     # @schema
-    # $ref: schema/templates.json#/resourcesTemplate
+    # -- $ref: schema/templates.json#/resourcesTemplate
     # @schema
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
     # @schema
-    # $ref: schema/templates.json#/labelsTemplate
+    # -- $ref: schema/templates.json#/labelsTemplate
     # @schema
     # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
     nodeSelector: {}
@@ -4523,26 +4523,26 @@ services:
     # -- Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
     priorityClassName:
     # @schema
-    # $ref: schema/templates.json#/podDisruptionBudgetTemplate
+    # -- $ref: schema/templates.json#/podDisruptionBudgetTemplate
     # @schema
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
     podDisruptionBudget: {}
     # @schema
-    # $ref: schema/templates.json#/autoscalingTemplate
+    # -- $ref: schema/templates.json#/autoscalingTemplate
     # @schema
     # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
     autoscaling: {}
     # @schema
-    # $ref: schema/templates.json#/affinityTemplate
+    # -- $ref: schema/templates.json#/affinityTemplate
     # @schema
     # -- Per-service affinity.
     affinity: {}
     # @schema
-    # $ref: schema/templates.json#/labelsTemplate
+    # -- $ref: schema/templates.json#/labelsTemplate
     # @schema
     # -- Per-service custom labels
     extraLabels: {}
-    # Per-service image configuration. Overrides the default setting from `image` if set.
+    # -- Per-service image configuration. Overrides the default setting from `image` if set.
     image:
       # @schema
       # type: [string, null]
@@ -4827,7 +4827,7 @@ services:
         pullPolicy:
 
     # -- Persistence settings.
-    # @default -- see detailed persistence configuration options below
+    # -- @default -- see detailed persistence configuration options below
     persistence:
       # @schema
       # type: boolean
@@ -4902,12 +4902,12 @@ services:
       # -- Use an existing PersistentVolumeClaim for persistence.
       existingClaim:
     # @schema
-    # $ref: schema/templates.json#/resourcesTemplate
+    # -- $ref: schema/templates.json#/resourcesTemplate
     # @schema
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
     # @schema
-    # $ref: schema/templates.json#/labelsTemplate
+    # -- $ref: schema/templates.json#/labelsTemplate
     # @schema
     # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
     nodeSelector: {}
@@ -4924,36 +4924,36 @@ services:
     # -- Per-service jobPriorityClassName configuration. Overrides the default setting from `jobPriorityClassName` if set.
     jobPriorityClassName:
     # @schema
-    # $ref: schema/templates.json#/resourcesTemplate
+    # -- $ref: schema/templates.json#/resourcesTemplate
     # @schema
     # -- Per-service jobResources configuration. Overrides the default setting from `jobResources` if set.
     jobResources: {}
     # @schema
-    # $ref: schema/templates.json#/labelsTemplate
+    # -- $ref: schema/templates.json#/labelsTemplate
     # @schema
     # -- Per-service jobNodeSelector configuration. Overrides the default setting from `jobNodeSelector` if set.
     jobNodeSelector: {}
     # @schema
-    # $ref: schema/templates.json#/podDisruptionBudgetTemplate
+    # -- $ref: schema/templates.json#/podDisruptionBudgetTemplate
     # @schema
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
     podDisruptionBudget: {}
     # @schema
-    # $ref: schema/templates.json#/autoscalingTemplate
+    # -- $ref: schema/templates.json#/autoscalingTemplate
     # @schema
     # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
     autoscaling: {}
     # @schema
-    # $ref: schema/templates.json#/affinityTemplate
+    # -- $ref: schema/templates.json#/affinityTemplate
     # @schema
     # -- Per-service affinity.
     affinity: {}
     # @schema
-    # $ref: schema/templates.json#/labelsTemplate
+    # -- $ref: schema/templates.json#/labelsTemplate
     # @schema
     # -- Per-service custom labels
     extraLabels: {}
-    # Per-service image configuration. Overrides the default setting from `image` if set.
+    # -- Per-service image configuration. Overrides the default setting from `image` if set.
     image:
       # @schema
       # type: [string, null]
@@ -5012,7 +5012,7 @@ services:
       # -- Sets a maximium height of an imput image which is being processed.
       maxInputHeight: 7680
     # -- Persistence settings.
-    # @default -- see detailed persistence configuration options below
+    # -- @default -- see detailed persistence configuration options below
     persistence:
       # @schema
       # type: boolean
@@ -5086,12 +5086,12 @@ services:
       # -- Use an existing PersistentVolumeClaim for persistence.
       existingClaim:
     # @schema
-    # $ref: schema/templates.json#/resourcesTemplate
+    # -- $ref: schema/templates.json#/resourcesTemplate
     # @schema
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
     # @schema
-    # $ref: schema/templates.json#/labelsTemplate
+    # -- $ref: schema/templates.json#/labelsTemplate
     # @schema
     # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
     nodeSelector: {}
@@ -5102,12 +5102,12 @@ services:
     # -- Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
     priorityClassName:
     # @schema
-    # $ref: schema/templates.json#/resourcesTemplate
+    # -- $ref: schema/templates.json#/resourcesTemplate
     # @schema
     # -- Per-service jobResources configuration. Overrides the default setting from `jobResources` if set.
     jobResources: {}
     # @schema
-    # $ref: schema/templates.json#/labelsTemplate
+    # -- $ref: schema/templates.json#/labelsTemplate
     # @schema
     # -- Per-service jobNodeSelector configuration. Overrides the default setting from `jobNodeSelector` if set.
     jobNodeSelector: {}
@@ -5118,11 +5118,11 @@ services:
     # -- Per-service jobPriorityClassName configuration. Overrides the default setting from `jobPriorityClassName` if set.
     jobPriorityClassName:
     # @schema
-    # $ref: schema/templates.json#/podDisruptionBudgetTemplate
+    # -- $ref: schema/templates.json#/podDisruptionBudgetTemplate
     # @schema
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
     podDisruptionBudget: {}
-    # Maintenance configuration for cleanup jobs.
+    # -- Maintenance configuration for cleanup jobs.
     maintenance:
       cleanUpOldThumbnails:
         # @schema
@@ -5190,21 +5190,21 @@ services:
         # -- Image pull policy
         pullPolicy: IfNotPresent
     # @schema
-    # $ref: schema/templates.json#/autoscalingTemplate
+    # -- $ref: schema/templates.json#/autoscalingTemplate
     # @schema
     # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
     autoscaling: {}
     # @schema
-    # $ref: schema/templates.json#/affinityTemplate
+    # -- $ref: schema/templates.json#/affinityTemplate
     # @schema
     # -- Per-service affinity.
     affinity: {}
     # @schema
-    # $ref: schema/templates.json#/labelsTemplate
+    # -- $ref: schema/templates.json#/labelsTemplate
     # @schema
     # -- Per-service custom labels
     extraLabels: {}
-    # Per-service image configuration. Overrides the default setting from `image` if set.
+    # -- Per-service image configuration. Overrides the default setting from `image` if set.
     image:
       # @schema
       # type: [string, null]
@@ -5235,12 +5235,12 @@ services:
   # @default -- see detailed service configuration options below
   userlog:
     # @schema
-    # $ref: schema/templates.json#/resourcesTemplate
+    # -- $ref: schema/templates.json#/resourcesTemplate
     # @schema
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
     # @schema
-    # $ref: schema/templates.json#/labelsTemplate
+    # -- $ref: schema/templates.json#/labelsTemplate
     # @schema
     # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
     nodeSelector: {}
@@ -5251,26 +5251,26 @@ services:
     # -- Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
     priorityClassName:
     # @schema
-    # $ref: schema/templates.json#/podDisruptionBudgetTemplate
+    # -- $ref: schema/templates.json#/podDisruptionBudgetTemplate
     # @schema
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
     podDisruptionBudget: {}
     # @schema
-    # $ref: schema/templates.json#/autoscalingTemplate
+    # -- $ref: schema/templates.json#/autoscalingTemplate
     # @schema
     # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
     autoscaling: {}
     # @schema
-    # $ref: schema/templates.json#/affinityTemplate
+    # -- $ref: schema/templates.json#/affinityTemplate
     # @schema
     # -- Per-service affinity.
     affinity: {}
     # @schema
-    # $ref: schema/templates.json#/labelsTemplate
+    # -- $ref: schema/templates.json#/labelsTemplate
     # @schema
     # -- Per-service custom labels
     extraLabels: {}
-    # Per-service image configuration. Overrides the default setting from `image` if set.
+    # -- Per-service image configuration. Overrides the default setting from `image` if set.
     image:
       # @schema
       # type: [string, null]
@@ -5302,19 +5302,19 @@ services:
     # required: true
     # @schema
     # -- Maximum number of concurrent go-routines. Higher values can potentially get work done faster but will also cause
-    # more load on the system. Values of 0 or below will be ignored and the default value will be used.
+    # -- more load on the system. Values of 0 or below will be ignored and the default value will be used.
     maxConcurrency: 1
 
   # -- USERS service.
   # @default -- see detailed service configuration options below
   users:
     # @schema
-    # $ref: schema/templates.json#/resourcesTemplate
+    # -- $ref: schema/templates.json#/resourcesTemplate
     # @schema
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
     # @schema
-    # $ref: schema/templates.json#/labelsTemplate
+    # -- $ref: schema/templates.json#/labelsTemplate
     # @schema
     # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
     nodeSelector: {}
@@ -5325,26 +5325,26 @@ services:
     # -- Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
     priorityClassName:
     # @schema
-    # $ref: schema/templates.json#/podDisruptionBudgetTemplate
+    # -- $ref: schema/templates.json#/podDisruptionBudgetTemplate
     # @schema
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
     podDisruptionBudget: {}
     # @schema
-    # $ref: schema/templates.json#/autoscalingTemplate
+    # -- $ref: schema/templates.json#/autoscalingTemplate
     # @schema
     # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
     autoscaling: {}
     # @schema
-    # $ref: schema/templates.json#/affinityTemplate
+    # -- $ref: schema/templates.json#/affinityTemplate
     # @schema
     # -- Per-service affinity.
     affinity: {}
     # @schema
-    # $ref: schema/templates.json#/labelsTemplate
+    # -- $ref: schema/templates.json#/labelsTemplate
     # @schema
     # -- Per-service custom labels
     extraLabels: {}
-    # Per-service image configuration. Overrides the default setting from `image` if set.
+    # -- Per-service image configuration. Overrides the default setting from `image` if set.
     image:
       # @schema
       # type: [string, null]
@@ -5374,7 +5374,7 @@ services:
   # -- ownCloud WEB service.
   # @default -- see detailed service configuration options below
   web:
-    # Configuration for web, that ends up in the config.json file.
+    # -- Configuration for web, that ends up in the config.json file.
     config:
       tokenStorageLocal:
         # @schema
@@ -5566,7 +5566,7 @@ services:
         shareListRequests:
 
     # -- Persistence settings.
-    # @default -- see detailed persistence configuration options below
+    # -- @default -- see detailed persistence configuration options below
     persistence:
       # @schema
       # type: boolean
@@ -5638,12 +5638,12 @@ services:
       # -- Use an existing PersistentVolumeClaim for persistence.
       existingClaim:
     # @schema
-    # $ref: schema/templates.json#/resourcesTemplate
+    # -- $ref: schema/templates.json#/resourcesTemplate
     # @schema
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
     # @schema
-    # $ref: schema/templates.json#/labelsTemplate
+    # -- $ref: schema/templates.json#/labelsTemplate
     # @schema
     # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
     nodeSelector: {}
@@ -5654,26 +5654,26 @@ services:
     # -- Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
     priorityClassName:
     # @schema
-    # $ref: schema/templates.json#/podDisruptionBudgetTemplate
+    # -- $ref: schema/templates.json#/podDisruptionBudgetTemplate
     # @schema
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
     podDisruptionBudget: {}
     # @schema
-    # $ref: schema/templates.json#/autoscalingTemplate
+    # -- $ref: schema/templates.json#/autoscalingTemplate
     # @schema
     # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
     autoscaling: {}
     # @schema
-    # $ref: schema/templates.json#/affinityTemplate
+    # -- $ref: schema/templates.json#/affinityTemplate
     # @schema
     # -- Per-service affinity.
     affinity: {}
     # @schema
-    # $ref: schema/templates.json#/labelsTemplate
+    # -- $ref: schema/templates.json#/labelsTemplate
     # @schema
     # -- Per-service custom labels
     extraLabels: {}
-    # Per-service image configuration. Overrides the default setting from `image` if set.
+    # -- Per-service image configuration. Overrides the default setting from `image` if set.
     image:
       # @schema
       # type: [string, null]
@@ -5700,7 +5700,7 @@ services:
       # -- Image pull policy
       pullPolicy:
     # @schema
-    # additionalProperties: true
+    # -- additionalProperties: true
     # @schema
     # -- Additional init containers for the Web pods.
     additionalInitContainers: []
@@ -5709,12 +5709,12 @@ services:
   # @default -- see detailed service configuration options below
   webdav:
     # @schema
-    # $ref: schema/templates.json#/resourcesTemplate
+    # -- $ref: schema/templates.json#/resourcesTemplate
     # @schema
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
     # @schema
-    # $ref: schema/templates.json#/labelsTemplate
+    # -- $ref: schema/templates.json#/labelsTemplate
     # @schema
     # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
     nodeSelector: {}
@@ -5725,26 +5725,26 @@ services:
     # -- Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
     priorityClassName:
     # @schema
-    # $ref: schema/templates.json#/podDisruptionBudgetTemplate
+    # -- $ref: schema/templates.json#/podDisruptionBudgetTemplate
     # @schema
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
     podDisruptionBudget: {}
     # @schema
-    # $ref: schema/templates.json#/autoscalingTemplate
+    # -- $ref: schema/templates.json#/autoscalingTemplate
     # @schema
     # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
     autoscaling: {}
     # @schema
-    # $ref: schema/templates.json#/affinityTemplate
+    # -- $ref: schema/templates.json#/affinityTemplate
     # @schema
     # -- Per-service affinity.
     affinity: {}
     # @schema
-    # $ref: schema/templates.json#/labelsTemplate
+    # -- $ref: schema/templates.json#/labelsTemplate
     # @schema
     # -- Per-service custom labels
     extraLabels: {}
-    # Per-service image configuration. Overrides the default setting from `image` if set.
+    # -- Per-service image configuration. Overrides the default setting from `image` if set.
     image:
       # @schema
       # type: [string, null]
@@ -5775,12 +5775,12 @@ services:
   # @default -- see detailed service configuration options below
   webfinger:
     # @schema
-    # $ref: schema/templates.json#/resourcesTemplate
+    # -- $ref: schema/templates.json#/resourcesTemplate
     # @schema
     # -- Per-service resources configuration. Overrides the default setting from `resources` if set.
     resources: {}
     # @schema
-    # $ref: schema/templates.json#/labelsTemplate
+    # -- $ref: schema/templates.json#/labelsTemplate
     # @schema
     # -- Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
     nodeSelector: {}
@@ -5791,26 +5791,26 @@ services:
     # -- Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
     priorityClassName:
     # @schema
-    # $ref: schema/templates.json#/podDisruptionBudgetTemplate
+    # -- $ref: schema/templates.json#/podDisruptionBudgetTemplate
     # @schema
     # -- Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
     podDisruptionBudget: {}
     # @schema
-    # $ref: schema/templates.json#/autoscalingTemplate
+    # -- $ref: schema/templates.json#/autoscalingTemplate
     # @schema
     # -- Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
     autoscaling: {}
     # @schema
-    # $ref: schema/templates.json#/affinityTemplate
+    # -- $ref: schema/templates.json#/affinityTemplate
     # @schema
     # -- Per-service affinity.
     affinity: {}
     # @schema
-    # $ref: schema/templates.json#/labelsTemplate
+    # -- $ref: schema/templates.json#/labelsTemplate
     # @schema
     # -- Per-service custom labels
     extraLabels: {}
-    # Per-service image configuration. Overrides the default setting from `image` if set.
+    # -- Per-service image configuration. Overrides the default setting from `image` if set.
     image:
       # @schema
       # type: [string, null]
