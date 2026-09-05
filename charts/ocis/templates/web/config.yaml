@@ -15,6 +15,8 @@ data:
   web.yaml: |
     ---
     web:
+      {{- $hasConfig := or .Values.services.web.config.styles .Values.services.web.config.scripts .Values.services.web.config.customTranslations .Values.services.web.config.apps }}
+      {{- if $hasConfig }}
       config:
         {{- with .Values.services.web.config.styles }}
         styles:
@@ -32,3 +34,4 @@ data:
         apps:
           {{- toYaml . | nindent 10 }}
         {{- end }}
+      {{- end }}
