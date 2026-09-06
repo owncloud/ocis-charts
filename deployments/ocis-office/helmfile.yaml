@@ -164,6 +164,8 @@ releases:
             enabled: true
             wopiIntegration:
               officeSuites:
+                # Enable exactly one office suite at a time. To use OnlyOffice,
+                # disable DemoCollabora and enable DemoOnlyOffice below.
                 - name: DemoCollabora
                   product: Collabora
                   enabled: true
@@ -184,7 +186,7 @@ releases:
                           - wopi-collabora.kube.owncloud.test
                 - name: DemoOnlyOffice
                   product: OnlyOffice
-                  enabled: true
+                  enabled: false
                   uri: "https://onlyoffice.kube.owncloud.test"
                   insecure: true
                   disableProof: false
