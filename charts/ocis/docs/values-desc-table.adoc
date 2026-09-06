@@ -755,7 +755,7 @@ a| [subs=-attributes]
 +list+
 a| [subs=-attributes]
 `[]`
-| Define a list of unified roles to make them available. The default of an empty list means all unified roles are available. You can read about unified roles in https://doc.owncloud.com/ocis/next/deployment/services/s-list/graph.html. The IDs of the roles and a description can be found by running: kubectl -n ocis exec deployments/graph -- ocis graph list-unified-roles
+| Define a list of unified roles to make them available. The default empty list uses the unified roles enabled by default in oCIS; optional roles such as SecureViewer remain disabled. A non-empty list replaces that default set, so it must include every role that should remain available. You can read about unified roles in https://doc.owncloud.com/ocis/next/deployment/services/s-list/graph.html. The IDs of the roles and a description can be found by running: kubectl -n ocis exec deployments/graph -- ocis graph list-unified-roles
 | features.roles.customRoles
 a| [subs=-attributes]
 +string+
