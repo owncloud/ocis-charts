@@ -4,6 +4,7 @@ metadata:
   name: ocis-keycloak
 spec:
   instances: 3
+  version: 26.2.5
   db:
     vendor: postgres
     host: postgres-pooler
@@ -34,3 +35,8 @@ spec:
                 # Sum of JGroups threads should not exceed 200 (default) for all pods https://www.keycloak.org/high-availability/concepts-threads#_jgroups_connection_pool
               - name: QUARKUS_THREAD_POOL_MAX_THREADS
                 value: "66"
+              # OpenTelemetry configuration
+              - name: QUARKUS_OTEL_EXPORTER_OTLP_ENDPOINT
+                value: "http://otel-collector.observability.svc.cluster.local:4317"
+              - name: QUARKUS_OTEL_ENABLED
+                value: "true"

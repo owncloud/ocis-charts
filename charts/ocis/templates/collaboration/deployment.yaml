@@ -91,6 +91,11 @@ spec:
             - name: COLLABORATION_WOPI_DISABLE_CHAT
               value: {{ default false $officeSuite.disableChat | quote }}
 
+            {{- if $officeSuite.disabledExtensions }}
+            - name: COLLABORATION_WOPI_DISABLED_EXTENSIONS
+              value: {{ join "," $officeSuite.disabledExtensions | quote }}
+            {{- end }}
+
             - name: COLLABORATION_JWT_SECRET
               valueFrom:
                 secretKeyRef:

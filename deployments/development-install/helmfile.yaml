@@ -9,6 +9,17 @@ releases:
           ingressClassName: nginx
           annotations:
             nginx.ingress.kubernetes.io/proxy-body-size: 1024m
+            # Long timeouts for WebDAV requests (non-TUS uploads/downloads)
+            nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
+            nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
+            nginx.ingress.kubernetes.io/proxy-connect-timeout: "30"
+            # Allow encoded characters in collaboration/WOPI URLs (slash, question-mark, percent)
+            nginx.ingress.kubernetes.io/configuration-snippet: |
+              proxy_pass_request_headers on;
+              proxy_set_header X-Forwarded-Proto $scheme;
+              # Preserve encoded characters in URLs
+              proxy_redirect off;
+              proxy_buffering off;
           tls:
             - secretName: ocis-dev-tls
               hosts:
@@ -28,22 +39,32 @@ releases:
           idm:
             persistence:
               enabled: true
+              accessModes:
+                - ReadWriteOnce
 
           nats:
             persistence:
               enabled: true
+              accessModes:
+                - ReadWriteOnce
 
           search:
             persistence:
               enabled: true
+              accessModes:
+                - ReadWriteOnce
 
           storagesystem:
             persistence:
               enabled: true
+              accessModes:
+                - ReadWriteOnce
 
           storageusers:
             persistence:
               enabled: true
+              accessModes:
+                - ReadWriteOnce
             maintenance:
               cleanUpExpiredUploads:
                 enabled: true
@@ -61,6 +82,8 @@ releases:
           thumbnails:
             persistence:
               enabled: true
+              accessModes:
+                - ReadWriteOnce
             maintenance:
               cleanUpOldThumbnails:
                 enabled: true
@@ -69,3 +92,5 @@ releases:
           web:
             persistence:
               enabled: true
+              accessModes:
+                - ReadWriteOnce
