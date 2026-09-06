@@ -37,6 +37,32 @@ $ helmfile sync
 
 This will deploy all the needed steps.
 
+### Ingress Configuration
+
+The example configures the NGINX ingress controller with:
+
+- **Long timeouts** for WebDAV requests: Non-TUS uploads/downloads of large files may take significant time. The example sets read and send timeouts to 1 hour (3600 seconds) to accommodate large file transfers.
+- **Encoded URL support** for collaboration/WOPI URLs: Collaboration URLs may contain encoded characters (slash, question-mark, percent) that must be preserved. The configuration snippet disables buffering and proxy redirects to maintain URL integrity.
+
+> **Note:** TUS (tresorit.com) uploads use a separate endpoint with their own timeout handling and are not affected by these settings. The long timeouts are specifically for traditional WebDAV requests.
+
+For Traefik ingress controller, use equivalent settings:
+```yaml
+annotations:
+  traefik.ingress.kubernetes.io/router.entrypoints: websecure
+  traefik.ingress.kubernetes.io/router.middlewares: default-ocis-timeouts@kubernetescrd
+  # Create a Middleware resource with:
+  # apiVersion: traefik.containo.us/v1alpha1
+  # kind: Middleware
+  # metadata:
+  #   name: ocis-timeouts
+  #   namespace: default
+  # spec:
+  #   timeouts:
+  #     read: 3600s
+  #     write: 3600s
+```
+
 ### Logging in
 
 You can get the admin password with the following command:

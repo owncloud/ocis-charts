@@ -744,6 +744,12 @@ features:
       #     disableChat:
       #       type: boolean
       #       required: true
+      #     disabledExtensions:
+      #       type: array
+      #       items:
+      #         type: string
+      #       required: false
+      #       description: List of file extensions to disable for this office suite
       #     ingress:
       #       type: object
       #       additionalProperties: false
@@ -811,6 +817,9 @@ features:
       #   secureViewEnabled: false
       #   # Disables the chat in the office suite. Note: This currently only applies to OnlyOffice
       #   disableChat: false
+      #   # List of file extensions to disable for this office suite.
+      #   # Extensions are comma-separated and will be passed to the collaboration service.
+      #   disabledExtensions: []
       #   # Ingress for collaboration service.
       #   ingress:
       #     # Enables the Ingress. Only needed if the office application is not running within the same cluster.
@@ -5476,7 +5485,7 @@ services:
         # required: true
         # @schema
         # -- OIDC scopes to request during authentication to authorize access to user details. Defaults to ‘openid profile email’. Values are separated by blank. More example values but not limited to are ‘address’ or ‘phone’ etc.
-        webClientScope: openid profile email
+        webClientScope: openid profile email acr
         # @schema
         # type: string
         # required: true

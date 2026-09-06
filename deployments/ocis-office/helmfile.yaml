@@ -150,6 +150,17 @@ releases:
           ingressClassName: nginx
           annotations:
             nginx.ingress.kubernetes.io/proxy-body-size: 1024m
+            # Long timeouts for WebDAV requests (non-TUS uploads/downloads)
+            nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
+            nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
+            nginx.ingress.kubernetes.io/proxy-connect-timeout: "30"
+            # Allow encoded characters in collaboration/WOPI URLs (slash, question-mark, percent)
+            nginx.ingress.kubernetes.io/configuration-snippet: |
+              proxy_pass_request_headers on;
+              proxy_set_header X-Forwarded-Proto $scheme;
+              # Preserve encoded characters in URLs
+              proxy_redirect off;
+              proxy_buffering off;
           tls:
             - secretName: ocis-dev-tls
               hosts:
@@ -171,6 +182,8 @@ releases:
                   insecure: true
                   disableProof: false
                   iconURI: https://collabora.kube.owncloud.test/favicon.ico
+                  # List of file extensions to disable for this suite
+                  disabledExtensions: []
                   ingress:
                     # Collabora connects to the collaboration service via Ingress in this case
                     enabled: true
@@ -189,6 +202,8 @@ releases:
                   insecure: true
                   disableProof: false
                   iconURI: https://onlyoffice.kube.owncloud.test/web-apps/apps/documenteditor/main/resources/img/favicon.ico
+                  # List of file extensions to disable for this suite
+                  disabledExtensions: []
                   ingress:
                     # OnlyOffice connects to the collaboration service via the cluster internal Service in this case
                     # We need to configure the internal hostname in the OnlyOffice ipfilter, see also:
