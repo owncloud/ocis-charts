@@ -9,3 +9,28 @@
 Installs [ownCloud Infinite Scale](https://doc.owncloud.com/ocis/next/).
 
 The documentation for this Helm Chart can be found on [doc.owncloud.com](https://doc.owncloud.com/ocis/next/deployment/container/orchestration/orchestration.html).
+
+## Durable state
+
+The base values keep persistence disabled because Kubernetes storage classes and supported access modes differ between clusters. Without persistent volumes, terminating or rescheduling an oCIS pod can discard identities, user data, indexes, event state, and service metadata.
+
+Use the supplemental `values-durable.yaml` profile for every installation that must retain its state. The profile enables persistence for IDM, NATS, OCM, search, storage-system, storage-users, thumbnails, and Web. OCM, IDM, and NATS resources are still subject to their respective feature or external-service gates.
+
+From a repository checkout:
+
+```shell
+helm upgrade --install ocis ./charts/ocis \
+  --values ./charts/ocis/values-durable.yaml \
+  --set externalDomain=ocis.example.com
+```
+
+For a published chart, pull and unpack the chart first so the profile and chart versions stay matched:
+
+```shell
+helm pull owncloud/ocis --untar
+helm upgrade --install ocis ./ocis \
+  --values ./ocis/values-durable.yaml \
+  --set externalDomain=ocis.example.com
+```
+
+The profile uses the default storage class unless a service sets `storageClassName` or `existingClaim`. The storage provider must support the configured access mode for every enabled service. In particular, storage-system, storage-users, thumbnails, and Web default to `ReadWriteMany`; configure compatible storage or override their persistence settings for a single-replica installation.
