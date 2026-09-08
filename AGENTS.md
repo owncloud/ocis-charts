@@ -1,4 +1,4 @@
-# agents.md -- ownCloud Infinite Scale Helm Charts
+# AGENTS.md -- ownCloud Infinite Scale Helm Charts
 
 ## Repository Overview
 
