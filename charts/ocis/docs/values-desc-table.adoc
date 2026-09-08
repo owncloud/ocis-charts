@@ -384,6 +384,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `"ownCloudUserEnabled"`
 | Attribute to use for disabling users.
+| features.externalUserManagement.ldap.group.additionalObjectClasses
+a| [subs=-attributes]
++list+
+a| [subs=-attributes]
+`[]`
+| Additional LDAP object classes to set when creating new groups, for example `posixGroup`. Requires oCIS 8.1.0 or newer. The configured primary `objectClass` and `top` are always included, so they do not need to be repeated here. This setting affects LDAP group entries created by Graph; it does not change group search filtering. When selecting the graph image by SHA, ensure that the digest contains oCIS 8.1.0 or newer because the chart cannot infer its version.
 | features.externalUserManagement.ldap.group.baseDN
 a| [subs=-attributes]
 +string+

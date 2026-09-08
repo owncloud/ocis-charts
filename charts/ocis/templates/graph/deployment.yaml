@@ -1,3 +1,14 @@
+{{- $groupAdditionalObjectClasses := .Values.features.externalUserManagement.ldap.group.additionalObjectClasses -}}
+{{- $graphImageTag := default (default .Chart.AppVersion .Values.image.tag) .Values.services.graph.image.tag -}}
+{{- $graphImageSHA := default .Values.image.sha .Values.services.graph.image.sha -}}
+{{- if and .Values.features.externalUserManagement.enabled $groupAdditionalObjectClasses (empty $graphImageSHA) -}}
+{{- if not (regexMatch `^v?[0-9]+\.[0-9]+\.[0-9]+([-+].*)?$` $graphImageTag) -}}
+{{- fail (printf "features.externalUserManagement.ldap.group.additionalObjectClasses requires a semver-compatible oCIS 8.1.0 or newer graph image tag or an explicit image SHA; effective graph image tag %q cannot be verified" $graphImageTag) -}}
+{{- end -}}
+{{- if not (semverCompare ">=8.1.0-0" $graphImageTag) -}}
+{{- fail (printf "features.externalUserManagement.ldap.group.additionalObjectClasses requires oCIS 8.1.0 or newer; effective graph image tag %q is too old" $graphImageTag) -}}
+{{- end -}}
+{{- end -}}
 {{- include "ocis.basicServiceTemplates" (dict "scope" . "appName" "appNameGraph" "appNameSuffix" "") -}}
 apiVersion: apps/v1
 kind: Deployment
@@ -129,6 +140,10 @@ spec:
               value: {{ .Values.features.externalUserManagement.ldap.user.objectClass | quote }}
             - name: GRAPH_LDAP_GROUP_OBJECTCLASS
               value: {{ .Values.features.externalUserManagement.ldap.group.objectClass | quote }}
+            {{- if $groupAdditionalObjectClasses }}
+            - name: GRAPH_LDAP_GROUP_ADDITIONAL_OBJECTCLASSES
+              value: {{ join "," $groupAdditionalObjectClasses | quote }}
+            {{- end }}
 
             - name: GRAPH_LDAP_USER_UID_ATTRIBUTE
               value: {{ .Values.features.externalUserManagement.ldap.user.schema.id | quote }}
