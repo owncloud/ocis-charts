@@ -284,6 +284,17 @@ oCIS persistence dataVolume
 {{- end -}}
 
 {{/*
+oCIS persistence dataVolumeMount
+*/}}
+{{- define "ocis.persistence.dataVolumeMount" -}}
+- name: {{ include "ocis.persistence.dataVolumeName" . }}
+  mountPath: /var/lib/ocis
+  {{- with (index .Values.services .appName).persistence.subPath }}
+  subPath: {{ . }}
+  {{- end }}
+{{- end -}}
+
+{{/*
 oCIS secret wrapper
 
 @param .name          The name of the secret.
