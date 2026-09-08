@@ -684,6 +684,48 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `nil`
 | Realm that the users are in.
+| features.invitations.enabled
+a| [subs=-attributes]
++bool+
+a| [subs=-attributes]
+`false`
+| Enables the invitations service. A Keycloak client with service-account permissions to manage users and send execute-actions emails must be provisioned separately. Use this service with external user management configured for the same Keycloak-backed user realm. The Keycloak realm must provide the `OWNCLOUD_ID` and `OWNCLOUD_USER_TYPE` mappers and working SMTP settings.
+| features.invitations.keycloak
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{"basePath":null,"clientID":null,"clientRealm":null,"insecure":false,"userRealm":null}`
+| Keycloak backend configuration.
+| features.invitations.keycloak.basePath
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`nil`
+| URL used to access Keycloak. Required when `features.invitations.enabled` equals `true`.
+| features.invitations.keycloak.clientID
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`nil`
+| Client ID used to authenticate to Keycloak. Required when `features.invitations.enabled` equals `true`.
+| features.invitations.keycloak.clientRealm
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`nil`
+| Realm in which the Keycloak client is defined. Required when `features.invitations.enabled` equals `true`.
+| features.invitations.keycloak.insecure
+a| [subs=-attributes]
++bool+
+a| [subs=-attributes]
+`false`
+| Disables Keycloak TLS certificate verification. Do not enable in production.
+| features.invitations.keycloak.userRealm
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`nil`
+| Realm in which invited users are created. Required when `features.invitations.enabled` equals `true`.
 | features.language.default
 a| [subs=-attributes]
 +string+
@@ -1230,6 +1272,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `nil`
 | Reference to an existing IDP secret (see xref:{secrets}[Secrets]). Not used if `features.externalUserManagement.enabled` equals `true`.
+| secretRefs.invitationsKeycloakClientSecretRef
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`nil`
+| Reference to an existing Secret containing the Keycloak client secret under the `oidc-secret` key. Required when `features.invitations.enabled` equals `true`.
 | secretRefs.jwtSecretRef
 a| [subs=-attributes]
 +string+
@@ -2599,6 +2647,78 @@ a| [subs=-attributes]
 `{}`
 | Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
 | services.idp.resources
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service resources configuration. Overrides the default setting from `resources` if set.
+| services.invitations
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+see detailed service configuration options below
+| INVITATIONS service. Only used if `features.invitations.enabled` equals `true`.
+| services.invitations.affinity
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service affinity.
+| services.invitations.autoscaling
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
+| services.invitations.extraLabels
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service custom labels
+| services.invitations.image.pullPolicy
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`nil`
+| Image pull policy
+| services.invitations.image.repository
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`nil`
+| Image repository
+| services.invitations.image.sha
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`nil`
+| Image sha / digest (optional).
+| services.invitations.image.tag
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`nil`
+| Image tag.
+| services.invitations.nodeSelector
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
+| services.invitations.podDisruptionBudget
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
+| services.invitations.priorityClassName
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`nil`
+| Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
+| services.invitations.resources
 a| [subs=-attributes]
 +object+
 a| [subs=-attributes]
