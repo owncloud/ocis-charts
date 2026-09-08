@@ -166,9 +166,9 @@ spec:
             - name: FRONTEND_PASSWORD_POLICY_BANNED_PASSWORDS_LIST
               value: /etc/ocis/sharing-banned-passwords.txt
 
-            {{- with .Values.features.emailNotifications.enabled }}
+            {{- if and .Values.features.notifications.enabled .Values.features.emailNotifications.enabled }}
             - name: FRONTEND_CONFIGURABLE_NOTIFICATIONS
-              value: {{ . | quote }}
+              value: "true"
             {{- end }}
 
             - name: OCIS_ENABLE_OCM

@@ -1,4 +1,4 @@
-{{- if .Values.features.emailNotifications.enabled }}
+{{- if .Values.features.notifications.enabled }}
 {{- include "ocis.basicServiceTemplates" (dict "scope" . "appName" "appNameNotifications" "appNameSuffix" "") -}}
 apiVersion: v1
 kind: Service
