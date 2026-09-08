@@ -1,5 +1,5 @@
 ---
-# this is only an example for development purposes, create your own key like described here: https://github.com/wkloucek/online/blob/eb7afa8718978720147cea1b592280121dbb6869/kubernetes/helm/collabora-online/values.yaml#L48-L53
+# this is only an example for development purposes, create your own key like described here: https://github.com/CollaboraOnline/online/blob/034e82566e7850afef54a0d638133f0ac44a4011/kubernetes/helm/collabora-online/values.yaml#L59
 apiVersion: v1
 kind: Secret
 metadata:
