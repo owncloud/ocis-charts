@@ -49,6 +49,9 @@ data:
         {{- if .Values.features.externalUserManagement.enabled }}
         - "{{ trimSuffix "/" .Values.features.externalUserManagement.oidc.issuerURI }}/"
         {{- end }}
+        {{- if .Values.features.externalOIDC.enabled }}
+        - "{{ trimSuffix "/" .Values.features.externalOIDC.issuerURI }}/"
+        {{- end }}
       default-src:
         {{- with .Values.http.csp.directives.defaultSrc -}}
         {{ toYaml . | nindent 8 }}

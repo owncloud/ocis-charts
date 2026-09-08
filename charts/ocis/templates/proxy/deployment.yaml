@@ -1,4 +1,7 @@
 {{- include "ocis.basicServiceTemplates" (dict "scope" . "appName" "appNameProxy" "appNameSuffix" "") -}}
+{{- if and .Values.features.externalUserManagement.enabled .Values.features.externalOIDC.enabled }}
+{{- fail "features.externalUserManagement.enabled and features.externalOIDC.enabled are mutually exclusive" }}
+{{- end }}
 apiVersion: apps/v1
 kind: Deployment
 {{ include "ocis.metadata" . }}
@@ -53,16 +56,31 @@ spec:
               value: 0.0.0.0:9205
 
             - name: PROXY_OIDC_ISSUER
-            {{- if not .Values.features.externalUserManagement.enabled }}
+            {{- if .Values.features.externalOIDC.enabled }}
+              value: {{ .Values.features.externalOIDC.issuerURI | quote }}
+            {{- else if not .Values.features.externalUserManagement.enabled }}
               value: "https://{{ .Values.externalDomain }}"
             {{- else }}
               value: {{ required "features.externalUserManagement.oidc.issuerURI must be set when features.externalUserManagement.enabled is set to true" .Values.features.externalUserManagement.oidc.issuerURI | quote }}
             {{- end }}
 
-            {{- if .Values.features.externalUserManagement.enabled }}
+            {{- if or .Values.features.externalUserManagement.enabled .Values.features.externalOIDC.enabled }}
             - name: PROXY_OIDC_REWRITE_WELLKNOWN
               value: "true"
+            {{- end }}
 
+            {{- if .Values.features.externalOIDC.enabled }}
+            - name: PROXY_USER_OIDC_CLAIM
+              value: {{ .Values.features.externalOIDC.userIDClaim | quote }}
+            - name: PROXY_USER_CS3_CLAIM
+              value: {{ .Values.features.externalOIDC.userIDClaimAttributeMapping | quote }}
+            - name: PROXY_OIDC_ACCESS_TOKEN_VERIFY_METHOD
+              value: {{ .Values.features.externalOIDC.accessTokenVerifyMethod | quote }}
+            - name: PROXY_OIDC_SKIP_CLIENT_ID_CHECK
+              value: {{ .Values.features.externalOIDC.skipClientIdCheck | quote }}
+            - name: PROXY_OIDC_SKIP_USER_INFO
+              value: {{ .Values.features.externalOIDC.skipUserInfo | quote }}
+            {{- else if .Values.features.externalUserManagement.enabled }}
             - name: PROXY_USER_OIDC_CLAIM
               value: {{ .Values.features.externalUserManagement.oidc.userIDClaim | quote }}
             - name: PROXY_USER_CS3_CLAIM
@@ -113,8 +131,23 @@ spec:
             {{- end }}
 
             - name: PROXY_AUTOPROVISION_ACCOUNTS
+            {{- if .Values.features.externalOIDC.enabled }}
+              value: {{ .Values.features.externalOIDC.autoprovisionAccounts.enabled | quote }}
+            {{- else }}
               value: {{ .Values.features.externalUserManagement.autoprovisionAccounts.enabled | default "false" | quote }}
-            {{- if .Values.features.externalUserManagement.autoprovisionAccounts.enabled }}
+            {{- end }}
+            {{- if .Values.features.externalOIDC.enabled }}
+            {{- if .Values.features.externalOIDC.autoprovisionAccounts.enabled }}
+            - name: PROXY_AUTOPROVISION_CLAIM_EMAIL
+              value: {{ .Values.features.externalOIDC.autoprovisionAccounts.claimEmail | quote }}
+            - name: PROXY_AUTOPROVISION_CLAIM_DISPLAYNAME
+              value: {{ .Values.features.externalOIDC.autoprovisionAccounts.claimDisplayname | quote }}
+            - name: PROXY_AUTOPROVISION_CLAIM_GROUPS
+              value: {{ .Values.features.externalOIDC.autoprovisionAccounts.claimGroups | quote }}
+            - name: PROXY_AUTOPROVISION_CLAIM_USERNAME
+              value: {{ .Values.features.externalOIDC.autoprovisionAccounts.claimUsername | quote }}
+            {{- end }}
+            {{- else if .Values.features.externalUserManagement.autoprovisionAccounts.enabled }}
             - name: PROXY_AUTOPROVISION_CLAIM_EMAIL
               value: {{ .Values.features.externalUserManagement.autoprovisionAccounts.claimEmail | quote }}
             - name: PROXY_AUTOPROVISION_CLAIM_DISPLAYNAME

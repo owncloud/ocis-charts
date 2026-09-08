@@ -68,7 +68,11 @@ spec:
               value: 0.0.0.0:9104
 
             - name: WEB_OIDC_AUTHORITY
-            {{- if not .Values.features.externalUserManagement.enabled }}
+            {{- if .Values.features.externalOIDC.enabled }}
+              value: {{ .Values.features.externalOIDC.issuerURI | quote }}
+            - name: WEB_OIDC_METADATA_URL
+              value: "https://{{ .Values.externalDomain }}/.well-known/openid-configuration"
+            {{- else if not .Values.features.externalUserManagement.enabled }}
               value: "https://{{ .Values.externalDomain }}"
             {{- else }}
               value: {{ .Values.features.externalUserManagement.oidc.issuerURI | quote }}
