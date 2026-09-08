@@ -1,4 +1,22 @@
 {{- include "ocis.basicServiceTemplates" (dict "scope" . "appName" "appNameProxy" "appNameSuffix" "") -}}
+{{- $connectSrc := concat .Values.http.csp.directives.connectSrc .Values.http.csp.additionalDirectives.connectSrc -}}
+{{- if .Values.features.externalUserManagement.enabled -}}
+{{- $connectSrc = append $connectSrc (printf "%s/" (trimSuffix "/" .Values.features.externalUserManagement.oidc.issuerURI)) -}}
+{{- end -}}
+{{- $frameSrc := concat .Values.http.csp.directives.frameSrc .Values.http.csp.additionalDirectives.frameSrc -}}
+{{- $imgSrc := concat .Values.http.csp.directives.imgSrc .Values.http.csp.additionalDirectives.imgSrc -}}
+{{- if .Values.features.appsIntegration.enabled -}}
+{{- range $officeSuite := .Values.features.appsIntegration.wopiIntegration.officeSuites -}}
+{{- if $officeSuite.enabled -}}
+{{- $officeSuiteURI := printf "%s/" (trimSuffix "/" $officeSuite.uri) -}}
+{{- $frameSrc = append $frameSrc $officeSuiteURI -}}
+{{- $imgSrc = append $imgSrc $officeSuiteURI -}}
+{{- if $officeSuite.iconURI -}}
+{{- $imgSrc = append $imgSrc $officeSuite.iconURI -}}
+{{- end -}}
+{{- end -}}
+{{- end -}}
+{{- end -}}
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -43,11 +61,8 @@ data:
         {{ toYaml . | nindent 8 }}
         {{- end }}
       connect-src:
-        {{- with .Values.http.csp.directives.connectSrc -}}
+        {{- with (uniq $connectSrc) -}}
         {{ toYaml . | nindent 8 }}
-        {{- end }}
-        {{- if .Values.features.externalUserManagement.enabled }}
-        - "{{ trimSuffix "/" .Values.features.externalUserManagement.oidc.issuerURI }}/"
         {{- end }}
       default-src:
         {{- with .Values.http.csp.directives.defaultSrc -}}
@@ -62,26 +77,12 @@ data:
         {{ toYaml . | nindent 8 }}
         {{- end }}
       frame-src:
-        {{- with .Values.http.csp.directives.frameSrc -}}
+        {{- with (uniq $frameSrc) -}}
         {{ toYaml . | nindent 8 }}
-        {{- end }}
-        {{- if .Values.features.appsIntegration.enabled }}
-        {{- range $officeSuite := .Values.features.appsIntegration.wopiIntegration.officeSuites }}
-        {{- if $officeSuite.enabled }}
-        - "{{ trimSuffix "/" $officeSuite.uri }}/"
-        {{- end }}
-        {{- end }}
         {{- end }}
       img-src:
-        {{- with .Values.http.csp.directives.imgSrc -}}
+        {{- with (uniq $imgSrc) -}}
         {{ toYaml . | nindent 8 }}
-        {{- end }}
-        {{- if .Values.features.appsIntegration.enabled }}
-        {{- range $officeSuite := .Values.features.appsIntegration.wopiIntegration.officeSuites }}
-        {{- if and $officeSuite.enabled $officeSuite.iconURI}}
-        - {{ $officeSuite.iconURI | quote }}
-        {{- end }}
-        {{- end }}
         {{- end }}
       manifest-src:
         {{- with .Values.http.csp.directives.manifestSrc -}}
