@@ -161,8 +161,8 @@ spec:
 
             {{ end }}
 
-            - name: OCIS_SHOW_USER_EMAIL_IN_RESULTS
-              value: {{ .Values.features.sharing.users.search.showUserEmail | quote }}
+            - name: OCIS_USER_SEARCH_DISPLAYED_ATTRIBUTES
+              value: {{ join "," .Values.features.sharing.users.search.displayedAttributes | quote }}
 
             - name: GRAPH_APPLICATION_ID
               valueFrom:
