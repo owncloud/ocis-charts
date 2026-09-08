@@ -14,6 +14,7 @@ You're now running
                  `---`
 
 {{ $noExternalUserManagement := not .Values.features.externalUserManagement.enabled -}}
+{{- $basicAuth := .Values.features.basicAuthentication -}}
 {{- $demoUsers := .Values.features.demoUsers -}}
 {{- $oidcIdpInsecure := .Values.insecure.oidcIdpInsecure -}}
 {{- $ocisHttpApiInsecure := .Values.insecure.ocisHttpApiInsecure -}}
@@ -26,7 +27,7 @@ You can get the initial "admin" administrator user password by running:
 kubectl -n {{ .Release.Namespace }} get secrets/{{ .Values.secretRefs.adminUserSecretRef | default "admin-user" }} --template='{{"{{"}}.data.password | base64decode | printf "%s\n" {{"}}"}}'
 {{- end }}
 
-{{ if or $noExternalUserManagement $demoUsers $oidcIdpInsecure $ocisHttpApiInsecure $externalLDAPinsecure $noSMTPencryption $ocmInsecure }}
+{{ if or $noExternalUserManagement $basicAuth $demoUsers $oidcIdpInsecure $ocisHttpApiInsecure $externalLDAPinsecure $noSMTPencryption $ocmInsecure }}
 #################################################################################
 ######   WARNING: Your deployment of oCIS does not follow all best          #####
 ######   practices for production deployments of oCIS.                      #####
@@ -35,6 +36,9 @@ kubectl -n {{ .Release.Namespace }} get secrets/{{ .Values.secretRefs.adminUserS
 {{- if $noExternalUserManagement}}
 ######     - `features.externalUserManagement.enabled` should be            #####
 ######       set to `true`.                                                 #####
+{{- end }}
+{{- if $basicAuth}}
+######     - `features.basicAuthentication` should be set to `false`        #####
 {{- end }}
 {{- if $demoUsers}}
 ######     - `features.demoUsers` should be set to `false`                  #####

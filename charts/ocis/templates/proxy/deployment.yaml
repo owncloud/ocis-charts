@@ -141,6 +141,9 @@ spec:
               value: {{ . | quote }}
             {{- end }}
 
+            - name: PROXY_ENABLE_BASIC_AUTH
+              value: {{ .Values.features.basicAuthentication | quote }}
+
             {{- include "ocis.caEnv" $ | nindent 12}}
 
           {{- include "ocis.livenessProbe" . | nindent 10 }}

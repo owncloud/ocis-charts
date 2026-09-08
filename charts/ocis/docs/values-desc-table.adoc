@@ -192,6 +192,12 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `false`
 | Enables Auth app service
+| features.basicAuthentication
+a| [subs=-attributes]
++bool+
+a| [subs=-attributes]
+`false`
+| Enables password-backed HTTP Basic authentication for explicitly approved legacy clients that cannot use OpenID Connect or app tokens. Keep this disabled unless it is strictly required. Basic authentication is not recommended for production deployments; prefer `features.authapp.enabled` where possible.
 | features.demoUsers
 a| [subs=-attributes]
 +bool+
@@ -1765,6 +1771,78 @@ a| [subs=-attributes]
 `nil`
 | Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
 | services.authapp.resources
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service resources configuration. Overrides the default setting from `resources` if set.
+| services.authbasic
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+see detailed service configuration options below
+| AUTH BASIC service.
+| services.authbasic.affinity
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service affinity.
+| services.authbasic.autoscaling
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
+| services.authbasic.extraLabels
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service custom labels
+| services.authbasic.image.pullPolicy
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`nil`
+| Image pull policy
+| services.authbasic.image.repository
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`nil`
+| Image repository
+| services.authbasic.image.sha
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`nil`
+| Image sha / digest (optional).
+| services.authbasic.image.tag
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`nil`
+| Image tag.
+| services.authbasic.nodeSelector
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
+| services.authbasic.podDisruptionBudget
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
+| services.authbasic.priorityClassName
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`nil`
+| Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
+| services.authbasic.resources
 a| [subs=-attributes]
 +object+
 a| [subs=-attributes]
