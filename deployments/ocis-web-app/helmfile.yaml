@@ -62,11 +62,81 @@ releases:
                         priority: 50
             additionalInitContainers:
               - name: external-sites
-                image: owncloud/web-extensions:external-sites-0.2.0
+                image: owncloud/web-extensions:external-sites-0.4.0
                 command:
                   - cp
                   - -R
                   - /var/lib/nginx/html/external-sites/
+                  - /apps
+                volumeMounts:
+                  - name: apps
+                    mountPath: /apps
+              - name: advanced-search
+                image: owncloud/web-extensions:advanced-search-0.3.0
+                command:
+                  - cp
+                  - -R
+                  - /var/lib/nginx/html/advanced-search/
+                  - /apps
+                volumeMounts:
+                  - name: apps
+                    mountPath: /apps
+              - name: draw-io
+                image: owncloud/web-extensions:draw-io-0.4.1
+                command:
+                  - cp
+                  - -R
+                  - /var/lib/nginx/html/draw-io/
+                  - /apps
+                volumeMounts:
+                  - name: apps
+                    mountPath: /apps
+              - name: json-viewer
+                image: owncloud/web-extensions:json-viewer-0.4.0
+                command:
+                  - cp
+                  - -R
+                  - /var/lib/nginx/html/json-viewer/
+                  - /apps
+                volumeMounts:
+                  - name: apps
+                    mountPath: /apps
+              - name: photo-addon
+                image: owncloud/web-extensions:photo-addon-0.3.0
+                command:
+                  - cp
+                  - -R
+                  - /var/lib/nginx/html/photo-addon/
+                  - /apps
+                volumeMounts:
+                  - name: apps
+                    mountPath: /apps
+              - name: progress-bars
+                image: owncloud/web-extensions:progress-bars-0.4.0
+                command:
+                  - cp
+                  - -R
+                  - /var/lib/nginx/html/progress-bars/
+                  - /apps
+                volumeMounts:
+                  - name: apps
+                    mountPath: /apps
+              - name: unzip
+                image: owncloud/web-extensions:unzip-0.5.0
+                command:
+                  - cp
+                  - -R
+                  - /var/lib/nginx/html/unzip/
+                  - /apps
+                volumeMounts:
+                  - name: apps
+                    mountPath: /apps
+              - name: importer
+                image: owncloud/web-extensions:importer-0.4.0
+                command:
+                  - cp
+                  - -R
+                  - /var/lib/nginx/html/importer/
                   - /apps
                 volumeMounts:
                   - name: apps
