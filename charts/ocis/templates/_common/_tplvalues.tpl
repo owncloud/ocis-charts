@@ -34,6 +34,7 @@ Adds the app names to the scope and set the name of the app based on the input p
 */}}
 {{- define "ocis.basicServiceTemplates" -}}
   {{- $_ := set .scope "appNameActivitylog" "activitylog" -}}
+  {{- $_ := set .scope "appNameAppProvider" "appprovider" -}}
   {{- $_ := set .scope "appNameAppRegistry" "appregistry" -}}
   {{- $_ := set .scope "appNameAudit" "audit" -}}
   {{- $_ := set .scope "appNameAuthMachine" "authmachine" -}}

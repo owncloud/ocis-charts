@@ -1506,6 +1506,78 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `{}`
 | Per-service resources configuration. Overrides the default setting from `resources` if set.
+| services.appprovider
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+see detailed service configuration options below
+| APP PROVIDER service.
+| services.appprovider.affinity
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service affinity.
+| services.appprovider.autoscaling
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service autoscaling. Overrides the default setting from `autoscaling` if set.
+| services.appprovider.extraLabels
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service custom labels
+| services.appprovider.image.pullPolicy
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`nil`
+| Image pull policy
+| services.appprovider.image.repository
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`nil`
+| Image repository
+| services.appprovider.image.sha
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`nil`
+| Image sha / digest (optional).
+| services.appprovider.image.tag
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`nil`
+| Image tag.
+| services.appprovider.nodeSelector
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service nodeSelector configuration. Overrides the default setting from `nodeSelector` if set.
+| services.appprovider.podDisruptionBudget
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service PodDisruptionBudget. Overrides the default setting from `podDisruptionBudget` if set.
+| services.appprovider.priorityClassName
+a| [subs=-attributes]
++string+
+a| [subs=-attributes]
+`nil`
+| Per-service priorityClassName configuration. Overrides the default setting from `priorityClassName` if set.
+| services.appprovider.resources
+a| [subs=-attributes]
++object+
+a| [subs=-attributes]
+`{}`
+| Per-service resources configuration. Overrides the default setting from `resources` if set.
 | services.appregistry
 a| [subs=-attributes]
 +object+
