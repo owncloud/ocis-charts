@@ -1799,6 +1799,13 @@
               "additionalProperties": false,
               "description": "Sharing per public link related setings",
               "properties": {
+                "enabled": {
+                  "default": true,
+                  "description": "Enable public link sharing for regular resources. Requires oCIS 8.2.0 or newer when disabled.\nWhen disabled, the frontend stops advertising public links and the sharing service rejects creation of new external public links.\nExisting public links are not revoked by this setting.\nDirect sharing with users and groups is unaffected. Vault resources never allow public links, regardless of this value.\nWhen selecting the frontend or sharing image by SHA, ensure that the digest contains oCIS 8.2.0 or newer because the chart cannot infer its version.",
+                  "required": [],
+                  "title": "enabled",
+                  "type": "boolean"
+                },
                 "shareMustHavePassword": {
                   "default": false,
                   "description": "Enforce a password on all public link shares.",
@@ -1815,6 +1822,7 @@
                 }
               },
               "required": [
+                "enabled",
                 "shareMustHavePassword",
                 "writeableShareMustHavePassword"
               ],
