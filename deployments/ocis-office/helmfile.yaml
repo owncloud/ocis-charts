@@ -245,6 +245,20 @@ releases:
                 description: Form document
                 icon: image-edit
                 default_app: "OnlyOffice"
+                allow_creation: false
+              - mime_type: application/pdf
+                extension: pdf
+                name: PDF form
+                description: PDF form document
+                icon: image-edit
+                default_app: "OnlyOffice"
+                allow_creation: true
+              - mime_type: application/vnd.jupyter
+                extension: ipynb
+                name: Jupyter Notebook
+                description: Jupyter Notebook
+                icon: image-edit
+                default_app: ""
                 allow_creation: true
 
       - services:
