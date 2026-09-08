@@ -1,9 +1,16 @@
-# oCIS Web app deployment example
+# oCIS Web app and full-text search deployment example
 
 ## Introduction
 
-This example will deploy a mostly default oCIS setup to Kubernetes. It demonstrates you how to install Web apps, via the oCIS Helm Chart. The intent is that this will
-work "out of the box" after a `helmfile sync`.
+This example is the source-aligned Web integration profile with full-text search. It deploys a
+mostly default oCIS setup and Apache Tika to Kubernetes, configures the Search service to use the
+Tika extractor, and enables full-text search in Web. It also demonstrates how to install Web apps
+through the oCIS Helm Chart. The intent is that this will work "out of the box" after a
+`helmfile sync`.
+
+Tika is always part of this profile because the Photo add-on and Advanced Search Web extensions
+require its extracted content and metadata. Keep the Tika release and Search extractor settings
+enabled when adding either extension to this profile.
 
 
 ***Note***: This example is not intended for production use. It is intended to get a working oCIS
@@ -37,6 +44,10 @@ $ helmfile sync
 ```
 
 This will deploy all the needed steps.
+
+The profile installs `apache/tika:latest-full` in the `tika` namespace and configures oCIS to use its
+in-cluster service. The full Tika image includes OCR support and is currently available for AMD64
+only.
 
 ### Logging in
 
