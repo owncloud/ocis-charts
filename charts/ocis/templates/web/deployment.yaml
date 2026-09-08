@@ -129,9 +129,9 @@ spec:
               value: {{ .Values.services.web.config.concurrency.shareCreateRequests | quote }}
             {{- end }}
 
-            {{- if .Values.services.web.config.concurrency.sseRequests }}
+            {{- if .Values.services.web.config.concurrency.shareListRequests }}
             - name: WEB_OPTION_CONCURRENT_REQUESTS_SHARES_LIST
-              value: {{ .Values.services.web.config.concurrency.sseRequests | quote }}
+              value: {{ .Values.services.web.config.concurrency.shareListRequests | quote }}
             {{- end }}
 
             - name: WEB_UI_CONFIG_SERVER
