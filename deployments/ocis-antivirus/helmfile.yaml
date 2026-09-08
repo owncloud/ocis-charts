@@ -66,7 +66,7 @@ releases:
   - name: opendesk-clamav
     chart: opendesk-clamav/opendesk-clamav
     namespace: clamav
-    version: 4.0.6
+    version: 4.2.1
     labels:
       ci-lint-skip: true # skip linting this chart in CI
     values:
@@ -86,8 +86,6 @@ releases:
             tag: "1.4.0" # newer version of clamav/clamav than default chart
 
       - icap:
-          image:
-            tag: "0.5.10" # overwrite incorrect digest pin from default chart
           settings:
             clamdModClamdHost: "opendesk-clamav-clamd"
 
