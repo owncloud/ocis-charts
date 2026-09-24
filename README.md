@@ -17,8 +17,11 @@ Follow the steps below to deploy oCIS on Kubernetes using Helm.
 
 ### Installation
 
+The official oCIS Helm chart repository is available at `https://owncloud.github.io/ocis-charts/`.
+
 ```bash
 helm repo add owncloud https://owncloud.github.io/ocis-charts/
+helm repo update
 helm install ocis owncloud/ocis
 ```
 
@@ -35,7 +38,6 @@ make schema   # Generate values schema
 ## Documentation
 
 - [oCIS Helm Chart README](https://github.com/owncloud/ocis-charts/blob/master/charts/ocis/README.md)
-- [oCIS Deployment Docs](https://doc.owncloud.com/ocis/next/deployment/container/orchestration/)
 - [Breaking Changes by Version](https://doc.owncloud.com/ocis/next/deployment/container/orchestration/tab-pages/breaking-changes.html)
 
 ## Part of ownCloud Infinite Scale
