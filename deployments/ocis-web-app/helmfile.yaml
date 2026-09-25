@@ -21,6 +21,188 @@ releases:
       - features:
           demoUsers: true
 
+      - extraResources:
+          - |
+            {{ "{{" }}- $params := dict {{ "}}" }}
+            {{ "{{" }}- $_ := set $params "companion-secret" (randAlphaNum 128) {{ "}}" }}
+            {{ "{{" }}- $labels := dict "app.kubernetes.io/name" "companion" {{ "}}" }}
+            {{ "{{" }}- $_ := set $labels "app.kubernetes.io/component" "importer" {{ "}}" }}
+            {{ "{{" }}- $_ := set $labels "app.kubernetes.io/part-of" "ocis" {{ "}}" }}
+            {{ "{{" }} include "ocis.secret" (dict "scope" . "name" "companion-secret" "params" $params "labels" $labels) {{ "}}" }}
+          - |
+            apiVersion: v1
+            kind: PersistentVolumeClaim
+            metadata:
+              name: companion-data
+              labels:
+                app.kubernetes.io/name: companion
+                app.kubernetes.io/component: importer
+                app.kubernetes.io/part-of: ocis
+            spec:
+              accessModes:
+                - ReadWriteOnce
+              resources:
+                requests:
+                  storage: 10Gi
+          - |
+            apiVersion: apps/v1
+            kind: Deployment
+            metadata:
+              name: companion
+              labels:
+                app.kubernetes.io/name: companion
+                app.kubernetes.io/component: importer
+                app.kubernetes.io/part-of: ocis
+            spec:
+              replicas: 1
+              strategy:
+                type: Recreate
+              selector:
+                matchLabels:
+                  app.kubernetes.io/name: companion
+              template:
+                metadata:
+                  labels:
+                    app.kubernetes.io/name: companion
+                    app.kubernetes.io/component: importer
+                    app.kubernetes.io/part-of: ocis
+                spec:
+                  automountServiceAccountToken: false
+                  securityContext:
+                    fsGroup: 1000
+                    fsGroupChangePolicy: OnRootMismatch
+                    runAsGroup: 1000
+                    runAsNonRoot: true
+                    runAsUser: 1000
+                    seccompProfile:
+                      type: RuntimeDefault
+                  containers:
+                    - name: companion
+                      image: transloadit/companion:5.8.0
+                      imagePullPolicy: IfNotPresent
+                      securityContext:
+                        allowPrivilegeEscalation: false
+                        capabilities:
+                          drop:
+                            - ALL
+                        readOnlyRootFilesystem: true
+                      env:
+                        - name: NODE_ENV
+                          value: production
+                        # Development only: the example uses a self-signed oCIS certificate.
+                        - name: NODE_TLS_REJECT_UNAUTHORIZED
+                          value: "0"
+                        - name: COMPANION_DATADIR
+                          value: /tmp/companion/
+                        - name: COMPANION_DOMAIN
+                          value: companion.kube.owncloud.test
+                        - name: COMPANION_PROTOCOL
+                          value: https
+                        - name: COMPANION_UPLOAD_URLS
+                          value: '^https://ocis\.kube\.owncloud\.test/'
+                        - name: COMPANION_TUS_DEFERRED_UPLOAD_LENGTH
+                          value: "false"
+                        - name: COMPANION_CLIENT_ORIGINS
+                          value: https://ocis.kube.owncloud.test,https://companion.kube.owncloud.test
+                        - name: COMPANION_SECRET
+                          valueFrom:
+                            secretKeyRef:
+                              name: companion-secret
+                              key: companion-secret
+                        - name: COMPANION_ONEDRIVE_KEY
+                          valueFrom:
+                            secretKeyRef:
+                              name: companion-provider-credentials
+                              key: onedrive-key
+                              optional: true
+                        - name: COMPANION_ONEDRIVE_SECRET
+                          valueFrom:
+                            secretKeyRef:
+                              name: companion-provider-credentials
+                              key: onedrive-secret
+                              optional: true
+                      ports:
+                        - name: http
+                          containerPort: 3020
+                          protocol: TCP
+                      startupProbe:
+                        tcpSocket:
+                          port: http
+                        failureThreshold: 30
+                        periodSeconds: 10
+                      readinessProbe:
+                        tcpSocket:
+                          port: http
+                        periodSeconds: 10
+                      livenessProbe:
+                        tcpSocket:
+                          port: http
+                        failureThreshold: 3
+                        periodSeconds: 30
+                        timeoutSeconds: 5
+                      resources:
+                        requests:
+                          cpu: 100m
+                          memory: 128Mi
+                        limits:
+                          cpu: 500m
+                          memory: 512Mi
+                      volumeMounts:
+                        - name: companion-data
+                          mountPath: /tmp/companion/
+                  volumes:
+                    - name: companion-data
+                      persistentVolumeClaim:
+                        claimName: companion-data
+          - |
+            apiVersion: v1
+            kind: Service
+            metadata:
+              name: companion
+              labels:
+                app.kubernetes.io/name: companion
+                app.kubernetes.io/component: importer
+                app.kubernetes.io/part-of: ocis
+            spec:
+              type: ClusterIP
+              selector:
+                app.kubernetes.io/name: companion
+              ports:
+                - name: http
+                  port: 3020
+                  targetPort: http
+                  protocol: TCP
+                  appProtocol: http
+          - |
+            apiVersion: networking.k8s.io/v1
+            kind: Ingress
+            metadata:
+              name: companion
+              labels:
+                app.kubernetes.io/name: companion
+                app.kubernetes.io/component: importer
+                app.kubernetes.io/part-of: ocis
+              annotations:
+                nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
+                nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
+            spec:
+              ingressClassName: nginx
+              tls:
+                - secretName: companion-dev-tls
+                  hosts:
+                    - companion.kube.owncloud.test
+              rules:
+                - host: companion.kube.owncloud.test
+                  http:
+                    paths:
+                      - path: /
+                        pathType: Prefix
+                        backend:
+                          service:
+                            name: companion
+                            port:
+                              number: 3020
+
       - services:
           idm:
             persistence:
@@ -51,6 +233,11 @@ releases:
               enabled: true
             config:
               externalApps:
+                importer:
+                  config:
+                    companionUrl: https://companion.kube.owncloud.test
+                    supportedClouds:
+                      - WebdavPublicLink
                 external-sites:
                   config:
                     sites:
