@@ -1682,7 +1682,7 @@
           "description": "Define custom roles here. Note that the definition will be either or. So you cannot provide a ConfigMap name and text at once.",
           "properties": {
             "availableUnifiedRoles": {
-              "description": "Define a list of unified roles to make them available.\nThe default of an empty list means all unified roles are available.\nYou can read about unified roles in https://doc.owncloud.com/ocis/next/deployment/services/s-list/graph.html.\nThe IDs of the roles and a description can be found by running:\nkubectl -n ocis exec deployments/graph -- ocis graph list-unified-roles",
+              "description": "Define a list of unified roles to make them available.\nThe default empty list uses the unified roles enabled by default in oCIS; optional roles such as SecureViewer remain disabled.\nA non-empty list replaces that default set, so it must include every role that should remain available.\nYou can read about unified roles in https://doc.owncloud.com/ocis/next/deployment/services/s-list/graph.html.\nThe IDs of the roles and a description can be found by running:\nkubectl -n ocis exec deployments/graph -- ocis graph list-unified-roles",
               "items": {
                 "required": [],
                 "type": "string"
