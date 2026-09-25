@@ -17,12 +17,24 @@ Follow the steps below to deploy oCIS on Kubernetes using Helm.
 
 ### Installation
 
+Deploy oCIS with a basic configuration:
+
 ```bash
 helm repo add owncloud https://owncloud.github.io/ocis-charts/
-helm install ocis owncloud/ocis
+helm install ocis owncloud/ocis \
+  --set externalDomain=ocis.example.com \
+  --set ingress.enabled=true \
+  --set ingress.tls[0].secretName=ocis-tls \
+  --set ingress.tls[0].hosts[0]=ocis.example.com
 ```
 
-Chart documentation: [charts/ocis/README.md](https://github.com/owncloud/ocis-charts/blob/master/charts/ocis/README.md)
+> **Note:** Replace `ocis.example.com` with your actual domain. You must have:
+> - A DNS record pointing to your ingress controller
+> - A TLS certificate (e.g., from cert-manager or manually created)
+
+For a quick local test, you can use `ocis.kube.owncloud.test` and configure your `/etc/hosts` file.
+
+Chart documentation: [charts/ocis/README.md](https://github.com/owncloud/ocis-charts/blob/main/charts/ocis/README.md)
 
 ### Development
 
@@ -34,15 +46,15 @@ make schema   # Generate values schema
 
 ## Documentation
 
-- [oCIS Helm Chart README](https://github.com/owncloud/ocis-charts/blob/master/charts/ocis/README.md)
+- [oCIS Helm Chart README](https://github.com/owncloud/ocis-charts/blob/main/charts/ocis/README.md)
 - [oCIS Deployment Docs](https://doc.owncloud.com/ocis/next/deployment/container/orchestration/)
 - [Breaking Changes by Version](https://doc.owncloud.com/ocis/next/deployment/container/orchestration/tab-pages/breaking-changes.html)
 
 ## Part of ownCloud Infinite Scale
 
-These Helm charts deploy [oCIS](https://github.com/owncloud/ocis) on Kubernetes. The `main` branch targets oCIS 6, while `stable-5` supports oCIS 5.
+These Helm charts deploy [oCIS](https://github.com/owncloud/ocis) on Kubernetes. The `main` branch targets the latest oCIS release (currently 7.x), while `stable-5` supports oCIS 5.
 
-> **Note:** This chart repository is still in an experimental phase.
+> **Note:** This chart repository is production-ready for supported oCIS versions. The `main` branch tracks the latest development and may include breaking changes. For production deployments, use tagged releases.
 
 This component is part of the [oCIS Docker image](https://hub.docker.com/r/owncloud/ocis).
 
