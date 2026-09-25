@@ -180,6 +180,7 @@ oCIS deployment selector template
 selector:
   matchLabels:
     app: {{ .appName }}
+    {{- include "ocis.selectorLabels" . | nindent 4 }}
 {{- end -}}
 
 {{/*
