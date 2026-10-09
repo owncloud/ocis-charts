@@ -1,0 +1,5 @@
+{{- if .Values.features.vault.enabled }}
+{{- include "ocis.basicServiceTemplates" (dict "scope" . "appName" "appNameStorageUsersVault" "appNameSuffix" "") -}}
+{{- $_ := set . "autoscaling" (mergeOverwrite (deepCopy .Values.autoscaling) .Values.services.storageusersvault.autoscaling) -}}
+{{ include "ocis.hpa" . }}
+{{- end }}

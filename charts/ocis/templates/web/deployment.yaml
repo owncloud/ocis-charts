@@ -75,8 +75,12 @@ spec:
             {{- end }}
             - name: WEB_OIDC_CLIENT_ID
               value: {{ .Values.services.web.config.oidc.webClientID | quote }}
+            {{- $webClientScopes := regexSplit "\\s+" (trim .Values.services.web.config.oidc.webClientScope) -1 }}
+            {{- if and .Values.features.mfa.enabled (not (has "acr" $webClientScopes)) }}
+            {{- $webClientScopes = append $webClientScopes "acr" }}
+            {{- end }}
             - name: WEB_OIDC_SCOPE
-              value: {{ .Values.services.web.config.oidc.webClientScope | quote }}
+              value: {{ join " " $webClientScopes | quote }}
 
             - name: WEB_UI_THEME_SERVER
             {{- if .Values.services.web.config.theme.server }}
