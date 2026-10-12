@@ -103,12 +103,6 @@ releases:
             path: /spec/backoffLimit
             value: 20
 
-  - name: addons-collabora
-    chart: addons/collabora
-    namespace: collabora
-    labels:
-      ci-lint-skip: true # skip linting this chart in CI
-
   - name: collabora
     namespace: collabora
     chart: collabora/collabora-online
@@ -121,7 +115,9 @@ releases:
             - host: "wopi-collabora.kube.owncloud.test" # needed because we connect via the ingress to the collaboration service
             # - host: "collaboration-collabora.ocis.svc.cluster.local" # needed if we would use the cluster internal Service to connect to the collaboration service
           extra_params: --o:ssl.enable=false --o:ssl.termination=true --o:net.frame_ancestors=ocis.kube.owncloud.test
-          proofKeysSecretRef: proofkey
+          proofKeyGeneration:
+            # Generate a unique key on first install and preserve it across upgrades.
+            enabled: true
       - ingress:
           enabled: true
           className: "nginx"
