@@ -297,6 +297,7 @@ apiVersion: v1
 kind: Secret
 metadata:
   name: {{ .name }}
+  namespace: {{ template "ocis.namespace" .scope }}
   labels:
     {{- range $key, $value := .labels }}
     {{ $key }}: {{ $value | quote }}
@@ -323,6 +324,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: {{ .name }}
+  namespace: {{ template "ocis.namespace" .scope }}
   labels:
     {{- range $key, $value := .labels }}
     {{ $key }}: {{ $value | quote }}

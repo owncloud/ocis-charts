@@ -24,6 +24,15 @@ spec:
           volumeMounts:
           - name: {{ include "ocis.persistence.dataVolumeName" . }}
             mountPath: /var/lib/ocis
+        - name: init-nats-dir
+          {{- include "ocis.initContainerImage" $ | nindent 10 }}
+          securityContext:
+            runAsNonRoot: false
+            runAsUser: 0
+          command: ["sh", "-c", "mkdir -p /var/lib/ocis/nats && chown -R {{ .Values.securityContext.runAsUser }}:{{ .Values.securityContext.runAsGroup }} /var/lib/ocis/nats"]
+          volumeMounts:
+          - name: {{ include "ocis.persistence.dataVolumeName" . }}
+            mountPath: /var/lib/ocis
       {{ end }}
       {{- include "ocis.priorityClassName" $.priorityClassName | nindent 6 }}
       {{- include "ocis.hostAliases" $ | nindent 6 }}
