@@ -14,12 +14,12 @@ releases:
   - name: tika
     namespace: tika
     chart: tika/tika
-    version: 2.9.0
+    version: 3.2.2
     labels:
       ci-lint-skip: true # skip linting this chart in CI
     values:
       - image:
-          tag: "latest-full" # using "full" tag for OCR func.
+          tag: "3.2.2.0-full" # use the full image for OCR functionality
 
   - name: addons-onlyoffice
     chart: addons/onlyoffice
@@ -38,21 +38,39 @@ releases:
   - name: rabbitmq
     namespace: onlyoffice
     chart: bitnami/rabbitmq
-    version: 15.5.3
+    version: 16.0.14
     labels:
       ci-lint-skip: true # skip linting this chart in CI
+    values:
+      # These are the image coordinates recommended by the OnlyOffice 6.0.0
+      # installation guide for this RabbitMQ chart release.
+      - global:
+          security:
+            allowInsecureImages: true
+        image:
+          repository: bitnamilegacy/rabbitmq
+          tag: 4.1.3-debian-12-r1
 
   - name: redis
     namespace: onlyoffice
     chart: bitnami/redis
-    version: 20.12.2
+    version: 22.0.7
     labels:
       ci-lint-skip: true # skip linting this chart in CI
+    values:
+      # Keep Redis aligned with the dependency release tested by OnlyOffice
+      # 6.0.0 while preserving the chart's existing replicated topology.
+      - global:
+          security:
+            allowInsecureImages: true
+        image:
+          repository: bitnamilegacy/redis
+          tag: 8.2.1-debian-12-r0
 
   - name: postgres-operator
     namespace: onlyoffice
     chart: postgres-operator/postgres-operator
-    version: 1.14.0
+    version: 1.15.1
     labels:
       ci-lint-skip: true # skip linting this chart in CI
     values:
@@ -64,7 +82,7 @@ releases:
   - name: onlyoffice
     namespace: onlyoffice
     chart: onlyoffice/docs
-    version: 4.7.0
+    version: 6.0.0
     labels:
       ci-lint-skip: true # skip linting this chart in CI
     needs:
@@ -73,6 +91,10 @@ releases:
       - onlyoffice/redis
       - onlyoffice/postgres-operator
     values:
+      # The chart's 9.3.1-1 distributed images correspond to the
+      # source-tested DocumentServer 9.3.1.1 release.
+      - images:
+          tag: "9.3.1-1"
       - wopi:
           enabled: true
       - ingress:
@@ -92,7 +114,7 @@ releases:
       - persistence:
           existingClaim: ds-files
     jsonPatches:
-      # patch https://github.com/ONLYOFFICE/Kubernetes-Docs/blob/851362e5b96f5e86fe8cc9c3bdd86b5f217dd5d0/templates/jobs/pre-install.yaml#L16 to a higher number
+      # patch https://github.com/ONLYOFFICE/Kubernetes-Docs/blob/v6.0.0/templates/jobs/pre-install.yaml to a higher number
       # without this, OnlyOffice installation fails on the first time
       - target:
           kind: Job
@@ -112,10 +134,12 @@ releases:
   - name: collabora
     namespace: collabora
     chart: collabora/collabora-online
-    version: 1.1.37
+    version: 1.3.2
     labels:
       ci-lint-skip: true # skip linting this chart in CI
     values:
+      - image:
+          tag: "26.04.3.1.1"
       - collabora:
           aliasgroups:
             - host: "wopi-collabora.kube.owncloud.test" # needed because we connect via the ingress to the collaboration service
