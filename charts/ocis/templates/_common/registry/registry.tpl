@@ -10,4 +10,5 @@ oCIS service registry
   value: {{ .Values.registry.type | quote }}
 - name: MICRO_REGISTRY_ADDRESS
   value: {{ tpl (join "," .Values.registry.nodes) . | quote }}
+{{- include "ocis.ldapTuning" . -}}
 {{- end -}}
