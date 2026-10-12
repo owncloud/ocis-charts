@@ -18,6 +18,18 @@ releases:
           oidcIdpInsecure: true
           ocisHttpApiInsecure: true
 
+      - http:
+          csp:
+            additionalDirectives:
+              connectSrc:
+                - "https://companion.kube.owncloud.test/"
+                - "wss://companion.kube.owncloud.test/"
+                - "https://*.tile.openstreetmap.org"
+              frameSrc:
+                - "https://owncloud.dev"
+              imgSrc:
+                - "https://*.tile.openstreetmap.org"
+
       - features:
           demoUsers: true
 
@@ -55,11 +67,17 @@ releases:
                   config:
                     sites:
                       - name: ownCloud
-                        url: https://www.owncloud.com
-                        target: external
+                        url: https://owncloud.dev
+                        target: embedded
                         color: "#0D856F"
                         icon: cloud
                         priority: 50
+                      - name: Wikipedia
+                        url: https://www.wikipedia.org
+                        target: external
+                        color: "#0D856F"
+                        icon: book
+                        priority: 51
             additionalInitContainers:
               - name: external-sites
                 image: owncloud/web-extensions:external-sites-0.2.0
