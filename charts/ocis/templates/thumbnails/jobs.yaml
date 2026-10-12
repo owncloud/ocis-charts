@@ -45,8 +45,7 @@ spec:
                 {{- include "ocis.caEnv" $ | nindent 16}}
               {{ end }}
               volumeMounts:
-                - name: {{ include "ocis.persistence.dataVolumeName" . }}
-                  mountPath: /var/lib/ocis
+                {{- include "ocis.persistence.dataVolumeMount" . | nindent 16 }}
                 - name: script
                   mountPath: "/script"
                 {{- include "ocis.caPath" $ | nindent 16}}

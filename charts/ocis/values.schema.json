@@ -6281,6 +6281,11 @@
                     "string",
                     "null"
                   ]
+                },
+                "subPath": {
+                  "default": "",
+                  "description": "Optional subPath for the volume mount.",
+                  "type": "string"
                 }
               },
               "required": [
@@ -6672,6 +6677,11 @@
                     "string",
                     "null"
                   ]
+                },
+                "subPath": {
+                  "default": "",
+                  "description": "Optional subPath for the volume mount.",
+                  "type": "string"
                 }
               },
               "required": [
@@ -8572,6 +8582,11 @@
                     "string",
                     "null"
                   ]
+                },
+                "subPath": {
+                  "default": "",
+                  "description": "Optional subPath for the volume mount.",
+                  "type": "string"
                 }
               },
               "required": [
@@ -10576,6 +10591,11 @@
                     "string",
                     "null"
                   ]
+                },
+                "subPath": {
+                  "default": "",
+                  "description": "Optional subPath for the volume mount.",
+                  "type": "string"
                 }
               },
               "required": [
@@ -11749,6 +11769,11 @@
                     "string",
                     "null"
                   ]
+                },
+                "subPath": {
+                  "default": "",
+                  "description": "Optional subPath for the volume mount.",
+                  "type": "string"
                 }
               },
               "required": [
@@ -12882,6 +12907,11 @@
                     "string",
                     "null"
                   ]
+                },
+                "subPath": {
+                  "default": "",
+                  "description": "Optional subPath for the volume mount.",
+                  "type": "string"
                 }
               },
               "required": [

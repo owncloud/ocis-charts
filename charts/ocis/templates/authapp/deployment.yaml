@@ -90,8 +90,7 @@ spec:
 
 
           volumeMounts:
-            - name: {{ include "ocis.persistence.dataVolumeName" . }}
-              mountPath: /var/lib/ocis
+            {{- include "ocis.persistence.dataVolumeMount" . | nindent 12 }}
             - name: tmp-volume
               mountPath: /tmp
             {{- include "ocis.caPath" $ | nindent 12}}
