@@ -25,8 +25,12 @@ helm-install-atomic: $(HELM)
 .PHONY: lint
 lint: lint-ci lint-examples
 
+.PHONY: test-render
+test-render: $(HELM)
+	./tests/render-web-concurrency.sh "$(HELM)" charts/ocis
+
 .PHONY: lint-ci
-lint-ci: $(KUBE_LINTER) $(HELM) schema
+lint-ci: $(KUBE_LINTER) $(HELM) schema test-render
 	$(HELM) lint charts/ocis -f 'charts/ocis/ci/absolute-minimum-values.yaml'
 	$(HELM) lint charts/ocis -f 'charts/ocis/ci/lint-values.yaml'
 	$(HELM) lint charts/ocis -f 'charts/ocis/ci/deployment-values.yaml'
