@@ -45,6 +45,7 @@ spec:
                 readOnlyRootFilesystem: true
               env:
                 {{- include "ocis.serviceRegistry" . | nindent 16 }}
+                {{- include "ocis.events" . | nindent 16 }}
                 # logging
                 - name: STORAGE_USERS_LOG_COLOR
                   value: {{ .Values.logging.color | quote }}
