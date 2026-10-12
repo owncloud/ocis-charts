@@ -1,3 +1,14 @@
+{{- $publicSharingEnabled := .Values.features.sharing.publiclink.enabled -}}
+{{- $sharingImageTag := default (default .Chart.AppVersion .Values.image.tag) .Values.services.sharing.image.tag -}}
+{{- $sharingImageSHA := default .Values.image.sha .Values.services.sharing.image.sha -}}
+{{- if and (not $publicSharingEnabled) (empty $sharingImageSHA) -}}
+{{- if not (regexMatch `^v?[0-9]+\.[0-9]+\.[0-9]+([-+].*)?$` $sharingImageTag) -}}
+{{- fail (printf "features.sharing.publiclink.enabled=false requires a semver-compatible oCIS 8.2.0 or newer sharing image tag or an explicit image SHA; effective sharing image tag %q cannot be verified" $sharingImageTag) -}}
+{{- end -}}
+{{- if not (semverCompare ">=8.2.0-0" $sharingImageTag) -}}
+{{- fail (printf "features.sharing.publiclink.enabled=false requires oCIS 8.2.0 or newer; effective sharing image tag %q is too old" $sharingImageTag) -}}
+{{- end -}}
+{{- end -}}
 {{- include "ocis.basicServiceTemplates" (dict "scope" . "appName" "appNameSharing" "appNameSuffix" "") -}}
 apiVersion: apps/v1
 kind: Deployment
@@ -61,6 +72,9 @@ spec:
 
             - name: SHARING_PUBLIC_SHARE_MUST_HAVE_PASSWORD
               value: {{ .Values.features.sharing.publiclink.shareMustHavePassword | quote }}
+
+            - name: OCIS_ENABLE_PUBLIC_SHARING
+              value: {{ $publicSharingEnabled | quote }}
 
             # password policies
             - name: SHARING_PASSWORD_POLICY_MIN_CHARACTERS
