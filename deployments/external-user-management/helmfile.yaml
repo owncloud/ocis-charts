@@ -344,6 +344,9 @@ releases:
       - logging:
           level: debug
       - externalDomain: ocis.kube.owncloud.test
+      # Pin this example until the chart's default oCIS version provides audience validation (8.2.0+).
+      - image:
+          tag: 8.2.0
       - ingress:
           enabled: true
           ingressClassName: nginx
@@ -362,6 +365,11 @@ releases:
               issuerURI: https://keycloak.kube.owncloud.test/realms/oCIS
               userIDClaim: ocis.user.uuid
               userIDClaimAttributeMapping: userid
+              accessTokenVerifyAudiences:
+                - web
+                - xdXOt13JKxym1B1QcEncf2XDkLAexMBFwiT9j6EfhhHFJhs2KM9jbjTmf8JBXE69
+                - e4rAsNUSIUs0lF4nbv9FmCeUkTlV9GdgTLDH1b5uie7syb90SzEVrbN7HIpmWJeD
+                - mxd5OQDk6es5LzOzRvidJNfXLUZS2oN3oUFeXPP8LpPrhx3UroJFduGEYIBOxkY1
 
             ldap:
               writeable: true
