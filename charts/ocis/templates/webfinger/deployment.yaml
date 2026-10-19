@@ -52,7 +52,9 @@ spec:
               value: 0.0.0.0:8081
 
             - name: WEBFINGER_OIDC_ISSUER
-            {{- if not .Values.features.externalUserManagement.enabled }}
+            {{- if .Values.features.externalOIDC.enabled }}
+              value: {{ .Values.features.externalOIDC.issuerURI | quote }}
+            {{- else if not .Values.features.externalUserManagement.enabled }}
               value: "https://{{ .Values.externalDomain }}"
             {{- else }}
               value: {{ .Values.features.externalUserManagement.oidc.issuerURI | quote }}
