@@ -49,6 +49,7 @@ Adds the app names to the scope and set the name of the app based on the input p
   {{- $_ := set .scope "appNameGroups" "groups" -}}
   {{- $_ := set .scope "appNameIdm" "idm" -}}
   {{- $_ := set .scope "appNameIdp" "idp" -}}
+  {{- $_ := set .scope "appNameInvitations" "invitations" -}}
   {{- $_ := set .scope "appNameNats" "nats" -}}
   {{- $_ := set .scope "appNameNotifications" "notifications" -}}
   {{- $_ := set .scope "appNameOcdav" "ocdav" -}}
