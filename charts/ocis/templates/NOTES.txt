@@ -20,6 +20,14 @@ You're now running
 {{- $ocmInsecure := .Values.insecure.ocmInsecure -}}
 {{- $externalLDAPinsecure := and .Values.features.externalUserManagement.enabled .Values.features.externalUserManagement.ldap.insecure -}}
 {{- $noSMTPencryption := and .Values.features.emailNotifications.enabled (eq .Values.features.emailNotifications.smtp.encryption "none") -}}
+{{- $enabledOfficeSuites := 0 -}}
+{{- if .Values.features.appsIntegration.enabled -}}
+{{- range $officeSuite := .Values.features.appsIntegration.wopiIntegration.officeSuites -}}
+{{- if $officeSuite.enabled -}}
+{{- $enabledOfficeSuites = add1 $enabledOfficeSuites -}}
+{{- end -}}
+{{- end -}}
+{{- end -}}
 
 {{- if $noExternalUserManagement }}
 You can get the initial "admin" administrator user password by running:
@@ -56,6 +64,16 @@ kubectl -n {{ .Release.Namespace }} get secrets/{{ .Values.secretRefs.adminUserS
 ######     - `features.emailNotifications.smtp.encryption` should           #####
 ######        not be set to `none`                                          #####
 {{- end }}
+#################################################################################
+{{ end }}
+
+{{ if gt $enabledOfficeSuites 1 }}
+#################################################################################
+######   WARNING: Multiple Office suites are enabled.                       #####
+######                                                                      #####
+######   Suites that support the same file formats can hold competing       #####
+######   locks and prevent files from being opened or edited. Enable only   #####
+######   one suite unless their supported formats are known to be disjoint. #####
 #################################################################################
 {{ end }}
 
