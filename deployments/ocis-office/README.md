@@ -40,6 +40,22 @@ $ helmfile sync
 
 This will deploy oCIS, Tika, the WOPI server, Collabora and OnlyOffice.
 
+### Collabora WOPI proof key
+
+The Collabora chart generates a unique WOPI proof key during the first `helmfile sync` and reuses it
+on later upgrades by looking up the existing Secret in the cluster. The generated Secret is named
+`collabora-collabora-online-wopi-proof` by default. Helm owns this Secret, so uninstalling the
+Collabora release deletes it.
+
+This live lookup is not available to tools that render charts offline, such as Argo CD and Flux. For
+a GitOps deployment, create and manage a Secret containing `proof_key` and `proof_key.pub`, set
+`collabora.proofKeyGeneration.enabled` to `false`, and set `collabora.proofKeysSecretRef` to that
+Secret's name instead.
+
+When upgrading an existing installation, the old `proofkey` Secret may remain in the namespace, but
+it is no longer mounted. The new Secret name intentionally prevents the old example key from being
+reused.
+
 ### Logging in
 
 You can get the admin password with the following command:
