@@ -22,8 +22,7 @@ spec:
             runAsUser: 0
           {{- include "ocis.initChownDataCommand" $ | nindent 10 }}
           volumeMounts:
-          - name: {{ include "ocis.persistence.dataVolumeName" . }}
-            mountPath: /var/lib/ocis
+          {{- include "ocis.persistence.dataVolumeMount" . | nindent 10 }}
       {{ end }}
       {{- include "ocis.priorityClassName" $.priorityClassName | nindent 6 }}
       {{- include "ocis.hostAliases" $ | nindent 6 }}
@@ -108,8 +107,7 @@ spec:
           volumeMounts:
             - name: tmp-volume
               mountPath: /tmp
-            - name: {{ include "ocis.persistence.dataVolumeName" . }}
-              mountPath: /var/lib/ocis
+            {{- include "ocis.persistence.dataVolumeMount" . | nindent 12 }}
             {{- include "ocis.caPath" $ | nindent 12}}
 
       {{- include "ocis.imagePullSecrets" $ | nindent 6 }}

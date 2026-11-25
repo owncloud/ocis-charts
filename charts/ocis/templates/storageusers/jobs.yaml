@@ -118,8 +118,7 @@ spec:
               volumeMounts:
                 - name: tmp-volume
                   mountPath: /tmp
-                - name: {{ include "ocis.persistence.dataVolumeName" . }}
-                  mountPath: /var/lib/ocis
+                {{- include "ocis.persistence.dataVolumeMount" . | nindent 16 }}
                 {{- include "ocis.caPath" $ | nindent 16}}
 
           {{- include "ocis.imagePullSecrets" $ | nindent 10 }}
@@ -223,8 +222,7 @@ spec:
               volumeMounts:
                 - name: tmp-volume
                   mountPath: /tmp
-                - name: {{ include "ocis.persistence.dataVolumeName" . }}
-                  mountPath: /var/lib/ocis
+                {{- include "ocis.persistence.dataVolumeMount" . | nindent 16 }}
                 {{- include "ocis.caPath" $ | nindent 16}}
 
           {{- include "ocis.imagePullSecrets" $ | nindent 10 }}
@@ -329,8 +327,7 @@ spec:
               volumeMounts:
                 - name: tmp-volume
                   mountPath: /tmp
-                - name: {{ include "ocis.persistence.dataVolumeName" . }}
-                  mountPath: /var/lib/ocis
+                {{- include "ocis.persistence.dataVolumeMount" . | nindent 16 }}
                 {{- include "ocis.caPath" $ | nindent 16}}
 
           {{- include "ocis.imagePullSecrets" $ | nindent 10 }}

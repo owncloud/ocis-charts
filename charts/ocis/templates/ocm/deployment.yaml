@@ -112,8 +112,7 @@ spec:
             - name: messaging-system-ca
               mountPath: /etc/ocis/messaging-system-ca
               readOnly: true
-            - name: {{ include "ocis.persistence.dataVolumeName" . }}
-              mountPath: /var/lib/ocis
+            {{- include "ocis.persistence.dataVolumeMount" . | nindent 12 }}
             - name: tmp-volume
               mountPath: /tmp
 
