@@ -564,12 +564,18 @@ a| [subs=-attributes]
 a| [subs=-attributes]
 `true`
 | Writeable configures if oCIS is allowed to write to the LDAP server, to eg. create or edit users.
+| features.externalUserManagement.oidc.accessTokenVerifyAudiences
+a| [subs=-attributes]
++list+
+a| [subs=-attributes]
+`[]`
+| Accepted audiences for OIDC access tokens. Requires oCIS 8.2.0 or newer and `accessTokenVerifyMethod: jwt`. A token is accepted when one of these values occurs in its `aud` claim or matches its `azp` claim. Configure every OIDC client ID that is allowed to access oCIS, especially when the identity provider is shared with other applications. When selecting the proxy image by SHA, ensure that the digest contains oCIS 8.2.0 or newer because the chart cannot infer its version. An empty list disables audience validation for backward compatibility.
 | features.externalUserManagement.oidc.accessTokenVerifyMethod
 a| [subs=-attributes]
 +string+
 a| [subs=-attributes]
 `"jwt"`
-| OIDC Acces Token Verify Method Set to "jwt" or "none"
+| OIDC Access Token Verify Method Set to "jwt" or "none"
 | features.externalUserManagement.oidc.editAccountLink
 a| [subs=-attributes]
 +string+
