@@ -105,22 +105,22 @@ tracing:
   # -- Tracing enables sending traces
   enabled: false
   # @schema
-  # enum: [jaeger]
+  # enum: [jaeger, otlp]
   # required: true
   # @schema
-  # -- Type of trace provider to use
+  # -- Type of trace provider to use. Supported values are `jaeger` and `otlp`.
   type: jaeger
   # @schema
   # type: [string, null]
   # required: false
   # @schema
-  # -- Endpoint of the tracing system, jaeger-agent.observability.svc.cluster.local:6831 or similar.
+  # -- Endpoint of the tracing system. Use a Jaeger agent address such as `jaeger-agent.observability.svc.cluster.local:6831` or an OTLP gRPC collector address such as `jaeger.observability.svc.cluster.local:4317`.
   endpoint:
   # @schema
   # type: [string, null]
   # required: false
   # @schema
-  # -- The HTTP endpoint for sending spans directly to a collector, i.e. http://jaeger-collector.observability.svc.cluster.local:14268/api/traces. Only used if the tracing endpoint is unset.
+  # -- Jaeger HTTP collector endpoint, for example `http://jaeger-collector.observability.svc.cluster.local:14268/api/traces`. Only used with `type: jaeger` when the tracing endpoint is unset; ignored with `type: otlp`.
   collector:
 
 # HTTP settings for oCIS services.
